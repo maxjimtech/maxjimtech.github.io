@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>肇祥企業社 | 機械製造</title>
+  <style>
+    body { font-family: system-ui, -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif; margin:0; color:#111; }
+    header { background:#111; color:#fff; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; }
+    nav a { color:#fff; margin-left:14px; text-decoration:none; font-size:14px; }
+    .hero { height:60vh; min-height:420px; background:url("images/hero.jpg") center/cover no-repeat; display:flex; align-items:center; justify-content:center; position:relative; }
+    .hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.35);}
+    .hero h1{position:relative; z-index:1; color:#fff; font-size:38px; margin:0 18px; text-align:center;}
+    section { padding:56px 18px; max-width:1100px; margin:0 auto; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; }
+    .card { border:1px solid #e9e9e9; border-radius:10px; overflow:hidden; background:#fff; }
+    .card img{ width:100%; height:160px; object-fit:cover; display:block; }
+    .card h3{ margin:14px 14px 8px; font-size:18px; }
+    .card p{ margin:0 14px 14px; font-size:14px; line-height:1.6; color:#444; }
+    footer{ background:#f7f7f7; padding:24px 18px; text-align:center; font-size:13px; color:#555; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>肇祥企業社</div>
+    <nav>
+      <a href="#about">關於</a>
+      <a href="#products">產品/服務</a>
+      <a href="#works">案例照片</a>
+      <a href="#contact">聯絡我們</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>機械製造・品質穩定・交期準確</h1>
+    </div>
+
+    <section id="about">
+      <h2>關於肇祥</h2>
+      <p>這段文字放「公司介紹」，包含服務範圍、專長、合作流程與核心承諾（例如品質控管、客製化、交期、售後支援）。</p>
+    </section>
+
+    <section id="products">
+      <h2>產品 / 服務項目</h2>
+      <div class="grid">
+        <div class="card">
+          <img src="images/product1.jpg" alt="產品 1">
+          <h3>產品/服務 1</h3>
+          <p>簡短說明：規格、用途、適用產業、特色。</p>
+        </div>
+        <div class="card">
+          <img src="images/product2.jpg" alt="產品 2">
+          <h3>產品/服務 2</h3>
+          <p>簡短說明：規格、用途、適用產業、特色。</p>
+        </div>
+        <div class="card">
+          <img src="images/product3.jpg" alt="產品 3">
+          <h3>產品/服務 3</h3>
+          <p>簡短說明：規格、用途、適用產業、特色。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="works">
+      <h2>案例照片</h2>
+      <div class="grid">
+        <div class="card">
+          <img src="images/work1.jpg" alt="案例照片 1">
+          <h3>案例 1</h3>
+          <p>簡短描述（例如：客戶需求、解決方案、完成時間）。</p>
+        </div>
+        <div class="card">
+          <img src="images/work2.jpg" alt="案例照片 2">
+          <h3>案例 2</h3>
+          <p>簡短描述（例如：客戶需求、解決方案、完成時間）。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>聯絡我們</h2>
+      <p>+8869316750001 +886 4 25356555。</p>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> 肇祥企業社
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
