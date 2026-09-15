@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>小宇哥漁場｜虱目魚養成大作戰</title>
+<style>
+:root{--ink:#174b58;--blue:#56b8c9;--deep:#287c8d;--sand:#f5d79d;--cream:#fff8e8;--green:#69a85d;--bad:#d85f55;--gold:#e9a93b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:linear-gradient(#bfeaf0,#f7e4b6);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink)}
+body{display:flex;justify-content:center}
+#app{width:100%;max-width:620px;height:var(--apph,100dvh);padding:max(7px,env(safe-area-inset-top)) 8px max(7px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:6px;overflow:hidden}
+header{flex:0 0 auto;background:rgba(255,248,232,.94);border:2px solid #e9ca8c;border-radius:18px;padding:8px 10px;text-align:center;box-shadow:0 4px 14px rgba(29,87,96,.12)}
+header small{font-weight:900;color:#4b8994}header h1{font-size:clamp(22px,5.8vw,31px);line-height:1;margin:3px 0}header p{margin:0;font-size:12px;font-weight:800;color:#55747a}
+.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;flex:0 0 auto}.hud>div{background:#fff8e8;border-radius:13px;padding:5px 3px;text-align:center;border:1px solid #edd9ad}.hud span{display:block;font-size:9px;font-weight:900;color:#66858b}.hud b{font-size:18px}
+#pond{position:relative;flex:1 1 auto;min-height:250px;overflow:hidden;border-radius:20px;border:3px solid rgba(255,255,255,.8);background:linear-gradient(#75d3dc 0 56%,#3ca8b8 56% 100%);box-shadow:0 8px 20px rgba(19,89,104,.18)}
+.sun{position:absolute;right:7%;top:6%;width:54px;height:54px;border-radius:50%;background:#ffe079;box-shadow:0 0 0 10px rgba(255,224,121,.22)}
+.cloud{position:absolute;left:8%;top:10%;font-size:40px;opacity:.75}.bank{position:absolute;left:0;right:0;bottom:0;height:24%;background:linear-gradient(#d8c27d,#a9824f)}
+.waterline{position:absolute;left:0;right:0;top:56%;height:4px;background:rgba(255,255,255,.55)}
+.fish{position:absolute;font-size:34px;filter:drop-shadow(0 2px 1px rgba(0,0,0,.12));transition:transform .25s}.bubble{position:absolute;border:2px solid rgba(255,255,255,.75);border-radius:50%;animation:up 2.2s linear forwards}@keyframes up{to{transform:translateY(-120px);opacity:0}}
+.panel{position:absolute;left:8px;right:8px;bottom:8px;background:rgba(255,250,237,.92);border-radius:16px;padding:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;border:1px solid rgba(255,255,255,.9)}
+.metric{background:#fff;border-radius:11px;padding:5px;text-align:center}.metric small{display:block;font-size:9px;font-weight:900}.metric b{font-size:15px}.bar{height:6px;border-radius:99px;background:#e8ece8;overflow:hidden;margin-top:3px}.bar i{display:block;height:100%;width:50%;background:#65a965;transition:width .25s,background .25s}
+.controls{flex:0 0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.btn{border:0;border-radius:15px;padding:10px 6px;font-weight:900;font-size:14px;color:#174b58;background:#fff8e8;border:2px solid #e7d39e;box-shadow:0 3px 0 #c6a86a}.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #c6a86a}.btn.next{grid-column:1/-1;background:#2d8fa0;color:white;border-color:#257b89;box-shadow:0 3px 0 #1c6672;font-size:16px}.msg{flex:0 0 auto;min-height:32px;background:rgba(255,248,232,.95);border-radius:12px;padding:7px 10px;font-size:12px;font-weight:800;line-height:1.35;text-align:center}
+.overlay{position:absolute;inset:0;background:rgba(232,249,249,.92);display:flex;align-items:center;justify-content:center;padding:16px;z-index:20}.dialog{width:min(94%,430px);background:#fff9ea;border:3px solid #e7c982;border-radius:24px;padding:18px;text-align:center;box-shadow:0 12px 30px rgba(20,80,90,.18)}.dialog .icon{font-size:50px}.dialog h2{margin:5px 0;font-size:26px}.dialog p{font-size:13px;line-height:1.6;font-weight:800}.start{border:0;border-radius:999px;padding:12px 28px;background:#2f95a6;color:white;font-size:18px;font-weight:900;box-shadow:0 4px 0 #1d6c78}.rules{font-size:11px;color:#61777b;margin-top:9px}.tag{display:inline-block;margin:3px 2px;padding:4px 7px;border-radius:99px;background:#e6f5f3;font-size:10px;font-weight:900}
+@media(max-height:690px){header p{display:none}header{padding:6px 8px}header h1{font-size:20px}.hud>div{padding:3px}.hud b{font-size:15px}.btn{padding:7px 4px;font-size:12px}.msg{min-height:27px;padding:5px 8px}.panel{padding:6px}.dialog{padding:12px}.dialog .icon{font-size:38px}.dialog h2{font-size:22px}.rules{display:none}}
+</style>
+</head>
+<body>
+<div id="app">
+<header><small>🐟 小宇哥漁場</small><h1>虱目魚養成大作戰</h1><p>顧水質、餵對量、開水車，把魚養得又大又健康！</p></header>
+<div class="hud"><div><span>天數</span><b id="day">1</b></div><div><span>魚群</span><b id="fishN">100</b></div><div><span>平均重量</span><b id="weight">20g</b></div><div><span>分數</span><b id="score">0</b></div></div>
+<div id="pond">
+ <div class="sun">☀️</div><div class="cloud">☁️</div><div class="waterline"></div><div class="bank"></div>
+ <div class="fish" style="left:14%;top:32%">🐟</div><div class="fish" style="left:37%;top:42%">🐟</div><div class="fish" style="left:62%;top:34%">🐟</div><div class="fish" style="left:77%;top:47%">🐟</div><div class="fish" style="left:25%;top:50%">🐟</div>
+ <div class="panel">
+  <div class="metric"><small>溶氧 DO</small><b id="doT">6.0</b><div class="bar"><i id="doB"></i></div></div>
+  <div class="metric"><small>水溫 ℃</small><b id="tempT">28</b><div class="bar"><i id="tempB"></i></div></div>
+  <div class="metric"><small>鹽度 ppt</small><b id="salT">15</b><div class="bar"><i id="salB"></i></div></div>
+ </div>
+ <div id="overlay" class="overlay"><div class="dialog"><div class="icon">🐟🌊🚜</div><h2>小宇哥漁場</h2><p>你要照顧一池虱目魚 20 天。<br>每天可以餵飼料、開水車、換水，再進入下一天。<br>魚活得多、長得快，分數就越高！</p><div><span class="tag">目標水溫 26–30℃</span><span class="tag">溶氧盡量 ≥5</span><span class="tag">鹽度保持穩定</span></div><button id="start" class="start">開始養魚</button><div class="rules">這是教學小遊戲，數值為簡化模擬，不取代實際養殖場專業管理。</div></div></div>
+</div>
+<div class="controls"><button class="btn" id="feed">🥣 餵飼料</button><button class="btn" id="aerate">🌀 開水車</button><button class="btn" id="water">💧 換水</button><button class="btn" id="check">🧪 水質檢查</button><button class="btn next" id="next">☀️ 進入下一天</button></div>
+<div class="msg" id="msg">先開始遊戲，今天的魚兒正在等你！</div>
+</div>
+<script>
+(function(){
+var day=1,fish=100,weight=20,score=0,oxygen=6,temp=28,sal=15,feedDone=0,aerateDone=0,waterDone=0,running=false;
+function E(id){return document.getElementById(id)}
+function fit(){document.documentElement.style.setProperty('--apph',(window.visualViewport?window.visualViewport.height:window.innerHeight)+'px')}
+fit();window.addEventListener('resize',fit);if(window.visualViewport)window.visualViewport.addEventListener('resize',fit);
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function rnd(a,b){return a+Math.random()*(b-a)}
+function bar(id,v,min,max,good1,good2){var p=clamp((v-min)/(max-min)*100,0,100),b=E(id);b.style.width=p+'%';b.style.background=(v>=good1&&v<=good2)?'#65a965':((v<good1*.8||v>good2*1.15)?'#d85f55':'#e3ad45')}
+function draw(){E('day').textContent=day;E('fishN').textContent=fish;E('weight').textContent=Math.round(weight)+'g';E('score').textContent=Math.max(0,Math.round(score));E('doT').textContent=oxygen.toFixed(1);E('tempT').textContent=temp.toFixed(1);E('salT').textContent=sal.toFixed(0);bar('doB',oxygen,2,9,5,8);bar('tempB',temp,20,36,26,30);bar('salB',sal,0,35,8,25);var fs=document.getElementsByClassName('fish');for(var i=0;i<fs.length;i++){var s=.75+Math.min(1.0,weight/550);fs[i].style.transform='scale('+s+') translateX('+(i%2?4:-4)+'px)'}}
+function say(t){E('msg').textContent=t}
+function bubbles(){for(var i=0;i<7;i++){var b=document.createElement('i');b.className='bubble';var z=8+Math.random()*14;b.style.width=z+'px';b.style.height=z+'px';b.style.left=(12+Math.random()*75)+'%';b.style.top=(44+Math.random()*20)+'%';E('pond').appendChild(b);setTimeout(function(x){return function(){if(x.parentNode)x.parentNode.removeChild(x)}}(b),2300)}}
+function start(){day=1;fish=100;weight=20;score=0;oxygen=6;temp=28;sal=15;running=true;feedDone=aerateDone=waterDone=0;E('overlay').style.display='none';say('第 1 天：先觀察水質，再決定要做什麼。');draw()}
+function feed(){if(!running)return;if(feedDone>=2){say('今天已經餵很多了，再餵可能浪費飼料、惡化水質。');return}feedDone++;if(oxygen>=4.5){weight+=rnd(7,12);score+=12;say(feedDone===1?'餵食成功！魚群吃得很有精神。':'第二次少量補餵，記得別過量。')}else{weight+=rnd(2,5);oxygen-=.25;score-=5;say('溶氧偏低，魚吃得不好。先開水車比較安全。')}oxygen-=.18+feedDone*.08;dotFood();draw()}
+function dotFood(){for(var i=0;i<12;i++){var d=document.createElement('span');d.textContent='•';d.style.position='absolute';d.style.left=(15+Math.random()*70)+'%';d.style.top=(28+Math.random()*24)+'%';d.style.color='#8b5a2b';d.style.fontSize='20px';d.style.zIndex='4';E('pond').appendChild(d);setTimeout(function(x){return function(){if(x.parentNode)x.parentNode.removeChild(x)}}(d),900)}}
+function aerate(){if(!running)return;aerateDone++;oxygen=clamp(oxygen+1.6,2,9);score+=6;bubbles();say('水車啟動！水中溶氧提高，魚群更有活力。');draw()}
+function water(){if(!running)return;if(waterDone){say('今天已經換過水了，避免頻繁造成水質波動。');return}waterDone=1;oxygen=clamp(oxygen+.7,2,9);sal=clamp(sal+rnd(-2.5,2.5),0,35);temp+=(28-temp)*.35;score+=5;say('適量換水完成，水質比較穩定。');draw()}
+function check(){if(!running)return;var tips=[];if(oxygen<5)tips.push('溶氧偏低，建議開水車');else tips.push('溶氧正常');if(temp<26)tips.push('水溫偏低');else if(temp>30)tips.push('水溫偏高');else tips.push('水溫適合');if(sal<8||sal>25)tips.push('鹽度波動較大');else tips.push('鹽度穩定');say('水質報告：'+tips.join('；')+'。')}
+function nextDay(){if(!running)return;var healthy=true;if(oxygen<4){var loss=Math.ceil(rnd(3,9));fish=Math.max(0,fish-loss);score-=loss*8;healthy=false;say('昨晚溶氧太低，損失了 '+loss+' 尾魚！')}else if(oxygen<5){fish=Math.max(0,fish-1);score-=4;healthy=false}
+if(temp<24||temp>33){var l=Math.ceil(rnd(1,5));fish=Math.max(0,fish-l);score-=l*5;healthy=false}
+if(sal<3||sal>32){fish=Math.max(0,fish-1);score-=4;healthy=false}
+if(feedDone===0){weight+=rnd(0,2);score-=5;healthy=false}else{score+=5}
+if(healthy)score+=12;
+day++;feedDone=0;aerateDone=0;waterDone=0;oxygen=clamp(oxygen-rnd(.45,.85),2,9);temp=clamp(temp+rnd(-1.3,1.5),22,35);sal=clamp(sal+rnd(-1.8,1.8),0,35);
+if(Math.random()<.22){var e=Math.random();if(e<.34){temp=clamp(temp+rnd(2,3.5),22,36);say('☀️ 今天遇到炎熱天氣，水溫升高，注意溶氧！')}else if(e<.67){oxygen=clamp(oxygen-rnd(.8,1.5),2,9);say('🌥️ 今天氣壓變化，溶氧下降，記得巡池。')}else{sal=clamp(sal-rnd(3,6),0,35);say('🌧️ 下了一場雨，鹽度下降，注意水質變化。')}}else if(day<=20){say('第 '+day+' 天開始，先看水質再操作。')}
+if(day>20||fish<=0){finish();return}draw()}
+function finish(){running=false;var final=Math.max(0,Math.round(score+fish*2+weight*.5));var grade=final>=650?'🏆 漁場達人':final>=500?'🥇 養殖高手':final>=350?'🥈 穩定經營':'🥉 再接再厲';E('overlay').style.display='flex';E('overlay').innerHTML='<div class="dialog"><div class="icon">🐟🎉</div><h2>'+grade+'</h2><p>20 天養殖完成！<br>存活魚數：<b>'+fish+'</b> 尾<br>平均重量：<b>'+Math.round(weight)+'g</b><br>總分：<b style="font-size:28px;color:#2f95a6">'+final+'</b></p><button id="again" class="start">再養一池</button><div class="rules">遊戲重點：穩定水質、維持溶氧、適量餵食、每天觀察魚況。</div></div>';E('again').onclick=start;draw()}
+E('start').onclick=start;E('feed').onclick=feed;E('aerate').onclick=aerate;E('water').onclick=water;E('check').onclick=check;E('next').onclick=nextDay;draw();
+})();
+</script>
+</body>
+</html>
