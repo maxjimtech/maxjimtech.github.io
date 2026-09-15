@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>旌旗教會大雅分點｜中秋柚子趴</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:#ffe9b8;color:#6d3824;font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei",sans-serif}
+body{display:flex;justify-content:center}
+#app{width:100%;max-width:560px;padding:12px}
+.header{background:#fff8e9;border:3px solid #ffd993;border-radius:22px;padding:12px 14px;margin-bottom:9px;text-align:center}
+.header small{font-weight:900;color:#a96842}.header h1{margin:4px 0;font-size:29px}.header p{margin:0;font-size:14px;font-weight:800}
+.hud{display:flex;gap:7px;margin-bottom:9px}.hudbox{flex:1;background:#fff8e9;border-radius:16px;padding:7px;text-align:center}.hudbox span{display:block;font-size:11px;font-weight:800;color:#9b6b4c}.hudbox b{font-size:22px}
+#game{position:relative;width:100%;height:620px;overflow:hidden;border-radius:26px;border:4px solid #fff7e7;background:radial-gradient(circle at 75% 18%,#fff4bc 0 65px,transparent 66px),linear-gradient(#fff0ca 0 60%,#f5bf69 60% 100%);box-shadow:0 10px 24px rgba(100,55,30,.16);touch-action:none}
+.decor{position:absolute;font-size:54px;opacity:.75;pointer-events:none}#d1{left:5%;top:5%}#d2{right:5%;top:6%}#d3{left:12%;top:20%;font-size:42px}
+#player{position:absolute;width:120px;height:120px;left:50%;bottom:20px;transform:translateX(-50%);border-radius:50%;background:#9dbc52;border:6px solid #713c24;z-index:10}
+#face{position:absolute;width:82px;height:72px;left:50%;top:24px;transform:translateX(-50%);background:#fff0d8;border-radius:50%}.eye{position:absolute;top:24px;width:9px;height:9px;background:#66351f;border-radius:50%}#e1{left:22px}#e2{right:22px}#mouth{position:absolute;width:27px;height:14px;border-bottom:5px solid #66351f;border-radius:0 0 28px 28px;left:27px;top:37px}.cheek{position:absolute;width:18px;height:9px;background:#f39b9b;border-radius:50%;top:42px;opacity:.65}#c1{left:7px}#c2{right:7px}#leaf{position:absolute;width:48px;height:22px;background:#6fa43d;border:5px solid #713c24;border-radius:50%;left:24px;top:-17px;transform:rotate(-20deg)}
+.item{position:absolute;width:64px;height:64px;line-height:64px;text-align:center;font-size:54px;z-index:5;user-select:none;pointer-events:none}.pop{position:absolute;z-index:20;font-size:25px;font-weight:900;color:#dc6f2d;text-shadow:-2px -2px #fff,2px -2px #fff,-2px 2px #fff,2px 2px #fff;pointer-events:none}
+#overlay{position:absolute;inset:0;z-index:50;background:rgba(255,247,222,.92);display:flex;align-items:center;justify-content:center;padding:18px}.dialog{background:#fffaf0;border:3px solid #ffd58a;border-radius:26px;padding:20px 16px;text-align:center;width:92%;max-width:410px}.dialog .emoji{font-size:50px}.dialog h2{font-size:27px;margin:6px 0}.dialog p{font-size:15px;line-height:1.6;font-weight:800}
+#startBtn{border:0;border-radius:999px;background:#f3a137;color:#fff;font-size:20px;font-weight:900;padding:13px 30px;box-shadow:0 5px 0 #c87322}#startBtn:active{transform:translateY(3px);box-shadow:0 2px 0 #c87322}.legend{font-size:12px;font-weight:900;line-height:2;margin-top:10px}.controls{display:flex;gap:9px;margin-top:10px}.ctrl{flex:1;border:2px solid #ffdba0;border-radius:17px;background:#fff8e9;padding:13px;font-size:19px;font-weight:900;color:#6d3824}#jsStatus{text-align:center;font-size:12px;font-weight:800;margin-top:8px;color:#8c6248}noscript{display:block;background:#b32727;color:white;padding:12px;margin:10px;border-radius:12px;font-weight:bold}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="header"><small>旌旗教會｜大雅分點</small><h1>🌕 中秋柚子趴・接接樂</h1><p>左右移動柚子寶寶，60 秒挑戰最高分！</p></div>
+  <div class="hud"><div class="hudbox"><span>分數</span><b id="score">0</b></div><div class="hudbox"><span>時間</span><b id="time">60</b></div><div class="hudbox"><span>最高</span><b id="best">0</b></div></div>
+  <div id="game">
+    <div class="decor" id="d1">🏮</div><div class="decor" id="d2">🏮</div><div class="decor" id="d3">☁️</div>
+    <div id="player"><div id="leaf"></div><div id="face"><div class="eye" id="e1"></div><div class="eye" id="e2"></div><div id="mouth"></div><div class="cheek" id="c1"></div><div class="cheek" id="c2"></div></div></div>
+    <div id="overlay"><div class="dialog"><div class="emoji">🍐🥮🐰</div><h2 id="title">中秋柚子趴</h2><p id="msg">按「開始遊戲」後，左右移動柚子寶寶接住好物。<br>🥮 +10　⭐ +20　🏮 +30　☁️ -10</p><button id="startBtn" type="button" onclick="startGame()">開始遊戲</button><div class="legend">每連續接到 5 個好物，Combo 額外 +20 分</div></div></div>
+  </div>
+  <div class="controls"><button class="ctrl" id="leftBtn" type="button">⬅️ 向左</button><button class="ctrl" id="rightBtn" type="button">向右 ➡️</button></div>
+  <div id="jsStatus">正在檢查 JavaScript…</div>
+  <noscript>此頁面的 JavaScript 被瀏覽器或預覽器停用，因此遊戲無法執行。請改用 Safari / Chrome 網頁環境開啟。</noscript>
+</div>
+<script>
+var game,player,overlay,scoreEl,timeEl,bestEl,statusEl;var score=0,remain=60,best=0,combo=0;var running=false,gameTimer=null,secondTimer=null,spawnTimer=null;var items=[],playerX=50,leftDown=false,rightDown=false,dragging=false;
+function el(id){return document.getElementById(id)}
+function init(){game=el("game");player=el("player");overlay=el("overlay");scoreEl=el("score");timeEl=el("time");bestEl=el("best");statusEl=el("jsStatus");statusEl.innerHTML="✅ JavaScript 已正常啟用";bindControls()}
+function startGame(){if(!game){init()}stopTimers();clearItems();score=0;remain=60;combo=0;playerX=50;scoreEl.innerHTML="0";timeEl.innerHTML="60";setPlayer();overlay.style.display="none";running=true;statusEl.innerHTML="🎮 遊戲進行中";gameTimer=setInterval(updateGame,30);secondTimer=setInterval(tickSecond,1000);spawnTimer=setInterval(spawnItem,650)}
+function stopTimers(){if(gameTimer){clearInterval(gameTimer);gameTimer=null}if(secondTimer){clearInterval(secondTimer);secondTimer=null}if(spawnTimer){clearInterval(spawnTimer);spawnTimer=null}}
+function endGame(){running=false;stopTimers();if(score>best)best=score;bestEl.innerHTML=best;el("title").innerHTML="🌕 挑戰完成";el("msg").innerHTML="本次得到 <b style='font-size:28px;color:#dc6f2d'>"+score+"</b> 分！<br>最高紀錄："+best+" 分";el("startBtn").innerHTML="再玩一次";overlay.style.display="flex";statusEl.innerHTML="遊戲結束，可再次挑戰"}
+function tickSecond(){if(!running)return;remain--;if(remain<0)remain=0;timeEl.innerHTML=remain;if(remain<=0)endGame()}
+function spawnItem(){if(!running)return;var r=Math.random()*100,emoji,value;if(r<48){emoji="🥮";value=10}else if(r<76){emoji="⭐";value=20}else if(r<90){emoji="🏮";value=30}else{emoji="☁️";value=-10}var d=document.createElement("div");d.className="item";d.innerHTML=emoji;d.valueNum=value;d.y=-70;d.speed=4+Math.random()*3;d.style.left=(5+Math.random()*84)+"%";d.style.top="-70px";game.appendChild(d);items.push(d)}
+function updateGame(){if(!running)return;if(leftDown)playerX-=1.6;if(rightDown)playerX+=1.6;if(playerX<8)playerX=8;if(playerX>92)playerX=92;setPlayer();var pr=player.getBoundingClientRect();for(var i=items.length-1;i>=0;i--){var d=items[i];d.y+=d.speed;d.style.top=d.y+"px";var ir=d.getBoundingClientRect();var hit=!(ir.right<pr.left||ir.left>pr.right||ir.bottom<pr.top||ir.top>pr.bottom);if(hit){catchItem(d,i)}else if(d.y>game.clientHeight+80){if(d.valueNum>0)combo=0;removeItem(d,i)}}}
+function catchItem(d,index){var v=d.valueNum,bonus=0;if(v<0){score+=v;if(score<0)score=0;combo=0;showPop("-10",d.offsetLeft,d.offsetTop,"#5f9fbd")}else{combo++;if(combo%5===0)bonus=20;score+=v+bonus;showPop("+"+v+(bonus?" +20 COMBO":""),d.offsetLeft,d.offsetTop,"#dc6f2d")}scoreEl.innerHTML=score;removeItem(d,index)}
+function removeItem(d,index){if(d&&d.parentNode)d.parentNode.removeChild(d);items.splice(index,1)}
+function clearItems(){for(var i=items.length-1;i>=0;i--){if(items[i].parentNode)items[i].parentNode.removeChild(items[i])}items=[];var pops=game.getElementsByClassName("pop");while(pops.length){pops[0].parentNode.removeChild(pops[0])}}
+function showPop(text,x,y,color){var p=document.createElement("div");p.className="pop";p.innerHTML=text;p.style.left=x+"px";p.style.top=y+"px";p.style.color=color;game.appendChild(p);setTimeout(function(){if(p.parentNode)p.parentNode.removeChild(p)},700)}
+function setPlayer(){player.style.left=playerX+"%"}
+function moveToClientX(clientX){var rect=game.getBoundingClientRect();var pct=(clientX-rect.left)/rect.width*100;if(pct<8)pct=8;if(pct>92)pct=92;playerX=pct;setPlayer()}
+function bindControls(){var left=el("leftBtn"),right=el("rightBtn");left.ontouchstart=function(e){leftDown=true;if(e)e.preventDefault()};left.ontouchend=function(e){leftDown=false;if(e)e.preventDefault()};right.ontouchstart=function(e){rightDown=true;if(e)e.preventDefault()};right.ontouchend=function(e){rightDown=false;if(e)e.preventDefault()};left.onmousedown=function(){leftDown=true};left.onmouseup=function(){leftDown=false};left.onmouseleave=function(){leftDown=false};right.onmousedown=function(){rightDown=true};right.onmouseup=function(){rightDown=false};right.onmouseleave=function(){rightDown=false};game.ontouchstart=function(e){if(!running)return;dragging=true;if(e.touches&&e.touches.length)moveToClientX(e.touches[0].clientX);if(e)e.preventDefault()};game.ontouchmove=function(e){if(!running||!dragging)return;if(e.touches&&e.touches.length)moveToClientX(e.touches[0].clientX);if(e)e.preventDefault()};game.ontouchend=function(){dragging=false};game.onmousedown=function(e){if(running){dragging=true;moveToClientX(e.clientX)}};document.onmousemove=function(e){if(running&&dragging)moveToClientX(e.clientX)};document.onmouseup=function(){dragging=false;leftDown=false;rightDown=false};document.onkeydown=function(e){e=e||window.event;if(e.keyCode===37)leftDown=true;if(e.keyCode===39)rightDown=true};document.onkeyup=function(e){e=e||window.event;if(e.keyCode===37)leftDown=false;if(e.keyCode===39)rightDown=false}}
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",init)}else{init()}
+</script>
+</body></html>
