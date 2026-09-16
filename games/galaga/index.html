@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>小蜜蜂 · GALAGA 風格街機</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#030411;color:#e8f4ff;font-family:system-ui,'Microsoft JhengHei',sans-serif}body{display:flex;justify-content:center;align-items:center;padding:8px}main{width:min(100%,860px)}nav{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:5px 4px 10px}nav a{color:#7cefff}h1{font-size:clamp(16px,3vw,21px);margin:0;color:#fff}#frame{position:relative;overflow:hidden;border:2px solid #32476d;border-radius:9px;background:#000}canvas{display:block;width:100%;height:auto;aspect-ratio:3/2;background:#02030e;touch-action:none;image-rendering:pixelated}#controls{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 0;touch-action:none}#controls .group{display:flex;gap:8px}button{border:1px solid #5c789c;background:#142442;color:#fff;border-radius:12px;padding:13px 18px;min-width:65px;font-size:17px;font-weight:750;touch-action:none;cursor:pointer}button:active,button.pressed{background:#3574b2}button#fire{background:#803145;border-color:#e16a85;min-width:110px}button#fire:active,button#fire.pressed{background:#c14361}p{margin:2px 4px 10px;color:#abbfd9;font-size:13px;line-height:1.6;text-align:center}@media(max-width:430px){button{min-width:56px;padding:13px 12px}button#fire{min-width:83px}nav a{font-size:13px}}
+</style>
+</head>
+<body>
+<main>
+<nav><a href="./">← 返回遊戲館</a><h1>👾 小蜜蜂 · 1981 風格</h1><a href="./moon-patrol.html">月面巡邏 →</a></nav>
+<div id="frame"><canvas id="game" width="900" height="600" aria-label="小蜜蜂射擊遊戲"></canvas></div>
+<div id="controls"><div class="group"><button id="left" aria-label="向左移動">◀ 左</button><button id="right" aria-label="向右移動">右 ▶</button></div><div class="group"><button id="start">開始／暫停</button><button id="fire" aria-label="射擊">射擊 ●</button></div></div>
+<p>鍵盤：← → 或 A／D 移動，Space 射擊，Enter 開始，P 暫停，R 重玩。手機可使用下方按鈕。</p>
+<script>
+(()=>{'use strict';
+const canvas=document.getElementById('game'),c=canvas.getContext('2d'),W=canvas.width,H=canvas.height;
+const rand=(a,b)=>a+Math.random()*(b-a),clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const keys=new Set();let state='title',last=0,time=0,score=0,high=0,lives=3,wave=0,shotCD=0,spawnCD=0,deathTimer=0,clearTimer=0,notice='',noticeTimer=0,bonus=false,bonusKills=0,bonusTotal=0,stars=[],enemies=[],shots=[],enemyShots=[],particles=[],beam=null,captive=null,dual=false,ship={x:450,y:540,inv:0,alive:true};
+try{high=Number(localStorage.getItem('maxjimtech-galaga-high')||0)}catch(e){}
+let audio=null;
+function beep(f=400,d=.07,v=.025,type='square'){try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v,audio.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+d);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+d)}catch(e){}}
+function addScore(n){score+=n;if(score>high){high=score;try{localStorage.setItem('maxjimtech-galaga-high',high)}catch(e){}}}
+function flash(x,y,color='#fff',n=14){for(let i=0;i<n;i++){let a=rand(0,Math.PI*2),v=rand(45,160);particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,t:rand(.25,.7),max:.7,color})}beep(115,.12,.03,'sawtooth')}
+function message(s,t=2){notice=s;noticeTimer=t}
+for(let i=0;i<100;i++)stars.push({x:rand(0,W),y:rand(0,H),v:rand(12,55),r:Math.random()<.14?2:1});
+const sprites={ship:['000010000','000111000','010111010','111111111','111111111','110101011','100000001'],bee:['001000100','011101110','111111111','111111111','011111110','001010100','010000010'],red:['000111000','011111110','111111111','110111011','011010110','001000100','010000010'],boss:['0011001100','0111111110','1111111111','1101111011','1111111111','0110110110','0010000100','0100000010']};
+function sprite(name,x,y,palette,scale=3,flip=false){const rows=sprites[name],ww=rows[0].length,hh=rows.length;c.fillStyle=palette;for(let j=0;j<hh;j++)for(let i=0;i<ww;i++)if(rows[j][i]==='1'){const xx=flip?(ww-1-i):i;c.fillRect(Math.round(x-ww*scale/2+xx*scale),Math.round(y-hh*scale/2+j*scale),scale,scale)}}
+function begin(){score=0;lives=3;wave=0;dual=false;captive=null;particles=[];enemyShots=[];shots=[];ship.x=450;ship.inv=1.5;ship.alive=true;state='playing';nextWave()}
+function nextWave(){wave++;bonus=wave%4===0;bonusKills=0;bonusTotal=bonus?20:36;shots=[];enemyShots=[];enemies=[];beam=null;spawnCD=1.1;clearTimer=0;ship.alive=true;ship.inv=Math.max(ship.inv,1.2);const cols=bonus?10:9,rows=bonus?2:4;for(let r=0;r<rows;r++)for(let col=0;col<cols;col++){const type=bonus?(r? 'bee':'red'):(r===0?'boss':r===1?'red':'bee');enemies.push({id:r*cols+col,row:r,col,cols,type,x:450,y:-90-r*30,homeX:450+(col-(cols-1)/2)*(bonus?58:67),homeY:(bonus?146:126)+r*49,mode:'enter',t:-((r*cols+col)*.052),hp:type==='boss'?2:1,phase:rand(0,6),speed:1,shoot:rand(.9,2.6),dead:false})}message(bonus?'CHALLENGING STAGE · BONUS':'STAGE '+wave,2.2);beep(bonus?920:540,.16,.025)}
+function playerFire(){if(state!=='playing'||!ship.alive||shotCD>0)return;const offsets=dual?[-15,15]:[0];for(const dx of offsets)shots.push({x:ship.x+dx,y:ship.y-18,vy:-580,t:1.4,dead:false});shotCD=dual?.14:.19;beep(780,.038,.016)}
+function destroyShip(captured=false){if(!ship.alive||ship.inv>0)return;ship.alive=false;deathTimer=1.2;flash(ship.x,ship.y,captured?'#a97aff':'#ffcb70',28);lives--;dual=false;if(!captured)captive=captive;message(captured?'被 BOSS 光束捕獲！':'戰機損失',1.1)}
+function fireEnemy(e){if(bonus||!ship.alive)return;let a=Math.atan2(ship.y-e.y,ship.x-e.x)+rand(-.12,.12),v=220+Math.min(70,wave*8);enemyShots.push({x:e.x,y:e.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,t:3.2,dead:false});beep(190,.04,.01)}
+function hitEnemy(e){e.hp--;if(e.hp>0){flash(e.x,e.y,'#ffd166',5);beep(280,.06,.025);return}e.dead=true;bonusKills+=bonus?1:0;let points=e.type==='boss'?150:e.type==='red'?80:50;if(e.mode==='dive'||e.mode==='return')points*=2;addScore(points);flash(e.x,e.y,e.type==='boss'?'#73dbff':'#ffae76');if(captive&&captive.id===e.id){if(ship.alive){dual=true;message('戰機救援成功！雙機火力',2.5);beep(1280,.22,.03)}else{lives++;message('戰機救援：+1 命',2)}captive=null;beam=null}}
+function update(dt){time+=dt;for(const s of stars){s.y+=s.v*dt;if(s.y>H){s.y=-3;s.x=rand(0,W)}}for(const p of particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.t-=dt}particles=particles.filter(p=>p.t>0);if(noticeTimer>0)noticeTimer-=dt;
+if(state!=='playing')return;
+shotCD=Math.max(0,shotCD-dt);ship.inv=Math.max(0,ship.inv-dt);if(!ship.alive){deathTimer-=dt;if(deathTimer<=0){if(lives<=0){state='over';message('GAME OVER',5)}else{ship.alive=true;ship.x=450;ship.inv=2.1;enemyShots=[]}}}
+if(ship.alive){let dir=(keys.has('ArrowRight')||keys.has('KeyD')?1:0)-(keys.has('ArrowLeft')||keys.has('KeyA')?1:0);ship.x=clamp(ship.x+dir*350*dt,28,W-28);if(keys.has('Space')||keys.has('KeyJ'))playerFire()}
+spawnCD=Math.max(0,spawnCD-dt);const sway=Math.sin(time*1.5)*17;for(const e of enemies){if(e.dead)continue;e.t+=dt;let hx=e.homeX+sway,hy=e.homeY+Math.sin(time*1.8+e.phase)*3;
+if(e.mode==='enter'){const k=clamp(e.t/1.1,0,1),smooth=k*k*(3-2*k);e.x=450+(hx-450)*smooth+Math.sin(k*Math.PI*2+e.col)*65*(1-k);e.y=-75+(hy+75)*smooth;if(k>=1){e.mode='formation';e.t=0}}
+else if(e.mode==='formation'){e.x+=(hx-e.x)*Math.min(1,dt*7);e.y+=(hy-e.y)*Math.min(1,dt*7);e.shoot-=dt;if(e.shoot<=0&&e.y>75){e.shoot=rand(1.1,2.5);if(Math.random()<.15)fireEnemy(e)}if(spawnCD===0&&Math.random()<dt*(bonus?1.15:.46+wave*.025)){e.mode='dive';e.t=0;e.fromX=e.x;e.fromY=e.y;e.targetX=clamp(ship.x+rand(-110,110),65,W-65);e.capture=e.type==='boss'&&!bonus&&!captive&&Math.random()<.28;spawnCD=bonus?.3:.75}}
+else if(e.mode==='dive'){let t=e.t,ease=clamp(t/2.4,0,1);e.x=e.fromX+Math.sin(t*3+e.phase)*140*(1-ease)+(e.targetX-e.fromX)*ease;e.y=e.fromY+(H+100-e.fromY)*ease;if(t>2.4){if(bonus){e.dead=true;continue}e.mode='return';e.t=0;e.x=clamp(e.x,50,W-50);e.y=-40}}
+else if(e.mode==='return'){const k=clamp(e.t/1.2,0,1);e.x+=(hx-e.x)*Math.min(1,dt*4);e.y=-40+(hy+40)*k;if(k>=1){e.mode='formation';e.t=0}}
+if(e.mode==='dive'&&!bonus&&e.t>.38&&Math.random()<dt*.5)fireEnemy(e);
+if(e.mode==='dive'&&e.capture&&e.y>315&&e.y<430&&!beam&&!captive){beam={id:e.id,x:e.x,y:e.y,t:1.1};e.capture=false}
+if(!bonus&&ship.alive&&ship.inv<=0&&Math.abs(e.x-ship.x)<24&&Math.abs(e.y-ship.y)<23)destroyShip();}
+if(beam){beam.t-=dt;let b=enemies.find(e=>e.id===beam.id&&!e.dead);if(b){beam.x=b.x;beam.y=b.y}if(ship.alive&&ship.inv<=0&&Math.abs(beam.x-ship.x)<32&&ship.y>beam.y&&ship.y<beam.y+250){let holder=enemies.find(e=>e.id===beam.id&&!e.dead);if(holder){captive={id:holder.id};destroyShip(true)}beam=null}else if(beam.t<=0||!b)beam=null}
+for(const s of shots){s.y+=s.vy*dt;s.t-=dt;for(const e of enemies){if(!e.dead&&!s.dead&&Math.abs(e.x-s.x)<(e.type==='boss'?22:18)&&Math.abs(e.y-s.y)<19){s.dead=true;hitEnemy(e)}}}shots=shots.filter(s=>!s.dead&&s.t>0&&s.y>-15);
+for(const b of enemyShots){b.x+=b.vx*dt;b.y+=b.vy*dt;b.t-=dt;if(ship.alive&&ship.inv<=0&&Math.abs(b.x-ship.x)<13&&Math.abs(b.y-ship.y)<13){b.dead=true;destroyShip()}}enemyShots=enemyShots.filter(b=>!b.dead&&b.t>0&&b.y<H+15);
+enemies=enemies.filter(e=>!e.dead);if(enemies.length===0){if(clearTimer<=0){clearTimer=2.7;if(bonus){const award=bonusKills*100;addScore(award);message('BONUS '+bonusKills+'/'+bonusTotal+'  +'+award,2.5)}else message('STAGE CLEAR',2)}else{clearTimer-=dt;if(clearTimer<=0&&state==='playing')nextWave()}}}
+function drawStars(){c.fillStyle='#040413';c.fillRect(0,0,W,H);for(const s of stars){c.fillStyle=s.r===2?'#a9baff':'#617397';c.fillRect(Math.round(s.x),Math.round(s.y),s.r,s.r)}}
+function draw(){drawStars();c.textAlign='left';c.fillStyle='#e7f1ff';c.font='bold 18px monospace';c.fillText('SCORE '+String(score).padStart(6,'0'),22,28);c.textAlign='center';c.fillText('STAGE '+wave,450,28);c.textAlign='right';c.fillText('HIGH '+String(high).padStart(6,'0'),W-22,28);c.strokeStyle='#27466a';c.beginPath();c.moveTo(18,45);c.lineTo(W-18,45);c.stroke();
+for(const e of enemies){let color=e.type==='boss'?'#52cfff':e.type==='red'?'#ff697d':'#ffc653';if(e.type==='boss'&&e.hp===1)color='#a675fa';sprite(e.type,e.x,e.y,color,e.type==='boss'?3.5:3.3);if(captive&&captive.id===e.id)sprite('ship',e.x,e.y+30,'#d0d9ff',1.8)}
+if(beam){let by=beam.y+10;c.fillStyle='rgba(165,84,255,.17)';c.beginPath();c.moveTo(beam.x-12,by);c.lineTo(beam.x+12,by);c.lineTo(beam.x+68,Math.min(H,by+260));c.lineTo(beam.x-68,Math.min(H,by+260));c.closePath();c.fill();c.strokeStyle='#c28aff';c.stroke()}
+for(const b of shots){c.fillStyle='#fff1a8';c.fillRect(b.x-2,b.y-9,4,12)}for(const b of enemyShots){c.fillStyle='#ff7894';c.fillRect(b.x-2,b.y-4,5,9)}
+if(ship.alive&&(ship.inv<=0||Math.floor(ship.inv*12)%2===0)){sprite('ship',ship.x,ship.y,'#f1f6ff',3.5);if(dual)sprite('ship',ship.x-29,ship.y,'#9bddff',2.4)}
+for(const p of particles){c.globalAlpha=clamp(p.t/p.max,0,1);c.fillStyle=p.color;c.fillRect(p.x,p.y,3,3)}c.globalAlpha=1;
+c.fillStyle='#d2e4ff';c.font='bold 15px monospace';c.textAlign='left';c.fillText('SHIPS '+lives+(dual?'  DOUBLE FIRE':''),22,H-18);if(bonus){c.textAlign='right';c.fillText('CHALLENGE  '+bonusKills+' / '+bonusTotal,W-22,H-18)}
+if(noticeTimer>0){c.textAlign='center';c.fillStyle='#ffe482';c.font='bold 25px monospace';c.fillText(notice,450,340)}
+if(state==='title'||state==='over'||state==='paused'){c.fillStyle='rgba(1,2,16,.84)';c.fillRect(80,135,740,345);c.textAlign='center';c.fillStyle='#ffdf79';c.font='bold 57px monospace';c.fillText(state==='title'?'小 蜜 蜂':state==='over'?'GAME OVER':'PAUSED',450,220);c.fillStyle='#9dd7ff';c.font='bold 25px monospace';c.fillText(state==='title'?'GALAGA 1981 風格致敬版':state==='over'?'SCORE  '+score:'P / 開始鍵繼續',450,275);c.fillStyle='#fff';c.font='18px monospace';if(state!=='paused'){c.fillText('← → 移動  ·  SPACE 射擊',450,333);c.fillText('擊落編隊與俯衝敵機，留意 BOSS 捕獲光束',450,367);c.fillText('按 ENTER 或點擊「開始」',450,426)}}}
+function toggleStart(){beep(510,.08);if(state==='title'||state==='over')begin();else if(state==='playing')state='paused';else if(state==='paused')state='playing'}
+window.addEventListener('keydown',e=>{if(['Space','ArrowLeft','ArrowRight','ArrowUp','Enter'].includes(e.code))e.preventDefault();if(!e.repeat){if(e.code==='Enter')toggleStart();if(e.code==='KeyP'&&(state==='playing'||state==='paused'))toggleStart();if(e.code==='KeyR')begin()}keys.add(e.code);if(e.code==='Space'&&state==='playing')playerFire()});window.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>keys.clear());document.addEventListener('visibilitychange',()=>{if(document.hidden){keys.clear();if(state==='playing')state='paused'}});
+function bindHold(id,code){const btn=document.getElementById(id);btn.addEventListener('pointerdown',e=>{e.preventDefault();btn.setPointerCapture(e.pointerId);keys.add(code);btn.classList.add('pressed');if(code==='Space')playerFire()});const off=e=>{keys.delete(code);btn.classList.remove('pressed')};btn.addEventListener('pointerup',off);btn.addEventListener('pointercancel',off);btn.addEventListener('lostpointercapture',off)}
+bindHold('left','ArrowLeft');bindHold('right','ArrowRight');bindHold('fire','Space');document.getElementById('start').addEventListener('click',toggleStart);canvas.addEventListener('pointerdown',()=>{if(state==='title'||state==='over')toggleStart()});
+function loop(ts){if(!last)last=ts;const dt=Math.min((ts-last)/1000,.033);last=ts;if(state!=='paused')update(dt);draw();requestAnimationFrame(loop)}requestAnimationFrame(loop);
+})();
+</script>
+</main>
+</body>
+</html>
