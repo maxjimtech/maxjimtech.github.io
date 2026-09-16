@@ -10,30 +10,31 @@
 </head>
 <body>
 <div id="app">
- <div class="header"><small>旌旗教會｜大雅分點</small><h1>🌕 中秋柚子趴・接接樂</h1><p>左右移動柚子寶寶，60 秒挑戰最高分！</p></div>
- <div class="hud"><div class="hudbox"><span>分數</span><b id="score">0</b></div><div class="hudbox"><span>時間</span><b id="time">60</b></div><div class="hudbox"><span>最高</span><b id="best">0</b></div></div>
+ <div class="header"><small>旌旗教會｜大雅分點</small><h1>🌕 中秋柚子趴・接接樂</h1><p>左右移動柚子寶寶，40 秒挑戰最高分！</p></div>
+ <div class="hud"><div class="hudbox"><span>分數</span><b id="score">0</b></div><div class="hudbox"><span>時間</span><b id="time">40</b></div><div class="hudbox"><span>最高</span><b id="best">0</b></div></div>
  <div id="game" class="game">
   <div class="decor d1">🏮</div><div class="decor d2">🏮</div><div class="decor d3">☁️</div>
   <div id="player" class="player"><div class="leaf"></div><div class="face"><div class="eye e1"></div><div class="eye e2"></div><div class="mouth"></div></div></div>
-  <div id="overlay" class="overlay"><div class="dialog"><div class="emoji">🍐🥮🐰</div><h2 id="title">中秋柚子趴</h2><p id="msg">按「開始遊戲」後，左右移動柚子寶寶接住好物。<br>🥮 +10　⭐ +20　🏮 +30　☁️ -10</p><button id="startBtn" class="start" type="button">開始遊戲</button><div class="legend">連續接到 5 個好物，Combo 額外 +20 分</div></div></div>
+  <div id="overlay" class="overlay"><div class="dialog"><div class="emoji">🍐🥮🐰</div><h2 id="title">中秋柚子趴</h2><p id="msg">按「開始遊戲」後，左右移動柚子寶寶接住好物。<br>🥮 +10　⭐ +20　🏮 +30　☁️ -10<br>時間越後面，掉落速度會越快！</p><button id="startBtn" class="start" type="button">開始遊戲</button><div class="legend">連續接到 6 個好物，Combo 額外 +20 分</div></div></div>
  </div>
  <div class="controls"><button class="ctrl" id="leftBtn">⬅️ 向左</button><button class="ctrl" id="rightBtn">向右 ➡️</button></div>
 </div>
 <script>
 (function(){
-var game,player,overlay,scoreEl,timeEl,bestEl,startBtn;var score=0,remain=60,best=0,combo=0,running=false,gameTimer,secondTimer,spawnTimer,items=[],playerX=50,leftDown=false,rightDown=false,dragging=false;
+document.addEventListener('dblclick',function(e){e.preventDefault()},{passive:false});
+var game,player,overlay,scoreEl,timeEl,bestEl,startBtn;var score=0,remain=40,best=0,combo=0,running=false,gameTimer,secondTimer,spawnTimer,items=[],playerX=50,leftDown=false,rightDown=false,dragging=false;
 function fit(){document.documentElement.style.setProperty('--app-h',(window.visualViewport?window.visualViewport.height:window.innerHeight)+'px')}
 fit();window.addEventListener('resize',fit);window.addEventListener('orientationchange',function(){setTimeout(fit,150)});if(window.visualViewport)window.visualViewport.addEventListener('resize',fit);
 function el(id){return document.getElementById(id)}
 function init(){game=el('game');player=el('player');overlay=el('overlay');scoreEl=el('score');timeEl=el('time');bestEl=el('best');startBtn=el('startBtn');startBtn.onclick=startGame;bind()}
 function stop(){clearInterval(gameTimer);clearInterval(secondTimer);clearInterval(spawnTimer)}
 function clearAll(){for(var i=items.length-1;i>=0;i--){if(items[i].parentNode)items[i].parentNode.removeChild(items[i])}items=[]}
-function startGame(){stop();clearAll();score=0;remain=60;combo=0;playerX=50;scoreEl.textContent='0';timeEl.textContent='60';setPlayer();overlay.style.display='none';running=true;gameTimer=setInterval(update,30);secondTimer=setInterval(tick,1000);spawnTimer=setInterval(spawn,650)}
+function startGame(){stop();clearAll();score=0;remain=40;combo=0;playerX=50;scoreEl.textContent='0';timeEl.textContent='40';setPlayer();overlay.style.display='none';running=true;gameTimer=setInterval(update,30);secondTimer=setInterval(tick,1000);spawnTimer=setInterval(spawn,560)}
 function end(){running=false;stop();if(score>best)best=score;bestEl.textContent=best;el('title').textContent='🌕 挑戰完成';el('msg').innerHTML='本次得到 <b style="font-size:26px;color:#dc6f2d">'+score+'</b> 分！<br>最高紀錄：'+best+' 分';startBtn.textContent='再玩一次';overlay.style.display='flex'}
 function tick(){if(!running)return;remain--;timeEl.textContent=remain;if(remain<=0)end()}
-function spawn(){if(!running)return;var r=Math.random()*100,e,v;if(r<48){e='🥮';v=10}else if(r<76){e='⭐';v=20}else if(r<90){e='🏮';v=30}else{e='☁️';v=-10}var d=document.createElement('div');d.className='item';d.textContent=e;d.valueNum=v;d.y=-60;d.speed=3.4+Math.random()*2.8;d.style.left=(4+Math.random()*85)+'%';d.style.top='-60px';game.appendChild(d);items.push(d)}
+function spawn(){if(!running)return;var r=Math.random()*100,e,v;if(r<43){e='🥮';v=10}else if(r<70){e='⭐';v=20}else if(r<84){e='🏮';v=30}else{e='☁️';v=-10}var d=document.createElement('div');d.className='item';d.textContent=e;d.valueNum=v;d.y=-60;var elapsed=40-remain;d.speed=4.0+Math.random()*2.8+elapsed*0.035;d.style.left=(4+Math.random()*85)+'%';d.style.top='-60px';game.appendChild(d);items.push(d)}
 function update(){if(!running)return;if(leftDown)playerX-=1.7;if(rightDown)playerX+=1.7;playerX=Math.max(8,Math.min(92,playerX));setPlayer();var pr=player.getBoundingClientRect();for(var i=items.length-1;i>=0;i--){var d=items[i];d.y+=d.speed;d.style.top=d.y+'px';var ir=d.getBoundingClientRect();if(!(ir.right<pr.left||ir.left>pr.right||ir.bottom<pr.top||ir.top>pr.bottom)){caught(d,i)}else if(d.y>game.clientHeight+70){if(d.valueNum>0)combo=0;remove(d,i)}}}
-function caught(d,i){var v=d.valueNum,b=0;if(v<0){score=Math.max(0,score+v);combo=0;pop('-10',d.offsetLeft,d.offsetTop)}else{combo++;if(combo%5===0)b=20;score+=v+b;pop('+'+v+(b?' +20':''),d.offsetLeft,d.offsetTop)}scoreEl.textContent=score;remove(d,i)}
+function caught(d,i){var v=d.valueNum,b=0;if(v<0){score=Math.max(0,score+v);combo=0;pop('-10',d.offsetLeft,d.offsetTop)}else{combo++;if(combo%6===0)b=20;score+=v+b;pop('+'+v+(b?' +20':''),d.offsetLeft,d.offsetTop)}scoreEl.textContent=score;remove(d,i)}
 function remove(d,i){if(d.parentNode)d.parentNode.removeChild(d);items.splice(i,1)}
 function pop(t,x,y){var p=document.createElement('div');p.className='pop';p.textContent=t;p.style.left=x+'px';p.style.top=y+'px';game.appendChild(p);setTimeout(function(){if(p.parentNode)p.parentNode.removeChild(p)},650)}
 function setPlayer(){player.style.left=playerX+'%'}
