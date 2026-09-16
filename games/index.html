@@ -1,1 +1,41 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HTML 遊戲館 | maxjimtech</title><style>*{box-sizing:border-box}body{margin:0;background:#081018;color:#e6fff0;font:16px system-ui,sans-serif}main{max-width:940px;margin:auto;padding:48px 20px}h1{color:#7cffae}p{line-height:1.7;color:#b9ccca}.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin:30px 0}.game{border:1px solid #377b62;border-radius:16px;background:#12231f;padding:22px}.game h2{margin:0 0 12px}.game a{display:inline-block;background:#6dffab;color:#092318;text-decoration:none;font-weight:700;border-radius:8px;padding:10px 16px}.game small{display:block;margin-top:14px;color:#a9beb7}footer{border-top:1px solid #36594c;padding-top:16px;color:#a9beb7}</style></head><body><main><h1>🎮 HTML 遊戲館</h1><p>點選「開始遊戲」進入各自的頁面。已保留原有中秋與漁場遊戲；外星人攻擊堡壘為網頁發布適配版。</p><div class="games"><section class="game"><h2>👾 外星人攻擊堡壘 DX</h2><p>外星人加速、UFO 擊落得分、像素堡壘、Boss、Power-up 與本機排行榜。</p><a href="alien-fortress/">開始遊戲 ↗</a><small>games/alien-fortress/index.html</small></section><section class="game"><h2>🌕 中秋柚子趴・接接樂</h2><p>旌旗教會大雅分點中秋節互動小遊戲。</p><a href="../midautumn/">開始遊戲 ↗</a><small>midautumn/index.html</small></section><section class="game"><h2>🐟 小宇哥漁場</h2><p>虱目魚養殖主題網頁遊戲。</p><a href="../xiaoyuge/">開始遊戲 ↗</a><small>xiaoyuge/index.html</small></section></div><footer>ICBM、Asteroids、Computer Space、Lunar Lander、Moon Patrol 的完整原始碼尚未找到，因此未列為已發布。</footer></main></body></html>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="八款 HTML5 網頁遊戲：外星人攻擊堡壘、ICBM、Asteroids、Computer Space、Lunar Lander、Moon Patrol、中秋接接樂及小宇哥漁場。">
+<title>HTML 遊戲館｜maxjimtech</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,'Noto Sans TC','Microsoft JhengHei',sans-serif}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:#ecf6ff;background:radial-gradient(ellipse at 50% -5%,#274066 0%,#0a1327 53%,#060a13 100%)}main{max-width:1120px;margin:0 auto;padding:24px 20px 74px}header{text-align:center;padding:42px 0 28px}header .eyebrow{color:#76e6ed;letter-spacing:.24em;font:700 12px ui-monospace,monospace}h1{font-size:clamp(32px,5.5vw,56px);margin:12px 0 16px;letter-spacing:.04em}header p{color:#bfcee2;line-height:1.7;margin:0 auto;max-width:680px}a{color:#8deaff}.nav{display:flex;justify-content:center;flex-wrap:wrap;gap:16px;margin-top:24px}.nav a{border:1px solid #3e6b89;border-radius:99px;padding:9px 16px;text-decoration:none;font-size:14px}.nav a:hover,.nav a:focus-visible{background:#1b3756}h2.group{margin:36px 0 18px;font-size:20px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px}.card{display:flex;flex-direction:column;min-height:216px;padding:23px;border:1px solid #375577;border-radius:17px;background:linear-gradient(145deg,#16253f,#0e192d);box-shadow:0 12px 28px #0002}.card .meta{color:#83e3f7;font:700 12px ui-monospace,monospace;letter-spacing:.11em}.card h3{margin:10px 0;font-size:21px}.card p{flex:1;margin:0 0 20px;color:#c1d0e0;line-height:1.65;font-size:14px}.card a.play{display:block;text-align:center;background:#74e8f6;color:#092034;text-decoration:none;border-radius:10px;padding:11px 16px;font-weight:800}.card a.play:hover,.card a.play:focus-visible{background:#f7e98b}.card a.play:focus-visible,.nav a:focus-visible{outline:3px solid #fff;outline-offset:3px}footer{border-top:1px solid #34516b;margin-top:46px;padding-top:24px;color:#9cb0ca;text-align:center;font-size:13px;line-height:1.8}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div class="eyebrow">MAXJIMTECH · BROWSER GAME COLLECTION</div>
+<h1>🎮 HTML 遊戲館</h1>
+<p>八款網頁遊戲集中在同一個入口。點選「開始遊戲」即可開啟各自的遊戲頁面；適合使用電腦瀏覽器，部分遊戲也支援觸控操作。</p>
+<div class="nav"><a href="/">← 返回網站首頁</a><a href="#arcade">經典街機</a><a href="#originals">原創與活動遊戲</a></div>
+</header>
+<section id="arcade" aria-labelledby="arcade-title">
+<h2 class="group" id="arcade-title">經典街機致敬作品</h2>
+<div class="grid">
+<article class="card"><span class="meta">CITY DEFENSE</span><h3>🚀 ICBM 城市防禦</h3><p>攔截敵方飛彈，保護六座城市。爆炸連鎖、分裂彈頭與逐波加速。</p><a class="play" href="./icbm.html">開始遊戲 ↗</a></article>
+<article class="card"><span class="meta">1979 · ASTEROIDS</span><h3>☄️ 小行星</h3><p>旋轉、推進與射擊，避開碎裂小行星並擊退 UFO。</p><a class="play" href="./asteroids.html">開始遊戲 ↗</a></article>
+<article class="card"><span class="meta">1971 · COMPUTER SPACE</span><h3>🛸 太空電腦</h3><p>玩家火箭對抗雙飛碟，體驗慣性飛行與可轉向飛彈。</p><a class="play" href="./computer-space.html">開始遊戲 ↗</a></article>
+<article class="card"><span class="meta">1979 · ASSISTED</span><h3>🌘 Lunar Lander 登月艇</h3><p>輔助著陸模式：近地鏡頭追蹤、姿態控制、較寬平台及燃料管理。</p><a class="play" href="./lunar-lander.html">開始遊戲 ↗</a></article>
+<article class="card"><span class="meta">1982 · MOON PATROL</span><h3>🌕 月面巡邏</h3><p>月面車自動前進、跳過坑洞，向前方與空中的敵人射擊。</p><a class="play" href="./moon-patrol.html">開始遊戲 ↗</a></article>
+</div>
+</section>
+<section id="originals" aria-labelledby="originals-title">
+<h2 class="group" id="originals-title">原創與活動遊戲</h2>
+<div class="grid">
+<article class="card"><span class="meta">ALIEN FORTRESS DX</span><h3>👾 外星人攻擊堡壘</h3><p>外星人加速、UFO 得分、像素堡壘、Boss、Power-up 與本機排行榜。</p><a class="play" href="./alien-fortress/">開始遊戲 ↗</a></article>
+<article class="card"><span class="meta">MID-AUTUMN FESTIVAL</span><h3>🍐 中秋柚子趴・接接樂</h3><p>旌旗教會大雅分點中秋節互動小遊戲。</p><a class="play" href="./midautumn/">開始遊戲 ↗</a></article>
+<article class="card"><span class="meta">FISH FARM</span><h3>🐟 小宇哥漁場</h3><p>以虱目魚養殖為主題的網頁遊戲。</p><a class="play" href="./xiaoyuge/">開始遊戲 ↗</a></article>
+</div>
+</section>
+<footer>所有遊戲集中於 <strong>/games/</strong>，保留既有 /arcade/、/midautumn/ 及 /xiaoyuge/ 舊路徑。<br>經典作品為非官方致敬與重新製作，並非原廠 ROM。</footer>
+</main>
+</body>
+</html>
