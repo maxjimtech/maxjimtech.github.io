@@ -1,95 +1,155 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>肇祥企業社 | 機械製造</title>
-  <style>
-    body { font-family: system-ui, -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif; margin:0; color:#111; }
-    header { background:#111; color:#fff; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; }
-    nav a { color:#fff; margin-left:14px; text-decoration:none; font-size:14px; }
-    .hero { height:60vh; min-height:420px; background:url("images/hero.jpg") center/cover no-repeat; display:flex; align-items:center; justify-content:center; position:relative; }
-    .hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.35);}
-    .hero h1{position:relative; z-index:1; color:#fff; font-size:38px; margin:0 18px; text-align:center;}
-    section { padding:56px 18px; max-width:1100px; margin:0 auto; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; }
-    .card { border:1px solid #e9e9e9; border-radius:10px; overflow:hidden; background:#fff; }
-    .card img{ width:100%; height:160px; object-fit:cover; display:block; }
-    .card h3{ margin:14px 14px 8px; font-size:18px; }
-    .card p{ margin:0 14px 14px; font-size:14px; line-height:1.6; color:#444; }
-    footer{ background:#f7f7f7; padding:24px 18px; text-align:center; font-size:13px; color:#555; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07111d">
+<meta name="description" content="肇祥企業社以機械製造為核心，關注機構設計、產品實現與 AI 數位應用的未來可能。探索專業領域、工作思維與哲肇遊戲館。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="肇祥企業社｜機械思維，向智慧未來前進">
+<meta property="og:description" content="機械製造 × 機構設計 × AI 未來探索。從現實工程出發，想像下一步。">
+<meta property="og:url" content="https://maxjimtech.github.io/">
+<link rel="canonical" href="https://maxjimtech.github.io/">
+<title>肇祥企業社｜機械思維，向智慧未來前進</title>
+<style>
+:root{color-scheme:dark;--bg:#07111d;--bg2:#0b1827;--panel:#0e2031;--line:rgba(151,191,215,.19);--ink:#f2f8ff;--muted:#9eb2c2;--teal:#79f1d5;--blue:#88b6ff;--orange:#ffae7a;--max:1220px;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+*,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:88px}body{margin:0;min-width:320px;color:var(--ink);background:var(--bg);overflow-x:hidden}body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 85% 7%,rgba(37,109,154,.13),transparent 36%),radial-gradient(circle at 12% 52%,rgba(33,147,135,.055),transparent 40%)}a{color:inherit}a:focus-visible,button:focus-visible{outline:3px solid var(--teal);outline-offset:4px}button{font:inherit}.skip{position:absolute;top:-60px;left:14px;z-index:1000;background:#fff;color:#07111d;padding:12px 18px;border-radius:8px}.skip:focus{top:12px}.container{width:min(calc(100% - 56px),var(--max));margin-inline:auto}.eyebrow{font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--teal)}.eyebrow::before{content:"";display:inline-block;width:21px;height:1px;background:var(--teal);vertical-align:middle;margin-right:11px}.section{padding:110px 0}.section-heading{max-width:750px;margin-bottom:45px}.section-heading h2{font-weight:750;letter-spacing:-.048em;line-height:1.24;font-size:clamp(30px,4vw,52px);margin:21px 0}.section-heading p{color:var(--muted);line-height:1.9;font-size:16px;margin:0}.muted{color:var(--muted)}
+.site-header{position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(169,204,230,.13);background:rgba(5,15,26,.87);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}.header-inner{height:76px;display:flex;align-items:center;gap:24px}.brand{display:flex;align-items:center;gap:12px;text-decoration:none;min-width:max-content}.brand-mark{width:38px;height:38px;display:grid;place-items:center;border:1px solid rgba(121,241,213,.5);border-radius:11px;color:var(--teal);font-family:ui-monospace,monospace;font-size:17px;font-weight:900;transform:rotate(-6deg);box-shadow:inset 0 0 17px rgba(121,241,213,.08)}.brand-mark span{transform:rotate(6deg)}.brand-text{display:flex;flex-direction:column;gap:2px}.brand-text strong{font-size:17px;letter-spacing:.085em}.brand-text small{font-family:ui-monospace,monospace;font-size:9px;font-weight:750;letter-spacing:.22em;color:var(--muted)}.site-nav{display:flex;align-items:center;gap:29px;margin-left:auto}.site-nav a{text-decoration:none;color:#bfd0de;font-size:13px;font-weight:650;white-space:nowrap;transition:color .2s}.site-nav a:hover{color:var(--teal)}.nav-cta{margin-left:5px;text-decoration:none;border:1px solid rgba(121,241,213,.38);border-radius:999px;padding:11px 17px;font-size:12px;font-weight:750;color:var(--teal);white-space:nowrap;background:rgba(121,241,213,.05);transition:background .2s}.nav-cta:hover{background:rgba(121,241,213,.16)}.menu-toggle{display:none;align-items:center;justify-content:center;width:43px;height:43px;margin-left:auto;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--ink);font-size:22px;cursor:pointer}
+.hero{min-height:690px;position:relative;overflow:hidden;border-bottom:1px solid var(--line)}.hero::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(142,191,218,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(142,191,218,.045) 1px,transparent 1px);background-size:65px 65px;mask-image:linear-gradient(90deg,transparent 2%,#000 35%,#000 90%)}.hero::after{content:"";position:absolute;width:700px;height:700px;right:-200px;top:-250px;border-radius:50%;background:radial-gradient(circle,rgba(50,163,163,.13),transparent 69%);pointer-events:none}.hero-layout{display:grid;grid-template-columns:minmax(0,1.03fr) minmax(0,.97fr);align-items:center;gap:22px;min-height:690px;padding-top:48px;padding-bottom:77px;position:relative;z-index:1}.hero-copy{max-width:690px}.hero-kicker{display:flex;align-items:center;gap:12px;margin:0 0 32px}.status-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 5px rgba(121,241,213,.09),0 0 20px rgba(121,241,213,.9)}.hero-kicker span:last-child{font-size:11px;font-weight:750;letter-spacing:.21em;color:#a6d7d9}.hero h1{font-size:clamp(46px,5.1vw,75px);line-height:1.16;letter-spacing:-.075em;margin:0;font-weight:800}.hero h1 em{font-style:normal;color:var(--teal);background:linear-gradient(105deg,#baffea 7%,#72dfe0 51%,#98b9ff);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero-lead{color:#b2c3d2;font-size:16px;line-height:2;max-width:545px;margin:29px 0 35px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;text-decoration:none;border-radius:8px;min-height:49px;padding:0 20px;font-size:13px;font-weight:800;transition:transform .2s,background .2s,border-color .2s}.btn:hover{transform:translateY(-2px)}.btn-primary{background:var(--teal);color:#05201b}.btn-primary:hover{background:#aeffe9}.btn-outline{border:1px solid rgba(161,196,218,.36);background:rgba(255,255,255,.035);color:#e1eef8}.btn-outline:hover{border-color:var(--teal);background:rgba(121,241,213,.08)}.hero-footnote{display:flex;align-items:center;gap:10px;margin-top:52px;color:#788f9f;font:11px ui-monospace,monospace;letter-spacing:.14em}.hero-footnote::before{content:"";height:1px;width:35px;background:#567182}
+.visual{width:100%;max-width:610px;justify-self:end;position:relative;isolation:isolate}.visual-halo{position:absolute;inset:9% 0 4%;background:radial-gradient(ellipse at 57% 48%,rgba(41,180,175,.18),transparent 54%);filter:blur(8px);z-index:-1}.visual-art{display:block;width:100%;height:auto;filter:drop-shadow(0 32px 65px rgba(0,0,0,.28))}.float-label{position:absolute;border:1px solid rgba(144,205,217,.25);background:rgba(9,26,39,.91);backdrop-filter:blur(12px);padding:12px 14px;border-radius:7px;box-shadow:0 15px 40px #0004}.float-label small{display:block;font:9px ui-monospace,monospace;letter-spacing:.14em;color:#83aab9;margin-bottom:5px}.float-label strong{font:12px ui-monospace,monospace;letter-spacing:.05em;color:var(--teal)}.float-a{top:16%;right:-1%}.float-b{bottom:17%;left:-1%}.visual-caption{text-align:right;color:#6e8b9d;font:10px ui-monospace,monospace;letter-spacing:.12em;margin-top:-17px}
+.signal-strip{border-bottom:1px solid var(--line);background:#091727}.signal-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;padding:21px 0}.signal-item{display:flex;gap:11px;align-items:center;color:#9bb7c7;font:10px ui-monospace,monospace;letter-spacing:.13em;font-weight:700}.signal-item b{font-size:16px;color:var(--teal);font-weight:400}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center}.about-grid .section-heading{margin:0}.about-aside{border-left:1px solid rgba(121,241,213,.35);padding-left:35px}.about-aside .quote{font-size:clamp(21px,2.5vw,30px);letter-spacing:-.045em;line-height:1.5;font-weight:700;margin:0 0 20px}.about-aside p:last-child{color:var(--muted);line-height:1.9;font-size:14px}.about-aside .index{color:var(--teal);font:11px ui-monospace,monospace;letter-spacing:.15em;margin-bottom:14px}
+.expertise{background:linear-gradient(180deg,#0b1a2a,#091522);border-block:1px solid var(--line)}.service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.service{position:relative;overflow:hidden;min-height:334px;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;background:linear-gradient(145deg,rgba(26,51,70,.75),rgba(10,26,40,.88));padding:27px;transition:border-color .25s,transform .25s}.service:hover{border-color:rgba(121,241,213,.5);transform:translateY(-4px)}.service::after{content:"";position:absolute;right:-43px;top:-43px;width:130px;height:130px;border:1px solid rgba(121,241,213,.16);border-radius:50%;box-shadow:0 0 0 27px rgba(121,241,213,.025),0 0 0 54px rgba(121,241,213,.025)}.service-num{font:11px ui-monospace,monospace;color:#87aab9;letter-spacing:.15em}.service-symbol{width:54px;height:54px;display:grid;place-items:center;margin:34px 0 17px;border:1px solid rgba(121,241,213,.29);border-radius:12px;background:rgba(121,241,213,.055)}.service-symbol svg{width:29px;height:29px;fill:none;stroke:var(--teal);stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}.service h3{font-size:22px;letter-spacing:-.025em;margin:0 0 12px}.service p{font-size:14px;line-height:1.8;color:#a9bdcb;margin:0}.service-bottom{margin-top:auto;padding-top:29px;font:10px ui-monospace,monospace;letter-spacing:.14em;color:var(--teal)}.service-bottom .tag{border:1px solid rgba(255,174,122,.44);padding:5px 8px;border-radius:99px;color:var(--orange);letter-spacing:0}
+.method-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:42px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.method{padding:31px 22px 33px 0;position:relative}.method+.method{padding-left:23px;border-left:1px solid var(--line)}.method strong{font:11px ui-monospace,monospace;color:var(--teal);letter-spacing:.14em}.method h3{font-size:20px;letter-spacing:-.02em;margin:29px 0 10px}.method p{margin:0;color:var(--muted);line-height:1.75;font-size:13px}.method::after{content:"↗";position:absolute;right:23px;top:27px;color:#52778a}
+.lab{padding:88px 0 105px;position:relative;background:radial-gradient(ellipse at 80% 40%,rgba(43,144,135,.13),transparent 57%),#081724;border-block:1px solid var(--line)}.lab-layout{display:grid;grid-template-columns:.95fr 1.05fr;gap:65px;align-items:center}.lab .section-heading{margin:0}.lab .section-heading p{max-width:475px}.lab-eyebrow{color:var(--orange)}.lab-eyebrow::before{background:var(--orange)}.lab-links{display:grid;gap:13px}.lab-card{border:1px solid rgba(141,183,208,.26);border-radius:12px;background:rgba(16,35,51,.83);padding:25px 25px;text-decoration:none;display:flex;gap:20px;align-items:center;transition:transform .2s,border-color .2s,background .2s}.lab-card:hover{transform:translateX(5px);border-color:var(--teal);background:#152f3e}.lab-icon{width:52px;height:52px;flex:none;display:grid;place-items:center;border:1px solid rgba(121,241,213,.25);border-radius:12px;color:var(--teal);font:26px ui-monospace,monospace}.lab-card h3{font-size:17px;margin:0 0 6px}.lab-card p{font-size:12px;line-height:1.6;color:#9db7c5;margin:0}.lab-card .arrow{margin-left:auto;color:var(--teal);font-size:21px}
+.contact{padding:94px 0 80px}.contact-panel{position:relative;overflow:hidden;border-radius:16px;border:1px solid rgba(121,241,213,.23);background:linear-gradient(110deg,rgba(23,63,77,.65),rgba(12,29,46,.94));padding:54px 58px;display:flex;justify-content:space-between;align-items:center;gap:30px}.contact-panel::after{content:"";position:absolute;right:-80px;bottom:-140px;width:380px;height:380px;border:1px solid rgba(121,241,213,.18);border-radius:50%;box-shadow:0 0 0 45px rgba(121,241,213,.025),0 0 0 92px rgba(121,241,213,.028);pointer-events:none}.contact-panel h2{font-size:clamp(26px,3vw,43px);line-height:1.25;letter-spacing:-.05em;margin:15px 0 13px}.contact-panel p{max-width:610px;color:#b4ced5;line-height:1.8;font-size:14px;margin:0}.contact-actions{z-index:1;flex:none}.site-footer{border-top:1px solid var(--line);padding:33px 0 39px}.footer-grid{display:flex;justify-content:space-between;gap:22px;align-items:center;flex-wrap:wrap}.footer-brand{font-size:16px;font-weight:800;letter-spacing:.04em}.footer-brand small{font-weight:500;display:block;color:#8aa7b5;font:10px ui-monospace,monospace;letter-spacing:.14em;margin-top:8px}.footer-links{display:flex;flex-wrap:wrap;gap:20px}.footer-links a{font-size:12px;text-decoration:none;color:#9db5c2}.footer-links a:hover{color:var(--teal)}.copyright{font-size:11px;color:#668293;margin-top:22px;letter-spacing:.05em}
+@media(max-width:1050px){.site-nav{gap:15px}.hero h1{font-size:clamp(41px,5vw,63px)}.about-grid{gap:50px}.float-a{right:-3%}}
+@media(max-width:800px){.container{width:min(calc(100% - 36px),var(--max))}.header-inner{height:68px}.menu-toggle{display:flex}.nav-cta{display:none}.site-nav{display:none;position:absolute;top:68px;left:0;right:0;margin:0;padding:12px 18px 19px;background:#081725;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0;box-shadow:0 22px 32px #0006}.site-nav[data-open="true"]{display:flex}.site-nav a{padding:13px 12px;font-size:15px;border-bottom:1px solid rgba(144,182,205,.1)}.hero,.hero-layout{min-height:auto}.hero-layout{grid-template-columns:1fr;padding:85px 0 60px;gap:35px}.hero-copy{max-width:650px}.hero h1{font-size:clamp(42px,8.1vw,65px)}.hero-footnote{margin-top:32px}.visual{max-width:550px;justify-self:center}.float-a{right:1%}.about-grid,.lab-layout{grid-template-columns:1fr;gap:43px}.section{padding:78px 0}.service-grid{grid-template-columns:1fr 1fr}.service:last-child{grid-column:1/-1;min-height:250px}.method-grid{grid-template-columns:1fr 1fr}.method:nth-child(3){border-left:0;padding-left:0;border-top:1px solid var(--line)}.method:nth-child(4){border-top:1px solid var(--line)}.contact-panel{padding:37px;align-items:flex-start;flex-direction:column}.contact-actions{align-self:flex-start}.lab{padding:76px 0}}
+@media(max-width:510px){.brand-text strong{font-size:15px}.brand-mark{width:35px;height:35px}.hero-layout{padding-top:68px}.hero h1{font-size:clamp(39px,10vw,51px)}.hero-lead{font-size:14px}.hero-kicker{margin-bottom:23px}.btn{width:100%}.float-label{padding:8px 9px}.float-label small{font-size:7px}.float-label strong{font-size:9px}.float-a{top:11%}.float-b{bottom:14%}.visual-caption{font-size:8px}.signal-inner{gap:13px}.signal-item{width:calc(50% - 8px);font-size:9px;letter-spacing:.04em}.section-heading h2{font-size:32px}.about-aside{padding-left:22px}.service-grid{grid-template-columns:1fr}.service,.service:last-child{min-height:290px;grid-column:auto}.method-grid{grid-template-columns:1fr}.method,.method+.method,.method:nth-child(3){border-left:0;border-top:1px solid var(--line);padding:25px 0}.method:first-child{border-top:0}.contact-panel{padding:32px 24px}.contact-actions{width:100%}.lab-card{padding:17px;gap:12px}.lab-icon{width:42px;height:42px}.lab-card h3{font-size:15px}.footer-grid{align-items:flex-start;flex-direction:column}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
 </head>
 <body>
-  <header>
-    <div>肇祥企業社</div>
-    <nav>
-      <a href="#about">關於</a>
-      <a href="#products">產品/服務</a>
-      <a href="#works">案例照片</a>
-      <a href="#contact">聯絡我們</a>
-    </nav>
-  </header>
-
-  <main>
-    <div class="hero">
-      <h1>機械製造・品質穩定・交期準確</h1>
-    </div>
-
-    <section id="about">
-      <h2>關於肇祥</h2>
-      <p>這段文字放「公司介紹」，包含服務範圍、專長、合作流程與核心承諾（例如品質控管、客製化、交期、售後支援）。</p>
-    </section>
-
-    <section id="products">
-      <h2>產品 / 服務項目</h2>
-      <div class="grid">
-        <div class="card">
-          <img src="images/product1.jpg" alt="產品 1">
-          <h3>產品/服務 1</h3>
-          <p>簡短說明：規格、用途、適用產業、特色。</p>
-        </div>
-        <div class="card">
-          <img src="images/product2.jpg" alt="產品 2">
-          <h3>產品/服務 2</h3>
-          <p>簡短說明：規格、用途、適用產業、特色。</p>
-        </div>
-        <div class="card">
-          <img src="images/product3.jpg" alt="產品 3">
-          <h3>產品/服務 3</h3>
-          <p>簡短說明：規格、用途、適用產業、特色。</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="works">
-      <h2>案例照片</h2>
-      <div class="grid">
-        <div class="card">
-          <img src="images/work1.jpg" alt="案例照片 1">
-          <h3>案例 1</h3>
-          <p>簡短描述（例如：客戶需求、解決方案、完成時間）。</p>
-        </div>
-        <div class="card">
-          <img src="images/work2.jpg" alt="案例照片 2">
-          <h3>案例 2</h3>
-          <p>簡短描述（例如：客戶需求、解決方案、完成時間）。</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <h2>聯絡我們</h2>
-      <p>+8869316750001 +886 4 25356555。</p>
-    </section>
-  </main>
-
-  <footer>
-    © <span id="year"></span> 肇祥企業社
-  </footer>
-
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+<a class="skip" href="#main">跳至主要內容</a>
+<header class="site-header">
+ <div class="container header-inner">
+  <a class="brand" href="/" aria-label="肇祥企業社，返回首頁"><span class="brand-mark" aria-hidden="true"><span>M/</span></span><span class="brand-text"><strong>肇祥企業社</strong><small>MAXJIMTECH · ENGINEERING</small></span></a>
+  <nav class="site-nav" id="site-nav" aria-label="主要導覽" data-open="false"><a href="#about">關於我們</a><a href="#expertise">專業領域</a><a href="#approach">工作思維</a><a href="#lab">互動實驗</a><a href="#contact">聯絡資訊</a><a href="/games/">哲肇遊戲館 ↗</a></nav>
+  <a class="nav-cta" href="/games/">探索遊戲館 <span aria-hidden="true">↗</span></a>
+  <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="開啟導覽選單">☰</button>
+ </div>
+</header>
+<main id="main">
+ <section class="hero" aria-labelledby="hero-title">
+  <div class="container hero-layout">
+   <div class="hero-copy">
+    <div class="hero-kicker"><span class="status-dot" aria-hidden="true"></span><span>ENGINEERING × FUTURE THINKING</span></div>
+    <h1 id="hero-title">以機械為本，<br><em>向智慧未來</em><br>前進。</h1>
+    <p class="hero-lead">從機械製造出發，重視機構設計、產品實現與工程細節；同時關注 AI 與數位工具如何開啟新的工作可能。讓想法有結構，讓未來有方向。</p>
+    <div class="hero-actions"><a class="btn btn-primary" href="#expertise">探索專業領域 <span aria-hidden="true">↗</span></a><a class="btn btn-outline" href="/games/">進入哲肇遊戲館 <span aria-hidden="true">→</span></a></div>
+    <div class="hero-footnote">MADE OF IDEAS. GROUNDED IN ENGINEERING.</div>
+   </div>
+   <div class="visual">
+    <div class="visual-halo" aria-hidden="true"></div>
+    <svg class="visual-art" viewBox="0 0 620 600" role="img" aria-labelledby="illustration-title illustration-desc" xmlns="http://www.w3.org/2000/svg">
+     <title id="illustration-title">未來機械手臂的概念設計線稿</title>
+     <desc id="illustration-desc">原創向量概念圖，結合工業手臂、工程尺寸線、數位節點及網格地板，並非實際產品照片。</desc>
+     <defs>
+      <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#35566c"/><stop offset=".5" stop-color="#1a384d"/><stop offset="1" stop-color="#0b1c2d"/></linearGradient>
+      <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b6ffe7"/><stop offset="1" stop-color="#4b9eae"/></linearGradient>
+      <radialGradient id="glow"><stop stop-color="#5bd5ce" stop-opacity=".25"/><stop offset="1" stop-color="#5bd5ce" stop-opacity="0"/></radialGradient>
+      <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".9" fill="#6799ac" opacity=".32"/></pattern>
+     </defs>
+     <circle cx="318" cy="283" r="235" fill="url(#glow)"/>
+     <circle cx="319" cy="275" r="206" fill="none" stroke="#69c5ba" stroke-opacity=".16" stroke-dasharray="3 13"/>
+     <circle cx="319" cy="275" r="162" fill="none" stroke="#69c5ba" stroke-opacity=".11"/>
+     <circle cx="319" cy="275" r="115" fill="none" stroke="#9bdeed" stroke-opacity=".10" stroke-dasharray="4 9"/>
+     <rect x="42" y="45" width="535" height="474" fill="url(#dots)" opacity=".35"/>
+     <g stroke="#5c9fa5" stroke-opacity=".20" fill="none" stroke-width="1">
+      <path d="M43 490 309 582 574 490 310 410Z"/><path d="M86 505 353 427M132 524 397 443M177 540 443 457M221 557 489 476"/><path d="M88 476 351 567M132 459 399 550M177 444 445 532M222 427 489 514"/>
+      <path d="M67 134h46m-23-23v46M498 112h55m-28-27v54M68 370h34m-17-17v34"/>
+     </g>
+     <g stroke-linejoin="round" stroke-linecap="round">
+      <path d="M198 472 327 508 432 461 309 427Z" fill="#081b29" stroke="#7bf0d1" stroke-opacity=".55" stroke-width="1.5"/>
+      <path d="M211 452 310 415 419 450 320 488Z" fill="url(#metal)" stroke="#a7ebdb" stroke-opacity=".65" stroke-width="1.6"/>
+      <path d="M211 452v17l108 36v-17M319 488v17l100-39v-16" fill="#10283b" stroke="#5e9b9f" stroke-width="1.3"/>
+      <path d="M267 434 289 372 351 374 379 445 317 474Z" fill="url(#metal)" stroke="#83c8c9" stroke-width="2"/>
+      <path d="M289 372 315 390 351 374M315 390 317 474" fill="none" stroke="#83d3ca" stroke-opacity=".65" stroke-width="1.4"/>
+      <ellipse cx="317" cy="383" rx="33" ry="22" fill="#102d42" stroke="#a9f8e1" stroke-width="2"/>
+      <ellipse cx="317" cy="383" rx="18" ry="11" fill="#0b1c2d" stroke="#6bd9d2"/>
+      <path d="M295 372 265 302 281 270 312 276 340 351 324 384Z" fill="url(#metal)" stroke="#8bd7d4" stroke-width="2"/>
+      <path d="M281 270 309 295 340 351M309 295 324 384" fill="none" stroke="#7fcaca" stroke-opacity=".65" stroke-width="1.1"/>
+      <path d="M291 293 313 340" stroke="#9afadd" stroke-opacity=".65" stroke-width="5"/>
+      <circle cx="286" cy="275" r="32" fill="#122f44" stroke="#a1efdf" stroke-width="2.4"/><circle cx="286" cy="275" r="21" fill="#071825" stroke="#5baea9" stroke-width="5"/><circle cx="286" cy="275" r="7" fill="#7af6d8"/>
+      <path d="M276 254 355 179 386 189 313 288 285 299Z" fill="url(#metal)" stroke="#8adbd2" stroke-width="2.2"/>
+      <path d="M355 179 359 209 313 288M359 209 386 189" fill="none" stroke="#82bec4" stroke-opacity=".8" stroke-width="1.5"/>
+      <path d="M298 268 358 203" fill="none" stroke="#a8fae5" stroke-width="5" stroke-opacity=".65"/>
+      <circle cx="371" cy="188" r="29" fill="#122f43" stroke="#a0ecdf" stroke-width="2.4"/><circle cx="371" cy="188" r="19" fill="#091c2b" stroke="#579b9f" stroke-width="5"/><circle cx="371" cy="188" r="6" fill="#7bf2dc"/>
+      <path d="M385 177 429 146 447 159 410 199 384 200Z" fill="url(#metal)" stroke="#9ae5dc" stroke-width="2"/>
+      <path d="M436 148 452 124 468 128 452 165Z" fill="#112a3b" stroke="#b5f6e2" stroke-width="1.8"/>
+      <path d="M460 127 483 97 494 104 477 137M455 163l32 6 5-14-28-8" fill="none" stroke="#a6ebdb" stroke-width="6"/>
+      <path d="M494 104 502 93M492 155l15 3" stroke="#7af2d6" stroke-width="2"/>
+     </g>
+     <g fill="none" stroke="#7df4d7" stroke-opacity=".8" stroke-width="1">
+      <circle cx="286" cy="275" r="43" stroke-dasharray="3 7"/><circle cx="371" cy="188" r="42" stroke-dasharray="3 7"/>
+      <path d="M371 144V72h94M286 317v63H167M442 160h82v74" stroke-dasharray="4 5"/>
+      <circle cx="465" cy="72" r="3" fill="#7df4d7"/><circle cx="167" cy="380" r="3" fill="#7df4d7"/><circle cx="524" cy="234" r="3" fill="#7df4d7"/>
+     </g>
+     <g font-family="ui-monospace,monospace" fill="#a5d6da" font-size="10" letter-spacing="1.1">
+      <text x="470" y="66">JOINT_02</text><text x="78" y="374">JOINT_01</text><text x="468" y="250">END EFFECTOR</text><text x="72" y="79" fill="#6acfbf">FIG. 01 / FUTURE MOTION</text>
+     </g>
+     <g fill="#79f1d5"><circle cx="286" cy="275" r="2"/><circle cx="371" cy="188" r="2"/><circle cx="317" cy="383" r="2"/></g>
+    </svg>
+    <div class="float-label float-a" aria-hidden="true"><small>DESIGN LANGUAGE</small><strong>PRECISION / MOTION</strong></div>
+    <div class="float-label float-b" aria-hidden="true"><small>NEXT FRONTIER</small><strong>AI + ENGINEERING</strong></div>
+    <div class="visual-caption">ORIGINAL CONCEPT ILLUSTRATION · 非實際產品照片</div>
+   </div>
+  </div>
+ </section>
+ <div class="signal-strip" aria-label="關注領域"><div class="container signal-inner"><span class="signal-item"><b>✳</b> MECHANICAL THINKING</span><span class="signal-item"><b>⌁</b> PRODUCT REALIZATION</span><span class="signal-item"><b>◇</b> DIGITAL EXPLORATION</span><span class="signal-item"><b>↗</b> FUTURE IN MOTION</span></div></div>
+ <section class="section" id="about" aria-labelledby="about-title"><div class="container about-grid"><div class="section-heading"><div class="eyebrow">01 / ABOUT</div><h2 id="about-title">好的工程，<br>從理解問題開始。</h2><p>肇祥企業社以機械製造為核心。從結構、材料與可製造性的角度出發，我們相信技術的價值不只在於完成一個零件，更在於把複雜需求整理成清楚、可實現的方向。</p></div><div class="about-aside"><div class="index">OUR PERSPECTIVE — 001</div><p class="quote">讓設計有根據，<br>讓製造有想像，<br>讓未來值得探索。</p><p>以務實的工程思維看待當下，也對新工具與新方法保持開放。這是一種持續思考與精進的方向，而非未經驗證的性能承諾。</p></div></div></section>
+ <section class="section expertise" id="expertise" aria-labelledby="expertise-title"><div class="container"><div class="section-heading"><div class="eyebrow">02 / FOCUS AREAS</div><h2 id="expertise-title">從實體工程，<br>延伸到數位可能。</h2><p>以既有機械製造定位為基礎，呈現我們重視的工程主題，以及值得持續探索的未來方向。</p></div><div class="service-grid">
+ <article class="service"><span class="service-num">01 / FOUNDATION</span><div class="service-symbol" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="m16 2 11 6v16l-11 6L5 24V8Z"/><path d="m5 8 11 6 11-6M16 14v16M11 10l11 6"/></svg></div><h3>機械製造</h3><p>從實際需求看待零件與結構，關注製造條件、加工可行性及組裝細節。</p><div class="service-bottom">ENGINEERING FIRST ↗</div></article>
+ <article class="service"><span class="service-num">02 / DESIGN THINKING</span><div class="service-symbol" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="8" cy="24" r="4"/><circle cx="23" cy="9" r="4"/><path d="m11 21 9-9M4 6h10v8H4zM19 21h9v7h-9z"/></svg></div><h3>機構與產品思維</h3><p>從機能、操作與結構關係思考設計，讓創意能與真實世界的使用條件對話。</p><div class="service-bottom">FROM IDEA TO STRUCTURE ↗</div></article>
+ <article class="service"><span class="service-num">03 / FUTURE DIRECTION</span><div class="service-symbol" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="4"/><circle cx="5" cy="7" r="3"/><circle cx="27" cy="8" r="3"/><circle cx="8" cy="27" r="3"/><circle cx="26" cy="26" r="3"/><path d="M8 9l6 5m5-1 5-4M14 19l-5 5m10-5 5 5"/></svg></div><h3>AI 與數位探索</h3><p>關注 AI 輔助設計、資料應用與工作流程整合的可能，作為下一階段持續研究的方向。</p><div class="service-bottom"><span class="tag">探索方向 · 非已上市服務</span></div></article>
+ </div></div></section>
+ <section class="section" id="approach" aria-labelledby="approach-title"><div class="container"><div class="section-heading"><div class="eyebrow">03 / HOW WE THINK</div><h2 id="approach-title">不只想得遠，<br>更要走得穩。</h2><p>以下四個面向，是這個網站呈現工程與創新時重視的思考方式。</p></div><div class="method-grid"><article class="method"><strong>01 / UNDERSTAND</strong><h3>理解需求</h3><p>先釐清問題、使用情境與真正重要的限制。</p></article><article class="method"><strong>02 / STRUCTURE</strong><h3>建立結構</h3><p>從機能、尺寸、組裝與材料看待設計選擇。</p></article><article class="method"><strong>03 / VALIDATE</strong><h3>關注可行性</h3><p>以工程邏輯檢視構想與實際製造之間的距離。</p></article><article class="method"><strong>04 / EVOLVE</strong><h3>持續探索</h3><p>保持開放思考，關注 AI 與數位工具帶來的改變。</p></article></div></div></section>
+ <section class="lab" id="lab" aria-labelledby="lab-title"><div class="container lab-layout"><div class="section-heading"><div class="eyebrow lab-eyebrow">04 / PLAY & EXPLORE</div><h2 id="lab-title">把想像力，<br>留一個入口。</h2><p>技術也能有好玩的一面。進入獨立的網頁遊戲館，探索復古街機與互動實驗；這些作品與企業產品展示分開呈現。</p></div><div class="lab-links"><a class="lab-card" href="/games/"><span class="lab-icon" aria-hidden="true">▣</span><span><h3>哲肇 遊戲館</h3><p>經典街機致敬作品與網頁互動遊戲</p></span><span class="arrow" aria-hidden="true">↗</span></a><a class="lab-card" href="/games/xiaoyuge/"><span class="lab-icon" aria-hidden="true">≈</span><span><h3>小宇哥漁場</h3><p>以虱目魚養殖為主題的互動遊戲</p></span><span class="arrow" aria-hidden="true">↗</span></a></div></div></section>
+ <section class="contact" id="contact" aria-labelledby="contact-title"><div class="container"><div class="contact-panel"><div><div class="eyebrow">05 / GET IN TOUCH</div><h2 id="contact-title">下一個想法，<br>從一場交流開始。</h2><p>關於機械製造或工程相關需求，歡迎透過電話聯繫肇祥企業社。</p></div><div class="contact-actions"><a class="btn btn-primary" href="tel:+886425356555">聯絡我們 · (04) 2535-6555 <span aria-hidden="true">↗</span></a></div></div></div></section>
+</main>
+<footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-brand">肇祥企業社<small>MAXJIMTECH · ENGINEERING & FUTURE</small></div><div class="footer-links"><a href="#about">關於我們</a><a href="#expertise">專業領域</a><a href="/games/">哲肇遊戲館</a><a href="/fieldscope/privacy-policy.html">Fieldscope 隱私權政策</a></div></div><div class="copyright">© <span id="year">2026</span> 肇祥企業社 · 原創概念視覺，非實際產品照片。</div></div></footer>
+<script>
+(() => {
+  'use strict';
+  const button = document.getElementById('menu-toggle');
+  const nav = document.getElementById('site-nav');
+  const closeMenu = () => {
+    nav.dataset.open = 'false';
+    button.setAttribute('aria-expanded', 'false');
+    button.setAttribute('aria-label', '開啟導覽選單');
+    button.textContent = '☰';
+  };
+  button.addEventListener('click', () => {
+    const open = nav.dataset.open !== 'true';
+    nav.dataset.open = String(open);
+    button.setAttribute('aria-expanded', String(open));
+    button.setAttribute('aria-label', open ? '關閉導覽選單' : '開啟導覽選單');
+    button.textContent = open ? '✕' : '☰';
+  });
+  nav.addEventListener('click', event => {
+    if (event.target.closest('a')) closeMenu();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && nav.dataset.open === 'true') {
+      closeMenu();
+      button.focus();
+    }
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 800 && nav.dataset.open === 'true') closeMenu();
+  });
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
 </body>
 </html>
