@@ -1,7 +1,15 @@
 {
   "functions": {
     "api/score.js": {
-      "maxDuration": 10
+      "maxDuration": 30,
+      "includeFiles": "xiaoyuge/scores.json"
     }
-  }
+  },
+  "headers": [{
+    "source": "/api/score",
+    "headers": [
+      {"key": "Cache-Control", "value": "no-store"},
+      {"key": "X-Content-Type-Options", "value": "nosniff"}
+    ]
+  }]
 }
