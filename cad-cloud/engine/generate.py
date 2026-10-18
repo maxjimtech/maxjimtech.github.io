@@ -79,11 +79,14 @@ def run(c, output=None):
         doc.recompute()
         def machine_span(base,start,end,depth=0):
             suffix='%03d'%start if depth==0 else '%03d_%03d'%(start,end)
-            tool=doc.addObject('Part::Loft','CNCGrooveLoft_'+suffix);tool.Sections=profiles[start:end+1];tool.Solid=True;tool.Ruled=False;tool.Closed=False;tool.MaxDegree=8
+            # Consecutive tools overlap by one original section. Exactly shared
+            # end caps can leave an invalid coincident face in sequential cuts.
+            first=max(0,start-1)
+            tool=doc.addObject('Part::Loft','CNCGrooveLoft_'+suffix);tool.Sections=profiles[first:end+1];tool.Solid=True;tool.Ruled=False;tool.Closed=False;tool.MaxDegree=8
             doc.recompute();healthy(tool)
             try:
                 result=cut('CNCGrooveCut_'+suffix,base,tool)
-                ledger.append({'feature':result.Name,'valid':True,'volume_mm3':result.Shape.Volume,'sections':[start,end]});return result
+                ledger.append({'feature':result.Name,'valid':True,'volume_mm3':result.Shape.Volume,'sections':[first,end],'section_overlap':start-first});return result
             except RuntimeError:
                 if end-start<=2 or depth>=5:raise
                 # Preserve every section; refit shorter smooth lofts at a failing
