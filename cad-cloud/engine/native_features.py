@@ -167,13 +167,18 @@ class PoseChamferCut:
                             if not chamfer.isValid():raise ValueError('Invalid individual pose chamfer.')
                             material=cut.cut(chamfer)
                             if material.isNull() or not material.isValid() or material.Volume<=1e-8:raise ValueError('Individual chamfer removes no valid material.')
-                            removed.append(material);success=True;break
+                            clipped=material.common(obj.Base.Shape)
+                            if not clipped.isValid():raise ValueError('Invalid C0.5 tool intersection with actual cam stock.')
+                            if any(not s.isValid() or not s.isClosed() for s in clipped.Solids):raise ValueError('Invalid volumetric C0.5 tool fragment.')
+                            if abs(clipped.Volume-sum(s.Volume for s in clipped.Solids))>1e-7:raise ValueError('C0.5 clipping lost volumetric components.')
+                            removed.extend(clipped.Solids);success=True;break
                         except Exception as error:last=str(error)
                     if success:
                         if margin!=30:print('Pose bevel reference '+str(index)+' margin_mm='+str(margin),flush=True)
                         break
                 if not success:raise ValueError('C0.5 pose '+str(index)+' failed: '+last)
                 if index%20==0:print('Actual-edge Boolean C0.5 pose '+str(index+1)+'/'+str(len(active)),flush=True)
+            print('Clipped C0.5 solid tools: '+str(len(removed)),flush=True)
             result=obj.Base.Shape.cut(tuple(removed),1e-7).removeSplitter()
             if not result.isValid() or len(result.Solids)!=1 or not result.Solids[0].isClosed():raise ValueError('Invalid whole cam after pose bevel Boolean.')
             if not 0<result.Volume<obj.Base.Shape.Volume-1e-6:raise ValueError('Pose bevel removes no stock.')
