@@ -4,7 +4,7 @@ import FreeCAD as A, Part, Sketcher, TechDraw
 import datetime as task_datetime
 from requirements import validate
 from envelope import sections
-from native_features import Polygon, RevolvedRing, RobustCut, SplineSection, NativeEdgeChamfer
+from native_features import Polygon, RevolvedRing, RobustCut, SplineSection, NativeEdgeChamfer, CylindricalSweepCut
 ROOT=pathlib.Path(__file__).resolve().parent
 
 def log(s):print(s,flush=True)
@@ -70,66 +70,31 @@ def run(c, output=None):
         for name,r1,r2,h,z in [('LeftCentreCone',3.5,1.5,2/math.tan(math.pi/6),0),('RightCentreCone',3.25,4,.75/math.tan(math.pi/6),L-.75/math.tan(math.pi/6))]:
             o=doc.addObject('Part::Cone',name);o.Radius1=r1;o.Radius2=r2;o.Height=h;o.Placement.Base.z=z;cones.append(o)
         shaft=cut('ShaftCentreHoles',shaft,compound('CentreHoleTools',bores+cones))
-        log('Preparing continuous CNC envelope sections')
-        ss=sections(c,log);(out/'cutter_sections.json').write_text(json.dumps(ss))
-        profiles=[]
-        # Keep common vertex correspondence across every profile. Select a common
-        # stride only when all original radial sample points stay within 0.02 mm
-        # of the simplified section polyline; angular interpolation is ruled.
-        def section_error(points,stride):
-            indices=list(range(0,len(points)-1,stride))+[len(points)-1];maximum=0.
-            for first,last in zip(indices[:-1],indices[1:]):
-                a=points[first];b=points[last];dx=b[0]-a[0];dy=b[1]-a[1];den=dx*dx+dy*dy
-                for p in points[first:last+1]:
-                    t=max(0.,min(1.,((p[0]-a[0])*dx+(p[1]-a[1])*dy)/den)) if den else 0.
-                    maximum=max(maximum,math.hypot(p[0]-a[0]-t*dx,p[1]-a[1]-t*dy))
-            return maximum
-        stride=1;profile_error=0.
-        if len({len(s[k]) for s in ss for k in ['lower','upper']})==1:
-            for trial in [4,2,1]:
-                error=max(section_error(s[k],trial) for s in ss for k in ['lower','upper'])
-                if error<=.02:stride=trial;profile_error=error;break
-        log('Ruled envelope profile stride='+str(stride)+' max_sample_deviation_mm='+str(profile_error))
-        def reduced(points):return points[::stride] if (len(points)-1)%stride==0 else points[::stride]+[points[-1]]
-        for i,s in enumerate(ss):
-            a=s['alpha'];pts=[A.Vector(r*math.cos(a),r*math.sin(a),z) for r,z in reduced(s['lower'])+list(reversed(reduced(s['upper'])))]
-            o=doc.addObject('Part::FeaturePython','GrooveSection_%04d'%i);SplineSection(o,pts);hide(o);profiles.append(o)
-        doc.recompute()
-        for profile in profiles:
-            if profile.Shape.isNull():
-                raise RuntimeError('Null fitted section '+profile.Name+' state='+str(profile.State))
-        log('Fitted radial deviation_mm='+str(max(float(o.MaxPolylineDeviation) for o in profiles)))
-        def machine_span(base,start,end,depth=0):
-            suffix='%03d'%start if depth==0 else '%03d_%03d'%(start,end)
-            # Consecutive tools overlap by one original section. Exactly shared
-            # end caps can leave an invalid coincident face in sequential cuts.
-            first=max(0,start-1)
-            tool=doc.addObject('Part::Loft','CNCGrooveLoft_'+suffix);tool.Sections=profiles[first:end+1];tool.Solid=True;tool.Ruled=False;tool.Closed=False;tool.MaxDegree=25
-            doc.recompute();healthy(tool)
-            try:
-                result=cut('CNCGrooveCut_'+suffix,base,tool)
-                ledger.append({'feature':result.Name,'valid':True,'volume_mm3':result.Shape.Volume,'sections':[first,end],'section_overlap':start-first});return result
-            except RuntimeError:
-                raise
-        blank_volume=shaft.Shape.Volume
-        shaft=machine_span(shaft,0,len(ss)-1)
-        log('Continuous CNC removed_mm3='+str(blank_volume-shaft.Shape.Volume))
-        if blank_volume-shaft.Shape.Volume<1e-4:raise RuntimeError('Continuous CNC tool did not remove stock.')
-        log('Single continuous smooth CNC envelope cut complete')
+        R=c['roller_pcd_mm']/2;N=c['ratio'];ad=c['axis_distance_mm'];rr=c['roller_od_mm']/2+c['clearance_mm'];rad=c['cam_od_mm']/2;C=c['chamfer_mm']
+        span=max(.85,math.asin(min(.9,(W/2+rr+3)/R)));count=max(409,int(2*span*N*12)|1)
+        betas=[-span+2*span*i/(count-1) for i in range(count)]
+        for i in range(N):
+            beta=math.remainder(math.pi/2+2*math.pi*i/N,2*math.pi)
+            if -span<=beta<=span:betas.append(beta)
+        betas=sorted(set(round(beta,14) for beta in betas));poses=[]
+        turn=A.Rotation(A.Vector(0,0,1),A.Vector(1,0,0))
+        for i,beta in enumerate(betas):
+            spin=A.Rotation(A.Vector(0,0,1),-math.degrees(N*beta))
+            tool=doc.addObject('Part::Cylinder','FiniteCutterPose_%04d'%i);tool.Radius=rr;tool.Height=rad+1-c['cam_root_mm']/2
+            tool.Placement=A.Placement(spin.multVec(A.Vector(c['cam_root_mm']/2,ad-R*math.cos(beta),centre+R*math.sin(beta))),spin.multiply(turn))
+            hide(tool);poses.append(tool)
+        doc.recompute();log('Analytic finite-cylinder cutter poses: '+str(len(poses)))
+        base=shaft;shaft=doc.addObject('Part::FeaturePython','CNCFiniteCylinderSweep');CylindricalSweepCut(shaft,base,poses)
+        doc.recompute();healthy(shaft);hide(base)
+        log('Finite-cylinder CNC removed_mm3='+str(base.Shape.Volume-shaft.Shape.Volume))
+        ledger.append({'feature':shaft.Name,'valid':True,'volume_mm3':shaft.Shape.Volume,'method':'analytic finite-cylinder pose union','poses':len(poses)})
+        stride=0;profile_error=0.;profiles=[]
         before_path=out.parent/'pre_chamfer.step';shaft.Shape.exportStep(str(before_path))
         before=Part.Shape();before.read(str(before_path))
         log('Pre-chamfer STEP '+json.dumps({'valid':before.isValid(),'solids':len(before.Solids),'closed':all(s.isClosed() for s in before.Solids),'native_volume':shaft.Shape.Volume,'step_volume':before.Volume}))
         doc.saveAs(str(out.parent/'PRE_CHAMFER_DEBUG.FCStd'))
         if not before.isValid() or len(before.Solids)!=1 or not before.Solids[0].isClosed() or abs(before.Volume-shaft.Shape.Volume)>max(.001,shaft.Shape.Volume*1e-5):
             raise RuntimeError('Pre-chamfer STEP validation failed')
-        # Continuous edge C cut: same conjugate contact formula as groove generation.
-        R=c['roller_pcd_mm']/2;N=c['ratio'];ad=c['axis_distance_mm'];rr=c['roller_od_mm']/2+c['clearance_mm'];rad=c['cam_od_mm']/2;C=c['chamfer_mm']
-        def edge(alpha,r,sign):
-            b=-alpha/N
-            for _ in range(45):
-                x=r*math.cos(alpha+N*b);vy=R*math.sin(b)-N*x;vz=R*math.cos(b);v=math.hypot(vy,vz);cu=sign*vz/v;su=-sign*vy/v;y=ad-R*math.cos(b)+rr*cu;t=math.asin(max(-.999999,min(.999999,y/r)));b=(t-alpha)/N
-            x=r*math.cos(alpha+N*b);vy=R*math.sin(b)-N*x;vz=R*math.cos(b);v=math.hypot(vy,vz);cu=sign*vz/v;su=-sign*vy/v;z=centre+R*math.sin(b)+rr*su
-            return A.Vector(r*math.cos(alpha),r*math.sin(alpha),z),A.Vector(-math.sin(N*b)*cu,-math.cos(N*b)*cu,-su)
         edge_indices=[]
         for index,edge_shape in enumerate(shaft.Shape.Edges,1):
             samples=edge_shape.discretize(Number=5)
@@ -211,8 +176,8 @@ def run(c, output=None):
                     if volume>1e-5:collisions.append({'a':links[i].Name,'b':links[j].Name,'volume_mm3':volume})
             log('Interference pairs: '+str(len(collisions)))
         checks['interference_tested']=c['check_interference'];checks['interferences']=collisions
-        checks['cam_surface_method']='ruled interpolation of cubic fitted radial envelope sections; continuous curvature not certified'
-        checks['radial_profile_stride']=stride;checks['radial_sample_deviation_mm']=profile_error;checks['radial_spline_polyline_deviation_mm']=max(float(o.MaxPolylineDeviation) for o in profiles)
+        checks['cam_surface_method']='analytic finite-cylinder tool poses; finite angular sampling; continuous curvature not certified'
+        checks['radial_profile_stride']=stride;checks['radial_sample_deviation_mm']=profile_error;checks['radial_spline_polyline_deviation_mm']=None
         doc.saveAs(str(out/'NativeGeometry.FCStd'))
         log('Building native TechDraw pages')
         from drawings import build_pages

@@ -113,3 +113,21 @@ class NativeEdgeChamfer:
             print('Actual-edge chamfer failed: '+str(error),flush=True);raise
     def dumps(self):return None
     def loads(self,state):pass
+
+class CylindricalSweepCut:
+    def __init__(self,obj,base,tools):
+        obj.addProperty('App::PropertyLink','Base','Machining');obj.Base=base
+        obj.addProperty('App::PropertyLinkList','CutterPoses','Machining');obj.CutterPoses=tools
+        obj.addProperty('App::PropertyFloat','FuzzyTolerance','Machining');obj.FuzzyTolerance=1e-7;obj.Proxy=self
+    def execute(self,obj):
+        signature=(obj.Base.Shape.hashCode(),tuple(t.Shape.hashCode() for t in obj.CutterPoses),obj.FuzzyTolerance)
+        if not obj.Shape.isNull() and getattr(self,'_signature',None)==signature:return
+        try:
+            result=obj.Base.Shape.cut(tuple(t.Shape for t in obj.CutterPoses),float(obj.FuzzyTolerance)).removeSplitter()
+            if not result.isValid() or len(result.Solids)!=1 or not result.Solids[0].isClosed():raise ValueError('Invalid finite-cylinder sweep cut.')
+            if not 0<result.Volume<obj.Base.Shape.Volume-1e-4:raise ValueError('Finite-cylinder sweep removed no material.')
+            obj.Shape=result;self._signature=signature
+        except Exception as error:
+            print('Finite-cylinder sweep failed: '+str(error),flush=True);raise
+    def dumps(self):return None
+    def loads(self,state):pass
