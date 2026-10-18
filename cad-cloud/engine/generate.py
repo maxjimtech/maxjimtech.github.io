@@ -143,6 +143,8 @@ def run(c, output=None):
         doc.recompute()
         step_checks=[]
         def export_verified(shape,path,expected):
+            sources=out/'verification_sources';sources.mkdir(exist_ok=True)
+            shape.exportBrep(str(sources/(path.stem+'.brep')))
             shape.exportStep(str(path));restored=Part.Shape();restored.read(str(path))
             row={'file':path.name,'valid':restored.isValid(),'solids':len(restored.Solids),'closed':all(s.isClosed() for s in restored.Solids),'source_volume_mm3':shape.Volume,'step_volume_mm3':restored.Volume}
             step_checks.append(row);log('Early STEP round-trip '+json.dumps(row))
@@ -166,7 +168,8 @@ def run(c, output=None):
             log('Interference pairs: '+str(len(collisions)))
         checks['interference_tested']=c['check_interference'];checks['interferences']=collisions
         checks['cam_surface_method']='analytic finite-cylinder tool poses; finite angular sampling; continuous curvature not certified'
-        checks['radial_profile_stride']=stride;checks['radial_sample_deviation_mm']=profile_error;checks['radial_spline_polyline_deviation_mm']=None
+        checks['radial_profile_stride']=None;checks['radial_sample_deviation_mm']=None;checks['radial_spline_polyline_deviation_mm']=None
+        checks['step_geometric_acceptance_mm']=.01
         doc.saveAs(str(out/'NativeGeometry.FCStd'))
         log('Building native TechDraw pages')
         from drawings import build_pages
@@ -176,9 +179,15 @@ def run(c, output=None):
         for p in pages:export_page(p,out/'DXF'/(p.Name+'.dxf'),c['project'])
         # Reopen serialized native document, verify object graph and actual STEP files.
         part_names=[shaft.Name,plate.Name,roller.Name]
+        saved_volumes={name:doc.getObject(name).Shape.Volume for name in part_names}
         A.closeDocument(doc.Name);doc=A.openDocument(str(fc));doc.recompute()
         checks['reopen_native_solids']=[len(doc.getObject(name).Shape.Solids) for name in part_names]
         for name in part_names:healthy(doc.getObject(name))
+        checks['reopen_native_volume_checks']=[]
+        for name in part_names:
+            restored_volume=doc.getObject(name).Shape.Volume
+            if abs(restored_volume-saved_volumes[name])>max(.001,abs(saved_volumes[name])*1e-5):raise RuntimeError('Native reopen volume mismatch: '+name)
+            checks['reopen_native_volume_checks'].append({'part':name,'saved_volume_mm3':saved_volumes[name],'reopened_volume_mm3':restored_volume})
         checks['reopen_native_valid']=[doc.getObject(name).Shape.isValid() for name in part_names]
         checks['drawing_pages']=len(pages);checks['native_dimensions']=len(dimensions)
         checks['step_reopen']=step_checks

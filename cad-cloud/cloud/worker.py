@@ -13,6 +13,14 @@ def main():
     c = json.loads((work / 'requirements.json').read_text(encoding='utf-8'))
     started = time.time()
     run(c, str(out))
+    subprocess.run([sys.executable, '-B', str(ROOT/'tools/check_steps.py'), str(out)], check=True)
+    independent=json.loads((out/'step_independent_check.json').read_text(encoding='utf-8'))
+    if independent['process_id']==os.getpid():
+        raise RuntimeError('STEP audit must run in a fresh process')
+    validation=json.loads((out/'validation.json').read_text(encoding='utf-8'))
+    validation['step_independent_process']=independent
+    (out/'validation.json').write_text(json.dumps(validation,indent=2),encoding='utf-8')
+    shutil.rmtree(out/'verification_sources')
     if (work/'runtime.json').exists():
         shutil.copyfile(work/'runtime.json',out/'runtime.json')
     # Preview uses saved STEP solids, never an invented display-only cam.

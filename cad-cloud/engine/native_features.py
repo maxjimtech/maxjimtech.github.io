@@ -264,33 +264,16 @@ class ActualArcChamfer:
                     q=p+flank_dir*size;u,v=face.Surface.parameter(q);p1=face.Surface.value(u,v)
                     p2=p+(radial+normal)*max(1.,2*size)
                     wires.append(Part.makePolygon([p0,p1,p2,p0]));distances.extend([(p0-p).Length,(p1-p).Length])
-                # Keep all actual curves as the source, simplify only the matched
-                # wedge sections within 0.02 mm before explicitly sewing ruled faces.
-                profiles=[[v.Point for v in wire.Vertexes] for wire in wires]
-                def deviation(first,last,index):
-                    maximum=0.
-                    for vertex in range(3):
-                        a=profiles[first][vertex];b=profiles[last][vertex];p=profiles[index][vertex]
-                        d=b-a;length=d.dot(d);t=max(0.,min(1.,(p-a).dot(d)/length)) if length else 0.
-                        maximum=max(maximum,(p-(a+d*t)).Length)
-                    return maximum
-                keep={0,len(profiles)-1};pending=[(0,len(profiles)-1)]
-                while pending:
-                    first,last=pending.pop()
-                    if last<=first+1:continue
-                    value,index=max((deviation(first,last,k),k) for k in range(first+1,last))
-                    if value>.02:keep.add(index);pending.extend([(first,index),(index,last)])
-                profiles=[profiles[k] for k in sorted(keep)]
-                print('Actual edge strip '+str(chain_index)+' profiles='+str(len(wires))+' simplified='+str(len(profiles)),flush=True)
-                triangles=[Part.makePolygon(points+[points[0]]) for points in profiles]
-                faces=[]
-                for first,last in zip(triangles,triangles[1:]+([triangles[0]] if closed else [])):
-                    for a,b in zip(first.Edges,last.Edges):faces.append(Part.makeRuledSurface(a,b))
-                if not closed:faces.extend([Part.Face(triangles[0]),Part.Face(triangles[-1])])
-                tool=Part.makeSolid(Part.makeShell(faces))
-                if tool.Volume<0:tool.reverse()
-                if not tool.isValid() or len(tool.Solids)!=1 or not tool.Solids[0].isClosed():raise ValueError('Invalid actual-edge wedge strip '+str(chain_index))
-                tools.append(tool);evidence.append({'chain':chain_index,'samples':len(path),'closed':closed,'offset_min_mm':min(distances),'offset_max_mm':max(distances)})
+                if closed:wires.append(wires[0])
+                chunks=0
+                for start in range(0,len(wires)-1,16):
+                    section=wires[start:min(start+17,len(wires))]
+                    print('Actual edge chain '+str(chain_index)+' wedge sections '+str(start)+'/'+str(len(wires)),flush=True)
+                    tool=Part.makeLoft(section,True,True,False,3)
+                    if tool.Volume<0:tool.reverse()
+                    if not tool.isValid() or len(tool.Solids)!=1 or not tool.Solids[0].isClosed():raise ValueError('Invalid actual-edge wedge strip '+str(chain_index)+' at '+str(start))
+                    tools.append(tool);chunks+=1
+                evidence.append({'chain':chain_index,'samples':len(path),'closed':closed,'boolean_tools':chunks,'offset_min_mm':min(distances),'offset_max_mm':max(distances)})
                 print('Actual 3D C-edge wedge '+str(chain_index+1)+'/'+str(len(groups))+' samples='+str(len(path)),flush=True)
             for tolerance in [1e-7,1e-6,1e-5,1e-4]:
                 result=base.cut(tuple(tools),tolerance).removeSplitter()
