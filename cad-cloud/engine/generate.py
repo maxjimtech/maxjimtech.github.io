@@ -104,7 +104,7 @@ def run(c, output=None):
             # Consecutive tools overlap by one original section. Exactly shared
             # end caps can leave an invalid coincident face in sequential cuts.
             first=max(0,start-1)
-            tool=doc.addObject('Part::Loft','CNCGrooveLoft_'+suffix);tool.Sections=profiles[first:end+1];tool.Solid=True;tool.Ruled=True;tool.Closed=False;tool.MaxDegree=3
+            tool=doc.addObject('Part::Loft','CNCGrooveLoft_'+suffix);tool.Sections=profiles[first:end+1];tool.Solid=True;tool.Ruled=False;tool.Closed=False;tool.MaxDegree=3
             doc.recompute();healthy(tool)
             try:
                 result=cut('CNCGrooveCut_'+suffix,base,tool)
@@ -112,7 +112,13 @@ def run(c, output=None):
             except RuntimeError:
                 raise
         shaft=machine_span(shaft,0,len(ss)-1)
-        log('Single continuous CNC envelope cut complete')
+        log('Single continuous smooth CNC envelope cut complete')
+        before_path=out.parent/'pre_chamfer.step';shaft.Shape.exportStep(str(before_path))
+        before=Part.Shape();before.read(str(before_path))
+        log('Pre-chamfer STEP '+json.dumps({'valid':before.isValid(),'solids':len(before.Solids),'closed':all(s.isClosed() for s in before.Solids),'native_volume':shaft.Shape.Volume,'step_volume':before.Volume}))
+        doc.saveAs(str(out.parent/'PRE_CHAMFER_DEBUG.FCStd'))
+        if not before.isValid() or len(before.Solids)!=1 or not before.Solids[0].isClosed() or abs(before.Volume-shaft.Shape.Volume)>max(.001,shaft.Shape.Volume*1e-5):
+            raise RuntimeError('Pre-chamfer STEP validation failed')
         # Continuous edge C cut: same conjugate contact formula as groove generation.
         R=c['roller_pcd_mm']/2;N=c['ratio'];ad=c['axis_distance_mm'];rr=c['roller_od_mm']/2+c['clearance_mm'];rad=c['cam_od_mm']/2;C=c['chamfer_mm']
         def edge(alpha,r,sign):

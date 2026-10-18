@@ -81,7 +81,7 @@ class SplineSection:
             if side_index:edges.append(Part.makeLine(lower[-1],upper[0]))
             for first,last in zip(ends[:-1],ends[1:]):
                 original=side[first:last+1]
-                curve=Part.BSplineCurve();curve.interpolate(original);edge=curve.toShape();edges.append(edge)
+                curve=Part.BSplineCurve();curve.interpolate(Points=original,Parameters=[float(i) for i in range(len(original))]);edge=curve.toShape();edges.append(edge)
                 for p in edge.discretize(Number=65):
                     best=float('inf')
                     for a,b in zip(original[:-1],original[1:]):
