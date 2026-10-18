@@ -32,6 +32,8 @@ jobs:
           node --check server/handler.mjs
           node --check ../api/cad.mjs
           node --check server/start.mjs
+          node --check tests/guest_e2e.mjs
+          python -B -c "import ast,pathlib; ast.parse(pathlib.Path('tests/check_live_package.py').read_text(encoding='utf-8'))"
           node --check ../services/cad-cloud/viewer.js
           node --check ../services/cad-cloud/sw.js
           python -B -m unittest discover -s tests -v
