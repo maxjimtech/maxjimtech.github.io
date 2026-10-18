@@ -29,6 +29,13 @@ with zipfile.ZipFile(root/'CAD-delivery.zip') as archive:
         assert abs(native_check['saved_volume_mm3']-native_check['reopened_volume_mm3']) <= max(.001,abs(native_check['saved_volume_mm3'])*1e-5)
     independent = validation['step_independent_process']
     assert independent['status'] == 'PASS'
+    assert len(independent['files']) == 4
+    for evidence in independent['files']:
+        geometry=evidence['geometry_deviation']
+        assert geometry['tolerance_mm'] == .01
+        for direction in ['native_to_step','step_to_native']:
+            assert geometry[direction]['samples']>0
+            assert geometry[direction]['maximum_sampled_deviation_mm']<=.01
     assert not validation['interferences']
     steps = validation['step_reopen']
     assert len(steps) == 4

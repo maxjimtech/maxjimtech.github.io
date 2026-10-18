@@ -1,17 +1,19 @@
 {
-  "version": "2.1.0",
+  "version": "2.2.0",
   "date": "2026-10-18",
   "engine_source": "../FreeCAD_AutoMechanism",
   "previous_release": "RD065_FreeCAD_自動建模程式_V1.zip",
   "execution": "github-hosted-windows-only",
   "remote_repository": "maxjimtech/maxjimtech.github.io",
-  "deployment_status": "BACKEND_GITHUB_READ_PASS_CAD_RUNNING",
+  "deployment_status": "SAMPLE_NATIVE_AND_FOUR_STEP_PASS_GEOMETRIC_AUDIT_RUNNING",
   "site_path": "/services/cad-cloud/",
-  "cloud_validation": "RULED_ENVELOPE_CANDIDATE_RUNNING",
+  "cloud_validation": "FINITE_CYLINDER_SAMPLE_NO_CAM_CHAMFERS",
   "cad_scope": "RD065 review family; not production-qualified",
   "guest_status": "GITHUB_READ_PASS_SUBMIT_NOT_VERIFIED",
   "guest_api": "https://rd065-cad-guest.vercel.app/api/cad",
   "daily_generation_limit": 4,
   "quota_timezone": "Asia/Taipei",
-  "contact": "0931675001"
+  "contact": "0931675001",
+  "step_native_tolerance_mm": 0.01,
+  "cam_chamfers": "OMITTED_USER_AUTHORIZED_SAMPLE"
 }

@@ -58,7 +58,9 @@ try{
   await page.screenshot({path:out+'/model-desktop.png',fullPage:true});
   await page.locator('[data-tab="drawings"]').click();
   for(const name of ['AssemblyDrawing','CamDrawing','PlateDrawing','RollerDrawing']){
+    const previousDrawing=await page.locator('#drawing').getAttribute('src');
     await page.locator('#drawing-select').selectOption(name);
+    await expect.poll(()=>page.locator('#drawing').getAttribute('src'),{timeout:60000}).not.toBe(previousDrawing);
     await expect(page.locator('#drawing')).toBeVisible({timeout:60000});
     await expect.poll(()=>page.locator('#drawing').evaluate(el=>el.complete&&el.naturalWidth>0),{timeout:60000}).toBe(true);
     await page.screenshot({path:out+'/'+name+'.png',fullPage:true});

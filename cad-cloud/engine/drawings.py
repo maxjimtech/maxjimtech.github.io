@@ -50,7 +50,7 @@ def build_pages(doc,c,cam,plate,roller,links,out):
         stock=doc.addObject('Part::Cylinder','CamStock');stock.Radius=c['cam_od_mm']/2;stock.Height=c['cam_width_mm'];stock.Placement.Base.z=71;doc.recompute();stock.Visibility=False
     end=view(p,'CamStockEndReference',[stock],(0,0,1),355,180,1,(1,0,0))
     extent(p,front,'CamOverallLength','x',190,220,c['shaft_length_mm']);circle_dim(p,end,'CamNominalOD',c['cam_od_mm']/2,355,225)
-    note(p,'CamNotes',['CNC 4-axis continuous cutter groove','Nominal root DIA '+str(c['cam_root_mm'])+'; working width '+str(c['cam_width_mm']),'External edge C'+str(c['chamfer_mm']),'M20x1.5: nominal 15 mm thread blank','M6x1: nominal 12 mm incl. 5 mm counterbore','Conventional thread representation; teeth not modeled','Cam curve views: fast polygonal projection','OD dimension linked to native stock reference','REVIEW: tolerances / finish / fits not specified'],275,89)
+    note(p,'CamNotes',['CNC 4-axis continuous cutter groove','Nominal root DIA '+str(c['cam_root_mm'])+'; working width '+str(c['cam_width_mm']),'Cam outer-edge chamfers omitted (sample)','M20x1.5: nominal 15 mm thread blank','M6x1: nominal 12 mm incl. 5 mm counterbore','Conventional thread representation; teeth not modeled','Cam curve views: fast polygonal projection','OD dimension linked to native stock reference','REVIEW: tolerances / finish / fits not specified'],275,89)
     p=page('PlateDrawing','2A Roller plate / review')
     pv=view(p,'PlateFront',[plate],(0,0,1),120,168,1,(1,0,0));side=view(p,'PlateSide',[plate],(1,0,0),315,175,1,(0,0,1))
     circle_dim(p,pv,'PlateOutsideDiameter',c['plate_od_mm']/2,110,262);circle_dim(p,pv,'PlateBoreDiameter',c['plate_bore_mm']/2,122,170)

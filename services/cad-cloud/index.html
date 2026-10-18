@@ -3,29 +3,29 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#102a38"><meta name="description" content="需求驅動的雲端 FreeCAD：原生模型、STEP 與 DXF 工程圖。">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'self' https://api.github.com; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'self' https://api.github.com https://rd065-cad-guest.vercel.app; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>RD065 · CAD Cloud</title><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header><a class="brand" href="./"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2 37 11v18L20 38 3 29V11Z M3 11l17 9 17-9 M20 20v18"/></svg><span>CAD <b>CLOUD</b><small>RD065 / FREECAD</small></span></a><div class="header-actions"><span class="badge"><i></i>GitHub 雲端運算</span><button id="install">安裝程式</button><button id="settings">連線設定</button></div></header>
 <main>
   <section class="intro"><div><p class="eyebrow">REQUIREMENTS → NATIVE MODEL → ENGINEERING DRAWING</p><h1>把設計條件，變成整組機構。</h1><p>輸入需求，在雲端建立可編輯 3D 與工程圖。所有 CAD 計算由 GitHub Actions 執行。</p></div><div class="edition">01<span>單頭等速凸輪</span><small>RD065 FAMILY · REVIEW</small></div></section>
-  <div id="banner" role="status" aria-live="polite">尚未連線。先設定 GitHub 儲存庫與存取權限。</div>
+  <div id="banner" role="status" aria-live="polite">正在連接雲端生成服務…</div>
   <div class="workspace">
     <section class="panel requirements"><div class="panel-head"><div><span class="number">01</span><h2>設計條件</h2></div><button id="reset" class="text">還原 RD065</button></div>
-      <form id="requirements"><div id="fields"></div><label class="checkbox"><input id="interference" type="checkbox" checked>執行整組靜態干涉檢查</label><div class="form-tools"><button type="button" id="save-config">匯出條件</button><label class="file-button">匯入條件<input type="file" id="import" accept=".json,application/json"></label></div><button id="submit" class="primary" type="submit">在雲端生成 <span>↗</span></button><p class="hint" id="usage-policy">全站每日最多申請生成 4 次，台灣時間午夜重置（失敗亦計次）。<br>需要增加使用次數，請聯絡 <a href="tel:0931675001">0931675001</a>。</p><p class="hint">原生 FCStd + STEP + DXF · 既有圖框配置<br>每次產生獨立版本；完成前請保留工作編號。</p></form>
+      <form id="requirements"><div id="fields"></div><label class="checkbox"><input id="interference" type="checkbox" checked>執行整組靜態干涉檢查</label><div class="form-tools"><button type="button" id="save-config">匯出條件</button><label class="file-button">匯入條件<input type="file" id="import" accept=".json,application/json"></label></div><button id="submit" class="primary" type="submit">在雲端生成 <span>↗</span></button><p class="hint" id="usage-policy">全站每日最多申請生成 4 次，台灣時間午夜重置（保留額度後失敗亦計次）。<br>需要增加使用次數，請聯絡 <a href="tel:0931675001">0931675001</a>。</p><p class="hint">原生 FCStd + STEP + DXF · 既有圖框配置<br>每次產生獨立版本；完成前請保留工作編號。</p></form>
     </section>
     <div class="right-column">
       <section class="panel preview"><div class="panel-head"><div><span class="number">02</span><h2>模型與圖面</h2></div><div class="tabs" role="tablist" aria-label="成果類型"><button class="active" data-tab="model" role="tab" aria-selected="true">3D 模型</button><button data-tab="drawings" role="tab" aria-selected="false">2D 圖面</button><button data-tab="validation" role="tab" aria-selected="false">驗證紀錄</button></div></div>
         <div id="model" class="tab-content"><canvas id="viewer" aria-label="生成後的 STEP 模型預覽"></canvas><div id="empty"><div class="wire-cube">◇</div><h3>等待第一組雲端模型</h3><p>這裡將顯示實際 STEP 產生的組立網格。</p><span>Ø14 滾子 / Ø50 凸輪 / Ø32 根徑</span></div><div class="viewer-tools"><span>拖曳旋轉 · 滾輪縮放</span><button id="fit">重設視角</button></div></div>
         <div id="drawings" class="tab-content" hidden><select id="drawing-select" aria-label="選擇工程圖"><option value="AssemblyDrawing">機構組合圖</option><option value="CamDrawing">凸輪軸</option><option value="PlateDrawing">滾子盤</option><option value="RollerDrawing">滾子外型</option></select><div id="drawing-empty" class="placeholder">完成雲端工作後，可在此查看 DXF 圖面預覽。</div><img id="drawing" hidden alt="實際 DXF 產生的工程圖預覽"></div>
         <div id="validation" class="tab-content" hidden><p id="validation-empty" class="placeholder">尚無驗證資料。</p><div id="metrics"></div><pre id="report"></pre></div>
-        <div class="review-note"><span>REVIEW</span>公差、粗糙度、配合及全週期運動尚待確認。本工具沿用 RD065 固定輔助孔與軸端配置。</div>
+        <div class="review-note"><span>REVIEW</span>樣品版：凸輪外緣未倒角。公差、粗糙度、配合及全週期運動尚待確認。本工具沿用 RD065 固定輔助孔與軸端配置。</div>
       </section>
       <section class="panel jobs"><div class="panel-head"><div><span class="number">03</span><h2>雲端工作</h2></div><button id="refresh" class="text">重新整理 ↻</button></div><div id="jobs"><p class="placeholder">連線後會顯示工作進度、紀錄與下載。</p></div></section>
     </div>
   </div>
-  <footer><span>CAD CLOUD <b>2.1.0</b></span><span>瀏覽器負責操作與顯示，CAD 建模僅在 GitHub 託管執行器運算。</span></footer>
+  <footer><span>CAD CLOUD <b>2.2.0</b></span><span>瀏覽器負責操作與顯示，CAD 建模僅在 GitHub 託管執行器運算。</span></footer>
 </main>
 <dialog id="connection"><form id="connect"><div class="dialog-head"><h2>連接 GitHub</h2><button type="button" id="close-settings" aria-label="關閉">×</button></div><p>使用具有儲存庫權限的 GitHub 帳號啟動雲端工作。</p><label>儲存庫 <input id="repository" placeholder="帳號／儲存庫名稱" required pattern="[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+" autocomplete="off"></label><label>分支 <input id="branch" value="main" required autocomplete="off"></label><label>Fine-grained 存取權杖 <input id="token" type="password" required autocomplete="off" spellcheck="false"></label><p><a href="https://github.com/settings/personal-access-tokens/new?name=RD065-CAD-Cloud&amp;target_name=maxjimtech&amp;expires_in=30&amp;actions=write&amp;contents=read" target="_blank" rel="noopener noreferrer">建立 GitHub 權杖（預填權限） ↗</a></p><p class="hint">建立時選 Only select repositories → maxjimtech.github.io。權限：此儲存庫的 Actions 讀寫、Contents 唯讀。權杖只存在頁面記憶體，直接送往 GitHub API，不寫入瀏覽器儲存空間；重新開啟時需重新連線。</p><button type="submit" class="primary" id="connect-button">驗證並連線</button><button type="button" id="disconnect">清除連線</button><p id="connect-error" role="alert"></p></form></dialog>
 <script type="module" src="app.js"></script>

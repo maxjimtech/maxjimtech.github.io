@@ -20,6 +20,7 @@ def main():
     validation=json.loads((out/'validation.json').read_text(encoding='utf-8'))
     validation['step_independent_process']=independent
     (out/'validation.json').write_text(json.dumps(validation,indent=2),encoding='utf-8')
+    shutil.rmtree(out/'verification_sources')
     if (work/'runtime.json').exists():
         shutil.copyfile(work/'runtime.json',out/'runtime.json')
     # Preview uses saved STEP solids, never an invented display-only cam.
