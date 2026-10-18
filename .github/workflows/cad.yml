@@ -67,6 +67,9 @@ jobs:
           $font = Join-Path $env:RUNNER_TEMP 'NotoSansCJKtc-Regular.otf'
           Invoke-WebRequest 'https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf' -OutFile $font
           "CAD_PREVIEW_FONT=$font" >> $env:GITHUB_ENV
+      - name: Prepare slim headless FreeCAD runtime
+        shell: pwsh
+        run: ./cloud/slim_runtime.ps1
       - name: Native CAD, STEP, DXF and web preview
         shell: pwsh
         run: |

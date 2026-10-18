@@ -1,5 +1,5 @@
 """Authoritative native generation on a GitHub-hosted Windows runner."""
-import json, os, pathlib, subprocess, sys, time, traceback
+import json, os, pathlib, shutil, subprocess, sys, time, traceback
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'engine'))
 import FreeCAD as A, Part
@@ -13,6 +13,8 @@ def main():
     c = json.loads((work / 'requirements.json').read_text(encoding='utf-8'))
     started = time.time()
     run(c, str(out))
+    if (work/'runtime.json').exists():
+        shutil.copyfile(work/'runtime.json',out/'runtime.json')
     # Preview uses saved STEP solids, never an invented display-only cam.
     shape = Part.Shape()
     shape.read(str(out / 'STEP/Assembly.step'))

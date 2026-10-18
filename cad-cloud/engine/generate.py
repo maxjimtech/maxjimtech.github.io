@@ -82,7 +82,7 @@ def run(c, output=None):
             # Consecutive tools overlap by one original section. Exactly shared
             # end caps can leave an invalid coincident face in sequential cuts.
             first=max(0,start-1)
-            tool=doc.addObject('Part::Loft','CNCGrooveLoft_'+suffix);tool.Sections=profiles[first:end+1];tool.Solid=True;tool.Ruled=False;tool.Closed=False;tool.MaxDegree=8
+            tool=doc.addObject('Part::Loft','CNCGrooveLoft_'+suffix);tool.Sections=profiles[first:end+1];tool.Solid=True;tool.Ruled=False;tool.Closed=False;tool.MaxDegree=3
             doc.recompute();healthy(tool)
             try:
                 result=cut('CNCGrooveCut_'+suffix,base,tool)
@@ -115,7 +115,7 @@ def run(c, output=None):
                 vf=-er+n*n.dot(er);vf.normalize();f=e+vf*C;af=a+math.atan2(math.sin(math.atan2(f.y,f.x)-a),math.cos(math.atan2(f.y,f.x)-a));f=edge(af,math.hypot(f.x,f.y),sign)[0]
                 o=doc.addObject('Part::FeaturePython',name+'CSection_%04d'%i);Polygon(o,[cf,f,e+er+n]);hide(o);pp.append(o)
             if len(pp)<4:raise ValueError('Chamfer envelope outside supported domain.')
-            tool=doc.addObject('Part::Loft',name+'C05Loft');tool.Sections=pp;tool.Solid=True;tool.MaxDegree=8;doc.recompute();healthy(tool);shaft=cut(name+'ContinuousEdgeChamfer',shaft,tool);log(name+' continuous C edge complete')
+            tool=doc.addObject('Part::Loft',name+'C05Loft');tool.Sections=pp;tool.Solid=True;tool.MaxDegree=3;doc.recompute();healthy(tool);shaft=cut(name+'ContinuousEdgeChamfer',shaft,tool);log(name+' continuous C edge complete')
         for name,z,sg in [('CamLeftEndC',cam0,1),('CamRightEndC',cam1,-1),('LeftShaftEndC',0,1)]:
             r=rad if name.startswith('Cam') else 9;v=C if name.startswith('Cam') else 1
             points=[A.Vector(r-v,0,z),A.Vector(r+.2,0,z),A.Vector(r+.2,0,z+sg*(v+.2))]
@@ -186,12 +186,17 @@ def run(c, output=None):
         part_names=[shaft.Name,plate.Name,roller.Name]
         A.closeDocument(doc.Name);doc=A.openDocument(str(fc));doc.recompute()
         checks['reopen_native_solids']=[len(doc.getObject(name).Shape.Solids) for name in part_names]
+        for name in part_names:healthy(doc.getObject(name))
+        checks['reopen_native_valid']=[doc.getObject(name).Shape.isValid() for name in part_names]
         checks['drawing_pages']=len(pages);checks['native_dimensions']=len(dimensions)
         checks['step_reopen']=[]
         for p in (out/'STEP').glob('*.step'):
             sh=Part.Shape();sh.read(str(p));valid=sh.isValid();expected=c['roller_count']+2 if p.stem=='Assembly' else 1
             checks['step_reopen'].append({'file':p.name,'valid':valid,'solids':len(sh.Solids)})
-            if not valid or len(sh.Solids)!=expected:raise RuntimeError('STEP verification failed: '+p.name)
+            log('STEP round-trip '+p.name+' valid='+str(valid)+' solids='+str(len(sh.Solids))+' shells='+str(len(sh.Shells)))
+            if not valid or len(sh.Solids)!=expected:
+                (out/'step_failure.json').write_text(json.dumps(checks,indent=2))
+                raise RuntimeError('STEP verification failed: '+p.name)
         # Optional DWG only when explicitly configured; no false renamed DXF.
         checks['dwg_status']='not_requested'
         if c.get('dwg_converter'):
