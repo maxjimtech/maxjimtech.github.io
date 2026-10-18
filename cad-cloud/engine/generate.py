@@ -9,7 +9,8 @@ ROOT=pathlib.Path(__file__).resolve().parent
 
 def log(s):print(s,flush=True)
 def healthy(o):
-    if o.Shape.isNull() or not o.Shape.isValid() or len(o.Shape.Solids)!=1:
+    if o.Shape.isNull():raise RuntimeError('Null solid: '+o.Name)
+    if not o.Shape.isValid() or len(o.Shape.Solids)!=1:
         raise RuntimeError('Invalid or disconnected solid: '+o.Name+' valid='+str(o.Shape.isValid())+' solids='+str(len(o.Shape.Solids))+' volumes='+str([s.Volume for s in o.Shape.Solids]))
 
 def run(c, output=None):
@@ -76,9 +77,23 @@ def run(c, output=None):
             a=s['alpha'];pts=[A.Vector(r*math.cos(a),r*math.sin(a),z) for r,z in s['lower']+list(reversed(s['upper']))]
             o=doc.addObject('Part::FeaturePython','GrooveSection_%04d'%i);Polygon(o,pts);hide(o);profiles.append(o)
         doc.recompute()
+        def machine_span(base,start,end,depth=0):
+            suffix='%03d'%start if depth==0 else '%03d_%03d'%(start,end)
+            tool=doc.addObject('Part::Loft','CNCGrooveLoft_'+suffix);tool.Sections=profiles[start:end+1];tool.Solid=True;tool.Ruled=False;tool.Closed=False;tool.MaxDegree=8
+            doc.recompute();healthy(tool)
+            try:
+                result=cut('CNCGrooveCut_'+suffix,base,tool)
+                ledger.append({'feature':result.Name,'valid':True,'volume_mm3':result.Shape.Volume,'sections':[start,end]});return result
+            except RuntimeError:
+                if end-start<=2 or depth>=5:raise
+                # Preserve every section; refit shorter smooth lofts at a failing
+                # stock-boundary intersection instead of delivering an invalid cut.
+                log('Subdivide native cutter span '+str(start)+':'+str(end))
+                doc.removeObject(tool.Name);middle=(start+end)//2
+                left=machine_span(base,start,middle,depth+1)
+                return machine_span(left,middle,end,depth+1)
         for start in range(0,len(ss)-1,30):
-            tool=doc.addObject('Part::Loft','CNCGrooveLoft_%03d'%start);tool.Sections=profiles[start:min(start+31,len(ss))];tool.Solid=True;tool.Ruled=False;tool.Closed=False;tool.MaxDegree=8
-            doc.recompute();healthy(tool);shaft=cut('CNCGrooveCut_%03d'%start,shaft,tool);ledger.append({'feature':shaft.Name,'valid':True,'volume_mm3':shaft.Shape.Volume});log('Native groove cut %d/%d'%(start//30+1,math.ceil((len(ss)-1)/30)))
+            shaft=machine_span(shaft,start,min(start+30,len(ss)-1));log('Native groove cut %d/%d'%(start//30+1,math.ceil((len(ss)-1)/30)))
         # Continuous edge C cut: same conjugate contact formula as groove generation.
         R=c['roller_pcd_mm']/2;N=c['ratio'];ad=c['axis_distance_mm'];rr=c['roller_od_mm']/2+c['clearance_mm'];rad=c['cam_od_mm']/2;C=c['chamfer_mm']
         def edge(alpha,r,sign):
