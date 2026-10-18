@@ -1,6 +1,21 @@
 """Small persistent FreeCAD features. Load this module before opening FCStd."""
 import FreeCAD as A, Part
 
+class RobustCut:
+    """Editable linked boolean with an explicit, recorded OCC fuzzy tolerance."""
+    def __init__(self,obj,base,tool,tolerance):
+        obj.addProperty('App::PropertyLink','Base','Boolean');obj.Base=base
+        obj.addProperty('App::PropertyLink','Tool','Boolean');obj.Tool=tool
+        obj.addProperty('App::PropertyFloat','FuzzyTolerance','Boolean','OCC coincidence tolerance in mm')
+        obj.FuzzyTolerance=tolerance;obj.Proxy=self
+    def execute(self,obj):
+        signature=(obj.Base.Shape.hashCode(),obj.Tool.Shape.hashCode(),obj.FuzzyTolerance)
+        if getattr(self,'_signature',None)==signature and not obj.Shape.isNull():return
+        obj.Shape=obj.Base.Shape.cut(obj.Tool.Shape,float(obj.FuzzyTolerance)).removeSplitter()
+        self._signature=signature
+    def dumps(self):return None
+    def loads(self,state):pass
+
 class Polygon:
     def __init__(self,obj,points):
         obj.addProperty('App::PropertyVectorList','Points','Geometry','Editable section vertices')

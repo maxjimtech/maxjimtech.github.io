@@ -4,13 +4,13 @@ import FreeCAD as A, Part, Sketcher, TechDraw
 import datetime as task_datetime
 from requirements import validate
 from envelope import sections
-from native_features import Polygon, RevolvedRing
+from native_features import Polygon, RevolvedRing, RobustCut
 ROOT=pathlib.Path(__file__).resolve().parent
 
 def log(s):print(s,flush=True)
 def healthy(o):
     if o.Shape.isNull() or not o.Shape.isValid() or len(o.Shape.Solids)!=1:
-        raise RuntimeError('Invalid or disconnected solid: '+o.Name)
+        raise RuntimeError('Invalid or disconnected solid: '+o.Name+' valid='+str(o.Shape.isValid())+' solids='+str(len(o.Shape.Solids))+' volumes='+str([s.Volume for s in o.Shape.Solids]))
 
 def run(c, output=None):
     validate(c);stamp=task_datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -19,7 +19,7 @@ def run(c, output=None):
     out.mkdir(parents=True,exist_ok=True)
     for sub in ['STEP','DXF']: (out/sub).mkdir()
     (out/'requirements.json').write_text(json.dumps(c,ensure_ascii=False,indent=2),encoding='utf-8')
-    doc=A.newDocument(c['project']); ledger=[];dimensions=[];warnings=[]
+    doc=A.newDocument(c['project']); ledger=[];dimensions=[];warnings=[];boolean_repairs=[]
     try:
         params=doc.addObject('Spreadsheet::Sheet','Requirements')
         for row,(k,v) in enumerate(c.items(),1):
@@ -30,7 +30,26 @@ def run(c, output=None):
         def cylinder(name,r,h,z=0,x=0,y=0):
             o=doc.addObject('Part::Cylinder',name);o.Radius=r;o.Height=h;o.Placement.Base=A.Vector(x,y,z);return o
         def cut(name,base,tool):
-            o=doc.addObject('Part::Cut',name);o.Base=base;o.Tool=tool;doc.recompute();healthy(o);hide(base);hide(tool);return o
+            o=doc.addObject('Part::Cut',name);o.Base=base;o.Tool=tool;doc.recompute()
+            try:healthy(o)
+            except RuntimeError as error:
+                log(str(error));o.Refine=True;doc.recompute()
+                try:
+                    healthy(o);boolean_repairs.append({'feature':name,'method':'native_refine','tolerance_mm':0})
+                except RuntimeError:
+                    # Never discard disconnected fragments or accept an invalid body.
+                    doc.removeObject(o.Name)
+                    for tolerance in [1e-6,1e-5,1e-4]:
+                        o=doc.addObject('Part::FeaturePython',name);RobustCut(o,base,tool,tolerance);doc.recompute()
+                        log('Boolean retry '+name+' tolerance_mm='+str(tolerance))
+                        try:healthy(o)
+                        except RuntimeError as failure:
+                            log(str(failure));doc.removeObject(o.Name);continue
+                        if not 0<o.Shape.Volume<base.Shape.Volume:
+                            doc.removeObject(o.Name);continue
+                        boolean_repairs.append({'feature':name,'method':'linked_fuzzy_cut_refined','tolerance_mm':tolerance});break
+                    else:raise RuntimeError('No valid single-solid boolean result: '+name)
+            healthy(o);hide(base);hide(tool);return o
         def union(name,items):
             o=doc.addObject('Part::MultiFuse',name);o.Shapes=items;doc.recompute();healthy(o)
             for it in items:hide(it)
@@ -166,6 +185,7 @@ def run(c, output=None):
         checks['status']='REVIEW_MODEL_INTERFERENCE_FOUND' if collisions else 'GENERATED_REVIEW_MODEL'
         checks['drawing_status']='TechDraw linked views and principal native dimensions; full production dimension coverage not certified'
         checks['feature_ledger']=ledger
+        checks['boolean_repairs']=boolean_repairs
         (out/'validation.json').write_text(json.dumps(checks,indent=2))
         (out/'dimension_ledger.json').write_text(json.dumps(dimensions,indent=2))
         with (out/'BOM.csv').open('w',newline='',encoding='utf-8-sig') as f:
