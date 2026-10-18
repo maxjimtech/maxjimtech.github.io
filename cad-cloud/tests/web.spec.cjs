@@ -1,6 +1,8 @@
 // These tests execute only in GitHub's hosted Linux runner. Mocked API fixtures
 // check UI behavior; they do not substitute for the real FreeCAD cloud first run.
 const {test,expect}=require('@playwright/test');
+// API fixtures must not be bypassed by a previously installed service worker.
+test.use({serviceWorkers:'block'});
 
 test('guest submits without login or browser credential and polls after reload',async({page})=>{
   let submitted,posts=0,healthCalls=0,statusCalls=0;
