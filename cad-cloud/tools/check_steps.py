@@ -24,12 +24,19 @@ def samples(shape):
     return [values[int(i)] for i in np.linspace(0,len(values)-1,min(2048,len(values)),dtype=int)]
 
 def directed_deviation(source,target):
+    target_cloud=np.array([[p.x,p.y,p.z] for p in samples(target)])
     faces=target.Faces
     surfaces=[face.Surface for face in faces]
     bounds=np.array([[f.BoundBox.XMin,f.BoundBox.YMin,f.BoundBox.ZMin,f.BoundBox.XMax,f.BoundBox.YMax,f.BoundBox.ZMax] for f in faces])
     points=samples(source);maximum=0.
     for point in points:
         vector=np.array([point.x,point.y,point.z])
+        # A nearby actual target sample is a conservative upper bound on
+        # distance to the target surface; exact projection remains the fallback.
+        cloud_distance=float(np.sqrt(np.min(np.sum((target_cloud-vector)**2,axis=1))))
+        if cloud_distance<=TOLERANCE_MM:
+            maximum=max(maximum,cloud_distance)
+            continue
         hits=np.flatnonzero(np.all(bounds[:,:3]-TOLERANCE_MM<=vector,axis=1)&np.all(bounds[:,3:]+TOLERANCE_MM>=vector,axis=1))
         if len(hits)==0:raise RuntimeError('No target surface within 0.01 mm sample bounds')
         distance=float('inf')
