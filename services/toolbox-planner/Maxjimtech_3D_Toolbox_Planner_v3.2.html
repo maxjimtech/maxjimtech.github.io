@@ -32,11 +32,55 @@ html:fullscreen,html:fullscreen body{width:100vw;height:100vh}
 body>header{height:auto;min-height:56px;flex-wrap:wrap;gap:8px;padding:10px 16px}
 @media(max-width:1000px){body>header{height:auto;min-height:56px;flex-wrap:wrap;gap:8px;padding:10px 12px}body>header h1{font-size:12px}body>header p{display:none}body>div>aside:first-child{width:300px}}
 @media(max-width:640px){body>div{overflow:auto!important}body>div>aside:first-child{width:280px}body>div>main{min-width:320px}}
+</style><style id="layout-repair-r2">
+/* Layout repair r2: controls occupy their own rows instead of covering the canvas. */
+html,body{width:100%;height:100%;height:100dvh;margin:0;min-width:320px}
+#appHeader{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;height:auto;min-height:0;max-height:40dvh;overflow-y:auto;flex:0 0 auto;padding:10px 14px;gap:10px;position:relative;z-index:20}
+#appHeader>div:first-child{min-width:0;flex-shrink:0}
+#appHeader>div:first-child>div:last-child{min-width:0}
+#appHeader>div:first-child>div:last-child>div{flex-wrap:wrap}
+#appHeader h1{white-space:normal;overflow-wrap:anywhere;line-height:1.5}
+#appHeader>div:last-child{display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-width:0;flex-shrink:0}
+#appHeader>div:last-child>button,#appHeader>div:last-child>a{flex:0 0 auto;min-height:34px;max-width:100%;white-space:normal;overflow-wrap:anywhere;display:inline-flex;align-items:center;justify-content:center}
+#appWorkspace{display:flex;flex:1 1 0%;min-width:0;min-height:0;overflow:hidden!important}
+#controlSidebar{width:clamp(280px,26vw,360px);min-width:0;min-height:0;flex:0 0 auto}
+#controlSidebar>div:first-child{flex-shrink:0}
+#controlSidebar>div:first-child>button{min-width:0;min-height:46px;white-space:normal;overflow-wrap:anywhere;padding:8px 6px;line-height:1.5}
+#controlSidebar select,#controlSidebar input{min-width:0;max-width:100%;box-sizing:border-box}
+#controlSidebar select{width:100%;text-overflow:ellipsis}
+#controlSidebar .flex>*{min-width:0}
+#controlSidebar .flex>button{flex-shrink:0}
+#controlHelp{max-height:110px;overflow:auto}
+#viewportPanel{min-width:0;min-height:0;flex:1 1 0%;display:flex;flex-direction:column}
+#viewToolbar{position:relative;inset:auto;display:flex;align-items:flex-start;justify-content:flex-start;flex-wrap:wrap;gap:8px;flex:0 0 auto;padding:10px;pointer-events:auto;min-width:0;max-width:100%;background:#0f172a;border-bottom:1px solid #334155;z-index:10}
+#viewToolbar>div:first-child{display:flex;flex:1 1 400px;flex-wrap:wrap;gap:6px;min-width:0;max-width:100%;align-items:center}
+#viewToolbar>div:first-child>button{flex:0 0 auto;min-height:32px;max-width:100%;white-space:normal;line-height:1.4;overflow-wrap:anywhere}
+#viewToolbar>div:first-child>div{display:none}
+#badgeInterference,#badgeSafety{flex:0 1 auto;max-width:100%;min-width:0;white-space:normal;overflow-wrap:anywhere;align-self:center}
+#badgeInterference>span:first-child,#badgeSafety>span:first-child{flex-shrink:0}
+#canvasContainer{height:auto;min-height:120px;min-width:0;flex:1 1 0%;overflow:hidden}
+#canvasContainer>canvas{display:block;max-width:100%}
+#toolInspector.opacity-0,#equipInspector.opacity-0{display:none}
+#toolInspector:not(.opacity-0),#equipInspector:not(.opacity-0){display:block;position:relative;inset:auto;flex:0 0 auto;width:auto;max-width:100%;max-height:30dvh;overflow:auto;margin:8px;z-index:10}
+#viewportStatus{height:auto;min-height:44px;max-height:28dvh;overflow:auto;display:flex;flex:0 0 auto;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:8px 12px;min-width:0}
+#viewportStatus>div:first-child{display:flex;flex:1 1 240px;flex-wrap:wrap;gap:8px 16px;min-width:0}
+#viewportStatus>div:first-child>div{flex-wrap:wrap;gap:4px;min-width:0;white-space:normal}
+#viewportStatus>div:last-child{flex:0 0 auto;max-width:100%}
+#viewportStatus button{min-height:32px;white-space:normal;max-width:100%}
+#rightPanel,#rightBomDrawer{width:clamp(250px,24vw,340px);min-height:0;min-width:0;flex:0 0 auto}
+#rightPanel>div:first-child,#rightBomDrawer>div:first-child{flex-shrink:0;gap:8px}
+#rightPanel>div:first-child>div,#rightBomDrawer>div:first-child>div{min-width:0}
+#rightPanel>div:first-child button,#rightBomDrawer>div:first-child button{flex-shrink:0;min-width:30px;min-height:30px}
+#toast{position:relative;inset:auto;flex:0 0 auto;order:3;width:100%;max-width:100%;margin:0;transform:none;overflow-wrap:anywhere;pointer-events:none;z-index:10}
+#toast.opacity-0{display:none}
+@media(max-width:1100px){#appWorkspace{display:grid;grid-template-columns:300px minmax(0,1fr);grid-template-rows:minmax(440px,1fr) auto;overflow-y:auto!important;align-content:start}#controlSidebar{grid-column:1;grid-row:1;width:300px;height:100%;max-height:100%}#viewportPanel{grid-column:2;grid-row:1;min-height:0;height:100%}#rightPanel,#rightBomDrawer{grid-column:1/-1;grid-row:2;width:100%;height:320px;max-height:50dvh;border-top:1px solid #334155}}
+@media(max-width:680px){#appHeader{padding:8px;gap:8px;max-height:34dvh}#appHeader h1{font-size:12px}#appHeader>div:last-child{gap:6px}#appHeader>div:last-child>button,#appHeader>div:last-child>a{padding:6px 8px;font-size:11px}#appWorkspace{display:flex;flex-direction:column;flex-wrap:nowrap;overflow-y:auto!important}#controlSidebar{width:100%;flex:0 0 auto;height:300px;max-height:40dvh;min-height:220px}#controlHelp{display:none}#viewportPanel{flex:0 0 auto;width:100%;height:560px;min-height:440px}#rightPanel,#rightBomDrawer{flex:0 0 auto;width:100%;height:320px;min-height:260px}#viewportStatus{max-height:none}}
+@media(max-height:650px) and (min-width:681px){#controlHelp{display:none}#appHeader p{display:none}}
 </style></head>
 <body class="h-full flex flex-col overflow-hidden font-sans select-none antialiased">
 
   <!-- Top Navigation Bar -->
-  <header class="h-14 border-b border-slate-800 bg-slate-900/90 backdrop-blur px-4 flex items-center justify-between shrink-0 z-20">
+  <header id="appHeader" class="h-14 border-b border-slate-800 bg-slate-900/90 backdrop-blur px-4 flex items-center justify-between shrink-0 z-20">
     <div class="flex items-center gap-3">
       <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20 text-sm tracking-wider">
         MJ
@@ -86,10 +130,10 @@ body>header{height:auto;min-height:56px;flex-wrap:wrap;gap:8px;padding:10px 16px
   </header>
 
   <!-- Main Workspace -->
-  <div class="flex-1 flex overflow-hidden relative">
+  <div id="appWorkspace" class="flex-1 flex overflow-hidden relative">
 
     <!-- Left Control Sidebar -->
-    <aside class="w-84 md:w-96 border-r border-slate-800 bg-slate-900/70 flex flex-col shrink-0 z-10 overflow-hidden">
+    <aside id="controlSidebar" class="w-84 md:w-96 border-r border-slate-800 bg-slate-900/70 flex flex-col shrink-0 z-10 overflow-hidden">
       <!-- Sidebar Tabs -->
       <div class="flex border-b border-slate-800 bg-slate-900/90 text-xs">
         <button id="tabBtnBox" class="flex-1 py-2.5 px-3 font-medium border-b-2 border-blue-500 text-blue-400 bg-slate-800/40 flex items-center justify-center gap-1.5">
@@ -683,7 +727,7 @@ body>header{height:auto;min-height:56px;flex-wrap:wrap;gap:8px;padding:10px 16px
       </div>
 
       <!-- Quick Tips Box at Bottom -->
-      <div class="p-3 bg-slate-950/60 border-t border-slate-800/80 text-[11px] text-slate-400 space-y-1 shrink-0">
+      <div id="controlHelp" class="p-3 bg-slate-950/60 border-t border-slate-800/80 text-[11px] text-slate-400 space-y-1 shrink-0">
         <div class="font-medium text-slate-300 flex items-center gap-1">
           <span class="text-blue-400">💡</span> 3D 操作指南：
         </div>
@@ -693,10 +737,10 @@ body>header{height:auto;min-height:56px;flex-wrap:wrap;gap:8px;padding:10px 16px
     </aside>
 
     <!-- Center 3D Viewport -->
-    <main class="flex-1 relative flex flex-col overflow-hidden bg-slate-950">
+    <main id="viewportPanel" class="flex-1 relative flex flex-col overflow-hidden bg-slate-950">
       
       <!-- Top View Controls Bar -->
-      <div class="absolute top-3 left-4 right-4 flex items-center justify-between pointer-events-none z-10">
+      <div id="viewToolbar" class="absolute top-3 left-4 right-4 flex items-center justify-between pointer-events-none z-10">
         <!-- Camera Preset Views -->
         <div class="flex items-center gap-1 bg-slate-900/80 backdrop-blur border border-slate-700/80 rounded-lg p-1 shadow-xl pointer-events-auto">
           <button id="camIso" class="px-2.5 py-1 rounded text-xs font-medium bg-blue-600 text-white transition hover:bg-blue-500">等角 (ISO)</button>
@@ -760,7 +804,7 @@ body>header{height:auto;min-height:56px;flex-wrap:wrap;gap:8px;padding:10px 16px
       </div>
 
       <!-- Bottom HUD Status Bar -->
-      <div class="h-11 border-t border-slate-800/80 bg-slate-900/90 px-4 flex items-center justify-between shrink-0 text-xs text-slate-300 z-10">
+      <div id="viewportStatus" class="h-11 border-t border-slate-800/80 bg-slate-900/90 px-4 flex items-center justify-between shrink-0 text-xs text-slate-300 z-10">
         <div class="flex items-center gap-6">
           <div class="flex items-center gap-1.5">
             <span class="text-slate-400">已配置工具數：</span>
@@ -2762,5 +2806,16 @@ document.addEventListener('fullscreenchange', () => {
   fullscreenButton.textContent = document.fullscreenElement ? '⤢ 離開全螢幕' : '⛶ 全螢幕操作';
   window.dispatchEvent(new Event('resize'));
 });
+</script><script>
+(() => {
+  let pending=false;
+  const canvasArea=document.getElementById('canvasContainer');
+  const scheduleResize=()=>{
+    if(pending)return;
+    pending=true;
+    requestAnimationFrame(()=>{pending=false;if(canvasArea.clientWidth>0&&canvasArea.clientHeight>0)window.dispatchEvent(new Event('resize'));});
+  };
+  if('ResizeObserver' in window)new ResizeObserver(scheduleResize).observe(canvasArea);
+})();
 </script></body>
 </html>
