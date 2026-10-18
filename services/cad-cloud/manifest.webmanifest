@@ -1,0 +1,7 @@
+{
+  "id": "./", "name": "RD065 CAD Cloud", "short_name": "CAD Cloud",
+  "lang": "zh-Hant", "start_url": "./", "scope": "./", "display": "standalone",
+  "theme_color": "#102a38", "background_color": "#edf2f4",
+  "description": "FreeCAD 雲端機構建模與工程圖",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

@@ -1,0 +1,12 @@
+import pathlib,sys
+import FreeCAD as App,FreeCADGui as Gui
+from PySide6 import QtWidgets
+root=pathlib.Path(__file__).resolve().parent
+sys.path.insert(0,str(root))
+import native_features
+filename,_=QtWidgets.QFileDialog.getOpenFileName(None,'Open generated native mechanism',str(root/'output'),'FreeCAD (*.FCStd)')
+if filename:
+    doc=App.openDocument(filename)
+    doc.recompute()
+    Gui.activeDocument().activeView().viewAxonometric()
+    Gui.activeDocument().activeView().fitAll()

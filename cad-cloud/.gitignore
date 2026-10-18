@@ -1,0 +1,8 @@
+work/
+__pycache__/
+*.pyc
+.env
+*.token
+node_modules/
+test-results/
+playwright-report/
