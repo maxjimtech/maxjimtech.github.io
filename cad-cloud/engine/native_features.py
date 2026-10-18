@@ -235,6 +235,21 @@ class ActualArcChamfer:
                 if not others:continue
                 selected.append(edge);flanks[edge.hashCode()]=others[0];geometric_flanks[edge_key(edge)]=others[0]
             if not selected:raise ValueError('No actual outer flank curves found.')
+            # C0.3 is explicitly within the user's accepted C0.3-C0.6 range.
+            # Try the native edge feature before constructing the Boolean fallback.
+            try:
+                import tempfile,pathlib
+                print('Native actual-edge chamfer trial C'+str(size),flush=True)
+                native=base.makeChamfer(size,selected)
+                if native.isValid() and len(native.Solids)==1 and native.Solids[0].isClosed() and 0<native.Volume<base.Volume:
+                    with tempfile.TemporaryDirectory(prefix='native-c-edge-') as temporary:
+                        step=pathlib.Path(temporary)/'cam.step';native.exportStep(str(step))
+                        restored=Part.Shape();restored.read(str(step))
+                        if restored.isValid() and len(restored.Solids)==1 and restored.Solids[0].isClosed() and abs(restored.Volume-native.Volume)<=max(.001,native.Volume*1e-5):
+                            obj.Shape=native;obj.PathEvidence=json.dumps({'method':'native actual-edge chamfer','actual_nominal_size_mm':size,'allowed_size_range_mm':[.3,.6]})
+                            self._signature=(_geometry_key(obj.Base.Shape),float(obj.StockRadius),float(obj.Size))
+                            print('Native actual-edge chamfer and preliminary STEP passed C'+str(size),flush=True);return
+            except Exception as error:print('Native actual-edge chamfer fallback: '+str(error),flush=True)
             groups=Part.sortEdges(selected,1e-5);tools=[];evidence=[];normal_signs={}
             print('Actual 3D C-edge chains: '+str(len(groups))+' edges='+str(len(selected)),flush=True)
             for chain_index,group in enumerate(groups):
