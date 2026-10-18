@@ -9,7 +9,7 @@ import Part
 import numpy as np
 TOLERANCE_MM=.01
 
-def samples(shape):
+def samples(shape,limit=2048):
     points=[vertex.Point for vertex in shape.Vertexes]
     for edge in shape.Edges:
         points.extend(edge.valueAt(edge.FirstParameter+(edge.LastParameter-edge.FirstParameter)*i/4) for i in range(5))
@@ -21,10 +21,11 @@ def samples(shape):
                 if face.isPartOfDomain(u0+(u1-u0)*u,v0+(v1-v0)*v):points.append(point)
     unique={tuple(round(x,8) for x in [p.x,p.y,p.z]):p for p in points}
     values=list(unique.values())
-    return [values[int(i)] for i in np.linspace(0,len(values)-1,min(2048,len(values)),dtype=int)]
+    if limit is None:return values
+    return [values[int(i)] for i in np.linspace(0,len(values)-1,min(limit,len(values)),dtype=int)]
 
 def directed_deviation(source,target):
-    target_cloud=np.array([[p.x,p.y,p.z] for p in samples(target)])
+    target_cloud=np.array([[p.x,p.y,p.z] for p in samples(target,None)])
     faces=target.Faces
     surfaces=[face.Surface for face in faces]
     bounds=np.array([[f.BoundBox.XMin,f.BoundBox.YMin,f.BoundBox.ZMin,f.BoundBox.XMax,f.BoundBox.YMax,f.BoundBox.ZMax] for f in faces])
