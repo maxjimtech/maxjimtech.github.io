@@ -96,3 +96,20 @@ class SplineSection:
         obj.Shape=wire;obj.MaxPolylineDeviation=maximum;self._points=signature
     def dumps(self):return getattr(self,'_points',None)
     def loads(self,state):self._points=tuple(tuple(p) for p in state) if state is not None else None
+
+class NativeEdgeChamfer:
+    def __init__(self,obj,base,indices,size):
+        obj.addProperty('App::PropertyLink','Base','Geometry');obj.Base=base
+        obj.addProperty('App::PropertyIntegerList','EdgeIndices','Geometry');obj.EdgeIndices=indices
+        obj.addProperty('App::PropertyLength','Size','Geometry');obj.Size=size;obj.Proxy=self
+    def execute(self,obj):
+        signature=(obj.Base.Shape.hashCode(),tuple(obj.EdgeIndices),float(obj.Size))
+        if not obj.Shape.isNull() and getattr(self,'_signature',None)==signature:return
+        try:
+            result=obj.Base.Shape.makeChamfer(float(obj.Size),[obj.Base.Shape.Edges[i-1] for i in obj.EdgeIndices])
+            if not result.isValid() or len(result.Solids)!=1:raise ValueError('Invalid native actual-edge chamfer.')
+            obj.Shape=result;self._signature=signature
+        except Exception as error:
+            print('Actual-edge chamfer failed: '+str(error),flush=True);raise
+    def dumps(self):return None
+    def loads(self,state):pass

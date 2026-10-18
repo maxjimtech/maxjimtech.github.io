@@ -4,7 +4,7 @@ import FreeCAD as A, Part, Sketcher, TechDraw
 import datetime as task_datetime
 from requirements import validate
 from envelope import sections
-from native_features import Polygon, RevolvedRing, RobustCut, SplineSection
+from native_features import Polygon, RevolvedRing, RobustCut, SplineSection, NativeEdgeChamfer
 ROOT=pathlib.Path(__file__).resolve().parent
 
 def log(s):print(s,flush=True)
@@ -121,17 +121,20 @@ def run(c, output=None):
                 x=r*math.cos(alpha+N*b);vy=R*math.sin(b)-N*x;vz=R*math.cos(b);v=math.hypot(vy,vz);cu=sign*vz/v;su=-sign*vy/v;y=ad-R*math.cos(b)+rr*cu;t=math.asin(max(-.999999,min(.999999,y/r)));b=(t-alpha)/N
             x=r*math.cos(alpha+N*b);vy=R*math.sin(b)-N*x;vz=R*math.cos(b);v=math.hypot(vy,vz);cu=sign*vz/v;su=-sign*vy/v;z=centre+R*math.sin(b)+rr*su
             return A.Vector(r*math.cos(alpha),r*math.sin(alpha),z),A.Vector(-math.sin(N*b)*cu,-math.cos(N*b)*cu,-su)
-        for sign,name in [(-1,'Lower'),(1,'Upper')]:
-            pp=[];span=max(abs(s['alpha']) for s in ss);count=math.ceil(2*span/.05)
-            for i in range(count+1):
-                a=-span+2*span*i/count;e,n=edge(a,rad,sign)
-                if not cam0-3<e.z<cam1+3:continue
-                er=A.Vector(math.cos(a),math.sin(a),0);dz=(edge(a+1e-5,rad,sign)[0].z-edge(a-1e-5,rad,sign)[0].z)/2e-5;den=math.hypot(rad,dz);da=-sign*C*dz/(rad*den)
-                cf=A.Vector(rad*math.cos(a+da),rad*math.sin(a+da),e.z+sign*C*rad/den)
-                vf=-er+n*n.dot(er);vf.normalize();f=e+vf*C;af=a+math.atan2(math.sin(math.atan2(f.y,f.x)-a),math.cos(math.atan2(f.y,f.x)-a));f=edge(af,math.hypot(f.x,f.y),sign)[0]
-                o=doc.addObject('Part::FeaturePython',name+'CSection_%04d'%i);Polygon(o,[cf,f,e+er+n]);hide(o);pp.append(o)
-            if len(pp)<4:raise ValueError('Chamfer envelope outside supported domain.')
-            tool=doc.addObject('Part::Loft',name+'C05Loft');tool.Sections=pp;tool.Solid=True;tool.Ruled=True;tool.MaxDegree=3;doc.recompute();healthy(tool);shaft=cut(name+'ContinuousEdgeChamfer',shaft,tool);log(name+' continuous C edge complete')
+        edge_indices=[]
+        for index,edge_shape in enumerate(shaft.Shape.Edges,1):
+            samples=edge_shape.discretize(Number=5)
+            if len(samples)<2:continue
+            if max(p.z for p in samples)-min(p.z for p in samples)<.001:continue
+            if max(abs(math.hypot(p.x,p.y)-rad) for p in samples)>1e-5:continue
+            tangent=edge_shape.tangentAt((edge_shape.FirstParameter+edge_shape.LastParameter)/2)
+            if abs(tangent.z)>.99:continue
+            edge_indices.append(index)
+        if not edge_indices:raise ValueError('No actual outer cam flank edges found for C0.5.')
+        log('Actual cam flank edges for C0.5: '+str(len(edge_indices)))
+        bevel=doc.addObject('Part::FeaturePython','ActualCamEdgeC05');NativeEdgeChamfer(bevel,shaft,edge_indices,C)
+        doc.recompute();healthy(bevel);hide(shaft);shaft=bevel
+        log('Actual cam edge C0.5 complete')
         for name,z,sg in [('CamLeftEndC',cam0,1),('CamRightEndC',cam1,-1),('LeftShaftEndC',0,1)]:
             r=rad if name.startswith('Cam') else 9;v=C if name.startswith('Cam') else 1
             points=[A.Vector(r-v,0,z),A.Vector(r+.2,0,z),A.Vector(r+.2,0,z+sg*(v+.2))]
