@@ -98,8 +98,8 @@ def run(c, output=None):
         # User explicitly authorizes omitting the remaining groove-edge chamfer.
         # Retain the validated CNC groove; do not claim an unbuilt edge treatment.
         log('Cam groove outer-edge chamfer omitted by user authorization')
-        warnings.append('Cam groove outer edges are not chamfered; omission explicitly authorized for this review version.')
-        for name,z,sg in [('CamLeftEndC',cam0,1),('CamRightEndC',cam1,-1),('LeftShaftEndC',0,1)]:
+        warnings.append('Cam outer groove and end edges are not chamfered; omission explicitly authorized for this sample version.')
+        for name,z,sg in [('LeftShaftEndC',0,1)]:
             r=rad if name.startswith('Cam') else 9;v=C if name.startswith('Cam') else 1
             points=[A.Vector(r-v,0,z),A.Vector(r+.2,0,z),A.Vector(r+.2,0,z+sg*(v+.2))]
             tool=doc.addObject('Part::FeaturePython',name+'Tool');RevolvedRing(tool,points);doc.recompute();shaft=cut(name,shaft,tool)
@@ -172,6 +172,7 @@ def run(c, output=None):
         checks['radial_profile_stride']=None;checks['radial_sample_deviation_mm']=None;checks['radial_spline_polyline_deviation_mm']=None
         checks['step_geometric_acceptance_mm']=.01
         checks['cam_groove_edge_chamfer_status']='OMITTED_USER_AUTHORIZED'
+        checks['cam_end_edge_chamfer_status']='OMITTED_USER_AUTHORIZED'
         checks['warnings']=warnings
         doc.saveAs(str(out/'NativeGeometry.FCStd'))
         log('Building native TechDraw pages')
