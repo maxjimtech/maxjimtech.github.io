@@ -41,6 +41,7 @@ test('unconfigured guest endpoint cannot fall back to asking visitor for a token
   await expect(page.locator('#connection')).not.toBeVisible();
 });
 test('connect, submit real request shape, remember job and clear token',async({page})=>{
+  await page.route('**/deployment.json',r=>r.fulfill({json:{repository:'test/cad',branch:'main',guest_required:false}}));
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   let submitted;
   await page.route('https://api.github.com/**',async route=>{
@@ -76,6 +77,7 @@ test('connect, submit real request shape, remember job and clear token',async({p
   await expect(page.locator('#connection')).toBeVisible();
 });
 test('mismatched ratio never submits a cloud job',async({page})=>{
+  await page.route('**/deployment.json',r=>r.fulfill({json:{repository:'test/cad',branch:'main',guest_required:false}}));
   await page.goto('/');
   await page.locator('#field-ratio').fill('19');
   // Without login, the form requests a connection, not a local CAD executable.
