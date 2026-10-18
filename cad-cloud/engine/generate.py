@@ -99,18 +99,23 @@ def run(c, output=None):
             if profile.Shape.isNull():
                 raise RuntimeError('Null fitted section '+profile.Name+' state='+str(profile.State))
         log('Fitted radial deviation_mm='+str(max(float(o.MaxPolylineDeviation) for o in profiles)))
-        tools=[]
-        for start in range(0,len(ss)-1,30):
-            first=max(0,start-1);end_index=min(start+30,len(ss)-1)
-            tool=doc.addObject('Part::Loft','CNCGrooveLoft_%03d'%start)
-            tool.Sections=profiles[first:end_index+1];tool.Solid=True;tool.Ruled=False;tool.Closed=False;tool.MaxDegree=3
-            doc.recompute();healthy(tool);tools.append(tool)
-            log('Continuous cutter segment %d/%d'%(len(tools),math.ceil((len(ss)-1)/30)))
+        def machine_span(base,start,end,depth=0):
+            suffix='%03d'%start if depth==0 else '%03d_%03d'%(start,end)
+            # Consecutive tools overlap by one original section. Exactly shared
+            # end caps can leave an invalid coincident face in sequential cuts.
+            first=max(0,start-1)
+            tool=doc.addObject('Part::Loft','CNCGrooveLoft_'+suffix);tool.Sections=profiles[first:end+1];tool.Solid=True;tool.Ruled=False;tool.Closed=False;tool.MaxDegree=25
+            doc.recompute();healthy(tool)
+            try:
+                result=cut('CNCGrooveCut_'+suffix,base,tool)
+                ledger.append({'feature':result.Name,'valid':True,'volume_mm3':result.Shape.Volume,'sections':[first,end],'section_overlap':start-first});return result
+            except RuntimeError:
+                raise
         blank_volume=shaft.Shape.Volume
-        shaft=cut('CNCContinuousCut',shaft,compound('ContinuousCNCToolGroup',tools))
-        if blank_volume-shaft.Shape.Volume<1e-4:raise RuntimeError('CNC tool group did not remove stock.')
-        ledger.append({'feature':shaft.Name,'valid':True,'volume_mm3':shaft.Shape.Volume,'sections':[0,len(ss)-1],'method':'simultaneous overlapping tool group cut'})
-        log('Single grouped smooth CNC cut complete; removed_mm3='+str(blank_volume-shaft.Shape.Volume))
+        shaft=machine_span(shaft,0,len(ss)-1)
+        log('Continuous CNC removed_mm3='+str(blank_volume-shaft.Shape.Volume))
+        if blank_volume-shaft.Shape.Volume<1e-4:raise RuntimeError('Continuous CNC tool did not remove stock.')
+        log('Single continuous smooth CNC envelope cut complete')
         before_path=out.parent/'pre_chamfer.step';shaft.Shape.exportStep(str(before_path))
         before=Part.Shape();before.read(str(before_path))
         log('Pre-chamfer STEP '+json.dumps({'valid':before.isValid(),'solids':len(before.Solids),'closed':all(s.isClosed() for s in before.Solids),'native_volume':shaft.Shape.Volume,'step_volume':before.Volume}))
