@@ -95,6 +95,10 @@ def run(c, output=None):
             a=s['alpha'];pts=[A.Vector(r*math.cos(a),r*math.sin(a),z) for r,z in reduced(s['lower'])+list(reversed(reduced(s['upper'])))]
             o=doc.addObject('Part::FeaturePython','GrooveSection_%04d'%i);SplineSection(o,pts);hide(o);profiles.append(o)
         doc.recompute()
+        for profile in profiles:
+            if profile.Shape.isNull():
+                raise RuntimeError('Null fitted section '+profile.Name+' state='+str(profile.State))
+        log('Fitted radial deviation_mm='+str(max(float(o.MaxPolylineDeviation) for o in profiles)))
         def machine_span(base,start,end,depth=0):
             suffix='%03d'%start if depth==0 else '%03d_%03d'%(start,end)
             # Consecutive tools overlap by one original section. Exactly shared
