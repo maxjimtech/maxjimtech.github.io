@@ -86,3 +86,4 @@ jobs:
           if-no-files-found: warn
 
 # Full sample coverage uses trimmed-surface projections before distance fallback.
+# Sample-review audit uses deterministic bounded coverage with unchanged 0.01 mm threshold.

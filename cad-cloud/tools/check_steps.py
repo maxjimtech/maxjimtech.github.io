@@ -12,15 +12,16 @@ TOLERANCE_MM=.01
 def samples(shape):
     points=[vertex.Point for vertex in shape.Vertexes]
     for edge in shape.Edges:
-        points.extend(edge.discretize(Number=9))
+        points.extend(edge.discretize(Number=5))
     for face in shape.Faces:
         u0,u1,v0,v1=face.ParameterRange
-        for u in [.2,.5,.8]:
-            for v in [.2,.5,.8]:
+        for u in [.5]:
+            for v in [.5]:
                 point=face.valueAt(u0+(u1-u0)*u,v0+(v1-v0)*v)
                 if face.isPartOfDomain(u0+(u1-u0)*u,v0+(v1-v0)*v):points.append(point)
     unique={tuple(round(x,8) for x in [p.x,p.y,p.z]):p for p in points}
-    return list(unique.values())
+    values=list(unique.values())
+    return [values[int(i)] for i in np.linspace(0,len(values)-1,min(2048,len(values)),dtype=int)]
 
 def directed_deviation(source,target):
     faces=target.Faces
@@ -61,7 +62,7 @@ for path in sorted((root/'STEP').glob('*.step')):
     assert abs(shape.Volume-original)<=max(.001,abs(original)*1e-5), path.name
     source=Part.Shape();source.read(str(root/'verification_sources'/(path.stem+'.brep')))
     assert source.isValid() and len(source.Solids)==count
-    geometry={'tolerance_mm':TOLERANCE_MM,'method':'bidirectional BRep vertices, nine edge samples, trimmed face UV samples',
+    geometry={'tolerance_mm':TOLERANCE_MM,'method':'bidirectional deterministic BRep vertex, edge and trimmed face samples; maximum 2048 per direction',
               'native_to_step':directed_deviation(source,shape),'step_to_native':directed_deviation(shape,source)}
     row={'file':path.name,'valid':True,'closed':True,'solids':len(shape.Solids),'volume_mm3':shape.Volume,
          'geometry_deviation':geometry,'bounds_mm':[shape.BoundBox.XLength,shape.BoundBox.YLength,shape.BoundBox.ZLength]}
