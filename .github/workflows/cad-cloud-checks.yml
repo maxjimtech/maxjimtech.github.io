@@ -27,7 +27,8 @@ jobs:
         run: |
           node --check ../services/cad-cloud/app.js
           node --check ../services/cad-cloud/guest.js
-          node --test server/guest.test.mjs
+          node --test server/*.test.mjs
+          node --check server/handler.mjs
           node --check ../api/cad.mjs
           node --check server/start.mjs
           node --check ../services/cad-cloud/viewer.js
