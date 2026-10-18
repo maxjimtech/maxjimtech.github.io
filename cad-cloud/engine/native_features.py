@@ -96,26 +96,3 @@ class SplineSection:
         obj.Shape=wire;obj.MaxPolylineDeviation=maximum;self._points=signature
     def dumps(self):return getattr(self,'_points',None)
     def loads(self,state):self._points=tuple(tuple(p) for p in state) if state is not None else None
-
-class RuledSectionSolid:
-    """Linked shell/cap construction preserving known section-edge correspondence."""
-    def __init__(self,obj,sections):
-        obj.addProperty('App::PropertyLinkList','Sections','Geometry')
-        obj.Sections=sections;obj.Proxy=self
-    def execute(self,obj):
-        signature=tuple(tuple((p.x,p.y,p.z) for p in section.Points) for section in obj.Sections)
-        if not obj.Shape.isNull() and getattr(self,'_signature',None)==signature:return
-        try:
-            wires=[section.Shape for section in obj.Sections]
-            side=Part.makeShellFromWires(wires)
-            caps=[Part.Face(wires[0]),Part.Face(wires[-1])]
-            shell=Part.makeShell(side.Faces+caps)
-            if not shell.isClosed():raise ValueError('Section solid shell is not closed.')
-            solid=Part.makeSolid(shell)
-            if solid.Volume<0:solid.reverse()
-            if not solid.isValid() or len(solid.Solids)!=1:raise ValueError('Section solid is invalid.')
-            obj.Shape=solid;self._signature=signature
-        except Exception as error:
-            print('Section solid failed '+obj.Name+': '+str(error),flush=True);raise
-    def dumps(self):return getattr(self,'_signature',None)
-    def loads(self,state):self._signature=tuple(tuple(tuple(p) for p in section) for section in state) if state is not None else None

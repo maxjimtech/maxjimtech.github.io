@@ -4,7 +4,7 @@ import FreeCAD as A, Part, Sketcher, TechDraw
 import datetime as task_datetime
 from requirements import validate
 from envelope import sections
-from native_features import Polygon, RevolvedRing, RobustCut, SplineSection, RuledSectionSolid
+from native_features import Polygon, RevolvedRing, RobustCut, SplineSection
 ROOT=pathlib.Path(__file__).resolve().parent
 
 def log(s):print(s,flush=True)
@@ -104,21 +104,15 @@ def run(c, output=None):
             # Consecutive tools overlap by one original section. Exactly shared
             # end caps can leave an invalid coincident face in sequential cuts.
             first=max(0,start-1)
-            tool=doc.addObject('Part::FeaturePython','CNCGrooveLoft_'+suffix);RuledSectionSolid(tool,profiles[first:end+1])
+            tool=doc.addObject('Part::Loft','CNCGrooveLoft_'+suffix);tool.Sections=profiles[first:end+1];tool.Solid=True;tool.Ruled=True;tool.Closed=False;tool.MaxDegree=3
             doc.recompute();healthy(tool)
             try:
                 result=cut('CNCGrooveCut_'+suffix,base,tool)
                 ledger.append({'feature':result.Name,'valid':True,'volume_mm3':result.Shape.Volume,'sections':[first,end],'section_overlap':start-first});return result
             except RuntimeError:
-                if end-start<=2 or depth>=5:raise
-                # Preserve every section; refit shorter smooth lofts at a failing
-                # stock-boundary intersection instead of delivering an invalid cut.
-                log('Subdivide native cutter span '+str(start)+':'+str(end))
-                doc.removeObject(tool.Name);middle=(start+end)//2
-                left=machine_span(base,start,middle,depth+1)
-                return machine_span(left,middle,end,depth+1)
-        for start in range(0,len(ss)-1,30):
-            shaft=machine_span(shaft,start,min(start+30,len(ss)-1));log('Native groove cut %d/%d'%(start//30+1,math.ceil((len(ss)-1)/30)))
+                raise
+        shaft=machine_span(shaft,0,len(ss)-1)
+        log('Single continuous CNC envelope cut complete')
         # Continuous edge C cut: same conjugate contact formula as groove generation.
         R=c['roller_pcd_mm']/2;N=c['ratio'];ad=c['axis_distance_mm'];rr=c['roller_od_mm']/2+c['clearance_mm'];rad=c['cam_od_mm']/2;C=c['chamfer_mm']
         def edge(alpha,r,sign):
