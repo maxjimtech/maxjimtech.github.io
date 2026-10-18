@@ -84,3 +84,5 @@ jobs:
           path: cad-cloud/work/
           retention-days: 30
           if-no-files-found: warn
+
+# Full sample coverage uses trimmed-surface projections before distance fallback.
