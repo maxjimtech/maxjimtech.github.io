@@ -12,7 +12,7 @@ TOLERANCE_MM=.01
 def samples(shape):
     points=[vertex.Point for vertex in shape.Vertexes]
     for edge in shape.Edges:
-        points.extend(edge.discretize(Number=5))
+        points.extend(edge.valueAt(edge.FirstParameter+(edge.LastParameter-edge.FirstParameter)*i/4) for i in range(5))
     for face in shape.Faces:
         u0,u1,v0,v1=face.ParameterRange
         for u in [.5]:

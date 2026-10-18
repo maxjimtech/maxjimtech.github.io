@@ -87,3 +87,4 @@ jobs:
 
 # Full sample coverage uses trimmed-surface projections before distance fallback.
 # Sample-review audit uses deterministic bounded coverage with unchanged 0.01 mm threshold.
+# Evaluate curve parameters directly; avoid expensive arc-length integration during sample QA.
