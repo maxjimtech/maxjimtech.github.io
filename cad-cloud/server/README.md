@@ -13,3 +13,7 @@
 配額是公開服務的共用上限，不是真人證明或私人使用者識別。Origin 限制不代替原子配額。IP 僅以伺服端憑證 HMAC 後的值記錄，不存原始 IP。
 
 部署後確認 `GET /api/cad` 回覆 configured=true，才把真實後端 HTTPS URL 填入網頁 `deployment.json` 的 `guest_api`。未部署或未授權不能宣稱免登入生成已啟用。不能將權杖放入這個 JSON。
+
+有自用雲端主機時，可在該主機以儲存庫根目錄為建置 context，執行 `docker build -f cad-cloud/server/Dockerfile -t cad-guest .`，透過主機的 Secret 管理注入環境變數，對外提供 HTTPS `/api/cad`。容器只處理提交及配額，不執行 CAD；FreeCAD 全部在 GitHub 託管執行器運算。不要在使用者電腦執行此容器。
+
+啟用前仍須以真實匿名請求測試提交、重新整理後的進度、成功模型／圖面及公開 Release 下載，並將實際後端 hostname 加入網頁 index.html 的 CSP connect-src。固定網站 Origin 為 `https://maxjimtech.github.io`。

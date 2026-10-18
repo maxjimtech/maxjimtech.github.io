@@ -1,8 +1,14 @@
-# RD065 CAD Cloud 2.0.1
+# RD065 CAD Cloud 2.1.0
 
 線上入口：https://maxjimtech.github.io/services/cad-cloud/
 
 GitHub Pages 提供可安裝網頁；GitHub 託管 Windows runner 執行 FreeCAD。使用端不安裝 Python／FreeCAD、不啟動本機 CAD。瀏覽器僅輸入條件、顯示結果與下載檔案。
+
+## 免登入與精簡引擎修訂
+
+使用者不需持有 GitHub 權杖的程式已加入：伺服端配額／提交、公開成果讀取，以及重新開啟網頁後繼續查詢。必須先部署後端並設定伺服端 CAD_GITHUB_TOKEN，通過實際匿名提交與下載，才在 deployment.json 啟用 guest_api。目前 Vercel 權限回覆403，免登入服務尚未啟用；以下權杖連線僅為原有管理端模式。
+
+精簡版使用官方1.1.3二進位，在雲端移除無關工作台，不啟動GUI；保留OCC、Qt及TechDraw相依程式庫。這不是重新編譯的最小FreeCAD，初次仍下載官方完整封裝。每次執行記錄移除工作台與實際磁碟大小，並檢查Part／Sketcher／Spreadsheet／TechDraw能載入。
 
 ## 使用
 
@@ -39,7 +45,7 @@ iPhone／iPad：Safari → 分享 → 加入主畫面。Chrome／Edge 可用瀏�
 
 ## 執行環境與驗證邊界
 
-FreeCAD 官方 1.1.3，雲端下載 7z 後核對官方 SHA256。1.1.4 初次雲端試跑在 CNCGrooveCut_330 未通過有效單一實體檢查，未作為可用執行環境。實際首跑結論以 GitHub Actions 及成功結果 JSON 為準，不能以舊本機驗收代替。
+FreeCAD 官方 1.1.3，雲端下載7z後核對官方SHA256。最新重疊刀具及有記錄的fuzzy布林重試已通過14段溝槽、兩側C0.5和靜態零干涉；後續在Assembly.step重匯入檢查失敗，仍不可當作成功交付。正在以保存的雲端產物診斷STEP轉檔。實際首跑結論以 GitHub Actions 及成功結果 JSON 為準，不能以舊本機驗收代替。
 
 RD065 單頭等速家族：傳動比等於滾子數，沿用固定輔助孔與軸端段落。預設滾子外徑14、凸輪外徑50／根徑32／C0.5、20:1、PCD136、軸距65。
 

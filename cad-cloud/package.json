@@ -1,8 +1,12 @@
 {
   "name": "rd065-cad-cloud",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "type": "module",
-  "scripts": {"test:web": "playwright test --config tests/playwright.config.cjs"},
-  "devDependencies": {"@playwright/test": "1.56.1"}
+  "scripts": {
+    "test:web": "playwright test --config tests/playwright.config.cjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  }
 }

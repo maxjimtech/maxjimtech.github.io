@@ -25,7 +25,7 @@
       <section class="panel jobs"><div class="panel-head"><div><span class="number">03</span><h2>雲端工作</h2></div><button id="refresh" class="text">重新整理 ↻</button></div><div id="jobs"><p class="placeholder">連線後會顯示工作進度、紀錄與下載。</p></div></section>
     </div>
   </div>
-  <footer><span>CAD CLOUD <b>2.0.0</b></span><span>瀏覽器負責操作與顯示，CAD 建模僅在 GitHub 託管執行器運算。</span></footer>
+  <footer><span>CAD CLOUD <b>2.1.0</b></span><span>瀏覽器負責操作與顯示，CAD 建模僅在 GitHub 託管執行器運算。</span></footer>
 </main>
 <dialog id="connection"><form id="connect"><div class="dialog-head"><h2>連接 GitHub</h2><button type="button" id="close-settings" aria-label="關閉">×</button></div><p>使用具有儲存庫權限的 GitHub 帳號啟動雲端工作。</p><label>儲存庫 <input id="repository" placeholder="帳號／儲存庫名稱" required pattern="[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+" autocomplete="off"></label><label>分支 <input id="branch" value="main" required autocomplete="off"></label><label>Fine-grained 存取權杖 <input id="token" type="password" required autocomplete="off" spellcheck="false"></label><p><a href="https://github.com/settings/personal-access-tokens/new?name=RD065-CAD-Cloud&amp;target_name=maxjimtech&amp;expires_in=30&amp;actions=write&amp;contents=read" target="_blank" rel="noopener noreferrer">建立 GitHub 權杖（預填權限） ↗</a></p><p class="hint">建立時選 Only select repositories → maxjimtech.github.io。權限：此儲存庫的 Actions 讀寫、Contents 唯讀。權杖只存在頁面記憶體，直接送往 GitHub API，不寫入瀏覽器儲存空間；重新開啟時需重新連線。</p><button type="submit" class="primary" id="connect-button">驗證並連線</button><button type="button" id="disconnect">清除連線</button><p id="connect-error" role="alert"></p></form></dialog>
 <script type="module" src="app.js"></script>

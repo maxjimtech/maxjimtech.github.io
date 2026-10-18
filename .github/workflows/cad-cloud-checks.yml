@@ -28,6 +28,8 @@ jobs:
           node --check ../services/cad-cloud/app.js
           node --check ../services/cad-cloud/guest.js
           node --test server/guest.test.mjs
+          node --check ../api/cad.mjs
+          node --check server/start.mjs
           node --check ../services/cad-cloud/viewer.js
           node --check ../services/cad-cloud/sw.js
           python -B -m unittest discover -s tests -v
