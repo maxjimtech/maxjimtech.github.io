@@ -19,7 +19,7 @@ permissions:
 jobs:
   build:
     # Hosted cloud runner only. Do not replace with self-hosted.
-    runs-on: windows-2022
+    runs-on: windows-2025
     timeout-minutes: 180
     permissions:
       contents: write
