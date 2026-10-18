@@ -1,0 +1,133 @@
+{
+  "version": "3.2",
+  "system": "肇祥企業社 Maxjimtech 3D Toolbox Planner",
+  "box": {
+    "length": 420,
+    "width": 280,
+    "height": 85,
+    "wallThickness": 4,
+    "evaHeight": 30,
+    "color": "#1e3a8a",
+    "evaStyle": "dual_red",
+    "lidAngle": 95
+  },
+  "tools": [
+    {
+      "id": 1,
+      "name": "1/2\" 預置式扭力扳手 (28-210Nm)",
+      "type": "torque_wrench",
+      "length": 355,
+      "width": 36,
+      "height": 34,
+      "weight": 1150,
+      "color": "#dc2626",
+      "x": -12,
+      "y": -92,
+      "rotation": 0
+    },
+    {
+      "id": 2,
+      "name": "1/2\" 工業級棘輪扳手",
+      "type": "ratchet",
+      "length": 250,
+      "width": 38,
+      "height": 34,
+      "weight": 580,
+      "color": "#1d4ed8",
+      "x": -65,
+      "y": -42,
+      "rotation": 0
+    },
+    {
+      "id": 3,
+      "name": "1/4\" 快脫棘輪扳手",
+      "type": "ratchet",
+      "length": 150,
+      "width": 26,
+      "height": 24,
+      "weight": 140,
+      "color": "#2563eb",
+      "x": 112,
+      "y": -42,
+      "rotation": 0
+    },
+    {
+      "id": 4,
+      "name": "1/2\" 氣動深孔套筒組",
+      "type": "socket_strip",
+      "length": 150,
+      "width": 32,
+      "height": 52,
+      "weight": 650,
+      "color": "#334155",
+      "x": -112,
+      "y": 12,
+      "rotation": 0
+    },
+    {
+      "id": 5,
+      "name": "氣動六角凸套筒組 (H5~H12)",
+      "type": "hex_bit_socket",
+      "length": 145,
+      "width": 26,
+      "height": 50,
+      "weight": 410,
+      "color": "#b45309",
+      "x": 48,
+      "y": 12,
+      "rotation": 0
+    },
+    {
+      "id": 6,
+      "name": "火星塞磁性套筒 16mm",
+      "type": "spark_socket",
+      "length": 65,
+      "width": 22,
+      "height": 22,
+      "weight": 105,
+      "color": "#38bdf8",
+      "x": 158,
+      "y": 12,
+      "rotation": 0
+    },
+    {
+      "id": 7,
+      "name": "1/4\" 短套筒組 (4~13mm)",
+      "type": "socket_strip",
+      "length": 120,
+      "width": 22,
+      "height": 25,
+      "weight": 160,
+      "color": "#94a3b8",
+      "x": -125,
+      "y": 78,
+      "rotation": 0
+    },
+    {
+      "id": 8,
+      "name": "L型球頭內六角扳手組 (9件式)",
+      "type": "hex_key_set",
+      "length": 170,
+      "width": 62,
+      "height": 20,
+      "weight": 320,
+      "color": "#2563eb",
+      "x": 32,
+      "y": 78,
+      "rotation": 0
+    },
+    {
+      "id": 9,
+      "name": "1/2\" 萬向接頭",
+      "type": "u_joint",
+      "length": 65,
+      "width": 26,
+      "height": 26,
+      "weight": 135,
+      "color": "#cbd5e1",
+      "x": 158,
+      "y": 78,
+      "rotation": 0
+    }
+  ]
+}

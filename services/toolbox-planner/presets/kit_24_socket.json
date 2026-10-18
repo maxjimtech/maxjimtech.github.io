@@ -1,0 +1,94 @@
+{
+  "version": "3.2",
+  "system": "肇祥企業社 Maxjimtech 3D Toolbox Planner",
+  "box": {
+    "length": 280,
+    "width": 130,
+    "height": 42,
+    "wallThickness": 3,
+    "evaHeight": 18,
+    "color": "#1e3a8a",
+    "evaStyle": "dual_red",
+    "lidAngle": 95
+  },
+  "tools": [
+    {
+      "id": 1,
+      "name": "1/4\" 快脫棘輪扳手",
+      "type": "ratchet",
+      "length": 150,
+      "width": 26,
+      "height": 24,
+      "weight": 140,
+      "color": "#2563eb",
+      "x": -50,
+      "y": -30,
+      "rotation": 0
+    },
+    {
+      "id": 2,
+      "name": "1/4\" 延長接桿 100mm",
+      "type": "extension_bar",
+      "length": 100,
+      "width": 14,
+      "height": 14,
+      "weight": 65,
+      "color": "#cbd5e1",
+      "x": 75,
+      "y": -34,
+      "rotation": 0
+    },
+    {
+      "id": 3,
+      "name": "1/4\" 萬向接頭",
+      "type": "u_joint",
+      "length": 42,
+      "width": 18,
+      "height": 18,
+      "weight": 45,
+      "color": "#cbd5e1",
+      "x": 102,
+      "y": -8,
+      "rotation": 0
+    },
+    {
+      "id": 4,
+      "name": "滑行 T 型扳手桿",
+      "type": "t_bar",
+      "length": 115,
+      "width": 24,
+      "height": 14,
+      "weight": 95,
+      "color": "#cbd5e1",
+      "x": 25,
+      "y": -8,
+      "rotation": 0
+    },
+    {
+      "id": 5,
+      "name": "1/4\" 短套筒組 (4~13mm)",
+      "type": "socket_strip",
+      "length": 120,
+      "width": 22,
+      "height": 25,
+      "weight": 160,
+      "color": "#94a3b8",
+      "x": -62,
+      "y": 26,
+      "rotation": 0
+    },
+    {
+      "id": 6,
+      "name": "S2 旋具頭模組排 (10件)",
+      "type": "bit_box",
+      "length": 95,
+      "width": 32,
+      "height": 20,
+      "weight": 110,
+      "color": "#f59e0b",
+      "x": 65,
+      "y": 26,
+      "rotation": 0
+    }
+  ]
+}
