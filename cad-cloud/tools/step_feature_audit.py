@@ -5,6 +5,7 @@ if os.environ.get('GITHUB_ACTIONS') != 'true':
 root = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(root/'engine'))
 import FreeCAD as A, Part, native_features
+print('RUNTIME', A.Version(), getattr(Part, 'OCC_VERSION', 'unknown'), flush=True)
 out = root/'feature-audit';out.mkdir(exist_ok=True)
 fc = next(p for p in (root/'recovery').rglob('*.FCStd') if not p.name.startswith(('FAILED', 'NativeGeometry')))
 doc = A.openDocument(str(fc));rows = []
