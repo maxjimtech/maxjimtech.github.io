@@ -95,9 +95,10 @@ def run(c, output=None):
         doc.saveAs(str(out.parent/'PRE_CHAMFER_DEBUG.FCStd'))
         if not before.isValid() or len(before.Solids)!=1 or not before.Solids[0].isClosed() or abs(before.Volume-shaft.Shape.Volume)>max(.001,shaft.Shape.Volume*1e-5):
             raise RuntimeError('Pre-chamfer STEP validation failed')
-        bevel=doc.addObject('Part::FeaturePython','ActualArcEdgeC05');ActualArcChamfer(bevel,shaft,rad,C)
-        doc.recompute();healthy(bevel);hide(shaft);shaft=bevel
-        log('Actual pose-edge Boolean C0.5 complete')
+        # User explicitly authorizes omitting the remaining groove-edge chamfer.
+        # Retain the validated CNC groove; do not claim an unbuilt edge treatment.
+        log('Cam groove outer-edge chamfer omitted by user authorization')
+        warnings.append('Cam groove outer edges are not chamfered; omission explicitly authorized for this review version.')
         for name,z,sg in [('CamLeftEndC',cam0,1),('CamRightEndC',cam1,-1),('LeftShaftEndC',0,1)]:
             r=rad if name.startswith('Cam') else 9;v=C if name.startswith('Cam') else 1
             points=[A.Vector(r-v,0,z),A.Vector(r+.2,0,z),A.Vector(r+.2,0,z+sg*(v+.2))]
@@ -170,6 +171,8 @@ def run(c, output=None):
         checks['cam_surface_method']='analytic finite-cylinder tool poses; finite angular sampling; continuous curvature not certified'
         checks['radial_profile_stride']=None;checks['radial_sample_deviation_mm']=None;checks['radial_spline_polyline_deviation_mm']=None
         checks['step_geometric_acceptance_mm']=.01
+        checks['cam_groove_edge_chamfer_status']='OMITTED_USER_AUTHORIZED'
+        checks['warnings']=warnings
         doc.saveAs(str(out/'NativeGeometry.FCStd'))
         log('Building native TechDraw pages')
         from drawings import build_pages
