@@ -148,26 +148,30 @@ class PoseChamferCut:
             radius=float(obj.StockRadius);z0=float(obj.CamStart);width=float(obj.CamWidth);size=float(obj.Size)
             removed=[];active=[p for p in obj.CutterPoses if p.Shape.BoundBox.ZMax>=z0-size and p.Shape.BoundBox.ZMin<=z0+width+size]
             for index,pose in enumerate(active):
-                reference=Part.makeCylinder(radius,width+60,A.Vector(0,0,z0-30))
                 axis=pose.Placement.Rotation.multVec(A.Vector(0,0,1));base=pose.Placement.Base
-                reference.rotate(A.Vector(),A.Vector(0,0,1),math.degrees(math.atan2(axis.y,axis.x))+90)
                 success=False;last=''
-                for seam in [37,73,119]:
-                    try:
-                        cutter=pose.Shape.copy();cutter.rotate(base,axis,seam)
-                        cut=reference.cut(cutter)
-                        edges=[]
-                        for edge in cut.Edges:
-                            if not isinstance(edge.Curve,Part.BSplineCurve):continue
-                            points=edge.discretize(Number=5)
-                            if max(abs(math.hypot(p.x,p.y)-radius) for p in points)<1e-5 and max(p.z for p in points)-min(p.z for p in points)>.001:edges.append(edge)
-                        if not edges:raise ValueError('No cylindrical outer-flank edge at active pose.')
-                        chamfer=cut.makeChamfer(size,edges)
-                        if not chamfer.isValid():raise ValueError('Invalid individual pose chamfer.')
-                        material=cut.cut(chamfer)
-                        if material.isNull() or not material.isValid() or material.Volume<=1e-8:raise ValueError('Individual chamfer removes no valid material.')
-                        removed.append(material);success=True;break
-                    except Exception as error:last=str(error)
+                for margin in [30,.25,0,.4,1]:
+                    reference=Part.makeCylinder(radius,width+2*margin,A.Vector(0,0,z0-margin))
+                    reference.rotate(A.Vector(),A.Vector(0,0,1),math.degrees(math.atan2(axis.y,axis.x))+90)
+                    for seam in [37,73,119]:
+                        try:
+                            cutter=pose.Shape.copy();cutter.rotate(base,axis,seam)
+                            cut=reference.cut(cutter)
+                            edges=[]
+                            for edge in cut.Edges:
+                                if not isinstance(edge.Curve,Part.BSplineCurve):continue
+                                points=edge.discretize(Number=5)
+                                if max(abs(math.hypot(p.x,p.y)-radius) for p in points)<1e-5 and max(p.z for p in points)-min(p.z for p in points)>.001:edges.append(edge)
+                            if not edges:raise ValueError('No cylindrical outer-flank edge at active pose.')
+                            chamfer=cut.makeChamfer(size,edges)
+                            if not chamfer.isValid():raise ValueError('Invalid individual pose chamfer.')
+                            material=cut.cut(chamfer)
+                            if material.isNull() or not material.isValid() or material.Volume<=1e-8:raise ValueError('Individual chamfer removes no valid material.')
+                            removed.append(material);success=True;break
+                        except Exception as error:last=str(error)
+                    if success:
+                        if margin!=30:print('Pose bevel reference '+str(index)+' margin_mm='+str(margin),flush=True)
+                        break
                 if not success:raise ValueError('C0.5 pose '+str(index)+' failed: '+last)
                 if index%20==0:print('Actual-edge Boolean C0.5 pose '+str(index+1)+'/'+str(len(active)),flush=True)
             result=obj.Base.Shape.cut(tuple(removed),1e-7).removeSplitter()
