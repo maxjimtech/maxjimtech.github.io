@@ -26,6 +26,8 @@ jobs:
       - name: Source syntax and input contracts
         run: |
           node --check ../services/cad-cloud/app.js
+          node --check ../services/cad-cloud/guest.js
+          node --test server/guest.test.mjs
           node --check ../services/cad-cloud/viewer.js
           node --check ../services/cad-cloud/sw.js
           python -B -m unittest discover -s tests -v

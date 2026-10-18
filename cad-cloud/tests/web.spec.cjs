@@ -1,6 +1,43 @@
 // These tests execute only in GitHub's hosted Linux runner. Mocked API fixtures
 // check UI behavior; they do not substitute for the real FreeCAD cloud first run.
 const {test,expect}=require('@playwright/test');
+
+test('guest submits without login or browser credential and polls after reload',async({page})=>{
+  let submitted,posts=0,healthCalls=0,statusCalls=0;
+  await page.route('**/deployment.json',r=>r.fulfill({json:{repository:'maxjimtech/maxjimtech.github.io',branch:'main',guest_api:'https://api.github.com/guest-cad'}}));
+  await page.route('https://api.github.com/**',async route=>{
+    const request=route.request(),u=new URL(request.url());
+    expect(request.headers().authorization).toBeUndefined();
+    if(u.pathname!=='/guest-cad')return route.fulfill({status:404,json:{message:'Not Found'}});
+    if(request.method()==='POST'){
+      submitted=request.postDataJSON();posts++;
+      return route.fulfill({status:202,json:{job_id:submitted.job_id,status:'submitted'}});
+    }
+    if(u.searchParams.has('job')){statusCalls++;return route.fulfill({json:{job_id:u.searchParams.get('job'),status:'in_progress'}});}
+    healthCalls++;return route.fulfill({json:{mode:'guest',configured:true}});
+  });
+  await page.goto('/');
+  await expect(page.locator('#banner')).toContainText('無需登入');
+  await expect(page.locator('#settings')).toBeHidden();
+  await page.locator('#submit').click();
+  await expect(page.locator('#banner')).toContainText('已提交');
+  await expect(page.locator('#connection')).not.toBeVisible();
+  expect(posts).toBe(1);expect(submitted.requirements.cam_root_mm).toBe(32);
+  expect(submitted.requirements.roller_od_mm).toBe(14);
+  await page.reload();
+  await expect(page.locator('#jobs')).toContainText('雲端運算中');
+  expect(healthCalls).toBeGreaterThan(1);expect(statusCalls).toBeGreaterThan(0);
+  expect(await page.evaluate(()=>localStorage.getItem('cad-cloud-connection'))).toBeNull();
+  await page.screenshot({path:'test-results/guest-submit.png',fullPage:true});
+});
+
+test('unconfigured guest endpoint cannot fall back to asking visitor for a token',async({page})=>{
+  await page.route('**/deployment.json',r=>r.fulfill({json:{repository:'maxjimtech/maxjimtech.github.io',branch:'main',guest_api:'https://api.github.com/guest-cad'}}));
+  await page.route('https://api.github.com/guest-cad',r=>r.fulfill({json:{mode:'guest',configured:false}}));
+  await page.goto('/');await expect(page.locator('#banner')).toContainText('尚未設定');
+  await page.locator('#submit').click();await expect(page.locator('#banner')).toContainText('尚未就緒');
+  await expect(page.locator('#connection')).not.toBeVisible();
+});
 test('connect, submit real request shape, remember job and clear token',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   let submitted;
