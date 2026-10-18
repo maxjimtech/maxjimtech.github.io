@@ -17,10 +17,10 @@ export function validateRequest(body){
   c.dwg_converter='';c.require_dwg=false;
   return {job_id:body.job_id,requirements:c};
 }
-export function createBroker({token,repo='maxjimtech/maxjimtech.github.io',branch='main',dailyLimit=6,cooldownSeconds=300,fetchImpl=fetch,now=()=>Date.now()}={}){
+export function createBroker({token,repo='maxjimtech/maxjimtech.github.io',branch='main',dailyLimit=4,cooldownSeconds=300,fetchImpl=fetch,now=()=>Date.now()}={}){
   if(!token)throw new HttpError(503,'免登入雲端服務尚未設定管理端授權');
   if(repo!=='maxjimtech/maxjimtech.github.io'||branch!=='main')throw new HttpError(503,'後端儲存庫設定不符');
-  if(!Number.isInteger(dailyLimit)||dailyLimit<1||dailyLimit>100||!Number.isInteger(cooldownSeconds)||cooldownSeconds<60)throw new HttpError(503,'後端用量設定無效');
+  if(!Number.isInteger(dailyLimit)||dailyLimit<1||dailyLimit>4||!Number.isInteger(cooldownSeconds)||cooldownSeconds<60)throw new HttpError(503,'後端用量設定無效');
   const prefix='/repos/'+repo;
   async function gh(path,{method='GET',body,raw=false}={}){
     const r=await fetchImpl('https://api.github.com'+prefix+path,{method,headers:{Authorization:'Bearer '+token,Accept:raw?'application/vnd.github.raw+json':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28',...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(12000)});
@@ -45,7 +45,7 @@ export function createBroker({token,repo='maxjimtech/maxjimtech.github.io',branc
     }
   }
   async function submit(raw,ip){
-    const input=validateRequest(raw),time=now(),day=new Date(time).toISOString().slice(0,10);
+    const input=validateRequest(raw),time=now(),day=new Date(time+8*60*60*1000).toISOString().slice(0,10);
     const payloadHash=createHash('sha256').update(JSON.stringify(input.requirements,Object.keys(input.requirements).sort())).digest('hex');
     const client=createHmac('sha256',token).update(String(ip)).digest('hex').slice(0,24);
     await ensureControlBranch();let reserved=false;
@@ -55,7 +55,7 @@ export function createBroker({token,repo='maxjimtech/maxjimtech.github.io',branc
       const old=data.requests.find(x=>x.id===input.job_id);
       if(old){if(old.payloadHash!==payloadHash||old.client!==client)throw new HttpError(409,'工作編號已使用');if(old.state!=='submitted')throw new HttpError(503,'此工作編號已保留，派送狀態待管理者查核');return {job_id:input.job_id,project:input.requirements.project,status:'submitted',replayed:true};}
       const count=data.day===day?data.count:0;
-      if(count>=dailyLimit)throw new HttpError(429,'今日雲端生成用量已滿，請明日再試');
+      if(count>=dailyLimit)throw new HttpError(429,'全站今日 '+dailyLimit+' 次生成額度已用完，台灣時間午夜重置；需要增加使用次數，請聯絡 0931675001');
       if(time-data.last<cooldownSeconds*1000)throw new HttpError(429,'雲端生成間隔至少 '+cooldownSeconds+' 秒，請稍後再試');
       for(const state of ['in_progress','queued']){
         const runs=await gh('/actions/workflows/cad.yml/runs?status='+state+'&per_page=1');

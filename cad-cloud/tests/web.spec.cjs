@@ -4,6 +4,13 @@ const {test,expect}=require('@playwright/test');
 // API fixtures must not be bypassed by a previously installed service worker.
 test.use({serviceWorkers:'block'});
 
+test('four-per-day global policy and contact are visible',async({page})=>{
+  await page.goto('/');
+  await expect(page.locator('#usage-policy')).toContainText('全站每日最多申請生成 4 次');
+  await expect(page.locator('#usage-policy')).toContainText('台灣時間午夜');
+  await expect(page.getByRole('link',{name:'0931675001',exact:true})).toHaveAttribute('href','tel:0931675001');
+});
+
 test('guest submits without login or browser credential and polls after reload',async({page})=>{
   let submitted,posts=0,healthCalls=0,statusCalls=0;
   await page.route('**/deployment.json',r=>r.fulfill({json:{repository:'maxjimtech/maxjimtech.github.io',branch:'main',guest_api:'https://api.github.com/guest-cad'}}));

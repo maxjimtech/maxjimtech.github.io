@@ -9,8 +9,8 @@ export default async function handler(req,res){
     res.setHeader('Access-Control-Allow-Methods','GET, POST, OPTIONS');res.setHeader('Access-Control-Allow-Headers','Content-Type');return res.status(204).end();
   }
   try{
-    if(req.method==='GET'&&!req.query.job)return res.status(200).json({mode:'guest',configured:Boolean(process.env.CAD_GITHUB_TOKEN),daily_limit:Number(process.env.CAD_DAILY_LIMIT||6),cooldown_seconds:Number(process.env.CAD_COOLDOWN_SECONDS||300)});
-    const broker=createBroker({token:process.env.CAD_GITHUB_TOKEN,dailyLimit:Number(process.env.CAD_DAILY_LIMIT||6),cooldownSeconds:Number(process.env.CAD_COOLDOWN_SECONDS||300)});
+    if(req.method==='GET'&&!req.query.job)return res.status(200).json({mode:'guest',configured:Boolean(process.env.CAD_GITHUB_TOKEN),daily_limit:Number(process.env.CAD_DAILY_LIMIT||4),quota_scope:'global',timezone:'Asia/Taipei',contact:'0931675001',cooldown_seconds:Number(process.env.CAD_COOLDOWN_SECONDS||300)});
+    const broker=createBroker({token:process.env.CAD_GITHUB_TOKEN,dailyLimit:Number(process.env.CAD_DAILY_LIMIT||4),cooldownSeconds:Number(process.env.CAD_COOLDOWN_SECONDS||300)});
     if(req.method==='GET'){
       res.setHeader('Cache-Control','public, s-maxage=15, stale-while-revalidate=15');return res.status(200).json(await broker.status(String(req.query.job)));
     }

@@ -5,7 +5,7 @@ import {randomUUID} from 'node:crypto';
 import {createBroker,validateRequest} from './guest.mjs';
 const defaults=JSON.parse(await readFile(new URL('../engine/config.json',import.meta.url),'utf8'));
 function harness(){
-  let quota=null,sha=0,dispatches=0,active=0,dispatchError=false;
+  let quota=null,sha=0,dispatches=0,active=0,dispatchError=false,clock=1792318000000;
   const response=(data,status=200)=>new Response(status===204?null:JSON.stringify(data),{status,headers:{'content-type':'application/json'}});
   const fetchImpl=async(url,options)=>{
     const p=new URL(url).pathname,method=options.method;
@@ -20,8 +20,8 @@ function harness(){
     if(p.endsWith('/dispatches')){dispatches++;return response({},dispatchError?403:204);}
     throw Error('Unexpected GitHub operation '+method+' '+p);
   };
-  const broker=createBroker({token:'server-test-only',fetchImpl,now:()=>1792318000000});
-  return {broker,get quota(){return quota;},get dispatches(){return dispatches;},set active(x){active=x;},set dispatchError(x){dispatchError=x;}};
+  const broker=createBroker({token:'server-test-only',fetchImpl,now:()=>clock});
+  return {broker,get quota(){return quota;},get dispatches(){return dispatches;},set active(x){active=x;},set dispatchError(x){dispatchError=x;},set time(x){clock=x;}};
 }
 const request=()=>({job_id:randomUUID(),requirements:{...defaults}});
 test('fixed server repository and administrator credential required',()=>{
@@ -51,4 +51,16 @@ test('failed dispatch consumes reservation and is not replayed as a success',asy
   const h=harness();h.dispatchError=true;const r=request();await assert.rejects(h.broker.submit(r,'a'),e=>e.status===502);
   assert.equal(h.quota.count,1);assert.equal(h.quota.requests[0].state,'dispatch_failed');
   await assert.rejects(h.broker.submit(r,'a'),e=>e.status===503);assert.equal(h.dispatches,1);
+});
+
+test('four global requests per Taipei day; fifth blocked and midnight resets',async()=>{
+  const h=harness();const start=Date.parse('2026-10-18T15:00:00Z');
+  for(let i=0;i<4;i++){h.time=start+i*600000;await h.broker.submit(request(),'client-'+i);}
+  assert.equal(h.quota.day,'2026-10-18');assert.equal(h.quota.count,4);
+  h.time=start+2400000;
+  await assert.rejects(h.broker.submit(request(),'new-browser'),e=>e.status===429&&e.message.includes('0931675001'));
+  assert.equal(h.dispatches,4);
+  h.time=Date.parse('2026-10-18T16:00:00Z');await h.broker.submit(request(),'client-0');
+  assert.equal(h.quota.day,'2026-10-19');assert.equal(h.quota.count,1);assert.equal(h.dispatches,5);
+  assert.throws(()=>createBroker({token:'test',dailyLimit:5}),/設定無效/);
 });
