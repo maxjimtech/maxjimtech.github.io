@@ -90,7 +90,9 @@ class SplineSection:
                     maximum=max(maximum,best)
         edges.append(Part.makeLine(upper[-1],lower[0]));wire=Part.Wire(edges)
         if not wire.isClosed() or not wire.isValid():raise ValueError('Invalid fitted envelope section.')
-        if maximum>.1:raise ValueError('Radial curve fit deviates more than 0.1 mm from input polyline: '+str(maximum))
+        if maximum>.1:
+            print('Spline section fit rejected '+obj.Name+' deviation_mm='+str(maximum),flush=True)
+            raise ValueError('Radial curve fit deviates more than 0.1 mm from input polyline: '+str(maximum))
         obj.Shape=wire;obj.MaxPolylineDeviation=maximum;self._points=signature
     def dumps(self):return getattr(self,'_points',None)
     def loads(self,state):self._points=tuple(tuple(p) for p in state) if state is not None else None
