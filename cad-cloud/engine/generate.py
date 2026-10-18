@@ -4,7 +4,7 @@ import FreeCAD as A, Part, Sketcher, TechDraw
 import datetime as task_datetime
 from requirements import validate
 from envelope import sections
-from native_features import Polygon, RevolvedRing, RobustCut, SplineSection, NativeEdgeChamfer, CylindricalSweepCut
+from native_features import Polygon, RevolvedRing, RobustCut, SplineSection, NativeEdgeChamfer, CylindricalSweepCut, PoseChamferCut
 ROOT=pathlib.Path(__file__).resolve().parent
 
 def log(s):print(s,flush=True)
@@ -71,7 +71,7 @@ def run(c, output=None):
             o=doc.addObject('Part::Cone',name);o.Radius1=r1;o.Radius2=r2;o.Height=h;o.Placement.Base.z=z;cones.append(o)
         shaft=cut('ShaftCentreHoles',shaft,compound('CentreHoleTools',bores+cones))
         R=c['roller_pcd_mm']/2;N=c['ratio'];ad=c['axis_distance_mm'];rr=c['roller_od_mm']/2+c['clearance_mm'];rad=c['cam_od_mm']/2;C=c['chamfer_mm']
-        span=max(.85,math.asin(min(.9,(W/2+rr+3)/R)));count=max(409,int(2*span*N*12)|1)
+        span=max(.85,math.asin(min(.9,(W/2+rr+3)/R)));count=max(201,int(2*span*N*6)|1)
         betas=[-span+2*span*i/(count-1) for i in range(count)]
         for i in range(N):
             beta=math.remainder(math.pi/2+2*math.pi*i/N,2*math.pi)
@@ -95,20 +95,9 @@ def run(c, output=None):
         doc.saveAs(str(out.parent/'PRE_CHAMFER_DEBUG.FCStd'))
         if not before.isValid() or len(before.Solids)!=1 or not before.Solids[0].isClosed() or abs(before.Volume-shaft.Shape.Volume)>max(.001,shaft.Shape.Volume*1e-5):
             raise RuntimeError('Pre-chamfer STEP validation failed')
-        edge_indices=[]
-        for index,edge_shape in enumerate(shaft.Shape.Edges,1):
-            samples=edge_shape.discretize(Number=5)
-            if len(samples)<2:continue
-            if max(p.z for p in samples)-min(p.z for p in samples)<.001:continue
-            if max(abs(math.hypot(p.x,p.y)-rad) for p in samples)>1e-5:continue
-            tangent=edge_shape.tangentAt((edge_shape.FirstParameter+edge_shape.LastParameter)/2)
-            if abs(tangent.z)>.99:continue
-            edge_indices.append(index)
-        if not edge_indices:raise ValueError('No actual outer cam flank edges found for C0.5.')
-        log('Actual cam flank edges for C0.5: '+str(len(edge_indices)))
-        bevel=doc.addObject('Part::FeaturePython','ActualCamEdgeC05');NativeEdgeChamfer(bevel,shaft,edge_indices,C)
+        bevel=doc.addObject('Part::FeaturePython','ActualPoseEdgeC05');PoseChamferCut(bevel,shaft,poses,rad,cam0,W,C)
         doc.recompute();healthy(bevel);hide(shaft);shaft=bevel
-        log('Actual cam edge C0.5 complete')
+        log('Actual pose-edge Boolean C0.5 complete')
         for name,z,sg in [('CamLeftEndC',cam0,1),('CamRightEndC',cam1,-1),('LeftShaftEndC',0,1)]:
             r=rad if name.startswith('Cam') else 9;v=C if name.startswith('Cam') else 1
             points=[A.Vector(r-v,0,z),A.Vector(r+.2,0,z),A.Vector(r+.2,0,z+sg*(v+.2))]

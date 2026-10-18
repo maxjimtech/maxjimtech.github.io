@@ -1,3 +1,4 @@
+import math
 """Small persistent FreeCAD features. Load this module before opening FCStd."""
 import FreeCAD as A, Part
 
@@ -129,5 +130,51 @@ class CylindricalSweepCut:
             obj.Shape=result;self._signature=signature
         except Exception as error:
             print('Finite-cylinder sweep failed: '+str(error),flush=True);raise
+    def dumps(self):return None
+    def loads(self,state):pass
+
+class PoseChamferCut:
+    """Boolean C cut from exact outer-edge chamfers at individual cutter poses."""
+    def __init__(self,obj,base,poses,radius,z0,width,size):
+        obj.addProperty('App::PropertyLink','Base','Machining');obj.Base=base
+        obj.addProperty('App::PropertyLinkList','CutterPoses','Machining');obj.CutterPoses=poses
+        for key,value in [('StockRadius',radius),('CamStart',z0),('CamWidth',width),('Size',size)]:
+            obj.addProperty('App::PropertyLength',key,'Machining');setattr(obj,key,value)
+        obj.Proxy=self
+    def execute(self,obj):
+        signature=(obj.Base.Shape.hashCode(),tuple(t.Shape.hashCode() for t in obj.CutterPoses),float(obj.Size))
+        if not obj.Shape.isNull() and getattr(self,'_signature',None)==signature:return
+        try:
+            radius=float(obj.StockRadius);z0=float(obj.CamStart);width=float(obj.CamWidth);size=float(obj.Size)
+            removed=[];active=[p for p in obj.CutterPoses if p.Shape.BoundBox.ZMax>=z0-size and p.Shape.BoundBox.ZMin<=z0+width+size]
+            for index,pose in enumerate(active):
+                reference=Part.makeCylinder(radius,width+60,A.Vector(0,0,z0-30))
+                axis=pose.Placement.Rotation.multVec(A.Vector(0,0,1));base=pose.Placement.Base
+                reference.rotate(A.Vector(),A.Vector(0,0,1),math.degrees(math.atan2(axis.y,axis.x))+90)
+                success=False;last=''
+                for seam in [37,73,119]:
+                    try:
+                        cutter=pose.Shape.copy();cutter.rotate(base,axis,seam)
+                        cut=reference.cut(cutter)
+                        edges=[]
+                        for edge in cut.Edges:
+                            if not isinstance(edge.Curve,Part.BSplineCurve):continue
+                            points=edge.discretize(Number=5)
+                            if max(abs(math.hypot(p.x,p.y)-radius) for p in points)<1e-5 and max(p.z for p in points)-min(p.z for p in points)>.001:edges.append(edge)
+                        if not edges:raise ValueError('No cylindrical outer-flank edge at active pose.')
+                        chamfer=cut.makeChamfer(size,edges)
+                        if not chamfer.isValid():raise ValueError('Invalid individual pose chamfer.')
+                        material=cut.cut(chamfer)
+                        if material.isNull() or not material.isValid() or material.Volume<=1e-8:raise ValueError('Individual chamfer removes no valid material.')
+                        removed.append(material);success=True;break
+                    except Exception as error:last=str(error)
+                if not success:raise ValueError('C0.5 pose '+str(index)+' failed: '+last)
+                if index%20==0:print('Actual-edge Boolean C0.5 pose '+str(index+1)+'/'+str(len(active)),flush=True)
+            result=obj.Base.Shape.cut(tuple(removed),1e-7).removeSplitter()
+            if not result.isValid() or len(result.Solids)!=1 or not result.Solids[0].isClosed():raise ValueError('Invalid whole cam after pose bevel Boolean.')
+            if not 0<result.Volume<obj.Base.Shape.Volume-1e-6:raise ValueError('Pose bevel removes no stock.')
+            obj.Shape=result;self._signature=signature
+        except Exception as error:
+            print('Pose bevel failed: '+str(error),flush=True);raise
     def dumps(self):return None
     def loads(self,state):pass
