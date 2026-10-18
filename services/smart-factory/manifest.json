@@ -1,0 +1,24 @@
+{
+  "name": "肇祥企業社 Maxjimtech · 3D 智慧工廠自動化產線與廠房規劃系統",
+  "short_name": "Maxjimtech 3D工廠",
+  "description": "機械手臂、CNC工具母機、自動化專用機(SPM)、AGV輸送搬運與3D廠房動線規劃系統",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#0f172a",
+  "orientation": "landscape",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "id": "./",
+  "scope": "./"
+}

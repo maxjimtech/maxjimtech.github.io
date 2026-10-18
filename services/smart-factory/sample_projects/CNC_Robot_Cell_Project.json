@@ -1,0 +1,103 @@
+{
+  "version": "2.0",
+  "system": "肇祥企業社 Maxjimtech 3D Smart Factory Planner",
+  "exportDate": "2026-10-18T15:00:00Z",
+  "plant": {
+    "length": 28,
+    "width": 18,
+    "height": 7,
+    "colSpan": 8,
+    "aisleWidth": 2.5,
+    "floorColor": "#14332b",
+    "showColumns": true,
+    "showWalkway": true,
+    "showReach": true,
+    "showFlowArrows": true
+  },
+  "equipments": [
+    {
+      "id": 1,
+      "name": "OP-10 立式綜合加工中心 VMC-850 #1",
+      "type": "cnc_vmc",
+      "l": 2.8,
+      "w": 2.3,
+      "h": 2.6,
+      "reach": 0,
+      "kw": 22.0,
+      "color": "#0284c7",
+      "x": -5.5,
+      "z": -4.2,
+      "rot": 0
+    },
+    {
+      "id": 2,
+      "name": "OP-20 立式綜合加工中心 VMC-850 #2",
+      "type": "cnc_vmc",
+      "l": 2.8,
+      "w": 2.3,
+      "h": 2.6,
+      "reach": 0,
+      "kw": 22.0,
+      "color": "#0284c7",
+      "x": -1.5,
+      "z": -4.2,
+      "rot": 0
+    },
+    {
+      "id": 3,
+      "name": "OP-30 CNC 斜床身車銑複合機",
+      "type": "cnc_lathe",
+      "l": 3.2,
+      "w": 1.9,
+      "h": 2.1,
+      "reach": 0,
+      "kw": 18.5,
+      "color": "#dc2626",
+      "x": 3.0,
+      "z": -4.2,
+      "rot": 0
+    },
+    {
+      "id": 4,
+      "name": "第七軸地軌行走機械手 (6m 自動上下料)",
+      "type": "robot_7axis",
+      "l": 6.5,
+      "w": 1.4,
+      "h": 2.0,
+      "reach": 2.2,
+      "kw": 8.5,
+      "color": "#f97316",
+      "x": -1.5,
+      "z": -1.2,
+      "rot": 0
+    },
+    {
+      "id": 5,
+      "name": "入出料鋁擠型皮帶輸送線 (4m)",
+      "type": "conveyor_belt",
+      "l": 4.0,
+      "w": 0.9,
+      "h": 0.95,
+      "reach": 0,
+      "kw": 1.5,
+      "color": "#10b981",
+      "x": -7.5,
+      "z": -1.2,
+      "rot": 0
+    },
+    {
+      "id": 6,
+      "name": "OP-40 AOI 視覺檢測與雷射打標專用機",
+      "type": "spm_aoi",
+      "l": 1.8,
+      "w": 1.3,
+      "h": 2.0,
+      "reach": 0,
+      "kw": 3.5,
+      "color": "#8b5cf6",
+      "x": 6.5,
+      "z": -1.2,
+      "rot": 0
+    }
+  ]
+}
