@@ -1,0 +1,12 @@
+{
+  "version": "2.0.1",
+  "date": "2026-10-18",
+  "engine_source": "../FreeCAD_AutoMechanism",
+  "previous_release": "RD065_FreeCAD_自動建模程式_V1.zip",
+  "execution": "github-hosted-windows-only",
+  "remote_repository": "maxjimtech/maxjimtech.github.io",
+  "deployment_status": "PREPARING_DEPLOYMENT",
+  "site_path": "/services/cad-cloud/",
+  "cloud_validation": "NOT_RUN",
+  "cad_scope": "RD065 review family; not production-qualified"
+}

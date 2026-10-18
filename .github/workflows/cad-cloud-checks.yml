@@ -1,0 +1,41 @@
+name: CAD Cloud checks
+on:
+  push:
+    branches: [main]
+    paths: ["services/cad-cloud/**", "cad-cloud/**", ".github/workflows/cad-cloud-checks.yml"]
+  pull_request:
+    paths: ["services/cad-cloud/**", "cad-cloud/**", ".github/workflows/cad*.yml"]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: cad-cloud
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Source syntax and input contracts
+        run: |
+          node --check ../services/cad-cloud/app.js
+          node --check ../services/cad-cloud/viewer.js
+          node --check ../services/cad-cloud/sw.js
+          python -B -m unittest discover -s tests -v
+      - name: Browser checks on GitHub hosted runner
+        run: |
+          npm install --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+          npm run test:web
+      - name: Save browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cad-browser-evidence
+          path: cad-cloud/test-results/
+          retention-days: 14

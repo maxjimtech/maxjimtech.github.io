@@ -1,0 +1,16 @@
+{
+  "motion": "constant_velocity",
+  "ratio": 20,
+  "axis_distance_mm": 65,
+  "roller_pcd_mm": 136,
+  "roller_od_mm": 14,
+  "cam_od_mm": 50,
+  "cam_root_mm": 32,
+  "cam_width_mm": 80,
+  "clearance_mm": 0.00025,
+  "section_count": 409,
+  "source": "RD065_R3/cnc_compatible; matches confirmed RD065 nominal requirements",
+  "drawing_source_sha256": "3be7f84901d713b92daabcb5f165e4fc8fb9da36a2dc766d5b498a5e980facc7",
+  "curve_sections_sha256": "ae27e9f725710286262e0d69d685d19b317a4bba9330a0682dfc571b22fbfd35",
+  "precision_requirement": "waived by user"
+}

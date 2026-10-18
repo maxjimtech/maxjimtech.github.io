@@ -1,0 +1,85 @@
+name: Cloud FreeCAD
+run-name: CAD ${{ inputs.job_id || 'deployment-check' }}
+on:
+  push:
+    branches: [main]
+    paths: ["cad-cloud/cloud/**", "cad-cloud/engine/**", ".github/workflows/cad.yml"]
+  workflow_dispatch:
+    inputs:
+      job_id:
+        description: 'Unique request ID (UUID)'
+        required: true
+        type: string
+      requirements:
+        description: 'RD065 requirements JSON'
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  build:
+    # Hosted cloud runner only. Do not replace with self-hosted.
+    runs-on: windows-2022
+    timeout-minutes: 90
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: cad-cloud
+    env:
+      PYTHONUTF8: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      QT_QPA_PLATFORM: offscreen
+      CAD_JOB_ID: ${{ inputs.job_id }}
+      CAD_REQUIREMENTS: ${{ inputs.requirements }}
+      FREECAD_VERSION: '1.1.4'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate input before CAD setup
+        run: python -B cloud/prepare.py
+      - name: Cloud tests
+        run: python -B -m unittest discover -s tests -v
+      - name: Install FreeCAD on the GitHub-hosted runner
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $name = "FreeCAD_$env:FREECAD_VERSION-Windows-x86_64-py311.7z"
+          $base = "https://github.com/FreeCAD/FreeCAD/releases/download/$env:FREECAD_VERSION"
+          $archive = Join-Path $env:RUNNER_TEMP $name
+          Invoke-WebRequest "$base/$name" -OutFile $archive
+          $digest = (Invoke-WebRequest "$base/$name-SHA256.txt").Content
+          $expected = [regex]::Match($digest, '(?i)\b[a-f0-9]{64}\b').Value
+          if (-not $expected -or (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash -ne $expected) { throw 'FreeCAD checksum mismatch' }
+          $target = Join-Path $env:RUNNER_TEMP 'FreeCAD-cloud'
+          & 7z x $archive "-o$target" -y | Out-Null
+          if ($LASTEXITCODE -ne 0) { throw 'FreeCAD extraction failed' }
+          $python = Get-ChildItem -LiteralPath $target -Recurse -Filter python.exe | Where-Object { $_.Directory.Name -eq 'bin' } | Select-Object -First 1
+          if (-not $python) { throw 'Bundled FreeCAD Python missing' }
+          "FREECAD_PYTHON=$($python.FullName)" >> $env:GITHUB_ENV
+          "PREVIEW_PYTHON=$((Get-Command python).Source)" >> $env:GITHUB_ENV
+          python -m pip install --disable-pip-version-check Pillow==11.3.0
+          $font = Join-Path $env:RUNNER_TEMP 'NotoSansCJKtc-Regular.otf'
+          Invoke-WebRequest 'https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf' -OutFile $font
+          "CAD_PREVIEW_FONT=$font" >> $env:GITHUB_ENV
+      - name: Native CAD, STEP, DXF and web preview
+        shell: pwsh
+        run: |
+          & $env:FREECAD_PYTHON -B cloud/worker.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Preserve output or failure evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cad-${{ env.CAD_JOB_ID }}
+          path: cad-cloud/work/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Publish authenticated preview and download release
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CAD_BUILD_OUTCOME: ${{ job.status }}
+        run: python -B cloud/publish.py
