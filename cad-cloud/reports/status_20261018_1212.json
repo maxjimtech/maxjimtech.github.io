@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-18",
+  "backend": {
+    "project": "rd065-cad-guest",
+    "deployment": "dpl_BvEEn9FaYQCqMaALJxXeqGgLdNkT",
+    "api": "https://rd065-cad-guest.vercel.app/api/cad",
+    "public_health_passed": true,
+    "configured": false,
+    "state": "WAITING_ADMIN_SECRET",
+    "plan": "Hobby personal noncommercial test only"
+  },
+  "quota": {
+    "scope": "global",
+    "daily_limit": 4,
+    "timezone": "Asia/Taipei",
+    "contact": "0931675001"
+  },
+  "cad": {
+    "run": 39124398714,
+    "status": "in_progress",
+    "delivered": false
+  },
+  "web": {
+    "url": "https://maxjimtech.github.io/services/cad-cloud/",
+    "anonymous_generation_enabled": false
+  }
+}

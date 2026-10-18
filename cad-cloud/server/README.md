@@ -1,6 +1,6 @@
 # 免登入雲端後端
 
-Vercel 使用獨立專案 `rd065-cad-guest`，部署內容僅包含根目錄 `api/cad.mjs`、`cad-cloud/server/guest.mjs`、type=module 的 package.json，以及本目錄 vercel.json 作為部署根設定。不要覆蓋既有遊戲專案或根目錄的遊戲 Vercel 設定。此函式只提交及查詢工作，60秒期限不包含 FreeCAD 的背景建模時間。
+Vercel 獨立專案 `rd065-cad-guest` 已以本目錄五個檔案直接部署：api/cad.mjs、handler.mjs、guest.mjs、package.json、vercel.json。公開端點為 https://rd065-cad-guest.vercel.app/api/cad 。目前健康檢查通過，configured=false，尚未設定管理端憑證。後續也可從既有儲存庫匯入，Root Directory 設為 `cad-cloud/server`，Framework 選 Other。本目錄自成一個 Node 22 專案；api/cad.mjs 引用 handler.mjs，handler 再引用 guest.mjs，不讀取根目錄的遊戲設定。不要覆蓋既有遊戲專案。此函式只提交及查詢工作，60秒期限不包含 FreeCAD 背景建模時間。
 
 瀏覽器不持有權杖。`api/cad.mjs` 部署在有權限的雲端後端，呼叫 `cad-cloud/server/guest.mjs`；FreeCAD 仍在 GitHub 託管執行器執行。
 

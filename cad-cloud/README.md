@@ -6,19 +6,21 @@ GitHub Pages 提供可安裝網頁；GitHub 託管 Windows runner 執行 FreeCAD
 
 ## 免登入與精簡引擎修訂
 
-使用者不需持有 GitHub 權杖的程式已加入：伺服端配額／提交、公開成果讀取，以及重新開啟網頁後繼續查詢。必須先部署後端並設定伺服端 CAD_GITHUB_TOKEN，通過實際匿名提交與下載，才在 deployment.json 啟用 guest_api。目前 Vercel 權限回覆403，免登入服務尚未啟用；以下權杖連線僅為原有管理端模式。
+獨立後端已部署至 https://rd065-cad-guest.vercel.app/api/cad ，公開健康檢查回覆 mode=guest、configured=false、daily_limit=4、timezone=Asia/Taipei。尚缺管理端 CAD_GITHUB_TOKEN，不能啟動生成。設定後還須通過實際匿名提交、CAD 驗收與下載，才在 deployment.json 啟用 guest_api。訪客不需 GitHub 帳號或權杖。
 
 精簡版使用官方1.1.3二進位，在雲端移除無關工作台，不啟動GUI；保留OCC、Qt及TechDraw相依程式庫。這不是重新編譯的最小FreeCAD，初次仍下載官方完整封裝。每次執行記錄移除工作台與實際磁碟大小，並檢查Part／Sketcher／Spreadsheet／TechDraw能載入。
 
 ## 使用
 
 1. 用 Safari、Chrome 或 Edge 開啟線上入口。
-2. 既有雲端範例完成後可直接查看 3D、工程圖與下載。新建模型時，先點「連線設定」。
-3. 輸入儲存庫 `maxjimtech/maxjimtech.github.io`、分支 `main` 及限此儲存庫的 fine-grained PAT。所需權限：Actions Read and write、Contents Read-only。不要將權杖放在程式碼或聊天訊息中。
-4. 填寫需求、點「在雲端生成」。關閉頁面不會中止 GitHub 工作。同一瀏覽器保留工作編號；權杖只在頁面記憶體，不持久儲存。
+2. 目前入口顯示「免登入生成準備中」，待後端憑證及雲端 CAD 驗收完成才開放生成。
+3. 開放後填寫需求、點「在雲端生成」，訪客不需連線設定或權杖。
+4. 關閉頁面不會中止 GitHub 工作；同一瀏覽器保留工作編號，可重新開啟查詢。
 5. 完成後載入模型與圖面，或前往該工作 Release 下載 CAD-delivery.zip。失敗工作保留紀錄，不能視為合格模型。
 
 iPhone／iPad：Safari → 分享 → 加入主畫面。Chrome／Edge 可用瀏覽器安裝功能。安裝的僅是網頁外殼；沒有網路就不能建模。
+
+全站每日最多申請生成4次，台灣時間午夜重置；已保留額度的失敗申請亦計次。需要增加使用次數，請聯絡0931675001。管理端憑證設定方式見 server/README.md；不要把權杖貼到聊天或原始碼。
 
 ## 部署位置
 
