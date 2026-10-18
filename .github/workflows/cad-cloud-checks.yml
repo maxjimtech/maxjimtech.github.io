@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       CAD_LIVE_URL: ${{ github.event_name == 'push' && 'https://maxjimtech.github.io/services/cad-cloud/' || '' }}
+      CAD_GUEST_API: ${{ github.event_name == 'push' && 'https://rd065-cad-guest.vercel.app/api/cad' || '' }}
     defaults:
       run:
         working-directory: cad-cloud
@@ -39,6 +40,8 @@ jobs:
           npm install --ignore-scripts --no-audit --no-fund
           npx playwright install --with-deps chromium
           npm run test:web
+      - name: Public guest backend without credentials
+        run: node tests/public_guest.mjs
       - name: Save browser evidence
         if: always()
         uses: actions/upload-artifact@v4

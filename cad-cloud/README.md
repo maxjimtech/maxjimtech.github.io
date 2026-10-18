@@ -6,7 +6,7 @@ GitHub Pages 提供可安裝網頁；GitHub 託管 Windows runner 執行 FreeCAD
 
 ## 免登入與精簡引擎修訂
 
-獨立後端已部署至 https://rd065-cad-guest.vercel.app/api/cad ，公開健康檢查回覆 mode=guest、configured=false、daily_limit=4、timezone=Asia/Taipei。尚缺管理端 CAD_GITHUB_TOKEN，不能啟動生成。設定後還須通過實際匿名提交、CAD 驗收與下載，才在 deployment.json 啟用 guest_api。訪客不需 GitHub 帳號或權杖。
+獨立後端已部署至 https://rd065-cad-guest.vercel.app/api/cad ，公開健康檢查回覆 mode=guest、configured=true、daily_limit=4、timezone=Asia/Taipei。管理端憑證已更新，GitHub Contents 與 Actions 查詢通過。還須通過實際匿名提交、CAD 驗收與下載，才在 deployment.json 啟用 guest_api。訪客不需 GitHub 帳號或權杖。
 
 精簡版使用官方1.1.3二進位，在雲端移除無關工作台，不啟動GUI；保留OCC、Qt及TechDraw相依程式庫。這不是重新編譯的最小FreeCAD，初次仍下載官方完整封裝。每次執行記錄移除工作台與實際磁碟大小，並檢查Part／Sketcher／Spreadsheet／TechDraw能載入。
 
