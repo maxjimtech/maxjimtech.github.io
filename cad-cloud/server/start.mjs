@@ -1,6 +1,6 @@
 // Optional standalone cloud host entry; CAD remains on GitHub hosted runners.
 import {createServer} from 'node:http';
-import handler from '../../api/cad.mjs';
+import handler from './handler.mjs';
 const port=Number(process.env.PORT||8080);
 if(!Number.isInteger(port)||port<1||port>65535)throw Error('Invalid PORT');
 createServer(async(req,res)=>{

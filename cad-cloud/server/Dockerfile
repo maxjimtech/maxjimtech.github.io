@@ -2,7 +2,7 @@
 FROM node:22-alpine
 WORKDIR /app
 ENV NODE_ENV=production PORT=8080
-COPY api/cad.mjs api/cad.mjs
+COPY cad-cloud/server/handler.mjs cad-cloud/server/handler.mjs
 COPY cad-cloud/server/guest.mjs cad-cloud/server/guest.mjs
 COPY cad-cloud/server/start.mjs cad-cloud/server/start.mjs
 USER node
