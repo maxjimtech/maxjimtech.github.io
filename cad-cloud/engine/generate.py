@@ -4,7 +4,7 @@ import FreeCAD as A, Part, Sketcher, TechDraw
 import datetime as task_datetime
 from requirements import validate
 from envelope import sections
-from native_features import Polygon, RevolvedRing, RobustCut
+from native_features import Polygon, RevolvedRing, RobustCut, SplineSection
 ROOT=pathlib.Path(__file__).resolve().parent
 
 def log(s):print(s,flush=True)
@@ -93,7 +93,7 @@ def run(c, output=None):
         def reduced(points):return points[::stride] if (len(points)-1)%stride==0 else points[::stride]+[points[-1]]
         for i,s in enumerate(ss):
             a=s['alpha'];pts=[A.Vector(r*math.cos(a),r*math.sin(a),z) for r,z in reduced(s['lower'])+list(reversed(reduced(s['upper'])))]
-            o=doc.addObject('Part::FeaturePython','GrooveSection_%04d'%i);Polygon(o,pts);hide(o);profiles.append(o)
+            o=doc.addObject('Part::FeaturePython','GrooveSection_%04d'%i);SplineSection(o,pts);hide(o);profiles.append(o)
         doc.recompute()
         def machine_span(base,start,end,depth=0):
             suffix='%03d'%start if depth==0 else '%03d_%03d'%(start,end)
@@ -201,8 +201,8 @@ def run(c, output=None):
                     if volume>1e-5:collisions.append({'a':links[i].Name,'b':links[j].Name,'volume_mm3':volume})
             log('Interference pairs: '+str(len(collisions)))
         checks['interference_tested']=c['check_interference'];checks['interferences']=collisions
-        checks['cam_surface_method']='ruled interpolation of conjugate envelope sections; continuous curvature not certified'
-        checks['radial_profile_stride']=stride;checks['radial_sample_deviation_mm']=profile_error
+        checks['cam_surface_method']='ruled interpolation of cubic fitted radial envelope sections; continuous curvature not certified'
+        checks['radial_profile_stride']=stride;checks['radial_sample_deviation_mm']=profile_error;checks['radial_spline_polyline_deviation_mm']=max(float(o.MaxPolylineDeviation) for o in profiles)
         doc.saveAs(str(out/'NativeGeometry.FCStd'))
         log('Building native TechDraw pages')
         from drawings import build_pages

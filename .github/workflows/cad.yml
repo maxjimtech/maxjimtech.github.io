@@ -1,8 +1,8 @@
-name: Cloud FreeCAD
+name: Fitted section FreeCAD candidate
 run-name: CAD ${{ inputs.job_id || 'deployment-check' }}
 on:
   push:
-    branches: [main]
+    branches: [cad-section-fit-trial]
     paths: ["cad-cloud/cloud/**", "cad-cloud/engine/**", ".github/workflows/cad.yml"]
   workflow_dispatch:
     inputs:
@@ -20,7 +20,7 @@ jobs:
   build:
     # Hosted cloud runner only. Do not replace with self-hosted.
     runs-on: windows-2022
-    timeout-minutes: 90
+    timeout-minutes: 180
     permissions:
       contents: write
     defaults:
@@ -83,9 +83,3 @@ jobs:
           path: cad-cloud/work/
           retention-days: 30
           if-no-files-found: warn
-      - name: Publish authenticated preview and download release
-        if: always()
-        env:
-          GH_TOKEN: ${{ github.token }}
-          CAD_BUILD_OUTCOME: ${{ job.status }}
-        run: python -B cloud/publish.py

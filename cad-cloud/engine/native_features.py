@@ -63,3 +63,34 @@ class AssemblyShape:
         self._signature=signature
     def dumps(self):return None
     def loads(self,state):pass
+
+class SplineSection:
+    """Editable radial envelope wire with eight corresponding edges per section."""
+    def __init__(self,obj,points):
+        obj.addProperty('App::PropertyVectorList','Points','Geometry','Original envelope sample points')
+        obj.addProperty('App::PropertyFloat','MaxPolylineDeviation','Geometry','Sampled curve-to-source-polyline distance, mm')
+        obj.Points=points;obj.Proxy=self
+    def execute(self,obj):
+        pts=list(obj.Points);signature=tuple((p.x,p.y,p.z) for p in pts)
+        if not obj.Shape.isNull() and getattr(self,'_points',None)==signature:return
+        n=len(pts)//2
+        if len(pts)!=2*n or n<9:raise ValueError('Envelope section requires paired radial samples.')
+        lower=pts[:n];upper=pts[n:];ends=[0,n//4,n-1-n//4,n-1]
+        edges=[];maximum=0.
+        for side_index,side in enumerate([lower,upper]):
+            if side_index:edges.append(Part.makeLine(lower[-1],upper[0]))
+            for first,last in zip(ends[:-1],ends[1:]):
+                original=side[first:last+1]
+                curve=Part.BSplineCurve();curve.interpolate(original);edge=curve.toShape();edges.append(edge)
+                for p in edge.discretize(Number=65):
+                    best=float('inf')
+                    for a,b in zip(original[:-1],original[1:]):
+                        d=b-a;den=d.dot(d);t=max(0.,min(1.,(p-a).dot(d)/den)) if den else 0.
+                        best=min(best,(p-(a+d*t)).Length)
+                    maximum=max(maximum,best)
+        edges.append(Part.makeLine(upper[-1],lower[0]));wire=Part.Wire(edges)
+        if not wire.isClosed() or not wire.isValid():raise ValueError('Invalid fitted envelope section.')
+        if maximum>.1:raise ValueError('Radial curve fit deviates more than 0.1 mm from input polyline: '+str(maximum))
+        obj.Shape=wire;obj.MaxPolylineDeviation=maximum;self._points=signature
+    def dumps(self):return getattr(self,'_points',None)
+    def loads(self,state):self._points=tuple(tuple(p) for p in state) if state is not None else None
