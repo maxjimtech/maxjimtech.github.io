@@ -19,6 +19,7 @@ permissions:
 jobs:
   build:
     # Hosted cloud runner only. Do not replace with self-hosted.
+    # Standard hosted Windows only; no user machine or paid larger runner.
     runs-on: windows-2025
     timeout-minutes: 180
     permissions:
