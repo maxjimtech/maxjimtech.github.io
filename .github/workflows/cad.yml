@@ -50,9 +50,12 @@ jobs:
           $base = "https://github.com/FreeCAD/FreeCAD/releases/download/$env:FREECAD_VERSION"
           $archive = Join-Path $env:RUNNER_TEMP $name
           Invoke-WebRequest "$base/$name" -OutFile $archive
-          $digest = (Invoke-WebRequest "$base/$name-SHA256.txt").Content
+          $digestPath = Join-Path $env:RUNNER_TEMP 'FreeCAD-SHA256.txt'
+          Invoke-WebRequest "$base/$name-SHA256.txt" -OutFile $digestPath
+          $digest = Get-Content -LiteralPath $digestPath -Raw -Encoding UTF8
           $expected = [regex]::Match($digest, '(?i)\b[a-f0-9]{64}\b').Value
-          if (-not $expected -or (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash -ne $expected) { throw 'FreeCAD checksum mismatch' }
+          $actual = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash
+          if (-not $expected -or $actual -ne $expected) { throw "FreeCAD checksum mismatch: expected=$expected actual=$actual" }
           $target = Join-Path $env:RUNNER_TEMP 'FreeCAD-cloud'
           & 7z x $archive "-o$target" -y | Out-Null
           if ($LASTEXITCODE -ne 0) { throw 'FreeCAD extraction failed' }
