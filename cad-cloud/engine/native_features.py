@@ -200,3 +200,82 @@ def _geometry_key(shape):
 
 def _pose_key(poses):
     return tuple((round(float(p.Radius),12),round(float(p.Height),12),tuple(round(v,12) for v in p.Placement.toMatrix().A)) for p in poses)
+
+class ActualArcChamfer:
+    """C wedge strips derived from the saved body's real outer edge curves."""
+    def __init__(self,obj,base,radius,size):
+        obj.addProperty('App::PropertyLink','Base','Machining');obj.Base=base
+        obj.addProperty('App::PropertyLength','StockRadius','Machining');obj.StockRadius=radius
+        obj.addProperty('App::PropertyLength','Size','Machining');obj.Size=size
+        obj.addProperty('App::PropertyString','PathEvidence','Verification');obj.setEditorMode('PathEvidence',1)
+        obj.Proxy=self
+    def execute(self,obj):
+        signature=(_geometry_key(obj.Base.Shape),float(obj.StockRadius),float(obj.Size))
+        if not obj.Shape.isNull() and getattr(self,'_signature',None)==signature:return
+        try:
+            import json
+            base=obj.Base.Shape;radius=float(obj.StockRadius);size=float(obj.Size);adjacency={}
+            for face in base.Faces:
+                for edge in face.Edges:adjacency.setdefault(edge.hashCode(),[]).append((edge,face))
+            def outer(face):
+                return isinstance(face.Surface,Part.Cylinder) and abs(face.Surface.Radius-radius)<1e-6
+            def edge_key(edge):
+                points=[edge.valueAt(edge.FirstParameter),edge.valueAt((edge.FirstParameter+edge.LastParameter)/2),edge.valueAt(edge.LastParameter)]
+                ends=sorted(tuple(round(v,5) for v in [p.x,p.y,p.z]) for p in [points[0],points[-1]])
+                return tuple(ends)+(tuple(round(v,5) for v in [points[1].x,points[1].y,points[1].z]),)
+            selected=[];flanks={};geometric_flanks={}
+            for edge in base.Edges:
+                points=edge.discretize(Number=5)
+                if max(abs(math.hypot(p.x,p.y)-radius) for p in points)>1e-5:continue
+                if max(p.z for p in points)-min(p.z for p in points)<1e-5:continue
+                faces=[f for e,f in adjacency.get(edge.hashCode(),[]) if e.isSame(edge)]
+                if not any(outer(f) for f in faces):continue
+                others=[f for f in faces if not outer(f)]
+                if not others:continue
+                selected.append(edge);flanks[edge.hashCode()]=others[0];geometric_flanks[edge_key(edge)]=others[0]
+            if not selected:raise ValueError('No actual outer flank curves found.')
+            groups=Part.sortEdges(selected,1e-5);tools=[];evidence=[]
+            print('Actual 3D C-edge chains: '+str(len(groups))+' edges='+str(len(selected)),flush=True)
+            for chain_index,group in enumerate(groups):
+                path=[]
+                for edge in group:
+                    face=flanks.get(edge.hashCode())
+                    if face is None:
+                        face=geometric_flanks[edge_key(edge)]
+                    points=edge.discretize(Deflection=.02)
+                    if path and (points[-1]-path[-1][0]).Length<(points[0]-path[-1][0]).Length:points.reverse()
+                    for p in points:
+                        u,v=face.Surface.parameter(p);normal=face.normalAt(u,v);normal.normalize()
+                        radial=A.Vector(p.x,p.y,0);radial.normalize()
+                        if base.isInside(p-radial*.001+normal*.001,1e-7,True):normal=-normal
+                        if path and (p-path[-1][0]).Length<1e-5:
+                            average=path[-1][1]+normal
+                            if average.Length>1e-10:average.normalize();path[-1]=(p,average,face)
+                        else:path.append((p,normal,face))
+                if len(path)<2:raise ValueError('Insufficient actual edge samples.')
+                closed=(path[0][0]-path[-1][0]).Length<1e-5
+                if closed:path.pop()
+                wires=[];distances=[]
+                for p,normal,face in path:
+                    radial=A.Vector(p.x,p.y,0);radial.normalize()
+                    outer_dir=-normal+radial*normal.dot(radial);outer_dir.normalize()
+                    flank_dir=-radial+normal*normal.dot(radial);flank_dir.normalize()
+                    q=p+outer_dir*size;rho=math.hypot(q.x,q.y);p0=A.Vector(q.x*radius/rho,q.y*radius/rho,q.z)
+                    q=p+flank_dir*size;u,v=face.Surface.parameter(q);p1=face.Surface.value(u,v)
+                    p2=p+(radial+normal)*max(1.,2*size)
+                    wires.append(Part.makePolygon([p0,p1,p2,p0]));distances.extend([(p0-p).Length,(p1-p).Length])
+                tool=Part.makeLoft(wires,True,True,closed,3)
+                if tool.Volume<0:tool.reverse()
+                if not tool.isValid() or len(tool.Solids)!=1 or not tool.Solids[0].isClosed():raise ValueError('Invalid actual-edge wedge strip '+str(chain_index))
+                tools.append(tool);evidence.append({'chain':chain_index,'samples':len(path),'closed':closed,'offset_min_mm':min(distances),'offset_max_mm':max(distances)})
+                print('Actual 3D C-edge wedge '+str(chain_index+1)+'/'+str(len(groups))+' samples='+str(len(path)),flush=True)
+            for tolerance in [1e-7,1e-6,1e-5,1e-4]:
+                result=base.cut(tuple(tools),tolerance).removeSplitter()
+                if result.isValid() and len(result.Solids)==1 and result.Solids[0].isClosed() and 0<result.Volume<base.Volume-1e-6:break
+            else:raise ValueError('No valid actual-edge Boolean C result.')
+            obj.Shape=result;obj.PathEvidence=json.dumps({'chains':evidence,'boolean_tolerance_mm':tolerance})
+            self._signature=(_geometry_key(obj.Base.Shape),float(obj.StockRadius),float(obj.Size))
+        except Exception as error:
+            print('Actual 3D C-edge Boolean failed: '+str(error),flush=True);raise
+    def dumps(self):return getattr(self,'_signature',None)
+    def loads(self,state):self._signature=_frozen(state)

@@ -4,7 +4,7 @@ import FreeCAD as A, Part, Sketcher, TechDraw
 import datetime as task_datetime
 from requirements import validate
 from envelope import sections
-from native_features import Polygon, RevolvedRing, RobustCut, SplineSection, NativeEdgeChamfer, CylindricalSweepCut, PoseChamferCut
+from native_features import Polygon, RevolvedRing, RobustCut, SplineSection, NativeEdgeChamfer, CylindricalSweepCut, PoseChamferCut, ActualArcChamfer
 ROOT=pathlib.Path(__file__).resolve().parent
 
 def log(s):print(s,flush=True)
@@ -95,7 +95,7 @@ def run(c, output=None):
         doc.saveAs(str(out.parent/'PRE_CHAMFER_DEBUG.FCStd'))
         if not before.isValid() or len(before.Solids)!=1 or not before.Solids[0].isClosed() or abs(before.Volume-shaft.Shape.Volume)>max(.001,shaft.Shape.Volume*1e-5):
             raise RuntimeError('Pre-chamfer STEP validation failed')
-        bevel=doc.addObject('Part::FeaturePython','ActualPoseEdgeC05');PoseChamferCut(bevel,shaft,poses,rad,cam0,W,C)
+        bevel=doc.addObject('Part::FeaturePython','ActualArcEdgeC05');ActualArcChamfer(bevel,shaft,rad,C)
         doc.recompute();healthy(bevel);hide(shaft);shaft=bevel
         log('Actual pose-edge Boolean C0.5 complete')
         for name,z,sg in [('CamLeftEndC',cam0,1),('CamRightEndC',cam1,-1),('LeftShaftEndC',0,1)]:
