@@ -9,14 +9,18 @@ if fc is None:fc=next(p for p in (root/'recovery').rglob('*.FCStd') if not p.nam
 doc=A.openDocument(str(fc));cam=next(o for o in doc.Objects if o.Label.startswith('1A Cam shaft'))
 Part.makeBox(1,1,1).exportStep(str(out/'initialize.step'))
 print('NATIVE',cam.Shape.isValid(),cam.Shape.Volume,flush=True)
-for mode in [0,1]:
+for representation in ['nurbs','same_parameter']:
     try:
-        setting=Part.setStaticValue('write.surfacecurve.mode',mode)
-        path=out/('Cam_surfacecurve_'+str(mode)+'.step');cam.Shape.exportStep(str(path))
-        restored=Part.Shape();restored.read(str(path))
-        row={'mode':mode,'setting_result':setting,'valid':restored.isValid(),'solids':len(restored.Solids),
-             'closed':all(s.isClosed() for s in restored.Solids),'source_volume':cam.Shape.Volume,'step_volume':restored.Volume}
-        print('PCURVE_TRIAL '+json.dumps(row),flush=True);rows.append(row)
-        (out/'pcurve-trial.json').write_text(json.dumps(rows,indent=2))
+        shape=cam.Shape.toNurbs() if representation=='nurbs' else cam.Shape.copy()
+        if representation=='same_parameter':Part.ShapeFix.sameParameter(shape,True,1e-7)
+        print('REPRESENTATION',representation,shape.isValid(),shape.Volume,flush=True)
+        for mode in [0,1]:
+            setting=Part.setStaticValue('write.surfacecurve.mode',mode)
+            path=out/(representation+'_surfacecurve_'+str(mode)+'.step');shape.exportStep(str(path))
+            restored=Part.Shape();restored.read(str(path))
+            row={'representation':representation,'mode':mode,'setting_result':setting,'valid':restored.isValid(),'solids':len(restored.Solids),
+                 'closed':all(s.isClosed() for s in restored.Solids),'original_native_volume':cam.Shape.Volume,'converted_native_volume':shape.Volume,'step_volume':restored.Volume}
+            print('PCURVE_TRIAL '+json.dumps(row),flush=True);rows.append(row)
+            (out/'pcurve-trial.json').write_text(json.dumps(rows,indent=2))
     except Exception:traceback.print_exc()
 A.closeDocument(doc.Name)
