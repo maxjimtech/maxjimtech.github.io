@@ -71,7 +71,7 @@ def run(c, output=None):
             o=doc.addObject('Part::Cone',name);o.Radius1=r1;o.Radius2=r2;o.Height=h;o.Placement.Base.z=z;cones.append(o)
         shaft=cut('ShaftCentreHoles',shaft,compound('CentreHoleTools',bores+cones))
         R=c['roller_pcd_mm']/2;N=c['ratio'];ad=c['axis_distance_mm'];rr=c['roller_od_mm']/2+c['clearance_mm'];rad=c['cam_od_mm']/2;C=c['chamfer_mm']
-        span=max(.85,math.asin(min(.9,(W/2+rr+3)/R)));count=max(201,int(2*span*N*6)|1)
+        span=max(.85,math.asin(min(.9,(W/2+rr+3)/R)));count=max(409,int(2*span*N*12)|1)
         betas=[-span+2*span*i/(count-1) for i in range(count)]
         for i in range(N):
             beta=math.remainder(math.pi/2+2*math.pi*i/N,2*math.pi)

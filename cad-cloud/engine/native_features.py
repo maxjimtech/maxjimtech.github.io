@@ -121,7 +121,7 @@ class CylindricalSweepCut:
         obj.addProperty('App::PropertyLinkList','CutterPoses','Machining');obj.CutterPoses=tools
         obj.addProperty('App::PropertyFloat','FuzzyTolerance','Machining');obj.FuzzyTolerance=1e-7;obj.Proxy=self
     def execute(self,obj):
-        signature=(obj.Base.Shape.hashCode(),tuple(t.Shape.hashCode() for t in obj.CutterPoses),obj.FuzzyTolerance)
+        signature=(_geometry_key(obj.Base.Shape),_pose_key(obj.CutterPoses),float(obj.FuzzyTolerance))
         if not obj.Shape.isNull() and getattr(self,'_signature',None)==signature:return
         try:
             result=obj.Base.Shape.cut(tuple(t.Shape for t in obj.CutterPoses),float(obj.FuzzyTolerance)).removeSplitter()
@@ -130,8 +130,8 @@ class CylindricalSweepCut:
             obj.Shape=result;self._signature=signature
         except Exception as error:
             print('Finite-cylinder sweep failed: '+str(error),flush=True);raise
-    def dumps(self):return None
-    def loads(self,state):pass
+    def dumps(self):return getattr(self,'_signature',None)
+    def loads(self,state):self._signature=_frozen(state)
 
 class PoseChamferCut:
     """Boolean C cut from exact outer-edge chamfers at individual cutter poses."""
@@ -142,7 +142,7 @@ class PoseChamferCut:
             obj.addProperty('App::PropertyLength',key,'Machining');setattr(obj,key,value)
         obj.Proxy=self
     def execute(self,obj):
-        signature=(obj.Base.Shape.hashCode(),tuple(t.Shape.hashCode() for t in obj.CutterPoses),float(obj.Size))
+        signature=(_geometry_key(obj.Base.Shape),_pose_key(obj.CutterPoses),float(obj.Size),float(obj.StockRadius),float(obj.CamStart),float(obj.CamWidth))
         if not obj.Shape.isNull() and getattr(self,'_signature',None)==signature:return
         try:
             radius=float(obj.StockRadius);z0=float(obj.CamStart);width=float(obj.CamWidth);size=float(obj.Size)
@@ -176,5 +176,18 @@ class PoseChamferCut:
             obj.Shape=result;self._signature=signature
         except Exception as error:
             print('Pose bevel failed: '+str(error),flush=True);raise
-    def dumps(self):return None
-    def loads(self,state):pass
+    def dumps(self):return getattr(self,'_signature',None)
+    def loads(self,state):self._signature=_frozen(state)
+
+
+import hashlib
+
+def _frozen(value):
+    return tuple(_frozen(v) for v in value) if isinstance(value,(tuple,list)) else value
+
+def _geometry_key(shape):
+    data=shape.exportBrepToString()
+    return hashlib.sha256(data.encode() if isinstance(data,str) else data).hexdigest()
+
+def _pose_key(poses):
+    return tuple((round(float(p.Radius),12),round(float(p.Height),12),tuple(round(v,12) for v in p.Placement.toMatrix().A)) for p in poses)
