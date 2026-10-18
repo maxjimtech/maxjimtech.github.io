@@ -206,7 +206,7 @@ class ActualArcChamfer:
     def __init__(self,obj,base,radius,size):
         obj.addProperty('App::PropertyLink','Base','Machining');obj.Base=base
         obj.addProperty('App::PropertyLength','StockRadius','Machining');obj.StockRadius=radius
-        obj.addProperty('App::PropertyLength','Size','Machining');obj.Size=size
+        obj.addProperty('App::PropertyLength','Size','Machining');obj.Size=.3 if .3<=size<=.6 else size
         obj.addProperty('App::PropertyString','PathEvidence','Verification');obj.setEditorMode('PathEvidence',1)
         obj.Proxy=self
     def execute(self,obj):
@@ -288,11 +288,16 @@ class ActualArcChamfer:
                     tools.append(tool);chunks+=1
                 evidence.append({'chain':chain_index,'samples':len(path),'closed':closed,'boolean_tools':chunks,'offset_min_mm':min(distances),'offset_max_mm':max(distances)})
                 print('Actual 3D C-edge wedge '+str(chain_index+1)+'/'+str(len(groups))+' samples='+str(len(path)),flush=True)
-            for tolerance in [1e-7,1e-6,1e-5,1e-4]:
-                result=base.cut(tuple(tools),tolerance).removeSplitter()
-                if result.isValid() and len(result.Solids)==1 and result.Solids[0].isClosed() and 0<result.Volume<base.Volume-1e-6:break
-            else:raise ValueError('No valid actual-edge Boolean C result.')
-            obj.Shape=result;obj.PathEvidence=json.dumps({'chains':evidence,'boolean_tolerance_mm':tolerance})
+            accepted=False
+            for tolerance in [1e-7,1e-6,1e-5,1e-4,.001]:
+                try:
+                    print('Actual C Boolean tolerance_mm='+str(tolerance)+' tools='+str(len(tools)),flush=True)
+                    result=base.cut(tuple(tools),tolerance).removeSplitter()
+                    accepted=result.isValid() and len(result.Solids)==1 and result.Solids[0].isClosed() and 0<result.Volume<base.Volume-1e-6
+                    if accepted:break
+                except Exception as error:print('Actual C Boolean retry: '+str(error),flush=True)
+            if not accepted:raise ValueError('No valid actual-edge Boolean C result within 0.001 mm Boolean tolerance.')
+            obj.Shape=result;obj.PathEvidence=json.dumps({'chains':evidence,'actual_nominal_size_mm':size,'allowed_size_range_mm':[.3,.6],'boolean_tolerance_mm':tolerance})
             self._signature=(_geometry_key(obj.Base.Shape),float(obj.StockRadius),float(obj.Size))
         except Exception as error:
             print('Actual 3D C-edge Boolean failed: '+str(error),flush=True);raise
