@@ -29,6 +29,7 @@
 <style>
 html,body{width:100%;height:100%;height:100dvh;margin:0}
 html:fullscreen,html:fullscreen body{width:100vw;height:100vh}
+body>header{height:auto;min-height:56px;flex-wrap:wrap;gap:8px;padding:10px 16px}
 @media(max-width:1000px){body>header{height:auto;min-height:56px;flex-wrap:wrap;gap:8px;padding:10px 12px}body>header h1{font-size:12px}body>header p{display:none}body>div>aside:first-child{width:300px}}
 @media(max-width:640px){body>div{overflow:auto!important}body>div>aside:first-child{width:280px}body>div>main{min-width:320px}}
 </style></head>
@@ -2755,7 +2756,7 @@ fullscreenButton.addEventListener('click', async () => {
   try {
     if (document.fullscreenElement) await document.exitFullscreen();
     else await document.documentElement.requestFullscreen();
-  } catch { fullscreenButton.textContent = '請按 F11 進入全螢幕'; }
+  } catch (error) { fullscreenButton.textContent = '請按 F11 進入全螢幕'; fullscreenButton.title = error.name + ': ' + error.message; }
 });
 document.addEventListener('fullscreenchange', () => {
   fullscreenButton.textContent = document.fullscreenElement ? '⤢ 離開全螢幕' : '⛶ 全螢幕操作';
