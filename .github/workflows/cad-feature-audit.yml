@@ -1,0 +1,66 @@
+name: STEP feature audit
+on:
+  push:
+    branches: [main]
+    paths: ["cad-cloud/tools/step_feature_audit.py", ".github/workflows/cad-feature-audit.yml"]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  diagnostic:
+    runs-on: windows-2022
+    timeout-minutes: 35
+    defaults:
+      run:
+        working-directory: cad-cloud
+    env:
+      FREECAD_VERSION: '1.1.3'
+      PYTHONUTF8: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 39122407079
+          name: cad-374ce1b1-a074-4b7e-a54e-34d5a6ca0914
+          path: cad-cloud/recovery
+      - name: Install FreeCAD on the GitHub-hosted runner
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $name = "FreeCAD_$env:FREECAD_VERSION-Windows-x86_64-py311.7z"
+          $base = "https://github.com/FreeCAD/FreeCAD/releases/download/$env:FREECAD_VERSION"
+          $archive = Join-Path $env:RUNNER_TEMP $name
+          Invoke-WebRequest "$base/$name" -OutFile $archive
+          $digestPath = Join-Path $env:RUNNER_TEMP 'FreeCAD-SHA256.txt'
+          Invoke-WebRequest "$base/$name-SHA256.txt" -OutFile $digestPath
+          $digest = Get-Content -LiteralPath $digestPath -Raw -Encoding UTF8
+          $expected = [regex]::Match($digest, '(?i)\b[a-f0-9]{64}\b').Value
+          $actual = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash
+          if (-not $expected -or $actual -ne $expected) { throw "FreeCAD checksum mismatch: expected=$expected actual=$actual" }
+          $target = Join-Path $env:RUNNER_TEMP 'FreeCAD-cloud'
+          & 7z x $archive "-o$target" -y | Out-Null
+          if ($LASTEXITCODE -ne 0) { throw 'FreeCAD extraction failed' }
+          $python = Get-ChildItem -LiteralPath $target -Recurse -Filter python.exe | Where-Object { $_.Directory.Name -eq 'bin' } | Select-Object -First 1
+          if (-not $python) { throw 'Bundled FreeCAD Python missing' }
+          "FREECAD_PYTHON=$($python.FullName)" >> $env:GITHUB_ENV
+          "PREVIEW_PYTHON=$((Get-Command python).Source)" >> $env:GITHUB_ENV
+          python -m pip install --disable-pip-version-check Pillow==11.3.0
+          $font = Join-Path $env:RUNNER_TEMP 'NotoSansCJKtc-Regular.otf'
+          Invoke-WebRequest 'https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf' -OutFile $font
+          "CAD_PREVIEW_FONT=$font" >> $env:GITHUB_ENV
+      - name: Audit STEP at preserved native features
+        shell: pwsh
+        run: |
+          & $env:FREECAD_PYTHON -B tools/step_feature_audit.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: step-feature-audit
+          path: cad-cloud/feature-audit
