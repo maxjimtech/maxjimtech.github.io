@@ -234,7 +234,7 @@ class ActualArcChamfer:
                 if not others:continue
                 selected.append(edge);flanks[edge.hashCode()]=others[0];geometric_flanks[edge_key(edge)]=others[0]
             if not selected:raise ValueError('No actual outer flank curves found.')
-            groups=Part.sortEdges(selected,1e-5);tools=[];evidence=[]
+            groups=Part.sortEdges(selected,1e-5);tools=[];evidence=[];normal_signs={}
             print('Actual 3D C-edge chains: '+str(len(groups))+' edges='+str(len(selected)),flush=True)
             for chain_index,group in enumerate(groups):
                 path=[]
@@ -247,7 +247,10 @@ class ActualArcChamfer:
                     for p in points:
                         u,v=face.Surface.parameter(p);normal=face.normalAt(u,v);normal.normalize()
                         radial=A.Vector(p.x,p.y,0);radial.normalize()
-                        if base.isInside(p-radial*.001+normal*.001,1e-7,True):normal=-normal
+                        face_id=face.hashCode()
+                        if face_id not in normal_signs:
+                            normal_signs[face_id]=-1 if base.isInside(p-radial*.001+normal*.001,1e-7,True) else 1
+                        normal=normal*normal_signs[face_id]
                         if path and (p-path[-1][0]).Length<1e-5:
                             average=path[-1][1]+normal
                             if average.Length>1e-10:average.normalize();path[-1]=(p,average,face)
@@ -269,9 +272,19 @@ class ActualArcChamfer:
                 for start in range(0,len(wires)-1,16):
                     section=wires[start:min(start+17,len(wires))]
                     print('Actual edge chain '+str(chain_index)+' wedge sections '+str(start)+'/'+str(len(wires)),flush=True)
-                    tool=Part.makeLoft(section,True,True,False,3)
-                    if tool.Volume<0:tool.reverse()
-                    if not tool.isValid() or len(tool.Solids)!=1 or not tool.Solids[0].isClosed():raise ValueError('Invalid actual-edge wedge strip '+str(chain_index)+' at '+str(start))
+                    choices=[float(obj.Size),.4,.3,.6] if .3<=float(obj.Size)<=.6 else [float(obj.Size)]
+                    for actual_size in dict.fromkeys(choices):
+                        ratio=actual_size/size
+                        adjusted=[]
+                        for offset,wire in enumerate(section):
+                            index=(start+offset)%len(path);origin=path[index][0]
+                            points=[origin+(vertex.Point-origin)*ratio for vertex in wire.Vertexes]
+                            adjusted.append(Part.makePolygon(points+[points[0]]))
+                        tool=Part.makeLoft(adjusted,True,True,False,3)
+                        if tool.Volume<0:tool.reverse()
+                        if tool.isValid() and len(tool.Solids)==1 and tool.Solids[0].isClosed():break
+                    else:raise ValueError('Invalid actual-edge wedge strip '+str(chain_index)+' at '+str(start))
+                    print('Accepted C-edge tool size_mm='+str(actual_size),flush=True)
                     tools.append(tool);chunks+=1
                 evidence.append({'chain':chain_index,'samples':len(path),'closed':closed,'boolean_tools':chunks,'offset_min_mm':min(distances),'offset_max_mm':max(distances)})
                 print('Actual 3D C-edge wedge '+str(chain_index+1)+'/'+str(len(groups))+' samples='+str(len(path)),flush=True)
