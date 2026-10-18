@@ -4,7 +4,7 @@ import FreeCAD as A, Part, Sketcher, TechDraw
 import datetime as task_datetime
 from requirements import validate
 from envelope import sections
-from native_features import Polygon, RevolvedRing, RobustCut, SplineSection
+from native_features import Polygon, RevolvedRing, RobustCut, SplineSection, RuledSectionSolid
 ROOT=pathlib.Path(__file__).resolve().parent
 
 def log(s):print(s,flush=True)
@@ -104,7 +104,7 @@ def run(c, output=None):
             # Consecutive tools overlap by one original section. Exactly shared
             # end caps can leave an invalid coincident face in sequential cuts.
             first=max(0,start-1)
-            tool=doc.addObject('Part::Loft','CNCGrooveLoft_'+suffix);tool.Sections=profiles[first:end+1];tool.Solid=True;tool.Ruled=True;tool.Closed=False;tool.MaxDegree=3
+            tool=doc.addObject('Part::FeaturePython','CNCGrooveLoft_'+suffix);RuledSectionSolid(tool,profiles[first:end+1])
             doc.recompute();healthy(tool)
             try:
                 result=cut('CNCGrooveCut_'+suffix,base,tool)
