@@ -1,9 +1,6 @@
 name: Cloud FreeCAD
 run-name: CAD ${{ inputs.job_id || 'deployment-check' }}
 on:
-  push:
-    branches: [main]
-    paths: ["cad-cloud/cloud/**", "cad-cloud/engine/**", ".github/workflows/cad.yml"]
   workflow_dispatch:
     inputs:
       job_id:
@@ -71,21 +68,26 @@ jobs:
         shell: pwsh
         run: ./cloud/slim_runtime.ps1
       - name: Native CAD, STEP, DXF and web preview
+        id: native
         shell: pwsh
         run: |
           & $env:FREECAD_PYTHON -B cloud/worker.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Publish preview and download release
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CAD_BUILD_OUTCOME: ${{ steps.native.outcome }}
+        run: python -B cloud/publish.py
       - name: Preserve output or failure evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cad-${{ env.CAD_JOB_ID }}
-          path: cad-cloud/work/
-          retention-days: 30
+          path: |
+            cad-cloud/work/*.json
+            cad-cloud/work/*.txt
+            cad-cloud/work/output/*.json
+            cad-cloud/work/output/*.txt
+          retention-days: 1
           if-no-files-found: warn
-      - name: Publish authenticated preview and download release
-        if: always()
-        env:
-          GH_TOKEN: ${{ github.token }}
-          CAD_BUILD_OUTCOME: ${{ job.status }}
-        run: python -B cloud/publish.py

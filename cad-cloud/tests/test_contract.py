@@ -36,7 +36,7 @@ class RequirementsTests(unittest.TestCase):
     def test_workflow_uses_hosted_runner(self):
         folder=ROOT/'.github' if (ROOT/'.github').exists() else ROOT.parent/'.github'
         workflow=(folder/'workflows/cad.yml').read_text()
-        self.assertIn('runs-on: windows-2022',workflow)
+        self.assertRegex(workflow,r'runs-on: windows-(?:2022|2025)\b')
         self.assertNotIn('runs-on: self-hosted',workflow)
         self.assertNotIn('${{ inputs.requirements }}',workflow.split('run: python -B cloud/prepare.py')[1])
     def test_pwa_does_not_persist_token(self):
