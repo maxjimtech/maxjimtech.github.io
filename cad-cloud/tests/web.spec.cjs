@@ -43,3 +43,17 @@ test('mismatched ratio never submits a cloud job',async({page})=>{
   await page.locator('#submit').click();
   await expect(page.locator('#connection')).toBeVisible();
 });
+test('published site opens on desktop and phone',async({page})=>{
+  test.skip(!process.env.CAD_LIVE_URL,'Only verify production after deployment');
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto(process.env.CAD_LIVE_URL);
+  await expect(page.locator('#field-ratio')).toHaveValue('20');
+  await expect(page.locator('#field-roller_od_mm')).toHaveValue('14');
+  await page.locator('#install').click();
+  await expect(page.locator('#banner')).toContainText('加入主畫面');
+  await page.screenshot({path:'test-results/published-desktop.png',fullPage:true});
+  await page.setViewportSize({width:390,height:844});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.screenshot({path:'test-results/published-phone.png',fullPage:true});
+  expect(errors).toEqual([]);
+});

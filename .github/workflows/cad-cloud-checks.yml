@@ -10,6 +10,8 @@ permissions:
 jobs:
   checks:
     runs-on: ubuntu-24.04
+    env:
+      CAD_LIVE_URL: ${{ github.event_name == 'push' && 'https://maxjimtech.github.io/services/cad-cloud/' || '' }}
     defaults:
       run:
         working-directory: cad-cloud
