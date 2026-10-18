@@ -73,8 +73,26 @@ def run(c, output=None):
         log('Preparing continuous CNC envelope sections')
         ss=sections(c,log);(out/'cutter_sections.json').write_text(json.dumps(ss))
         profiles=[]
+        # Keep common vertex correspondence across every profile. Select a common
+        # stride only when all original radial sample points stay within 0.02 mm
+        # of the simplified section polyline; angular interpolation is ruled.
+        def section_error(points,stride):
+            indices=list(range(0,len(points)-1,stride))+[len(points)-1];maximum=0.
+            for first,last in zip(indices[:-1],indices[1:]):
+                a=points[first];b=points[last];dx=b[0]-a[0];dy=b[1]-a[1];den=dx*dx+dy*dy
+                for p in points[first:last+1]:
+                    t=max(0.,min(1.,((p[0]-a[0])*dx+(p[1]-a[1])*dy)/den)) if den else 0.
+                    maximum=max(maximum,math.hypot(p[0]-a[0]-t*dx,p[1]-a[1]-t*dy))
+            return maximum
+        stride=1;profile_error=0.
+        if len({len(s[k]) for s in ss for k in ['lower','upper']})==1:
+            for trial in [4,2,1]:
+                error=max(section_error(s[k],trial) for s in ss for k in ['lower','upper'])
+                if error<=.02:stride=trial;profile_error=error;break
+        log('Ruled envelope profile stride='+str(stride)+' max_sample_deviation_mm='+str(profile_error))
+        def reduced(points):return points[::stride] if (len(points)-1)%stride==0 else points[::stride]+[points[-1]]
         for i,s in enumerate(ss):
-            a=s['alpha'];pts=[A.Vector(r*math.cos(a),r*math.sin(a),z) for r,z in s['lower']+list(reversed(s['upper']))]
+            a=s['alpha'];pts=[A.Vector(r*math.cos(a),r*math.sin(a),z) for r,z in reduced(s['lower'])+list(reversed(reduced(s['upper'])))]
             o=doc.addObject('Part::FeaturePython','GrooveSection_%04d'%i);Polygon(o,pts);hide(o);profiles.append(o)
         doc.recompute()
         def machine_span(base,start,end,depth=0):
@@ -82,7 +100,7 @@ def run(c, output=None):
             # Consecutive tools overlap by one original section. Exactly shared
             # end caps can leave an invalid coincident face in sequential cuts.
             first=max(0,start-1)
-            tool=doc.addObject('Part::Loft','CNCGrooveLoft_'+suffix);tool.Sections=profiles[first:end+1];tool.Solid=True;tool.Ruled=False;tool.Closed=False;tool.MaxDegree=3
+            tool=doc.addObject('Part::Loft','CNCGrooveLoft_'+suffix);tool.Sections=profiles[first:end+1];tool.Solid=True;tool.Ruled=True;tool.Closed=False;tool.MaxDegree=3
             doc.recompute();healthy(tool)
             try:
                 result=cut('CNCGrooveCut_'+suffix,base,tool)
@@ -115,7 +133,7 @@ def run(c, output=None):
                 vf=-er+n*n.dot(er);vf.normalize();f=e+vf*C;af=a+math.atan2(math.sin(math.atan2(f.y,f.x)-a),math.cos(math.atan2(f.y,f.x)-a));f=edge(af,math.hypot(f.x,f.y),sign)[0]
                 o=doc.addObject('Part::FeaturePython',name+'CSection_%04d'%i);Polygon(o,[cf,f,e+er+n]);hide(o);pp.append(o)
             if len(pp)<4:raise ValueError('Chamfer envelope outside supported domain.')
-            tool=doc.addObject('Part::Loft',name+'C05Loft');tool.Sections=pp;tool.Solid=True;tool.MaxDegree=3;doc.recompute();healthy(tool);shaft=cut(name+'ContinuousEdgeChamfer',shaft,tool);log(name+' continuous C edge complete')
+            tool=doc.addObject('Part::Loft',name+'C05Loft');tool.Sections=pp;tool.Solid=True;tool.Ruled=True;tool.MaxDegree=3;doc.recompute();healthy(tool);shaft=cut(name+'ContinuousEdgeChamfer',shaft,tool);log(name+' continuous C edge complete')
         for name,z,sg in [('CamLeftEndC',cam0,1),('CamRightEndC',cam1,-1),('LeftShaftEndC',0,1)]:
             r=rad if name.startswith('Cam') else 9;v=C if name.startswith('Cam') else 1
             points=[A.Vector(r-v,0,z),A.Vector(r+.2,0,z),A.Vector(r+.2,0,z+sg*(v+.2))]
@@ -159,12 +177,20 @@ def run(c, output=None):
         # Keep only assembly links visible when opened.
         for o in [shaft,plate,roller]:hide(o)
         doc.recompute()
+        step_checks=[]
+        def export_verified(shape,path,expected):
+            shape.exportStep(str(path));restored=Part.Shape();restored.read(str(path))
+            row={'file':path.name,'valid':restored.isValid(),'solids':len(restored.Solids),'closed':all(s.isClosed() for s in restored.Solids),'source_volume_mm3':shape.Volume,'step_volume_mm3':restored.Volume}
+            step_checks.append(row);log('Early STEP round-trip '+json.dumps(row))
+            (out/'step_roundtrip.json').write_text(json.dumps(step_checks,indent=2))
+            if not row['valid'] or row['solids']!=expected or not row['closed'] or abs(row['source_volume_mm3']-row['step_volume_mm3'])>max(.001,abs(shape.Volume)*1e-5):
+                raise RuntimeError('STEP topology or volume mismatch: '+path.name)
         for name,obj in [('CamShaft',shaft),('RollerPlate',plate),('Roller',roller)]:
-            healthy(obj);obj.Shape.exportStep(str(out/'STEP'/(name+'.step')))
+            healthy(obj);export_verified(obj.Shape,out/'STEP'/(name+'.step'),1)
         world=[]
         for o in links:
             sh=o.LinkedObject.Shape.copy();sh.Placement=o.LinkPlacement.multiply(sh.Placement);world.append(sh)
-        assemblyShape=Part.makeCompound(world);assemblyShape.exportStep(str(out/'STEP/Assembly.step'))
+        assemblyShape=Part.makeCompound(world);export_verified(assemblyShape,out/'STEP/Assembly.step',c['roller_count']+2)
         checks={'native_parts':[{ 'part':o.Name,'valid':o.Shape.isValid(),'solids':len(o.Shape.Solids),'volume_mm3':o.Shape.Volume} for o in [shaft,plate,roller]],'assembly_occurrences':len(links),'assembly_solids':len(assemblyShape.Solids),'precision_requirement':'none','thread_geometry':'conventional notes and tap drills; physical teeth not modeled','machining_assumptions':['nominal cutter OD equals roller OD','roller axial segmentation inferred','auxiliary plate hole layouts fixed to RD065'],'curve_generation':'finite cylinder envelope; cached sections only for exact RD065 basis'}
         collisions=[]
         if c['check_interference']:
@@ -175,6 +201,8 @@ def run(c, output=None):
                     if volume>1e-5:collisions.append({'a':links[i].Name,'b':links[j].Name,'volume_mm3':volume})
             log('Interference pairs: '+str(len(collisions)))
         checks['interference_tested']=c['check_interference'];checks['interferences']=collisions
+        checks['cam_surface_method']='ruled interpolation of conjugate envelope sections; continuous curvature not certified'
+        checks['radial_profile_stride']=stride;checks['radial_sample_deviation_mm']=profile_error
         doc.saveAs(str(out/'NativeGeometry.FCStd'))
         log('Building native TechDraw pages')
         from drawings import build_pages
@@ -189,14 +217,7 @@ def run(c, output=None):
         for name in part_names:healthy(doc.getObject(name))
         checks['reopen_native_valid']=[doc.getObject(name).Shape.isValid() for name in part_names]
         checks['drawing_pages']=len(pages);checks['native_dimensions']=len(dimensions)
-        checks['step_reopen']=[]
-        for p in (out/'STEP').glob('*.step'):
-            sh=Part.Shape();sh.read(str(p));valid=sh.isValid();expected=c['roller_count']+2 if p.stem=='Assembly' else 1
-            checks['step_reopen'].append({'file':p.name,'valid':valid,'solids':len(sh.Solids)})
-            log('STEP round-trip '+p.name+' valid='+str(valid)+' solids='+str(len(sh.Solids))+' shells='+str(len(sh.Shells)))
-            if not valid or len(sh.Solids)!=expected:
-                (out/'step_failure.json').write_text(json.dumps(checks,indent=2))
-                raise RuntimeError('STEP verification failed: '+p.name)
+        checks['step_reopen']=step_checks
         # Optional DWG only when explicitly configured; no false renamed DXF.
         checks['dwg_status']='not_requested'
         if c.get('dwg_converter'):
