@@ -224,6 +224,7 @@ class ActualArcChamfer:
                 ends=sorted(tuple(round(v,5) for v in [p.x,p.y,p.z]) for p in [points[0],points[-1]])
                 return tuple(ends)+(tuple(round(v,5) for v in [points[1].x,points[1].y,points[1].z]),)
             selected=[];flanks={};geometric_flanks={}
+            stock_clip=Part.makeCylinder(radius,base.BoundBox.ZLength+2,A.Vector(0,0,base.BoundBox.ZMin-1))
             for edge in base.Edges:
                 points=edge.discretize(Number=5)
                 if max(abs(math.hypot(p.x,p.y)-radius) for p in points)>1e-5:continue
@@ -285,7 +286,12 @@ class ActualArcChamfer:
                         if tool.isValid() and len(tool.Solids)==1 and tool.Solids[0].isClosed():break
                     else:raise ValueError('Invalid actual-edge wedge strip '+str(chain_index)+' at '+str(start))
                     print('Accepted C-edge tool size_mm='+str(actual_size),flush=True)
-                    tools.append(tool);chunks+=1
+                    clipped=tool.common(stock_clip,1e-7)
+                    if not clipped.isValid():raise ValueError('Invalid intersection of C tool with stock cylinder.')
+                    if any(not solid.isValid() or not solid.isClosed() for solid in clipped.Solids):raise ValueError('Invalid closed C tool inside stock.')
+                    # All volumetric components are retained. Outside-stock pieces
+                    # cannot remove stock and must not enter the expensive global cut.
+                    tools.extend(clipped.Solids);chunks+=1
                 evidence.append({'chain':chain_index,'samples':len(path),'closed':closed,'boolean_tools':chunks,'offset_min_mm':min(distances),'offset_max_mm':max(distances)})
                 print('Actual 3D C-edge wedge '+str(chain_index+1)+'/'+str(len(groups))+' samples='+str(len(path)),flush=True)
             accepted=False
