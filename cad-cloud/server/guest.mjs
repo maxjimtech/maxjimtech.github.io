@@ -58,7 +58,7 @@ export function createBroker({token,repo='maxjimtech/maxjimtech.github.io',branc
       if(count>=dailyLimit)throw new HttpError(429,'全站今日 '+dailyLimit+' 次生成額度已用完，台灣時間午夜重置；需要增加使用次數，請聯絡 0931675001');
       if(time-data.last<cooldownSeconds*1000)throw new HttpError(429,'雲端生成間隔至少 '+cooldownSeconds+' 秒，請稍後再試');
       for(const state of ['in_progress','queued']){
-        const runs=await gh('/actions/workflows/cad.yml/runs?status='+state+'&per_page=1');
+        const runs=await gh('/actions/workflows/cad.yml/runs?branch='+encodeURIComponent(branch)+'&status='+state+'&per_page=1');
         if(runs.total_count>0)throw new HttpError(429,'雲端目前正在建模，完成後可提交下一組');
       }
       const updated={day,count:count+1,last:time,requests:[{id:input.job_id,payloadHash,client,time,state:'reserved'},...data.requests].slice(0,100)};

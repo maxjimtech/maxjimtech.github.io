@@ -18,20 +18,30 @@ def samples(shape):
         for u in [.2,.5,.8]:
             for v in [.2,.5,.8]:
                 point=face.valueAt(u0+(u1-u0)*u,v0+(v1-v0)*v)
-                if Part.Vertex(point).distToShape(face)[0]<=1e-7:points.append(point)
+                if face.isPartOfDomain(u0+(u1-u0)*u,v0+(v1-v0)*v):points.append(point)
     unique={tuple(round(x,8) for x in [p.x,p.y,p.z]):p for p in points}
     return list(unique.values())
 
 def directed_deviation(source,target):
     faces=target.Faces
+    surfaces=[face.Surface for face in faces]
     bounds=np.array([[f.BoundBox.XMin,f.BoundBox.YMin,f.BoundBox.ZMin,f.BoundBox.XMax,f.BoundBox.YMax,f.BoundBox.ZMax] for f in faces])
     points=samples(source);maximum=0.
     for point in points:
         vector=np.array([point.x,point.y,point.z])
         hits=np.flatnonzero(np.all(bounds[:,:3]-TOLERANCE_MM<=vector,axis=1)&np.all(bounds[:,3:]+TOLERANCE_MM>=vector,axis=1))
         if len(hits)==0:raise RuntimeError('No target surface within 0.01 mm sample bounds')
-        nearby=Part.makeCompound([faces[int(index)] for index in hits])
-        distance=Part.Vertex(point).distToShape(nearby)[0]
+        distance=float('inf')
+        for index in hits:
+            index=int(index)
+            try:
+                u,v=surfaces[index].parameter(point)
+                if faces[index].isPartOfDomain(u,v):distance=min(distance,(point-faces[index].valueAt(u,v)).Length)
+                if distance<1e-7:break
+            except Exception:pass
+        if distance>TOLERANCE_MM:
+            nearby=Part.makeCompound([faces[int(index)] for index in hits])
+            distance=Part.Vertex(point).distToShape(nearby)[0]
         if distance>TOLERANCE_MM:raise RuntimeError('STEP sampled geometric deviation exceeds 0.01 mm: '+str(distance))
         maximum=max(maximum,distance)
     return {'samples':len(points),'maximum_sampled_deviation_mm':maximum}
