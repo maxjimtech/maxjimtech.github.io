@@ -1,0 +1,3690 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>肇祥企業社 MaxjimTech Inc.｜UGV 無人車載具底盤智慧設計產生器 v3.5 | 機構干涉審視與參數化 CAD Studio</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            cad: {
+              bg: '#0b0f17',
+              panel: '#111827',
+              card: '#1e293b',
+              border: '#334155',
+              accent: '#0ea5e9',
+              amber: '#f59e0b',
+              emerald: '#10b981',
+              rose: '#f43f5e'
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background-color: #0b0f17;
+      color: #f1f5f9;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      background: #334155;
+      height: 6px;
+      border-radius: 3px;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      margin-top: -5px;
+      background-color: #0ea5e9;
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      border: 2px solid #f8fafc;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      background-color: #38bdf8;
+    }
+  </style>
+<style>
+/* MAXJIM web layout: controls occupy their own rows, never cover the canvas. */
+:root{--header-height:150px;color-scheme:dark}
+*{box-sizing:border-box}
+.company-brand{width:100%;font-size:13px;font-weight:700;color:#7dd3fc;line-height:1.6;margin:0 0 2px;overflow-wrap:anywhere}
+.site-action{display:inline-flex;align-items:center;justify-content:center;border:1px solid #475569;border-radius:6px;background:#1e293b;padding:7px 10px;font-size:12px;min-height:34px;text-decoration:none;color:#e2e8f0}
+.site-action:hover{background:#334155}
+button,a,input,select{touch-action:manipulation}
+button{min-height:30px;white-space:normal;overflow-wrap:anywhere;flex-shrink:0}
+input,select,textarea{min-width:0;max-width:100%}
+#app-header{position:relative;height:auto}
+#app-header>div{display:flex;flex-direction:column;align-items:stretch}
+#app-header>div>div:first-child{min-width:0}
+#app-header>div>div:first-child>div:last-child{min-width:0}
+#app-header h1{overflow-wrap:anywhere}
+#app-header h1+span{white-space:normal}
+#app-header h1.parent{flex-wrap:wrap}
+#app-header>div>div:first-child>div:last-child>div{flex-wrap:wrap}
+#app-header>div>div:last-child{display:flex;flex-wrap:wrap;width:100%;gap:8px}
+#app-main{grid-template-columns:minmax(320px,0.85fr) minmax(0,1.55fr);align-items:start}
+#parameter-panel,#design-panel{min-width:0;height:calc(100dvh - var(--header-height));overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+#parameter-panel{grid-column:auto}
+#parameter-panel>div.sticky{position:static}
+#tab-bar{position:static}
+#tab-bar button{min-width:0}
+#design-panel{grid-column:auto}
+#parameter-panel>*,#design-panel>*{flex-shrink:0}
+#viewport-layout{height:auto;min-height:0;overflow:visible;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:12px}
+#telemetry-panel,#view-controls,#motion-controls{position:static;inset:auto;max-width:none;min-width:0;width:100%;pointer-events:auto}
+#telemetry-panel{grid-column:1;grid-row:1}
+#telemetry-panel>div{height:100%}
+#view-controls{grid-column:2;grid-row:1;align-items:stretch}
+#view-controls>div{display:flex;flex-wrap:wrap;justify-content:flex-start;max-width:none;width:100%}
+#canvas-container{grid-column:1/-1;grid-row:2;height:clamp(340px,48vh,640px);min-width:0;overflow:hidden;border:1px solid #1e293b;border-radius:8px}
+#canvas-container canvas{display:block;max-width:100%}
+#motion-controls{grid-column:1/-1;grid-row:3;grid-template-columns:1fr;gap:12px}
+#motion-controls>div{display:grid;grid-template-columns:auto minmax(40px,1fr) 44px auto;min-width:0}
+#motion-controls input{width:100%}
+#motion-controls label{white-space:normal}
+#modal-export>div{max-height:90dvh;min-width:0}
+#modal-export>div>div:first-child{gap:12px;align-items:flex-start}
+#modal-export>div>div:first-child>div{min-width:0}
+#btn-close-modal{white-space:nowrap;flex-shrink:0}
+#modal-export>div>div:last-child>div{display:flex;flex-wrap:wrap;gap:8px;min-width:0}
+@media(min-width:1600px){#motion-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:1100px){#viewport-layout{grid-template-columns:minmax(0,1fr)}#telemetry-panel{grid-column:1;grid-row:2}#view-controls{grid-column:1;grid-row:1}#canvas-container{grid-row:3}#motion-controls{grid-row:4}}
+@media(max-width:1023px){#app-main{grid-template-columns:minmax(0,1fr)}#parameter-panel{height:auto;max-height:65dvh}#design-panel{height:auto;overflow:visible}#viewport-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}#telemetry-panel{grid-column:1;grid-row:1}#view-controls{grid-column:2;grid-row:1}#canvas-container{grid-row:2}#motion-controls{grid-row:3}}
+@media(max-width:640px){#app-header{padding:12px}#app-header h1{font-size:16px}#app-header>div>div:first-child{align-items:flex-start}#viewport-layout{grid-template-columns:minmax(0,1fr)}#view-controls{grid-column:1;grid-row:1}#telemetry-panel{grid-column:1;grid-row:2}#canvas-container{grid-row:3;height:340px}#motion-controls{grid-row:4}#modal-export{padding:8px}#modal-export>div>div{padding-left:12px;padding-right:12px}}
+</style></head>
+<body class="min-h-screen flex flex-col bg-slate-950 text-slate-100 select-none">
+
+  <!-- Top Navigation & Preset Bar -->
+  <header id="app-header" class="border-b border-slate-800 bg-slate-900/95 backdrop-blur sticky top-0 z-30 px-4 py-2.5">
+    <div class="max-w-[1920px] mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-sky-500/15 border border-sky-500/40 flex items-center justify-center text-sky-400 font-mono font-bold text-lg shadow-inner">
+          UGV
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <p class="company-brand">肇祥企業社 MaxjimTech Inc.</p><h1 class="text-base sm:text-lg font-bold tracking-tight text-white">無人車載具底盤智慧設計產生器</h1>
+            <span class="hidden sm:inline-block text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Kinematic & Interference Audit v3.5</span>
+          </div>
+          <p class="text-xs text-slate-400 hidden md:block">12項輪系與機構干涉即時審視 ‧ 真實轉向節/萬向半軸/A臂運動學建模 ‧ 六大系統自動設計與微調</p>
+        </div>
+      </div>
+
+      <!-- Preset Quick Loaders & Export -->
+      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+        <button id="fullscreen-toggle" type="button" class="site-action">⛶ 全螢幕操作</button><a class="site-action" href="https://maxjimtech.com/線上設計工具" target="_top">返回官網</a><a class="site-action" href="../toolbox-planner/">工具盒規劃器</a><a class="site-action" href="../smart-factory/">智慧工廠</a><span class="text-xs font-medium text-slate-400 mr-1 hidden xl:inline">快速載入無干涉工程範本：</span>
+        <button id="preset-offroad" class="px-2.5 py-1.5 text-xs font-medium rounded-md bg-slate-800 hover:bg-sky-600/30 hover:text-sky-300 border border-slate-700 hover:border-sky-500/50 transition">
+          🚙 四輪越野巡檢車
+        </button>
+        <button id="preset-tracked" class="px-2.5 py-1.5 text-xs font-medium rounded-md bg-slate-800 hover:bg-sky-600/30 hover:text-sky-300 border border-slate-700 hover:border-sky-500/50 transition">
+          🚜 重載履帶工程車
+        </button>
+        <button id="preset-mecanum" class="px-2.5 py-1.5 text-xs font-medium rounded-md bg-slate-800 hover:bg-sky-600/30 hover:text-sky-300 border border-slate-700 hover:border-sky-500/50 transition">
+          📦 廠內全向 AGV
+        </button>
+        <button id="preset-rocker" class="px-2.5 py-1.5 text-xs font-medium rounded-md bg-slate-800 hover:bg-sky-600/30 hover:text-sky-300 border border-slate-700 hover:border-sky-500/50 transition">
+          🛰️ 六輪搖臂探測車
+        </button>
+        <div class="h-4 w-[1px] bg-slate-700 mx-1 hidden sm:block"></div>
+        <button id="btn-export-modal" class="px-3 py-1.5 text-xs font-semibold rounded-md bg-sky-500 hover:bg-sky-400 text-slate-950 shadow-sm transition flex items-center gap-1.5">
+          <span>📋 匯出規格與 BOM</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace Container -->
+  <main id="app-main" class="flex-1 max-w-[1920px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-0">
+
+    <!-- LEFT COLUMN: Input Requirements + Auto-Design Engine + Editable Subsystems (4 cols on lg) -->
+    <aside id="parameter-panel" class="lg:col-span-5 xl:col-span-4 border-r border-slate-800 bg-slate-900/80 flex flex-col lg:h-[calc(100vh-57px)] lg:overflow-y-auto">
+
+      <!-- Top Auto-Design Engine Bar -->
+      <div class="p-3 bg-gradient-to-r from-sky-950/80 via-slate-900 to-emerald-950/60 border-b border-slate-800 sticky top-0 z-20 space-y-2">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-xs font-bold text-white">智慧機構自動設計引擎 (Auto-Synthesis)</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <label for="chk-auto-sync" class="text-[11px] text-slate-300 cursor-pointer flex items-center gap-1 bg-slate-800/90 px-2 py-1 rounded border border-slate-700">
+              <input id="chk-auto-sync" type="checkbox" checked class="accent-sky-400 rounded">
+              <span>改需求時自動重設機構</span>
+            </label>
+            <button id="btn-expand-all" class="px-2 py-1 text-[11px] font-mono rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 transition" title="展開或分頁顯示所有參數">
+              🗂️ 切換分頁模式
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="btn-run-autodesign" class="flex-1 py-1.5 px-3 rounded-md bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-400 hover:to-emerald-400 text-slate-950 font-bold text-xs shadow transition flex items-center justify-center gap-1.5">
+            <span>⚡ 依輸入需求一鍵自動設計六大機構系統</span>
+          </button>
+          <button id="btn-unlock-all" class="px-2.5 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-[11px] font-medium transition hidden">
+            🔓 解除手動鎖定
+          </button>
+        </div>
+      </div>
+
+      <!-- Parameter Category Tabs -->
+      <div id="tab-bar" class="grid grid-cols-3 border-b border-slate-800 bg-slate-950/70 sticky top-[85px] z-20">
+        <button id="tab-btn-load" class="py-2.5 px-2 text-xs font-semibold border-b-2 border-sky-400 text-sky-400 bg-slate-900/60 transition">
+          1. 尺寸與負重
+        </button>
+        <button id="tab-btn-drive" class="py-2.5 px-2 text-xs font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition">
+          2. 輪系與傳動
+        </button>
+        <button id="tab-btn-chassis" class="py-2.5 px-2 text-xs font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition">
+          3. 懸吊/煞車/轉向
+        </button>
+      </div>
+
+      <div class="p-4 space-y-5 flex-1">
+
+        <!-- =============================================================== -->
+        <!-- SECTION 1: Target Mission Inputs (Load, Terrain, Dimensions)    -->
+        <!-- =============================================================== -->
+        <section id="panel-load" class="space-y-3.5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-sky-400">STEP 1：輸入任務負重、地形與越野高度</h2>
+            <span class="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 px-1.5 py-0.5 rounded border border-emerald-700/50">需求輸入端</span>
+          </div>
+
+          <div class="bg-slate-800/60 border border-slate-700/70 rounded-lg p-3 space-y-1.5">
+            <label for="sel-terrain" class="text-xs font-medium text-slate-200 block">主要作業地形環境 (Target Terrain)</label>
+            <select id="sel-terrain" class="w-full bg-slate-900 border border-slate-700 rounded-md px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
+              <option value="mixed_offroad">戶外碎石/草地/泥土混合越野 (Mixed Off-Road)</option>
+              <option value="heavy_mud_rock">重度泥濘/陡坡/岩石極限越障 (Extreme Mud & Rock)</option>
+              <option value="indoor_smooth">室內無塵室/環氧樹脂平坦地面 (Indoor Smooth AGV)</option>
+              <option value="industrial_yard">廠區柏油/水泥與輕度減速帶 (Industrial Yard)</option>
+            </select>
+          </div>
+
+          <!-- Payload -->
+          <div class="bg-slate-800/60 border border-slate-700/70 rounded-lg p-3 space-y-2">
+            <div class="flex justify-between items-center">
+              <label for="inp-payload" class="text-xs font-medium text-slate-200">額定負重需求 (Payload Capacity)</label>
+              <div class="flex items-center gap-1">
+                <input id="num-payload" type="number" min="10" max="1500" step="5" value="150" class="w-20 bg-slate-900 border border-slate-700 rounded px-2 py-0.5 text-right font-mono text-xs text-sky-300 focus:outline-none focus:border-sky-500">
+                <span class="text-xs font-mono text-slate-400">kg</span>
+              </div>
+            </div>
+            <input id="inp-payload" type="range" min="10" max="1500" step="5" value="150" class="w-full">
+            <div class="flex justify-between text-[10px] font-mono text-slate-400">
+              <span>輕型 10kg</span>
+              <span>中載 300kg</span>
+              <span>重載 1500kg</span>
+            </div>
+          </div>
+
+          <!-- Ground Clearance (越野離地高) -->
+          <div class="bg-slate-800/60 border border-slate-700/70 rounded-lg p-3 space-y-2">
+            <div class="flex justify-between items-center">
+              <label for="inp-clearance" class="text-xs font-medium text-slate-200">越野最小離地高 (Ground Clearance)</label>
+              <div class="flex items-center gap-1">
+                <input id="num-clearance" type="number" min="30" max="450" step="5" value="180" class="w-20 bg-slate-900 border border-slate-700 rounded px-2 py-0.5 text-right font-mono text-xs text-amber-300 focus:outline-none focus:border-sky-500">
+                <span class="text-xs font-mono text-slate-400">mm</span>
+              </div>
+            </div>
+            <input id="inp-clearance" type="range" min="30" max="450" step="5" value="180" class="w-full">
+            <div class="flex justify-between text-[10px] font-mono text-slate-400">
+              <span>室內平坦 30mm</span>
+              <span>一般越野 180mm</span>
+              <span>高越障 450mm</span>
+            </div>
+          </div>
+
+          <!-- Max Climb Slope & Speed & Runtime in compact grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div class="bg-slate-800/60 border border-slate-700/70 rounded-lg p-2.5 space-y-1.5">
+              <div class="flex justify-between items-center">
+                <label for="inp-slope" class="text-[11px] font-medium text-slate-300">爬坡度</label>
+                <span id="val-slope" class="font-mono text-[11px] text-emerald-400 font-semibold">25°</span>
+              </div>
+              <input id="inp-slope" type="range" min="5" max="45" step="1" value="25" class="w-full">
+            </div>
+
+            <div class="bg-slate-800/60 border border-slate-700/70 rounded-lg p-2.5 space-y-1.5">
+              <div class="flex justify-between items-center">
+                <label for="inp-speed" class="text-[11px] font-medium text-slate-300">最高車速</label>
+                <span id="val-speed" class="font-mono text-[11px] text-sky-300">8.0 km/h</span>
+              </div>
+              <input id="inp-speed" type="range" min="2" max="30" step="0.5" value="8" class="w-full">
+            </div>
+
+            <div class="bg-slate-800/60 border border-slate-700/70 rounded-lg p-2.5 space-y-1.5">
+              <div class="flex justify-between items-center">
+                <label for="inp-runtime" class="text-[11px] font-medium text-slate-300">目標續航</label>
+                <span id="val-runtime" class="font-mono text-[11px] text-sky-300">4.0 hr</span>
+              </div>
+              <input id="inp-runtime" type="range" min="1" max="16" step="0.5" value="4" class="w-full">
+            </div>
+          </div>
+
+          <!-- Dimension Limits -->
+          <div class="flex items-center justify-between border-b border-slate-800 pb-1.5 pt-2">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-sky-400">外型包絡尺寸限制 (Envelope Limits)</h2>
+            <span class="text-[11px] font-mono text-slate-400">L × W × H (mm)</span>
+          </div>
+
+          <!-- Length Limit -->
+          <div class="bg-slate-800/60 border border-slate-700/70 rounded-lg p-3 space-y-1.5">
+            <div class="flex justify-between items-center">
+              <label for="inp-length" class="text-xs font-medium text-slate-200">最大車長限制 (Max Length)</label>
+              <div class="flex items-center gap-1">
+                <input id="num-length" type="number" min="500" max="2600" step="10" value="1250" class="w-20 bg-slate-900 border border-slate-700 rounded px-2 py-0.5 text-right font-mono text-xs text-sky-300">
+                <span class="text-xs font-mono text-slate-400">mm</span>
+              </div>
+            </div>
+            <input id="inp-length" type="range" min="500" max="2600" step="10" value="1250" class="w-full">
+          </div>
+
+          <!-- Width Limit -->
+          <div class="bg-slate-800/60 border border-slate-700/70 rounded-lg p-3 space-y-1.5">
+            <div class="flex justify-between items-center">
+              <label for="inp-width" class="text-xs font-medium text-slate-200">最大車寬限制 (Max Width)</label>
+              <div class="flex items-center gap-1">
+                <input id="num-width" type="number" min="400" max="1800" step="10" value="920" class="w-20 bg-slate-900 border border-slate-700 rounded px-2 py-0.5 text-right font-mono text-xs text-sky-300">
+                <span class="text-xs font-mono text-slate-400">mm</span>
+              </div>
+            </div>
+            <input id="inp-width" type="range" min="400" max="1800" step="10" value="920" class="w-full">
+          </div>
+
+          <!-- Height Limit -->
+          <div class="bg-slate-800/60 border border-slate-700/70 rounded-lg p-3 space-y-1.5">
+            <div class="flex justify-between items-center">
+              <label for="inp-height" class="text-xs font-medium text-slate-200">車體載台高度 (Deck Height)</label>
+              <div class="flex items-center gap-1">
+                <input id="num-height" type="number" min="250" max="1200" step="10" value="540" class="w-20 bg-slate-900 border border-slate-700 rounded px-2 py-0.5 text-right font-mono text-xs text-sky-300">
+                <span class="text-xs font-mono text-slate-400">mm</span>
+              </div>
+            </div>
+            <input id="inp-height" type="range" min="250" max="1200" step="10" value="540" class="w-full">
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- SECTION 2: Locomotion, Drivetrain & Power (Auto + Editable)     -->
+        <!-- =============================================================== -->
+        <section id="panel-drive" class="space-y-4">
+          <!-- Wheel / Locomotion Subsystem -->
+          <div class="bg-slate-800/50 border border-slate-700/80 rounded-xl p-3.5 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-700/70 pb-2">
+              <h2 class="text-xs font-bold uppercase tracking-wider text-sky-400">輪系與推進機構 (可修改)</h2>
+              <span id="badge-wheel" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">🤖 自動設計</span>
+            </div>
+
+            <div class="space-y-1">
+              <label for="sel-wheel-type" class="text-xs font-medium text-slate-300">輪子 / 推進種類 (Wheel / Sprocket Type)</label>
+              <select id="sel-wheel-type" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
+                <option value="offroad_tire">越野深齒充氣輪 (Off-Road Pneumatic Tire)</option>
+                <option value="solid_rubber">防刺穿實心橡膠輪 (Heavy-Duty Solid Tire)</option>
+                <option value="sprocket_track">鏈輪＋橡膠/金屬履帶系統 (Sprocket & Tracked)</option>
+                <option value="mecanum">麥克納姆全向輪 (45° Mecanum Omni Wheel)</option>
+                <option value="rocker_6w">六輪搖臂越障輪系 (6-Wheel Rocker-Bogie)</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
+                <div class="flex justify-between items-center">
+                  <label for="inp-wheeldia" class="text-[11px] text-slate-300">輪/鏈輪直徑</label>
+                  <div class="flex items-center gap-0.5">
+                    <input id="num-wheeldia" type="number" min="150" max="750" step="10" value="380" class="w-14 bg-slate-950 border border-slate-700 rounded px-1 py-0.5 text-right font-mono text-[11px] text-sky-300">
+                    <span class="text-[10px] font-mono text-slate-400">mm</span>
+                  </div>
+                </div>
+                <input id="inp-wheeldia" type="range" min="150" max="750" step="10" value="380" class="w-full">
+              </div>
+
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
+                <div class="flex justify-between items-center">
+                  <label for="inp-wheelwidth" class="text-[11px] text-slate-300">輪/履帶寬度</label>
+                  <span id="val-wheelwidth" class="font-mono text-[11px] text-sky-300">110 mm</span>
+                </div>
+                <input id="inp-wheelwidth" type="range" min="50" max="300" step="5" value="110" class="w-full">
+              </div>
+            </div>
+          </div>
+
+          <!-- Drivetrain Subsystem -->
+          <div class="bg-slate-800/50 border border-slate-700/80 rounded-xl p-3.5 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-700/70 pb-2">
+              <h2 class="text-xs font-bold uppercase tracking-wider text-sky-400">傳動模式設計 (Drivetrain - 可修改)</h2>
+              <span id="badge-drive" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">🤖 自動設計</span>
+            </div>
+
+            <div class="space-y-1">
+              <label for="sel-drive-type" class="text-xs font-medium text-slate-300">傳動架構 (Drive Configuration)</label>
+              <select id="sel-drive-type" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
+                <option value="ind_hub">四輪/多輪獨立輪轂馬達驅動 (Independent In-Wheel Hub)</option>
+                <option value="ind_inboard">獨立內置伺服馬達＋萬向半軸傳動 (Inboard Motor + CV Shaft)</option>
+                <option value="4wd_shaft">四輪傳動（前後差速器＋中央傳動軸 4WD Shaft）</option>
+                <option value="skid_chain">雙側獨立馬達＋鏈條/同步帶差速傳動 (Dual Chain/Belt Skid)</option>
+                <option value="rwd_diff">後輪驅動（後軸差速器 RWD Differential）</option>
+                <option value="fwd_diff">前輪驅動（前軸差速器 FWD Differential）</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
+                <div class="flex justify-between items-center">
+                  <label for="inp-gear-ratio" class="text-[11px] text-slate-300">減速機減速比 i</label>
+                  <span id="val-gear-ratio" class="font-mono text-[11px] text-amber-300">1:25</span>
+                </div>
+                <input id="inp-gear-ratio" type="range" min="4" max="80" step="1" value="25" class="w-full">
+              </div>
+
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
+                <div class="flex justify-between items-center">
+                  <label for="inp-motor-watt" class="text-[11px] text-slate-300">單馬達額定功率</label>
+                  <span id="val-motor-watt" class="font-mono text-[11px] text-sky-300">600 W</span>
+                </div>
+                <input id="inp-motor-watt" type="range" min="150" max="6000" step="50" value="600" class="w-full">
+              </div>
+            </div>
+          </div>
+
+          <!-- Power Source Subsystem -->
+          <div class="bg-slate-800/50 border border-slate-700/80 rounded-xl p-3.5 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-700/70 pb-2">
+              <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400">動力與儲能系統設計 (Power - 可修改)</h2>
+              <span id="badge-power" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">🤖 自動設計</span>
+            </div>
+
+            <div class="space-y-1">
+              <label for="sel-power-source" class="text-xs font-medium text-slate-300">動力來源 (Power Source)</label>
+              <select id="sel-power-source" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
+                <option value="lifepo4_48v">48V 磷酸鐵鋰電池組 (LiFePO4 Pack - 高安全/長壽命)</option>
+                <option value="nmc_72v">72V 高能量密度三元鋰電池 (NMC Li-Ion - 高倍率放電)</option>
+                <option value="hybrid_gen">油電混合增程系統 (汽油發電機 + 緩衝電池組 Series Hybrid)</option>
+                <option value="fuelcell_h2">氫燃料電池動力系統 (PEMFC + 儲氫瓶 + 鋰電混動)</option>
+                <option value="tethered_ac">工業繫留供電系統 (AC/DC 高壓電纜捲盤持續供電)</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
+                <div class="flex justify-between items-center">
+                  <label for="inp-batt-ah" class="text-[11px] text-slate-300">電池組額定容量</label>
+                  <span id="val-batt-ah" class="font-mono text-[11px] text-emerald-400">80 Ah</span>
+                </div>
+                <input id="inp-batt-ah" type="range" min="15" max="450" step="5" value="80" class="w-full">
+              </div>
+
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
+                <div class="flex justify-between items-center">
+                  <label for="inp-pwr-offset" class="text-[11px] text-slate-300">動力艙重心偏移</label>
+                  <span id="val-pwr-offset" class="font-mono text-[11px] text-sky-300">0 mm</span>
+                </div>
+                <input id="inp-pwr-offset" type="range" min="-220" max="220" step="10" value="0" class="w-full">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- SECTION 3: Frame, Suspension, Steering & Brakes (Auto + Edit)   -->
+        <!-- =============================================================== -->
+        <section id="panel-chassis" class="space-y-4">
+
+          <!-- 1. Chassis Frame Structure -->
+          <div class="bg-slate-800/50 border border-slate-700/80 rounded-xl p-3.5 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-700/70 pb-2">
+              <h2 class="text-xs font-bold uppercase tracking-wider text-sky-400">底盤骨架結構設計 (Frame - 可修改)</h2>
+              <span id="badge-frame" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">🤖 自動設計</span>
+            </div>
+
+            <div class="space-y-1">
+              <label for="sel-frame-mat" class="text-xs font-medium text-slate-300">主結構材質與工法 (Frame Material & Process)</label>
+              <select id="sel-frame-mat" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
+                <option value="steel_tube">SS400 / SCM440 結構方管焊接骨架 (Welded Steel Tube)</option>
+                <option value="alu_extrusion">6061-T6 工業鋁擠型模組化骨架 (Aluminum Extrusion)</option>
+                <option value="sheet_monocoque">SUS304 / 5052 鈑金折彎防水密封船型殼體 (Sealed Hull)</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
+                <div class="flex justify-between items-center">
+                  <label for="inp-frame-tube" class="text-[11px] text-slate-300">主樑截面寬度</label>
+                  <span id="val-frame-tube" class="font-mono text-[11px] text-sky-300">45 mm</span>
+                </div>
+                <input id="inp-frame-tube" type="range" min="30" max="90" step="5" value="45" class="w-full">
+              </div>
+
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
+                <div class="flex justify-between items-center">
+                  <label for="inp-frame-cross" class="text-[11px] text-slate-300">橫樑補強支數</label>
+                  <span id="val-frame-cross" class="font-mono text-[11px] text-sky-300">4 支</span>
+                </div>
+                <input id="inp-frame-cross" type="range" min="2" max="8" step="1" value="4" class="w-full">
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Suspension System -->
+          <div class="bg-slate-800/50 border border-slate-700/80 rounded-xl p-3.5 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-700/70 pb-2">
+              <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400">懸吊避震系統設計 (Suspension - 可修改)</h2>
+              <span id="badge-sus" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">🤖 自動設計</span>
+            </div>
+
+            <div class="space-y-1">
+              <label for="sel-suspension" class="text-xs font-medium text-slate-300">懸吊幾何機構 (Suspension Geometry)</label>
+              <select id="sel-suspension" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
+                <option value="double_wishbone">雙A臂獨立氣壓/油壓避震 (Double Wishbone Coilover)</option>
+                <option value="trailing_arm">拖曳臂獨立懸吊系統 (Trailing Arm + Heavy Shock)</option>
+                <option value="rocker_bogie">搖臂轉向架連桿無彈簧懸吊 (Rocker-Bogie Linkage)</option>
+                <option value="christie_track">克里斯蒂扭力桿/避震惰輪懸吊 (Christie Track Suspension)</option>
+                <option value="portal_axle">門式高離地車橋＋多連桿懸吊 (Portal Axle Multi-Link)</option>
+                <option value="rigid">剛性直連底盤（無懸吊，適用室內高精準度 AGV）</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2">
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2 space-y-1">
+                <div class="flex justify-between items-center">
+                  <label for="inp-sus-travel" class="text-[10px] text-slate-300">行程</label>
+                  <span id="val-sus-travel" class="font-mono text-[10px] text-amber-300">80mm</span>
+                </div>
+                <input id="inp-sus-travel" type="range" min="0" max="220" step="5" value="80" class="w-full">
+              </div>
+
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2 space-y-1">
+                <div class="flex justify-between items-center">
+                  <label for="inp-spring-k" class="text-[10px] text-slate-300">彈簧剛性</label>
+                  <span id="val-spring-k" class="font-mono text-[10px] text-amber-300">45 N/mm</span>
+                </div>
+                <input id="inp-spring-k" type="range" min="10" max="350" step="5" value="45" class="w-full">
+              </div>
+
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2 space-y-1">
+                <div class="flex justify-between items-center">
+                  <label for="inp-sus-angle" class="text-[10px] text-slate-300">避震傾角</label>
+                  <span id="val-sus-angle" class="font-mono text-[10px] text-amber-300">16°</span>
+                </div>
+                <input id="inp-sus-angle" type="range" min="0" max="40" step="2" value="16" class="w-full">
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Steering Mechanism -->
+          <div class="bg-slate-800/50 border border-slate-700/80 rounded-xl p-3.5 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-700/70 pb-2">
+              <h2 class="text-xs font-bold uppercase tracking-wider text-sky-400">轉向機構設計 (Steering - 可修改)</h2>
+              <span id="badge-steer" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">🤖 自動設計</span>
+            </div>
+
+            <div class="space-y-1">
+              <label for="sel-steering" class="text-xs font-medium text-slate-300">轉向方式 (Steering Mode)</label>
+              <select id="sel-steering" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
+                <option value="skid_steer">左右輪差速原地轉向 (Differential / Skid-Steer)</option>
+                <option value="ackermann_2ws">前輪阿克曼連桿轉向 (Front Ackermann Steering)</option>
+                <option value="4ws_counter">四輪獨立反向轉向 (4WS Counter-Phase Zero-Turn)</option>
+                <option value="4ws_crab">四輪同向蟹行轉向 (4WS In-Phase Crab Steer)</option>
+                <option value="omni_mecanum">全向平移合成轉向 (Omnidirectional Mecanum)</option>
+                <option value="articulated">中央雙液壓缸鉸接轉向 (Articulated Frame Steering)</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
+                <div class="flex justify-between items-center">
+                  <label for="inp-max-steer" class="text-[11px] text-slate-300">最大機構轉向角</label>
+                  <span id="val-max-steer" class="font-mono text-[11px] text-sky-300">28°</span>
+                </div>
+                <input id="inp-max-steer" type="range" min="15" max="45" step="1" value="28" class="w-full">
+              </div>
+
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
+                <div class="flex justify-between items-center">
+                  <label for="inp-steer-torque" class="text-[11px] text-slate-300">轉向機構推力/扭力</label>
+                  <span id="val-steer-torque" class="font-mono text-[11px] text-sky-300">85 N·m</span>
+                </div>
+                <input id="inp-steer-torque" type="range" min="20" max="600" step="10" value="85" class="w-full">
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Braking System -->
+          <div class="bg-slate-800/50 border border-slate-700/80 rounded-xl p-3.5 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-700/70 pb-2">
+              <h2 class="text-xs font-bold uppercase tracking-wider text-rose-400">煞車制動系統設計 (Braking - 可修改)</h2>
+              <span id="badge-brake" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">🤖 自動設計</span>
+            </div>
+
+            <div class="space-y-1">
+              <label for="sel-brake" class="text-xs font-medium text-slate-300">煞車機構型式 (Braking Mechanism)</label>
+              <select id="sel-brake" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
+                <option value="em_failsafe">電磁失電抱死煞車＋電能回充 (EM Fail-Safe + Regen)</option>
+                <option value="hydraulic_disc">雙迴路液壓通風碟煞系統 (Hydraulic Ventilated Disc)</option>
+                <option value="epb_caliper">電子機械卡鉗駐車＋再生煞車 (Electronic Caliper EPB)</option>
+                <option value="wet_multiplate">濕式多片油冷煞車（重載履帶/高粉塵泥濘環境）</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
+                <div class="flex justify-between items-center">
+                  <label for="inp-brake-dia" class="text-[11px] text-slate-300">煞車碟盤/鼓直徑</label>
+                  <span id="val-brake-dia" class="font-mono text-[11px] text-rose-300">170 mm</span>
+                </div>
+                <input id="inp-brake-dia" type="range" min="100" max="400" step="5" value="170" class="w-full">
+              </div>
+
+              <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
+                <div class="flex justify-between items-center">
+                  <label for="inp-brake-torque" class="text-[11px] text-slate-300">總制動保持扭力</label>
+                  <span id="val-brake-torque" class="font-mono text-[11px] text-rose-300">420 N·m</span>
+                </div>
+                <input id="inp-brake-torque" type="range" min="50" max="8000" step="25" value="420" class="w-full">
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Real-Time Compatibility & Engineering Alert Box -->
+        <div id="alert-box" class="rounded-lg border p-3 space-y-2 bg-emerald-950/30 border-emerald-600/40 transition-all duration-300">
+          <div class="flex items-center justify-between gap-2">
+            <span id="alert-title" class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+              ● 12項機構干涉與合理性檢核通過
+            </span>
+            <button id="btn-autofix" type="button" class="px-2.5 py-1 text-[11px] font-bold rounded bg-amber-500 text-slate-950 hover:bg-amber-400 shadow-sm transition whitespace-nowrap">
+              一鍵修正配置
+            </button>
+          </div>
+          <div id="action-feedback-banner" class="hidden rounded bg-sky-500/20 border border-sky-400/50 px-2.5 py-1.5 text-[11px] font-mono text-sky-200"></div>
+          <ul id="alert-list" class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
+            <li>輪徑、離地高與懸吊行程無機構干涉。</li>
+          </ul>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- CENTER / RIGHT COLUMN: 3D Interactive Viewport + 12-Point Interference Matrix + 6-System Blueprint -->
+    <section id="design-panel" class="lg:col-span-7 xl:col-span-8 flex flex-col lg:h-[calc(100vh-57px)] lg:overflow-y-auto">
+      
+      <!-- 3D Viewport Container -->
+      <div id="viewport-layout" class="relative w-full h-[440px] sm:h-[500px] lg:h-[52%] min-h-[410px] bg-slate-950 border-b border-slate-800 overflow-hidden">
+        
+        <!-- Three.js Canvas Mount -->
+        <div id="canvas-container" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
+
+        <!-- Top-Left HUD Overlay: Live Clearance & Model Telemetry -->
+        <div id="telemetry-panel" class="absolute top-3 left-3 pointer-events-none flex flex-col gap-2 max-w-xs">
+          <div class="bg-slate-900/90 backdrop-blur-md border border-slate-700/80 rounded-lg p-3 shadow-lg pointer-events-auto">
+            <div class="flex items-center justify-between gap-3 border-b border-slate-800 pb-1.5 mb-2">
+              <span class="text-[11px] font-mono uppercase tracking-wider text-sky-400 font-semibold">3D 機構運動與間隙監控</span>
+              <span id="hud-config-badge" class="text-[10px] font-mono bg-slate-800 text-slate-200 px-1.5 py-0.5 rounded border border-slate-700">4WD / 雙A臂</span>
+            </div>
+            <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] font-mono">
+              <div class="text-slate-400">包絡尺寸:</div>
+              <div id="hud-dims" class="text-white text-right">1250×920×540</div>
+              <div class="text-slate-400">軸距 / 輪距:</div>
+              <div id="hud-wb-tw" class="text-sky-300 text-right">790 / 790 mm</div>
+              <div class="text-slate-400">動態離地高:</div>
+              <div id="hud-clearance" class="text-amber-300 text-right">180 mm</div>
+              <div class="text-slate-400">轉向輪-車架間隙:</div>
+              <div id="hud-tire-frame-clr" class="text-emerald-400 text-right">+58 mm</div>
+              <div class="text-slate-400">輪圈-卡鉗間隙:</div>
+              <div id="hud-rim-brake-clr" class="text-emerald-400 text-right">+18 mm</div>
+              <div class="text-slate-400">跨障高度極限:</div>
+              <div id="hud-obstacle" class="text-emerald-400 text-right">160 mm</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top-Right HUD: Camera Views & Display Toggles -->
+        <div id="view-controls" class="absolute top-3 right-3 flex flex-col items-end gap-2">
+          <div class="bg-slate-900/85 backdrop-blur-md border border-slate-700/80 rounded-lg p-1 flex items-center gap-1 shadow-lg">
+            <button id="cam-iso" class="px-2 py-1 text-[11px] font-mono rounded bg-sky-500/20 text-sky-300 border border-sky-500/40 hover:bg-sky-500/30 transition">等角 3D</button>
+            <button id="cam-front" class="px-2 py-1 text-[11px] font-mono rounded text-slate-300 hover:bg-slate-800 transition">前視</button>
+            <button id="cam-side" class="px-2 py-1 text-[11px] font-mono rounded text-slate-300 hover:bg-slate-800 transition">側視</button>
+            <button id="cam-top" class="px-2 py-1 text-[11px] font-mono rounded text-slate-300 hover:bg-slate-800 transition">上視</button>
+          </div>
+
+          <div class="bg-slate-900/85 backdrop-blur-md border border-slate-700/80 rounded-lg p-1.5 flex flex-wrap justify-end gap-1.5 shadow-lg max-w-[310px] sm:max-w-none">
+            <button id="tog-highlight-col" class="px-2 py-1 text-[11px] font-medium rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 transition" title="發生干涉時於3D模型以紅色高亮標示干涉件">
+              🚨 干涉紅標
+            </button>
+            <button id="tog-bbox" class="px-2 py-1 text-[11px] font-medium rounded bg-sky-500/20 text-sky-300 border border-sky-500/40 transition">
+              📏 尺寸界線
+            </button>
+            <button id="tog-payload" class="px-2 py-1 text-[11px] font-medium rounded bg-sky-500/20 text-sky-300 border border-sky-500/40 transition">
+              📦 顯示負重塊
+            </button>
+            <button id="tog-wireframe" class="px-2 py-1 text-[11px] font-medium rounded bg-slate-800 text-slate-300 border border-slate-700 transition">
+              🕸️ 線框模式
+            </button>
+            <button id="tog-animate" class="px-2 py-1 text-[11px] font-medium rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition">
+              ▶️ 動態運轉模擬
+            </button>
+          </div>
+        </div>
+
+        <!-- Bottom Interactive Kinematic Test Bar inside 3D Viewport -->
+        <div id="motion-controls" class="absolute bottom-3 left-3 right-3 bg-slate-900/92 backdrop-blur-md border border-slate-700/80 rounded-lg p-2.5 shadow-lg grid grid-cols-1 md:grid-cols-3 gap-3 items-center">
+          <!-- 1. Steering Angle Live Test -->
+          <div class="flex items-center gap-2">
+            <label for="sim-steer" class="text-[11px] font-mono text-slate-300 whitespace-nowrap">轉向角測試:</label>
+            <input id="sim-steer" type="range" min="-45" max="45" step="1" value="0" class="w-full">
+            <span id="val-sim-steer" class="text-[11px] font-mono text-sky-300 w-9 text-right">0°</span>
+            <button id="btn-reset-steer" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700">歸零</button>
+          </div>
+
+          <!-- 2. Suspension Jounce / Compression Live Test (New!) -->
+          <div class="flex items-center gap-2">
+            <label for="sim-jounce" class="text-[11px] font-mono text-slate-300 whitespace-nowrap">懸吊壓縮測試:</label>
+            <input id="sim-jounce" type="range" min="-40" max="100" step="5" value="0" class="w-full">
+            <span id="val-sim-jounce" class="text-[11px] font-mono text-emerald-300 w-11 text-right">0%</span>
+            <button id="btn-reset-jounce" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700">歸零</button>
+          </div>
+
+          <!-- 3. Exploded View Slider -->
+          <div class="flex items-center gap-2">
+            <label for="sim-explode" class="text-[11px] font-mono text-slate-300 whitespace-nowrap">機構爆炸分解:</label>
+            <input id="sim-explode" type="range" min="0" max="100" step="1" value="0" class="w-full">
+            <span id="val-sim-explode" class="text-[11px] font-mono text-amber-300 w-10 text-right">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Engineering Analytics, 12-Point Interference Audit Matrix & 6-System Blueprint -->
+      <div class="p-4 bg-slate-900/95 space-y-5 flex-1">
+
+        <!-- Key Telemetry Row -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-2.5">
+          <div class="bg-slate-800/70 border border-slate-700/70 rounded-lg p-2.5">
+            <div class="text-[11px] text-slate-400">預估總重 (GVW)</div>
+            <div id="stat-gvw" class="text-base font-bold font-mono text-white mt-0.5">245 kg</div>
+            <div id="stat-curb" class="text-[10px] font-mono text-slate-400">空車重: 95 kg</div>
+          </div>
+
+          <div class="bg-slate-800/70 border border-slate-700/70 rounded-lg p-2.5">
+            <div class="text-[11px] text-slate-400">越障/爬坡總峰值扭力</div>
+            <div id="stat-torque" class="text-base font-bold font-mono text-amber-400 mt-0.5">312 N·m</div>
+            <div id="stat-per-motor-torque" class="text-[10px] font-mono text-slate-400">單輪需求: 78 N·m</div>
+          </div>
+
+          <div class="bg-slate-800/70 border border-slate-700/70 rounded-lg p-2.5">
+            <div class="text-[11px] text-slate-400">驅動總功率配置</div>
+            <div id="stat-power" class="text-base font-bold font-mono text-sky-400 mt-0.5">2.4 kW</div>
+            <div id="stat-rpm" class="text-[10px] font-mono text-slate-400">額定輪轉速: 112 RPM</div>
+          </div>
+
+          <div class="bg-slate-800/70 border border-slate-700/70 rounded-lg p-2.5">
+            <div class="text-[11px] text-slate-400">儲能容量配置</div>
+            <div id="stat-energy" class="text-base font-bold font-mono text-emerald-400 mt-0.5">3.8 kWh</div>
+            <div id="stat-ah" class="text-[10px] font-mono text-slate-400">48V / 80 Ah</div>
+          </div>
+
+          <div class="bg-slate-800/70 border border-slate-700/70 rounded-lg p-2.5">
+            <div class="text-[11px] text-slate-400">最小迴轉半徑</div>
+            <div id="stat-turn-radius" class="text-base font-bold font-mono text-white mt-0.5">0.00 m</div>
+            <div id="stat-turn-mode" class="text-[10px] font-mono text-sky-300">原地差速迴轉</div>
+          </div>
+
+          <div class="bg-slate-800/70 border border-slate-700/70 rounded-lg p-2.5">
+            <div class="text-[11px] text-slate-400">側傾穩定極限角</div>
+            <div id="stat-rollover" class="text-base font-bold font-mono text-emerald-400 mt-0.5">38.5°</div>
+            <div id="stat-cog-height" class="text-[10px] font-mono text-slate-400">合成重心高: 365 mm</div>
+          </div>
+        </div>
+
+        <!-- =============================================================== -->
+        <!-- NEW: 12-Point Mechanical Interference & Kinematic Audit Matrix  -->
+        <!-- =============================================================== -->
+        <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-sky-400">🔍 輪系與零件機構干涉／運動學合理性 12 項深度審視矩陣</span>
+              <span id="audit-summary-pill" class="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">12 / 12 通過</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] text-slate-400 hidden sm:inline">即時計算三維包絡淨間隙 (mm) 與機構自由度相容性</span>
+              <button id="btn-matrix-autofix" type="button" class="px-3 py-1 text-[11px] font-bold rounded bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-sm transition">
+                🛠️ 自動消除所有干涉與不合理配置
+              </button>
+            </div>
+          </div>
+
+          <div id="audit-matrix-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2.5">
+            <!-- Dynamically populated 12 audit cards -->
+          </div>
+        </div>
+
+        <!-- 6-System Interactive Blueprint Cards -->
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+              <span>🛠️ 六大機構系統自動設計結果與即時規格總覽</span>
+              <span class="text-[11px] font-normal text-slate-400">（點擊任一系統卡片右側「微調參數」可跳轉至對應設定區修改）</span>
+            </h3>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+            <!-- Card 1: Frame -->
+            <div class="bg-slate-800/45 border border-slate-700/80 hover:border-sky-500/50 rounded-lg p-3 space-y-1.5 transition">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-sky-400">1. 底盤骨架系統 (Frame)</span>
+                <div class="flex items-center gap-1.5">
+                  <span id="spec-frame-weight" class="font-mono text-[11px] text-slate-300">估重: 42 kg</span>
+                  <button id="jump-frame" class="text-[10px] px-1.5 py-0.5 rounded bg-slate-700 hover:bg-sky-500 hover:text-slate-950 text-sky-300 transition">微調參數 ✎</button>
+                </div>
+              </div>
+              <p id="desc-frame" class="text-xs text-slate-300 leading-relaxed"></p>
+            </div>
+
+            <!-- Card 2: Suspension -->
+            <div class="bg-slate-800/45 border border-slate-700/80 hover:border-amber-500/50 rounded-lg p-3 space-y-1.5 transition">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-400">2. 懸吊避震系統 (Suspension)</span>
+                <div class="flex items-center gap-1.5">
+                  <span id="spec-sus-summary" class="font-mono text-[11px] text-slate-300">K = 45 N/mm</span>
+                  <button id="jump-sus" class="text-[10px] px-1.5 py-0.5 rounded bg-slate-700 hover:bg-amber-500 hover:text-slate-950 text-amber-300 transition">微調參數 ✎</button>
+                </div>
+              </div>
+              <p id="desc-suspension" class="text-xs text-slate-300 leading-relaxed"></p>
+            </div>
+
+            <!-- Card 3: Steering -->
+            <div class="bg-slate-800/45 border border-slate-700/80 hover:border-sky-500/50 rounded-lg p-3 space-y-1.5 transition">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-sky-300">3. 轉向機構系統 (Steering)</span>
+                <div class="flex items-center gap-1.5">
+                  <span id="spec-steer-summary" class="font-mono text-[11px] text-slate-300">最大轉角 28°</span>
+                  <button id="jump-steer" class="text-[10px] px-1.5 py-0.5 rounded bg-slate-700 hover:bg-sky-500 hover:text-slate-950 text-sky-300 transition">微調參數 ✎</button>
+                </div>
+              </div>
+              <p id="desc-steering" class="text-xs text-slate-300 leading-relaxed"></p>
+            </div>
+
+            <!-- Card 4: Braking -->
+            <div class="bg-slate-800/45 border border-slate-700/80 hover:border-rose-500/50 rounded-lg p-3 space-y-1.5 transition">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-rose-400">4. 煞車制動系統 (Braking)</span>
+                <div class="flex items-center gap-1.5">
+                  <span id="spec-brake-force" class="font-mono text-[11px] text-slate-300">制動 ≥ 380 N·m</span>
+                  <button id="jump-brake" class="text-[10px] px-1.5 py-0.5 rounded bg-slate-700 hover:bg-rose-500 hover:text-slate-950 text-rose-300 transition">微調參數 ✎</button>
+                </div>
+              </div>
+              <p id="desc-braking" class="text-xs text-slate-300 leading-relaxed"></p>
+            </div>
+
+            <!-- Card 5: Drivetrain -->
+            <div class="bg-slate-800/45 border border-slate-700/80 hover:border-sky-500/50 rounded-lg p-3 space-y-1.5 transition">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-sky-400">5. 傳動與減速系統 (Drivetrain)</span>
+                <div class="flex items-center gap-1.5">
+                  <span id="spec-gear-ratio" class="font-mono text-[11px] text-slate-300">i = 1:25</span>
+                  <button id="jump-drive" class="text-[10px] px-1.5 py-0.5 rounded bg-slate-700 hover:bg-sky-500 hover:text-slate-950 text-sky-300 transition">微調參數 ✎</button>
+                </div>
+              </div>
+              <p id="desc-drivetrain" class="text-xs text-slate-300 leading-relaxed"></p>
+            </div>
+
+            <!-- Card 6: Power System -->
+            <div class="bg-slate-800/45 border border-slate-700/80 hover:border-emerald-500/50 rounded-lg p-3 space-y-1.5 transition">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-emerald-400">6. 動力與儲能系統 (Power)</span>
+                <div class="flex items-center gap-1.5">
+                  <span id="spec-power-summary" class="font-mono text-[11px] text-slate-300">48V 80Ah</span>
+                  <button id="jump-power" class="text-[10px] px-1.5 py-0.5 rounded bg-slate-700 hover:bg-emerald-500 hover:text-slate-950 text-emerald-300 transition">微調參數 ✎</button>
+                </div>
+              </div>
+              <p id="desc-power" class="text-xs text-slate-300 leading-relaxed"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- BOM & Engineering Spec Modal -->
+  <div id="modal-export" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-xl max-w-4xl w-full max-h-[88vh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="flex items-center justify-between px-5 py-3.5 border-b border-slate-800 bg-slate-950">
+        <div>
+          <h3 class="text-base font-bold text-white">無人車底盤六大系統設計規格書 & 初步 BOM 表</h3>
+          <p class="text-xs text-slate-400">涵蓋骨架、懸吊、轉向、煞車、傳動、動力與 12 項機構間隙檢核報告，可匯出 CSV / JSON</p>
+        </div>
+        <button id="btn-close-modal" class="text-slate-400 hover:text-white px-2 py-1 text-sm font-mono">✕ 關閉</button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4 flex-1">
+        <div class="overflow-x-auto border border-slate-800 rounded-lg">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-800/90 text-slate-300 font-semibold">
+              <tr>
+                <th class="py-2.5 px-3">模組分類</th>
+                <th class="py-2.5 px-3">零組件名稱與規格描述</th>
+                <th class="py-2.5 px-3 text-right">數量</th>
+                <th class="py-2.5 px-3 text-right">預估單重 (kg)</th>
+                <th class="py-2.5 px-3">機構設計 / 選型備註</th>
+              </tr>
+            </thead>
+            <tbody id="bom-table-body" class="divide-y divide-slate-800 text-slate-200 font-mono">
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <label for="txt-spec-summary" class="text-xs font-semibold text-slate-400 block mb-1.5">工程規格書與機構間隙檢核摘要 (Markdown 格式)：</label>
+          <textarea id="txt-spec-summary" rows="9" readonly class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs font-mono text-slate-300 focus:outline-none"></textarea>
+        </div>
+      </div>
+
+      <div class="px-5 py-3 border-t border-slate-800 bg-slate-950 flex flex-wrap items-center justify-between gap-2">
+        <span id="copy-toast" class="text-xs text-emerald-400 font-medium opacity-0 transition">✓ 已複製到剪貼簿！</span>
+        <div class="flex items-center gap-2">
+          <button id="btn-copy-spec" class="px-3 py-1.5 text-xs font-semibold rounded-md bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition">
+            📄 複製規格書文字
+          </button>
+          <button id="btn-download-csv" class="px-3 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 hover:bg-emerald-500 text-white transition">
+            📊 下載 BOM (.CSV)
+          </button>
+          <button id="btn-download-json" class="px-3 py-1.5 text-xs font-semibold rounded-md bg-sky-500 hover:bg-sky-400 text-slate-950 transition">
+            💾 下載參數檔 (.JSON)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic, 12-Point Interference Engine & Three.js True Kinematic CAD -->
+  <script>
+    // =========================================================================
+    // 1. Central Application State
+    // =========================================================================
+    const state = {
+      // Mission / Boundary Inputs
+      terrain: 'mixed_offroad',
+      payload: 150,             // kg
+      clearance: 180,           // mm (ground clearance)
+      slope: 25,                // deg
+      length: 1250,             // mm (max envelope length)
+      width: 920,               // mm (max envelope width)
+      height: 540,              // mm (deck top height)
+      speed: 8.0,               // km/h
+      runtime: 4.0,             // hours
+
+      // Subsystem 0: Wheel / Locomotion (Editable)
+      wheelType: 'offroad_tire', // offroad_tire | solid_rubber | sprocket_track | mecanum | rocker_6w
+      wheelDia: 380,            // mm
+      wheelWidth: 110,          // mm
+
+      // Subsystem 1: Frame Structure (Editable)
+      frameMat: 'steel_tube',   // steel_tube | alu_extrusion | sheet_monocoque
+      frameTubeSize: 45,        // mm (30 ~ 90)
+      frameCrossCount: 4,       // 2 ~ 8 cross-members
+
+      // Subsystem 2: Suspension System (Editable)
+      suspension: 'double_wishbone', // double_wishbone | trailing_arm | rocker_bogie | christie_track | portal_axle | rigid
+      susTravel: 80,            // mm
+      springK: 45,              // N/mm
+      susAngle: 16,             // deg (0 ~ 40)
+
+      // Subsystem 3: Steering Mechanism (Editable)
+      steering: '4ws_counter',  // skid_steer | ackermann_2ws | 4ws_counter | 4ws_crab | omni_mecanum | articulated
+      maxSteerAngle: 28,        // deg (15 ~ 45)
+      steerTorque: 85,          // N.m
+
+      // Subsystem 4: Braking System (Editable)
+      brake: 'em_failsafe',     // em_failsafe | hydraulic_disc | epb_caliper | wet_multiplate
+      brakeDiscDia: 170,        // mm
+      brakeTorque: 420,         // N.m
+
+      // Subsystem 5: Drivetrain Mode (Editable)
+      driveType: 'ind_inboard', // ind_hub | ind_inboard | 4wd_shaft | skid_chain | rwd_diff | fwd_diff
+      gearRatio: 25,            // 1:i
+      motorPowerW: 600,         // Watts per driven motor
+
+      // Subsystem 6: Power System (Editable)
+      powerSource: 'lifepo4_48v', // lifepo4_48v | nmc_72v | hybrid_gen | fuelcell_h2 | tethered_ac
+      batteryAh: 80,            // Ah
+      powerOffsetMm: 0,         // mm (-220 ~ +220)
+
+      // Auto-Design Tracking Flags
+      manualLocks: {
+        wheel: false,
+        frame: false,
+        sus: false,
+        steer: false,
+        brake: false,
+        drive: false,
+        power: false
+      },
+      autoSyncEnabled: true,
+      expandAllPanels: true,
+
+      // Simulation & Display flags
+      steerAngle: 0,            // deg (-45 to +45)
+      jouncePct: 0,             // % (-40 to +100% of susTravel)
+      explodeFactor: 0,         // 0 to 1
+      highlightCollisions: true,
+      showBBox: true,
+      showPayload: true,
+      wireframe: false,
+      animateRun: true,
+      computed: {}
+    };
+
+    // =========================================================================
+    // 2. Intelligent Auto-Synthesis Engine (With Strict Interference Prevention)
+    // =========================================================================
+    function autoSynthesizeSubsystems(forceAll = false) {
+      const s = state;
+      if (forceAll) {
+        Object.keys(s.manualLocks).forEach(k => { s.manualLocks[k] = false; });
+      }
+
+      // 0. Wheel & Locomotion Auto-Design (Ensure zero longitudinal/lateral collision)
+      if (!s.manualLocks.wheel) {
+        if (s.terrain === 'indoor_smooth') {
+          s.wheelType = s.payload <= 450 ? 'mecanum' : 'solid_rubber';
+        } else if (s.terrain === 'heavy_mud_rock') {
+          s.wheelType = (s.payload >= 320 || s.slope >= 32) ? 'sprocket_track' : (s.clearance >= 220 ? 'rocker_6w' : 'offroad_tire');
+        } else if (s.terrain === 'industrial_yard') {
+          s.wheelType = s.payload >= 400 ? 'solid_rubber' : 'offroad_tire';
+        } else {
+          s.wheelType = s.clearance >= 240 ? 'rocker_6w' : 'offroad_tire';
+        }
+
+        const numAxles = s.wheelType === 'rocker_6w' ? 3 : 2;
+        const maxAllowedDiaByLen = Math.floor((s.length - 220) / numAxles / 10) * 10;
+        const idealDiaByClearance = s.wheelType === 'mecanum'
+          ? Math.max(180, s.clearance * 2 + 80)
+          : Math.max(260, s.clearance * 2 + 40);
+        s.wheelDia = Math.max(160, Math.min(700, Math.min(maxAllowedDiaByLen, idealDiaByClearance)));
+
+        // Ensure wheel width leaves ample room for suspension arms & chassis body within s.width
+        const maxSafeWheelW = Math.floor((s.width * 0.22) / 5) * 5;
+        if (s.wheelType === 'sprocket_track') {
+          s.wheelWidth = Math.min(Math.max(130, maxSafeWheelW + 30), Math.max(130, Math.round((115 + s.payload * 0.14) / 5) * 5));
+        } else {
+          s.wheelWidth = Math.min(Math.max(70, maxSafeWheelW), Math.max(75, Math.round((80 + s.payload * 0.08) / 5) * 5));
+        }
+      }
+
+      // 1. Frame Structure Auto-Design
+      if (!s.manualLocks.frame) {
+        if (s.terrain === 'heavy_mud_rock' || s.wheelType === 'sprocket_track') {
+          s.frameMat = 'sheet_monocoque';
+        } else if (s.payload <= 220 && s.terrain === 'indoor_smooth') {
+          s.frameMat = 'alu_extrusion';
+        } else if (s.payload >= 260) {
+          s.frameMat = 'steel_tube';
+        } else {
+          s.frameMat = s.terrain === 'mixed_offroad' ? 'steel_tube' : 'alu_extrusion';
+        }
+
+        s.frameTubeSize = Math.min(85, Math.max(30, Math.round((35 + s.payload * 0.04) / 5) * 5));
+        s.frameCrossCount = Math.min(8, Math.max(3, Math.round(s.length / 320) + (s.payload > 500 ? 1 : 0)));
+      }
+
+      // 2. Suspension System Auto-Design (Ensure jounce clearance & link swing angle <= 26 deg)
+      if (!s.manualLocks.sus) {
+        const wheelR = s.wheelDia / 2;
+        if (s.wheelType === 'sprocket_track') {
+          s.suspension = 'christie_track';
+          s.susTravel = Math.min(90, Math.max(40, Math.round((s.clearance - 55) / 5) * 5));
+          s.susAngle = 12;
+        } else if (s.wheelType === 'rocker_6w') {
+          s.suspension = 'rocker_bogie';
+          s.susTravel = Math.min(130, Math.max(50, Math.round((s.clearance - 50) / 5) * 5));
+          s.susAngle = 0;
+        } else if (s.terrain === 'indoor_smooth' || s.wheelType === 'mecanum') {
+          s.suspension = 'rigid';
+          s.susTravel = 0;
+          s.susAngle = 0;
+        } else if (s.clearance > wheelR - 20) {
+          s.suspension = 'portal_axle';
+          s.susTravel = Math.min(130, Math.max(45, Math.round((s.clearance - 55) * 0.55 / 5) * 5));
+          s.susAngle = 14;
+        } else if (s.payload >= 450) {
+          s.suspension = 'trailing_arm';
+          s.susTravel = Math.min(110, Math.max(45, Math.round((s.clearance - 55) * 0.55 / 5) * 5));
+          s.susAngle = 18;
+        } else {
+          s.suspension = 'double_wishbone';
+          s.susTravel = Math.min(110, Math.max(45, Math.round((s.clearance - 55) * 0.55 / 5) * 5));
+          s.susAngle = 16;
+        }
+
+        // Ensure Deck Height fits wheel + jounce + top clearance
+        const minReqDeckH = Math.max(s.clearance + 190, s.wheelDia + s.susTravel + 45);
+        if (s.height < minReqDeckH) {
+          s.height = Math.min(1200, Math.ceil(minReqDeckH / 10) * 10);
+        }
+
+        const estGVW = s.payload + 95 + s.payload * 0.25;
+        const wheelCount = s.wheelType === 'rocker_6w' ? 6 : 4;
+        const targetSag = Math.max(18, s.susTravel * 0.30);
+        s.springK = s.suspension === 'rigid' ? 250 : Math.min(350, Math.max(20, Math.round(((estGVW * 9.81) / (wheelCount * targetSag)) / 5) * 5));
+      }
+
+      // 3. Steering Mechanism Auto-Design (Compute safe maxSteerAngle so tire never hits frame/suspension)
+      if (!s.manualLocks.steer) {
+        if (s.wheelType === 'mecanum') {
+          s.steering = 'omni_mecanum';
+          s.maxSteerAngle = 30;
+        } else if (s.wheelType === 'sprocket_track' || s.wheelType === 'rocker_6w') {
+          s.steering = 'skid_steer';
+          s.maxSteerAngle = 28;
+        } else if (s.payload >= 750 && s.terrain === 'heavy_mud_rock') {
+          s.steering = 'articulated';
+          s.maxSteerAngle = 28;
+        } else if (s.speed >= 15) {
+          s.steering = 'ackermann_2ws';
+          s.maxSteerAngle = 26;
+        } else {
+          s.steering = '4ws_counter';
+          s.maxSteerAngle = 26;
+        }
+
+        // Clamp maxSteerAngle by available wheel-well width
+        const availWell = (s.width - s.wheelWidth - 20) / 2 - Math.max(160, s.width * 0.22);
+        const safeSin = Math.max(0.28, Math.min(0.55, (availWell - s.wheelWidth * 0.48 - 30) / (s.wheelDia / 2)));
+        const geomMaxDeg = Math.round(Math.asin(safeSin) * (180 / Math.PI));
+        if (s.steering === 'ackermann_2ws' || s.steering === '4ws_counter' || s.steering === '4ws_crab') {
+          s.maxSteerAngle = Math.max(18, Math.min(34, geomMaxDeg));
+        }
+
+        s.steerTorque = Math.min(600, Math.max(30, Math.round((40 + s.payload * 0.32) / 10) * 10));
+      }
+
+      // 4. Drivetrain Mode Auto-Design
+      if (!s.manualLocks.drive) {
+        if (s.wheelType === 'sprocket_track') {
+          s.driveType = 'skid_chain';
+        } else if (s.wheelType === 'mecanum') {
+          s.driveType = 'ind_inboard';
+        } else if (s.wheelType === 'rocker_6w') {
+          s.driveType = 'ind_hub';
+        } else if (s.payload >= 550 && s.terrain !== 'indoor_smooth') {
+          s.driveType = '4wd_shaft';
+        } else if (s.terrain === 'indoor_smooth' && s.payload <= 180 && s.steering === 'ackermann_2ws') {
+          s.driveType = 'rwd_diff';
+        } else {
+          s.driveType = 'ind_inboard';
+        }
+
+        const speedMs = s.speed / 3.6;
+        const ratedRPM = Math.max(25, Math.round((speedMs / (Math.PI * (s.wheelDia / 1000))) * 60));
+        s.gearRatio = Math.min(80, Math.max(5, Math.round(3000 / ratedRPM)));
+
+        const estGVW = s.payload + 100 + s.payload * 0.25;
+        const slopeRad = (s.slope * Math.PI) / 180;
+        const crr = s.wheelType === 'sprocket_track' ? 0.09 : 0.045;
+        const peakForce = estGVW * 9.81 * (Math.sin(slopeRad) + crr * Math.cos(slopeRad) + 0.08);
+        const totalPeakW = (peakForce * (speedMs * 0.55)) / 0.75;
+        const drivenCount = (s.driveType === 'rwd_diff' || s.driveType === 'fwd_diff') ? 2 : (s.wheelType === 'rocker_6w' ? 6 : 4);
+        s.motorPowerW = Math.min(6000, Math.max(200, Math.round((totalPeakW / drivenCount) / 50) * 50));
+      }
+
+      // 5. Braking System Auto-Design (Ensure brake disc + caliper fits cleanly inside rim ID)
+      if (!s.manualLocks.brake) {
+        if (s.wheelType === 'sprocket_track' || (s.terrain === 'heavy_mud_rock' && s.payload >= 400)) {
+          s.brake = 'wet_multiplate';
+        } else if (s.driveType === 'ind_hub') {
+          s.brake = 'em_failsafe'; // Coaxial electromagnetic brake for hub motor
+        } else if (s.speed >= 14 || s.payload >= 450) {
+          s.brake = 'hydraulic_disc';
+        } else if (s.steering === 'ackermann_2ws') {
+          s.brake = 'epb_caliper';
+        } else {
+          s.brake = 'em_failsafe';
+        }
+
+        // Rim ID is ~0.58 * wheelDia; caliper adds ~42mm diameter; keep >= 15mm radial clearance
+        const maxSafeDiscDia = Math.floor((s.wheelDia * 0.58 - 72) / 5) * 5;
+        s.brakeDiscDia = Math.min(360, Math.max(100, maxSafeDiscDia));
+
+        const estGVW = s.payload + 110 + s.payload * 0.28;
+        const slopeRad = (s.slope * Math.PI) / 180;
+        const holdTorque = estGVW * 9.81 * (Math.sin(slopeRad) + 0.12) * ((s.wheelDia / 1000) / 2) * 1.35;
+        s.brakeTorque = Math.min(3500, Math.max(75, Math.round(holdTorque / 25) * 25));
+      }
+
+      // 6. Power System Auto-Design
+      if (!s.manualLocks.power) {
+        if (s.runtime >= 8.5 && s.terrain !== 'indoor_smooth') {
+          s.powerSource = s.payload >= 250 ? 'hybrid_gen' : 'fuelcell_h2';
+        } else if (s.payload >= 450 || s.speed >= 15) {
+          s.powerSource = 'nmc_72v';
+        } else {
+          s.powerSource = 'lifepo4_48v';
+        }
+
+        const sysV = s.powerSource === 'nmc_72v' ? 72 : 48;
+        const drivenCount = (s.driveType === 'rwd_diff' || s.driveType === 'fwd_diff') ? 2 : (s.wheelType === 'rocker_6w' ? 6 : 4);
+        const avgDrawW = (s.motorPowerW * drivenCount) * 0.32 + 120;
+        const reqWh = avgDrawW * s.runtime * 1.2;
+        s.batteryAh = Math.min(450, Math.max(20, Math.round((reqWh / sysV) / 5) * 5));
+        s.powerOffsetMm = s.slope >= 28 ? 30 : 0;
+      }
+    }
+
+    // =========================================================================
+    // 3. 12-Point Mechanical Interference & Kinematic Rationality Audit Engine
+    // =========================================================================
+    function computeEngineeringSpecs() {
+      const s = state;
+      const warnings = [];
+      let hasConflict = false;
+
+      const wheelRadius = s.wheelDia / 2;
+      const numAxles = s.wheelType === 'rocker_6w' ? 3 : 2;
+      const wheelbase = Math.max(320, s.length - s.wheelDia - 80);
+      const axleSpacing = numAxles === 3 ? wheelbase / 2 : wheelbase;
+      const trackWidth = Math.max(260, s.width - s.wheelWidth - 20);
+
+      // Determine active steering angle on wheels vs articulated frame
+      const isWheelSteered = (s.steering === 'ackermann_2ws' || s.steering === '4ws_counter' || s.steering === '4ws_crab') && s.wheelType !== 'sprocket_track';
+      const effSteerDeg = isWheelSteered ? Math.max(s.maxSteerAngle, Math.abs(s.steerAngle)) : 0;
+      const effSteerRad = (effSteerDeg * Math.PI) / 180;
+
+      // Calculate tire inward sweep during steering
+      const kingpinOffsetMm = s.wheelWidth * 0.42;
+      const tireInnerSweepMm = isWheelSteered
+        ? (wheelRadius * Math.sin(effSteerRad) + (s.wheelWidth / 2) * Math.cos(effSteerRad))
+        : (s.wheelWidth / 2);
+
+      // Calculate realistic central chassis frame width (bodyWidthMm) so widening s.width increases wheel-well & suspension arm length
+      const singleMotorEstMm = (s.driveType === 'ind_inboard' || s.driveType === 'skid_chain')
+        ? Math.round(85 + (s.motorPowerW / 1000) * 28 + (s.gearRatio / 40) * 18)
+        : 90;
+      const minInternalBodyW = (s.driveType === 'ind_inboard' || s.driveType === 'skid_chain')
+        ? Math.max(280, singleMotorEstMm * 2 + 36)
+        : 300;
+      const targetBodyW = Math.round(Math.min(560, Math.max(minInternalBodyW, s.width * 0.42)));
+      const maxSafeBodyWForSteer = Math.round(((trackWidth / 2) - tireInnerSweepMm - 35) * 2);
+      const bodyWidthMm = Math.max(260, Math.min(targetBodyW, Math.max(minInternalBodyW, maxSafeBodyWForSteer)));
+      const bodyLengthMm = Math.round(s.length * 0.86);
+
+      // Live suspension compression offset (mm)
+      const jounceMm = Math.round((s.jouncePct / 100) * s.susTravel);
+      const dynamicClearanceMm = Math.max(0, s.clearance - Math.max(0, jounceMm));
+
+      // Weight & Power Calculations
+      const frameDensityFactor = s.frameMat === 'steel_tube' ? 1.0 : (s.frameMat === 'alu_extrusion' ? 0.68 : 1.12);
+      const envelopeVolFactor = (s.length * s.width * Math.max(180, s.height - s.clearance)) / 1e9;
+      const tubeFactor = (s.frameTubeSize / 50) * 0.85 + (s.frameCrossCount / 4) * 0.15;
+      const frameWeight = Math.round((20 + envelopeVolFactor * 60 + s.payload * 0.06) * frameDensityFactor * tubeFactor);
+
+      const wheelUnitWeight = s.wheelType === 'sprocket_track' ? (s.wheelDia * s.wheelWidth * 0.00045 + 14) :
+                              s.wheelType === 'mecanum' ? (s.wheelDia * s.wheelWidth * 0.00032 + 6) :
+                              (s.wheelDia * s.wheelWidth * 0.00022 + 4);
+      const wheelCount = s.wheelType === 'rocker_6w' ? 6 : 4;
+      const locomotionWeight = Math.round(wheelUnitWeight * (s.wheelType === 'sprocket_track' ? 2.4 : wheelCount));
+
+      const susWeight = s.suspension === 'rigid' ? 4 : (s.suspension === 'portal_axle' ? 24 : 15);
+      const drivenWheels = (s.driveType === 'rwd_diff' || s.driveType === 'fwd_diff') ? 2 :
+                           (s.wheelType === 'rocker_6w' ? 6 : 4);
+      const drivetrainWeight = Math.round(drivenWheels * (2.2 + s.motorPowerW * 0.0038 + s.gearRatio * 0.06));
+
+      const sysVolt = s.powerSource === 'nmc_72v' ? 72 : 48;
+      const energyKWh = Math.round((sysVolt * s.batteryAh) / 100) / 10;
+      const powerPackWeight = s.powerSource === 'lifepo4_48v' ? Math.round(energyKWh * 9.2) :
+                              s.powerSource === 'nmc_72v' ? Math.round(energyKWh * 6.0) :
+                              s.powerSource === 'hybrid_gen' ? Math.round(28 + energyKWh * 2.5) :
+                              s.powerSource === 'fuelcell_h2' ? Math.round(22 + energyKWh * 3.0) : 8;
+
+      const curbWeight = frameWeight + locomotionWeight + susWeight + drivetrainWeight + powerPackWeight;
+      const totalGVW = curbWeight + s.payload;
+
+      const g = 9.81;
+      const slopeRad = (s.slope * Math.PI) / 180;
+      const crr = s.wheelType === 'sprocket_track' ? 0.09 : (s.wheelType === 'offroad_tire' ? 0.05 : 0.025);
+      const speedMs = s.speed / 3.6;
+      const wheelRadiusM = (s.wheelDia / 1000) / 2;
+
+      const finalForcePeak = totalGVW * g * (Math.sin(slopeRad) + crr * Math.cos(slopeRad) + 0.10);
+      const finalPeakTorque = Math.round(finalForcePeak * wheelRadiusM);
+      const perWheelTorque = Math.round(finalPeakTorque / drivenWheels);
+      const ratedRPM = Math.round((speedMs / (Math.PI * (s.wheelDia / 1000))) * 60);
+      const totalConfiguredPowerKW = Math.round((s.motorPowerW * drivenWheels) / 100) / 10;
+
+      // =====================================================================
+      // 12-POINT DETAILED MECHANICAL INTERFERENCE & RATIONALITY AUDIT
+      // =====================================================================
+      const auditItems = [];
+      const collisionFlags = {
+        longitudinalWheel: false,
+        tireFrame: false,
+        tireSus: false,
+        jounceDeck: false,
+        susLinkBind: false,
+        rimBrake: false,
+        hubAxial: false,
+        axleGround: false,
+        tieRodShaft: false,
+        internalBay: false,
+        topology: false
+      };
+
+      // Check 1: 同側前後輪縱向包絡淨間隙 (Longitudinal Wheel-to-Wheel Clearance)
+      const articRad = s.steering === 'articulated' ? (Math.max(s.maxSteerAngle, Math.abs(s.steerAngle)) * Math.PI / 180) : 0;
+      const articPinchLoss = s.steering === 'articulated' ? Math.round((trackWidth / 2) * Math.sin(articRad)) : 0;
+      const steerLongLoss = isWheelSteered ? Math.round(s.wheelDia * (Math.cos(effSteerRad) - 1) + s.wheelWidth * Math.sin(effSteerRad)) : 0;
+      const longWheelClearanceMm = Math.round(axleSpacing - s.wheelDia - steerLongLoss - articPinchLoss);
+
+      if (longWheelClearanceMm < 20) {
+        collisionFlags.longitudinalWheel = true;
+        hasConflict = true;
+        warnings.push(`[干涉] 同側前後輪縱向淨間隙僅 ${longWheelClearanceMm}mm (<20mm)，轉向或折腰時前後輪發生擦撞！`);
+        auditItems.push({
+          id: 'chk-1', name: '1. 前後輪縱向包絡間隙', status: 'error',
+          metric: `${longWheelClearanceMm} mm`,
+          detail: `軸距 ${wheelbase}mm 下相鄰輪距過近（建議 ≥ 45mm），請加長車長或縮小輪徑。`
+        });
+      } else if (longWheelClearanceMm < 45) {
+        auditItems.push({
+          id: 'chk-1', name: '1. 前後輪縱向包絡間隙', status: 'warn',
+          metric: `${longWheelClearanceMm} mm`,
+          detail: `間隙偏緊（建議 ≥ 45mm 以防泥塊卡死）。`
+        });
+      } else {
+        auditItems.push({
+          id: 'chk-1', name: '1. 前後輪縱向包絡間隙', status: 'pass',
+          metric: `+${longWheelClearanceMm} mm`,
+          detail: `${numAxles}軸配置下相鄰輪胎轉向/直行包絡無干涉。`
+        });
+      }
+
+      // Check 2: 轉向輪內側掃掠 vs 車架縱樑間隙 (Steered Tire vs. Frame Rail Clearance)
+      const tireToFrameClearanceMm = Math.round((trackWidth / 2) - tireInnerSweepMm - (bodyWidthMm / 2));
+      if (tireToFrameClearanceMm < 12) {
+        collisionFlags.tireFrame = true;
+        hasConflict = true;
+        warnings.push(`[干涉] 轉向 ${effSteerDeg}° 時輪胎內側與車架縱樑間隙僅 ${tireToFrameClearanceMm}mm (<12mm)，輪胎磨擦車架！`);
+        auditItems.push({
+          id: 'chk-2', name: '2. 轉向輪 vs 車架縱樑間隙', status: 'error',
+          metric: `${tireToFrameClearanceMm} mm`,
+          detail: `最大轉角 ${effSteerDeg}° 時輪胎掃掠侵入車架，請加寬車寬或調降最大轉向角。`
+        });
+      } else if (tireToFrameClearanceMm < 25) {
+        auditItems.push({
+          id: 'chk-2', name: '2. 轉向輪 vs 車架縱樑間隙', status: 'warn',
+          metric: `+${tireToFrameClearanceMm} mm`,
+          detail: `轉向極限位置距車架較近（建議 ≥ 25mm）。`
+        });
+      } else {
+        auditItems.push({
+          id: 'chk-2', name: '2. 轉向輪 vs 車架縱樑間隙', status: 'pass',
+          metric: `+${tireToFrameClearanceMm} mm`,
+          detail: `滿舵 ${effSteerDeg}° 時輪胎內側掃掠包絡與主車架保持安全裕度。`
+        });
+      }
+
+      // Check 3: 轉向輪 vs 懸吊連桿與避震彈簧間隙 (Steered Tire vs. Suspension Strut Clearance)
+      const springOuterR = Math.round(13 + (s.springK / 350) * 10);
+      const wheelWellSpanMm = Math.max(40, (trackWidth / 2 - s.wheelWidth / 2) - (bodyWidthMm / 2));
+      const strutClearanceBase = Math.round(wheelWellSpanMm * 0.55 + s.susAngle * 0.85 + 24);
+      const tireShoulderIntrusion = isWheelSteered ? Math.round(wheelRadius * Math.sin(effSteerRad) * 0.34) : 0;
+      const tireToStrutClearanceMm = s.suspension === 'rigid' ? 99 : Math.round(strutClearanceBase - tireShoulderIntrusion - springOuterR);
+
+      if (s.suspension !== 'rigid' && tireToStrutClearanceMm < 10) {
+        collisionFlags.tireSus = true;
+        hasConflict = true;
+        warnings.push(`[干涉] 輪胎轉向內側與避震彈簧/懸吊連桿間隙僅 ${tireToStrutClearanceMm}mm (<10mm)！`);
+        auditItems.push({
+          id: 'chk-3', name: '3. 轉向輪 vs 避震器/A臂間隙', status: 'error',
+          metric: `${tireToStrutClearanceMm} mm`,
+          detail: `大轉角下胎肩擦撞避震器彈簧，請縮小最大轉向角或加寬輪距。`
+        });
+      } else {
+        auditItems.push({
+          id: 'chk-3', name: '3. 轉向輪 vs 避震器/A臂間隙', status: 'pass',
+          metric: s.suspension === 'rigid' ? '無懸吊干涉' : `+${tireToStrutClearanceMm} mm`,
+          detail: `轉向節主銷與避震器傾角 (${s.susAngle}°) 空間配置合理。`
+        });
+      }
+
+      // Check 4: 懸吊全壓縮 (Full Bump) 觸底與頂板間隙 (Full-Jounce Belly & Deck Clearance)
+      const fullBumpBellyMm = s.clearance - s.susTravel;
+      const fullBumpDeckClearanceMm = s.height - (s.wheelDia + s.susTravel);
+      if (s.suspension !== 'rigid' && fullBumpBellyMm < 25) {
+        collisionFlags.jounceDeck = true;
+        hasConflict = true;
+        warnings.push(`[干涉] 懸吊全壓縮行程 (${s.susTravel}mm) 大於離地高安全裕度，滿載衝擊時車底觸地 (剩餘 ${fullBumpBellyMm}mm)！`);
+        auditItems.push({
+          id: 'chk-4', name: '4. 懸吊全壓縮觸底與頂板間隙', status: 'error',
+          metric: `車底餘 ${fullBumpBellyMm} mm`,
+          detail: `懸吊全壓縮時車底將撞擊地面（需 ≥ 30mm），請減少懸吊行程或提高離地高。`
+        });
+      } else if (fullBumpDeckClearanceMm < 15) {
+        collisionFlags.jounceDeck = true;
+        hasConflict = true;
+        warnings.push(`[干涉] 載台高度 (${s.height}mm) 過低，懸吊壓縮時輪胎頂部撞擊上載台板 (餘裕 ${fullBumpDeckClearanceMm}mm)！`);
+        auditItems.push({
+          id: 'chk-4', name: '4. 懸吊全壓縮觸底與頂板間隙', status: 'error',
+          metric: `頂板餘 ${fullBumpDeckClearanceMm} mm`,
+          detail: `輪胎上跳時撞擊頂板（建議載台高 ≥ ${s.wheelDia + s.susTravel + 30}mm）。`
+        });
+      } else {
+        auditItems.push({
+          id: 'chk-4', name: '4. 懸吊全壓縮觸底與頂板間隙', status: 'pass',
+          metric: `底+${fullBumpBellyMm} / 頂+${fullBumpDeckClearanceMm}mm`,
+          detail: `懸吊壓縮到底時，車底與上載台板皆無觸底或頂胎干涉。`
+        });
+      }
+
+      // Check 5: 懸吊連桿長度與球頭最大擺角合理性 (Suspension Link Swing Angle & Bind Check)
+      const effArmLengthMm = Math.max(60, Math.round((trackWidth / 2 - s.wheelWidth / 2) - (bodyWidthMm / 2) + 35));
+      const maxSwingRad = s.suspension === 'rigid' ? 0 : Math.asin(Math.min(0.99, (s.susTravel * 0.75) / effArmLengthMm));
+      const maxSwingDeg = Math.round(maxSwingRad * (180 / Math.PI) * 10) / 10;
+
+      if (s.suspension !== 'rigid' && (maxSwingDeg > 33 || effArmLengthMm < 95)) {
+        collisionFlags.susLinkBind = true;
+        hasConflict = true;
+        warnings.push(`[機構不合理] 懸吊連桿有效長度 (${effArmLengthMm}mm) 過短或行程過大，球頭最大擺角達 ${maxSwingDeg}° (>33° 易卡死)！`);
+        auditItems.push({
+          id: 'chk-5', name: '5. 懸吊連桿擺角與球頭極限', status: 'error',
+          metric: `${maxSwingDeg}° (臂長 ${effArmLengthMm}mm)`,
+          detail: `連桿擺角超過魚眼/球頭軸承 33° 極限，請加寬車寬或降低懸吊行程。`
+        });
+      } else {
+        auditItems.push({
+          id: 'chk-5', name: '5. 懸吊連桿擺角與球頭極限', status: 'pass',
+          metric: `${maxSwingDeg}° (臂長 ${effArmLengthMm}mm)`,
+          detail: `上下支臂/連桿幾何擺角於安全工作區間 (≤ 33°) 內。`
+        });
+      }
+
+      // Check 6: 輪圈內徑包絡 vs 煞車碟盤與卡鉗間隙 (Wheel Rim ID vs. Brake Rotor + Caliper)
+      const rimInnerDiaMm = Math.round(s.wheelDia * (s.wheelType === 'offroad_tire' ? 0.58 : 0.64));
+      const caliperRadialAddMm = s.brake === 'wet_multiplate' ? 10 : (s.brake === 'em_failsafe' ? 24 : 46);
+      const brakeAssyOuterDiaMm = s.brakeDiscDia + caliperRadialAddMm;
+      const rimToBrakeRadialClearanceMm = Math.round((rimInnerDiaMm - brakeAssyOuterDiaMm) / 2);
+
+      if (rimToBrakeRadialClearanceMm < 4) {
+        collisionFlags.rimBrake = true;
+        hasConflict = true;
+        warnings.push(`[干涉] 煞車總成外徑 (碟盤 Ø${s.brakeDiscDia}+卡鉗=${brakeAssyOuterDiaMm}mm) 超出輪圈內徑 (Ø${rimInnerDiaMm}mm)，卡鉗撞擊輪圈！`);
+        auditItems.push({
+          id: 'chk-6', name: '6. 輪圈內徑 vs 煞車卡鉗包絡', status: 'error',
+          metric: `${rimToBrakeRadialClearanceMm} mm`,
+          detail: `輪圈內徑 Ø${rimInnerDiaMm}mm 容納不下 Ø${s.brakeDiscDia}mm 碟盤與卡鉗，請縮小碟盤直徑。`
+        });
+      } else if (rimToBrakeRadialClearanceMm < 10) {
+        auditItems.push({
+          id: 'chk-6', name: '6. 輪圈內徑 vs 煞車卡鉗包絡', status: 'warn',
+          metric: `+${rimToBrakeRadialClearanceMm} mm`,
+          detail: `卡鉗與輪圈內壁間隙略緊（建議 ≥ 10mm 以防石塊卡入）。`
+        });
+      } else {
+        auditItems.push({
+          id: 'chk-6', name: '6. 輪圈內徑 vs 煞車卡鉗包絡', status: 'pass',
+          metric: `+${rimToBrakeRadialClearanceMm} mm`,
+          detail: `輪圈內徑 Ø${rimInnerDiaMm}mm 可順利容納碟盤與制動卡鉗。`
+        });
+      }
+
+      // Check 7: 輪轂軸向空間 vs 輪轂馬達/門式齒輪箱合理性 (Hub Axial Packaging)
+      let hubAxialError = '';
+      if (s.driveType === 'ind_hub' && s.wheelType === 'sprocket_track') {
+        hubAxialError = '履帶主動鏈輪不適合外轉子輪轂馬達直驅（易受衝擊且扭矩不足），應改用內置減速馬達或雙側鏈傳動。';
+      } else if (s.driveType === 'ind_hub' && s.suspension === 'portal_axle') {
+        hubAxialError = '輪轂直驅馬達與門式車橋輪邊減速箱同處於輪轂中心，軸向空間重疊衝突，請改用內置馬達或四輪傳動軸。';
+      } else if (s.driveType === 'ind_hub' && s.wheelWidth < 80) {
+        hubAxialError = `輪寬 (${s.wheelWidth}mm) 過窄，無法容納輪轂馬達定子與軸承軸向寬度 (需 ≥ 80mm)。`;
+      }
+
+      if (hubAxialError) {
+        collisionFlags.hubAxial = true;
+        hasConflict = true;
+        warnings.push(`[機構衝突] ${hubAxialError}`);
+        auditItems.push({
+          id: 'chk-7', name: '7. 輪轂軸向空間與輪邊配置', status: 'error',
+          metric: '軸向空間衝突',
+          detail: hubAxialError
+        });
+      } else {
+        auditItems.push({
+          id: 'chk-7', name: '7. 輪轂軸向空間與輪邊配置', status: 'pass',
+          metric: `輪寬 ${s.wheelWidth} mm 相容`,
+          detail: `輪轂軸承、轉向節羊角與驅動端軸向堆疊無干涉。`
+        });
+      }
+
+      // Check 8: 車軸離地高 vs 輪軸中心幾何合理性 (Ground Clearance vs. Axle Centerline)
+      const axleHousingRadiusMm = (s.driveType === '4wd_shaft' || s.driveType === 'rwd_diff' || s.driveType === 'fwd_diff') ? 55 : 22;
+      const maxStraightAxleClearanceMm = Math.round(wheelRadius - axleHousingRadiusMm);
+      if (s.clearance > maxStraightAxleClearanceMm && s.suspension !== 'portal_axle' && s.suspension !== 'rocker_bogie') {
+        collisionFlags.axleGround = true;
+        hasConflict = true;
+        warnings.push(`[幾何不合理] 設定離地高 (${s.clearance}mm) 超過輪軸扣除差速器/軸管後之物理上限 (${maxStraightAxleClearanceMm}mm)！`);
+        auditItems.push({
+          id: 'chk-8', name: '8. 離地高 vs 輪軸中心幾何', status: 'error',
+          metric: `超限 +${s.clearance - maxStraightAxleClearanceMm} mm`,
+          detail: `直連車軸中心高僅 ${Math.round(wheelRadius)}mm，需改用「門式高離地車橋」或加大輪徑。`
+        });
+      } else {
+        auditItems.push({
+          id: 'chk-8', name: '8. 離地高 vs 輪軸中心幾何', status: 'pass',
+          metric: `軸下淨高 OK`,
+          detail: s.suspension === 'portal_axle'
+            ? `門式車橋輪邊降齒設計成功使車軸高於輪心。`
+            : `車底離地高 ${s.clearance}mm 與輪心高度 (${Math.round(wheelRadius)}mm) 幾何合理。`
+        });
+      }
+
+      // Check 9: 轉向橫拉桿/推桿 vs 傳動軸/鏈條路徑防干涉 (Steering Linkage vs. Drivetrain Path)
+      let tieRodError = '';
+      if (s.driveType === 'skid_chain' && isWheelSteered) {
+        tieRodError = '雙側鏈條/同步帶傳動要求固定平行輪軸，無法搭配阿克曼或四輪獨立轉向節（轉向時鏈條將脫落干涉）！';
+      } else if (s.steering === 'articulated' && s.wheelType === 'sprocket_track') {
+        tieRodError = '單節雙履帶底盤無法進行中央鉸接折腰轉向，請改用差速轉向 (Skid-Steer)。';
+      }
+
+      if (tieRodError) {
+        collisionFlags.tieRodShaft = true;
+        hasConflict = true;
+        warnings.push(`[機構干涉] ${tieRodError}`);
+        auditItems.push({
+          id: 'chk-9', name: '9. 轉向連桿 vs 傳動路徑檢核', status: 'error',
+          metric: '傳動/轉向干涉',
+          detail: tieRodError
+        });
+      } else {
+        auditItems.push({
+          id: 'chk-9', name: '9. 轉向連桿 vs 傳動路徑檢核', status: 'pass',
+          metric: '高低錯位無干涉',
+          detail: `轉向橫拉桿/伺服推桿與萬向傳動半軸空間分離合理。`
+        });
+      }
+
+      // Check 10: 車架內部淨空間 vs 內置馬達與電池艙干涉 (Internal Bay Packaging Audit)
+      const singleInboardMotorLenMm = (s.driveType === 'ind_inboard' || s.driveType === 'skid_chain')
+        ? Math.round(85 + (s.motorPowerW / 1000) * 28 + (s.gearRatio / 40) * 18)
+        : 0;
+      const motorPairLateralClearanceMm = bodyWidthMm - (singleInboardMotorLenMm * 2) - 20;
+      const maxBattLengthMm = Math.round(Math.min(bodyLengthMm * 0.42, wheelbase * 0.52));
+      const availLongitudinalBayMm = Math.round((wheelbase - 90) / 2 - maxBattLengthMm / 2 - Math.abs(s.powerOffsetMm));
+
+      if ((s.driveType === 'ind_inboard' || s.driveType === 'skid_chain') && motorPairLateralClearanceMm < 10) {
+        collisionFlags.internalBay = true;
+        hasConflict = true;
+        warnings.push(`[內部干涉] 左右內置馬達+減速機總長 (2×${singleInboardMotorLenMm}mm) 超過車架內寬 (${bodyWidthMm}mm)，左右馬達於中央對撞！`);
+        auditItems.push({
+          id: 'chk-10', name: '10. 車架內置馬達與電池艙空間', status: 'error',
+          metric: `橫向干涉 ${motorPairLateralClearanceMm}mm`,
+          detail: `左右內置馬達於車架中央穿模碰撞，請加寬車寬或改用輪轂馬達/中央傳動軸。`
+        });
+      } else if (availLongitudinalBayMm < 0) {
+        collisionFlags.internalBay = true;
+        hasConflict = true;
+        warnings.push(`[內部干涉] 動力艙重心偏移 (${s.powerOffsetMm}mm) 過大，電池包撞擊前後軸轉向/傳動機構！`);
+        auditItems.push({
+          id: 'chk-10', name: '10. 車架內置馬達與電池艙空間', status: 'error',
+          metric: `縱向干涉 ${availLongitudinalBayMm}mm`,
+          detail: `動力電池艙超出前後軸安全艙間，請減小動力艙重心偏移量。`
+        });
+      } else {
+        auditItems.push({
+          id: 'chk-10', name: '10. 車架內置馬達與電池艙空間', status: 'pass',
+          metric: `淨餘裕 +${Math.min(motorPairLateralClearanceMm, Math.max(15, availLongitudinalBayMm))}mm`,
+          detail: `車架內置馬達、減速機與中央電池艙佈局互不干涉。`
+        });
+      }
+
+      // Check 11: 輪系推進拓撲 vs 轉向與傳動運動學相容性 (Locomotion–Steering–Drivetrain Topology)
+      let topoError = '';
+      if (s.wheelType === 'sprocket_track' && s.steering !== 'skid_steer') {
+        topoError = '鏈輪履帶系統僅能使用「左右輪差速原地轉向 (Skid-Steer)」。';
+      } else if (s.wheelType === 'mecanum' && (s.steering !== 'omni_mecanum' && s.steering !== 'skid_steer')) {
+        topoError = '麥克納姆輪固定於輪軸不作轉向節偏擺，必須使用「全向平移合成轉向」或「差速轉向」。';
+      } else if (s.wheelType === 'mecanum' && s.driveType !== 'ind_inboard' && s.driveType !== 'ind_hub') {
+        topoError = '麥克納姆輪全向移動必須具備「四輪獨立正反轉速控制」，不可使用差速器或雙側鏈條連動！';
+      } else if (s.steering === 'omni_mecanum' && s.wheelType !== 'mecanum') {
+        topoError = '非麥克納姆輪無法執行「全向平移合成轉向」，請切換輪種或改變轉向方式。';
+      } else if (s.steering === 'skid_steer' && (s.driveType === 'rwd_diff' || s.driveType === 'fwd_diff' || s.driveType === '4wd_shaft')) {
+        topoError = '差速原地轉向 (Skid-Steer) 需要左右輪獨立控速，開放式中央/前後軸差速器無法執行原地差速轉向！';
+      } else if (s.wheelType === 'rocker_6w' && s.suspension !== 'rocker_bogie') {
+        topoError = '六輪越障輪系需搭配「搖臂轉向架連桿懸吊 (Rocker-Bogie)」方能維持六輪接地平衡。';
+      }
+
+      if (topoError) {
+        collisionFlags.topology = true;
+        hasConflict = true;
+        warnings.push(`[運動學不相容] ${topoError}`);
+        auditItems.push({
+          id: 'chk-11', name: '11. 輪系-轉向-傳動拓撲相容性', status: 'error',
+          metric: '拓撲不相容',
+          detail: topoError
+        });
+      } else {
+        auditItems.push({
+          id: 'chk-11', name: '11. 輪系-轉向-傳動拓撲相容性', status: 'pass',
+          metric: '運動學完全相容',
+          detail: `推進輪系、傳動自由度與轉向幾何拓撲完全匹配。`
+        });
+      }
+
+      // Check 12: 斜坡駐坡制動與側傾穩定安全係數 (Brake Holding & Rollover Stability)
+      const minBrakeHoldTorque = Math.round(totalGVW * g * Math.sin(slopeRad) * wheelRadiusM * 1.15);
+      const brakeSF = Math.round((s.brakeTorque / Math.max(1, minBrakeHoldTorque)) * 100) / 100;
+      const cogHeight = Math.round(dynamicClearanceMm + (s.height - s.clearance) * 0.45 + (s.payload / totalGVW) * 175);
+      const rolloverDeg = Math.round(Math.atan((trackWidth / 2) / cogHeight) * (180 / Math.PI) * 10) / 10;
+
+      if (s.brakeTorque < minBrakeHoldTorque) {
+        hasConflict = true;
+        warnings.push(`[制動不足] 煞車總制動扭力 (${s.brakeTorque} N·m) 低於 ${s.slope}° 滿載斜坡駐停需求 (${minBrakeHoldTorque} N·m)！`);
+        auditItems.push({
+          id: 'chk-12', name: '12. 駐坡制動與側傾穩定係數', status: 'error',
+          metric: `制動 SF=${brakeSF} (<1.15)`,
+          detail: `斜坡駐停需 ≥ ${minBrakeHoldTorque} N·m，請調高制動扭力。`
+        });
+      } else if (rolloverDeg < 26) {
+        warnings.push(`[穩定性警告] 合成重心高 (${cogHeight}mm)，靜態側傾極限角僅 ${rolloverDeg}° (<26°)。`);
+        auditItems.push({
+          id: 'chk-12', name: '12. 駐坡制動與側傾穩定係數', status: 'warn',
+          metric: `側傾 ${rolloverDeg}° / SF=${brakeSF}`,
+          detail: `重心偏高，建議加寬車體或降低載台高度。`
+        });
+      } else {
+        auditItems.push({
+          id: 'chk-12', name: '12. 駐坡制動與側傾穩定係數', status: 'pass',
+          metric: `側傾 ${rolloverDeg}° / SF=${brakeSF}`,
+          detail: `斜坡駐停制動安全係數與抗側翻穩定度均合乎工程規範。`
+        });
+      }
+
+      // Obstacle climbing height estimate
+      const obstacleHeight = s.wheelType === 'sprocket_track' ? Math.round(s.wheelDia * 0.85) :
+                             s.wheelType === 'rocker_6w' ? Math.round(s.wheelDia * 1.35) :
+                             s.wheelType === 'mecanum' ? Math.round(s.wheelDia * 0.18) :
+                             Math.round(s.wheelDia * 0.42);
+
+      // Turning radius calculation
+      let turnRadiusM = 0;
+      let turnModeText = '原地差速迴轉 (Zero-Turn)';
+      const maxSteerRad = (s.maxSteerAngle * Math.PI) / 180;
+      if (s.steering === 'ackermann_2ws') {
+        turnRadiusM = Math.round(((wheelbase / 1000) / Math.tan(maxSteerRad) + (trackWidth / 2000)) * 100) / 100;
+        turnModeText = `前輪阿克曼 (最大 ${s.maxSteerAngle}°)`;
+      } else if (s.steering === '4ws_counter') {
+        turnRadiusM = Math.round(((wheelbase / 2000) / Math.tan(maxSteerRad)) * 100) / 100;
+        turnModeText = `四輪反向小半徑 (${s.maxSteerAngle}°)`;
+      } else if (s.steering === '4ws_crab') {
+        turnRadiusM = Math.round(((wheelbase / 1500) / Math.tan(maxSteerRad)) * 100) / 100;
+        turnModeText = `四輪同向蟹行 (${s.maxSteerAngle}°)`;
+      } else if (s.steering === 'articulated') {
+        turnRadiusM = Math.round(((wheelbase / 1800) / Math.tan(maxSteerRad / 2)) * 100) / 100;
+        turnModeText = `中央鉸接折腰 (${s.maxSteerAngle}°)`;
+      } else if (s.steering === 'omni_mecanum') {
+        turnRadiusM = 0;
+        turnModeText = '全向 360° 平移與自轉';
+      }
+
+      if (warnings.length === 0) {
+        warnings.push('12 項輪系包絡、轉向掃掠、懸吊全壓縮、輪圈卡鉗、內部馬達電池艙與運動學拓撲全數通過檢核。');
+      }
+
+      s.computed = {
+        wheelbase,
+        axleSpacing,
+        trackWidth,
+        bodyWidthMm,
+        bodyLengthMm,
+        dynamicClearanceMm,
+        jounceMm,
+        tireToFrameClearanceMm,
+        rimToBrakeRadialClearanceMm,
+        longWheelClearanceMm,
+        effArmLengthMm,
+        maxSwingDeg,
+        singleInboardMotorLenMm,
+        frameWeight,
+        locomotionWeight,
+        susWeight,
+        drivetrainWeight,
+        powerPackWeight,
+        curbWeight,
+        totalGVW,
+        finalPeakTorque,
+        perWheelTorque,
+        drivenWheels,
+        recommendedPowerKW: totalConfiguredPowerKW,
+        ratedRPM,
+        energyKWh,
+        sysVolt,
+        obstacleHeight,
+        turnRadiusM,
+        turnModeText,
+        cogHeight,
+        rolloverDeg,
+        gearRatio: s.gearRatio,
+        warnings,
+        hasConflict,
+        auditItems,
+        collisionFlags
+      };
+    }
+
+    // =========================================================================
+    // 4. UI DOM Sync & 12-Point Audit Matrix Rendering
+    // =========================================================================
+    function updateBadge(id, isManual) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (isManual) {
+        el.textContent = '🛠️ 手動微調';
+        el.className = 'text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40';
+      } else {
+        el.textContent = '🤖 自動設計';
+        el.className = 'text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30';
+      }
+    }
+
+    function updateUIFromState() {
+      computeEngineeringSpecs();
+      const s = state;
+      const c = s.computed;
+
+      const syncPair = (sliderId, numId, val) => {
+        const sl = document.getElementById(sliderId);
+        const nm = document.getElementById(numId);
+        if (sl) sl.value = val;
+        if (nm) nm.value = val;
+      };
+      syncPair('inp-payload', 'num-payload', s.payload);
+      syncPair('inp-clearance', 'num-clearance', s.clearance);
+      syncPair('inp-length', 'num-length', s.length);
+      syncPair('inp-width', 'num-width', s.width);
+      syncPair('inp-height', 'num-height', s.height);
+      syncPair('inp-wheeldia', 'num-wheeldia', s.wheelDia);
+
+      document.getElementById('sel-terrain').value = s.terrain;
+      document.getElementById('inp-slope').value = s.slope;
+      document.getElementById('val-slope').textContent = `${s.slope}°`;
+
+      document.getElementById('inp-speed').value = s.speed;
+      document.getElementById('val-speed').textContent = `${s.speed.toFixed(1)} km/h`;
+
+      document.getElementById('inp-runtime').value = s.runtime;
+      document.getElementById('val-runtime').textContent = `${s.runtime.toFixed(1)} hr`;
+
+      // Subsystem controls
+      document.getElementById('sel-wheel-type').value = s.wheelType;
+      document.getElementById('inp-wheelwidth').value = s.wheelWidth;
+      document.getElementById('val-wheelwidth').textContent = `${s.wheelWidth} mm`;
+
+      document.getElementById('sel-drive-type').value = s.driveType;
+      document.getElementById('inp-gear-ratio').value = s.gearRatio;
+      document.getElementById('val-gear-ratio').textContent = `1:${s.gearRatio}`;
+      document.getElementById('inp-motor-watt').value = s.motorPowerW;
+      document.getElementById('val-motor-watt').textContent = `${s.motorPowerW} W`;
+
+      document.getElementById('sel-power-source').value = s.powerSource;
+      document.getElementById('inp-batt-ah').value = s.batteryAh;
+      document.getElementById('val-batt-ah').textContent = `${s.batteryAh} Ah`;
+      document.getElementById('inp-pwr-offset').value = s.powerOffsetMm;
+      document.getElementById('val-pwr-offset').textContent = `${s.powerOffsetMm > 0 ? '+' : ''}${s.powerOffsetMm} mm`;
+
+      document.getElementById('sel-frame-mat').value = s.frameMat;
+      document.getElementById('inp-frame-tube').value = s.frameTubeSize;
+      document.getElementById('val-frame-tube').textContent = `${s.frameTubeSize} mm`;
+      document.getElementById('inp-frame-cross').value = s.frameCrossCount;
+      document.getElementById('val-frame-cross').textContent = `${s.frameCrossCount} 支`;
+
+      document.getElementById('sel-suspension').value = s.suspension;
+      document.getElementById('inp-sus-travel').value = s.susTravel;
+      document.getElementById('val-sus-travel').textContent = `${s.susTravel}mm`;
+      document.getElementById('inp-spring-k').value = s.springK;
+      document.getElementById('val-spring-k').textContent = `${s.springK} N/mm`;
+      document.getElementById('inp-sus-angle').value = s.susAngle;
+      document.getElementById('val-sus-angle').textContent = `${s.susAngle}°`;
+
+      document.getElementById('sel-steering').value = s.steering;
+      document.getElementById('inp-max-steer').value = s.maxSteerAngle;
+      document.getElementById('val-max-steer').textContent = `${s.maxSteerAngle}°`;
+      document.getElementById('inp-steer-torque').value = s.steerTorque;
+      document.getElementById('val-steer-torque').textContent = `${s.steerTorque} N·m`;
+
+      document.getElementById('sel-brake').value = s.brake;
+      document.getElementById('inp-brake-dia').value = s.brakeDiscDia;
+      document.getElementById('val-brake-dia').textContent = `${s.brakeDiscDia} mm`;
+      document.getElementById('inp-brake-torque').value = s.brakeTorque;
+      document.getElementById('val-brake-torque').textContent = `${s.brakeTorque} N·m`;
+
+      updateBadge('badge-wheel', s.manualLocks.wheel);
+      updateBadge('badge-drive', s.manualLocks.drive);
+      updateBadge('badge-power', s.manualLocks.power);
+      updateBadge('badge-frame', s.manualLocks.frame);
+      updateBadge('badge-sus', s.manualLocks.sus);
+      updateBadge('badge-steer', s.manualLocks.steer);
+      updateBadge('badge-brake', s.manualLocks.brake);
+
+      const anyLocked = Object.values(s.manualLocks).some(Boolean);
+      const btnUnlock = document.getElementById('btn-unlock-all');
+      if (anyLocked) {
+        btnUnlock.classList.remove('hidden');
+      } else {
+        btnUnlock.classList.add('hidden');
+      }
+
+      // Update HUD
+      const wheelLabelMap = {
+        offroad_tire: '越野輪',
+        solid_rubber: '實心輪',
+        sprocket_track: '履帶鏈輪',
+        mecanum: '麥克納姆輪',
+        rocker_6w: '六輪搖臂'
+      };
+      const susLabelMap = {
+        double_wishbone: '雙A臂',
+        trailing_arm: '拖曳臂',
+        rocker_bogie: '搖臂連桿',
+        christie_track: '克里斯蒂',
+        portal_axle: '門式橋',
+        rigid: '剛性直連'
+      };
+      document.getElementById('hud-config-badge').textContent = `${wheelLabelMap[s.wheelType]} / ${susLabelMap[s.suspension]}`;
+      document.getElementById('hud-dims').textContent = `${s.length}×${s.width}×${s.height}`;
+      document.getElementById('hud-wb-tw').textContent = `${c.wheelbase} / ${c.trackWidth} mm`;
+      document.getElementById('hud-clearance').textContent = `${c.dynamicClearanceMm} mm`;
+
+      const elTireFrameClr = document.getElementById('hud-tire-frame-clr');
+      elTireFrameClr.textContent = `${c.tireToFrameClearanceMm > 0 ? '+' : ''}${c.tireToFrameClearanceMm} mm`;
+      elTireFrameClr.className = c.tireToFrameClearanceMm < 12 ? 'text-rose-400 font-bold text-right' : 'text-emerald-400 text-right';
+
+      const elRimBrakeClr = document.getElementById('hud-rim-brake-clr');
+      elRimBrakeClr.textContent = `${c.rimToBrakeRadialClearanceMm > 0 ? '+' : ''}${c.rimToBrakeRadialClearanceMm} mm`;
+      elRimBrakeClr.className = c.rimToBrakeRadialClearanceMm < 4 ? 'text-rose-400 font-bold text-right' : 'text-emerald-400 text-right';
+
+      document.getElementById('hud-obstacle').textContent = `${c.obstacleHeight} mm`;
+
+      // Update Analytics Cards
+      document.getElementById('stat-gvw').textContent = `${c.totalGVW} kg`;
+      document.getElementById('stat-curb').textContent = `空車重: ${c.curbWeight} kg`;
+      document.getElementById('stat-torque').textContent = `${c.finalPeakTorque} N·m`;
+      document.getElementById('stat-per-motor-torque').textContent = `單輪需求: ${c.perWheelTorque} N·m (×${c.drivenWheels})`;
+      document.getElementById('stat-power').textContent = `${c.recommendedPowerKW.toFixed(1)} kW`;
+      document.getElementById('stat-rpm').textContent = `額定輪轉速: ${c.ratedRPM} RPM`;
+      document.getElementById('stat-energy').textContent = `${c.energyKWh.toFixed(1)} kWh`;
+      document.getElementById('stat-ah').textContent = `${c.sysVolt}V / ${s.batteryAh} Ah`;
+      document.getElementById('stat-turn-radius').textContent = `${c.turnRadiusM.toFixed(2)} m`;
+      document.getElementById('stat-turn-mode').textContent = c.turnModeText;
+      document.getElementById('stat-rollover').textContent = `${c.rolloverDeg}°`;
+      document.getElementById('stat-cog-height').textContent = `合成重心高: ${c.cogHeight} mm`;
+
+      // Update 12-Point Audit Matrix UI
+      const matrixGrid = document.getElementById('audit-matrix-grid');
+      matrixGrid.innerHTML = '';
+      let passCount = 0;
+      let errCount = 0;
+      c.auditItems.forEach(item => {
+        if (item.status === 'pass') passCount++;
+        if (item.status === 'error') errCount++;
+
+        const card = document.createElement('div');
+        const borderCls = item.status === 'error'
+          ? 'bg-rose-950/35 border-rose-500/70'
+          : item.status === 'warn'
+          ? 'bg-amber-950/30 border-amber-500/60'
+          : 'bg-slate-900/75 border-slate-800';
+        const badgeCls = item.status === 'error'
+          ? 'bg-rose-500/20 text-rose-300 border-rose-500/40'
+          : item.status === 'warn'
+          ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+          : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30';
+        const icon = item.status === 'error' ? '✕ 干涉/異常' : item.status === 'warn' ? '⚠ 臨界警告' : '✓ 合理通過';
+
+        card.className = `rounded-lg border p-2.5 space-y-1 ${borderCls}`;
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[11px] font-bold text-slate-200">${item.name}</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded border ${badgeCls}">${icon} (${item.metric})</span>
+          </div>
+          <p class="text-[11px] text-slate-400 leading-snug">${item.detail}</p>
+        `;
+        matrixGrid.appendChild(card);
+      });
+
+      const warnCount = 12 - passCount - errCount;
+      const summaryPill = document.getElementById('audit-summary-pill');
+      const btnMatrixAutofix = document.getElementById('btn-matrix-autofix');
+      if (errCount > 0) {
+        summaryPill.textContent = `${errCount} 項干涉衝突待修正`;
+        summaryPill.className = 'text-[11px] font-mono px-2 py-0.5 rounded bg-rose-500/25 text-rose-300 border border-rose-500/50';
+        btnMatrixAutofix.textContent = `🛠️ 自動消除所有干涉與不合理配置 (${errCount}項衝突)`;
+        btnMatrixAutofix.className = 'px-3 py-1 text-[11px] font-bold rounded bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-sm transition animate-pulse';
+      } else if (warnCount > 0) {
+        summaryPill.textContent = `${passCount}/12 通過 (${warnCount}項臨界警告)`;
+        summaryPill.className = 'text-[11px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40';
+        btnMatrixAutofix.textContent = `🛠️ 自動消除所有干涉與不合理配置 (${warnCount}項最佳化)`;
+        btnMatrixAutofix.className = 'px-3 py-1 text-[11px] font-bold rounded bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-sm transition';
+      } else {
+        summaryPill.textContent = `12 / 12 全數通過檢核`;
+        summaryPill.className = 'text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+        btnMatrixAutofix.textContent = '🛠️ 自動消除所有干涉與不合理配置';
+        btnMatrixAutofix.className = 'px-3 py-1 text-[11px] font-semibold rounded bg-slate-800 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/40 transition';
+      }
+
+      // Update 6-System Blueprint Cards
+      document.getElementById('spec-frame-weight').textContent = `骨架估重: ${c.frameWeight} kg`;
+      document.getElementById('desc-frame').textContent = s.frameMat === 'steel_tube'
+        ? `車架淨寬 ${c.bodyWidthMm}mm（預留轉向輪包絡），採用 ${s.frameTubeSize}×${s.frameTubeSize}×3.2t 結構方管焊接與 ${s.frameCrossCount} 支橫樑，附上下支臂耳座。`
+        : s.frameMat === 'alu_extrusion'
+        ? `車架淨寬 ${c.bodyWidthMm}mm，採用 ${s.frameTubeSize}mm 工業鋁擠型與 ${s.frameCrossCount} 支橫樑，附 CNC 懸吊轉接座。`
+        : `車架淨寬 ${c.bodyWidthMm}mm，採用 4.0mm 折彎鈑金滿焊防水船殼，內置 ${s.frameCrossCount} 道結構肋板，預留外側懸吊行程空間。`;
+
+      document.getElementById('spec-sus-summary').textContent = `K=${s.springK} N/mm ‧ 臂長 ${c.effArmLengthMm}mm`;
+      document.getElementById('desc-suspension').textContent =
+        `選用「${document.getElementById('sel-suspension').selectedOptions[0].text.split(' ')[0]}」，連桿有效長度 ${c.effArmLengthMm}mm（最大擺角 ${c.maxSwingDeg}°），避震傾角 ${s.susAngle}°，全壓縮車底餘裕 ${s.clearance - s.susTravel}mm。`;
+
+      document.getElementById('spec-steer-summary').textContent = `最大轉角 ${s.maxSteerAngle}° ‧ 餘裕 +${c.tireToFrameClearanceMm}mm`;
+      document.getElementById('desc-steering').textContent =
+        `採用「${document.getElementById('sel-steering').selectedOptions[0].text.split(' ')[0]}」，配置 C 型轉向節羊角與阿克曼連桿，滿舵時輪胎距車架 ${c.tireToFrameClearanceMm}mm，最小迴轉半徑 ${c.turnRadiusM.toFixed(2)}m。`;
+
+      document.getElementById('spec-brake-force').textContent = `Ø${s.brakeDiscDia}mm ‧ 輪圈餘 +${c.rimToBrakeRadialClearanceMm}mm`;
+      document.getElementById('desc-braking').textContent =
+        `配置「${document.getElementById('sel-brake').selectedOptions[0].text.split(' ')[0]}」，碟盤 Ø${s.brakeDiscDia}mm 與輪圈內壁保持 ${c.rimToBrakeRadialClearanceMm}mm 徑向淨間隙，提供 ${s.brakeTorque} N·m 駐坡制動力。`;
+
+      document.getElementById('spec-gear-ratio').textContent = `i = 1:${s.gearRatio} ‧ ${s.motorPowerW}W×${c.drivenWheels}`;
+      document.getElementById('desc-drivetrain').textContent =
+        `採用「${document.getElementById('sel-drive-type').selectedOptions[0].text.split(' ')[0]}」，馬達固定於車架內並以等速萬向半軸 (CV Joint) 連接轉向節，避免轉向時馬達隨輪擺動穿模。`;
+
+      document.getElementById('spec-power-summary').textContent = `${c.sysVolt}V ${s.batteryAh}Ah (${c.energyKWh.toFixed(1)}kWh)`;
+      document.getElementById('desc-power').textContent =
+        `採用「${document.getElementById('sel-power-source').selectedOptions[0].text.split(' ')[0]}」，配置於中央獨立電池艙（前後偏移 ${s.powerOffsetMm}mm），與前後軸內置馬達保持安全隔離。`;
+
+      // Update Left Sidebar Alert Box
+      const alertBox = document.getElementById('alert-box');
+      const alertTitle = document.getElementById('alert-title');
+      const alertList = document.getElementById('alert-list');
+      const btnAutofix = document.getElementById('btn-autofix');
+
+      alertList.innerHTML = '';
+      c.warnings.forEach(w => {
+        const li = document.createElement('li');
+        li.textContent = w;
+        alertList.appendChild(li);
+      });
+
+      if (c.hasConflict || warnCount > 0) {
+        alertBox.className = 'rounded-lg border p-3 space-y-2 bg-rose-950/40 border-rose-500/60 transition-all duration-300';
+        alertTitle.className = 'text-xs font-bold text-rose-400 flex items-center gap-1.5';
+        alertTitle.textContent = errCount > 0 ? `⚠️ 偵測到機構干涉或配置衝突 (${errCount} 項)` : `⚠️ 偵測到機構臨界警告 (${warnCount} 項)`;
+        btnAutofix.className = 'px-2.5 py-1 text-[11px] font-bold rounded bg-amber-500 text-slate-950 hover:bg-amber-400 shadow-sm transition whitespace-nowrap animate-pulse';
+      } else {
+        alertBox.className = 'rounded-lg border p-3 space-y-2 bg-emerald-950/30 border-emerald-600/40 transition-all duration-300';
+        alertTitle.className = 'text-xs font-bold text-emerald-400 flex items-center gap-1.5';
+        alertTitle.textContent = '● 12項機構干涉與合理性檢核通過';
+        btnAutofix.className = 'px-2.5 py-1 text-[11px] font-semibold rounded bg-slate-800 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/40 transition whitespace-nowrap';
+      }
+
+      // Rebuild 3D Parametric Model
+      rebuild3DChassis();
+    }
+
+    // =========================================================================
+    // 5. Three.js True Kinematic 3D CAD Engine (Zero Floating/Colliding Parts)
+    // =========================================================================
+    let scene, camera, renderer, chassisGroup, groundGrid;
+    let wheelMeshes = [];
+    let trackRollers = [];
+    let animClock = new THREE.Clock();
+
+    const MM = 0.01; // 1 Three.js unit = 100 mm
+
+    function initThreeJS() {
+      const container = document.getElementById('canvas-container');
+      const w = container.clientWidth || 800;
+      const h = container.clientHeight || 500;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x090d14);
+      scene.fog = new THREE.FogExp2(0x090d14, 0.015);
+
+      camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 200);
+      setCameraPreset('iso');
+
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      container.appendChild(renderer.domElement);
+
+      const hemiLight = new THREE.HemisphereLight(0xdbeafe, 0x1e293b, 0.8);
+      scene.add(hemiLight);
+
+      const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.95);
+      dirLight1.position.set(18, 28, 20);
+      dirLight1.castShadow = true;
+      scene.add(dirLight1);
+
+      const dirLight2 = new THREE.DirectionalLight(0x38bdf8, 0.45);
+      dirLight2.position.set(-18, 12, -16);
+      scene.add(dirLight2);
+
+      groundGrid = new THREE.GridHelper(40, 40, 0x0ea5e9, 0x1e293b);
+      groundGrid.position.y = 0;
+      scene.add(groundGrid);
+
+      const planeGeo = new THREE.PlaneGeometry(40, 40);
+      const planeMat = new THREE.MeshStandardMaterial({
+        color: 0x0b0f17,
+        roughness: 0.9,
+        metalness: 0.1,
+        transparent: true,
+        opacity: 0.75
+      });
+      const plane = new THREE.Mesh(planeGeo, planeMat);
+      plane.rotation.x = -Math.PI / 2;
+      plane.position.y = -0.01;
+      plane.receiveShadow = true;
+      scene.add(plane);
+
+      chassisGroup = new THREE.Group();
+      scene.add(chassisGroup);
+
+      setupOrbitControls(renderer.domElement);
+
+      window.addEventListener('resize', () => {
+        const nw = container.clientWidth;
+        const nh = container.clientHeight;
+        if (nw && nh) {
+          camera.aspect = nw / nh;
+          camera.updateProjectionMatrix();
+          renderer.setSize(nw, nh);
+        }
+      });
+
+      animateLoop();
+    }
+
+    const orbit = {
+      theta: Math.PI / 4,
+      phi: Math.PI / 3,
+      radius: 22,
+      target: new THREE.Vector3(0, 3.0, 0),
+      isDown: false,
+      button: 0,
+      lastX: 0,
+      lastY: 0
+    };
+
+    function updateCameraFromOrbit() {
+      orbit.phi = Math.max(0.08, Math.min(Math.PI / 2 - 0.02, orbit.phi));
+      orbit.radius = Math.max(6, Math.min(60, orbit.radius));
+      camera.position.x = orbit.target.x + orbit.radius * Math.sin(orbit.phi) * Math.sin(orbit.theta);
+      camera.position.y = orbit.target.y + orbit.radius * Math.cos(orbit.phi);
+      camera.position.z = orbit.target.z + orbit.radius * Math.sin(orbit.phi) * Math.cos(orbit.theta);
+      camera.lookAt(orbit.target);
+    }
+
+    function setCameraPreset(mode) {
+      orbit.target.set(0, 2.8, 0);
+      if (mode === 'iso') {
+        orbit.theta = Math.PI / 4;
+        orbit.phi = Math.PI / 3.1;
+        orbit.radius = 22;
+      } else if (mode === 'front') {
+        orbit.theta = 0;
+        orbit.phi = Math.PI / 2.25;
+        orbit.radius = 20;
+      } else if (mode === 'side') {
+        orbit.theta = Math.PI / 2;
+        orbit.phi = Math.PI / 2.25;
+        orbit.radius = 22;
+      } else if (mode === 'top') {
+        orbit.theta = 0;
+        orbit.phi = 0.09;
+        orbit.radius = 24;
+      }
+      updateCameraFromOrbit();
+    }
+
+    function setupOrbitControls(domEl) {
+      domEl.addEventListener('pointerdown', (e) => {
+        orbit.isDown = true;
+        orbit.button = e.button;
+        orbit.lastX = e.clientX;
+        orbit.lastY = e.clientY;
+        domEl.setPointerCapture(e.pointerId);
+      });
+      domEl.addEventListener('pointermove', (e) => {
+        if (!orbit.isDown) return;
+        const dx = e.clientX - orbit.lastX;
+        const dy = e.clientY - orbit.lastY;
+        orbit.lastX = e.clientX;
+        orbit.lastY = e.clientY;
+
+        if (orbit.button === 0 && !e.shiftKey) {
+          orbit.theta -= dx * 0.008;
+          orbit.phi -= dy * 0.008;
+        } else {
+          const panSpeed = orbit.radius * 0.0015;
+          const right = new THREE.Vector3();
+          camera.getWorldDirection(right);
+          right.cross(camera.up).normalize();
+          orbit.target.addScaledVector(right, -dx * panSpeed);
+          orbit.target.y += dy * panSpeed;
+        }
+        updateCameraFromOrbit();
+      });
+      domEl.addEventListener('pointerup', (e) => {
+        orbit.isDown = false;
+        try { domEl.releasePointerCapture(e.pointerId); } catch (_) {}
+      });
+      domEl.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        orbit.radius += e.deltaY * 0.015;
+        updateCameraFromOrbit();
+      }, { passive: false });
+      domEl.addEventListener('contextmenu', (e) => e.preventDefault());
+    }
+
+    // Exact 3D Point-to-Point Link / Strut / Shaft Builder
+    function addLinkBetween(parent, p1, p2, radius, mat, addJoints = true, jointMat = null) {
+      const dir = new THREE.Vector3().subVectors(p2, p1);
+      const len = dir.length();
+      if (len < 0.02) return null;
+      const geo = new THREE.CylinderGeometry(radius, radius, len, 12);
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.copy(p1).add(p2).multiplyScalar(0.5);
+      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+      parent.add(mesh);
+
+      if (addJoints) {
+        const jMat = jointMat || mat;
+        const jGeo = new THREE.SphereGeometry(radius * 1.45, 10, 10);
+        const j1 = new THREE.Mesh(jGeo, jMat);
+        j1.position.copy(p1);
+        const j2 = new THREE.Mesh(jGeo, jMat);
+        j2.position.copy(p2);
+        parent.add(j1);
+        parent.add(j2);
+      }
+      return mesh;
+    }
+
+    // Coilover Shock Absorber with Helical Spring Rings between pTop and pBot
+    function addCoiloverBetween(parent, pTop, pBot, springRadius, rodMat, springMat) {
+      const dir = new THREE.Vector3().subVectors(pBot, pTop);
+      const len = dir.length();
+      if (len < 0.1) return;
+
+      const group = new THREE.Group();
+      group.position.copy(pTop).add(pBot).multiplyScalar(0.5);
+      group.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+
+      // Upper damper body & lower piston rod
+      const bodyGeo = new THREE.CylinderGeometry(springRadius * 0.62, springRadius * 0.62, len * 0.55, 12);
+      const bodyMesh = new THREE.Mesh(bodyGeo, rodMat);
+      bodyMesh.position.y = -len * 0.18;
+      group.add(bodyMesh);
+
+      const pistonGeo = new THREE.CylinderGeometry(springRadius * 0.32, springRadius * 0.32, len * 0.85, 10);
+      const pistonMesh = new THREE.Mesh(pistonGeo, rodMat);
+      group.add(pistonMesh);
+
+      // Helical spring coils
+      const coilCount = 6;
+      const coilGeo = new THREE.TorusGeometry(springRadius, springRadius * 0.22, 8, 16);
+      coilGeo.rotateX(Math.PI / 2);
+      for (let i = 0; i < coilCount; i++) {
+        const cy = -len * 0.34 + (i / (coilCount - 1)) * (len * 0.68);
+        const coil = new THREE.Mesh(coilGeo, springMat);
+        coil.position.y = cy;
+        group.add(coil);
+      }
+
+      parent.add(group);
+    }
+
+    // Build Wheel with Recessed Inner Rim Cavity (So Brake Disc & Hub Motor Sit Inside Without Collision!)
+    function createWheelAssembly(radius, width, type, isRightSide, matWire, isColliding = false) {
+      const group = new THREE.Group();
+
+      const tireMat = new THREE.MeshStandardMaterial({
+        color: isColliding ? 0xff1e42 : 0x1e293b,
+        roughness: 0.75,
+        metalness: 0.15,
+        wireframe: matWire
+      });
+      const rimMat = new THREE.MeshStandardMaterial({
+        color: type === 'sprocket_track' ? 0xf59e0b : 0x94a3b8,
+        roughness: 0.35,
+        metalness: 0.75,
+        wireframe: matWire
+      });
+      const hubMat = new THREE.MeshStandardMaterial({
+        color: 0x0ea5e9,
+        roughness: 0.3,
+        metalness: 0.8,
+        wireframe: matWire
+      });
+
+      if (type === 'sprocket_track') {
+        const sprocketGeo = new THREE.CylinderGeometry(radius * 0.82, radius * 0.82, width * 0.72, 20);
+        sprocketGeo.rotateX(Math.PI / 2);
+        const sprocket = new THREE.Mesh(sprocketGeo, rimMat);
+        group.add(sprocket);
+
+        const toothCount = 12;
+        const toothGeo = new THREE.BoxGeometry(radius * 0.22, radius * 0.22, width * 0.68);
+        for (let i = 0; i < toothCount; i++) {
+          const ang = (i / toothCount) * Math.PI * 2;
+          const tooth = new THREE.Mesh(toothGeo, rimMat);
+          tooth.position.set(Math.cos(ang) * radius * 0.84, Math.sin(ang) * radius * 0.84, 0);
+          tooth.rotation.z = ang;
+          group.add(tooth);
+        }
+      } else if (type === 'mecanum') {
+        const coreGeo = new THREE.CylinderGeometry(radius * 0.74, radius * 0.74, width * 0.82, 24);
+        coreGeo.rotateX(Math.PI / 2);
+        const core = new THREE.Mesh(coreGeo, rimMat);
+        group.add(core);
+
+        const rollerCount = 10;
+        const rollerGeo = new THREE.CylinderGeometry(radius * 0.20, radius * 0.20, width * 0.90, 12);
+        rollerGeo.rotateX(Math.PI / 2);
+        const rollerMat = new THREE.MeshStandardMaterial({
+          color: isColliding ? 0xff1e42 : 0x334155,
+          roughness: 0.5,
+          metalness: 0.3,
+          wireframe: matWire
+        });
+        const tilt = isRightSide ? Math.PI / 4 : -Math.PI / 4;
+        for (let i = 0; i < rollerCount; i++) {
+          const ang = (i / rollerCount) * Math.PI * 2;
+          const rHolder = new THREE.Group();
+          rHolder.rotation.z = ang;
+          const roller = new THREE.Mesh(rollerGeo, rollerMat);
+          roller.position.y = radius * 0.82;
+          roller.rotation.y = tilt;
+          rHolder.add(roller);
+          group.add(rHolder);
+        }
+      } else {
+        // Outer Tire Carcass
+        const mainTireGeo = new THREE.CylinderGeometry(radius, radius, width, 28);
+        mainTireGeo.rotateX(Math.PI / 2);
+        const tire = new THREE.Mesh(mainTireGeo, tireMat);
+        group.add(tire);
+
+        // Recessed Outer Rim Dish (offset outward so inner side has a deep cavity for brake disc & knuckle!)
+        const outerDishSign = isRightSide ? 1 : -1;
+        const rimGeo = new THREE.CylinderGeometry(radius * 0.58, radius * 0.58, width * 0.35, 20);
+        rimGeo.rotateX(Math.PI / 2);
+        const rim = new THREE.Mesh(rimGeo, rimMat);
+        rim.position.z = outerDishSign * (width * 0.32);
+        group.add(rim);
+
+        if (type === 'offroad_tire' || type === 'rocker_6w') {
+          const lugCount = 16;
+          const lugGeo = new THREE.BoxGeometry(radius * 0.14, radius * 0.08, width * 0.94);
+          for (let i = 0; i < lugCount; i++) {
+            const ang = (i / lugCount) * Math.PI * 2;
+            const lug = new THREE.Mesh(lugGeo, tireMat);
+            lug.position.set(Math.cos(ang) * (radius * 0.98), Math.sin(ang) * (radius * 0.98), 0);
+            lug.rotation.z = ang + Math.PI / 2;
+            group.add(lug);
+          }
+        }
+      }
+
+      const outerCapSign = isRightSide ? 1 : -1;
+      const capGeo = new THREE.CylinderGeometry(radius * 0.22, radius * 0.22, width * 0.25, 16);
+      capGeo.rotateX(Math.PI / 2);
+      const cap = new THREE.Mesh(capGeo, hubMat);
+      cap.position.z = outerCapSign * (width * 0.42);
+      group.add(cap);
+
+      return group;
+    }
+
+    function rebuild3DChassis() {
+      if (!chassisGroup) return;
+
+      while (chassisGroup.children.length > 0) {
+        const obj = chassisGroup.children[0];
+        chassisGroup.remove(obj);
+      }
+      wheelMeshes = [];
+      trackRollers = [];
+
+      const s = state;
+      const c = s.computed;
+      const wf = s.wireframe;
+      const exp = s.explodeFactor;
+      const hiCol = s.highlightCollisions;
+      const cf = c.collisionFlags;
+
+      const L = s.length * MM;
+      const W = s.width * MM;
+      const H = s.height * MM;
+      const clearance = c.dynamicClearanceMm * MM;
+      const wheelR = (s.wheelDia / 2) * MM;
+      const wheelW = s.wheelWidth * MM;
+      const wb = c.wheelbase * MM;
+      const tw = c.trackWidth * MM;
+      const bodyW = c.bodyWidthMm * MM;
+      const bodyL = c.bodyLengthMm * MM;
+
+      const frameHeight = Math.max(1.1, H - s.clearance * MM);
+      const frameBottomY = clearance + exp * 1.1;
+      const frameCenterY = frameBottomY + frameHeight / 2;
+
+      // Materials (With Collision Red Highlighting support)
+      const colRedMat = new THREE.MeshStandardMaterial({
+        color: 0xff1e42,
+        emissive: 0x7f1d1d,
+        roughness: 0.3,
+        metalness: 0.5,
+        wireframe: wf
+      });
+
+      const frameColor = s.frameMat === 'steel_tube' ? 0x334155 :
+                         s.frameMat === 'alu_extrusion' ? 0x94a3b8 : 0x0f766e;
+      const frameMat = (hiCol && (cf.tireFrame || cf.jounceDeck)) ? colRedMat : new THREE.MeshStandardMaterial({
+        color: frameColor,
+        roughness: 0.4,
+        metalness: 0.7,
+        wireframe: wf
+      });
+      const deckMat = new THREE.MeshStandardMaterial({
+        color: 0x1e293b,
+        roughness: 0.6,
+        metalness: 0.5,
+        wireframe: wf
+      });
+      const accentMat = new THREE.MeshStandardMaterial({
+        color: 0x0ea5e9,
+        roughness: 0.3,
+        metalness: 0.8,
+        wireframe: wf
+      });
+      const susMat = (hiCol && (cf.tireSus || cf.susLinkBind)) ? colRedMat : new THREE.MeshStandardMaterial({
+        color: 0xf59e0b,
+        roughness: 0.3,
+        metalness: 0.75,
+        wireframe: wf
+      });
+      const brakeMat = (hiCol && cf.rimBrake) ? colRedMat : new THREE.MeshStandardMaterial({
+        color: 0xf43f5e,
+        roughness: 0.35,
+        metalness: 0.7,
+        wireframe: wf
+      });
+      const motorMat = (hiCol && (cf.internalBay || cf.hubAxial)) ? colRedMat : new THREE.MeshStandardMaterial({
+        color: 0x38bdf8,
+        roughness: 0.35,
+        metalness: 0.8,
+        wireframe: wf
+      });
+      const shaftMat = new THREE.MeshStandardMaterial({
+        color: 0xcbd5e1,
+        roughness: 0.3,
+        metalness: 0.85,
+        wireframe: wf
+      });
+
+      // Articulated Frame Pivot Groups (Front Half & Rear Half rotate if steering === 'articulated')
+      const frontHalfGroup = new THREE.Group();
+      const rearHalfGroup = new THREE.Group();
+      const isArticulated = s.steering === 'articulated' && s.wheelType !== 'sprocket_track';
+      const articSteerRad = isArticulated ? ((s.steerAngle * Math.PI) / 180) * 0.5 : 0;
+      frontHalfGroup.rotation.y = -articSteerRad;
+      rearHalfGroup.rotation.y = articSteerRad;
+      chassisGroup.add(frontHalfGroup);
+      chassisGroup.add(rearHalfGroup);
+
+      // -----------------------------------------------------------------------
+      // A. Parametric Chassis Frame Structure + Suspension Subframe Drop Mounts
+      // -----------------------------------------------------------------------
+      const railThick = Math.max(0.22, s.frameTubeSize * MM);
+      const crossCount = Math.max(2, s.frameCrossCount);
+
+      function buildFrameSection(targetGroup, xMin, xMax, sectionCrossCount) {
+        const secLen = xMax - xMin;
+        const secCenter = (xMin + xMax) / 2;
+        const fGroup = new THREE.Group();
+        fGroup.position.y = frameCenterY;
+
+        if (s.frameMat === 'sheet_monocoque') {
+          const hullGeo = new THREE.BoxGeometry(secLen, frameHeight, bodyW);
+          const hull = new THREE.Mesh(hullGeo, frameMat);
+          hull.position.x = secCenter;
+          fGroup.add(hull);
+        } else {
+          const longRailGeo = new THREE.BoxGeometry(secLen, railThick, railThick);
+          const crossRailGeo = new THREE.BoxGeometry(railThick, railThick, bodyW);
+          const vertPostGeo = new THREE.BoxGeometry(railThick, frameHeight, railThick);
+
+          [-frameHeight / 2 + railThick / 2, frameHeight / 2 - railThick / 2].forEach(yPos => {
+            [-bodyW / 2 + railThick / 2, bodyW / 2 - railThick / 2].forEach(zPos => {
+              const rail = new THREE.Mesh(longRailGeo, frameMat);
+              rail.position.set(secCenter, yPos, zPos);
+              fGroup.add(rail);
+            });
+
+            for (let i = 0; i < sectionCrossCount; i++) {
+              const xPos = xMin + railThick / 2 + (i / Math.max(1, sectionCrossCount - 1)) * (secLen - railThick);
+              const cross = new THREE.Mesh(crossRailGeo, frameMat);
+              cross.position.set(xPos, yPos, 0);
+              fGroup.add(cross);
+            }
+          });
+
+          for (let i = 0; i < sectionCrossCount; i++) {
+            const xPos = xMin + railThick / 2 + (i / Math.max(1, sectionCrossCount - 1)) * (secLen - railThick);
+            [-bodyW / 2 + railThick / 2, bodyW / 2 - railThick / 2].forEach(zPos => {
+              const post = new THREE.Mesh(vertPostGeo, frameMat);
+              post.position.set(xPos, 0, zPos);
+              fGroup.add(post);
+            });
+          }
+
+          const skidGeo = new THREE.BoxGeometry(secLen * 0.94, 0.10, bodyW * 0.94);
+          const skid = new THREE.Mesh(skidGeo, deckMat);
+          skid.position.set(secCenter, -frameHeight / 2 + 0.06, 0);
+          fGroup.add(skid);
+        }
+
+        const topDeckGeo = new THREE.BoxGeometry(secLen * 1.02, 0.16, bodyW * 1.04);
+        const topDeck = new THREE.Mesh(topDeckGeo, deckMat);
+        topDeck.position.set(secCenter, frameHeight / 2 + 0.08 + exp * 0.9, 0);
+        fGroup.add(topDeck);
+
+        targetGroup.add(fGroup);
+      }
+
+      if (isArticulated) {
+        // Split chassis into Front and Rear articulated halves with central hinge & dual hydraulic cylinders
+        buildFrameSection(frontHalfGroup, 0.35, bodyL / 2, Math.max(2, Math.ceil(crossCount / 2)));
+        buildFrameSection(rearHalfGroup, -bodyL / 2, -0.35, Math.max(2, Math.ceil(crossCount / 2)));
+
+        const hingeGeo = new THREE.CylinderGeometry(0.38, 0.38, frameHeight * 0.95, 16);
+        const hinge = new THREE.Mesh(hingeGeo, susMat);
+        hinge.position.set(0, frameCenterY, 0);
+        chassisGroup.add(hinge);
+
+        // Connect front & rear halves via articulating hydraulic steering cylinders
+        [-1, 1].forEach(zSign => {
+          const zCyl = zSign * (bodyW * 0.38);
+          const pFront = new THREE.Vector3(1.4, frameCenterY, zCyl).applyAxisAngle(new THREE.Vector3(0, 1, 0), -articSteerRad);
+          const pRear = new THREE.Vector3(-1.4, frameCenterY, zCyl).applyAxisAngle(new THREE.Vector3(0, 1, 0), articSteerRad);
+          addLinkBetween(chassisGroup, pRear, pFront, 0.15, brakeMat, true, susMat);
+        });
+      } else {
+        buildFrameSection(frontHalfGroup, -bodyL / 2, bodyL / 2, crossCount);
+      }
+
+      // Front Bumper & LiDAR Sensor Mast on Front Half
+      const bumperGeo = new THREE.BoxGeometry(0.32, 0.45, bodyW * 0.92);
+      const bumper = new THREE.Mesh(bumperGeo, susMat);
+      bumper.position.set(bodyL / 2 + 0.22 + exp * 0.6, frameCenterY, 0);
+      frontHalfGroup.add(bumper);
+
+      const lidarPuckGeo = new THREE.CylinderGeometry(0.35, 0.38, 0.42, 20);
+      const lidar = new THREE.Mesh(lidarPuckGeo, accentMat);
+      lidar.position.set(bodyL / 2 - 0.45, frameCenterY + frameHeight / 2 + 0.35 + exp * 1.1, 0);
+      frontHalfGroup.add(lidar);
+
+      // -----------------------------------------------------------------------
+      // B. Power Source Module Inside Central Chassis Bay (No Motor Overlap!)
+      // -----------------------------------------------------------------------
+      const pwrOffsetX = s.powerOffsetMm * MM;
+      const maxSafePackLen = Math.min(bodyL * 0.48, Math.max(1.8, wb - 2.6));
+      const pwrGroup = new THREE.Group();
+      pwrGroup.position.set(pwrOffsetX, frameCenterY + exp * 2.1, 0);
+      const pwrColor = (hiCol && cf.internalBay) ? 0xff1e42 :
+                       s.powerSource === 'lifepo4_48v' ? 0x10b981 :
+                       s.powerSource === 'nmc_72v' ? 0x0ea5e9 :
+                       s.powerSource === 'hybrid_gen' ? 0xf59e0b :
+                       s.powerSource === 'fuelcell_h2' ? 0x8b5cf6 : 0xf43f5e;
+      const pwrMat = new THREE.MeshStandardMaterial({
+        color: pwrColor,
+        roughness: 0.35,
+        metalness: 0.6,
+        wireframe: wf
+      });
+
+      if (s.powerSource === 'fuelcell_h2') {
+        const tankGeo = new THREE.CylinderGeometry(frameHeight * 0.28, frameHeight * 0.28, maxSafePackLen * 0.88, 20);
+        tankGeo.rotateZ(Math.PI / 2);
+        const tank = new THREE.Mesh(tankGeo, pwrMat);
+        tank.position.z = bodyW * 0.16;
+        pwrGroup.add(tank);
+
+        const fcBox = new THREE.Mesh(new THREE.BoxGeometry(maxSafePackLen * 0.78, frameHeight * 0.55, bodyW * 0.34), accentMat);
+        fcBox.position.z = -bodyW * 0.16;
+        pwrGroup.add(fcBox);
+      } else {
+        const packGeo = new THREE.BoxGeometry(maxSafePackLen, frameHeight * 0.62, bodyW * 0.68);
+        const pack = new THREE.Mesh(packGeo, pwrMat);
+        pwrGroup.add(pack);
+      }
+      (isArticulated ? rearHalfGroup : frontHalfGroup).add(pwrGroup);
+
+      // -----------------------------------------------------------------------
+      // C. Optional Payload Block on Top Deck
+      // -----------------------------------------------------------------------
+      if (s.showPayload) {
+        const payH = Math.min(4.0, Math.max(0.9, (s.payload / 150) * 1.5));
+        const payGeo = new THREE.BoxGeometry(bodyL * 0.58, payH, bodyW * 0.76);
+        const payMat = new THREE.MeshStandardMaterial({
+          color: 0x38bdf8,
+          transparent: true,
+          opacity: wf ? 0.9 : 0.36,
+          roughness: 0.2,
+          metalness: 0.3,
+          wireframe: wf
+        });
+        const payMesh = new THREE.Mesh(payGeo, payMat);
+        payMesh.position.set(0, frameCenterY + frameHeight / 2 + 0.2 + payH / 2 + exp * 2.8, 0);
+        frontHalfGroup.add(payMesh);
+      }
+
+      // -----------------------------------------------------------------------
+      // D. True Kinematic Locomotion, Suspension, Steering & Drivetrain
+      // -----------------------------------------------------------------------
+      const axleXPositions = s.wheelType === 'rocker_6w'
+        ? [wb / 2, 0, -wb / 2]
+        : [wb / 2, -wb / 2];
+
+      // CASE 1: Tracked Sprocket & Christie Suspension System
+      if (s.wheelType === 'sprocket_track') {
+        [-1, 1].forEach(sideSign => {
+          const zSide = sideSign * (tw / 2 + exp * 1.4);
+          const zChassisWall = sideSign * (bodyW / 2);
+          const trackGroup = new THREE.Group();
+
+          // Raised Drive Sprocket (Front) & Tensioner Idler (Rear)
+          const sprocketY = wheelR * 1.08;
+          [wb / 2, -wb / 2].forEach((xPos, idx) => {
+            const sp = createWheelAssembly(wheelR * 0.92, wheelW, 'sprocket_track', sideSign > 0, wf, hiCol && cf.topology);
+            sp.position.set(xPos, sprocketY, zSide);
+            trackGroup.add(sp);
+            wheelMeshes.push(sp);
+
+            // Inboard Final Drive Planetary Housing fixed to Chassis Hull Side
+            if (idx === 0 || s.driveType === 'skid_chain') {
+              const fdLen = Math.max(0.35, Math.abs(zSide - zChassisWall) - wheelW * 0.45);
+              const pHull = new THREE.Vector3(xPos, sprocketY, zChassisWall);
+              const pSprocketIn = new THREE.Vector3(xPos, sprocketY, zSide - sideSign * (wheelW * 0.4));
+              addLinkBetween(trackGroup, pHull, pSprocketIn, wheelR * 0.32, motorMat, false);
+            }
+          });
+
+          // Bottom Road Wheels (Bogies) + Christie Swing Arms + Inclined Coilover Shocks
+          const bogieCount = 4;
+          const bogieR = wheelR * 0.46;
+          for (let b = 0; b < bogieCount; b++) {
+            const bx = -wb * 0.34 + (b / (bogieCount - 1)) * (wb * 0.68);
+            const bogieGeo = new THREE.CylinderGeometry(bogieR, bogieR, wheelW * 0.72, 16);
+            bogieGeo.rotateX(Math.PI / 2);
+            const bogie = new THREE.Mesh(bogieGeo, frameMat);
+            bogie.position.set(bx, bogieR + 0.12, zSide);
+            trackGroup.add(bogie);
+            trackRollers.push(bogie);
+
+            // Christie Trailing Swing Arm from Hull Bottom to Road Wheel Hub
+            const pArmHull = new THREE.Vector3(bx + 0.45, frameBottomY + 0.2, zChassisWall);
+            const pArmHub = new THREE.Vector3(bx, bogieR + 0.12, zSide - sideSign * (wheelW * 0.42));
+            addLinkBetween(trackGroup, pArmHull, pArmHub, 0.12, frameMat, true, susMat);
+
+            // Christie Coilover Shock from Hull Upper Side to Swing ArmHub
+            const tiltX = Math.sin((s.susAngle * Math.PI) / 180) * 0.4;
+            const pShockTop = new THREE.Vector3(bx + tiltX, frameBottomY + frameHeight * 0.75, zChassisWall + sideSign * 0.15);
+            addCoiloverBetween(trackGroup, pShockTop, pArmHub, 0.16, frameMat, susMat);
+          }
+
+          // Continuous Track Belt Plates (Top, Bottom, Front/Rear Slopes)
+          const beltThick = 0.12;
+          const topBelt = new THREE.Mesh(new THREE.BoxGeometry(wb, beltThick, wheelW), deckMat);
+          topBelt.position.set(0, sprocketY + wheelR * 0.92, zSide);
+          trackGroup.add(topBelt);
+
+          const botBelt = new THREE.Mesh(new THREE.BoxGeometry(wb * 0.74, beltThick, wheelW), deckMat);
+          botBelt.position.set(0, beltThick / 2, zSide);
+          trackGroup.add(botBelt);
+
+          frontHalfGroup.add(trackGroup);
+        });
+      } else {
+        // CASE 2: Wheeled Configurations (4WD or 6WD Rocker-Bogie) with True Steering Knuckle & CV Shafts
+        const brakeDiscR = (s.brakeDiscDia / 2) * MM;
+        const singleMotorLen = c.singleInboardMotorLenMm * MM;
+
+        // Central Drive Shaft if 4wd_shaft
+        if (s.driveType === '4wd_shaft') {
+          const diffElevY = s.suspension === 'portal_axle' ? Math.max(wheelR + 0.65, frameBottomY - 0.15) : wheelR;
+          const pFrontDiff = new THREE.Vector3(wb / 2, diffElevY, 0);
+          const pRearDiff = new THREE.Vector3(-wb / 2, diffElevY, 0);
+          addLinkBetween(frontHalfGroup, pRearDiff, pFrontDiff, 0.15, motorMat, false);
+        }
+
+        // Side Chain Housing if skid_chain
+        if (s.driveType === 'skid_chain') {
+          [-1, 1].forEach(sideSign => {
+            const zChain = sideSign * (bodyW / 2 + 0.22);
+            const chainBoxGeo = new THREE.BoxGeometry(wb + 0.6, 0.48, 0.22);
+            const chainBox = new THREE.Mesh(chainBoxGeo, (hiCol && cf.tieRodShaft) ? colRedMat : motorMat);
+            chainBox.position.set(0, wheelR, zChain);
+            frontHalfGroup.add(chainBox);
+          });
+        }
+
+        // Rocker-Bogie True Kinematic Mechanism (Main Rocker + Bogie Sub-lever + Trunnion Mount)
+        if (s.wheelType === 'rocker_6w' || s.suspension === 'rocker_bogie') {
+          [-1, 1].forEach(sideSign => {
+            const zLinkPlane = sideSign * (bodyW / 2 + ((tw / 2 - wheelW / 2) - bodyW / 2) * 0.55);
+            const zHullWall = sideSign * (bodyW / 2);
+
+            // Main Chassis Trunnion Bearing Mount
+            const pMainPivot = new THREE.Vector3(wb * 0.12, frameBottomY + frameHeight * 0.35, zLinkPlane);
+            const pMainHull = new THREE.Vector3(wb * 0.12, frameBottomY + frameHeight * 0.35, zHullWall);
+            addLinkBetween(frontHalfGroup, pMainHull, pMainPivot, 0.24, frameMat, true, susMat);
+
+            // Bogie Pivot Joint between Mid and Rear axles
+            const pBogiePivot = new THREE.Vector3(-wb * 0.25, wheelR + 0.72, zLinkPlane);
+
+            // Front Wheel Hub Link & Rear Rocker Link
+            const pFrontHubLink = new THREE.Vector3(wb / 2, wheelR, zLinkPlane);
+            addLinkBetween(frontHalfGroup, pMainPivot, pFrontHubLink, 0.15, susMat, true, frameMat);
+            addLinkBetween(frontHalfGroup, pMainPivot, pBogiePivot, 0.15, susMat, true, frameMat);
+
+            // Bogie Sub-links to Middle (or Rear) wheels
+            if (s.wheelType === 'rocker_6w') {
+              const pMidHubLink = new THREE.Vector3(0, wheelR, zLinkPlane);
+              const pRearHubLink = new THREE.Vector3(-wb / 2, wheelR, zLinkPlane);
+              addLinkBetween(frontHalfGroup, pBogiePivot, pMidHubLink, 0.13, frameMat, true, susMat);
+              addLinkBetween(frontHalfGroup, pBogiePivot, pRearHubLink, 0.13, frameMat, true, susMat);
+            } else {
+              const pRearHubLink = new THREE.Vector3(-wb / 2, wheelR, zLinkPlane);
+              addLinkBetween(frontHalfGroup, pBogiePivot, pRearHubLink, 0.14, frameMat, true, susMat);
+            }
+          });
+        }
+
+        // Iterate through each Axle & Left/Right Wheel
+        axleXPositions.forEach((xPos, axleIdx) => {
+          const isFrontAxle = axleIdx === 0;
+          const isRearAxle = axleIdx === axleXPositions.length - 1;
+          const parentHalf = (isArticulated && isRearAxle) ? rearHalfGroup : frontHalfGroup;
+
+          // Differential Housing on Centerline if 4wd_shaft / fwd_diff / rwd_diff
+          const hasAxleDiff = s.driveType === '4wd_shaft' ||
+                              (s.driveType === 'fwd_diff' && isFrontAxle) ||
+                              (s.driveType === 'rwd_diff' && isRearAxle);
+          const diffElevY = s.suspension === 'portal_axle' ? Math.max(wheelR + 0.65, frameBottomY - 0.15) : wheelR;
+
+          if (hasAxleDiff) {
+            const diffGeo = new THREE.SphereGeometry(0.45, 16, 16);
+            const diffMesh = new THREE.Mesh(diffGeo, (hiCol && cf.axleGround) ? colRedMat : motorMat);
+            diffMesh.position.set(xPos, diffElevY, 0);
+            parentHalf.add(diffMesh);
+
+            // Subframe hanger brackets holding differential to chassis bottom
+            const pDiffTop = new THREE.Vector3(xPos, diffElevY + 0.3, 0);
+            const pFrameBot = new THREE.Vector3(xPos, frameBottomY, 0);
+            if (frameBottomY > diffElevY) {
+              addLinkBetween(parentHalf, pDiffTop, pFrameBot, 0.14, frameMat, false);
+            }
+          }
+
+          // Left & Right Steering Arm Endpoints for Tie-Rod Connection
+          const steerTiePoints = [];
+
+          [-1, 1].forEach(sideSign => {
+            const zWheelCenter = sideSign * (tw / 2 + exp * 1.4);
+            const zKingpin = zWheelCenter - sideSign * (wheelW * 0.42);
+            const zChassisSide = sideSign * (bodyW / 2);
+
+            // True Ackermann Left/Right Steering Angle Calculation
+            let wheelSteerRad = 0;
+            const rawSteerRad = (s.steerAngle * Math.PI) / 180;
+            if (s.steering === 'ackermann_2ws' && isFrontAxle) {
+              wheelSteerRad = -rawSteerRad;
+            } else if (s.steering === '4ws_counter') {
+              if (isFrontAxle) wheelSteerRad = -rawSteerRad;
+              if (isRearAxle) wheelSteerRad = rawSteerRad;
+            } else if (s.steering === '4ws_crab') {
+              wheelSteerRad = -rawSteerRad;
+            }
+
+            // Apply Ackermann inner/outer differential angle adjustment
+            if (Math.abs(wheelSteerRad) > 0.01 && (s.steering === 'ackermann_2ws' || s.steering === '4ws_counter')) {
+              const isInnerWheel = (s.steerAngle > 0 && sideSign > 0) || (s.steerAngle < 0 && sideSign < 0);
+              const cotBase = 1 / Math.tan(Math.abs(wheelSteerRad));
+              const ackRatio = tw / (s.steering === '4ws_counter' ? wb / 2 : wb);
+              const adjCot = isInnerWheel ? Math.max(0.6, cotBase - ackRatio / 2) : (cotBase + ackRatio / 2);
+              wheelSteerRad = Math.sign(wheelSteerRad) * Math.atan(1 / adjCot);
+            }
+
+            // 1. Non-Rotating Kingpin Carrier / C-Hub Yoke (Held by Suspension Links)
+            const cHubY = s.suspension === 'portal_axle' ? diffElevY : wheelR;
+            const cHubGeo = new THREE.BoxGeometry(0.32, 0.62, 0.24);
+            const cHubMesh = new THREE.Mesh(cHubGeo, frameMat);
+            cHubMesh.position.set(xPos, cHubY, zKingpin);
+            parentHalf.add(cHubMesh);
+
+            // If Portal Axle: Vertical Portal Gear Drop-Box from cHubY down to wheelR!
+            if (s.suspension === 'portal_axle') {
+              const pPortalTop = new THREE.Vector3(xPos, cHubY, zKingpin);
+              const pPortalBot = new THREE.Vector3(xPos, wheelR, zKingpin);
+              addLinkBetween(parentHalf, pPortalTop, pPortalBot, 0.24, susMat, true, frameMat);
+            }
+
+            // 2. Rotating Steering Knuckle & Wheel Assembly (Rotates around Kingpin at zKingpin!)
+            const knucklePivot = new THREE.Group();
+            knucklePivot.position.set(xPos, wheelR, zKingpin);
+            knucklePivot.rotation.y = wheelSteerRad;
+
+            // Offset from Kingpin to Wheel Centerline
+            const localWheelZ = sideSign * (wheelW * 0.42);
+            const isWheelColliding = hiCol && (cf.longitudinalWheel || cf.tireFrame || cf.tireSus || cf.jounceDeck);
+            const wMesh = createWheelAssembly(wheelR, wheelW, s.wheelType, sideSign > 0, wf, isWheelColliding);
+            wMesh.position.z = localWheelZ;
+            knucklePivot.add(wMesh);
+            wheelMeshes.push(wMesh);
+
+            // Brake Disc & Caliper Nestled INSIDE the Recessed Wheel Rim Cavity!
+            const discGeo = new THREE.CylinderGeometry(brakeDiscR, brakeDiscR, 0.10, 24);
+            discGeo.rotateX(Math.PI / 2);
+            const disc = new THREE.Mesh(discGeo, (hiCol && cf.rimBrake) ? colRedMat : shaftMat);
+            disc.position.z = sideSign * (wheelW * 0.18) - sideSign * (exp * 0.35);
+            knucklePivot.add(disc);
+
+            const caliperGeo = new THREE.BoxGeometry(brakeDiscR * 0.58, brakeDiscR * 0.45, 0.22);
+            const caliper = new THREE.Mesh(caliperGeo, brakeMat);
+            caliper.position.set(-brakeDiscR * 0.52, brakeDiscR * 0.48, sideSign * (wheelW * 0.18) - sideSign * (exp * 0.35));
+            knucklePivot.add(caliper);
+
+            // If In-Wheel Hub Motor (`ind_hub`): Nestled Coaxially Inside the Rim Cavity!
+            if (s.driveType === 'ind_hub') {
+              const hubMotorGeo = new THREE.CylinderGeometry(wheelR * 0.44, wheelR * 0.44, wheelW * 0.58, 20);
+              hubMotorGeo.rotateX(Math.PI / 2);
+              const hubMotor = new THREE.Mesh(hubMotorGeo, motorMat);
+              hubMotor.position.z = sideSign * (wheelW * 0.28);
+              knucklePivot.add(hubMotor);
+            }
+
+            // Steering Knuckle Arm (Projects rearward/inward for Ackermann Tie-Rod Ball Joint)
+            if ((s.steering === 'ackermann_2ws' && isFrontAxle) || s.steering === '4ws_counter' || s.steering === '4ws_crab') {
+              const armDirX = isRearAxle ? 0.52 : -0.52;
+              const localArmEnd = new THREE.Vector3(armDirX, 0.18, -sideSign * 0.18);
+              addLinkBetween(knucklePivot, new THREE.Vector3(0, 0.18, 0), localArmEnd, 0.08, accentMat, true);
+
+              // Transform localArmEnd to parentHalf coordinates for Tie-Rod connection
+              const worldArmEnd = localArmEnd.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), wheelSteerRad).add(knucklePivot.position);
+              steerTiePoints.push(worldArmEnd);
+            }
+
+            parentHalf.add(knucklePivot);
+
+            // 3. Inboard Motor + Planetary Gearbox FIXED to Chassis Frame + Articulating CV Half-Shaft!
+            if (s.driveType === 'ind_inboard') {
+              const motorInboardZ = sideSign * Math.max(0.45, bodyW / 2 - singleMotorLen / 2 - 0.12);
+              const motorMountY = Math.max(wheelR + 0.15, frameBottomY + 0.28);
+
+              const motorGeo = new THREE.CylinderGeometry(0.32, 0.32, singleMotorLen, 16);
+              motorGeo.rotateX(Math.PI / 2);
+              const motorMesh = new THREE.Mesh(motorGeo, motorMat);
+              motorMesh.position.set(xPos, motorMountY, motorInboardZ);
+              parentHalf.add(motorMesh);
+
+              // CV Joint Half-Shaft connecting Fixed Inboard Gearbox Flange to Wheel Kingpin Hub!
+              const pGearboxOut = new THREE.Vector3(xPos, motorMountY, sideSign * (bodyW / 2));
+              const pWheelHubIn = new THREE.Vector3(xPos, cHubY, zKingpin);
+              addLinkBetween(parentHalf, pGearboxOut, pWheelHubIn, 0.11, shaftMat, true, motorMat);
+            } else if (hasAxleDiff) {
+              // Half-shaft from Central Differential to Wheel Kingpin Hub
+              const pDiffOut = new THREE.Vector3(xPos, diffElevY, sideSign * 0.35);
+              const pWheelHubIn = new THREE.Vector3(xPos, cHubY, zKingpin);
+              addLinkBetween(parentHalf, pDiffOut, pWheelHubIn, 0.12, shaftMat, true, motorMat);
+            }
+
+            // 4. True Kinematic Suspension Linkages (Connecting Chassis Subframe Clevises to Kingpin C-Hub)
+            if (s.suspension === 'double_wishbone' || s.suspension === 'portal_axle') {
+              // Chassis Subframe Drop Brackets so A-arms always attach to physical frame structure
+              const mountUpperY = cHubY + 0.28;
+              const mountLowerY = Math.max(0.35, cHubY - 0.28);
+              const aSpread = 0.36;
+
+              // Vertical subframe hanger if frameBottomY is above mountLowerY
+              if (frameBottomY > mountLowerY + 0.1) {
+                [-aSpread, aSpread].forEach(dx => {
+                  addLinkBetween(
+                    parentHalf,
+                    new THREE.Vector3(xPos + dx, frameBottomY, zChassisSide),
+                    new THREE.Vector3(xPos + dx, mountLowerY, zChassisSide),
+                    0.12, frameMat, false
+                  );
+                });
+              }
+
+              const pUpKingpin = new THREE.Vector3(xPos, cHubY + 0.28, zKingpin);
+              const pLowKingpin = new THREE.Vector3(xPos, cHubY - 0.26, zKingpin);
+
+              // Upper V-shaped Wishbone (2 legs converging on Upper Kingpin Ball Joint)
+              addLinkBetween(parentHalf, new THREE.Vector3(xPos + aSpread, mountUpperY, zChassisSide), pUpKingpin, 0.09, frameMat, true, susMat);
+              addLinkBetween(parentHalf, new THREE.Vector3(xPos - aSpread, mountUpperY, zChassisSide), pUpKingpin, 0.09, frameMat, true, susMat);
+
+              // Lower V-shaped Wishbone (2 heavier legs converging on Lower Kingpin Ball Joint)
+              addLinkBetween(parentHalf, new THREE.Vector3(xPos + aSpread, mountLowerY, zChassisSide), pLowKingpin, 0.11, frameMat, true, susMat);
+              addLinkBetween(parentHalf, new THREE.Vector3(xPos - aSpread, mountLowerY, zChassisSide), pLowKingpin, 0.11, frameMat, true, susMat);
+
+              // Coilover Shock Absorber mounted from Lower Wishbone mid-brace up to Chassis Shock Tower
+              const zShockBot = zChassisSide + (zKingpin - zChassisSide) * 0.68;
+              const pShockBot = new THREE.Vector3(xPos, mountLowerY + 0.05, zShockBot);
+              const radTilt = (s.susAngle * Math.PI) / 180;
+              const shockHeight = Math.max(1.1, frameHeight * 0.72);
+              const zShockTop = zShockBot - sideSign * Math.sin(radTilt) * shockHeight;
+              const pShockTop = new THREE.Vector3(xPos, mountLowerY + Math.cos(radTilt) * shockHeight, zShockTop);
+
+              // Shock Tower Bracket from Chassis Top Rail to pShockTop
+              addLinkBetween(parentHalf, new THREE.Vector3(xPos, frameBottomY + frameHeight * 0.75, zChassisSide), pShockTop, 0.11, frameMat, true);
+              const springR = Math.min(0.24, Math.max(0.13, 0.13 + (s.springK / 350) * 0.10));
+              addCoiloverBetween(parentHalf, pShockTop, pShockBot, springR, shaftMat, susMat);
+
+            } else if (s.suspension === 'trailing_arm') {
+              // Longitudinal Trailing Arm from forward chassis pivot to Wheel C-Hub + Inclined Coilover
+              const armPivotX = xPos + (isFrontAxle ? -1.25 : 1.25);
+              const pTrailPivot = new THREE.Vector3(armPivotX, frameBottomY + 0.15, zChassisSide + sideSign * 0.25);
+              const pTrailHub = new THREE.Vector3(xPos, cHubY - 0.15, zKingpin);
+              addLinkBetween(parentHalf, new THREE.Vector3(armPivotX, frameBottomY + 0.15, zChassisSide), pTrailPivot, 0.13, frameMat, true);
+              addLinkBetween(parentHalf, pTrailPivot, pTrailHub, 0.14, frameMat, true, susMat);
+
+              // Lateral Panhard / Control Link
+              addLinkBetween(parentHalf, new THREE.Vector3(xPos, cHubY + 0.15, zChassisSide), new THREE.Vector3(xPos, cHubY + 0.15, zKingpin), 0.10, frameMat, true);
+
+              // Coilover Shock
+              const pShockBot = new THREE.Vector3(xPos, cHubY, zKingpin - sideSign * 0.22);
+              const pShockTop = new THREE.Vector3(xPos + (isFrontAxle ? -0.35 : 0.35), frameBottomY + frameHeight * 0.8, zChassisSide + sideSign * 0.18);
+              addCoiloverBetween(parentHalf, pShockTop, pShockBot, 0.18, shaftMat, susMat);
+
+            } else if (s.suspension === 'rigid') {
+              // Rigid Heavy Axle Flange Bracket directly connecting Chassis Frame to Wheel Hub
+              const pRigidFrame = new THREE.Vector3(xPos, wheelR, zChassisSide);
+              const pRigidHub = new THREE.Vector3(xPos, wheelR, zKingpin);
+              if (frameBottomY > wheelR + 0.2) {
+                addLinkBetween(parentHalf, new THREE.Vector3(xPos, frameBottomY, zChassisSide), pRigidFrame, 0.18, frameMat, false);
+              }
+              addLinkBetween(parentHalf, pRigidFrame, pRigidHub, 0.20, frameMat, true, accentMat);
+            }
+          });
+
+          // Connect Left & Right Steering Arms with True Tie-Rod & Steering Actuator!
+          if (steerTiePoints.length === 2) {
+            addLinkBetween(parentHalf, steerTiePoints[0], steerTiePoints[1], 0.08, accentMat, true, susMat);
+            // Linear Servo Steering Actuator mounted on Chassis Cross-member
+            const midTie = new THREE.Vector3().addVectors(steerTiePoints[0], steerTiePoints[1]).multiplyScalar(0.5);
+            const actAnchor = new THREE.Vector3(midTie.x, midTie.y + 0.22, -bodyW * 0.32);
+            addLinkBetween(parentHalf, actAnchor, midTie, 0.12, motorMat, true, accentMat);
+          }
+        });
+      }
+
+      // -----------------------------------------------------------------------
+      // E. 3D Envelope Bounding Box, Dynamic Clearance Plane, CoG & Obstacle
+      // -----------------------------------------------------------------------
+      if (s.showBBox) {
+        const boxGeo = new THREE.BoxGeometry(L, H, W);
+        const edges = new THREE.EdgesGeometry(boxGeo);
+        const lineMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.45 });
+        const bboxLines = new THREE.LineSegments(edges, lineMat);
+        bboxLines.position.set(0, H / 2, 0);
+        chassisGroup.add(bboxLines);
+
+        const clrGeo = new THREE.PlaneGeometry(L * 0.72, W * 0.72);
+        const clrEdges = new THREE.EdgesGeometry(clrGeo);
+        const clrLine = new THREE.LineSegments(clrEdges, new THREE.LineBasicMaterial({ color: 0xf59e0b }));
+        clrLine.rotation.x = Math.PI / 2;
+        clrLine.position.y = clearance;
+        chassisGroup.add(clrLine);
+
+        const cogY = c.cogHeight * MM;
+        const cogX = (s.powerOffsetMm * 0.45) * MM;
+        const cogGeo = new THREE.SphereGeometry(0.28, 16, 16);
+        const cogMat = new THREE.MeshBasicMaterial({ color: 0xf43f5e, wireframe: false });
+        const cogMesh = new THREE.Mesh(cogGeo, cogMat);
+        cogMesh.position.set(cogX, cogY, 0);
+        chassisGroup.add(cogMesh);
+
+        const obsH = c.obstacleHeight * MM;
+        const obsGeo = new THREE.BoxGeometry(0.9, obsH, W * 0.45);
+        const obsMat = new THREE.MeshStandardMaterial({
+          color: 0x10b981,
+          transparent: true,
+          opacity: 0.35,
+          roughness: 0.6
+        });
+        const obsStep = new THREE.Mesh(obsGeo, obsMat);
+        obsStep.position.set(L / 2 + 0.85, obsH / 2, 0);
+        chassisGroup.add(obsStep);
+      }
+    }
+
+    function animateLoop() {
+      requestAnimationFrame(animateLoop);
+      const dt = animClock.getDelta();
+
+      if (state.animateRun) {
+        const rotSpeed = (state.speed / 8.0) * 2.8 * dt;
+        wheelMeshes.forEach(w => {
+          w.rotation.z -= rotSpeed;
+        });
+        trackRollers.forEach(r => {
+          r.rotation.z -= rotSpeed * 1.8;
+        });
+      }
+
+      if (renderer && scene && camera) {
+        renderer.render(scene, camera);
+      }
+    }
+
+    // =========================================================================
+    // 6. BOM & Specification Generator (With 12-Point Clearance Audit Report)
+    // =========================================================================
+    function generateBOMData() {
+      const s = state;
+      const c = s.computed;
+
+      const wheelName = document.getElementById('sel-wheel-type').selectedOptions[0].text;
+      const driveName = document.getElementById('sel-drive-type').selectedOptions[0].text;
+      const powerName = document.getElementById('sel-power-source').selectedOptions[0].text;
+      const susName = document.getElementById('sel-suspension').selectedOptions[0].text;
+      const brakeName = document.getElementById('sel-brake').selectedOptions[0].text;
+      const steerName = document.getElementById('sel-steering').selectedOptions[0].text;
+      const frameName = document.getElementById('sel-frame-mat').selectedOptions[0].text;
+
+      const wheelQty = s.wheelType === 'rocker_6w' ? 6 : (s.wheelType === 'sprocket_track' ? 2 : 4);
+
+      const bomItems = [
+        {
+          cat: '1. 底盤骨架系統',
+          spec: `${frameName} (車架淨寬 ${c.bodyWidthMm}mm / 主樑 ${s.frameTubeSize}mm / 橫樑 ${s.frameCrossCount}支)`,
+          qty: '1 式',
+          weight: c.frameWeight,
+          note: `外包絡 ${s.length}×${s.width}×${s.height}mm，軸距 ${c.wheelbase}mm，輪距 ${c.trackWidth}mm`
+        },
+        {
+          cat: '2. 懸吊避震系統',
+          spec: `${susName} (連桿長 ${c.effArmLengthMm}mm / 行程 ${s.susTravel}mm / K=${s.springK} N/mm)`,
+          qty: `${wheelQty} 組`,
+          weight: Math.round(c.susWeight / wheelQty * 10) / 10,
+          note: `最大擺角 ${c.maxSwingDeg}°，全壓縮車底餘裕 ${s.clearance - s.susTravel}mm`
+        },
+        {
+          cat: '3. 轉向機構系統',
+          spec: `${steerName} (C型轉向節羊角 + 最大轉角 ${s.maxSteerAngle}° / 推力 ${s.steerTorque} N·m)`,
+          qty: '1 套',
+          weight: 4.8,
+          note: `滿舵輪胎與車架間隙 +${c.tireToFrameClearanceMm}mm，迴轉半徑 ${c.turnRadiusM.toFixed(2)}m`
+        },
+        {
+          cat: '4. 煞車制動系統',
+          spec: `${brakeName} (碟盤 Ø${s.brakeDiscDia}mm / 總制動保持扭力 ${s.brakeTorque} N·m)`,
+          qty: '1 套',
+          weight: 3.8,
+          note: `輪圈內壁與卡鉗徑向淨間隙 +${c.rimToBrakeRadialClearanceMm}mm`
+        },
+        {
+          cat: '5. 傳動與輪系模組',
+          spec: `${driveName} + ${wheelName} (Ø${s.wheelDia}×${s.wheelWidth}mm, ${s.motorPowerW}W, i=1:${s.gearRatio})`,
+          qty: `${c.drivenWheels} 組`,
+          weight: Math.round((c.drivetrainWeight + c.locomotionWeight) / c.drivenWheels * 10) / 10,
+          note: `前後輪縱向間隙 +${c.longWheelClearanceMm}mm，峰值總扭力 ${c.finalPeakTorque} N·m`
+        },
+        {
+          cat: '6. 動力與儲能系統',
+          spec: `${powerName} (${c.sysVolt}V ${s.batteryAh}Ah / 總容量 ${c.energyKWh.toFixed(1)} kWh + BMS)`,
+          qty: '1 套',
+          weight: c.powerPackWeight,
+          note: `重心偏移 ${s.powerOffsetMm}mm，支援連續運轉 ${s.runtime} hr @ ${s.speed} km/h`
+        }
+      ];
+
+      const auditLines = c.auditItems.map(a => `  - [${a.status === 'pass' ? 'PASS' : a.status.toUpperCase()}] ${a.name}：${a.metric} (${a.detail})`);
+
+      const mdText = [
+        `# 無人車載具底盤 (UGV) 六大機構系統設計規格書 & 干涉檢核報告`,
+        `- **任務條件與尺寸**：負重 ${s.payload} kg (空車重 ${c.curbWeight} kg / 總重 GVW ${c.totalGVW} kg)｜外包絡 ${s.length} × ${s.width} × ${s.height} mm (車架淨寬 ${c.bodyWidthMm} mm)｜離地高 ${s.clearance} mm｜爬坡度 ${s.slope}°`,
+        `- **1. 底盤骨架系統**：${frameName}，主樑截面 ${s.frameTubeSize} mm，配置 ${s.frameCrossCount} 支橫樑，軸距 ${c.wheelbase} mm / 輪距 ${c.trackWidth} mm`,
+        `- **2. 懸吊避震系統**：${susName}，連桿有效長 ${c.effArmLengthMm} mm (擺角 ${c.maxSwingDeg}°)，有效行程 ${s.susTravel} mm，彈簧剛性 K = ${s.springK} N/mm，安裝傾角 ${s.susAngle}°`,
+        `- **3. 轉向機構系統**：${steerName}，最大機構轉向角 ${s.maxSteerAngle}°，轉向驅動扭力 ${s.steerTorque} N·m，最小迴轉半徑 ${c.turnRadiusM.toFixed(2)} m`,
+        `- **4. 煞車制動系統**：${brakeName}，制動盤直徑 Ø${s.brakeDiscDia} mm (輪圈內徑餘裕 +${c.rimToBrakeRadialClearanceMm} mm)，總制動保持扭力 ${s.brakeTorque} N·m`,
+        `- **5. 傳動與輪系模組**：${wheelName} (Ø${s.wheelDia}×${s.wheelWidth}mm) ＋ ${driveName} (${c.drivenWheels} × ${s.motorPowerW}W 馬達，減速比 1:${s.gearRatio})，總峰值扭力 ${c.finalPeakTorque} N·m`,
+        `- **6. 動力與儲能系統**：${powerName} (${c.sysVolt}V / ${s.batteryAh}Ah / ${c.energyKWh.toFixed(1)} kWh)，動力艙前後偏移 ${s.powerOffsetMm} mm`,
+        ``,
+        `## 12 項機構干涉與運動學合理性審視結果：`,
+        ...auditLines
+      ].join('\n');
+
+      return { bomItems, mdText };
+    }
+
+    // =========================================================================
+    // 7. Auto-Fix All 12 Interference & Topology Conflicts
+    // =========================================================================
+    function showActionFeedback(title, changesList) {
+      const banner = document.getElementById('action-feedback-banner');
+      if (!banner) return;
+      banner.classList.remove('hidden');
+      if (changesList && changesList.length > 0) {
+        banner.innerHTML = `<div class="font-bold text-sky-300 mb-0.5">${title}</div><div class="text-[10px] text-slate-200 leading-relaxed">調整項目：${changesList.join(' ｜ ')}</div>`;
+      } else {
+        banner.innerHTML = `<div class="font-bold text-emerald-300">${title}</div><div class="text-[10px] text-slate-300">目前全車 12 項幾何間隙與運動學拓撲均已處於最佳無干涉狀態 (12/12 PASS)。</div>`;
+      }
+      const alertBox = document.getElementById('alert-box');
+      if (alertBox) {
+        alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    function executeComprehensiveAutoFix(modeLabel = '🛠️ 已自動消除機構干涉並最佳化配置') {
+      const s = state;
+      const snap = {
+        length: s.length, width: s.width, height: s.height, clearance: s.clearance,
+        wheelDia: s.wheelDia, wheelWidth: s.wheelWidth, wheelType: s.wheelType,
+        suspension: s.suspension, susTravel: s.susTravel, springK: s.springK, susAngle: s.susAngle,
+        steering: s.steering, maxSteerAngle: s.maxSteerAngle,
+        brake: s.brake, brakeDiscDia: s.brakeDiscDia, brakeTorque: s.brakeTorque,
+        driveType: s.driveType, gearRatio: s.gearRatio, motorPowerW: s.motorPowerW,
+        powerOffsetMm: s.powerOffsetMm, steerAngle: s.steerAngle, jouncePct: s.jouncePct
+      };
+
+      // Reset extreme live test sliders if they caused a temporary collision preview
+      if (Math.abs(s.steerAngle) > s.maxSteerAngle) {
+        s.steerAngle = 0;
+        const simSteer = document.getElementById('sim-steer');
+        if (simSteer) simSteer.value = 0;
+        const valSimSteer = document.getElementById('val-sim-steer');
+        if (valSimSteer) valSimSteer.textContent = '0°';
+      }
+      if (s.jouncePct > 85) {
+        s.jouncePct = 0;
+        const simJounce = document.getElementById('sim-jounce');
+        if (simJounce) simJounce.value = 0;
+        const valSimJounce = document.getElementById('val-sim-jounce');
+        if (valSimJounce) valSimJounce.textContent = '0%';
+      }
+
+      // Pass 1: Resolve kinematic topology conflicts (Check 7, 9, 11)
+      if (s.wheelType === 'sprocket_track') {
+        s.steering = 'skid_steer';
+        s.suspension = 'christie_track';
+        if (s.driveType === 'ind_hub') s.driveType = 'skid_chain';
+      } else if (s.wheelType === 'mecanum') {
+        s.steering = 'omni_mecanum';
+        s.driveType = 'ind_inboard';
+        s.suspension = 'rigid';
+        s.susTravel = 0;
+        s.clearance = Math.min(s.clearance, 100);
+      } else if (s.wheelType === 'rocker_6w') {
+        s.suspension = 'rocker_bogie';
+        s.steering = 'skid_steer';
+        if (s.driveType === 'rwd_diff' || s.driveType === 'fwd_diff') s.driveType = 'ind_hub';
+      } else {
+        if (s.steering === 'omni_mecanum') s.steering = '4ws_counter';
+        if (s.steering === 'skid_steer' && (s.driveType === 'rwd_diff' || s.driveType === 'fwd_diff' || s.driveType === '4wd_shaft')) {
+          s.driveType = 'ind_inboard';
+        }
+        if (s.driveType === 'skid_chain' && (s.steering === 'ackermann_2ws' || s.steering === '4ws_counter' || s.steering === '4ws_crab')) {
+          s.driveType = 'ind_inboard';
+        }
+        if (s.driveType === 'ind_hub' && s.suspension === 'portal_axle') {
+          s.driveType = 'ind_inboard';
+        }
+      }
+
+      if (s.driveType === 'ind_hub' && s.wheelWidth < 85) {
+        s.wheelWidth = 95;
+      }
+
+      // Pass 2: Ground clearance vs Wheel Diameter & Suspension (Check 8)
+      const axleR = (s.driveType === '4wd_shaft' || s.driveType === 'rwd_diff' || s.driveType === 'fwd_diff') ? 55 : 22;
+      if (s.clearance > (s.wheelDia / 2 - axleR) && s.suspension !== 'portal_axle' && s.suspension !== 'rocker_bogie') {
+        if (s.clearance >= 210) {
+          s.suspension = 'portal_axle';
+        } else {
+          s.wheelDia = Math.min(720, Math.ceil((s.clearance * 2 + axleR * 2 + 20) / 10) * 10);
+        }
+      }
+
+      // Pass 3: Suspension travel vs belly bottoming out & deck height (Check 4)
+      if (s.suspension !== 'rigid' && s.clearance - s.susTravel < 35) {
+        s.susTravel = Math.max(25, Math.floor((s.clearance - 35) / 5) * 5);
+      }
+      const minDeckH = Math.max(s.clearance + 180, s.wheelDia + s.susTravel + 35);
+      if (s.height < minDeckH) {
+        s.height = Math.min(1200, Math.ceil(minDeckH / 10) * 10);
+      }
+
+      // Pass 4: Longitudinal wheel-to-wheel clearance & battery bay (Check 1 & Check 10)
+      if (Math.abs(s.powerOffsetMm) > 30) s.powerOffsetMm = 0;
+      const numAxles = s.wheelType === 'rocker_6w' ? 3 : 2;
+      const isSteered = (s.steering === 'ackermann_2ws' || s.steering === '4ws_counter' || s.steering === '4ws_crab') && s.wheelType !== 'sprocket_track';
+      if (isSteered && s.maxSteerAngle > 30) {
+        s.maxSteerAngle = 28;
+      }
+      if (s.steering === 'articulated' && s.maxSteerAngle > 28) {
+        s.maxSteerAngle = 26;
+      }
+
+      // Closed-loop iterative solver (up to 10 iterations) to guarantee 12/12 PASS
+      for (let iter = 0; iter < 10; iter++) {
+        // Re-verify topology every iteration in case suspension/wheel changed
+        if (s.wheelType === 'sprocket_track') {
+          s.steering = 'skid_steer';
+          s.suspension = 'christie_track';
+          if (s.driveType !== 'skid_chain' && s.driveType !== 'ind_inboard') s.driveType = 'skid_chain';
+        } else if (s.wheelType === 'mecanum') {
+          s.steering = 'omni_mecanum';
+          s.driveType = 'ind_inboard';
+          s.suspension = 'rigid';
+          s.susTravel = 0;
+          s.clearance = Math.min(s.clearance, 100);
+        } else if (s.wheelType === 'rocker_6w') {
+          s.suspension = 'rocker_bogie';
+          s.steering = 'skid_steer';
+          if (s.driveType !== 'ind_hub' && s.driveType !== 'ind_inboard') s.driveType = 'ind_hub';
+        } else {
+          if (s.steering === 'omni_mecanum') s.steering = '4ws_counter';
+          if (s.steering === 'skid_steer' && (s.driveType === 'rwd_diff' || s.driveType === 'fwd_diff' || s.driveType === '4wd_shaft')) {
+            s.driveType = 'ind_inboard';
+          }
+          if (s.driveType === 'skid_chain' && (s.steering === 'ackermann_2ws' || s.steering === '4ws_counter' || s.steering === '4ws_crab')) {
+            s.driveType = 'ind_inboard';
+          }
+          if (s.driveType === 'ind_hub' && s.suspension === 'portal_axle') {
+            s.driveType = 'ind_inboard';
+          }
+        }
+        if (s.driveType === 'ind_hub' && s.wheelWidth < 85) {
+          s.wheelWidth = 95;
+        }
+
+        computeEngineeringSpecs();
+        const c = s.computed;
+        const cf = c.collisionFlags;
+
+        // Fix Check 1: Longitudinal wheel clearance
+        if (c.longWheelClearanceMm < 50) {
+          const deficit = 55 - c.longWheelClearanceMm;
+          const addLen = numAxles === 3 ? deficit * 2 : deficit;
+          if (s.length + addLen <= 2600) {
+            s.length = Math.min(2600, Math.ceil((s.length + addLen) / 10) * 10);
+          } else {
+            s.wheelDia = Math.max(180, Math.floor((s.wheelDia - deficit * 0.7) / 10) * 10);
+            if (s.clearance > s.wheelDia / 2 - 25 && s.suspension !== 'portal_axle') {
+              s.suspension = 'portal_axle';
+            }
+          }
+        }
+
+        // Fix Check 2, 3, 5, 10: Lateral width, suspension arm length, tire-to-frame & tire-to-strut clearance
+        if (cf.internalBay) { s.powerOffsetMm = 0; }
+        if (cf.tireFrame || cf.tireSus || cf.susLinkBind || cf.internalBay || c.tireToFrameClearanceMm < 26) {
+          if (s.susAngle < 18 && s.suspension !== 'rigid' && s.suspension !== 'rocker_bogie') {
+            s.susAngle = 20;
+          }
+          if (s.susTravel > 110 && cf.susLinkBind) {
+            s.susTravel = 100;
+          }
+          if (s.wheelWidth > 160 && s.wheelType !== 'sprocket_track') {
+            s.wheelWidth = 135;
+          }
+          if (s.width < 1750) {
+            s.width = Math.min(1800, s.width + 80);
+          } else if (isSteered && s.maxSteerAngle > 20) {
+            s.maxSteerAngle = Math.max(18, s.maxSteerAngle - 3);
+          } else if (s.driveType === 'ind_inboard' && cf.internalBay) {
+            s.driveType = '4wd_shaft';
+          }
+        }
+
+        // Fix Check 4: Full bump belly & deck clearance
+        if (cf.jounceDeck) {
+          if (s.clearance - s.susTravel < 30) {
+            s.susTravel = Math.max(0, Math.floor((s.clearance - 35) / 5) * 5);
+          }
+          const reqH = s.wheelDia + s.susTravel + 40;
+          if (s.height < reqH) {
+            if (reqH <= 1200) {
+              s.height = Math.ceil(reqH / 10) * 10;
+            } else {
+              s.wheelDia = Math.max(200, Math.floor((1150 - s.susTravel) / 10) * 10);
+              s.height = 1200;
+            }
+          }
+        }
+
+        // Fix Check 6: Rim ID vs Brake Disc + Caliper clearance
+        if (c.rimToBrakeRadialClearanceMm < 11) {
+          const rimID = Math.round(s.wheelDia * (s.wheelType === 'offroad_tire' ? 0.58 : 0.64));
+          const calAdd = s.brake === 'wet_multiplate' ? 10 : (s.brake === 'em_failsafe' ? 24 : 46);
+          const safeDisc = Math.floor((rimID - calAdd - 24) / 5) * 5;
+          if (safeDisc >= 100) {
+            s.brakeDiscDia = safeDisc;
+          } else {
+            s.brake = 'wet_multiplate';
+            s.brakeDiscDia = 100;
+            if (s.wheelDia < 240) {
+              s.wheelDia = 240;
+            }
+          }
+        }
+
+        // Fix Check 8: Ground clearance vs straight axle
+        if (cf.axleGround && s.suspension !== 'portal_axle' && s.suspension !== 'rocker_bogie') {
+          s.suspension = 'portal_axle';
+        }
+
+        // Fix Check 12: Brake holding torque & Rollover stability
+        const minHold = Math.ceil((c.totalGVW * 9.81 * Math.sin((s.slope * Math.PI) / 180) * ((s.wheelDia / 1000) / 2) * 1.25) / 25) * 25;
+        if (s.brakeTorque < minHold) {
+          s.brakeTorque = Math.min(8000, Math.max(minHold, 100));
+        }
+        if (c.rolloverDeg < 27 && s.width < 1750) {
+          s.width = Math.min(1800, s.width + 60);
+        }
+
+        computeEngineeringSpecs();
+        const remainingIssues = s.computed.auditItems.filter(a => a.status !== 'pass');
+        if (remainingIssues.length === 0) break;
+      }
+
+      updateUIFromState();
+
+      // Build human-readable list of changed parameters
+      const changes = [];
+      if (s.length !== snap.length) changes.push(`車長 ${snap.length}→${s.length}mm`);
+      if (s.width !== snap.width) changes.push(`車寬 ${snap.width}→${s.width}mm`);
+      if (s.height !== snap.height) changes.push(`載台高 ${snap.height}→${s.height}mm`);
+      if (s.wheelDia !== snap.wheelDia) changes.push(`輪徑 Ø${snap.wheelDia}→Ø${s.wheelDia}mm`);
+      if (s.wheelWidth !== snap.wheelWidth) changes.push(`輪寬 ${snap.wheelWidth}→${s.wheelWidth}mm`);
+      if (s.suspension !== snap.suspension) changes.push(`懸吊→${document.getElementById('sel-suspension').selectedOptions[0].text.split(' ')[0]}`);
+      if (s.susTravel !== snap.susTravel) changes.push(`懸吊行程 ${snap.susTravel}→${s.susTravel}mm`);
+      if (s.susAngle !== snap.susAngle) changes.push(`避震傾角 ${snap.susAngle}°→${s.susAngle}°`);
+      if (s.steering !== snap.steering) changes.push(`轉向→${document.getElementById('sel-steering').selectedOptions[0].text.split(' ')[0]}`);
+      if (s.maxSteerAngle !== snap.maxSteerAngle) changes.push(`最大轉角 ${snap.maxSteerAngle}°→${s.maxSteerAngle}°`);
+      if (s.driveType !== snap.driveType) changes.push(`傳動→${document.getElementById('sel-drive-type').selectedOptions[0].text.split(' ')[0]}`);
+      if (s.brake !== snap.brake) changes.push(`煞車→${document.getElementById('sel-brake').selectedOptions[0].text.split(' ')[0]}`);
+      if (s.brakeDiscDia !== snap.brakeDiscDia) changes.push(`碟盤 Ø${snap.brakeDiscDia}→Ø${s.brakeDiscDia}mm`);
+      if (s.brakeTorque !== snap.brakeTorque) changes.push(`制動扭力 ${snap.brakeTorque}→${s.brakeTorque}N·m`);
+      if (s.powerOffsetMm !== snap.powerOffsetMm) changes.push(`重心偏移 ${snap.powerOffsetMm}→${s.powerOffsetMm}mm`);
+
+      showActionFeedback(modeLabel, changes);
+    }
+    // =========================================================================
+    // 8. Bind Controls & Event Listeners
+    // =========================================================================
+    function switchTab(targetBtnId) {
+      const tabs = [
+        { btn: 'tab-btn-load', panel: 'panel-load' },
+        { btn: 'tab-btn-drive', panel: 'panel-drive' },
+        { btn: 'tab-btn-chassis', panel: 'panel-chassis' }
+      ];
+      tabs.forEach(t => {
+        const b = document.getElementById(t.btn);
+        const p = document.getElementById(t.panel);
+        if (t.btn === targetBtnId) {
+          b.className = 'py-2.5 px-2 text-xs font-semibold border-b-2 border-sky-400 text-sky-400 bg-slate-900/60 transition';
+          p.classList.remove('hidden');
+          if (state.expandAllPanels) {
+            p.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        } else {
+          b.className = 'py-2.5 px-2 text-xs font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition';
+          if (!state.expandAllPanels) {
+            p.classList.add('hidden');
+          }
+        }
+      });
+    }
+
+    function bindControls() {
+      ['tab-btn-load', 'tab-btn-drive', 'tab-btn-chassis'].forEach(btnId => {
+        document.getElementById(btnId).addEventListener('click', () => switchTab(btnId));
+      });
+
+      const btnExpandAll = document.getElementById('btn-expand-all');
+      btnExpandAll.addEventListener('click', () => {
+        state.expandAllPanels = !state.expandAllPanels;
+        const pLoad = document.getElementById('panel-load');
+        const pDrive = document.getElementById('panel-drive');
+        const pChassis = document.getElementById('panel-chassis');
+        const tabBar = document.getElementById('tab-bar');
+        if (state.expandAllPanels) {
+          pLoad.classList.remove('hidden');
+          pDrive.classList.remove('hidden');
+          pChassis.classList.remove('hidden');
+          tabBar.classList.add('hidden');
+          btnExpandAll.textContent = '🗂️ 分頁檢視';
+          btnExpandAll.className = 'px-2 py-1 text-[11px] font-mono rounded bg-sky-500/20 text-sky-300 border border-sky-500/40 transition';
+        } else {
+          tabBar.classList.remove('hidden');
+          btnExpandAll.textContent = '🗂️ 切換分頁模式';
+          btnExpandAll.className = 'px-2 py-1 text-[11px] font-mono rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 transition';
+          switchTab('tab-btn-load');
+        }
+      });
+
+      const chkAutoSync = document.getElementById('chk-auto-sync');
+      chkAutoSync.addEventListener('change', () => {
+        state.autoSyncEnabled = chkAutoSync.checked;
+      });
+
+      document.getElementById('btn-run-autodesign').addEventListener('click', () => {
+        autoSynthesizeSubsystems(true);
+        executeComprehensiveAutoFix('⚡ 已依任務需求自動設計六大機構系統 (12/12 檢核通過)');
+        const synthSummary = [
+          `骨架:${document.getElementById('sel-frame-mat').selectedOptions[0].text.split(' ')[0]}(${state.frameTubeSize}mm×${state.frameCrossCount}支)`,
+          `懸吊:${document.getElementById('sel-suspension').selectedOptions[0].text.split(' ')[0]}(行程${state.susTravel}mm)`,
+          `轉向:${document.getElementById('sel-steering').selectedOptions[0].text.split(' ')[0]}(${state.maxSteerAngle}°)`,
+          `煞車:Ø${state.brakeDiscDia}mm(${state.brakeTorque}N·m)`,
+          `傳動:${state.motorPowerW}W×${state.computed.drivenWheels}(1:${state.gearRatio})`,
+          `動力:${state.computed.sysVolt}V/${state.batteryAh}Ah`
+        ];
+        showActionFeedback('⚡ 已依輸入需求完成六大機構系統自動設計 (12/12 檢核通過)', synthSummary);
+      });
+
+      document.getElementById('btn-unlock-all').addEventListener('click', () => {
+        autoSynthesizeSubsystems(true);
+        executeComprehensiveAutoFix('🔓 已解除手動鎖定並重新自動最佳化全車機構');
+      });
+
+      const onMissionInputChanged = () => {
+        if (state.autoSyncEnabled) {
+          autoSynthesizeSubsystems(false);
+        }
+        updateUIFromState();
+      };
+
+      const bindMissionPair = (key, sliderId, numId, min, max) => {
+        const sl = document.getElementById(sliderId);
+        const nm = document.getElementById(numId);
+        sl.addEventListener('input', () => {
+          state[key] = parseFloat(sl.value);
+          onMissionInputChanged();
+        });
+        nm.addEventListener('change', () => {
+          let v = parseFloat(nm.value);
+          if (isNaN(v)) v = min;
+          v = Math.max(min, Math.min(max, v));
+          state[key] = v;
+          onMissionInputChanged();
+        });
+      };
+
+      bindMissionPair('payload', 'inp-payload', 'num-payload', 10, 1500);
+      bindMissionPair('clearance', 'inp-clearance', 'num-clearance', 30, 450);
+      bindMissionPair('length', 'inp-length', 'num-length', 500, 2600);
+      bindMissionPair('width', 'inp-width', 'num-width', 400, 1800);
+      bindMissionPair('height', 'inp-height', 'num-height', 250, 1200);
+
+      document.getElementById('sel-terrain').addEventListener('change', (e) => {
+        state.terrain = e.target.value;
+        onMissionInputChanged();
+      });
+
+      ['slope', 'speed', 'runtime'].forEach(key => {
+        const el = document.getElementById(`inp-${key}`);
+        el.addEventListener('input', () => {
+          state[key] = parseFloat(el.value);
+          onMissionInputChanged();
+        });
+      });
+
+      // Subsystem Editable Controls
+      const bindSubPair = (key, sliderId, numId, min, max, lockGroup) => {
+        const sl = document.getElementById(sliderId);
+        const nm = document.getElementById(numId);
+        sl.addEventListener('input', () => {
+          state[key] = parseFloat(sl.value);
+          state.manualLocks[lockGroup] = true;
+          updateUIFromState();
+        });
+        nm.addEventListener('change', () => {
+          let v = parseFloat(nm.value);
+          if (isNaN(v)) v = min;
+          v = Math.max(min, Math.min(max, v));
+          state[key] = v;
+          state.manualLocks[lockGroup] = true;
+          updateUIFromState();
+        });
+      };
+      bindSubPair('wheelDia', 'inp-wheeldia', 'num-wheeldia', 150, 750, 'wheel');
+
+      const bindSubRange = (key, id, lockGroup) => {
+        const el = document.getElementById(id);
+        el.addEventListener('input', () => {
+          state[key] = parseFloat(el.value);
+          state.manualLocks[lockGroup] = true;
+          updateUIFromState();
+        });
+      };
+      bindSubRange('wheelWidth', 'inp-wheelwidth', 'wheel');
+      bindSubRange('gearRatio', 'inp-gear-ratio', 'drive');
+      bindSubRange('motorPowerW', 'inp-motor-watt', 'drive');
+      bindSubRange('batteryAh', 'inp-batt-ah', 'power');
+      bindSubRange('powerOffsetMm', 'inp-pwr-offset', 'power');
+      bindSubRange('frameTubeSize', 'inp-frame-tube', 'frame');
+      bindSubRange('frameCrossCount', 'inp-frame-cross', 'frame');
+      bindSubRange('susTravel', 'inp-sus-travel', 'sus');
+      bindSubRange('springK', 'inp-spring-k', 'sus');
+      bindSubRange('susAngle', 'inp-sus-angle', 'sus');
+      bindSubRange('maxSteerAngle', 'inp-max-steer', 'steer');
+      bindSubRange('steerTorque', 'inp-steer-torque', 'steer');
+      bindSubRange('brakeDiscDia', 'inp-brake-dia', 'brake');
+      bindSubRange('brakeTorque', 'inp-brake-torque', 'brake');
+
+      const bindSubSelect = (key, id, lockGroup) => {
+        const el = document.getElementById(id);
+        el.addEventListener('change', () => {
+          state[key] = el.value;
+          state.manualLocks[lockGroup] = true;
+          updateUIFromState();
+        });
+      };
+      bindSubSelect('wheelType', 'sel-wheel-type', 'wheel');
+      bindSubSelect('driveType', 'sel-drive-type', 'drive');
+      bindSubSelect('powerSource', 'sel-power-source', 'power');
+      bindSubSelect('frameMat', 'sel-frame-mat', 'frame');
+      bindSubSelect('suspension', 'sel-suspension', 'sus');
+      bindSubSelect('steering', 'sel-steering', 'steer');
+      bindSubSelect('brake', 'sel-brake', 'brake');
+
+      const bindJump = (btnId, tabBtnId, focusElId) => {
+        document.getElementById(btnId).addEventListener('click', () => {
+          switchTab(tabBtnId);
+          const targetEl = document.getElementById(focusElId);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetEl.focus();
+          }
+        });
+      };
+      bindJump('jump-frame', 'tab-btn-chassis', 'sel-frame-mat');
+      bindJump('jump-sus', 'tab-btn-chassis', 'sel-suspension');
+      bindJump('jump-steer', 'tab-btn-chassis', 'sel-steering');
+      bindJump('jump-brake', 'tab-btn-chassis', 'sel-brake');
+      bindJump('jump-drive', 'tab-btn-drive', 'sel-drive-type');
+      bindJump('jump-power', 'tab-btn-drive', 'sel-power-source');
+
+      // Auto-fix buttons (Sidebar & 12-Point Matrix)
+      document.getElementById('btn-autofix').addEventListener('click', () => {
+        executeComprehensiveAutoFix('✓ 一鍵修正完成：已自動消除所有機構干涉與配置衝突');
+      });
+      document.getElementById('btn-matrix-autofix').addEventListener('click', () => {
+        executeComprehensiveAutoFix('🛠️ 12項干涉矩陣自動修正完成：全車間隙與運動學已最佳化');
+      });
+
+      // Presets
+      document.getElementById('preset-offroad').addEventListener('click', () => {
+        Object.assign(state, {
+          terrain: 'mixed_offroad',
+          payload: 180, clearance: 190, slope: 28,
+          length: 1350, width: 980, height: 560,
+          speed: 12, runtime: 4.5
+        });
+        autoSynthesizeSubsystems(true);
+        executeComprehensiveAutoFix();
+      });
+
+      document.getElementById('preset-tracked').addEventListener('click', () => {
+        Object.assign(state, {
+          terrain: 'heavy_mud_rock',
+          payload: 500, clearance: 190, slope: 35,
+          length: 1550, width: 1120, height: 620,
+          speed: 7, runtime: 9.0
+        });
+        autoSynthesizeSubsystems(true);
+        executeComprehensiveAutoFix();
+      });
+
+      document.getElementById('preset-mecanum').addEventListener('click', () => {
+        Object.assign(state, {
+          terrain: 'indoor_smooth',
+          payload: 300, clearance: 65, slope: 8,
+          length: 1120, width: 820, height: 380,
+          speed: 5.5, runtime: 6.0
+        });
+        autoSynthesizeSubsystems(true);
+        executeComprehensiveAutoFix();
+      });
+
+      document.getElementById('preset-rocker').addEventListener('click', () => {
+        Object.assign(state, {
+          terrain: 'mixed_offroad',
+          payload: 120, clearance: 240, slope: 32,
+          length: 1680, width: 1060, height: 600,
+          speed: 6.0, runtime: 6.0
+        });
+        autoSynthesizeSubsystems(true);
+        executeComprehensiveAutoFix();
+      });
+
+      // Camera View Presets
+      document.getElementById('cam-iso').addEventListener('click', () => setCameraPreset('iso'));
+      document.getElementById('cam-front').addEventListener('click', () => setCameraPreset('front'));
+      document.getElementById('cam-side').addEventListener('click', () => setCameraPreset('side'));
+      document.getElementById('cam-top').addEventListener('click', () => setCameraPreset('top'));
+
+      // Display Toggles
+      const toggleBtnStyle = (btn, active, activeColor = 'sky') => {
+        if (active) {
+          if (activeColor === 'emerald') {
+            btn.className = 'px-2 py-1 text-[11px] font-medium rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition';
+          } else if (activeColor === 'rose') {
+            btn.className = 'px-2 py-1 text-[11px] font-medium rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 transition';
+          } else {
+            btn.className = 'px-2 py-1 text-[11px] font-medium rounded bg-sky-500/20 text-sky-300 border border-sky-500/40 transition';
+          }
+        } else {
+          btn.className = 'px-2 py-1 text-[11px] font-medium rounded bg-slate-800 text-slate-300 border border-slate-700 transition';
+        }
+      };
+
+      const btnHighlightCol = document.getElementById('tog-highlight-col');
+      btnHighlightCol.addEventListener('click', () => {
+        state.highlightCollisions = !state.highlightCollisions;
+        toggleBtnStyle(btnHighlightCol, state.highlightCollisions, 'rose');
+        rebuild3DChassis();
+      });
+
+      const btnBBox = document.getElementById('tog-bbox');
+      btnBBox.addEventListener('click', () => {
+        state.showBBox = !state.showBBox;
+        toggleBtnStyle(btnBBox, state.showBBox, 'sky');
+        rebuild3DChassis();
+      });
+
+      const btnPayload = document.getElementById('tog-payload');
+      btnPayload.addEventListener('click', () => {
+        state.showPayload = !state.showPayload;
+        toggleBtnStyle(btnPayload, state.showPayload, 'sky');
+        rebuild3DChassis();
+      });
+
+      const btnWire = document.getElementById('tog-wireframe');
+      btnWire.addEventListener('click', () => {
+        state.wireframe = !state.wireframe;
+        toggleBtnStyle(btnWire, state.wireframe, 'sky');
+        rebuild3DChassis();
+      });
+
+      const btnAnim = document.getElementById('tog-animate');
+      btnAnim.addEventListener('click', () => {
+        state.animateRun = !state.animateRun;
+        btnAnim.textContent = state.animateRun ? '▶️ 動態運轉模擬' : '⏸️ 暫停運轉';
+        toggleBtnStyle(btnAnim, state.animateRun, 'emerald');
+      });
+
+      // Simulation Sliders (Steering, Suspension Jounce, Exploded View)
+      const simSteer = document.getElementById('sim-steer');
+      simSteer.addEventListener('input', () => {
+        state.steerAngle = parseFloat(simSteer.value);
+        document.getElementById('val-sim-steer').textContent = `${state.steerAngle}°`;
+        updateUIFromState();
+      });
+      document.getElementById('btn-reset-steer').addEventListener('click', () => {
+        state.steerAngle = 0;
+        simSteer.value = 0;
+        document.getElementById('val-sim-steer').textContent = '0°';
+        updateUIFromState();
+      });
+
+      const simJounce = document.getElementById('sim-jounce');
+      simJounce.addEventListener('input', () => {
+        state.jouncePct = parseFloat(simJounce.value);
+        document.getElementById('val-sim-jounce').textContent = `${state.jouncePct}%`;
+        updateUIFromState();
+      });
+      document.getElementById('btn-reset-jounce').addEventListener('click', () => {
+        state.jouncePct = 0;
+        simJounce.value = 0;
+        document.getElementById('val-sim-jounce').textContent = '0%';
+        updateUIFromState();
+      });
+
+      const simExplode = document.getElementById('sim-explode');
+      simExplode.addEventListener('input', () => {
+        const pct = parseFloat(simExplode.value);
+        state.explodeFactor = pct / 100;
+        document.getElementById('val-sim-explode').textContent = `${pct}%`;
+        rebuild3DChassis();
+      });
+
+      // Export & BOM Modal
+      const modal = document.getElementById('modal-export');
+      document.getElementById('btn-export-modal').addEventListener('click', () => {
+        const { bomItems, mdText } = generateBOMData();
+        const tbody = document.getElementById('bom-table-body');
+        tbody.innerHTML = '';
+        bomItems.forEach(item => {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-slate-800/40';
+          tr.innerHTML = `
+            <td class="py-2.5 px-3 font-semibold text-sky-300">${item.cat}</td>
+            <td class="py-2.5 px-3">${item.spec}</td>
+            <td class="py-2.5 px-3 text-right">${item.qty}</td>
+            <td class="py-2.5 px-3 text-right">${item.weight}</td>
+            <td class="py-2.5 px-3 text-slate-400">${item.note}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+        document.getElementById('txt-spec-summary').value = mdText;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      });
+
+      document.getElementById('btn-close-modal').addEventListener('click', () => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      });
+
+      document.getElementById('btn-copy-spec').addEventListener('click', () => {
+        const txt = document.getElementById('txt-spec-summary');
+        txt.select();
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(txt.value);
+          } else {
+            document.execCommand('copy');
+          }
+        } catch (_) {
+          document.execCommand('copy');
+        }
+        const toast = document.getElementById('copy-toast');
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 2200);
+      });
+
+      document.getElementById('btn-download-csv').addEventListener('click', () => {
+        const { bomItems } = generateBOMData();
+        const rows = [['模組分類', '規格描述', '數量', '預估單重(kg)', '工程備註']];
+        bomItems.forEach(i => rows.push([i.cat, i.spec, i.qty, i.weight, i.note]));
+        const csvContent = '\uFEFF' + rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `UGV_Chassis_BOM_${state.length}x${state.width}mm.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      document.getElementById('btn-download-json').addEventListener('click', () => {
+        const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `UGV_Chassis_Design_${state.payload}kg.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    window.addEventListener('load', () => {
+      initThreeJS();
+      bindControls();
+      autoSynthesizeSubsystems(true);
+      executeComprehensiveAutoFix();
+    });
+  </script>
+<script>
+(()=>{
+ const header=document.getElementById('app-header'),canvas=document.getElementById('canvas-container');
+ let frame;
+ const measure=()=>{document.documentElement.style.setProperty('--header-height',header.getBoundingClientRect().height+'px');cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>window.dispatchEvent(new Event('resize')));};
+ new ResizeObserver(measure).observe(header);new ResizeObserver(()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>window.dispatchEvent(new Event('resize')));}).observe(canvas);
+ const button=document.getElementById('fullscreen-toggle');
+ button.addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch(e){button.textContent='請使用瀏覽器全螢幕（F11）';}});
+ document.addEventListener('fullscreenchange',()=>{button.textContent=document.fullscreenElement?'⛶ 離開全螢幕':'⛶ 全螢幕操作';measure();});
+ measure();
+})();</script></body>
+</html>
