@@ -1,0 +1,3420 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>肇祥企業社 MaxJim Tech Inc. | USV-CAD Pro 無人船 3D 參數化機構與系統設計器</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+      background-color: #070d17;
+      color: #e2e8f0;
+      overflow: hidden;
+    }
+    .font-mono-tech {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b1322;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0ea5e9;
+    }
+    /* Range Slider Styling */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 999px;
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #38bdf8;
+      border: 2px solid #082f49;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+      cursor: pointer;
+      transition: transform 0.12s ease, background-color 0.12s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.18);
+      background: #7dd3fc;
+    }
+    .cad-grid-bg {
+      background-image: 
+        linear-gradient(to right, rgba(30, 41, 59, 0.35) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(30, 41, 59, 0.35) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .glass-panel {
+      background: rgba(11, 19, 34, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(56, 189, 248, 0.18);
+    }
+    .option-card {
+      transition: all 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .option-card.active {
+      border-color: #38bdf8;
+      background: rgba(14, 165, 233, 0.14);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4), inset 0 0 12px rgba(56, 189, 248, 0.08);
+    }
+    .tab-btn.active {
+      color: #38bdf8;
+      border-bottom-color: #38bdf8;
+      background: rgba(14, 165, 233, 0.1);
+    }
+  </style>
+<style>
+/* MAXJIM responsive web layout. Each control group has its own space. */
+:root{--site-header-height:200px}
+html,body{width:100%;max-width:100%;margin:0}
+#appBody{height:100dvh;min-height:0;overflow:hidden}
+button,a,input,select{touch-action:manipulation}
+button{min-height:30px;white-space:normal;overflow-wrap:anywhere}
+input,select,textarea{min-width:0;max-width:100%}
+button svg{flex-shrink:0}
+#siteHeader{height:auto;flex-direction:column;align-items:stretch;padding:12px 16px;gap:10px;flex-shrink:0}
+#siteHeader>div:first-child{min-width:0;align-items:flex-start}
+#siteHeader .truncate{white-space:normal;overflow:visible;text-overflow:clip}
+#siteHeader>div:first-child>div:last-child>div{flex-wrap:wrap}
+#siteHeader h1{overflow-wrap:anywhere;line-height:1.5}
+#presetToolbar,#exportToolbar,#siteLinks{display:flex;flex-wrap:wrap;gap:8px;min-width:0;align-items:center;flex-shrink:0}
+#presetToolbar{width:100%}
+#siteLinks a,#siteLinks button{display:inline-flex;align-items:center;justify-content:center;border:1px solid #334155;border-radius:6px;padding:6px 10px;background:#0f172a;color:#cbd5e1;text-decoration:none;font-size:12px;min-height:32px}
+#exportToolbar>button>span{display:inline}
+#workspace{height:calc(100dvh - var(--site-header-height));min-height:0;overflow:hidden;flex:1 1 auto}
+#parameterSidebar{width:clamp(320px,28vw,420px);min-width:0;max-height:none;min-height:0;overflow:hidden}
+#parameterSidebar>nav{grid-template-columns:repeat(3,minmax(0,1fr))}
+#parameterSidebar>nav button{min-width:0}
+#parameterSidebar>div:last-child{flex-shrink:0;flex-wrap:wrap;gap:8px}
+#designWorkspace{min-width:0;min-height:0;overflow:auto;display:grid;grid-template-columns:minmax(0,1fr) 300px;grid-auto-rows:max-content;align-content:start;gap:12px;padding:12px;scrollbar-gutter:stable;overscroll-behavior:contain}
+#viewControls,#telemetryPanel,#linesPlanDrawer,#animationControls{position:static;inset:auto;transform:none;max-width:100%;width:auto;min-width:0}
+#viewControls{grid-column:1/-1;grid-row:1;align-items:flex-start}
+#viewControls>div{display:flex;flex-wrap:wrap;min-width:0;max-width:100%}
+#viewportContainer{grid-column:1;grid-row:2;min-width:0;height:clamp(360px,52vh,640px);min-height:0;overflow:hidden;border:1px solid #1e293b;border-radius:10px;flex:none}
+#viewportContainer canvas{display:block;max-width:100%}
+#telemetryPanel{grid-column:2;grid-row:2;align-self:start}
+#telemetryPanel>div:first-child{flex-wrap:wrap;gap:8px}
+#telemetryPanel .flex.justify-between{flex-wrap:wrap;gap:4px 12px}
+#telemetryPanel span{overflow-wrap:anywhere}
+#linesPlanDrawer{grid-column:1/-1;grid-row:3}
+#linesPlanDrawer>div:first-child{gap:12px;align-items:flex-start}
+#closeLinesPlanBtn{flex-shrink:0}
+#animationControls{grid-column:1/-1;grid-row:4;flex-wrap:wrap;gap:8px 12px}
+#stepExportModal,#bomModal{overflow:auto}
+#stepExportModal>div,#bomModal>div{max-height:90dvh;min-width:0;flex-shrink:0}
+#stepExportModal>div>div:first-child,#bomModal>div>div:first-child{gap:12px;align-items:flex-start;flex-shrink:0}
+#stepExportModal>div>div:first-child>div,#bomModal>div>div:first-child>div{min-width:0}
+#stepExportModal h3{flex-wrap:wrap}
+#closeStepModalBtn,#closeBomModalBtn{flex-shrink:0}
+#stepExportModal>div>div:nth-child(2),#bomModal>div>div:nth-child(2){min-height:0;flex:1 1 auto;overflow:auto}
+#stepExportModal>div>div:last-child,#bomModal>div>div:last-child{flex-wrap:wrap;gap:12px;flex-shrink:0;min-width:0}
+#stepExportModal>div>div:last-child>div,#bomModal>div>div:last-child>div{flex-wrap:wrap;min-width:0;gap:8px}
+#stepFileNameLabel,#bomTotalSummary{overflow-wrap:anywhere}
+#bomModal table{min-width:760px}
+#stepCodePreview{max-width:100%;overflow:auto;user-select:text}
+#stepExportModal .grid>div{min-width:0;overflow-wrap:anywhere}
+#toastBanner{position:static;transform:none;inset:auto;margin:0;width:100%;max-width:none;border-radius:0;flex-shrink:0;white-space:normal}
+#toastBanner.opacity-0{display:none}
+@media(max-width:1279px){#designWorkspace{grid-template-columns:minmax(0,1fr)}#telemetryPanel{grid-column:1;grid-row:3}#linesPlanDrawer{grid-row:4}#animationControls{grid-row:5}#viewportContainer{height:clamp(360px,52vh,560px)}}
+@media(max-width:1023px){#appBody{height:auto;min-height:100dvh;overflow:auto;overflow-x:hidden}#workspace{height:auto;overflow:visible;display:flex;flex-direction:column;flex:none}#parameterSidebar{width:100%;max-height:60dvh;height:60dvh;min-height:280px;flex:none}#designWorkspace{overflow:visible;min-height:0;flex:none}#telemetryPanel .grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:640px){#siteHeader{padding:12px}#siteHeader h1{font-size:14px}#siteHeader p{display:block}#presetToolbar>span{width:100%}#presetToolbar button{flex:1 1 150px}#siteLinks a,#siteLinks button{flex:1 1 auto}#exportToolbar button{flex:1 1 140px;justify-content:center}#viewControls>div{width:100%}#viewControls button{flex:1 1 auto}#viewportContainer{height:360px}#telemetryPanel .grid{grid-template-columns:repeat(2,minmax(0,1fr))}#linesPlanDrawer>div:nth-child(2){grid-template-columns:minmax(0,1fr)}#stepExportModal,#bomModal{padding:8px}#stepExportModal>div>div,#bomModal>div>div{padding-left:12px;padding-right:12px}#stepExportModal .grid-cols-2{grid-template-columns:1fr}#stepExportModal>div>div:last-child>div:last-child{width:100%}#stepExportModal>div>div:last-child button{flex:1 1 140px;justify-content:center}}
+</style></head>
+<body id="appBody" class="h-screen w-screen flex flex-col overflow-hidden bg-[#060b14] text-slate-100">
+
+  <!-- TOP NAVIGATION & ENGINEERING TOOLBAR -->
+  <header id="siteHeader" class="h-14 shrink-0 bg-[#0a1220]/95 border-b border-slate-800/90 px-3 lg:px-5 flex items-center justify-between gap-2 z-30">
+    <!-- Brand & Project Title -->
+    <div class="flex items-center gap-3 min-w-0">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-sky-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-sky-500/20 shrink-0">
+        <svg class="w-5 h-5 text-slate-950" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M2 20a2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1"/>
+          <path d="M4 18L2 13h20l-2 5"/>
+          <path d="M12 4v9"/>
+          <path d="M8 8h8"/>
+        </svg>
+      </div>
+      <div class="truncate">
+        <div class="flex items-center gap-2">
+          <h1 class="text-sm md:text-base font-bold tracking-tight text-white truncate">肇祥企業社 MaxJim Tech Inc. <span class="text-sky-400 font-semibold">| USV-CAD Studio Pro</span></h1>
+          <span class="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono-tech font-semibold uppercase tracking-wider bg-sky-500/15 text-sky-400 border border-sky-500/30 rounded">ISO 10303-21 STEP B-Rep</span>
+        </div>
+        <p class="text-[11px] text-slate-400 hidden md:block truncate">即時參數化無人船機構設計・流體靜力學分析・感測與推進系統整合平台</p>
+      </div>
+    </div>
+
+    <!-- Quick Presets -->
+    <div id="presetToolbar" class="hidden xl:flex items-center gap-1.5 bg-slate-900/90 p-1 rounded-lg border border-slate-800">
+      <span class="text-[11px] text-slate-400 px-2 font-medium">快速構型範本:</span>
+      <button id="presetPatrolBtn" class="px-2.5 py-1 text-xs font-medium rounded bg-sky-500/20 text-sky-300 border border-sky-500/40 hover:bg-sky-500/30 transition">高速巡邏偵蒐艇 (4.8m 深V)</button>
+      <button id="presetHydroBtn" class="px-2.5 py-1 text-xs font-medium rounded text-slate-300 hover:bg-slate-800 transition">水文多波束測繪船 (3.6m 雙體)</button>
+      <button id="presetOceanBtn" class="px-2.5 py-1 text-xs font-medium rounded text-slate-300 hover:bg-slate-800 transition">遠洋長航時無人船 (7.5m 三體)</button>
+      <button id="presetSwathBtn" class="px-2.5 py-1 text-xs font-medium rounded text-slate-300 hover:bg-slate-800 transition">抗浪科考平台 (6.2m SWATH)</button>
+    </div>
+
+    <nav id="siteLinks" aria-label="工具網站導覽"><button id="fullscreenToggle" type="button">⛶ 全螢幕操作</button><a href="https://maxjimtech.com/線上設計工具" target="_top">返回官網</a><a href="../toolbox-planner/">工具盒規劃器</a><a href="../smart-factory/">智慧工廠</a><a href="../ugv-cad-studio/">UGV 無人車</a></nav><!-- Export & Action Buttons -->
+    <div id="exportToolbar" class="flex items-center gap-2 shrink-0">
+      <button id="toggleLinesPlanBtn" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-1.5 transition" title="切換 2D 船體肋骨線圖與三視圖">
+        <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="12" y1="3" x2="12" y2="21"/>
+        </svg>
+        <span class="hidden sm:inline">2D 船體線圖</span>
+      </button>
+
+      <button id="openBomModalBtn" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-1.5 transition" title="檢視完整機構 BOM 與重量重心表">
+        <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="8" y1="13" x2="16" y2="13"/>
+          <line x1="8" y1="17" x2="16" y2="17"/>
+        </svg>
+        <span class="hidden sm:inline">工程 BOM 表</span>
+      </button>
+
+      <button id="exportStlBtn" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-1.5 transition" title="匯出二進位/ASCII STL 網格供 3D 列印">
+        <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+        </svg>
+        <span class="hidden md:inline">匯出 STL</span>
+      </button>
+
+      <button id="exportStepBtn" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-slate-950 shadow-lg shadow-sky-500/25 flex items-center gap-1.5 transition">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        <span>輸出 3D STEP 檔 (.step)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE: LEFT DESIGNER PANEL + CENTER 3D VIEWPORT + RIGHT TELEMETRY -->
+  <div id="workspace" class="flex-1 flex flex-col lg:flex-row min-h-0 relative overflow-hidden">
+
+    <!-- LEFT PANEL: 6-MODULE PARAMETRIC DESIGNER -->
+    <aside id="parameterSidebar" class="w-full lg:w-[410px] xl:w-[440px] shrink-0 bg-[#0b1322] border-b lg:border-b-0 lg:border-r border-slate-800/90 flex flex-col max-h-[46vh] lg:max-h-none z-20">
+      
+      <!-- Module Category Tabs -->
+      <nav class="grid grid-cols-6 border-b border-slate-800 bg-[#080e1a] shrink-0" aria-label="設計模組切換">
+        <button data-tab="hull" class="tab-btn active py-2.5 px-1 flex flex-col items-center gap-1 border-b-2 border-transparent text-[11px] font-medium text-slate-400 hover:text-slate-200 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 15s3-3 10-3 10 3 10 3-3 5-10 5-10-5-10-5z"/><path d="M6 12V7h12v5"/></svg>
+          <span>1.船體外型</span>
+        </button>
+        <button data-tab="power" class="tab-btn py-2.5 px-1 flex flex-col items-center gap-1 border-b-2 border-transparent text-[11px] font-medium text-slate-400 hover:text-slate-200 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="16" height="10" rx="2"/><line x1="22" y1="11" x2="22" y2="13"/><path d="M11 10l-2 3h3l-2 3"/></svg>
+          <span>2.動力系統</span>
+        </button>
+        <button data-tab="propulsion" class="tab-btn py-2.5 px-1 flex flex-col items-center gap-1 border-b-2 border-transparent text-[11px] font-medium text-slate-400 hover:text-slate-200 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 9a4.5 4.5 0 0 0-4-7 4.5 4.5 0 0 0 4 7zm3 3a4.5 4.5 0 0 0 7-4 4.5 4.5 0 0 0-7 4zm-3 3a4.5 4.5 0 0 0 4 7 4.5 4.5 0 0 0-4-7zm-3-3a4.5 4.5 0 0 0-7 4 4.5 4.5 0 0 0 7-4z"/></svg>
+          <span>3.推進方式</span>
+        </button>
+        <button data-tab="nav" class="tab-btn py-2.5 px-1 flex flex-col items-center gap-1 border-b-2 border-transparent text-[11px] font-medium text-slate-400 hover:text-slate-200 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          <span>4.偵測導航</span>
+        </button>
+        <button data-tab="antenna" class="tab-btn py-2.5 px-1 flex flex-col items-center gap-1 border-b-2 border-transparent text-[11px] font-medium text-slate-400 hover:text-slate-200 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/><line x1="12" y1="14" x2="12" y2="22"/></svg>
+          <span>5.無線天線</span>
+        </button>
+        <button data-tab="radar" class="tab-btn py-2.5 px-1 flex flex-col items-center gap-1 border-b-2 border-transparent text-[11px] font-medium text-slate-400 hover:text-slate-200 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><line x1="12" y1="12" x2="18.36" y2="5.64"/></svg>
+          <span>6.雷達系統</span>
+        </button>
+      </nav>
+
+      <!-- Scrollable Parameter Controls -->
+      <div class="flex-1 overflow-y-auto p-4 space-y-5">
+
+        <!-- ================= TAB 1: HULL OPTIONS & FULL HULL DESIGN ================= -->
+        <section id="tab-hull" class="tab-panel space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+              船體構型選項 (Hull Architecture)
+            </h2>
+            <span id="hullTypeBadge" class="text-[11px] font-mono-tech text-slate-400">Deep-V Monohull</span>
+          </div>
+
+          <!-- 4 Hull Options Grid -->
+          <div class="grid grid-cols-2 gap-2.5">
+            <button type="button" data-hull="monohull_deepv" class="hull-card option-card active text-left p-2.5 rounded-lg border border-slate-700/80 bg-slate-900/60 hover:border-slate-600">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">深V破浪單體船</span>
+                <span class="text-[10px] font-mono-tech text-sky-400 bg-sky-500/10 px-1.5 py-0.5 rounded">高速/抗浪</span>
+              </div>
+              <p class="text-[11px] text-slate-400 leading-snug">雙折角線 + 防濺壓浪條，適合高速巡邏與近岸戰術偵蒐。</p>
+            </button>
+
+            <button type="button" data-hull="catamaran" class="hull-card option-card text-left p-2.5 rounded-lg border border-slate-700/80 bg-slate-900/60 hover:border-slate-600">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">雙體穩定工作船</span>
+                <span class="text-[10px] font-mono-tech text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">高穩度/測繪</span>
+              </div>
+              <p class="text-[11px] text-slate-400 leading-snug">雙片體跨橋甲板，極高橫向穩心高 GM，適合聲納水文測繪。</p>
+            </button>
+
+            <button type="button" data-hull="trimaran" class="hull-card option-card text-left p-2.5 rounded-lg border border-slate-700/80 bg-slate-900/60 hover:border-slate-600">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">三體穿浪長航船</span>
+                <span class="text-[10px] font-mono-tech text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded">遠洋/低阻</span>
+              </div>
+              <p class="text-[11px] text-slate-400 leading-snug">細長主船體配雙側穩定浮筒，大幅降低高速興波阻力。</p>
+            </button>
+
+            <button type="button" data-hull="swath" class="hull-card option-card text-left p-2.5 rounded-lg border border-slate-700/80 bg-slate-900/60 hover:border-slate-600">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">小水線面雙體船</span>
+                <span class="text-[10px] font-mono-tech text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded">SWATH/科考</span>
+              </div>
+              <p class="text-[11px] text-slate-400 leading-snug">水下雙魚雷型潛體 + 流線支柱，高海況下具備極致抗搖晃性。</p>
+            </button>
+          </div>
+
+          <!-- Parametric Hull Dimensions -->
+          <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800 space-y-3">
+            <div class="text-xs font-semibold text-slate-200 flex items-center justify-between border-b border-slate-800 pb-1.5">
+              <span>船體主尺度與流體幾何參數 (Parametric Hull Loft)</span>
+              <span class="text-[10px] font-mono-tech text-sky-400">單位: m / mm / deg</span>
+            </div>
+
+            <!-- LOA -->
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <label for="paramLOA" class="text-slate-300">總長 LOA (Length Overall)</label>
+                <span id="valLOA" class="font-mono-tech text-sky-400 font-semibold">4.80 m (4800 mm)</span>
+              </div>
+              <input id="paramLOA" type="range" min="1.8" max="12.0" step="0.1" value="4.8" />
+            </div>
+
+            <!-- Beam -->
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <label for="paramBeam" class="text-slate-300">船寬 BOA (Beam Overall)</label>
+                <span id="valBeam" class="font-mono-tech text-sky-400 font-semibold">1.85 m (1850 mm)</span>
+              </div>
+              <input id="paramBeam" type="range" min="0.8" max="4.8" step="0.05" value="1.85" />
+            </div>
+
+            <!-- Hull Depth -->
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <label for="paramDepth" class="text-slate-300">型深 D (Molded Depth)</label>
+                <span id="valDepth" class="font-mono-tech text-sky-400 font-semibold">0.78 m (780 mm)</span>
+              </div>
+              <input id="paramDepth" type="range" min="0.40" max="2.00" step="0.02" value="0.78" />
+            </div>
+
+            <!-- Deadrise Angle -->
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <label for="paramDeadrise" class="text-slate-300">船底斜度角 Deadrise Angle (β)</label>
+                <span id="valDeadrise" class="font-mono-tech text-cyan-400 font-semibold">22.0°</span>
+              </div>
+              <input id="paramDeadrise" type="range" min="10" max="35" step="0.5" value="22" />
+            </div>
+
+            <!-- Bow Flare & Rake -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <div class="flex justify-between text-[11px] mb-1">
+                  <label for="paramBowRake" class="text-slate-300">船艏傾角 Stem Rake</label>
+                  <span id="valBowRake" class="font-mono-tech text-cyan-400">28°</span>
+                </div>
+                <input id="paramBowRake" type="range" min="12" max="45" step="1" value="28" />
+              </div>
+              <div>
+                <div class="flex justify-between text-[11px] mb-1">
+                  <label for="paramBowFlare" class="text-slate-300">船艏外飄係數 Flare</label>
+                  <span id="valBowFlare" class="font-mono-tech text-cyan-400">0.42</span>
+                </div>
+                <input id="paramBowFlare" type="range" min="0.10" max="0.85" step="0.02" value="0.42" />
+              </div>
+            </div>
+
+            <!-- Chine Height & Hull Spacing -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <div class="flex justify-between text-[11px] mb-1">
+                  <label for="paramChine" class="text-slate-300">折角線高度比 Chine</label>
+                  <span id="valChine" class="font-mono-tech text-cyan-400">0.44</span>
+                </div>
+                <input id="paramChine" type="range" min="0.25" max="0.68" step="0.01" value="0.44" />
+              </div>
+              <div>
+                <div class="flex justify-between text-[11px] mb-1">
+                  <label for="paramHullSpacing" class="text-slate-300">多體片體間距比</label>
+                  <span id="valHullSpacing" class="font-mono-tech text-cyan-400">0.72</span>
+                </div>
+                <input id="paramHullSpacing" type="range" min="0.52" max="0.88" step="0.02" value="0.72" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Hull Material, Superstructure & Color -->
+          <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800 space-y-3">
+            <div class="text-xs font-semibold text-slate-200 border-b border-slate-800 pb-1.5">結構材質、上層建築與機構配置</div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label for="selectHullMaterial" class="block text-[11px] text-slate-400 mb-1">船殼結構材質</label>
+                <select id="selectHullMaterial" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-xs text-slate-100 focus:border-sky-400 outline-none">
+                  <option value="al_5083">5083-H116 航太船用鋁合金</option>
+                  <option value="cfrp_3k" selected>3K 碳纖維真空灌注複合材</option>
+                  <option value="frp_marine">海事級 GFRP 玻纖複合材</option>
+                  <option value="hdpe_rotomold">HDPE 高密度耐衝擊聚乙烯</option>
+                </select>
+              </div>
+              <div>
+                <label for="paramShellThickness" class="block text-[11px] text-slate-400 mb-1">船殼板厚: <span id="valShellThickness" class="font-mono-tech text-sky-400">4.5 mm</span></label>
+                <input id="paramShellThickness" type="range" min="3.0" max="12.0" step="0.5" value="4.5" class="mt-2" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label for="selectSuperstructure" class="block text-[11px] text-slate-400 mb-1">上層建築艙罩構型</label>
+                <select id="selectSuperstructure" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-xs text-slate-100 focus:border-sky-400 outline-none">
+                  <option value="stealth_faceted" selected>匿蹤多切面戰術儀器艙</option>
+                  <option value="streamlined_aero">流線型低風阻水滴艙罩</option>
+                  <option value="modular_utility">模組化開放式鋁擠型載台</option>
+                </select>
+              </div>
+              <div>
+                <label for="selectLivery" class="block text-[11px] text-slate-400 mb-1">船體塗裝配色</label>
+                <select id="selectLivery" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-xs text-slate-100 focus:border-sky-400 outline-none">
+                  <option value="tactical_grey" selected>海軍戰術低視度灰 (Naval Grey)</option>
+                  <option value="survey_orange">水文測繪高視認橘白 (Survey Orange)</option>
+                  <option value="stealth_carbon">消光暗夜碳纖黑 (Stealth Black)</option>
+                  <option value="coastguard_blue">海巡深海藍白 (Maritime Blue)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                <input id="chkSprayStrakes" type="checkbox" checked class="rounded border-slate-600 text-sky-500 focus:ring-0" />
+                <span>船底壓浪條 (Spray Strakes)</span>
+              </label>
+              <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                <input id="chkRubRail" type="checkbox" checked class="rounded border-slate-600 text-sky-500 focus:ring-0" />
+                <span>D型防撞護舷條 (Fender)</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TAB 2: POWER SYSTEM ================= -->
+        <section id="tab-power" class="tab-panel hidden space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              動力系統架構 (Power & Energy System)
+            </h2>
+            <span id="powerTypeBadge" class="text-[11px] font-mono-tech text-slate-400">LiFePO4 Electric</span>
+          </div>
+
+          <div class="grid grid-cols-1 gap-2.5">
+            <button type="button" data-power="lifepo4_pure" class="power-card option-card active text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">純電磷酸鐵鋰高壓動力電池組 (LiFePO4 96V/400V)</span>
+                <span class="text-[10px] font-mono-tech text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">靜音/零排放</span>
+              </div>
+              <p class="text-[11px] text-slate-400">模組化水冷電池包低重心佈置於龍骨艙底，具備極低聲學與熱紅外線特徵。</p>
+            </button>
+
+            <button type="button" data-power="diesel_electric" class="power-card option-card text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">柴電串聯混合動力系統 (Marine Turbo-Diesel + LiFePO4)</span>
+                <span class="text-[10px] font-mono-tech text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded">長航程/大功率</span>
+              </div>
+              <p class="text-[11px] text-slate-400">船用直流發電機組搭配緩衝電池與防晃油箱，兼顧港口靜音航行與遠洋高速衝刺。</p>
+            </button>
+
+            <button type="button" data-power="hydrogen_pem" class="power-card option-card text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">氫燃料電池混合系統 (PEM Fuel Cell + 350bar 儲氫瓶)</span>
+                <span class="text-[10px] font-mono-tech text-cyan-400 bg-cyan-500/10 px-1.5 py-0.5 rounded">高能量密度</span>
+              </div>
+              <p class="text-[11px] text-slate-400">雙碳纖維纏繞 Type-IV 高壓儲氫氣瓶搭配質子交換膜電堆，適合長時低特徵巡航。</p>
+            </button>
+
+            <button type="button" data-power="solar_hybrid" class="power-card option-card text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">甲板太陽能陣列 + 儲能電池組 (Solar Array + LiFePO4)</span>
+                <span class="text-[10px] font-mono-tech text-sky-400 bg-sky-500/10 px-1.5 py-0.5 rounded">跨月駐留</span>
+              </div>
+              <p class="text-[11px] text-slate-400">全甲板鋪設海事抗鹽霧單晶矽太陽能板，支援數週至數月海上自主水文氣象觀測。</p>
+            </button>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800 space-y-3">
+            <div class="text-xs font-semibold text-slate-200 border-b border-slate-800 pb-1.5">儲能容量與機艙配重設定</div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <label for="paramBatteryKwh" class="text-slate-300">動力電池組容量 (Battery Capacity)</label>
+                <span id="valBatteryKwh" class="font-mono-tech text-emerald-400 font-semibold">42 kWh</span>
+              </div>
+              <input id="paramBatteryKwh" type="range" min="8" max="180" step="2" value="42" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <label for="paramFuelLiters" class="text-slate-300">燃油/儲氫等效容量 (Fuel / H2 Tank)</label>
+                <span id="valFuelLiters" class="font-mono-tech text-amber-400 font-semibold">120 L</span>
+              </div>
+              <input id="paramFuelLiters" type="range" min="0" max="450" step="10" value="120" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <label for="paramSystemVoltage" class="text-slate-300">直流母線電壓架構 (DC Bus Voltage)</label>
+                <span id="valSystemVoltage" class="font-mono-tech text-sky-400 font-semibold">96 V DC</span>
+              </div>
+              <select id="paramSystemVoltage" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-xs text-slate-100">
+                <option value="48">48V DC (輕型低壓安全架構)</option>
+                <option value="96" selected>96V DC (中型標準高效率架構)</option>
+                <option value="400">400V DC (大型高速高功率高壓架構)</option>
+              </select>
+            </div>
+
+            <div class="pt-1">
+              <label class="flex items-center gap-2 text-xs text-sky-300 cursor-pointer font-medium">
+                <input id="chkXrayPower" type="checkbox" class="rounded border-slate-600 text-sky-500 focus:ring-0" />
+                <span>開啟船殼半透明透視 (檢視內部電池包、發電機與龍骨肋板)</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TAB 3: PROPULSION METHOD ================= -->
+        <section id="tab-propulsion" class="tab-panel hidden space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+              推進方式與舵機機構 (Propulsion & Steering)
+            </h2>
+            <span id="propTypeBadge" class="text-[11px] font-mono-tech text-slate-400">Twin Waterjets</span>
+          </div>
+
+          <div class="grid grid-cols-1 gap-2.5">
+            <button type="button" data-prop="twin_waterjet" class="prop-card option-card active text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">雙噴水推進器 (Twin Mixed-Flow Waterjets)</span>
+                <span class="text-[10px] font-mono-tech text-sky-400 bg-sky-500/10 px-1.5 py-0.5 rounded">淺水防纏繞/高速</span>
+              </div>
+              <p class="text-[11px] text-slate-400">含船底流線吸水口、軸流/混流泵室、向量轉向噴嘴與液壓倒車斗，無外露葉片。</p>
+            </button>
+
+            <button type="button" data-prop="twin_azimuth_pod" class="prop-card option-card text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">雙導流罩全迴轉吊艙推進器 (Twin Azimuth Pods)</span>
+                <span class="text-[10px] font-mono-tech text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">360°動態定位</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Kort 增推導流罩搭配 360° 伺服迴轉吊艙，具備原地橫移與精準航跡保持能力。</p>
+            </button>
+
+            <button type="button" data-prop="twin_shaft_prop" class="prop-card option-card text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">雙軸五葉斜交螺旋槳 + 雙平衡舵 (Twin Shafts + Rudders)</span>
+                <span class="text-[10px] font-mono-tech text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded">高推進效率</span>
+              </div>
+              <p class="text-[11px] text-slate-400">不鏽鋼傳動軸、V型軸支架、五葉低噪音螺旋槳與雙流線平衡舵葉。</p>
+            </button>
+
+            <button type="button" data-prop="surface_piercing" class="prop-card option-card text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">半浸式表面穿刺推進槳 (Surface-Piercing Drives)</span>
+                <span class="text-[10px] font-mono-tech text-rose-400 bg-rose-500/10 px-1.5 py-0.5 rounded">極速滑行艇</span>
+              </div>
+              <p class="text-[11px] text-slate-400">船艉延伸關節式表面驅動軸與高速劈水槳，消除水下附體阻力與空蝕限制。</p>
+            </button>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800 space-y-3">
+            <div class="text-xs font-semibold text-slate-200 border-b border-slate-800 pb-1.5">推進功率與輔助操控機構</div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <label for="paramMotorKw" class="text-slate-300">總推進額定功率 (Total Propulsion Power)</label>
+                <span id="valMotorKw" class="font-mono-tech text-cyan-400 font-semibold">60 kW (80.5 HP)</span>
+              </div>
+              <input id="paramMotorKw" type="range" min="4" max="240" step="2" value="60" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <label for="paramPropDia" class="text-slate-300">葉輪/噴口基準直徑 (Impeller / Prop Diameter)</label>
+                <span id="valPropDia" class="font-mono-tech text-cyan-400 font-semibold">260 mm</span>
+              </div>
+              <input id="paramPropDia" type="range" min="140" max="520" step="10" value="260" />
+            </div>
+
+            <div class="grid grid-cols-1 gap-2 pt-1">
+              <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                <input id="chkBowThruster" type="checkbox" checked class="rounded border-slate-600 text-sky-500 focus:ring-0" />
+                <span>加裝船首橫向涵道推進器 (Bow Tunnel Thruster - 自動靠泊輔助)</span>
+              </label>
+              <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                <input id="chkTrimTabs" type="checkbox" checked class="rounded border-slate-600 text-sky-500 focus:ring-0" />
+                <span>加裝船艉主動式壓浪板 (Active Interceptor Trim Tabs)</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TAB 4: DETECTION & NAVIGATION ================= -->
+        <section id="tab-nav" class="tab-panel hidden space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              偵測導航與水下聲學系統 (GNSS / EO-IR / LiDAR / Sonar)
+            </h2>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800 space-y-3">
+            <div>
+              <label for="selectGnss" class="block text-xs font-medium text-slate-300 mb-1">衛星定位與慣性導航系統 (GNSS / INS)</label>
+              <select id="selectGnss" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-100">
+                <option value="dual_rtk_ins" selected>雙天線 RTK-GNSS 定向基線 + 光纖慣導 (FOG INS, 航向精度 0.05°)</option>
+                <option value="triple_gnss_crpa">抗干擾 CRPA 陣列衛星導航 + 戰術級慣導 (抗電子干擾)</option>
+                <option value="single_gnss_ahrs">單天線多星系 GNSS + MEMS AHRS 姿態航向參考系統</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="selectEoir" class="block text-xs font-medium text-slate-300 mb-1">光電/紅外線陀螺穩定雲台 (EO/IR Stabilized Gimbal)</label>
+              <select id="selectEoir" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-100">
+                <option value="dual_eoir_lrf" selected>三軸陀螺穩定四合一球型雲台 (30x光學 + 640熱成像 + 雷射測距)</option>
+                <option value="compact_eoir">輕量化雙軸雙光光電球 (HD夜視 + 384熱像儀)</option>
+                <option value="none">不搭載光電雲台</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="selectLidar" class="block text-xs font-medium text-slate-300 mb-1">3D 雷射雷達近場建模系統 (Marine 3D LiDAR)</label>
+              <select id="selectLidar" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-100">
+                <option value="lidar_128" selected>海事級 128 線長距旋轉/固態 LiDAR (含疏水光學防護罩, 250m)</option>
+                <option value="lidar_dual32">左右雙側傾斜 32 線廣角避障 LiDAR (自動靠泊專用)</option>
+                <option value="none">不搭載 3D LiDAR</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="selectSonar" class="block text-xs font-medium text-slate-300 mb-1">水下聲納與海床測繪系統 (Underwater Sonar Suite)</label>
+              <select id="selectSonar" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-100">
+                <option value="multibeam_gondola" selected>船底聲納導流罩 (Gondola) + 多波束測深儀 (Multibeam Echo Sounder)</option>
+                <option value="sidescan_dual">船底雙頻側掃聲納陣列 (Dual-Frequency Side-Scan Sonar)</option>
+                <option value="fls_bow">船艏前視三維避障聲納 (Forward-Looking Obstacle Avoidance Sonar)</option>
+                <option value="none">無水下聲納系統</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-1 gap-2 pt-1 border-t border-slate-800">
+              <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                <input id="chkCamera360" type="checkbox" checked class="rounded border-slate-600 text-sky-500 focus:ring-0" />
+                <span>360° 四向立體視覺環景避障相機組 (4x AI Stereo Vision Pods)</span>
+              </label>
+              <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                <input id="chkWeatherStation" type="checkbox" checked class="rounded border-slate-600 text-sky-500 focus:ring-0" />
+                <span>超音波風速風向氣象站 + 溫鹽深水質探頭 (Ultrasonic MetOcean)</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TAB 5: WIRELESS TRANSCEIVER ANTENNAS ================= -->
+        <section id="tab-antenna" class="tab-panel hidden space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+              無線收發天線與數據鏈 (RF & Satcom Antennas)
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 gap-2.5">
+            <button type="button" data-satcom="starlink_flat" class="satcom-card option-card active text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">低軌衛星平板相控陣終端 (LEO Flat-Panel Maritime)</span>
+                <span class="text-[10px] font-mono-tech text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded">220 Mbps 低延遲</span>
+              </div>
+              <p class="text-[11px] text-slate-400">傾斜式安裝於上層建築頂部，提供超視距 (BLOS) 全球高頻寬即時影像回傳。</p>
+            </button>
+
+            <button type="button" data-satcom="satcom_dome" class="satcom-card option-card text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">高增益三軸追蹤衛通圓頂天線 (Ku/Ka-Band VSAT Dome)</span>
+                <span class="text-[10px] font-mono-tech text-sky-400 bg-sky-500/10 px-1.5 py-0.5 rounded">抗高海況追蹤</span>
+              </div>
+              <p class="text-[11px] text-slate-400">全密封球型衛通天線罩，支援同步軌道與中軌衛星加密專線通訊。</p>
+            </button>
+
+            <button type="button" data-satcom="tactical_mimo" class="satcom-card option-card text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">戰術 MIMO COFDM 寬頻自組網陣列 (4x4 Mesh Array)</span>
+                <span class="text-[10px] font-mono-tech text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">50km 視距跳頻</span>
+              </div>
+              <p class="text-[11px] text-slate-400">四支高增益全向柱狀天線陣列，支援多船蜂群中繼 (Swarm Mesh) 與岸基遙控。</p>
+            </button>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800 space-y-3">
+            <div class="text-xs font-semibold text-slate-200 border-b border-slate-800 pb-1.5">高頻/超短波天線尺寸與分集配置</div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <label for="paramWhipHeight" class="text-slate-300">雙側海事鞭狀天線長度 (VHF/UHF Whip Length)</label>
+                <span id="valWhipHeight" class="font-mono-tech text-purple-400 font-semibold">1.80 m</span>
+              </div>
+              <input id="paramWhipHeight" type="range" min="0.8" max="3.0" step="0.1" value="1.8" />
+            </div>
+
+            <div class="grid grid-cols-1 gap-2 pt-1">
+              <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                <input id="chkDualWhip" type="checkbox" checked class="rounded border-slate-600 text-sky-500 focus:ring-0" />
+                <span>雙側玻璃鋼長鞭天線組 (VHF 海事頻道 + AIS Class-A + 900MHz 遙測)</span>
+              </label>
+              <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                <input id="chkLteDome" type="checkbox" checked class="rounded border-slate-600 text-sky-500 focus:ring-0" />
+                <span>5G/LTE 多電信聚合海事圓頂天線 (Multi-Carrier Maritime Dome)</span>
+              </label>
+              <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                <input id="chkDirectionalLink" type="checkbox" class="rounded border-slate-600 text-sky-500 focus:ring-0" />
+                <span>加裝 C波段高增益定向微波數傳天線鼓 (Directional C-Band Link)</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TAB 6: RADAR SYSTEM ================= -->
+        <section id="tab-radar" class="tab-panel hidden space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+              雷達系統與桅杆機構 (Marine Radar & Mast)
+            </h2>
+            <span id="radarTypeBadge" class="text-[11px] font-mono-tech text-slate-400">Solid-State Radome</span>
+          </div>
+
+          <div class="grid grid-cols-1 gap-2.5">
+            <button type="button" data-radar="solid_state_radome" class="radar-card option-card active text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">X波段固態脈衝壓縮雷達罩 (24" Solid-State Doppler Radome)</span>
+                <span class="text-[10px] font-mono-tech text-sky-400 bg-sky-500/10 px-1.5 py-0.5 rounded">36 NM / 低功耗</span>
+              </div>
+              <p class="text-[11px] text-slate-400">封閉式耐候雷達罩，具備 ARPA 多目標追蹤與都卜勒真運動目標色彩辨識。</p>
+            </button>
+
+            <button type="button" data-radar="open_array_xband" class="radar-card option-card text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">開放式旋轉陣列搜索雷達 (4ft Open-Array X-Band Scanner)</span>
+                <span class="text-[10px] font-mono-tech text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded">72 NM / 高角解析</span>
+              </div>
+              <p class="text-[11px] text-slate-400">窄水平波束角 (1.8°)，適合遠距離水面小型目標偵蒐與高精度航道監控。</p>
+            </button>
+
+            <button type="button" data-radar="phased_array_4d" class="radar-card option-card text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">四面固態相控陣戰術偵蒐雷達 (4-Face Active AESA Mast)</span>
+                <span class="text-[10px] font-mono-tech text-rose-400 bg-rose-500/10 px-1.5 py-0.5 rounded">360°瞬時電掃</span>
+              </div>
+              <p class="text-[11px] text-slate-400">無機械旋轉部件，四面陣列同步追蹤水面與低空無人機目標。</p>
+            </button>
+
+            <button type="button" data-radar="mmwave_array" class="radar-card option-card text-left p-3 rounded-lg border border-slate-700/80 bg-slate-900/60">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-semibold text-white">77GHz 毫米波 4D 環視避障雷達陣列 (4x Corner mmWave)</span>
+                <span class="text-[10px] font-mono-tech text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">超近距點雲</span>
+              </div>
+              <p class="text-[11px] text-slate-400">四具轉角毫米波雷達模組加上主桅杆輕型雷達，消除盲區。</p>
+            </button>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800 space-y-3">
+            <div class="text-xs font-semibold text-slate-200 border-b border-slate-800 pb-1.5">主桅杆機構高度與感測視場顯示</div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <label for="paramMastHeight" class="text-slate-300">儀器主桅杆高度 (Mast Elevation)</label>
+                <span id="valMastHeight" class="font-mono-tech text-rose-400 font-semibold">1.25 m</span>
+              </div>
+              <input id="paramMastHeight" type="range" min="0.55" max="2.60" step="0.05" value="1.25" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <label for="paramRadarRpm" class="text-slate-300">雷達掃描速率 (Scanner RPM)</label>
+                <span id="valRadarRpm" class="font-mono-tech text-rose-400 font-semibold">36 RPM</span>
+              </div>
+              <input id="paramRadarRpm" type="range" min="12" max="60" step="6" value="36" />
+            </div>
+
+            <div class="grid grid-cols-1 gap-2 pt-1">
+              <label class="flex items-center gap-2 text-xs text-sky-300 cursor-pointer font-medium">
+                <input id="chkShowFov" type="checkbox" class="rounded border-slate-600 text-sky-500 focus:ring-0" />
+                <span>顯示 3D 雷達波束、LiDAR 視場與多波束聲納掃描錐體 (FOV Cones)</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Bottom Quick Summary Bar in Left Panel -->
+      <div class="p-3 bg-[#080e1a] border-t border-slate-800/90 flex items-center justify-between text-xs shrink-0">
+        <div>
+          <span class="text-slate-400">總網格面數:</span>
+          <span id="statMeshFaces" class="font-mono-tech text-sky-400 font-semibold ml-1">--</span>
+          <span class="text-slate-500 mx-1.5">|</span>
+          <span class="text-slate-400">STEP 實體分件:</span>
+          <span id="statStepSolids" class="font-mono-tech text-emerald-400 font-semibold ml-1">8 組</span>
+        </div>
+        <button id="resetDefaultBtn" class="text-[11px] text-slate-400 hover:text-white underline">重置參數</button>
+      </div>
+    </aside>
+
+    <!-- CENTER PANEL: REAL-TIME 3D CAD VIEWPORT & FLOATING HUD -->
+    <main id="designWorkspace" class="flex-1 relative min-h-[340px] bg-[#050a12] overflow-hidden flex flex-col">
+      <!-- Three.js Canvas Container -->
+      <div id="viewportContainer" class="flex-1 w-full h-full relative cursor-grab active:cursor-grabbing"></div>
+
+      <!-- Top-Left Viewport Camera & Display Mode Controls -->
+      <div id="viewControls" class="absolute top-3 left-3 flex flex-wrap items-center gap-1.5 z-10 pointer-events-auto">
+        <div class="glass-panel rounded-lg p-1 flex items-center gap-1 shadow-lg">
+          <button data-cam="iso" class="cam-btn px-2 py-1 rounded text-[11px] font-medium bg-sky-500/20 text-sky-300 border border-sky-500/40 hover:bg-sky-500/30 transition">等角透視</button>
+          <button data-cam="side" class="cam-btn px-2 py-1 rounded text-[11px] font-medium text-slate-300 hover:bg-slate-800 transition">側視 (Starboard)</button>
+          <button data-cam="front" class="cam-btn px-2 py-1 rounded text-[11px] font-medium text-slate-300 hover:bg-slate-800 transition">正視 (Bow)</button>
+          <button data-cam="stern" class="cam-btn px-2 py-1 rounded text-[11px] font-medium text-slate-300 hover:bg-slate-800 transition">艉視 (Propulsion)</button>
+          <button data-cam="top" class="cam-btn px-2 py-1 rounded text-[11px] font-medium text-slate-300 hover:bg-slate-800 transition">俯視 (Deck)</button>
+          <button data-cam="bottom" class="cam-btn px-2 py-1 rounded text-[11px] font-medium text-slate-300 hover:bg-slate-800 transition">仰視 (龍骨/聲納)</button>
+        </div>
+
+        <div class="glass-panel rounded-lg p-1 flex items-center gap-1 shadow-lg">
+          <button id="toggleWireframeBtn" class="px-2 py-1 rounded text-[11px] font-medium text-slate-300 hover:bg-slate-800 transition" title="切換 CAD 網格線框顯示">CAD 線框</button>
+          <button id="toggleXrayBtn" class="px-2 py-1 rounded text-[11px] font-medium text-slate-300 hover:bg-slate-800 transition" title="切換船殼半透明透視檢視內部機構">內構透視</button>
+          <button id="toggleExplodeBtn" class="px-2 py-1 rounded text-[11px] font-medium text-slate-300 hover:bg-slate-800 transition" title="展開機構爆炸視圖">機構爆炸圖</button>
+          <button id="toggleWaterBtn" class="px-2 py-1 rounded text-[11px] font-medium bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 transition" title="切換吃水線與海面模擬">水線海面</button>
+          <button id="toggleCgMarkerBtn" class="px-2 py-1 rounded text-[11px] font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition" title="顯示重心 CG 與浮心 CB 標記">CG/CB 標記</button>
+        </div>
+      </div>
+
+      <!-- Top-Right Naval Architecture & Performance Telemetry HUD -->
+      <div id="telemetryPanel" class="absolute top-14 sm:top-3 right-3 w-72 sm:w-80 glass-panel rounded-xl p-3 shadow-2xl z-10 pointer-events-auto">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2.5">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-xs font-bold tracking-wide text-white">即時流體靜力學與性能解算</span>
+          </div>
+          <span id="hudStabilityBadge" class="px-1.5 py-0.5 text-[10px] font-mono-tech font-semibold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">GM 穩度優良</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="p-2 rounded-lg bg-slate-900/90 border border-slate-800/80">
+            <div class="text-[10px] text-slate-400">滿載排水量 (Displacement)</div>
+            <div id="hudDisplacement" class="text-sm font-mono-tech font-bold text-white mt-0.5">1,140 kg</div>
+            <div id="hudDraft" class="text-[10px] font-mono-tech text-sky-400">設計吃水 T: 0.34 m</div>
+          </div>
+
+          <div class="p-2 rounded-lg bg-slate-900/90 border border-slate-800/80">
+            <div class="text-[10px] text-slate-400">預估最高航速 / 巡航航速</div>
+            <div id="hudMaxSpeed" class="text-sm font-mono-tech font-bold text-cyan-400 mt-0.5">26.4 kts</div>
+            <div id="hudCruiseSpeed" class="text-[10px] font-mono-tech text-slate-400">經濟巡航: 14.0 kts</div>
+          </div>
+
+          <div class="p-2 rounded-lg bg-slate-900/90 border border-slate-800/80">
+            <div class="text-[10px] text-slate-400">巡航續航時間 / 最大航程</div>
+            <div id="hudEndurance" class="text-sm font-mono-tech font-bold text-emerald-400 mt-0.5">18.5 hrs</div>
+            <div id="hudRange" class="text-[10px] font-mono-tech text-slate-400">最大航程: 259 NM</div>
+          </div>
+
+          <div class="p-2 rounded-lg bg-slate-900/90 border border-slate-800/80">
+            <div class="text-[10px] text-slate-400">橫向穩心高 GM_T / 方形係數</div>
+            <div id="hudGm" class="text-sm font-mono-tech font-bold text-amber-400 mt-0.5">0.84 m</div>
+            <div id="hudCb" class="text-[10px] font-mono-tech text-slate-400">Cb: 0.41 | Fn: 1.98</div>
+          </div>
+        </div>
+
+        <!-- CG / CB & Power Load Readout -->
+        <div class="mt-2.5 pt-2 border-t border-slate-800/90 space-y-1 text-[11px] font-mono-tech">
+          <div class="flex justify-between">
+            <span class="text-slate-400">重心座標 (LCG, VCG):</span>
+            <span id="hudCgCoord" class="text-sky-300">X: -0.18m, Z: 0.31m</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">感測與通訊航電功耗:</span>
+            <span id="hudHotelLoad" class="text-amber-300">485 W (24V/96V)</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">推進比功率 (Power/Wt):</span>
+            <span id="hudPowerToWeight" class="text-emerald-300">52.6 W/kg</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom-Left 2D Hull Lines Plan / Cross-Section CAD Drawer (Collapsible) -->
+      <div id="linesPlanDrawer" class="absolute bottom-3 left-3 glass-panel rounded-xl p-3 shadow-2xl z-10 pointer-events-auto w-[340px] sm:w-[460px] transition-all">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-sky-400">2D 船體肋骨橫剖面線圖 (Body Plan St.0~St.10) & 縱剖面</span>
+          </div>
+          <button id="closeLinesPlanBtn" class="text-slate-400 hover:text-white text-xs px-1.5 py-0.5 rounded bg-slate-800/80">收合</button>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="bg-[#060b14] border border-slate-800 rounded-lg p-1.5">
+            <div class="text-[10px] font-mono-tech text-slate-400 mb-1 flex justify-between">
+              <span>橫剖面肋骨圖 (Body Plan)</span>
+              <span class="text-cyan-400">艉 ← | → 艏</span>
+            </div>
+            <div class="relative h-28 w-full">
+              <canvas id="bodyPlanCanvas" class="w-full h-full block"></canvas>
+            </div>
+          </div>
+          <div class="bg-[#060b14] border border-slate-800 rounded-lg p-1.5">
+            <div class="text-[10px] font-mono-tech text-slate-400 mb-1 flex justify-between">
+              <span>縱剖面與設計水線 (Profile Plan)</span>
+              <span class="text-sky-400">DWL 水線</span>
+            </div>
+            <div class="relative h-28 w-full">
+              <canvas id="profilePlanCanvas" class="w-full h-full block"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom-Right Interactive Legend & Simulation Controls -->
+      <div id="animationControls" class="absolute bottom-3 right-3 glass-panel rounded-lg px-3 py-2 text-[11px] flex items-center gap-3 z-10 pointer-events-auto">
+        <label class="flex items-center gap-1.5 text-slate-300 cursor-pointer">
+          <input id="chkAnimateSim" type="checkbox" checked class="rounded border-slate-600 text-sky-500 focus:ring-0" />
+          <span>運轉動畫 (雷達/推進器/海浪)</span>
+        </label>
+        <span class="text-slate-600">|</span>
+        <span class="text-slate-400 hidden sm:inline">左鍵拖曳旋轉 · 右鍵平移 · 滾輪縮放</span>
+      </div>
+    </main>
+  </div>
+
+  <!-- ================= MODAL 1: 3D STEP EXPORT & ISO 10303-21 INSPECTOR ================= -->
+  <div id="stepExportModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-[#0b1322] border border-sky-500/40 rounded-2xl max-w-3xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[88vh]">
+      <div class="px-5 py-4 bg-[#080e1a] border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <h3 class="text-base font-bold text-white flex items-center gap-2">
+            <span class="px-2 py-0.5 text-xs font-mono-tech bg-sky-500/20 text-sky-400 border border-sky-500/30 rounded">ISO 10303-21 AP214</span>
+            <span>3D STEP 工程模型匯出器 (.step)</span>
+          </h3>
+          <p class="text-xs text-slate-400 mt-0.5">支援 SolidWorks、FreeCAD、Fusion 360、Rhino、Inventor 等主流機構 CAD 軟體直接開啟</p>
+        </div>
+        <button aria-label="關閉 STEP 匯出視窗" id="closeStepModalBtn" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4">
+        <!-- STEP Export Options -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800">
+            <label for="stepPrecisionSelect" class="block text-xs text-slate-400 mb-1">船體曲面離散密度 (Loft Resolution)</label>
+            <select id="stepPrecisionSelect" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-white">
+              <option value="standard" selected>標準工程精度 (機構組裝快速載入)</option>
+              <option value="high">高密流體曲面精度 (精細站位 Loft B-Rep)</option>
+            </select>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800">
+            <div class="text-xs text-slate-400 mb-1">匯出座標系與尺寸單位</div>
+            <div class="text-xs font-mono-tech text-emerald-400 font-semibold mt-1.5">毫米 (MILLIMETRE) · Z軸朝上</div>
+            <div class="text-[10px] text-slate-400">X: 船長向 | Y: 左右舷 | Z: 型深高程</div>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800">
+            <div class="text-xs text-slate-400 mb-1">STEP 檔案幾何統計</div>
+            <div id="stepExportStats" class="text-xs font-mono-tech text-sky-400 font-semibold mt-1">計算中...</div>
+            <div id="stepFileSizeEst" class="text-[10px] font-mono-tech text-slate-400">-- KB</div>
+          </div>
+        </div>
+
+        <!-- Included Sub-Assemblies Checklist -->
+        <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800">
+          <div class="text-xs font-semibold text-slate-200 mb-2">包含之 STEP 獨立分件結構 (MANIFOLD_SOLID_BREP / CLOSED_SHELL):</div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] font-mono-tech text-slate-300">
+            <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-sky-400"></span>01_Hull_Body</div>
+            <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-cyan-400"></span>02_Deck_Internal_Frames</div>
+            <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-indigo-400"></span>03_Superstructure_Mast</div>
+            <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400"></span>04_Power_Energy_Bay</div>
+            <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-400"></span>05_Propulsion_Thrusters</div>
+            <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-400"></span>06_Radar_Scanner</div>
+            <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-orange-400"></span>07_Nav_EOIR_LiDAR_Sonar</div>
+            <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-purple-400"></span>08_RF_Satcom_Antennas</div>
+          </div>
+        </div>
+
+        <!-- Live STEP Code Preview -->
+        <div>
+          <div class="flex items-center justify-between text-xs mb-1.5">
+            <span class="text-slate-300 font-medium">ISO 10303-21 STEP 檔案內容預覽 (Header & B-Rep Entities):</span>
+            <button id="copyStepSnippetBtn" class="text-[11px] text-sky-400 hover:text-sky-300">複製前段內容</button>
+          </div>
+          <pre id="stepCodePreview" class="bg-[#050911] border border-slate-800 rounded-lg p-3 text-[11px] font-mono-tech text-emerald-300/90 h-48 overflow-y-auto whitespace-pre leading-relaxed"></pre>
+        </div>
+      </div>
+
+      <div class="px-5 py-3.5 bg-[#080e1a] border-t border-slate-800 flex flex-wrap items-center justify-between gap-2">
+        <div class="text-xs text-slate-400">
+          檔名: <span id="stepFileNameLabel" class="font-mono-tech text-slate-200">USV_DeepV_4800mm_AP214.step</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="downloadObjBtn" class="px-3 py-2 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">下載 3D OBJ (.obj)</button>
+          <button id="confirmDownloadStepBtn" class="px-5 py-2 rounded-lg text-xs font-bold bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-slate-950 shadow-lg shadow-sky-500/25 flex items-center gap-2 transition">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>立即下載 .STEP 檔案</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 2: ENGINEERING BOM & WEIGHT/CG TABLE ================= -->
+  <div id="bomModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-[#0b1322] border border-emerald-500/40 rounded-2xl max-w-4xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[88vh]">
+      <div class="px-5 py-4 bg-[#080e1a] border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <h3 class="text-base font-bold text-white">無人船系統工程物料清單 (BOM) 與重量重心 (Weight & CG) 報告</h3>
+          <p class="text-xs text-slate-400 mt-0.5">自動依據當前船體幾何尺度、板厚與選配之動力/推進/導航/天線/雷達系統即時核算</p>
+        </div>
+        <button aria-label="關閉 BOM 視窗" id="closeBomModalBtn" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4">
+        <div class="overflow-x-auto border border-slate-800 rounded-xl">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-slate-900/90 text-slate-300 border-b border-slate-800 font-semibold">
+                <th class="py-2.5 px-3">次系統分類</th>
+                <th class="py-2.5 px-3">規格與機構描述</th>
+                <th class="py-2.5 px-3 text-right">重量 (kg)</th>
+                <th class="py-2.5 px-3 text-right">縱向重心 LCG (m)</th>
+                <th class="py-2.5 px-3 text-right">垂向重心 VCG (m)</th>
+                <th class="py-2.5 px-3 text-right">平均功耗 (W)</th>
+              </tr>
+            </thead>
+            <tbody id="bomTableBody" class="divide-y divide-slate-800/70 font-mono-tech text-[11px]"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="px-5 py-3.5 bg-[#080e1a] border-t border-slate-800 flex items-center justify-between">
+        <span id="bomTotalSummary" class="text-xs font-mono-tech text-emerald-400 font-semibold">總重: -- kg</span>
+        <div class="flex items-center gap-2">
+          <button id="exportBomCsvBtn" class="px-4 py-2 rounded-lg text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition">匯出 BOM 與規格表 (.csv)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastBanner" class="fixed bottom-5 left-1/2 -translate-x-1/2 px-4 py-2.5 rounded-xl bg-sky-500 text-slate-950 font-semibold text-xs shadow-xl shadow-sky-500/30 transition-all duration-300 opacity-0 pointer-events-none z-50 flex items-center gap-2">
+    <span id="toastText">已成功生成檔案</span>
+  </div>
+
+  <!-- ================= APPLICATION JAVASCRIPT ================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      // -----------------------------------------------------------------------
+      // 1. CENTRAL PARAMETRIC STATE
+      // -----------------------------------------------------------------------
+      const defaultState = {
+        hullType: 'monohull_deepv',      // monohull_deepv | catamaran | trimaran | swath
+        loa: 4.80,                       // Length Overall (m)
+        beam: 1.85,                      // Beam Overall (m)
+        depth: 0.78,                     // Hull Depth (m)
+        deadrise: 22.0,                  // Deadrise angle beta (deg)
+        bowRake: 28,                     // Bow stem rake (deg)
+        bowFlare: 0.42,                  // Bow flare factor
+        chineRatio: 0.44,                // Chine height ratio
+        hullSpacing: 0.72,               // Multi-hull spacing ratio
+        hullMaterial: 'cfrp_3k',         // al_5083 | cfrp_3k | frp_marine | hdpe_rotomold
+        shellThickness: 4.5,             // Hull thickness (mm)
+        superstructure: 'stealth_faceted', // stealth_faceted | streamlined_aero | modular_utility
+        livery: 'tactical_grey',         // tactical_grey | survey_orange | stealth_carbon | coastguard_blue
+        sprayStrakes: true,
+        rubRail: true,
+
+        powerType: 'lifepo4_pure',       // lifepo4_pure | diesel_electric | hydrogen_pem | solar_hybrid
+        batteryKwh: 42,                  // kWh
+        fuelLiters: 120,                 // L
+        systemVoltage: 96,               // V
+
+        propulsionType: 'twin_waterjet', // twin_waterjet | twin_azimuth_pod | twin_shaft_prop | surface_piercing
+        motorKw: 60,                     // kW
+        propDia: 260,                    // mm
+        bowThruster: true,
+        trimTabs: true,
+
+        gnssType: 'dual_rtk_ins',        // dual_rtk_ins | triple_gnss_crpa | single_gnss_ahrs
+        eoirType: 'dual_eoir_lrf',       // dual_eoir_lrf | compact_eoir | none
+        lidarType: 'lidar_128',          // lidar_128 | lidar_dual32 | none
+        sonarType: 'multibeam_gondola',  // multibeam_gondola | sidescan_dual | fls_bow | none
+        camera360: true,
+        weatherStation: true,
+
+        satcomType: 'starlink_flat',     // starlink_flat | satcom_dome | tactical_mimo
+        whipHeight: 1.80,                // m
+        dualWhip: true,
+        lteDome: true,
+        directionalLink: false,
+
+        radarType: 'solid_state_radome', // solid_state_radome | open_array_xband | phased_array_4d | mmwave_array
+        mastHeight: 1.25,                // m
+        radarRpm: 36,                    // RPM
+        showFov: false,
+
+        // Viewport options
+        wireframe: false,
+        xray: false,
+        explode: false,
+        showWater: true,
+        showCgMarker: true,
+        animateSim: true
+      };
+
+      const state = Object.assign({}, defaultState);
+
+      // Material density lookup (kg/m^3)
+      const MATERIAL_SPECS = {
+        al_5083: { name: '5083-H116 船用防蝕鋁合金', density: 2660 },
+        cfrp_3k: { name: '3K 碳纖維真空灌注複合材', density: 1550 },
+        frp_marine: { name: '海事級 GFRP 玻纖複合材', density: 1850 },
+        hdpe_rotomold: { name: 'HDPE 高密度耐衝擊聚乙烯', density: 955 }
+      };
+
+      // Livery color palettes
+      const LIVERY_PALETTES = {
+        tactical_grey: {
+          hullUpper: 0x334155,
+          hullLower: 0x1e293b,
+          deck: 0x475569,
+          cabin: 0x273549,
+          accent: 0x0ea5e9,
+          fender: 0x0f172a
+        },
+        survey_orange: {
+          hullUpper: 0xea580c,
+          hullLower: 0x7c2d12,
+          deck: 0x334155,
+          cabin: 0xf8fafc,
+          accent: 0x0284c7,
+          fender: 0x1e293b
+        },
+        stealth_carbon: {
+          hullUpper: 0x18181b,
+          hullLower: 0x09090b,
+          deck: 0x27272a,
+          cabin: 0x1f2937,
+          accent: 0x10b981,
+          fender: 0x09090b
+        },
+        coastguard_blue: {
+          hullUpper: 0x0369a1,
+          hullLower: 0x1e3a8a,
+          deck: 0x475569,
+          cabin: 0xf1f5f9,
+          accent: 0xf59e0b,
+          fender: 0x0f172a
+        }
+      };
+
+      // Toast helper
+      let toastTimer = null;
+      function showToast(msg) {
+        const banner = document.getElementById('toastBanner');
+        const text = document.getElementById('toastText');
+        if (!banner || !text) return;
+        text.textContent = msg;
+        banner.style.opacity = '1';
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          banner.style.opacity = '0';
+        }, 3200);
+      }
+
+      // -----------------------------------------------------------------------
+      // 2. THREE.JS SCENE, CAMERA & ORBIT CONTROLLER
+      // -----------------------------------------------------------------------
+      const container = document.getElementById('viewportContainer');
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x060c17);
+      scene.fog = new THREE.FogExp2(0x060c17, 0.022);
+
+      const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
+      const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      container.appendChild(renderer.domElement);
+
+      // Lights
+      const hemiLight = new THREE.HemisphereLight(0xdbeafe, 0x0f172a, 0.85);
+      hemiLight.position.set(0, 20, 0);
+      scene.add(hemiLight);
+
+      const dirLight = new THREE.DirectionalLight(0xffffff, 1.15);
+      dirLight.position.set(10, 16, 12);
+      dirLight.castShadow = true;
+      scene.add(dirLight);
+
+      const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.45);
+      rimLight.position.set(-12, 6, -10);
+      scene.add(rimLight);
+
+      // Reference CAD Grid
+      const cadGrid = new THREE.GridHelper(28, 28, 0x0ea5e9, 0x1e293b);
+      cadGrid.position.y = -0.01;
+      cadGrid.material.transparent = true;
+      cadGrid.material.opacity = 0.45;
+      scene.add(cadGrid);
+
+      // Animated Water Plane
+      const waterGeo = new THREE.PlaneGeometry(36, 36, 48, 48);
+      waterGeo.rotateX(-Math.PI / 2);
+      const waterMat = new THREE.MeshStandardMaterial({
+        color: 0x0284c7,
+        roughness: 0.18,
+        metalness: 0.35,
+        transparent: true,
+        opacity: 0.38,
+        side: THREE.DoubleSide
+      });
+      const waterMesh = new THREE.Mesh(waterGeo, waterMat);
+      scene.add(waterMesh);
+
+      // Assembly Groups (each corresponds to a named STEP solid group)
+      const usvRoot = new THREE.Group();
+      scene.add(usvRoot);
+
+      const stepGroups = {
+        hull: new THREE.Group(),
+        deckFrames: new THREE.Group(),
+        superstructure: new THREE.Group(),
+        powerBay: new THREE.Group(),
+        propulsion: new THREE.Group(),
+        radar: new THREE.Group(),
+        sensors: new THREE.Group(),
+        antennas: new THREE.Group()
+      };
+      stepGroups.hull.name = '01_Hull_Body';
+      stepGroups.deckFrames.name = '02_Deck_Internal_Frames';
+      stepGroups.superstructure.name = '03_Superstructure_Mast';
+      stepGroups.powerBay.name = '04_Power_Energy_Bay';
+      stepGroups.propulsion.name = '05_Propulsion_Thrusters';
+      stepGroups.radar.name = '06_Radar_Scanner';
+      stepGroups.sensors.name = '07_Nav_EOIR_LiDAR_Sonar';
+      stepGroups.antennas.name = '08_RF_Satcom_Antennas';
+
+      Object.values(stepGroups).forEach(g => usvRoot.add(g));
+
+      // Non-exported visual helper group (FOV cones, CG/CB markers, dimension lines)
+      const helperGroup = new THREE.Group();
+      scene.add(helperGroup);
+
+      // Dynamic animated nodes list
+      let animatedPropellers = [];
+      let animatedRadarScanners = [];
+      let animatedLidarRotors = [];
+
+      // Custom Orbit Camera Controller
+      const orbit = {
+        theta: 0.68,
+        phi: 1.12,
+        radius: 7.8,
+        target: new THREE.Vector3(0, 0.2, 0),
+        isDragging: false,
+        isPanning: false,
+        lastX: 0,
+        lastY: 0
+      };
+
+      function updateCameraFromOrbit() {
+        orbit.phi = Math.max(0.08, Math.min(Math.PI - 0.08, orbit.phi));
+        orbit.radius = Math.max(1.5, Math.min(35.0, orbit.radius));
+        const x = orbit.target.x + orbit.radius * Math.sin(orbit.phi) * Math.cos(orbit.theta);
+        const y = orbit.target.y + orbit.radius * Math.cos(orbit.phi);
+        const z = orbit.target.z + orbit.radius * Math.sin(orbit.phi) * Math.sin(orbit.theta);
+        camera.position.set(x, y, z);
+        camera.lookAt(orbit.target);
+      }
+      updateCameraFromOrbit();
+
+      renderer.domElement.addEventListener('pointerdown', (e) => {
+        orbit.isDragging = true;
+        orbit.isPanning = (e.button === 2 || e.shiftKey);
+        orbit.lastX = e.clientX;
+        orbit.lastY = e.clientY;
+        renderer.domElement.setPointerCapture(e.pointerId);
+      });
+
+      renderer.domElement.addEventListener('pointermove', (e) => {
+        if (!orbit.isDragging) return;
+        const dx = e.clientX - orbit.lastX;
+        const dy = e.clientY - orbit.lastY;
+        orbit.lastX = e.clientX;
+        orbit.lastY = e.clientY;
+
+        if (orbit.isPanning) {
+          const panScale = orbit.radius * 0.0015;
+          const forward = new THREE.Vector3();
+          camera.getWorldDirection(forward);
+          const right = new THREE.Vector3().crossVectors(forward, camera.up).normalize();
+          const up = new THREE.Vector3().crossVectors(right, forward).normalize();
+          orbit.target.addScaledVector(right, -dx * panScale);
+          orbit.target.addScaledVector(up, dy * panScale);
+        } else {
+          orbit.theta += dx * 0.0065;
+          orbit.phi -= dy * 0.0065;
+        }
+        updateCameraFromOrbit();
+      });
+
+      renderer.domElement.addEventListener('pointerup', (e) => {
+        orbit.isDragging = false;
+        try { renderer.domElement.releasePointerCapture(e.pointerId); } catch (_) {}
+      });
+
+      renderer.domElement.addEventListener('contextmenu', (e) => e.preventDefault());
+
+      renderer.domElement.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        orbit.radius *= (1 + e.deltaY * 0.001);
+        updateCameraFromOrbit();
+      }, { passive: false });
+
+      // -----------------------------------------------------------------------
+      // 3. PARAMETRIC HULL CROSS-SECTION & LOFTING MATH ENGINE
+      // -----------------------------------------------------------------------
+      // Coordinate convention in Three.js scene:
+      // X: Longitudinal (-LOA/2 at Stern Transom, +LOA/2 at Bow Stem)
+      // Y: Vertical Elevation (0 at Keel Baseline, +Depth at Sheer/Deck)
+      // Z: Transverse Beam (-Beam/2 Starboard, +Beam/2 Port)
+
+      function evaluateStationCrossSection(t, hullWidth, depth, deadriseDeg, bowRakeDeg, bowFlare, chineRatio, hasStrakes) {
+        // t in [0, 1]: 0 = transom stern, 1 = bow stem tip
+        const halfB = hullWidth * 0.5;
+        // Beam longitudinal distribution bFactor(t)
+        let bFactor;
+        if (t < 0.18) {
+          // Slight stern taper toward transom
+          bFactor = 0.88 + 0.12 * Math.sin((t / 0.18) * (Math.PI / 2));
+        } else if (t <= 0.58) {
+          bFactor = 1.0;
+        } else {
+          // Smooth hydrodynamic entry toward bow
+          const u = (t - 0.58) / 0.42;
+          bFactor = Math.pow(Math.max(0, 1 - Math.pow(u, 1.65)), 0.78);
+        }
+
+        // Keel rise at bow forefoot
+        let keelY = 0;
+        if (t > 0.72) {
+          const u = (t - 0.72) / 0.28;
+          keelY = depth * 0.55 * Math.pow(u, 2.1);
+        }
+
+        // Sheer line elevation (raises toward the bow for wave piercing/reserve buoyancy)
+        const sheerY = depth * (1.0 + 0.16 * Math.pow(Math.max(0, t - 0.35) / 0.65, 1.7) + 0.03 * Math.pow(1 - t, 2));
+
+        // Local warped deadrise angle (increases toward bow)
+        const localBetaRad = ((deadriseDeg + 14 * Math.pow(t, 1.4)) * Math.PI) / 180;
+        const chineZ = Math.max(0.015, halfB * bFactor * (0.86 - 0.12 * bowFlare * Math.pow(t, 1.3)));
+        const rawDeadriseRise = chineZ * Math.tan(localBetaRad);
+        const maxChineRise = Math.max(0.04, (sheerY - keelY) * chineRatio);
+        const chineY = Math.min(sheerY - 0.04, keelY + Math.min(rawDeadriseRise, maxChineRise));
+
+        // Outer sheer Z (includes bow flare)
+        const flareExtra = halfB * bFactor * (1 + bowFlare * 0.28 * Math.pow(t, 1.2));
+        const sheerZ = Math.max(chineZ, flareExtra);
+
+        // Return 7 profile points from keel (centerline) up to deck centerline:
+        // [0] Keel center (y=keelY, z=0)
+        // [1] Inner strake / lower deadrise
+        // [2] Outer strake / upper deadrise
+        // [3] Chine corner
+        // [4] Mid topside flare
+        // [5] Sheer gunwale corner
+        // [6] Deck centerline (with slight camber)
+        const stepOffset = (hasStrakes && t > 0.12 && t < 0.88) ? 0.016 * depth : 0;
+        const p0 = { y: keelY, z: 0 };
+        const p1 = {
+          y: keelY + (chineY - keelY) * 0.38 + stepOffset * 0.5,
+          z: chineZ * 0.38
+        };
+        const p2 = {
+          y: keelY + (chineY - keelY) * 0.74 + stepOffset,
+          z: chineZ * 0.74
+        };
+        const p3 = { y: chineY, z: chineZ };
+        const p4 = {
+          y: chineY + (sheerY - chineY) * 0.52,
+          z: chineZ + (sheerZ - chineZ) * 0.42
+        };
+        const p5 = { y: sheerY, z: sheerZ };
+        const deckCamber = depth * 0.045 * bFactor;
+        const p6 = { y: sheerY + deckCamber, z: 0 };
+
+        return [p0, p1, p2, p3, p4, p5, p6];
+      }
+
+      // Build a closed watertight lofted hull BufferGeometry
+      function createLoftedDemihullGeometry(loa, hullWidth, depth, deadrise, bowRake, bowFlare, chineRatio, hasStrakes, numStations = 26) {
+        const positions = [];
+        const indices = [];
+
+        const rakeTan = Math.tan((bowRake * Math.PI) / 180);
+        const rings = [];
+
+        for (let i = 0; i <= numStations; i++) {
+          const t = i / numStations;
+          const basePts = evaluateStationCrossSection(t, hullWidth, depth, deadrise, bowRake, bowFlare, chineRatio, hasStrakes);
+
+          // X coordinate along hull length, with raked bow stem at t near 1 and raked transom at t near 0
+          const xBase = (t - 0.5) * loa;
+          // Build full loop around section (Starboard side z < 0 and Port side z > 0)
+          // Order: p0 (keel) -> p1..p5 (Port +z) -> p6 (Deck center) -> p5..p1 (Starboard -z)
+          const ring = [];
+          const pushPt = (pt, signZ) => {
+            const relY = pt.y / Math.max(0.1, depth);
+            let xShift = 0;
+            if (t > 0.82) {
+              const u = (t - 0.82) / 0.18;
+              xShift = (relY - 0.3) * depth * rakeTan * 0.45 * u;
+            }
+            ring.push(new THREE.Vector3(xBase + xShift, pt.y, pt.z * signZ));
+          };
+
+          pushPt(basePts[0], 1); // 0: Keel
+          for (let k = 1; k <= 5; k++) pushPt(basePts[k], 1); // 1..5: Port side
+          pushPt(basePts[6], 1); // 6: Deck center
+          for (let k = 5; k >= 1; k--) pushPt(basePts[k], -1); // 7..11: Starboard side
+
+          rings.push(ring);
+        }
+
+        const ringSize = rings[0].length; // 12 vertices per station ring
+        for (let i = 0; i <= numStations; i++) {
+          for (let j = 0; j < ringSize; j++) {
+            const v = rings[i][j];
+            positions.push(v.x, v.y, v.z);
+          }
+        }
+
+        // Side faces between station i and i+1
+        for (let i = 0; i < numStations; i++) {
+          for (let j = 0; j < ringSize; j++) {
+            const nextJ = (j + 1) % ringSize;
+            const a = i * ringSize + j;
+            const b = (i + 1) * ringSize + j;
+            const c = (i + 1) * ringSize + nextJ;
+            const d = i * ringSize + nextJ;
+            indices.push(a, b, c);
+            indices.push(a, c, d);
+          }
+        }
+
+        // Close Transom Cap (i = 0)
+        const sternCenterIdx = positions.length / 3;
+        const sternKeel = rings[0][0];
+        const sternDeck = rings[0][6];
+        positions.push(sternKeel.x, (sternKeel.y + sternDeck.y) * 0.5, 0);
+        for (let j = 0; j < ringSize; j++) {
+          const nextJ = (j + 1) % ringSize;
+          indices.push(sternCenterIdx, nextJ, j);
+        }
+
+        // Close Bow Stem Cap (i = numStations)
+        const bowCenterIdx = positions.length / 3;
+        const bowRingOffset = numStations * ringSize;
+        const bowKeel = rings[numStations][0];
+        const bowDeck = rings[numStations][6];
+        positions.push(bowKeel.x, (bowKeel.y + bowDeck.y) * 0.5, 0);
+        for (let j = 0; j < ringSize; j++) {
+          const nextJ = (j + 1) % ringSize;
+          indices.push(bowCenterIdx, bowRingOffset + j, bowRingOffset + nextJ);
+        }
+
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        geo.setIndex(indices);
+        geo.computeVertexNormals();
+        return { geometry: geo, rings };
+      }
+
+      // Helper to clear a Three.js group cleanly
+      function clearGroup(group) {
+        while (group.children.length > 0) {
+          const child = group.children[0];
+          group.remove(child);
+          if (child.geometry) child.geometry.dispose();
+        }
+      }
+
+      // -----------------------------------------------------------------------
+      // 4. FULL 3D USV ASSEMBLY BUILDER
+      // -----------------------------------------------------------------------
+      let cachedStationRings = [];
+      let cachedHydrostatics = {};
+
+      function rebuildUSVModel() {
+        Object.values(stepGroups).forEach(clearGroup);
+        clearGroup(helperGroup);
+        animatedPropellers = [];
+        animatedRadarScanners = [];
+        animatedLidarRotors = [];
+
+        const pal = LIVERY_PALETTES[state.livery] || LIVERY_PALETTES.tactical_grey;
+        const isXray = state.xray;
+        const wf = state.wireframe;
+
+        const hullMat = new THREE.MeshStandardMaterial({
+          color: pal.hullUpper,
+          roughness: 0.35,
+          metalness: 0.25,
+          wireframe: wf,
+          transparent: isXray,
+          opacity: isXray ? 0.32 : 1.0,
+          side: THREE.DoubleSide
+        });
+        hullMat.userData = { stepColor: pal.hullUpper };
+
+        const bottomMat = new THREE.MeshStandardMaterial({
+          color: pal.hullLower,
+          roughness: 0.45,
+          metalness: 0.2,
+          wireframe: wf,
+          transparent: isXray,
+          opacity: isXray ? 0.32 : 1.0
+        });
+        bottomMat.userData = { stepColor: pal.hullLower };
+
+        const deckMat = new THREE.MeshStandardMaterial({
+          color: pal.deck,
+          roughness: 0.55,
+          metalness: 0.2,
+          wireframe: wf,
+          transparent: isXray,
+          opacity: isXray ? 0.28 : 1.0
+        });
+        deckMat.userData = { stepColor: pal.deck };
+
+        const cabinMat = new THREE.MeshStandardMaterial({
+          color: pal.cabin,
+          roughness: 0.3,
+          metalness: 0.35,
+          wireframe: wf,
+          transparent: isXray,
+          opacity: isXray ? 0.45 : 1.0
+        });
+        cabinMat.userData = { stepColor: pal.cabin };
+
+        const accentMat = new THREE.MeshStandardMaterial({
+          color: pal.accent,
+          roughness: 0.25,
+          metalness: 0.5,
+          wireframe: wf
+        });
+        accentMat.userData = { stepColor: pal.accent };
+
+        const darkMetalMat = new THREE.MeshStandardMaterial({
+          color: 0x1e293b,
+          roughness: 0.4,
+          metalness: 0.75,
+          wireframe: wf
+        });
+        darkMetalMat.userData = { stepColor: 0x1e293b };
+
+        const stainlessMat = new THREE.MeshStandardMaterial({
+          color: 0xcbd5e1,
+          roughness: 0.22,
+          metalness: 0.85,
+          wireframe: wf
+        });
+        stainlessMat.userData = { stepColor: 0xcbd5e1 };
+
+        const bronzeMat = new THREE.MeshStandardMaterial({
+          color: 0xd97706,
+          roughness: 0.25,
+          metalness: 0.85,
+          wireframe: wf
+        });
+        bronzeMat.userData = { stepColor: 0xd97706 };
+
+        const sensorWhiteMat = new THREE.MeshStandardMaterial({
+          color: 0xf8fafc,
+          roughness: 0.25,
+          metalness: 0.15,
+          wireframe: wf
+        });
+        sensorWhiteMat.userData = { stepColor: 0xf8fafc };
+
+        const L = state.loa;
+        const B = state.beam;
+        const D = state.depth;
+
+        // =====================================================================
+        // GROUP 1 & 2: HULL ARCHITECTURE + DECK & INTERNAL STRUCTURAL FRAMES
+        // =====================================================================
+        let deckHeightY = D * 1.04;
+        let propMountPositions = [];
+
+        if (state.hullType === 'monohull_deepv') {
+          const loft = createLoftedDemihullGeometry(
+            L, B, D, state.deadrise, state.bowRake, state.bowFlare, state.chineRatio, state.sprayStrakes, 28
+          );
+          cachedStationRings = loft.rings;
+          const hullMesh = new THREE.Mesh(loft.geometry, hullMat);
+          stepGroups.hull.add(hullMesh);
+
+          // Fender Rub Rail around gunwale
+          if (state.rubRail) {
+            const railPts = [];
+            loft.rings.forEach(r => railPts.push(r[5].clone()));
+            for (let i = loft.rings.length - 1; i >= 0; i--) {
+              railPts.push(loft.rings[i][7].clone());
+            }
+            railPts.push(loft.rings[0][5].clone());
+            const railCurve = new THREE.CatmullRomCurve3(railPts);
+            const railGeo = new THREE.TubeGeometry(railCurve, 64, Math.max(0.022, B * 0.018), 8, true);
+            const railMesh = new THREE.Mesh(railGeo, darkMetalMat);
+            stepGroups.hull.add(railMesh);
+          }
+
+          propMountPositions = [
+            { x: -L * 0.5, y: D * 0.22, z: -B * 0.22 },
+            { x: -L * 0.5, y: D * 0.22, z: B * 0.22 }
+          ];
+        } else if (state.hullType === 'catamaran') {
+          const demiWidth = B * 0.26;
+          const zOffset = (B - demiWidth) * 0.5 * state.hullSpacing;
+          const loft = createLoftedDemihullGeometry(
+            L, demiWidth, D, Math.max(24, state.deadrise), state.bowRake, state.bowFlare * 0.6, state.chineRatio, state.sprayStrakes, 26
+          );
+          cachedStationRings = loft.rings;
+
+          const portHull = new THREE.Mesh(loft.geometry, hullMat);
+          portHull.position.z = zOffset;
+          stepGroups.hull.add(portHull);
+
+          const stbdHull = new THREE.Mesh(loft.geometry.clone(), hullMat);
+          stbdHull.position.z = -zOffset;
+          stepGroups.hull.add(stbdHull);
+
+          // Cross-bridge wet deck platform connecting the two demihulls
+          const bridgeLen = L * 0.78;
+          const bridgeWidth = zOffset * 2 + demiWidth * 0.75;
+          const bridgeThick = D * 0.26;
+          const bridgeGeo = new THREE.BoxGeometry(bridgeLen, bridgeThick, bridgeWidth);
+          const bridgeMesh = new THREE.Mesh(bridgeGeo, deckMat);
+          bridgeMesh.position.set(-L * 0.04, D * 0.92, 0);
+          stepGroups.deckFrames.add(bridgeMesh);
+
+          deckHeightY = D * 1.05;
+          propMountPositions = [
+            { x: -L * 0.5, y: D * 0.22, z: -zOffset },
+            { x: -L * 0.5, y: D * 0.22, z: zOffset }
+          ];
+        } else if (state.hullType === 'trimaran') {
+          const mainWidth = B * 0.34;
+          const amaWidth = B * 0.14;
+          const amaLen = L * 0.62;
+          const zOffset = (B - amaWidth) * 0.5 * state.hullSpacing;
+
+          const mainLoft = createLoftedDemihullGeometry(
+            L, mainWidth, D, Math.max(22, state.deadrise), state.bowRake, state.bowFlare * 0.5, state.chineRatio, state.sprayStrakes, 28
+          );
+          cachedStationRings = mainLoft.rings;
+          const mainHull = new THREE.Mesh(mainLoft.geometry, hullMat);
+          stepGroups.hull.add(mainHull);
+
+          const amaLoft = createLoftedDemihullGeometry(
+            amaLen, amaWidth, D * 0.68, 28, 30, 0.2, 0.5, false, 18
+          );
+          const portAma = new THREE.Mesh(amaLoft.geometry, hullMat);
+          portAma.position.set(-L * 0.06, D * 0.16, zOffset);
+          stepGroups.hull.add(portAma);
+
+          const stbdAma = new THREE.Mesh(amaLoft.geometry.clone(), hullMat);
+          stbdAma.position.set(-L * 0.06, D * 0.16, -zOffset);
+          stepGroups.hull.add(stbdAma);
+
+          // Crosswing beams (Forward & Aft)
+          [-L * 0.22, L * 0.12].forEach(bx => {
+            const beamGeo = new THREE.BoxGeometry(L * 0.11, D * 0.16, zOffset * 2 + amaWidth * 0.4);
+            const beamMesh = new THREE.Mesh(beamGeo, deckMat);
+            beamMesh.position.set(bx, D * 0.88, 0);
+            stepGroups.deckFrames.add(beamMesh);
+          });
+
+          deckHeightY = D * 1.04;
+          propMountPositions = [
+            { x: -L * 0.5, y: D * 0.22, z: -mainWidth * 0.22 },
+            { x: -L * 0.5, y: D * 0.22, z: mainWidth * 0.22 }
+          ];
+        } else if (state.hullType === 'swath') {
+          // SWATH: Twin submerged torpedo lower hulls + narrow vertical struts + upper deck box
+          const zOffset = B * 0.38 * state.hullSpacing;
+          const torpedoRadius = D * 0.24;
+          const strutHeight = D * 0.68;
+
+          // Record synthetic station rings for 2D plot
+          const baseLoft = createLoftedDemihullGeometry(L, B * 0.28, D, state.deadrise, state.bowRake, state.bowFlare, state.chineRatio, false, 20);
+          cachedStationRings = baseLoft.rings;
+
+          [-zOffset, zOffset].forEach(zPos => {
+            // Submerged torpedo cylinder + bow/stern cones
+            const cylLen = L * 0.76;
+            const cylGeo = new THREE.CylinderGeometry(torpedoRadius, torpedoRadius, cylLen, 18);
+            cylGeo.rotateZ(Math.PI / 2);
+            const cylMesh = new THREE.Mesh(cylGeo, bottomMat);
+            cylMesh.position.set(0, torpedoRadius, zPos);
+            stepGroups.hull.add(cylMesh);
+
+            const noseGeo = new THREE.ConeGeometry(torpedoRadius, L * 0.16, 18);
+            noseGeo.rotateZ(-Math.PI / 2);
+            const noseMesh = new THREE.Mesh(noseGeo, bottomMat);
+            noseMesh.position.set(cylLen * 0.5 + L * 0.08, torpedoRadius, zPos);
+            stepGroups.hull.add(noseMesh);
+
+            const tailGeo = new THREE.ConeGeometry(torpedoRadius, L * 0.08, 18);
+            tailGeo.rotateZ(Math.PI / 2);
+            const tailMesh = new THREE.Mesh(tailGeo, bottomMat);
+            tailMesh.position.set(-cylLen * 0.5 - L * 0.04, torpedoRadius, zPos);
+            stepGroups.hull.add(tailMesh);
+
+            // Streamlined surface-piercing strut
+            const strutGeo = new THREE.BoxGeometry(L * 0.68, strutHeight, torpedoRadius * 0.65);
+            const strutMesh = new THREE.Mesh(strutGeo, hullMat);
+            strutMesh.position.set(-L * 0.02, torpedoRadius * 1.6 + strutHeight * 0.5, zPos);
+            stepGroups.hull.add(strutMesh);
+          });
+
+          // Upper SWATH platform box
+          const boxGeo = new THREE.BoxGeometry(L * 0.80, D * 0.24, zOffset * 2 + torpedoRadius * 2.2);
+          const boxMesh = new THREE.Mesh(boxGeo, deckMat);
+          boxMesh.position.set(-L * 0.02, D * 0.98, 0);
+          stepGroups.deckFrames.add(boxMesh);
+
+          deckHeightY = D * 1.10;
+          propMountPositions = [
+            { x: -L * 0.46, y: torpedoRadius, z: -zOffset },
+            { x: -L * 0.46, y: torpedoRadius, z: zOffset }
+          ];
+        }
+
+        // Internal Structural Transverse Bulkhead Frames & Keel Girder (Group 2)
+        const frameWidth = (state.hullType === 'monohull_deepv') ? B * 0.72 : B * 0.26;
+        for (let f = -3; f <= 3; f++) {
+          const fx = (f / 4.2) * L;
+          const fGeo = new THREE.BoxGeometry(0.028, D * 0.55, frameWidth * (1 - 0.25 * Math.abs(f) / 3));
+          const fMesh = new THREE.Mesh(fGeo, stainlessMat);
+          fMesh.position.set(fx, D * 0.36, 0);
+          stepGroups.deckFrames.add(fMesh);
+        }
+        // Longitudinal keel girder
+        const keelGirderGeo = new THREE.BoxGeometry(L * 0.78, D * 0.14, 0.05);
+        const keelGirder = new THREE.Mesh(keelGirderGeo, stainlessMat);
+        keelGirder.position.set(0, D * 0.15, 0);
+        stepGroups.deckFrames.add(keelGirder);
+
+        // 4x Deck Lifting Padeyes & Bow Towing Post
+        const padX = [-L * 0.32, L * 0.28];
+        const padZ = [-B * 0.32, B * 0.32];
+        padX.forEach(px => {
+          padZ.forEach(pz => {
+            const lugGeo = new THREE.BoxGeometry(0.08, 0.06, 0.03);
+            const lug = new THREE.Mesh(lugGeo, stainlessMat);
+            lug.position.set(px, deckHeightY + 0.02, pz);
+            stepGroups.deckFrames.add(lug);
+          });
+        });
+
+        // =====================================================================
+        // GROUP 3: SUPERSTRUCTURE CABIN & TACTICAL INSTRUMENT MAST
+        // =====================================================================
+        const cabLen = L * 0.42;
+        const cabWid = Math.min(B * 0.56, 1.85);
+        const cabH = D * 0.48;
+        let cabinTopY = deckHeightY + cabH;
+
+        if (state.superstructure === 'stealth_faceted') {
+          // Multi-faceted stealth cabin using 6-sided cylinder frustum stretched along X
+          const stealthGeo = new THREE.CylinderGeometry(cabWid * 0.38, cabWid * 0.58, cabH, 6);
+          stealthGeo.scale(cabLen / Math.max(0.2, cabWid), 1, 1);
+          const stealthCab = new THREE.Mesh(stealthGeo, cabinMat);
+          stealthCab.position.set(-L * 0.03, deckHeightY + cabH * 0.5, 0);
+          stepGroups.superstructure.add(stealthCab);
+
+          // Forward viewport visor accent
+          const visorGeo = new THREE.BoxGeometry(cabLen * 0.22, cabH * 0.28, cabWid * 0.62);
+          const visor = new THREE.Mesh(visorGeo, accentMat);
+          visor.position.set(L * 0.11, deckHeightY + cabH * 0.62, 0);
+          stepGroups.superstructure.add(visor);
+        } else if (state.superstructure === 'streamlined_aero') {
+          const aeroGeo = new THREE.SphereGeometry(cabWid * 0.5, 20, 14, 0, Math.PI * 2, 0, Math.PI * 0.55);
+          aeroGeo.scale(cabLen / Math.max(0.2, cabWid), (cabH * 1.25) / Math.max(0.2, cabWid * 0.5), 1);
+          const aeroCab = new THREE.Mesh(aeroGeo, cabinMat);
+          aeroCab.position.set(-L * 0.03, deckHeightY, 0);
+          stepGroups.superstructure.add(aeroCab);
+        } else {
+          // Modular utility deck housing + T-slot roll-bar gantry
+          const baseBoxGeo = new THREE.BoxGeometry(cabLen * 0.85, cabH * 0.55, cabWid * 0.78);
+          const baseBox = new THREE.Mesh(baseBoxGeo, cabinMat);
+          baseBox.position.set(-L * 0.04, deckHeightY + cabH * 0.275, 0);
+          stepGroups.superstructure.add(baseBox);
+
+          // Roll-bar gantry pillars
+          [-cabWid * 0.35, cabWid * 0.35].forEach(rz => {
+            const pillarGeo = new THREE.CylinderGeometry(0.03, 0.03, cabH * 0.95, 10);
+            const pillar = new THREE.Mesh(pillarGeo, stainlessMat);
+            pillar.position.set(-L * 0.04, deckHeightY + cabH * 0.5, rz);
+            stepGroups.superstructure.add(pillar);
+          });
+          const crossBarGeo = new THREE.BoxGeometry(0.08, 0.05, cabWid * 0.82);
+          const crossBar = new THREE.Mesh(crossBarGeo, stainlessMat);
+          crossBar.position.set(-L * 0.04, deckHeightY + cabH * 0.95, 0);
+          stepGroups.superstructure.add(crossBar);
+        }
+
+        // Main Instrument Mast
+        const mastH = state.mastHeight;
+        const mastBaseX = -L * 0.06;
+        const mastTopY = cabinTopY + mastH;
+
+        // Mast main strut (raked slightly aft)
+        const mastStrutGeo = new THREE.BoxGeometry(0.09, mastH, 0.07);
+        const mastStrut = new THREE.Mesh(mastStrutGeo, darkMetalMat);
+        mastStrut.position.set(mastBaseX, cabinTopY + mastH * 0.5, 0);
+        stepGroups.superstructure.add(mastStrut);
+
+        // Sensor yardarm crossbar near mast top
+        const yardarmWidth = Math.min(B * 0.65, 1.35);
+        const yardarmGeo = new THREE.BoxGeometry(0.06, 0.04, yardarmWidth);
+        const yardarm = new THREE.Mesh(yardarmGeo, stainlessMat);
+        yardarm.position.set(mastBaseX, mastTopY - 0.16, 0);
+        stepGroups.superstructure.add(yardarm);
+
+        // Top radar mounting plate
+        const radarPlateGeo = new THREE.CylinderGeometry(0.18, 0.14, 0.04, 16);
+        const radarPlate = new THREE.Mesh(radarPlateGeo, darkMetalMat);
+        radarPlate.position.set(mastBaseX, mastTopY, 0);
+        stepGroups.superstructure.add(radarPlate);
+
+        // =====================================================================
+        // GROUP 4: INTERNAL POWER & ENERGY BAY (Visible in X-Ray / Explode & STEP)
+        // =====================================================================
+        const bayY = D * 0.36;
+        const batteryMat = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.35, metalness: 0.4, wireframe: wf });
+        batteryMat.userData = { stepColor: 0x10b981 };
+        const engineMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.35, metalness: 0.6, wireframe: wf });
+        engineMat.userData = { stepColor: 0xf59e0b };
+
+        // Modular Battery Racks (scaled with batteryKwh)
+        const numPacks = Math.max(2, Math.min(8, Math.round(state.batteryKwh / 16)));
+        const packLen = (L * 0.32) / numPacks;
+        for (let p = 0; p < numPacks; p++) {
+          const packGeo = new THREE.BoxGeometry(packLen * 0.82, D * 0.26, Math.min(B * 0.36, 0.68));
+          const packMesh = new THREE.Mesh(packGeo, batteryMat);
+          packMesh.position.set(-L * 0.08 + (p - (numPacks - 1) * 0.5) * packLen, bayY, 0);
+          stepGroups.powerBay.add(packMesh);
+        }
+
+        if (state.powerType === 'diesel_electric') {
+          // Diesel Generator Block + Alternator + Twin Fuel Tanks
+          const genGeo = new THREE.BoxGeometry(L * 0.16, D * 0.38, Math.min(B * 0.28, 0.52));
+          const genMesh = new THREE.Mesh(genGeo, engineMat);
+          genMesh.position.set(-L * 0.26, bayY + D * 0.06, 0);
+          stepGroups.powerBay.add(genMesh);
+
+          [-1, 1].forEach(side => {
+            const tankGeo = new THREE.CylinderGeometry(D * 0.13, D * 0.13, L * 0.22, 14);
+            tankGeo.rotateZ(Math.PI / 2);
+            const tank = new THREE.Mesh(tankGeo, stainlessMat);
+            tank.position.set(L * 0.08, bayY, side * Math.min(B * 0.22, 0.42));
+            stepGroups.powerBay.add(tank);
+          });
+        } else if (state.powerType === 'hydrogen_pem') {
+          // Twin Type-IV High-Pressure H2 Cylinders + PEM Fuel Cell Stack
+          [-1, 1].forEach(side => {
+            const h2Geo = new THREE.CylinderGeometry(D * 0.14, D * 0.14, L * 0.28, 16);
+            h2Geo.rotateZ(Math.PI / 2);
+            const h2Tank = new THREE.Mesh(h2Geo, accentMat);
+            h2Tank.position.set(-L * 0.20, bayY + 0.04, side * Math.min(B * 0.2, 0.36));
+            stepGroups.powerBay.add(h2Tank);
+          });
+        } else if (state.powerType === 'solar_hybrid') {
+          // Deck-mounted Monocrystalline Solar Array Panels
+          const solarMat = new THREE.MeshStandardMaterial({ color: 0x1d4ed8, roughness: 0.15, metalness: 0.65, wireframe: wf });
+          solarMat.userData = { stepColor: 0x1d4ed8 };
+          const solarForeGeo = new THREE.BoxGeometry(L * 0.26, 0.025, B * 0.58);
+          const solarFore = new THREE.Mesh(solarForeGeo, solarMat);
+          solarFore.position.set(L * 0.24, deckHeightY + 0.025, 0);
+          stepGroups.powerBay.add(solarFore);
+
+          const solarAftGeo = new THREE.BoxGeometry(L * 0.20, 0.025, B * 0.64);
+          const solarAft = new THREE.Mesh(solarAftGeo, solarMat);
+          solarAft.position.set(-L * 0.33, deckHeightY + 0.025, 0);
+          stepGroups.powerBay.add(solarAft);
+        }
+
+        // =====================================================================
+        // GROUP 5: PROPULSION SYSTEM & THRUSTERS
+        // =====================================================================
+        const propRadius = (state.propDia / 1000) * 0.5;
+
+        propMountPositions.forEach((mount, idx) => {
+          if (state.propulsionType === 'twin_waterjet') {
+            // Waterjet Pump Chamber + Steering Nozzle + Reversing Bucket
+            const ductGeo = new THREE.CylinderGeometry(propRadius * 0.95, propRadius * 1.05, L * 0.09, 16);
+            ductGeo.rotateZ(Math.PI / 2);
+            const duct = new THREE.Mesh(ductGeo, darkMetalMat);
+            duct.position.set(mount.x - L * 0.035, mount.y, mount.z);
+            stepGroups.propulsion.add(duct);
+
+            const nozzleGeo = new THREE.ConeGeometry(propRadius * 0.88, L * 0.05, 16, 1, true);
+            nozzleGeo.rotateZ(Math.PI / 2);
+            const nozzle = new THREE.Mesh(nozzleGeo, stainlessMat);
+            nozzle.position.set(mount.x - L * 0.095, mount.y, mount.z);
+            stepGroups.propulsion.add(nozzle);
+
+            // Reversing deflector bucket above nozzle
+            const bucketGeo = new THREE.BoxGeometry(L * 0.04, propRadius * 1.1, propRadius * 1.7);
+            const bucket = new THREE.Mesh(bucketGeo, accentMat);
+            bucket.position.set(mount.x - L * 0.105, mount.y + propRadius * 0.55, mount.z);
+            stepGroups.propulsion.add(bucket);
+
+            // Internal impeller rotor
+            const impGroup = new THREE.Group();
+            impGroup.position.set(mount.x - L * 0.06, mount.y, mount.z);
+            for (let b = 0; b < 4; b++) {
+              const bladeGeo = new THREE.BoxGeometry(0.015, propRadius * 1.4, propRadius * 0.35);
+              const blade = new THREE.Mesh(bladeGeo, bronzeMat);
+              blade.rotation.x = (b * Math.PI) / 4;
+              impGroup.add(blade);
+            }
+            stepGroups.propulsion.add(impGroup);
+            animatedPropellers.push({ node: impGroup, dir: idx === 0 ? 1 : -1 });
+
+          } else if (state.propulsionType === 'twin_azimuth_pod') {
+            // Vertical Azimuth Strut + Torpedo Pod + Kort Nozzle Shroud + Propeller
+            const podY = mount.y - D * 0.28;
+            const strutGeo = new THREE.BoxGeometry(propRadius * 1.1, D * 0.28, propRadius * 0.35);
+            const strut = new THREE.Mesh(strutGeo, darkMetalMat);
+            strut.position.set(mount.x + L * 0.06, mount.y - D * 0.14, mount.z);
+            stepGroups.propulsion.add(strut);
+
+            const podBodyGeo = new THREE.CylinderGeometry(propRadius * 0.48, propRadius * 0.42, propRadius * 2.4, 14);
+            podBodyGeo.rotateZ(Math.PI / 2);
+            const podBody = new THREE.Mesh(podBodyGeo, darkMetalMat);
+            podBody.position.set(mount.x + L * 0.06, podY, mount.z);
+            stepGroups.propulsion.add(podBody);
+
+            // Kort Nozzle Ring
+            const kortGeo = new THREE.CylinderGeometry(propRadius * 1.12, propRadius * 1.05, propRadius * 0.9, 20, 1, true);
+            kortGeo.rotateZ(Math.PI / 2);
+            const kort = new THREE.Mesh(kortGeo, accentMat);
+            kort.position.set(mount.x + L * 0.06 - propRadius * 1.1, podY, mount.z);
+            stepGroups.propulsion.add(kort);
+
+            const propGroup = buildMultiBladePropeller(propRadius * 0.98, 4, bronzeMat);
+            propGroup.position.set(mount.x + L * 0.06 - propRadius * 1.1, podY, mount.z);
+            stepGroups.propulsion.add(propGroup);
+            animatedPropellers.push({ node: propGroup, dir: idx === 0 ? 1 : -1 });
+
+          } else if (state.propulsionType === 'twin_shaft_prop') {
+            // Inclined Shaft + P-Bracket + 5-Blade Skewed Propeller + Balanced Rudder
+            const propX = mount.x + L * 0.05;
+            const propY = mount.y - D * 0.26;
+
+            const shaftGeo = new THREE.CylinderGeometry(0.018, 0.018, L * 0.18, 10);
+            shaftGeo.rotateZ(Math.PI / 2 - 0.18);
+            const shaft = new THREE.Mesh(shaftGeo, stainlessMat);
+            shaft.position.set(propX + L * 0.07, propY + D * 0.08, mount.z);
+            stepGroups.propulsion.add(shaft);
+
+            // Rudder blade behind propeller
+            const rudderGeo = new THREE.BoxGeometry(propRadius * 0.85, propRadius * 1.75, 0.024);
+            const rudder = new THREE.Mesh(rudderGeo, darkMetalMat);
+            rudder.position.set(propX - propRadius * 0.9, propY + propRadius * 0.2, mount.z);
+            stepGroups.propulsion.add(rudder);
+
+            const propGroup = buildMultiBladePropeller(propRadius, 5, bronzeMat);
+            propGroup.position.set(propX, propY, mount.z);
+            stepGroups.propulsion.add(propGroup);
+            animatedPropellers.push({ node: propGroup, dir: idx === 0 ? 1 : -1 });
+
+          } else if (state.propulsionType === 'surface_piercing') {
+            // Extended Surface Drive Housing + Hydraulic Trim Cylinder + Cleaver Prop
+            const driveGeo = new THREE.CylinderGeometry(propRadius * 0.32, propRadius * 0.45, L * 0.12, 12);
+            driveGeo.rotateZ(Math.PI / 2 + 0.08);
+            const drive = new THREE.Mesh(driveGeo, stainlessMat);
+            drive.position.set(mount.x - L * 0.055, mount.y - 0.02, mount.z);
+            stepGroups.propulsion.add(drive);
+
+            const propGroup = buildMultiBladePropeller(propRadius * 1.05, 5, stainlessMat);
+            propGroup.position.set(mount.x - L * 0.115, mount.y - 0.03, mount.z);
+            stepGroups.propulsion.add(propGroup);
+            animatedPropellers.push({ node: propGroup, dir: idx === 0 ? 1 : -1 });
+          }
+        });
+
+        // Optional Bow Tunnel Thruster
+        if (state.bowThruster) {
+          const bowTunnelGeo = new THREE.CylinderGeometry(propRadius * 0.48, propRadius * 0.48, B * 0.34, 14);
+          bowTunnelGeo.rotateX(Math.PI / 2);
+          const bowTunnel = new THREE.Mesh(bowTunnelGeo, accentMat);
+          bowTunnel.position.set(L * 0.28, D * 0.20, 0);
+          stepGroups.propulsion.add(bowTunnel);
+        }
+
+        // Optional Active Trim Tabs at Transom Bottom
+        if (state.trimTabs) {
+          propMountPositions.forEach(mount => {
+            const tabGeo = new THREE.BoxGeometry(L * 0.035, 0.015, propRadius * 1.9);
+            const tab = new THREE.Mesh(tabGeo, stainlessMat);
+            tab.position.set(mount.x - L * 0.015, D * 0.08, mount.z);
+            tab.rotation.z = 0.14;
+            stepGroups.propulsion.add(tab);
+          });
+        }
+
+        // =====================================================================
+        // GROUP 6: MARINE RADAR SYSTEM
+        // =====================================================================
+        const radarBaseY = mastTopY + 0.02;
+        if (state.radarType === 'solid_state_radome') {
+          const domeRadius = Math.max(0.24, Math.min(0.42, B * 0.18));
+          const domeHeight = domeRadius * 0.58;
+          const domeGeo = new THREE.CylinderGeometry(domeRadius * 0.92, domeRadius, domeHeight, 24);
+          const domeMesh = new THREE.Mesh(domeGeo, sensorWhiteMat);
+          domeMesh.position.set(mastBaseX, radarBaseY + domeHeight * 0.5, 0);
+          stepGroups.radar.add(domeMesh);
+
+          // Accent band around radome
+          const bandGeo = new THREE.CylinderGeometry(domeRadius * 0.97, domeRadius * 0.97, domeHeight * 0.16, 24);
+          const bandMesh = new THREE.Mesh(bandGeo, accentMat);
+          bandMesh.position.set(mastBaseX, radarBaseY + domeHeight * 0.45, 0);
+          stepGroups.radar.add(bandMesh);
+        } else if (state.radarType === 'open_array_xband') {
+          // Pedestal + Rotating Open-Array Scanner Bar
+          const pedGeo = new THREE.CylinderGeometry(0.11, 0.14, 0.16, 16);
+          const ped = new THREE.Mesh(pedGeo, sensorWhiteMat);
+          ped.position.set(mastBaseX, radarBaseY + 0.08, 0);
+          stepGroups.radar.add(ped);
+
+          const arrayGroup = new THREE.Group();
+          arrayGroup.position.set(mastBaseX, radarBaseY + 0.19, 0);
+          const barWidth = Math.max(0.85, Math.min(1.55, B * 0.68));
+          const barGeo = new THREE.BoxGeometry(0.12, 0.09, barWidth);
+          const barMesh = new THREE.Mesh(barGeo, sensorWhiteMat);
+          arrayGroup.add(barMesh);
+          stepGroups.radar.add(arrayGroup);
+          animatedRadarScanners.push(arrayGroup);
+        } else if (state.radarType === 'phased_array_4d') {
+          // 4-Face Octagonal AESA Tactical Radar Module
+          const aesaGeo = new THREE.CylinderGeometry(0.20, 0.26, 0.36, 8);
+          const aesaMesh = new THREE.Mesh(aesaGeo, darkMetalMat);
+          aesaMesh.position.set(mastBaseX, radarBaseY + 0.18, 0);
+          stepGroups.radar.add(aesaMesh);
+
+          // 4 Active Panel Faces
+          for (let a = 0; a < 4; a++) {
+            const panelGeo = new THREE.BoxGeometry(0.02, 0.24, 0.18);
+            const panel = new THREE.Mesh(panelGeo, accentMat);
+            const ang = (a * Math.PI) / 2;
+            panel.position.set(mastBaseX + Math.cos(ang) * 0.22, radarBaseY + 0.18, Math.sin(ang) * 0.22);
+            panel.rotation.y = -ang;
+            stepGroups.radar.add(panel);
+          }
+        } else if (state.radarType === 'mmwave_array') {
+          // Compact mast dome + 4x Corner 77GHz mmWave Radar Modules on cabin perimeter
+          const miniDomeGeo = new THREE.CylinderGeometry(0.18, 0.20, 0.14, 18);
+          const miniDome = new THREE.Mesh(miniDomeGeo, sensorWhiteMat);
+          miniDome.position.set(mastBaseX, radarBaseY + 0.07, 0);
+          stepGroups.radar.add(miniDome);
+
+          const cX = [-cabLen * 0.42, cabLen * 0.42];
+          const cZ = [-cabWid * 0.45, cabWid * 0.45];
+          cX.forEach(cx => {
+            cZ.forEach(cz => {
+              const mmGeo = new THREE.BoxGeometry(0.09, 0.06, 0.09);
+              const mmMod = new THREE.Mesh(mmGeo, accentMat);
+              mmMod.position.set(-L * 0.03 + cx, deckHeightY + cabH * 0.72, cz);
+              stepGroups.radar.add(mmMod);
+            });
+          });
+        }
+
+        // =====================================================================
+        // GROUP 7: DETECTION & NAVIGATION SENSORS (GNSS, EO/IR, LiDAR, Sonar)
+        // =====================================================================
+        // 7A. GNSS Antennas
+        if (state.gnssType === 'dual_rtk_ins') {
+          [-0.42, 0.42].forEach(gx => {
+            const rtkPodGeo = new THREE.CylinderGeometry(0.075, 0.06, 0.05, 16);
+            const rtkPod = new THREE.Mesh(rtkPodGeo, sensorWhiteMat);
+            rtkPod.position.set(mastBaseX + gx, mastTopY - 0.12, 0);
+            stepGroups.sensors.add(rtkPod);
+          });
+          // Longitudinal RTK baseline boom
+          const boomGeo = new THREE.BoxGeometry(0.92, 0.025, 0.03);
+          const boom = new THREE.Mesh(boomGeo, stainlessMat);
+          boom.position.set(mastBaseX, mastTopY - 0.15, 0);
+          stepGroups.sensors.add(boom);
+        } else if (state.gnssType === 'triple_gnss_crpa') {
+          const crpaGeo = new THREE.CylinderGeometry(0.16, 0.18, 0.06, 8);
+          const crpa = new THREE.Mesh(crpaGeo, darkMetalMat);
+          crpa.position.set(mastBaseX + 0.28, cabinTopY + 0.04, 0);
+          stepGroups.sensors.add(crpa);
+        } else {
+          const singleGnssGeo = new THREE.CylinderGeometry(0.08, 0.06, 0.05, 16);
+          const singleGnss = new THREE.Mesh(singleGnssGeo, sensorWhiteMat);
+          singleGnss.position.set(mastBaseX, mastTopY - 0.12, yardarmWidth * 0.42);
+          stepGroups.sensors.add(singleGnss);
+        }
+
+        // 7B. EO/IR Stabilized Gimbal Turret
+        if (state.eoirType !== 'none') {
+          const eoirScale = state.eoirType === 'dual_eoir_lrf' ? 1.0 : 0.72;
+          const eoirX = mastBaseX + 0.22;
+          const eoirY = cabinTopY + mastH * 0.56;
+
+          // Forward mast bracket
+          const bracketGeo = new THREE.BoxGeometry(0.24, 0.04, 0.12);
+          const bracket = new THREE.Mesh(bracketGeo, darkMetalMat);
+          bracket.position.set(mastBaseX + 0.11, eoirY - 0.12 * eoirScale, 0);
+          stepGroups.sensors.add(bracket);
+
+          // Gimbal sphere turret
+          const ballGeo = new THREE.SphereGeometry(0.11 * eoirScale, 18, 14);
+          const ball = new THREE.Mesh(ballGeo, sensorWhiteMat);
+          ball.position.set(eoirX, eoirY, 0);
+          stepGroups.sensors.add(ball);
+
+          // Optical lens window
+          const lensGeo = new THREE.CylinderGeometry(0.055 * eoirScale, 0.055 * eoirScale, 0.04, 14);
+          lensGeo.rotateZ(Math.PI / 2);
+          const lens = new THREE.Mesh(lensGeo, darkMetalMat);
+          lens.position.set(eoirX + 0.095 * eoirScale, eoirY, 0);
+          stepGroups.sensors.add(lens);
+        }
+
+        // 7C. 3D Marine LiDAR
+        if (state.lidarType === 'lidar_128') {
+          const lidarX = mastBaseX + 0.18;
+          const lidarY = cabinTopY + mastH * 0.26;
+          const puckGeo = new THREE.CylinderGeometry(0.075, 0.075, 0.09, 18);
+          const puck = new THREE.Mesh(puckGeo, accentMat);
+          puck.position.set(lidarX, lidarY, 0);
+          stepGroups.sensors.add(puck);
+          animatedLidarRotors.push(puck);
+        } else if (state.lidarType === 'lidar_dual32') {
+          [-yardarmWidth * 0.45, yardarmWidth * 0.45].forEach(lz => {
+            const puckGeo = new THREE.CylinderGeometry(0.055, 0.055, 0.075, 16);
+            const puck = new THREE.Mesh(puckGeo, accentMat);
+            puck.position.set(mastBaseX + 0.06, mastTopY - 0.22, lz);
+            puck.rotation.x = lz > 0 ? 0.25 : -0.25;
+            stepGroups.sensors.add(puck);
+          });
+        }
+
+        // 7D. Underwater Sonar Suite
+        if (state.sonarType === 'multibeam_gondola') {
+          // Under-keel Hydrodynamic Sonar Gondola
+          const gonLen = L * 0.18;
+          const gonGeo = new THREE.CylinderGeometry(0.08, 0.08, gonLen, 14);
+          gonGeo.rotateZ(Math.PI / 2);
+          const gondola = new THREE.Mesh(gonGeo, accentMat);
+          gondola.position.set(L * 0.06, -0.09, 0);
+          stepGroups.sensors.add(gondola);
+
+          const strutGeo = new THREE.BoxGeometry(gonLen * 0.65, 0.12, 0.05);
+          const gonStrut = new THREE.Mesh(strutGeo, darkMetalMat);
+          gonStrut.position.set(L * 0.06, -0.02, 0);
+          stepGroups.sensors.add(gonStrut);
+        } else if (state.sonarType === 'sidescan_dual') {
+          [-B * 0.18, B * 0.18].forEach(sz => {
+            const barGeo = new THREE.BoxGeometry(L * 0.22, 0.04, 0.05);
+            const bar = new THREE.Mesh(barGeo, accentMat);
+            bar.position.set(0, D * 0.08, sz);
+            stepGroups.sensors.add(bar);
+          });
+        } else if (state.sonarType === 'fls_bow') {
+          const flsGeo = new THREE.CylinderGeometry(0.07, 0.07, 0.14, 14);
+          const fls = new THREE.Mesh(flsGeo, accentMat);
+          fls.position.set(L * 0.34, D * 0.12, 0);
+          stepGroups.sensors.add(fls);
+        }
+
+        // 7E. Ultrasonic Weather Station
+        if (state.weatherStation) {
+          const anemGeo = new THREE.CylinderGeometry(0.035, 0.02, 0.18, 12);
+          const anem = new THREE.Mesh(anemGeo, stainlessMat);
+          anem.position.set(mastBaseX, mastTopY - 0.05, -yardarmWidth * 0.42);
+          stepGroups.sensors.add(anem);
+        }
+
+        // =====================================================================
+        // GROUP 8: WIRELESS TRANSCEIVER ANTENNAS (Satcom, MIMO, Whip, LTE)
+        // =====================================================================
+        // 8A. Primary BLOS / Satcom Terminal
+        const satX = -L * 0.16;
+        if (state.satcomType === 'starlink_flat') {
+          const panelGeo = new THREE.BoxGeometry(0.52, 0.032, 0.38);
+          const panel = new THREE.Mesh(panelGeo, sensorWhiteMat);
+          panel.position.set(satX, cabinTopY + 0.04, 0);
+          panel.rotation.z = -0.14;
+          stepGroups.antennas.add(panel);
+        } else if (state.satcomType === 'satcom_dome') {
+          const vsatGeo = new THREE.SphereGeometry(0.22, 18, 14);
+          const vsat = new THREE.Mesh(vsatGeo, sensorWhiteMat);
+          vsat.position.set(satX, cabinTopY + 0.18, 0);
+          stepGroups.antennas.add(vsat);
+        } else if (state.satcomType === 'tactical_mimo') {
+          [-0.22, -0.08, 0.08, 0.22].forEach(mz => {
+            const mimoGeo = new THREE.CylinderGeometry(0.018, 0.022, 0.42, 10);
+            const mimo = new THREE.Mesh(mimoGeo, darkMetalMat);
+            mimo.position.set(satX, cabinTopY + 0.21, mz);
+            stepGroups.antennas.add(mimo);
+          });
+        }
+
+        // 8B. Dual High-Gain VHF/UHF/AIS Fiberglass Whip Antennas
+        if (state.dualWhip) {
+          const wH = state.whipHeight;
+          [-cabWid * 0.44, cabWid * 0.44].forEach(wz => {
+            // Ratchet base mount
+            const mountGeo = new THREE.CylinderGeometry(0.032, 0.04, 0.09, 10);
+            const mountMesh = new THREE.Mesh(mountGeo, stainlessMat);
+            mountMesh.position.set(-L * 0.14, deckHeightY + cabH * 0.55, wz);
+            stepGroups.antennas.add(mountMesh);
+
+            // Tapered fiberglass whip rod
+            const whipGeo = new THREE.CylinderGeometry(0.007, 0.020, wH, 10);
+            const whipMesh = new THREE.Mesh(whipGeo, sensorWhiteMat);
+            whipMesh.position.set(-L * 0.14 - Math.sin(0.08) * wH * 0.5, deckHeightY + cabH * 0.58 + wH * 0.5, wz);
+            whipMesh.rotation.z = 0.08;
+            stepGroups.antennas.add(whipMesh);
+          });
+        }
+
+        // 8C. 5G/LTE Multi-Carrier Dome
+        if (state.lteDome) {
+          const lteGeo = new THREE.CylinderGeometry(0.085, 0.095, 0.14, 16);
+          const lteMesh = new THREE.Mesh(lteGeo, sensorWhiteMat);
+          lteMesh.position.set(mastBaseX, mastTopY - 0.09, yardarmWidth * 0.42);
+          stepGroups.antennas.add(lteMesh);
+        }
+
+        // 8D. Directional C-Band Telemetry Drum
+        if (state.directionalLink) {
+          const drumGeo = new THREE.CylinderGeometry(0.13, 0.13, 0.08, 16);
+          drumGeo.rotateZ(Math.PI / 2);
+          const drum = new THREE.Mesh(drumGeo, sensorWhiteMat);
+          drum.position.set(mastBaseX - 0.12, cabinTopY + mastH * 0.45, 0);
+          stepGroups.antennas.add(drum);
+        }
+
+        // =====================================================================
+        // EXPLODED VIEW OFFSETS
+        // =====================================================================
+        const ex = state.explode ? 1.0 : 0.0;
+        stepGroups.hull.position.set(0, -0.35 * ex, 0);
+        stepGroups.deckFrames.position.set(0, 0.10 * ex, 0);
+        stepGroups.powerBay.position.set(0, 0.48 * ex, 0);
+        stepGroups.superstructure.position.set(0, 0.92 * ex, 0);
+        stepGroups.propulsion.position.set(-0.65 * ex, -0.25 * ex, 0);
+        stepGroups.sensors.position.set(0.45 * ex, 1.15 * ex, 0);
+        stepGroups.antennas.position.set(-0.35 * ex, 1.35 * ex, 0);
+        stepGroups.radar.position.set(0, 1.65 * ex, 0);
+
+        // =====================================================================
+        // HYDROSTATICS, CG/CB MARKERS & FOV CONES
+        // =====================================================================
+        cachedHydrostatics = computeEngineeringHydrostatics();
+        updateHudReadouts(cachedHydrostatics);
+
+        // Position water plane at calculated Draft T
+        waterMesh.visible = state.showWater;
+        waterMesh.position.y = cachedHydrostatics.draft;
+        cadGrid.position.y = -0.02;
+
+        // CG & CB 3D Markers
+        if (state.showCgMarker) {
+          const cgGeo = new THREE.SphereGeometry(0.085, 16, 16);
+          const cgMat = new THREE.MeshBasicMaterial({ color: 0xf43f5e });
+          const cgSphere = new THREE.Mesh(cgGeo, cgMat);
+          cgSphere.position.set(cachedHydrostatics.lcg, cachedHydrostatics.vcg, 0);
+          helperGroup.add(cgSphere);
+
+          const cbGeo = new THREE.SphereGeometry(0.075, 16, 16);
+          const cbMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+          const cbSphere = new THREE.Mesh(cbGeo, cbMat);
+          cbSphere.position.set(-L * 0.03, cachedHydrostatics.draft * 0.55, 0);
+          helperGroup.add(cbSphere);
+        }
+
+        // Sensor FOV Cones
+        if (state.showFov) {
+          const fovMatRadar = new THREE.MeshBasicMaterial({ color: 0xf43f5e, transparent: true, opacity: 0.12, side: THREE.DoubleSide });
+          const radarConeGeo = new THREE.CylinderGeometry(L * 1.4, 0.05, 0.15, 32, 1, true);
+          const radarCone = new THREE.Mesh(radarConeGeo, fovMatRadar);
+          radarCone.position.set(mastBaseX, radarBaseY + 0.1, 0);
+          helperGroup.add(radarCone);
+
+          if (state.sonarType !== 'none') {
+            const fovMatSonar = new THREE.MeshBasicMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.16, side: THREE.DoubleSide });
+            const sonarSwathGeo = new THREE.ConeGeometry(B * 1.35, D * 1.8, 4, 1, true);
+            const sonarSwath = new THREE.Mesh(sonarSwathGeo, fovMatSonar);
+            sonarSwath.position.set(L * 0.06, -D * 0.9, 0);
+            sonarSwath.rotation.y = Math.PI / 4;
+            helperGroup.add(sonarSwath);
+          }
+        }
+
+        // Count total triangles across all STEP groups
+        let totalFaces = 0;
+        Object.values(stepGroups).forEach(g => {
+          g.traverse(obj => {
+            if (obj.isMesh && obj.geometry) {
+              const idx = obj.geometry.index;
+              const pos = obj.geometry.attributes.position;
+              totalFaces += idx ? (idx.count / 3) : (pos ? pos.count / 3 : 0);
+            }
+          });
+        });
+        document.getElementById('statMeshFaces').textContent = totalFaces.toLocaleString() + ' 面';
+
+        // Redraw 2D Lines Plan Canvas
+        draw2DLinesPlan();
+      }
+
+      function buildMultiBladePropeller(radius, numBlades, material) {
+        const group = new THREE.Group();
+        const hubGeo = new THREE.CylinderGeometry(radius * 0.24, radius * 0.20, radius * 0.55, 12);
+        hubGeo.rotateZ(Math.PI / 2);
+        const hub = new THREE.Mesh(hubGeo, material);
+        group.add(hub);
+
+        for (let i = 0; i < numBlades; i++) {
+          const angle = (i * Math.PI * 2) / numBlades;
+          const bladePivot = new THREE.Group();
+          bladePivot.rotation.x = angle;
+          const bladeGeo = new THREE.BoxGeometry(radius * 0.12, radius * 0.78, radius * 0.34);
+          const blade = new THREE.Mesh(bladeGeo, material);
+          blade.position.y = radius * 0.52;
+          blade.rotation.y = 0.42; // Pitch angle
+          bladePivot.add(blade);
+          group.add(bladePivot);
+        }
+        return group;
+      }
+
+      // -----------------------------------------------------------------------
+      // 5. NAVAL ARCHITECTURE, HYDROSTATICS & BOM CALCULATOR
+      // -----------------------------------------------------------------------
+      function computeEngineeringHydrostatics() {
+        const L = state.loa;
+        const B = state.beam;
+        const D = state.depth;
+        const matSpec = MATERIAL_SPECS[state.hullMaterial] || MATERIAL_SPECS.cfrp_3k;
+        const tMeters = state.shellThickness / 1000;
+
+        // 1. Hull Structural Weight
+        const hullFactor = state.hullType === 'monohull_deepv' ? 2.45
+          : state.hullType === 'catamaran' ? 2.85
+          : state.hullType === 'trimaran' ? 2.75 : 3.10;
+        const surfaceAreaEst = (L * B + 2 * L * D) * hullFactor * 0.58;
+        const hullWeight = Math.round(surfaceAreaEst * tMeters * matSpec.density * 1.28); // +28% frames/stiffeners
+
+        // 2. Superstructure & Mast Weight
+        const superWeight = Math.round((L * B * 0.18) * 14 + state.mastHeight * 12);
+
+        // 3. Power System Weight
+        const batteryWeight = Math.round(state.batteryKwh * 7.8); // LiFePO4 ~7.8 kg/kWh pack level
+        let generatorFuelWeight = 0;
+        if (state.powerType === 'diesel_electric') {
+          generatorFuelWeight = 95 + Math.round(state.fuelLiters * 0.85);
+        } else if (state.powerType === 'hydrogen_pem') {
+          generatorFuelWeight = 68 + Math.round(state.fuelLiters * 0.35);
+        } else if (state.powerType === 'solar_hybrid') {
+          generatorFuelWeight = Math.round(L * B * 6.5);
+        }
+        const totalPowerWeight = batteryWeight + generatorFuelWeight;
+
+        // 4. Propulsion Weight
+        const propBase = state.propulsionType === 'twin_waterjet' ? 58
+          : state.propulsionType === 'twin_azimuth_pod' ? 74
+          : state.propulsionType === 'twin_shaft_prop' ? 48 : 54;
+        const propWeight = Math.round(propBase + state.motorKw * 1.15 + (state.bowThruster ? 14 : 0) + (state.trimTabs ? 8 : 0));
+
+        // 5. Sensors, Antennas & Radar Weight + Hotel Power Load (W)
+        let sensorWeight = 8;
+        let hotelWatts = 85; // Base autopilot + industrial mission computer
+        if (state.gnssType === 'dual_rtk_ins') { sensorWeight += 4.5; hotelWatts += 28; }
+        else if (state.gnssType === 'triple_gnss_crpa') { sensorWeight += 7.2; hotelWatts += 45; }
+        else { sensorWeight += 2.2; hotelWatts += 12; }
+
+        if (state.eoirType === 'dual_eoir_lrf') { sensorWeight += 12.5; hotelWatts += 65; }
+        else if (state.eoirType === 'compact_eoir') { sensorWeight += 5.5; hotelWatts += 32; }
+
+        if (state.lidarType === 'lidar_128') { sensorWeight += 3.8; hotelWatts += 38; }
+        else if (state.lidarType === 'lidar_dual32') { sensorWeight += 4.2; hotelWatts += 34; }
+
+        if (state.sonarType === 'multibeam_gondola') { sensorWeight += 24.0; hotelWatts += 110; }
+        else if (state.sonarType === 'sidescan_dual') { sensorWeight += 14.0; hotelWatts += 55; }
+        else if (state.sonarType === 'fls_bow') { sensorWeight += 9.5; hotelWatts += 48; }
+
+        if (state.camera360) { sensorWeight += 3.2; hotelWatts += 25; }
+        if (state.weatherStation) { sensorWeight += 1.8; hotelWatts += 8; }
+
+        let antennaWeight = 4.0;
+        if (state.satcomType === 'starlink_flat') { antennaWeight += 8.2; hotelWatts += 75; }
+        else if (state.satcomType === 'satcom_dome') { antennaWeight += 19.5; hotelWatts += 95; }
+        else { antennaWeight += 6.5; hotelWatts += 45; }
+        if (state.dualWhip) { antennaWeight += state.whipHeight * 2.4; hotelWatts += 22; }
+        if (state.lteDome) { antennaWeight += 2.1; hotelWatts += 15; }
+        if (state.directionalLink) { antennaWeight += 4.8; hotelWatts += 28; }
+
+        let radarWeight = 10.0;
+        if (state.radarType === 'solid_state_radome') { radarWeight = 11.5; hotelWatts += 42; }
+        else if (state.radarType === 'open_array_xband') { radarWeight = 24.0; hotelWatts += 85; }
+        else if (state.radarType === 'phased_array_4d') { radarWeight = 28.5; hotelWatts += 160; }
+        else { radarWeight = 9.2; hotelWatts += 36; }
+
+        const totalDisplacementKg = Math.round(hullWeight + superWeight + totalPowerWeight + propWeight + sensorWeight + antennaWeight + radarWeight);
+        const submergedVol = totalDisplacementKg / 1025; // m^3 seawater
+
+        // Block coefficient Cb & Draft T
+        const cb = state.hullType === 'monohull_deepv' ? Math.max(0.32, 0.48 - state.deadrise * 0.004)
+          : state.hullType === 'catamaran' ? 0.44
+          : state.hullType === 'trimaran' ? 0.39 : 0.52;
+        const effectiveBeam = state.hullType === 'monohull_deepv' ? B * 0.82
+          : state.hullType === 'catamaran' ? B * 0.48
+          : state.hullType === 'trimaran' ? B * 0.45 : B * 0.42;
+        const rawDraft = submergedVol / Math.max(0.25, L * 0.88 * effectiveBeam * cb);
+        const draft = Math.max(0.16, Math.min(D * 0.78, rawDraft));
+
+        // Center of Gravity (LCG, VCG)
+        const items = [
+          { cat: '01. 船體與肋骨結構', desc: `${matSpec.name} (${state.shellThickness.toFixed(1)}mm 板厚, LOA ${L.toFixed(2)}m)`, w: hullWeight, lcg: -0.02 * L, vcg: 0.42 * D, pwr: 0 },
+          { cat: '02. 上層建築與主桅杆', desc: `${state.superstructure} 艙罩 + ${state.mastHeight.toFixed(2)}m 儀器桅杆`, w: superWeight, lcg: -0.05 * L, vcg: D + 0.35 * state.mastHeight, pwr: 0 },
+          { cat: '03. 動力與儲能系統', desc: `${state.powerType} (${state.batteryKwh} kWh / ${state.fuelLiters} L / ${state.systemVoltage}V)`, w: totalPowerWeight, lcg: -0.06 * L, vcg: 0.32 * D, pwr: 0 },
+          { cat: '04. 推進與轉向機構', desc: `${state.propulsionType} (${state.motorKw} kW, Ø${state.propDia}mm)`, w: propWeight, lcg: -0.42 * L, vcg: 0.24 * D, pwr: Math.round(state.motorKw * 380) },
+          { cat: '05. 偵測導航與聲納', desc: `${state.gnssType} + ${state.eoirType} + ${state.lidarType} + ${state.sonarType}`, w: Math.round(sensorWeight), lcg: 0.04 * L, vcg: D + 0.45 * state.mastHeight, pwr: Math.round(hotelWatts * 0.55) },
+          { cat: '06. 無線收發天線組', desc: `${state.satcomType} + 雙側 ${state.whipHeight.toFixed(1)}m 鞭狀天線`, w: Math.round(antennaWeight), lcg: -0.12 * L, vcg: D + 0.65 * state.mastHeight, pwr: Math.round(hotelWatts * 0.25) },
+          { cat: '07. 海事雷達系統', desc: `${state.radarType} (${state.radarRpm} RPM 掃描)`, w: Math.round(radarWeight), lcg: -0.06 * L, vcg: D + state.mastHeight, pwr: Math.round(hotelWatts * 0.20) }
+        ];
+
+        let sumW = 0, sumWLcg = 0, sumWVcg = 0;
+        items.forEach(it => {
+          sumW += it.w;
+          sumWLcg += it.w * it.lcg;
+          sumWVcg += it.w * it.vcg;
+        });
+        const lcg = sumWLcg / Math.max(1, sumW);
+        const vcg = sumWVcg / Math.max(1, sumW);
+
+        // Transverse Metacentric Height GM_T
+        const kb = draft * 0.56;
+        let bm;
+        if (state.hullType === 'catamaran') {
+          bm = Math.pow(B * state.hullSpacing, 2) / (1.8 * draft);
+        } else if (state.hullType === 'trimaran') {
+          bm = Math.pow(B * state.hullSpacing, 2) / (2.6 * draft);
+        } else if (state.hullType === 'swath') {
+          bm = Math.pow(B * state.hullSpacing, 2) / (3.2 * draft);
+        } else {
+          bm = (B * B) / (11.5 * draft);
+        }
+        const gm = Math.max(0.12, kb + bm - vcg);
+
+        // Speed & Endurance Calculation
+        const powerToWeight = (state.motorKw * 1000) / Math.max(100, totalDisplacementKg);
+        const hullEff = state.hullType === 'trimaran' ? 1.12
+          : state.hullType === 'monohull_deepv' ? 1.05
+          : state.hullType === 'catamaran' ? 0.98 : 0.88;
+        const propEff = state.propulsionType === 'surface_piercing' ? 1.12
+          : state.propulsionType === 'twin_waterjet' ? 1.04
+          : state.propulsionType === 'twin_shaft_prop' ? 1.00 : 0.92;
+
+        const maxSpeedKts = Math.min(52, Math.max(5.5, 3.6 * Math.pow(powerToWeight, 0.46) * Math.pow(L, 0.18) * hullEff * propEff));
+        const cruiseSpeedKts = maxSpeedKts * 0.56;
+        const froudeNum = (maxSpeedKts * 0.5144) / Math.sqrt(9.81 * L * 0.92);
+
+        // Usable energy (kWh)
+        let usableEnergyKwh = state.batteryKwh * 0.90;
+        if (state.powerType === 'diesel_electric') {
+          usableEnergyKwh += state.fuelLiters * 3.2; // ~3.2 kWh electrical per liter diesel
+        } else if (state.powerType === 'hydrogen_pem') {
+          usableEnergyKwh += state.fuelLiters * 1.45;
+        } else if (state.powerType === 'solar_hybrid') {
+          usableEnergyKwh += L * B * 1.8; // daily solar contribution
+        }
+
+        const cruisePropKw = state.motorKw * 0.34;
+        const totalCruiseKw = cruisePropKw + (hotelWatts / 1000);
+        const enduranceHrs = usableEnergyKwh / Math.max(0.5, totalCruiseKw);
+        const rangeNm = enduranceHrs * cruiseSpeedKts;
+
+        return {
+          displacementKg: totalDisplacementKg,
+          draft,
+          cb,
+          gm,
+          lcg,
+          vcg,
+          maxSpeedKts,
+          cruiseSpeedKts,
+          froudeNum,
+          enduranceHrs,
+          rangeNm,
+          hotelWatts,
+          powerToWeight,
+          bomItems: items
+        };
+      }
+
+      function updateHudReadouts(h) {
+        document.getElementById('hudDisplacement').textContent = h.displacementKg.toLocaleString() + ' kg';
+        document.getElementById('hudDraft').textContent = `設計吃水 T: ${h.draft.toFixed(2)} m (${Math.round(h.draft * 1000)} mm)`;
+        document.getElementById('hudMaxSpeed').textContent = `${h.maxSpeedKts.toFixed(1)} kts`;
+        document.getElementById('hudCruiseSpeed').textContent = `經濟巡航: ${h.cruiseSpeedKts.toFixed(1)} kts`;
+        document.getElementById('hudEndurance').textContent = `${h.enduranceHrs.toFixed(1)} hrs`;
+        document.getElementById('hudRange').textContent = `最大航程: ${Math.round(h.rangeNm)} NM`;
+        document.getElementById('hudGm').textContent = `${h.gm.toFixed(2)} m`;
+        document.getElementById('hudCb').textContent = `Cb: ${h.cb.toFixed(2)} | Fn: ${h.froudeNum.toFixed(2)}`;
+        document.getElementById('hudCgCoord').textContent = `LCG: ${h.lcg.toFixed(2)}m, VCG: ${h.vcg.toFixed(2)}m`;
+        document.getElementById('hudHotelLoad').textContent = `${h.hotelWatts} W (${state.systemVoltage}V DC)`;
+        document.getElementById('hudPowerToWeight').textContent = `${h.powerToWeight.toFixed(1)} W/kg`;
+
+        const stabBadge = document.getElementById('hudStabilityBadge');
+        if (h.gm >= 0.45) {
+          stabBadge.textContent = 'GM 穩度優良';
+          stabBadge.className = 'px-1.5 py-0.5 text-[10px] font-mono-tech font-semibold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        } else {
+          stabBadge.textContent = '注意重心偏高';
+          stabBadge.className = 'px-1.5 py-0.5 text-[10px] font-mono-tech font-semibold rounded bg-amber-500/20 text-amber-300 border border-amber-500/30';
+        }
+
+        // Populate BOM Table if modal open
+        const tbody = document.getElementById('bomTableBody');
+        if (tbody) {
+          tbody.innerHTML = h.bomItems.map(it => `
+            <tr class="hover:bg-slate-900/60">
+              <td class="py-2 px-3 text-sky-300 font-semibold">${it.cat}</td>
+              <td class="py-2 px-3 text-slate-200">${it.desc}</td>
+              <td class="py-2 px-3 text-right text-white font-semibold">${it.w.toLocaleString()}</td>
+              <td class="py-2 px-3 text-right text-slate-300">${it.lcg.toFixed(2)}</td>
+              <td class="py-2 px-3 text-right text-slate-300">${it.vcg.toFixed(2)}</td>
+              <td class="py-2 px-3 text-right text-amber-300">${it.pwr}</td>
+            </tr>
+          `).join('');
+          document.getElementById('bomTotalSummary').textContent =
+            `滿載總排水量: ${h.displacementKg.toLocaleString()} kg | 綜合 LCG: ${h.lcg.toFixed(2)} m | 綜合 VCG: ${h.vcg.toFixed(2)} m | 穩心高 GM_T: ${h.gm.toFixed(2)} m`;
+        }
+      }
+
+      // -----------------------------------------------------------------------
+      // 6. 2D HULL BODY PLAN & PROFILE PLAN CANVAS RENDERER
+      // -----------------------------------------------------------------------
+      function draw2DLinesPlan() {
+        const bodyCanvas = document.getElementById('bodyPlanCanvas');
+        const profCanvas = document.getElementById('profilePlanCanvas');
+        if (!bodyCanvas || !profCanvas || !cachedStationRings.length) return;
+
+        // Resize backing store
+        const dpr = window.devicePixelRatio || 1;
+        [bodyCanvas, profCanvas].forEach(c => {
+          const rect = c.getBoundingClientRect();
+          if (rect.width > 0 && rect.height > 0) {
+            c.width = rect.width * dpr;
+            c.height = rect.height * dpr;
+          }
+        });
+
+        // 1. Body Plan (Transverse Stations: Left half = Stern 0..5, Right half = Bow 5..10)
+        const bCtx = bodyCanvas.getContext('2d');
+        const bw = bodyCanvas.width;
+        const bh = bodyCanvas.height;
+        bCtx.clearRect(0, 0, bw, bh);
+
+        // Grid & Centerline
+        bCtx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+        bCtx.lineWidth = 1;
+        bCtx.beginPath();
+        bCtx.moveTo(bw * 0.5, 6);
+        bCtx.lineTo(bw * 0.5, bh - 6);
+        bCtx.stroke();
+
+        const maxHalfZ = Math.max(0.4, state.beam * 0.55);
+        const maxY = Math.max(0.4, state.depth * 1.28);
+        const scale = Math.min((bw * 0.44) / maxHalfZ, (bh * 0.82) / maxY);
+        const baseY = bh - 10;
+
+        // Waterline on Body Plan
+        const wlY = baseY - cachedHydrostatics.draft * scale;
+        bCtx.strokeStyle = 'rgba(14, 165, 233, 0.65)';
+        bCtx.setLineDash([4, 3]);
+        bCtx.beginPath();
+        bCtx.moveTo(8, wlY);
+        bCtx.lineTo(bw - 8, wlY);
+        bCtx.stroke();
+        bCtx.setLineDash([]);
+
+        const nRings = cachedStationRings.length;
+        for (let idx = 0; idx < nRings; idx += 2) {
+          const ring = cachedStationRings[idx];
+          const isBowHalf = idx >= nRings / 2;
+          bCtx.strokeStyle = isBowHalf ? '#38bdf8' : '#34d399';
+          bCtx.lineWidth = 1.3;
+          bCtx.beginPath();
+          // Points 0..6 represent keel -> sheer -> deck center
+          for (let k = 0; k <= 6; k++) {
+            const pt = ring[k];
+            const px = bw * 0.5 + (isBowHalf ? 1 : -1) * pt.z * scale;
+            const py = baseY - pt.y * scale;
+            if (k === 0) bCtx.moveTo(px, py);
+            else bCtx.lineTo(px, py);
+          }
+          bCtx.stroke();
+        }
+
+        // 2. Profile Plan (Longitudinal Sheer, Chine, Keel & Waterline)
+        const pCtx = profCanvas.getContext('2d');
+        const pw = profCanvas.width;
+        const ph = profCanvas.height;
+        pCtx.clearRect(0, 0, pw, ph);
+
+        const scaleX = (pw * 0.86) / Math.max(1.5, state.loa);
+        const scaleY = (ph * 0.72) / maxY;
+        const pBaseY = ph - 12;
+        const pCenterX = pw * 0.5;
+
+        // Waterline
+        const pWlY = pBaseY - cachedHydrostatics.draft * scaleY;
+        pCtx.strokeStyle = 'rgba(14, 165, 233, 0.7)';
+        pCtx.setLineDash([4, 3]);
+        pCtx.beginPath();
+        pCtx.moveTo(6, pWlY);
+        pCtx.lineTo(pw - 6, pWlY);
+        pCtx.stroke();
+        pCtx.setLineDash([]);
+
+        // Draw Keel (index 0), Chine (index 3), Sheer (index 5)
+        const curves = [
+          { idx: 0, color: '#f59e0b' },
+          { idx: 3, color: '#34d399' },
+          { idx: 5, color: '#38bdf8' }
+        ];
+        curves.forEach(c => {
+          pCtx.strokeStyle = c.color;
+          pCtx.lineWidth = 1.5;
+          pCtx.beginPath();
+          cachedStationRings.forEach((ring, i) => {
+            const pt = ring[c.idx];
+            const px = pCenterX + pt.x * scaleX;
+            const py = pBaseY - pt.y * scaleY;
+            if (i === 0) pCtx.moveTo(px, py);
+            else pCtx.lineTo(px, py);
+          });
+          pCtx.stroke();
+        });
+      }
+
+      // -----------------------------------------------------------------------
+      // 7. TRUE ISO 10303-21 (AP214) 3D STEP B-REP EXPORTER (.step)
+      // -----------------------------------------------------------------------
+      function generateISO10303StepFile(precisionMode) {
+        usvRoot.updateMatrixWorld(true);
+
+        const lines = [];
+        let eid = 1;
+        const nextId = () => eid++;
+
+        const nowIso = new Date().toISOString().split('.')[0];
+        const fileName = `USV_${state.hullType}_${Math.round(state.loa * 1000)}mm_AP214.step`;
+
+        lines.push('ISO-10303-21;');
+        lines.push('HEADER;');
+        lines.push(`FILE_DESCRIPTION(('USV Parametric 3D CAD Assembly','Hull: ${state.hullType}, LOA: ${state.loa}m, Beam: ${state.beam}m, Propulsion: ${state.propulsionType}'),'2;1');`);
+        lines.push(`FILE_NAME('${fileName}','${nowIso}',('USV-CAD Studio Pro'),('肇祥企業社 MaxJim Tech Inc.'),'ISO-10303-21 STEP AP214 Generator','USV-CAD Pro v2.6','');`);
+        lines.push(`FILE_SCHEMA(('AUTOMOTIVE_DESIGN { 1 0 10303 214 1 1 1 1 }'));`);
+        lines.push('ENDSEC;');
+        lines.push('DATA;');
+
+        // Core AP214 Application Context & Product Definition
+        const idAppCtx = nextId();
+        const idAppProto = nextId();
+        const idProdCtx = nextId();
+        const idProduct = nextId();
+        const idPdf = nextId();
+        const idProdDefCtx = nextId();
+        const idProdDef = nextId();
+        const idProdDefShape = nextId();
+
+        lines.push(`#${idAppCtx}=APPLICATION_CONTEXT('core data for automotive mechanical design processes');`);
+        lines.push(`#${idAppProto}=APPLICATION_PROTOCOL_DEFINITION('international standard','automotive_design',2000,#${idAppCtx});`);
+        lines.push(`#${idProdCtx}=PRODUCT_CONTEXT('',#${idAppCtx},'mechanical');`);
+        lines.push(`#${idProduct}=PRODUCT('USV_Assembly_${Math.round(state.loa * 1000)}mm','USV_Assembly_${Math.round(state.loa * 1000)}mm','Parametric Unmanned Surface Vessel',(#${idProdCtx}));`);
+        lines.push(`#${idPdf}=PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE('1.0','Complete USV CAD Model',#${idProduct},.MADE.);`);
+        lines.push(`#${idProdDefCtx}=PRODUCT_DEFINITION_CONTEXT('part definition',#${idAppCtx},'design');`);
+        lines.push(`#${idProdDef}=PRODUCT_DEFINITION('design','',#${idPdf},#${idProdDefCtx});`);
+        lines.push(`#${idProdDefShape}=PRODUCT_DEFINITION_SHAPE('','Shape for USV Assembly',#${idProdDef});`);
+
+        // Units & Geometric Representation Context (Millimeters, Radians, Steradians)
+        const idLenUnit = nextId();
+        const idAngUnit = nextId();
+        const idSolidUnit = nextId();
+        const idUncert = nextId();
+        const idGeoCtx = nextId();
+        const idOriginPt = nextId();
+        const idDirZ = nextId();
+        const idDirX = nextId();
+        const idWorldAxis = nextId();
+
+        lines.push(`#${idLenUnit}=(LENGTH_UNIT()NAMED_UNIT(*)SI_UNIT(.MILLI.,.METRE.));`);
+        lines.push(`#${idAngUnit}=(NAMED_UNIT(*)PLANE_ANGLE_UNIT()SI_UNIT($,.RADIAN.));`);
+        lines.push(`#${idSolidUnit}=(NAMED_UNIT(*)SOLID_ANGLE_UNIT()SI_UNIT($,.STERADIAN.));`);
+        lines.push(`#${idUncert}=UNCERTAINTY_MEASURE_WITH_UNIT(LENGTH_MEASURE(1.0E-02),#${idLenUnit},'distance_accuracy_value','confusion accuracy');`);
+        lines.push(`#${idGeoCtx}=(GEOMETRIC_REPRESENTATION_CONTEXT(3)GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT((#${idUncert}))GLOBAL_UNIT_ASSIGNED_CONTEXT((#${idLenUnit},#${idAngUnit},#${idSolidUnit}))REPRESENTATION_CONTEXT('Context3D','3D CAD Coordinate System (mm, Z-Up)'));`);
+        lines.push(`#${idOriginPt}=CARTESIAN_POINT('Origin',(0.0,0.0,0.0));`);
+        lines.push(`#${idDirZ}=DIRECTION('Z_Axis',(0.0,0.0,1.0));`);
+        lines.push(`#${idDirX}=DIRECTION('X_Axis',(1.0,0.0,0.0));`);
+        lines.push(`#${idWorldAxis}=AXIS2_PLACEMENT_3D('World_CS',#${idOriginPt},#${idDirZ},#${idDirX});`);
+
+        const solidBrepIds = [idWorldAxis];
+        let totalStepFaces = 0;
+        let totalStepVertices = 0;
+
+        // Convert Three.js Y-up meters (X=Forward, Y=Up, Z=Port) to CAD Z-up millimeters (X=Forward, Y=Port, Z=Up)
+        const toCadMm = (v) => ({
+          x: Number((v.x * 1000).toFixed(2)),
+          y: Number((v.z * 1000).toFixed(2)),
+          z: Number((v.y * 1000).toFixed(2))
+        });
+
+        // Stride control for fast vs high-density STEP
+        const maxTrisPerMesh = precisionMode === 'high' ? 900 : 380;
+
+        Object.values(stepGroups).forEach((group) => {
+          const faceIds = [];
+          const vertMap = new Map();
+          const edgeMap = new Map();
+
+          const getOrCreateVertex = (p) => {
+            const key = `${p.x.toFixed(1)},${p.y.toFixed(1)},${p.z.toFixed(1)}`;
+            let vId = vertMap.get(key);
+            if (vId !== undefined) return vId;
+            const cpId = nextId();
+            vId = nextId();
+            lines.push(`#${cpId}=CARTESIAN_POINT('',(${p.x.toFixed(2)},${p.y.toFixed(2)},${p.z.toFixed(2)}));`);
+            lines.push(`#${vId}=VERTEX_POINT('',#${cpId});`);
+            vertMap.set(key, { vId, cpId, p });
+            totalStepVertices++;
+            return { vId, cpId, p };
+          };
+
+          const getOrCreateOrientedEdge = (vA, vB) => {
+            const k1 = `${vA.vId}_${vB.vId}`;
+            const k2 = `${vB.vId}_${vA.vId}`;
+            let ec = edgeMap.get(k1);
+            let sense = '.T.';
+            if (!ec) {
+              ec = edgeMap.get(k2);
+              if (ec) {
+                sense = '.F.';
+              } else {
+                const dx = vB.p.x - vA.p.x;
+                const dy = vB.p.y - vA.p.y;
+                const dz = vB.p.z - vA.p.z;
+                const len = Math.hypot(dx, dy, dz) || 1.0;
+                const dirId = nextId();
+                const vecId = nextId();
+                const lineId = nextId();
+                const ecId = nextId();
+                lines.push(`#${dirId}=DIRECTION('',(${(dx / len).toFixed(5)},${(dy / len).toFixed(5)},${(dz / len).toFixed(5)}));`);
+                lines.push(`#${vecId}=VECTOR('',#${dirId},${len.toFixed(2)});`);
+                lines.push(`#${lineId}=LINE('',#${vA.cpId},#${vecId});`);
+                lines.push(`#${ecId}=EDGE_CURVE('',#${vA.vId},#${vB.vId},#${lineId},.T.);`);
+                ec = ecId;
+                edgeMap.set(k1, ecId);
+              }
+            }
+            const oeId = nextId();
+            lines.push(`#${oeId}=ORIENTED_EDGE('',*,*,#${ec},${sense});`);
+            return oeId;
+          };
+
+          group.traverse((mesh) => {
+            if (!mesh.isMesh || !mesh.geometry) return;
+            const geom = mesh.geometry;
+            const posAttr = geom.attributes.position;
+            if (!posAttr) return;
+
+            const idxAttr = geom.index;
+            const triCount = idxAttr ? (idxAttr.count / 3) : (posAttr.count / 3);
+            const stepStride = Math.max(1, Math.ceil(triCount / maxTrisPerMesh));
+
+            const vA3 = new THREE.Vector3();
+            const vB3 = new THREE.Vector3();
+            const vC3 = new THREE.Vector3();
+
+            for (let t = 0; t < triCount; t += stepStride) {
+              const i0 = idxAttr ? idxAttr.getX(t * 3) : t * 3;
+              const i1 = idxAttr ? idxAttr.getX(t * 3 + 1) : t * 3 + 1;
+              const i2 = idxAttr ? idxAttr.getX(t * 3 + 2) : t * 3 + 2;
+
+              vA3.fromBufferAttribute(posAttr, i0).applyMatrix4(mesh.matrixWorld);
+              vB3.fromBufferAttribute(posAttr, i1).applyMatrix4(mesh.matrixWorld);
+              vC3.fromBufferAttribute(posAttr, i2).applyMatrix4(mesh.matrixWorld);
+
+              const pA = toCadMm(vA3);
+              const pB = toCadMm(vB3);
+              const pC = toCadMm(vC3);
+
+              // Compute triangle normal & filter degenerate triangles
+              const ux = pB.x - pA.x, uy = pB.y - pA.y, uz = pB.z - pA.z;
+              const vx = pC.x - pA.x, vy = pC.y - pA.y, vz = pC.z - pA.z;
+              const nx = uy * vz - uz * vy;
+              const ny = uz * vx - ux * vz;
+              const nz = ux * vy - uy * vx;
+              const nLen = Math.hypot(nx, ny, nz);
+              if (nLen < 1e-2) continue;
+
+              const vertA = getOrCreateVertex(pA);
+              const vertB = getOrCreateVertex(pB);
+              const vertC = getOrCreateVertex(pC);
+              if (vertA.vId === vertB.vId || vertB.vId === vertC.vId || vertC.vId === vertA.vId) continue;
+
+              const oe1 = getOrCreateOrientedEdge(vertA, vertB);
+              const oe2 = getOrCreateOrientedEdge(vertB, vertC);
+              const oe3 = getOrCreateOrientedEdge(vertC, vertA);
+
+              const loopId = nextId();
+              const boundId = nextId();
+              const normDirId = nextId();
+              const refDirId = nextId();
+              const uLen = Math.hypot(ux, uy, uz) || 1.0;
+              const axisId = nextId();
+              const planeId = nextId();
+              const faceId = nextId();
+
+              lines.push(`#${loopId}=EDGE_LOOP('',(#${oe1},#${oe2},#${oe3}));`);
+              lines.push(`#${boundId}=FACE_OUTER_BOUND('',#${loopId},.T.);`);
+              lines.push(`#${normDirId}=DIRECTION('',(${(nx / nLen).toFixed(5)},${(ny / nLen).toFixed(5)},${(nz / nLen).toFixed(5)}));`);
+              lines.push(`#${refDirId}=DIRECTION('',(${(ux / uLen).toFixed(5)},${(uy / uLen).toFixed(5)},${(uz / uLen).toFixed(5)}));`);
+              lines.push(`#${axisId}=AXIS2_PLACEMENT_3D('',#${vertA.cpId},#${normDirId},#${refDirId});`);
+              lines.push(`#${planeId}=PLANE('',#${axisId});`);
+              lines.push(`#${faceId}=ADVANCED_FACE('',(#${boundId}),#${planeId},.T.);`);
+
+              faceIds.push(`#${faceId}`);
+              totalStepFaces++;
+            }
+          });
+
+          if (faceIds.length > 0) {
+            const shellId = nextId();
+            const brepId = nextId();
+            lines.push(`#${shellId}=CLOSED_SHELL('${group.name}_Shell',(${faceIds.join(',')}));`);
+            lines.push(`#${brepId}=MANIFOLD_SOLID_BREP('${group.name}',#${shellId});`);
+            solidBrepIds.push(brepId);
+          }
+        });
+
+        const idAdvBrepRep = nextId();
+        const idShapeDefRep = nextId();
+        lines.push(`#${idAdvBrepRep}=ADVANCED_BREP_SHAPE_REPRESENTATION('USV_3D_CAD_Model',(${solidBrepIds.map(id => '#' + id).join(',')}),#${idGeoCtx});`);
+        lines.push(`#${idShapeDefRep}=SHAPE_DEFINITION_REPRESENTATION(#${idProdDefShape},#${idAdvBrepRep});`);
+        lines.push('ENDSEC;');
+        lines.push('END-ISO-10303-21;');
+
+        const content = lines.join('\n');
+        return {
+          fileName,
+          content,
+          totalFaces: totalStepFaces,
+          totalVertices: totalStepVertices,
+          totalEntities: eid - 1
+        };
+      }
+
+      // -----------------------------------------------------------------------
+      // 8. STL & OBJ & BOM CSV EXPORTERS
+      // -----------------------------------------------------------------------
+      function exportAsciiSTL() {
+        usvRoot.updateMatrixWorld(true);
+        const out = ['solid USV_CAD_Model'];
+        const vA = new THREE.Vector3(), vB = new THREE.Vector3(), vC = new THREE.Vector3();
+        const cb = new THREE.Vector3(), ab = new THREE.Vector3();
+
+        Object.values(stepGroups).forEach(group => {
+          group.traverse(mesh => {
+            if (!mesh.isMesh || !mesh.geometry) return;
+            const pos = mesh.geometry.attributes.position;
+            const idx = mesh.geometry.index;
+            const count = idx ? idx.count / 3 : pos.count / 3;
+            for (let i = 0; i < count; i++) {
+              const a = idx ? idx.getX(i * 3) : i * 3;
+              const b = idx ? idx.getX(i * 3 + 1) : i * 3 + 1;
+              const c = idx ? idx.getX(i * 3 + 2) : i * 3 + 2;
+              vA.fromBufferAttribute(pos, a).applyMatrix4(mesh.matrixWorld).multiplyScalar(1000);
+              vB.fromBufferAttribute(pos, b).applyMatrix4(mesh.matrixWorld).multiplyScalar(1000);
+              vC.fromBufferAttribute(pos, c).applyMatrix4(mesh.matrixWorld).multiplyScalar(1000);
+              cb.subVectors(vC, vB);
+              ab.subVectors(vA, vB);
+              cb.cross(ab).normalize();
+              out.push(`facet normal ${cb.x.toFixed(5)} ${cb.z.toFixed(5)} ${cb.y.toFixed(5)}`);
+              out.push('  outer loop');
+              out.push(`    vertex ${vA.x.toFixed(2)} ${vA.z.toFixed(2)} ${vA.y.toFixed(2)}`);
+              out.push(`    vertex ${vB.x.toFixed(2)} ${vB.z.toFixed(2)} ${vB.y.toFixed(2)}`);
+              out.push(`    vertex ${vC.x.toFixed(2)} ${vC.z.toFixed(2)} ${vC.y.toFixed(2)}`);
+              out.push('  endloop');
+              out.push('endfacet');
+            }
+          });
+        });
+        out.push('endsolid USV_CAD_Model');
+        const fname = `USV_${state.hullType}_${Math.round(state.loa * 1000)}mm.stl`;
+        triggerDownload(fname, out.join('\n'), 'model/stl');
+        showToast(`已匯出 3D STL 模型 (${fname})`);
+      }
+
+      function exportWavefrontOBJ() {
+        usvRoot.updateMatrixWorld(true);
+        const out = ['# USV-CAD Studio Pro 3D OBJ Export (Units: mm)'];
+        let vOffset = 1;
+        const v = new THREE.Vector3();
+
+        Object.values(stepGroups).forEach(group => {
+          out.push(`o ${group.name}`);
+          group.traverse(mesh => {
+            if (!mesh.isMesh || !mesh.geometry) return;
+            const pos = mesh.geometry.attributes.position;
+            const idx = mesh.geometry.index;
+            for (let i = 0; i < pos.count; i++) {
+              v.fromBufferAttribute(pos, i).applyMatrix4(mesh.matrixWorld).multiplyScalar(1000);
+              out.push(`v ${v.x.toFixed(2)} ${v.y.toFixed(2)} ${v.z.toFixed(2)}`);
+            }
+            const triCount = idx ? idx.count / 3 : pos.count / 3;
+            for (let t = 0; t < triCount; t++) {
+              const a = (idx ? idx.getX(t * 3) : t * 3) + vOffset;
+              const b = (idx ? idx.getX(t * 3 + 1) : t * 3 + 1) + vOffset;
+              const c = (idx ? idx.getX(t * 3 + 2) : t * 3 + 2) + vOffset;
+              out.push(`f ${a} ${b} ${c}`);
+            }
+            vOffset += pos.count;
+          });
+        });
+        const fname = `USV_${state.hullType}_${Math.round(state.loa * 1000)}mm.obj`;
+        triggerDownload(fname, out.join('\n'), 'text/plain');
+        showToast(`已匯出 3D OBJ 模型 (${fname})`);
+      }
+
+      function exportBomCsv() {
+        const h = cachedHydrostatics;
+        const rows = [
+          ['次系統分類', '規格描述', '重量 (kg)', '縱向重心 LCG (m)', '垂向重心 VCG (m)', '平均功耗 (W)'],
+          ...h.bomItems.map(it => [it.cat, `"${it.desc}"`, it.w, it.lcg.toFixed(2), it.vcg.toFixed(2), it.pwr]),
+          [],
+          ['滿載總排水量 (kg)', h.displacementKg, '設計吃水 T (m)', h.draft.toFixed(2), '橫向穩心高 GM_T (m)', h.gm.toFixed(2)],
+          ['最高航速 (kts)', h.maxSpeedKts.toFixed(1), '經濟巡航航速 (kts)', h.cruiseSpeedKts.toFixed(1), '巡航續航時間 (hrs)', h.enduranceHrs.toFixed(1)]
+        ];
+        const csvContent = '\uFEFF' + rows.map(r => r.join(',')).join('\n');
+        const fname = `USV_BOM_${state.hullType}_${Math.round(state.loa * 1000)}mm.csv`;
+        triggerDownload(fname, csvContent, 'text/csv;charset=utf-8');
+        showToast(`已匯出工程 BOM 規格表 (${fname})`);
+      }
+
+      function triggerDownload(filename, textContent, mimeType) {
+        const blob = new Blob([textContent], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+      }
+
+      // -----------------------------------------------------------------------
+      // 9. UI BINDINGS & INTERACTIVE CONTROLS
+      // -----------------------------------------------------------------------
+      // Module Tabs
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetTab = btn.getAttribute('data-tab');
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          document.querySelectorAll('.tab-panel').forEach(panel => {
+            panel.classList.toggle('hidden', panel.id !== `tab-${targetTab}`);
+          });
+        });
+      });
+
+      // Option Card Selectors (Hull, Power, Propulsion, Satcom, Radar)
+      function bindCardGroup(selector, attrName, stateKey, badgeId, badgeMap) {
+        document.querySelectorAll(selector).forEach(card => {
+          card.addEventListener('click', () => {
+            const val = card.getAttribute(attrName);
+            state[stateKey] = val;
+            document.querySelectorAll(selector).forEach(c => c.classList.toggle('active', c === card));
+            if (badgeId && badgeMap && badgeMap[val]) {
+              document.getElementById(badgeId).textContent = badgeMap[val];
+            }
+            rebuildUSVModel();
+          });
+        });
+      }
+
+      bindCardGroup('.hull-card', 'data-hull', 'hullType', 'hullTypeBadge', {
+        monohull_deepv: 'Deep-V Monohull',
+        catamaran: 'Twin-Hull Catamaran',
+        trimaran: 'Wave-Piercing Trimaran',
+        swath: 'SWATH Platform'
+      });
+
+      bindCardGroup('.power-card', 'data-power', 'powerType', 'powerTypeBadge', {
+        lifepo4_pure: 'LiFePO4 Electric',
+        diesel_electric: 'Diesel-Electric Hybrid',
+        hydrogen_pem: 'H2 PEM Fuel Cell',
+        solar_hybrid: 'Solar Array Hybrid'
+      });
+
+      bindCardGroup('.prop-card', 'data-prop', 'propulsionType', 'propTypeBadge', {
+        twin_waterjet: 'Twin Waterjets',
+        twin_azimuth_pod: 'Twin Azimuth Pods',
+        twin_shaft_prop: 'Twin Shafts + Rudders',
+        surface_piercing: 'Surface-Piercing Drives'
+      });
+
+      bindCardGroup('.satcom-card', 'data-satcom', 'satcomType', null, null);
+
+      bindCardGroup('.radar-card', 'data-radar', 'radarType', 'radarTypeBadge', {
+        solid_state_radome: 'Solid-State Radome',
+        open_array_xband: 'Open-Array X-Band',
+        phased_array_4d: '4-Face Phased Array',
+        mmwave_array: '77GHz mmWave Array'
+      });
+
+      // Range Sliders
+      function bindRange(inputId, valId, stateKey, formatter) {
+        const el = document.getElementById(inputId);
+        const valEl = document.getElementById(valId);
+        if (!el) return;
+        el.addEventListener('input', () => {
+          const v = parseFloat(el.value);
+          state[stateKey] = v;
+          if (valEl) valEl.textContent = formatter(v);
+          rebuildUSVModel();
+        });
+      }
+
+      bindRange('paramLOA', 'valLOA', 'loa', v => `${v.toFixed(2)} m (${Math.round(v * 1000)} mm)`);
+      bindRange('paramBeam', 'valBeam', 'beam', v => `${v.toFixed(2)} m (${Math.round(v * 1000)} mm)`);
+      bindRange('paramDepth', 'valDepth', 'depth', v => `${v.toFixed(2)} m (${Math.round(v * 1000)} mm)`);
+      bindRange('paramDeadrise', 'valDeadrise', 'deadrise', v => `${v.toFixed(1)}°`);
+      bindRange('paramBowRake', 'valBowRake', 'bowRake', v => `${Math.round(v)}°`);
+      bindRange('paramBowFlare', 'valBowFlare', 'bowFlare', v => v.toFixed(2));
+      bindRange('paramChine', 'valChine', 'chineRatio', v => v.toFixed(2));
+      bindRange('paramHullSpacing', 'valHullSpacing', 'hullSpacing', v => v.toFixed(2));
+      bindRange('paramShellThickness', 'valShellThickness', 'shellThickness', v => `${v.toFixed(1)} mm`);
+      bindRange('paramBatteryKwh', 'valBatteryKwh', 'batteryKwh', v => `${Math.round(v)} kWh`);
+      bindRange('paramFuelLiters', 'valFuelLiters', 'fuelLiters', v => `${Math.round(v)} L`);
+      bindRange('paramMotorKw', 'valMotorKw', 'motorKw', v => `${Math.round(v)} kW (${(v * 1.341).toFixed(1)} HP)`);
+      bindRange('paramPropDia', 'valPropDia', 'propDia', v => `${Math.round(v)} mm`);
+      bindRange('paramWhipHeight', 'valWhipHeight', 'whipHeight', v => `${v.toFixed(2)} m`);
+      bindRange('paramMastHeight', 'valMastHeight', 'mastHeight', v => `${v.toFixed(2)} m`);
+      bindRange('paramRadarRpm', 'valRadarRpm', 'radarRpm', v => `${Math.round(v)} RPM`);
+
+      // Dropdown Selects
+      function bindSelect(selectId, stateKey, onExtra) {
+        const el = document.getElementById(selectId);
+        if (!el) return;
+        el.addEventListener('change', () => {
+          state[stateKey] = isNaN(Number(el.value)) ? el.value : Number(el.value);
+          if (onExtra) onExtra(state[stateKey]);
+          rebuildUSVModel();
+        });
+      }
+
+      bindSelect('selectHullMaterial', 'hullMaterial');
+      bindSelect('selectSuperstructure', 'superstructure');
+      bindSelect('selectLivery', 'livery');
+      bindSelect('paramSystemVoltage', 'systemVoltage', v => {
+        document.getElementById('valSystemVoltage').textContent = `${v} V DC`;
+      });
+      bindSelect('selectGnss', 'gnssType');
+      bindSelect('selectEoir', 'eoirType');
+      bindSelect('selectLidar', 'lidarType');
+      bindSelect('selectSonar', 'sonarType');
+
+      // Checkboxes
+      function bindCheckbox(chkId, stateKey, onExtra) {
+        const el = document.getElementById(chkId);
+        if (!el) return;
+        el.addEventListener('change', () => {
+          state[stateKey] = el.checked;
+          if (onExtra) onExtra(el.checked);
+          rebuildUSVModel();
+        });
+      }
+
+      bindCheckbox('chkSprayStrakes', 'sprayStrakes');
+      bindCheckbox('chkRubRail', 'rubRail');
+      bindCheckbox('chkXrayPower', 'xray', checked => {
+        updateToggleBtnStyle('toggleXrayBtn', checked);
+      });
+      bindCheckbox('chkBowThruster', 'bowThruster');
+      bindCheckbox('chkTrimTabs', 'trimTabs');
+      bindCheckbox('chkCamera360', 'camera360');
+      bindCheckbox('chkWeatherStation', 'weatherStation');
+      bindCheckbox('chkDualWhip', 'dualWhip');
+      bindCheckbox('chkLteDome', 'lteDome');
+      bindCheckbox('chkDirectionalLink', 'directionalLink');
+      bindCheckbox('chkShowFov', 'showFov');
+      bindCheckbox('chkAnimateSim', 'animateSim');
+
+      // Viewport Camera Buttons
+      document.querySelectorAll('.cam-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mode = btn.getAttribute('data-cam');
+          document.querySelectorAll('.cam-btn').forEach(b => {
+            b.className = 'cam-btn px-2 py-1 rounded text-[11px] font-medium text-slate-300 hover:bg-slate-800 transition';
+          });
+          btn.className = 'cam-btn px-2 py-1 rounded text-[11px] font-medium bg-sky-500/20 text-sky-300 border border-sky-500/40 transition';
+
+          const dist = Math.max(4.5, state.loa * 1.45);
+          orbit.target.set(0, state.depth * 0.5, 0);
+          if (mode === 'iso') { orbit.theta = 0.68; orbit.phi = 1.12; orbit.radius = dist; }
+          else if (mode === 'side') { orbit.theta = Math.PI / 2; orbit.phi = 1.46; orbit.radius = dist * 0.95; }
+          else if (mode === 'front') { orbit.theta = 0; orbit.phi = 1.38; orbit.radius = dist * 0.85; }
+          else if (mode === 'stern') { orbit.theta = Math.PI; orbit.phi = 1.38; orbit.radius = dist * 0.78; }
+          else if (mode === 'top') { orbit.theta = Math.PI / 2; orbit.phi = 0.12; orbit.radius = dist * 1.1; }
+          else if (mode === 'bottom') { orbit.theta = 0.6; orbit.phi = 2.65; orbit.radius = dist * 0.85; }
+          updateCameraFromOrbit();
+        });
+      });
+
+      function updateToggleBtnStyle(btnId, active) {
+        const btn = document.getElementById(btnId);
+        if (!btn) return;
+        btn.className = active
+          ? 'px-2 py-1 rounded text-[11px] font-medium bg-sky-500/25 text-sky-300 border border-sky-500/50 transition'
+          : 'px-2 py-1 rounded text-[11px] font-medium text-slate-300 hover:bg-slate-800 transition';
+      }
+
+      document.getElementById('toggleWireframeBtn').addEventListener('click', () => {
+        state.wireframe = !state.wireframe;
+        updateToggleBtnStyle('toggleWireframeBtn', state.wireframe);
+        rebuildUSVModel();
+      });
+
+      document.getElementById('toggleXrayBtn').addEventListener('click', () => {
+        state.xray = !state.xray;
+        document.getElementById('chkXrayPower').checked = state.xray;
+        updateToggleBtnStyle('toggleXrayBtn', state.xray);
+        rebuildUSVModel();
+      });
+
+      document.getElementById('toggleExplodeBtn').addEventListener('click', () => {
+        state.explode = !state.explode;
+        updateToggleBtnStyle('toggleExplodeBtn', state.explode);
+        rebuildUSVModel();
+      });
+
+      document.getElementById('toggleWaterBtn').addEventListener('click', () => {
+        state.showWater = !state.showWater;
+        updateToggleBtnStyle('toggleWaterBtn', state.showWater);
+        rebuildUSVModel();
+      });
+
+      document.getElementById('toggleCgMarkerBtn').addEventListener('click', () => {
+        state.showCgMarker = !state.showCgMarker;
+        updateToggleBtnStyle('toggleCgMarkerBtn', state.showCgMarker);
+        rebuildUSVModel();
+      });
+
+      // 2D Lines Plan Drawer Toggle
+      const linesDrawer = document.getElementById('linesPlanDrawer');
+      document.getElementById('toggleLinesPlanBtn').addEventListener('click', () => {
+        linesDrawer.classList.toggle('hidden');
+        if (!linesDrawer.classList.contains('hidden')) draw2DLinesPlan();
+      });
+      document.getElementById('closeLinesPlanBtn').addEventListener('click', () => {
+        linesDrawer.classList.add('hidden');
+      });
+
+      // Sync UI inputs when loading presets
+      function syncUIFromState() {
+        document.getElementById('paramLOA').value = state.loa;
+        document.getElementById('valLOA').textContent = `${state.loa.toFixed(2)} m (${Math.round(state.loa * 1000)} mm)`;
+        document.getElementById('paramBeam').value = state.beam;
+        document.getElementById('valBeam').textContent = `${state.beam.toFixed(2)} m (${Math.round(state.beam * 1000)} mm)`;
+        document.getElementById('paramDepth').value = state.depth;
+        document.getElementById('valDepth').textContent = `${state.depth.toFixed(2)} m (${Math.round(state.depth * 1000)} mm)`;
+        document.getElementById('paramDeadrise').value = state.deadrise;
+        document.getElementById('valDeadrise').textContent = `${state.deadrise.toFixed(1)}°`;
+        document.getElementById('paramBatteryKwh').value = state.batteryKwh;
+        document.getElementById('valBatteryKwh').textContent = `${state.batteryKwh} kWh`;
+        document.getElementById('paramFuelLiters').value = state.fuelLiters;
+        document.getElementById('valFuelLiters').textContent = `${state.fuelLiters} L`;
+        document.getElementById('paramMotorKw').value = state.motorKw;
+        document.getElementById('valMotorKw').textContent = `${state.motorKw} kW (${(state.motorKw * 1.341).toFixed(1)} HP)`;
+        document.getElementById('paramMastHeight').value = state.mastHeight;
+        document.getElementById('valMastHeight').textContent = `${state.mastHeight.toFixed(2)} m`;
+        document.getElementById('selectSuperstructure').value = state.superstructure;
+        document.getElementById('selectLivery').value = state.livery;
+        document.getElementById('selectSonar').value = state.sonarType;
+
+        document.querySelectorAll('.hull-card').forEach(c => c.classList.toggle('active', c.getAttribute('data-hull') === state.hullType));
+        document.querySelectorAll('.power-card').forEach(c => c.classList.toggle('active', c.getAttribute('data-power') === state.powerType));
+        document.querySelectorAll('.prop-card').forEach(c => c.classList.toggle('active', c.getAttribute('data-prop') === state.propulsionType));
+        document.querySelectorAll('.satcom-card').forEach(c => c.classList.toggle('active', c.getAttribute('data-satcom') === state.satcomType));
+        document.querySelectorAll('.radar-card').forEach(c => c.classList.toggle('active', c.getAttribute('data-radar') === state.radarType));
+      }
+
+      // Quick Presets
+      document.getElementById('presetPatrolBtn').addEventListener('click', () => {
+        Object.assign(state, defaultState, {
+          hullType: 'monohull_deepv', loa: 4.8, beam: 1.85, depth: 0.78, deadrise: 24,
+          powerType: 'diesel_electric', batteryKwh: 36, fuelLiters: 160,
+          propulsionType: 'twin_waterjet', motorKw: 90,
+          radarType: 'phased_array_4d', satcomType: 'starlink_flat', livery: 'tactical_grey'
+        });
+        syncUIFromState();
+        rebuildUSVModel();
+        showToast('已套用「高速巡邏偵蒐艇 (4.8m 深V單體)」構型範本');
+      });
+
+      document.getElementById('presetHydroBtn').addEventListener('click', () => {
+        Object.assign(state, defaultState, {
+          hullType: 'catamaran', loa: 3.6, beam: 1.95, depth: 0.68, deadrise: 26,
+          powerType: 'lifepo4_pure', batteryKwh: 48, fuelLiters: 0,
+          propulsionType: 'twin_azimuth_pod', motorKw: 24,
+          sonarType: 'multibeam_gondola', radarType: 'solid_state_radome',
+          superstructure: 'modular_utility', livery: 'survey_orange'
+        });
+        syncUIFromState();
+        rebuildUSVModel();
+        showToast('已套用「水文多波束測繪船 (3.6m 雙體穩定型)」構型範本');
+      });
+
+      document.getElementById('presetOceanBtn').addEventListener('click', () => {
+        Object.assign(state, defaultState, {
+          hullType: 'trimaran', loa: 7.5, beam: 3.4, depth: 1.05, deadrise: 25,
+          powerType: 'solar_hybrid', batteryKwh: 96, fuelLiters: 220,
+          propulsionType: 'twin_shaft_prop', motorKw: 72,
+          radarType: 'open_array_xband', satcomType: 'satcom_dome',
+          superstructure: 'streamlined_aero', livery: 'coastguard_blue'
+        });
+        syncUIFromState();
+        rebuildUSVModel();
+        showToast('已套用「遠洋長航時無人船 (7.5m 三體穿浪型)」構型範本');
+      });
+
+      document.getElementById('presetSwathBtn').addEventListener('click', () => {
+        Object.assign(state, defaultState, {
+          hullType: 'swath', loa: 6.2, beam: 3.1, depth: 1.25, deadrise: 22,
+          powerType: 'hydrogen_pem', batteryKwh: 64, fuelLiters: 180,
+          propulsionType: 'twin_azimuth_pod', motorKw: 54,
+          sonarType: 'multibeam_gondola', radarType: 'solid_state_radome',
+          superstructure: 'stealth_faceted', livery: 'stealth_carbon'
+        });
+        syncUIFromState();
+        rebuildUSVModel();
+        showToast('已套用「抗浪科考平台 (6.2m SWATH 小水線面雙體)」構型範本');
+      });
+
+      document.getElementById('resetDefaultBtn').addEventListener('click', () => {
+        Object.assign(state, defaultState);
+        syncUIFromState();
+        rebuildUSVModel();
+        showToast('已重置所有船體與系統設計參數');
+      });
+
+      // STEP Modal Logic
+      let currentStepData = null;
+      const stepModal = document.getElementById('stepExportModal');
+      function refreshStepPreview() {
+        const prec = document.getElementById('stepPrecisionSelect').value;
+        currentStepData = generateISO10303StepFile(prec);
+        document.getElementById('stepFileNameLabel').textContent = currentStepData.fileName;
+        document.getElementById('stepExportStats').textContent =
+          `8 組實體 | ${currentStepData.totalFaces.toLocaleString()} 個 B-Rep 面 | ${currentStepData.totalEntities.toLocaleString()} 筆 STEP 實體`;
+        const kb = (currentStepData.content.length / 1024).toFixed(1);
+        document.getElementById('stepFileSizeEst').textContent = `檔案大小: ${kb} KB (ISO 10303-21 ASCII)`;
+        const previewLines = currentStepData.content.split('\n');
+        const headPart = previewLines.slice(0, 38).join('\n');
+        const tailPart = previewLines.slice(-14).join('\n');
+        document.getElementById('stepCodePreview').textContent =
+          `${headPart}\n/* ... 中略 (${previewLines.length - 52} 行 B-Rep 幾何拓撲定義) ... */\n${tailPart}`;
+      }
+
+      document.getElementById('exportStepBtn').addEventListener('click', () => {
+        stepModal.classList.remove('hidden');
+        stepModal.classList.add('flex');
+        refreshStepPreview();
+      });
+
+      document.getElementById('stepPrecisionSelect').addEventListener('change', refreshStepPreview);
+
+      document.getElementById('closeStepModalBtn').addEventListener('click', () => {
+        stepModal.classList.add('hidden');
+        stepModal.classList.remove('flex');
+      });
+
+      document.getElementById('confirmDownloadStepBtn').addEventListener('click', () => {
+        if (!currentStepData) refreshStepPreview();
+        triggerDownload(currentStepData.fileName, currentStepData.content, 'application/step');
+        showToast(`已成功輸出 3D STEP 工程檔 (${currentStepData.fileName})`);
+      });
+
+      document.getElementById('copyStepSnippetBtn').addEventListener('click', () => {
+        if (!currentStepData) return;
+        const snippet = document.getElementById('stepCodePreview').textContent;
+        const ta = document.createElement('textarea');
+        ta.value = snippet;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('已複製 STEP 結構預覽片段至剪貼簿');
+      });
+
+      document.getElementById('exportStlBtn').addEventListener('click', exportAsciiSTL);
+      document.getElementById('downloadObjBtn').addEventListener('click', exportWavefrontOBJ);
+
+      // BOM Modal Logic
+      const bomModal = document.getElementById('bomModal');
+      document.getElementById('openBomModalBtn').addEventListener('click', () => {
+        bomModal.classList.remove('hidden');
+        bomModal.classList.add('flex');
+        updateHudReadouts(cachedHydrostatics);
+      });
+      document.getElementById('closeBomModalBtn').addEventListener('click', () => {
+        bomModal.classList.add('hidden');
+        bomModal.classList.remove('flex');
+      });
+      document.getElementById('exportBomCsvBtn').addEventListener('click', exportBomCsv);
+
+      // -----------------------------------------------------------------------
+      // 10. RESIZE & ANIMATION LOOP
+      // -----------------------------------------------------------------------
+      function handleResize() {
+        const rect = container.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) {
+          camera.aspect = rect.width / rect.height;
+          camera.updateProjectionMatrix();
+          renderer.setSize(rect.width, rect.height);
+        }
+        draw2DLinesPlan();
+      }
+      window.addEventListener('resize', handleResize);
+
+      const waterBaseY = [];
+      const wPos = waterGeo.attributes.position;
+      for (let i = 0; i < wPos.count; i++) {
+        waterBaseY.push({ x: wPos.getX(i), z: wPos.getZ(i) });
+      }
+
+      let lastTime = performance.now();
+      function animate(now) {
+        requestAnimationFrame(animate);
+        const dt = Math.min(0.05, (now - lastTime) * 0.001);
+        lastTime = now;
+
+        if (state.animateSim) {
+          const t = now * 0.001;
+          // Rotate propellers
+          animatedPropellers.forEach(p => {
+            p.node.rotation.x += dt * 16.0 * p.dir;
+          });
+          // Rotate open-array radar
+          const radarOmega = (state.radarRpm / 60) * Math.PI * 2;
+          animatedRadarScanners.forEach(r => {
+            r.rotation.y += dt * radarOmega;
+          });
+          // Rotate LiDAR rotor
+          animatedLidarRotors.forEach(l => {
+            l.rotation.y += dt * 10.0;
+          });
+          // Gentle ocean wave ripple
+          if (state.showWater) {
+            for (let i = 0; i < wPos.count; i++) {
+              const pt = waterBaseY[i];
+              const wave = Math.sin(pt.x * 0.55 + t * 1.8) * 0.025 + Math.cos(pt.z * 0.65 + t * 1.4) * 0.02;
+              wPos.setY(i, wave);
+            }
+            wPos.needsUpdate = true;
+          }
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      // Initialize on load
+      window.addEventListener('load', () => {
+        handleResize();
+        rebuildUSVModel();
+        requestAnimationFrame(animate);
+      });
+    })();
+  </script>
+<script>
+(()=>{
+ const header=document.getElementById('siteHeader'),viewport=document.getElementById('viewportContainer'),drawer=document.getElementById('linesPlanDrawer');
+ let frame;const resize=()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>window.dispatchEvent(new Event('resize')));};
+ new ResizeObserver(()=>{document.documentElement.style.setProperty('--site-header-height',header.getBoundingClientRect().height+'px');resize();}).observe(header);
+ new ResizeObserver(resize).observe(viewport);new ResizeObserver(resize).observe(drawer);
+ const button=document.getElementById('fullscreenToggle');
+ button.addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch(e){button.textContent='請使用瀏覽器全螢幕（F11）';}});
+ document.addEventListener('fullscreenchange',()=>{button.textContent=document.fullscreenElement?'⛶ 離開全螢幕':'⛶ 全螢幕操作';resize();});
+})();</script></body>
+</html>
