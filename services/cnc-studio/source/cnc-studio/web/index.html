@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CNC Studio · STEP to toolpath</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body>
+<header><a class="brand" href="/" aria-label="CNC Studio 首頁"><span class="logo">C</span>CNC<span class="brand-light">STUDIO</span><small>LOCAL CAM / 01</small></a><div class="header-right"><span class="led"></span><span id="service">正在連接本機引擎</span><span class="tag">FANUC · 3 AXIS</span></div></header>
+<main><section class="intro"><div><div class="eyebrow">FROM SOLID TO MOTION</div><h1>讓幾何，成為刀路。</h1><p>匯入 STEP、規劃製程，在同一個工作台檢視每一步加工。</p></div><div class="intro-note"><b>01 / 加工規劃工作台</b><span>2.5D 粗加工 · 本機模型決策 · mm</span></div></section>
+<div class="workspace"><aside class="panel setup"><div class="panel-title"><h2>加工設定</h2><span class="mini">SETUP</span></div>
+<button class="upload" id="upload"><span class="upload-icon">↥</span><b id="filename">匯入 STEP 模型</b><small>.step / .stp · 最大 50 MB</small></button><input type="file" accept=".step,.stp" id="file" hidden><button id="demo" class="text-button">或載入範例工件 ↗</button>
+<form id="setup"><fieldset id="fields" disabled>
+<div class="section-label"><span>01</span> 母機與材料</div>
+<label>工具母機<select id="machine"></select></label><label class="check"><input type="checkbox" id="auto_machine" checked>Laya 建議母機（取消可固定選擇）</label>
+<div class="row three"><label>X 行程<input type="number" id="travel_x" value="400" min="10" step="1"></label><label>Y 行程<input type="number" id="travel_y" value="300" min="10" step="1"></label><label>Z 行程<input type="number" id="travel_z" value="350" min="10" step="1"></label></div>
+<div class="row"><label>最高轉速<input type="number" id="rpm_limit" value="10000" min="100"></label><label>最大進給<input type="number" id="feed_limit" value="4000" min="100"></label></div>
+<label>工件材料<select id="material"></select></label>
+<div class="section-label"><span>02</span> 素材與裝夾 <small>mm</small></div>
+<div class="row three"><label>素材 X<input type="number" id="stock_x" step="0.1" min="1" required></label><label>素材 Y<input type="number" id="stock_y" step="0.1" min="1" required></label><label>素材 Z<input type="number" id="stock_z" step="0.1" min="1" required></label></div>
+<label>治具／模座<select id="fixture"></select></label><label>治具包絡盒 <small>G54 座標，JSON mm</small><textarea id="fixture_boxes" rows="2" spellcheck="false">[]</textarea></label><p class="hint">每盒 [xmin, ymin, zmin, xmax, ymax, zmax]。空陣列表示未驗證裝夾；通孔下方需留鑽孔空間。</p>
+<div class="section-label"><span>03</span> 刀具與切削參數</div>
+<label>口袋／面銑刀<select id="tool"></select></label><div id="toolinfo" class="hint"></div>
+<div class="row"><label>每層切深<input type="number" id="stepdown" min="0.1" max="3" step="0.1" value="1"></label><label>側向步距比<input type="number" id="stepover" min="0.1" max="0.65" step="0.05" value="0.4"></label></div>
+<div class="row"><label>安全 Z 高度<input type="number" id="safe_z" min="2" max="200" value="10" step="0.1"></label><label>通孔鑽尖延伸<input type="number" id="breakthrough" min="0" max="5" value="4" step="0.1"></label></div>
+<label>進給倍率 <span id="feedvalue">100%</span><input type="range" id="feed_scale" min="0.1" max="1" step="0.05" value="1"></label>
+<label class="check"><input type="checkbox" id="use_laya" checked>使用本機 Laya 決策模型</label><button class="primary" id="plan" type="submit">規劃製程與產生刀路 <span>→</span></button>
+</fieldset></form></aside>
+<section class="center"><div class="panel viewer"><div class="viewer-bar"><div class="view-tabs" role="tablist"><button role="tab" aria-selected="true" data-view="3d" class="active">3D 視圖</button><button role="tab" aria-selected="false" data-view="xy">2D · XY</button><button role="tab" aria-selected="false" data-view="xz">2D · XZ</button><button role="tab" aria-selected="false" data-view="yz">2D · YZ</button></div><button id="reset" class="icon-button" title="重設視角">⤢</button></div>
+<div class="canvas-wrap"><canvas id="scene" aria-label="STEP 模型與刀具路徑模擬"></canvas><div class="canvas-title"><span class="status-dot"></span><span id="modelstate">等待工件</span></div><div class="canvas-meta" id="geometry">匯入 STEP 以開始</div><div class="view-help">拖曳旋轉 · 滾輪縮放 <span id="axis">X / Y / Z</span></div><div id="empty"><div class="empty-icon">⌘</div><h3>你的下一道工序，從這裡開始</h3><p>載入工件，檢視實體與加工特徵。</p></div></div>
+<div class="legend"><span><i class="cyan"></i>切削進給</span><span><i class="yellow"></i>快速移動</span><span><i class="gray"></i>成品模型</span><label class="check"><input id="show_stock" type="checkbox" checked>素材</label><label class="check"><input id="show_path" type="checkbox" checked>刀路</label></div>
+<div class="playback"><button id="play" class="play" disabled aria-label="播放刀路">▶</button><input id="timeline" type="range" min="0" max="1000" value="0" aria-label="刀路進度"><span id="progress">0%</span><select id="speed" aria-label="播放速度"><option value="1">1×</option><option value="4" selected>4×</option><option value="16">16×</option><option value="64">64×</option></select></div>
+<div class="coordinates" id="coordinates">X 0.000 &nbsp; Y 0.000 &nbsp; Z 0.000 <span>G54 / mm</span></div></div>
+<div class="stats"><div><span>幾何特徵</span><b id="featurecount">—</b><small>可辨識工序</small></div><div><span>刀路長度</span><b id="distance">—</b><small>切削移動 / mm</small></div><div><span>估計刀路時間</span><b id="time">—</b><small>不含換刀與加減速 / min</small></div><div><span>輸出狀態</span><b id="status" class="status-text">待規劃</b><small>工程草稿</small></div></div>
+<div class="panel review"><div class="panel-title"><h2>加工檢查</h2><span class="mini">REVIEW</span></div><div id="review"><p class="hint">將檢查幾何支援範圍、刀具刃長、行程範圍與已設定治具包絡。</p></div></div>
+</section>
+<aside class="panel process"><div class="panel-title"><h2>製程規劃</h2><span class="ai-badge">LAYA</span></div><div class="ai-card"><div class="eyebrow">LOCAL DECISION ENGINE</div><b id="ai-title">模型就緒後按需推論</b><p id="ai-detail">Laya 選擇母機與粗銑策略，幾何規則分解工序與計算刀路。</p><div id="ai-confidence"></div></div><div id="tasks" class="tasks"><div class="task-placeholder">尚未建立加工計畫<span>載入工件並點選「規劃製程」</span></div></div>
+<div class="output"><div class="section-label">FANUC POSTPROCESSOR</div><h3>檢視每一行，再交給母機。</h3><p>可下載 NC 草稿與完整工作單。尚未驗證實際母機、刀長補正、換刀與材料移除。</p><button id="confirm-ai" class="secondary" hidden>已檢視並採用 Laya 的母機／策略建議</button><a id="download" class="download disabled" aria-disabled="true">下載 G-code 草稿 <span>↓</span></a><button id="export" class="secondary" disabled>匯出加工工作單 JSON</button><button id="code-toggle" class="text-button" disabled>檢視 G-code ↗</button></div></aside>
+</div><footer><span>CNC STUDIO <b>v0.1.0</b></span><span>支援矩形塊頂面、頂開矩形口袋粗銑與配套垂直通孔；自由曲面、多軸及精加工未支援。</span><span>LOCAL FIRST · STEP → PLAN → SIMULATE</span></footer></main>
+<div id="toast" role="status" hidden></div><dialog id="code-dialog"><div class="panel-title"><h2>FANUC G-code 草稿</h2><button id="close-code" class="secondary">關閉</button></div><pre id="code"></pre></dialog>
+</body></html>

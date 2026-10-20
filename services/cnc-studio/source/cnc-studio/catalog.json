@@ -1,0 +1,22 @@
+{
+  "machines": [
+    {"id":"vmc400","name":"VMC 400 · FANUC 範本","travel":[400,300,350],"rpm":10000,"feed":4000,"rapid":12000,"note":"通用能力範本；請依實際母機校正"},
+    {"id":"vmc850","name":"VMC 850 · FANUC 範本","travel":[800,500,500],"rpm":12000,"feed":6000,"rapid":20000,"note":"通用能力範本；請依實際母機校正"},
+    {"id":"vmc1160","name":"VMC 1160 · FANUC 範本","travel":[1100,600,600],"rpm":10000,"feed":5000,"rapid":18000,"note":"通用能力範本；請依實際母機校正"}
+  ],
+  "materials": [
+    {"id":"al6061","name":"鋁合金 6061 · 起始估值","vc":180,"fz":0.025,"stepdown":1.0},
+    {"id":"s45c","name":"S45C 中碳鋼 · 起始估值","vc":65,"fz":0.018,"stepdown":0.5},
+    {"id":"sus304","name":"SUS304 不鏽鋼 · 起始估值","vc":40,"fz":0.012,"stepdown":0.3}
+  ],
+  "tools": [
+    {"id":"em6","name":"T1 · Ø6 中心切削平底銑刀","number":1,"kind":"endmill","diameter":6,"flutes":4,"flute_length":22,"length":60,"holder_diameter":25,"holder_length":40},
+    {"id":"em10","name":"T2 · Ø10 中心切削平底銑刀","number":2,"kind":"endmill","diameter":10,"flutes":4,"flute_length":30,"length":70,"holder_diameter":32,"holder_length":40},
+    {"id":"drill12","name":"T3 · Ø12 麻花鑽","number":3,"kind":"drill","diameter":12,"flutes":2,"flute_length":45,"length":85,"holder_diameter":28,"holder_length":40}
+  ],
+  "fixtures": [
+    {"id":"vise","name":"虎鉗／平行墊塊","note":"需自行設定並核對顎口與墊塊；檢查使用下列包絡盒"},
+    {"id":"plate","name":"底板／壓板治具","note":"通孔需鑽孔讓位，底部墊高與壓板需列入包絡盒"},
+    {"id":"mold","name":"模座／模具裝夾","note":"可記錄模座；此版不支援模仁自由曲面加工"}
+  ]
+}

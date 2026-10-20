@@ -1,0 +1,5 @@
+source/cnc-studio/data/
+**/__pycache__/
+source/cad_tools/config.json
+source/cad_tools/runtime/
+source/cad_tools/reports/

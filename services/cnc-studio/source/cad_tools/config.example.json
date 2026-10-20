@@ -1,0 +1,28 @@
+{
+  "reuse_policy": {
+    "enabled": true,
+    "scope": "Agent workflow default; explicit per-task user choice takes precedence"
+  },
+  "runtimes": {
+    "python": "python",
+    "freecad": "C:/Program Files/FreeCAD 1.1/bin/python.exe",
+    "com-python": "python"
+  },
+  "scan_roots": [],
+  "laya": {
+    "enabled": false,
+    "package_version": "0.4.6",
+    "model": "convaiinnovations/laya-multilingual",
+    "model_revision": "7b928d828b7b0e022f929d9bd2e44165aa270148",
+    "model_path": "runtime/huggingface/hub/models--convaiinnovations--laya/snapshots/7b928d828b7b0e022f929d9bd2e44165aa270148",
+    "port": 8765,
+    "min_confidence": 0.85,
+    "purpose": "共用操作選擇建議，禁止直接執行或取代工程驗證"
+  },
+  "JEV": {
+    "enabled": false,
+    "description": "數值規則引擎：請以明確欄位、單位與條件設定；AI 判斷另由 Laya route 提供。",
+    "scope": "尚未定義",
+    "rules": []
+  }
+}
