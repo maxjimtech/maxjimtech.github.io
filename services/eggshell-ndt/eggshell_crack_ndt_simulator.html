@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家禽蛋殼裂紋多感測器 NDT 模擬測試工作台</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --panel-bg: #1e293b;
+            --border-color: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-green: #22c55e;
+            --accent-red: #ef4444;
+            --accent-amber: #f59e0b;
+            --accent-purple: #a855f7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 16px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px 20px;
+            margin-bottom: 16px;
+        }
+
+        header h1 {
+            font-size: 1.35rem;
+            color: var(--accent-blue);
+            letter-spacing: 0.5px;
+        }
+
+        header .subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .status-badge {
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+        }
+
+        .status-intact {
+            background-color: rgba(34, 197, 94, 0.18);
+            border: 1px solid var(--accent-green);
+            color: #4ade80;
+        }
+
+        .status-cracked {
+            background-color: rgba(239, 68, 68, 0.22);
+            border: 1px solid var(--accent-red);
+            color: #f87171;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.35);
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 330px 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 1100px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .card-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preset-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        button {
+            background-color: #334155;
+            color: var(--text-main);
+            border: 1px solid #475569;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.15s;
+        }
+
+        button:hover {
+            background-color: #475569;
+            border-color: var(--accent-blue);
+        }
+
+        button.active-preset {
+            background-color: rgba(56, 189, 248, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .control-item {
+            margin-bottom: 12px;
+        }
+
+        .control-item label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .control-item span.val {
+            color: var(--text-main);
+            font-family: monospace;
+            font-weight: 600;
+        }
+
+        input[type="range"], select {
+            width: 100%;
+            accent-color: var(--accent-blue);
+            cursor: pointer;
+        }
+
+        select {
+            background-color: #0f172a;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        .fusion-meter {
+            margin-top: 8px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background-color: #0f172a;
+            border-radius: 999px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin: 6px 0 12px 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.25s ease, background-color 0.25s ease;
+        }
+
+        .sensor-led-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sensor-led-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(15, 23, 42, 0.6);
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            border: 1px solid transparent;
+        }
+
+        .led-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .led-ok {
+            background-color: var(--accent-green);
+            box-shadow: 0 0 6px var(--accent-green);
+        }
+
+        .led-warn {
+            background-color: var(--accent-red);
+            box-shadow: 0 0 8px var(--accent-red);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 1400px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 800px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .module-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            width: 100%;
+            background-color: #090d16;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 230px;
+            display: block;
+        }
+
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: auto;
+        }
+
+        .metric-box {
+            background-color: rgba(15, 23, 42, 0.7);
+            border: 1px solid #334155;
+            border-radius: 6px;
+            padding: 6px 8px;
+            text-align: center;
+        }
+
+        .metric-box .m-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .metric-box .m-val {
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: monospace;
+            color: var(--text-main);
+        }
+
+        .spec-table-section {
+            margin-top: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.84rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--accent-blue);
+            background-color: rgba(15, 23, 42, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>家禽蛋殼裂紋多感測器 NDT 模擬測試工作台</h1>
+        <div class="subtitle">Multi-Modal Eggshell Crack Non-Destructive Testing Simulator (Metric Units: mm, kHz, μs, °C, kVp)</div>
+    </div>
+    <div id="finalVerdictBadge" class="status-badge status-intact">
+        <span id="verdictText">INTACT / 完好合格品 (0.0%)</span>
+    </div>
+</header>
+
+<div class="main-layout">
+    <!-- 左側物理與環境參數控制欄 -->
+    <aside class="sidebar">
+        <div class="card">
+            <div class="card-title">
+                <span>快速測試樣本預設 (Presets)</span>
+            </div>
+            <div class="preset-group">
+                <button id="btnIntact" onclick="applyPreset('intact')">標準完好蛋</button>
+                <button id="btnHairline" class="active-preset" onclick="applyPreset('hairline')">微細髮絲裂紋</button>
+                <button id="btnStar" onclick="applyPreset('star')">星狀衝擊裂紋</button>
+                <button id="btnPinhole" onclick="applyPreset('pinhole')">針孔破膜微滲</button>
+            </div>
+            <button style="width:100%; background:#0284c7; border-color:#38bdf8;" onclick="triggerRetest()">重新採樣觸發 (Re-Trigger Pulse)</button>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <span>蛋體與裂紋物理參數 (Metric)</span>
+            </div>
+
+            <div class="control-item">
+                <label>裂紋幾何型態 (Crack Mode)</label>
+                <select id="crackType" onchange="updateSimulation()">
+                    <option value="none">無裂紋 (Intact Shell)</option>
+                    <option value="hairline" selected>髮絲微裂紋 (Hairline Crack)</option>
+                    <option value="star">星狀放射裂紋 (Star Impact Crack)</option>
+                    <option value="pinhole">頂部針孔微裂 (Pinhole Micro-Crack)</option>
+                </select>
+            </div>
+
+            <div class="control-item">
+                <label>蛋體縱長 / 最大橫徑 <span class="val" id="dimVal">58.0 × 44.0 mm</span></label>
+                <input type="range" id="eggLength" min="50" max="68" step="0.5" value="58.0" oninput="updateSimulation()">
+            </div>
+
+            <div class="control-item">
+                <label>平均蛋殼厚度 (Shell Thickness) <span class="val" id="thickVal">0.35 mm</span></label>
+                <input type="range" id="shellThickness" min="0.22" max="0.48" step="0.01" value="0.35" oninput="updateSimulation()">
+            </div>
+
+            <div class="control-item">
+                <label>裂紋開口寬度 (Crack Width) <span class="val" id="widthVal">0.08 mm</span></label>
+                <input type="range" id="crackWidth" min="0.00" max="0.35" step="0.01" value="0.08" oninput="updateSimulation()">
+            </div>
+
+            <div class="control-item">
+                <label>裂紋深度佔殼厚比 (Depth Ratio) <span class="val" id="depthVal">85 %</span></label>
+                <input type="range" id="crackDepth" min="0" max="100" step="1" value="85" oninput="updateSimulation()">
+            </div>
+
+            <div class="control-item">
+                <label>裂紋延伸長度 (Crack Length) <span class="val" id="lenVal">18.0 mm</span></label>
+                <input type="range" id="crackLength" min="2.0" max="38.0" step="0.5" value="18.0" oninput="updateSimulation()">
+            </div>
+
+            <div class="control-item">
+                <label>表面鈣斑與髒污干擾 (Surface Noise) <span class="val" id="noiseVal">20 %</span></label>
+                <input type="range" id="surfaceNoise" min="0" max="100" step="2" value="20" oninput="updateSimulation()">
+            </div>
+
+            <div class="control-item">
+                <label>X 光管電壓 (Tube Voltage) <span class="val" id="kvpVal">30 kVp</span></label>
+                <input type="range" id="xrayKvp" min="20" max="45" step="1" value="30" oninput="updateSimulation()">
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <span>多感測器融合決策器 (Sensor Fusion)</span>
+                <span id="fusionScoreLabel" style="font-family:monospace;">0.0%</span>
+            </div>
+            <div class="fusion-meter">
+                <div class="progress-bar-bg">
+                    <div id="fusionProgressBar" class="progress-bar-fill"></div>
+                </div>
+                <div class="sensor-led-list">
+                    <div class="sensor-led-item">
+                        <span><i id="ledAcoustic" class="led-dot led-ok"></i>1. 敲擊聲學共振 (權重 25%)</span>
+                        <span id="stateAcoustic" style="font-family:monospace;">PASS</span>
+                    </div>
+                    <div class="sensor-led-item">
+                        <span><i id="ledUltrasonic" class="led-dot led-ok"></i>2. 40kHz 空耦超音波 (權重 25%)</span>
+                        <span id="stateUltrasonic" style="font-family:monospace;">PASS</span>
+                    </div>
+                    <div class="sensor-led-item">
+                        <span><i id="ledOptical" class="led-dot led-ok"></i>3. 暗場背光視覺 (權重 15%)</span>
+                        <span id="stateOptical" style="font-family:monospace;">PASS</span>
+                    </div>
+                    <div class="sensor-led-item">
+                        <span><i id="ledInfrared" class="led-dot led-ok"></i>4. 主動紅外線熱像 (權重 15%)</span>
+                        <span id="stateInfrared" style="font-family:monospace;">PASS</span>
+                    </div>
+                    <div class="sensor-led-item">
+                        <span><i id="ledXray" class="led-dot led-ok"></i>5. 微焦點 X 光穿透 (權重 20%)</span>
+                        <span id="stateXray" style="font-family:monospace;">PASS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 右側 6 大即時模擬視覺化儀表板 -->
+    <main>
+        <div class="dashboard-grid">
+            <!-- 模組 1：敲擊聲學共振 -->
+            <div class="module-card">
+                <div class="card-title">
+                    <span>模組 1：敲擊聲學共振時域與 FFT 頻譜</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">MEMS Mic + Solenoid</span>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="canvasAcoustic" width="420" height="230"></canvas>
+                </div>
+                <div class="metrics-row">
+                    <div class="metric-box">
+                        <span class="m-label">第一主頻 (f1)</span>
+                        <span class="m-val" id="acPeakFreq">4100 Hz</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">頻譜質心</span>
+                        <span class="m-val" id="acCentroid">4210 Hz</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">模態分裂熵</span>
+                        <span class="m-val" id="acEntropy">4.12 bits</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模組 2：40kHz 空耦超音波 -->
+            <div class="module-card">
+                <div class="card-title">
+                    <span>模組 2：40 kHz 空耦超音波表面波 (Rayleigh Wave)</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">Air-Coupled Piezo</span>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="canvasUltrasonic" width="420" height="230"></canvas>
+                </div>
+                <div class="metrics-row">
+                    <div class="metric-box">
+                        <span class="m-label">接收波包 Vpp</span>
+                        <span class="m-val" id="usVpp">1.82 V</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">透射抵達 ToF</span>
+                        <span class="m-val" id="usTof">160.0 μs</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">裂紋散射回波</span>
+                        <span class="m-val" id="usEcho">0.04 V</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模組 3：暗場背光與偏振機器視覺 -->
+            <div class="module-card">
+                <div class="card-title">
+                    <span>模組 3：暗場 LED 背光透射機器視覺</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">Global Shutter CMOS</span>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="canvasOptical" width="420" height="230"></canvas>
+                </div>
+                <div class="metrics-row">
+                    <div class="metric-box">
+                        <span class="m-label">漏光峰值強度</span>
+                        <span class="m-val" id="optPeak">28 DN</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">鈣斑偽陽性干擾</span>
+                        <span class="m-val" id="optFalsePos">Low</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">連通裂紋長度</span>
+                        <span class="m-val" id="optLength">0.0 mm</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模組 4：紅外線主動熱成像與 SWIR 水分吸收 -->
+            <div class="module-card">
+                <div class="card-title">
+                    <span>模組 4：主動式脈衝紅外線熱成像 (LWIR 8-14 μm)</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">Thermal Microbolometer</span>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="canvasInfrared" width="420" height="230"></canvas>
+                </div>
+                <div class="metrics-row">
+                    <div class="metric-box">
+                        <span class="m-label">表面最高溫</span>
+                        <span class="m-val" id="irMaxTemp">34.5 °C</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">裂紋蒸發冷卻 ΔT</span>
+                        <span class="m-val" id="irDeltaT">-0.1 °C</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">最大熱梯度</span>
+                        <span class="m-val" id="irGradient">0.42 °C/mm</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模組 5：微焦點軟 X 光穿透影像 -->
+            <div class="module-card">
+                <div class="card-title">
+                    <span>模組 5：微焦點 X 光高通缺陷強化影像</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">Micro-Focus X-Ray Tube</span>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="canvasXray" width="420" height="230"></canvas>
+                </div>
+                <div class="metrics-row">
+                    <div class="metric-box">
+                        <span class="m-label">殼厚衰減係數 μ</span>
+                        <span class="m-val" id="xrMu">1.85 mm⁻¹</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">高頻缺陷對比</span>
+                        <span class="m-val" id="xrContrast">1.2 %</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">異常穿透像素</span>
+                        <span class="m-val" id="xrPixels">0 px</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模組 6：雷射散斑干涉與高壓微電流漏電 -->
+            <div class="module-card">
+                <div class="card-title">
+                    <span>模組 6：雷射散斑干涉 (Laser Speckle) 與高壓檢漏</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">650nm Coherent Laser + HV</span>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="canvasLaser" width="420" height="230"></canvas>
+                </div>
+                <div class="metrics-row">
+                    <div class="metric-box">
+                        <span class="m-label">散斑去相關指標</span>
+                        <span class="m-val" id="lsDecor">0.08</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">高壓絕緣漏電流</span>
+                        <span class="m-val" id="hvCurrent">0.2 μA</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="m-label">內膜穿透狀態</span>
+                        <span class="m-val" id="hvMembrane">完好絕緣</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 硬體選型與工程比較表 -->
+        <div class="card spec-table-section">
+            <div class="card-title">
+                <span>自動化蛋品分級產線感測模組硬體架構與物理特性對照表</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>檢測技術模組</th>
+                        <th>核心物理效應</th>
+                        <th>推薦感測器 / 致動器硬體規格</th>
+                        <th>對表面鈣斑/髒污抗性</th>
+                        <th>產線單顆檢測耗時</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. 敲擊聲學共振</strong></td>
+                        <td>球諧結構共振模態 (S20) 頻移與阻尼耗散</td>
+                        <td>微型輕敲電磁鐵 + I2S MEMS 麥克風 (INMP441) + Cortex-M7 DSP</td>
+                        <td>極高 (不受光學外觀影響)</td>
+                        <td>~ 15 ms (可達 12 顆/秒)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. 空耦超音波</strong></td>
+                        <td>40 kHz 表面瑞利波聲阻抗不連續衰減與 ToF 延遲</td>
+                        <td>40 kHz 空耦壓電換能器陣列 + 60 dB 低雜訊放大器 (LNA)</td>
+                        <td>高 (僅受嚴重泥塊影響)</td>
+                        <td>~ 20 ms</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. 暗場背光視覺</strong></td>
+                        <td>高亮度透射光於裂紋截面產生全反射與米氏散射</td>
+                        <td>高功率窄波段聚光 LED + 全域快門工業相機 + 正交偏振片</td>
+                        <td>中低 (鈣斑與羽毛易造成誤判)</td>
+                        <td>~ 35 ms (需多角度翻滾)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4. 主動紅外線熱像</strong></td>
+                        <td>裂紋空氣隙熱阻效應 + 蛋白微滲蒸發潛熱冷卻 (ΔT)</td>
+                        <td>脈衝鹵素加熱燈 + 8–14 μm 非制冷紅外線熱像機芯 (FLIR Boson)</td>
+                        <td>高 (不受色素與蛋殼顏色影響)</td>
+                        <td>~ 80 ms (含熱傳導弛豫)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>5. 微焦點軟 X 光</strong></td>
+                        <td>比爾-朗伯定律 (Beer-Lambert Law) 碳酸鈣質量厚度衰減差異</td>
+                        <td>25–40 kVp 微焦點 X 光源 + CMOS 閃爍體線陣列探測器</td>
+                        <td>極高 (穿透表面髒污直視結構)</td>
+                        <td>~ 40 ms</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script>
+    // 亂數種子輔助，確保視覺穩定同時支援重新觸發微擾
+    let noiseOffset = 0;
+
+    function triggerRetest() {
+        noiseOffset += 13.37;
+        updateSimulation();
+    }
+
+    function pseudoRandom(x, y) {
+        const v = Math.sin(x * 12.9898 + y * 78.233 + noiseOffset) * 43758.5453;
+        return v - Math.floor(v);
+    }
+
+    function applyPreset(presetName) {
+        document.querySelectorAll('.preset-group button').forEach(b => b.classList.remove('active-preset'));
+        if (presetName === 'intact') {
+            document.getElementById('btnIntact').classList.add('active-preset');
+            document.getElementById('crackType').value = 'none';
+            document.getElementById('crackWidth').value = 0.00;
+            document.getElementById('crackDepth').value = 0;
+            document.getElementById('crackLength').value = 5.0;
+            document.getElementById('surfaceNoise').value = 35;
+        } else if (presetName === 'hairline') {
+            document.getElementById('btnHairline').classList.add('active-preset');
+            document.getElementById('crackType').value = 'hairline';
+            document.getElementById('crackWidth').value = 0.08;
+            document.getElementById('crackDepth').value = 85;
+            document.getElementById('crackLength').value = 18.0;
+            document.getElementById('surfaceNoise').value = 20;
+        } else if (presetName === 'star') {
+            document.getElementById('btnStar').classList.add('active-preset');
+            document.getElementById('crackType').value = 'star';
+            document.getElementById('crackWidth').value = 0.16;
+            document.getElementById('crackDepth').value = 95;
+            document.getElementById('crackLength').value = 26.0;
+            document.getElementById('surfaceNoise').value = 15;
+        } else if (presetName === 'pinhole') {
+            document.getElementById('btnPinhole').classList.add('active-preset');
+            document.getElementById('crackType').value = 'pinhole';
+            document.getElementById('crackWidth').value = 0.22;
+            document.getElementById('crackDepth').value = 100;
+            document.getElementById('crackLength').value = 4.5;
+            document.getElementById('surfaceNoise').value = 25;
+        }
+        updateSimulation();
+    }
+
+    // 判斷座標點 (mm) 是否位於蛋形幾何內部與計算裂紋強度 (0.0 ~ 1.0)
+    function evaluateEggGeometryAndCrack(x_mm, y_mm, params) {
+        const a = params.diameter_mm / 2.0;
+        const b = params.length_mm / 2.0;
+        const taper = 1.0 + 0.14 * (y_mm / b);
+        const normEq = Math.pow(x_mm / (a / taper), 2) + Math.pow(y_mm / b, 2);
+
+        if (normEq > 1.0) {
+            return { inside: false, normR2: normEq, crackIntensity: 0, spotIntensity: 0 };
+        }
+
+        // 表面天然鈣斑/髒污模擬
+        let spotIntensity = 0;
+        if (params.surfaceNoise > 0) {
+            const n = Math.sin(x_mm * 0.85 + noiseOffset) * Math.cos(y_mm * 0.75 - noiseOffset) *
+                      Math.sin((x_mm + y_mm) * 1.3);
+            if (n > 0.65) {
+                spotIntensity = ((n - 0.65) / 0.35) * (params.surfaceNoise / 100.0);
+            }
+        }
+
+        // 裂紋幾何模型
+        let crackIntensity = 0;
+        const halfLen = params.crackLength_mm / 2.0;
+        const effWidth = Math.max(0.45, params.crackWidth_mm * 5.5); // 視覺化放大微米級線寬以利觀察
+
+        if (params.crackType !== 'none' && params.crackWidth_mm > 0.001 && params.crackDepthRatio > 0.01) {
+            if (params.crackType === 'hairline') {
+                if (y_mm >= -halfLen && y_mm <= halfLen) {
+                    const curveX = 3.2 * Math.sin(y_mm * 0.22) + 0.15 * y_mm;
+                    const dist = Math.abs(x_mm - curveX);
+                    if (dist < effWidth) {
+                        crackIntensity = Math.exp(-Math.pow(dist / (effWidth * 0.45), 2));
+                    }
+                    // 分枝微裂紋
+                    if (y_mm > 0 && y_mm < halfLen * 0.75) {
+                        const branchX = curveX + 0.55 * y_mm;
+                        const distB = Math.abs(x_mm - branchX);
+                        if (distB < effWidth * 0.8) {
+                            crackIntensity = Math.max(crackIntensity, 0.85 * Math.exp(-Math.pow(distB / (effWidth * 0.4), 2)));
+                        }
+                    }
+                }
+            } else if (params.crackType === 'star') {
+                const dx = x_mm - 2.0;
+                const dy = y_mm + 1.5;
+                const r = Math.hypot(dx, dy);
+                const theta = Math.atan2(dy, dx);
+                const angles = [-2.5, -1.2, -0.2, 0.85, 2.05];
+                if (r <= halfLen * 0.75) {
+                    for (let ang of angles) {
+                        const dTheta = Math.abs(Math.atan2(Math.sin(theta - ang), Math.cos(theta - ang)));
+                        const perpDist = r * dTheta + 0.35 * Math.sin(r * 0.7);
+                        if (perpDist < effWidth * 0.9) {
+                            crackIntensity = Math.max(crackIntensity, Math.exp(-Math.pow(perpDist / (effWidth * 0.45), 2)));
+                        }
+                    }
+                }
+            } else if (params.crackType === 'pinhole') {
+                const dx = x_mm - 0.0;
+                const dy = y_mm + (b * 0.52);
+                const r = Math.hypot(dx, dy);
+                const pinRadius = Math.max(1.2, params.crackLength_mm * 0.35);
+                if (r <= pinRadius) {
+                    crackIntensity = Math.exp(-Math.pow(r / (pinRadius * 0.6), 2));
+                }
+            }
+        }
+
+        return {
+            inside: true,
+            normR2: normEq,
+            crackIntensity: crackIntensity * params.crackDepthRatio,
+            spotIntensity: spotIntensity
+        };
+    }
+
+    // 1. 繪製聲學共振模組
+    function renderAcousticModule(params) {
+        const canvas = document.getElementById('canvasAcoustic');
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        // 背景格線
+        ctx.strokeStyle = '#1e293b';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < W; x += 60) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+        for (let y = 0; y < H; y += 45) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+
+        const severity = (params.crackType === 'none') ? 0 :
+            Math.min(1.0, (params.crackWidth_mm / 0.15) * params.crackDepthRatio * (params.crackLength_mm / 15.0));
+
+        // 計算主頻與模態分裂
+        const baseFreq = 3950 + (params.shellThickness_mm - 0.35) * 4200 - (params.length_mm - 58.0) * 35;
+        const f1 = baseFreq * (1.0 - 0.24 * severity);
+        const f2 = f1 + 340 + 180 * severity;
+        const f3 = baseFreq * 1.38 - 220 * severity;
+
+        // 上半部：時域阻尼自由振動訊號 (0 ~ 25 ms)
+        ctx.save();
+        ctx.beginPath();
+        ctx.strokeStyle = severity > 0.25 ? '#f87171' : '#38bdf8';
+        ctx.lineWidth = 1.5;
+        const midY_top = 55;
+        for (let i = 0; i < W; i++) {
+            const t_ms = (i / W) * 25.0;
+            const zeta = 0.012 + 0.048 * severity;
+            const env = Math.exp(-zeta * 2 * Math.PI * (f1 / 1000) * t_ms);
+            let wave = env * Math.sin(2 * Math.PI * (f1 / 1000) * t_ms);
+            if (severity > 0.1) {
+                wave = 0.55 * wave + 0.45 * env * Math.sin(2 * Math.PI * (f2 / 1000) * t_ms);
+            }
+            const noise = (pseudoRandom(i, 1) - 0.5) * 0.08;
+            const py = midY_top - (wave + noise) * 38;
+            if (i === 0) ctx.moveTo(i, py); else ctx.lineTo(i, py);
+        }
+        ctx.stroke();
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '11px monospace';
+        ctx.fillText('Time Domain Impulse Response (0 - 25 ms)', 10, 16);
+        ctx.restore();
+
+        // 分隔線
+        ctx.strokeStyle = '#334155';
+        ctx.beginPath(); ctx.moveTo(0, 105); ctx.lineTo(W, 105); ctx.stroke();
+
+        // 下半部：FFT 頻譜 (1000 Hz ~ 7000 Hz)
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '11px monospace';
+        ctx.fillText('FFT Spectrum (1.0 kHz - 7.0 kHz)', 10, 122);
+
+        let sumFreqMag = 0, sumMag = 0;
+        const magArray = [];
+        for (let i = 0; i < W; i++) {
+            const freq = 1000 + (i / W) * 6000;
+            const bw1 = 95 + 160 * severity;
+            let mag = (1.0 - 0.38 * severity) * Math.exp(-Math.pow((freq - f1) / bw1, 2));
+            if (severity > 0.05) {
+                mag += (0.72 * severity) * Math.exp(-Math.pow((freq - f2) / (bw1 * 1.1), 2));
+                mag += (0.48 * severity) * Math.exp(-Math.pow((freq - f3) / (bw1 * 1.3), 2));
+            } else {
+                mag += 0.15 * Math.exp(-Math.pow((freq - baseFreq * 1.42) / 110, 2));
+            }
+            mag += pseudoRandom(i, 2) * 0.04;
+            magArray.push(mag);
+            sumFreqMag += freq * mag;
+            sumMag += mag;
+        }
+
+        // 繪製 FFT 曲線與填色
+        ctx.beginPath();
+        ctx.moveTo(0, H - 18);
+        for (let i = 0; i < W; i++) {
+            const py = (H - 18) - magArray[i] * 85;
+            ctx.lineTo(i, py);
+        }
+        ctx.lineTo(W, H - 18);
+        ctx.closePath();
+        ctx.fillStyle = severity > 0.25 ? 'rgba(239, 68, 68, 0.22)' : 'rgba(56, 189, 248, 0.22)';
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.strokeStyle = severity > 0.25 ? '#ef4444' : '#38bdf8';
+        ctx.lineWidth = 1.8;
+        for (let i = 0; i < W; i++) {
+            const py = (H - 18) - magArray[i] * 85;
+            if (i === 0) ctx.moveTo(i, py); else ctx.lineTo(i, py);
+        }
+        ctx.stroke();
+
+        // 頻率刻度
+        ctx.fillStyle = '#64748b';
+        ctx.font = '10px monospace';
+        for (let f = 2000; f <= 6000; f += 1000) {
+            const xPos = ((f - 1000) / 6000) * W;
+            ctx.fillText((f / 1000).toFixed(0) + 'kHz', xPos - 12, H - 4);
+        }
+
+        const centroid = sumFreqMag / (sumMag + 1e-9);
+        const entropy = 3.95 + severity * 2.45;
+
+        document.getElementById('acPeakFreq').textContent = f1.toFixed(0) + ' Hz';
+        document.getElementById('acCentroid').textContent = centroid.toFixed(0) + ' Hz';
+        document.getElementById('acEntropy').textContent = entropy.toFixed(2) + ' bits';
+
+        return { triggered: severity > 0.22, score: Math.min(1.0, severity * 1.45) };
+    }
+
+    // 2. 繪製 40kHz 空耦超音波模組
+    function renderUltrasonicModule(params) {
+        const canvas = document.getElementById('canvasUltrasonic');
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.strokeStyle = '#1e293b';
+        for (let x = 0; x < W; x += 60) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+        for (let y = 0; y < H; y += 45) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+
+        const severity = (params.crackType === 'none') ? 0 :
+            Math.min(1.0, (params.crackWidth_mm / 0.12) * params.crackDepthRatio);
+
+        const tofMain = 158.0 + severity * 24.5 + (params.diameter_mm - 44.0) * 1.2;
+        const mainAmp = 0.94 * (1.0 - 0.68 * severity);
+        const echoAmp = 0.36 * severity;
+        const midY = H / 2;
+
+        ctx.beginPath();
+        ctx.strokeStyle = severity > 0.22 ? '#f59e0b' : '#2dd4bf';
+        ctx.lineWidth = 1.5;
+
+        for (let i = 0; i < W; i++) {
+            const t_us = (i / W) * 350.0;
+            // 裂紋界面反射波包 (~112 us)
+            const envEcho = echoAmp * Math.exp(-Math.pow((t_us - 112.0) / 20.0, 2));
+            const waveEcho = envEcho * Math.cos(2 * Math.PI * 0.04 * (t_us - 112.0));
+
+            // 透射瑞利表面波包 (~tofMain us)
+            const envMain = mainAmp * Math.exp(-Math.pow((t_us - tofMain) / (30.0 + 14.0 * severity), 2));
+            const waveMain = envMain * Math.cos(2 * Math.PI * 0.04 * (t_us - tofMain));
+
+            const noise = (pseudoRandom(i, 3) - 0.5) * 0.04;
+            const yVal = waveEcho + waveMain + noise;
+            const py = midY - yVal * 88;
+            if (i === 0) ctx.moveTo(i, py); else ctx.lineTo(i, py);
+        }
+        ctx.stroke();
+
+        // 標示 ToF 垂直虛線
+        const tofX = (tofMain / 350.0) * W;
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.beginPath(); ctx.moveTo(tofX, 20); ctx.lineTo(tofX, H - 20); ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = '11px monospace';
+        ctx.fillText(`ToF: ${tofMain.toFixed(1)} μs`, tofX + 6, 34);
+
+        if (severity > 0.15) {
+            const echoX = (112.0 / 350.0) * W;
+            ctx.fillStyle = '#f87171';
+            ctx.fillText('Crack Echo', echoX - 28, midY - 45);
+        }
+
+        const vpp = (mainAmp * 2.0).toFixed(2);
+        document.getElementById('usVpp').textContent = vpp + ' V';
+        document.getElementById('usTof').textContent = tofMain.toFixed(1) + ' μs';
+        document.getElementById('usEcho').textContent = (echoAmp * 2.0).toFixed(2) + ' V';
+
+        return { triggered: severity > 0.22, score: Math.min(1.0, severity * 1.4) };
+    }
+
+    // 3. 繪製暗場背光機器視覺模組
+    function renderOpticalModule(params) {
+        const canvas = document.getElementById('canvasOptical');
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+        const imgData = ctx.createImageData(W, H);
+        const data = imgData.data;
+
+        let maxLeakDN = 25;
+        let detectedCrackPixels = 0;
+
+        for (let py = 0; py < H; py++) {
+            const y_mm = ((py - H / 2) / (H / 2)) * 36.0;
+            for (let px = 0; px < W; px++) {
+                const x_mm = ((px - W / 2) / (H / 2)) * 36.0;
+                const idx = (py * W + px) * 4;
+                const res = evaluateEggGeometryAndCrack(x_mm, y_mm, params);
+
+                if (!res.inside) {
+                    data[idx] = 8; data[idx + 1] = 12; data[idx + 2] = 20; data[idx + 3] = 255;
+                } else {
+                    // 暗場背光：蛋體中心微透紅黃暖光，邊緣較暗
+                    const baseLight = Math.max(0, 1.0 - 0.72 * res.normR2);
+                    let r = 65 * baseLight;
+                    let g = 38 * baseLight;
+                    let b = 18 * baseLight;
+
+                    // 表面鈣斑在背光下也會形成局部亮點或暗斑干擾
+                    if (res.spotIntensity > 0) {
+                        r += res.spotIntensity * 145;
+                        g += res.spotIntensity * 130;
+                        b += res.spotIntensity * 90;
+                    }
+
+                    // 裂紋散射強烈漏光
+                    if (res.crackIntensity > 0.08) {
+                        const leak = res.crackIntensity * 255;
+                        r = Math.min(255, r + leak * 1.1);
+                        g = Math.min(255, g + leak * 1.05);
+                        b = Math.min(255, b + leak * 0.85);
+                        if (r > maxLeakDN) maxLeakDN = Math.round(r);
+                        if (res.crackIntensity > 0.25) detectedCrackPixels++;
+                    }
+
+                    data[idx] = r; data[idx + 1] = g; data[idx + 2] = b; data[idx + 3] = 255;
+                }
+            }
+        }
+        ctx.putImageData(imgData, 0, 0);
+
+        const estLen = (params.crackType === 'none') ? 0.0 :
+            (detectedCrackPixels > 8 ? params.crackLength_mm * Math.min(1, params.crackWidth_mm / 0.05) : 0.0);
+        const falsePosLevel = params.surfaceNoise > 60 ? 'High (需濾波)' : (params.surfaceNoise > 30 ? 'Medium' : 'Low');
+
+        document.getElementById('optPeak').textContent = maxLeakDN + ' DN';
+        document.getElementById('optFalsePos').textContent = falsePosLevel;
+        document.getElementById('optLength').textContent = estLen.toFixed(1) + ' mm';
+
+        const triggered = (maxLeakDN > 130) || (params.surfaceNoise > 75);
+        const score = Math.min(1.0, Math.max(0, (maxLeakDN - 65) / 180));
+        return { triggered, score };
+    }
+
+    // 4. 繪製主動式紅外線熱成像模組 (Inferno 偽色彩映射)
+    function infernoColorMap(t) {
+        const c = Math.max(0, Math.min(1, t));
+        const r = Math.min(255, Math.round(255 * Math.pow(c, 0.75) * 1.15));
+        const g = Math.min(255, Math.round(255 * Math.pow(Math.max(0, c - 0.25) / 0.75, 1.4)));
+        const b = Math.min(255, Math.round(255 * (Math.sin(c * Math.PI) * 0.65 + Math.pow(c, 3) * 0.5)));
+        return [r, g, b];
+    }
+
+    function renderInfraredModule(params) {
+        const canvas = document.getElementById('canvasInfrared');
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+        const imgData = ctx.createImageData(W, H);
+        const data = imgData.data;
+
+        let maxDrop = 0.1;
+
+        for (let py = 0; py < H; py++) {
+            const y_mm = ((py - H / 2) / (H / 2)) * 36.0;
+            for (let px = 0; px < W; px++) {
+                const x_mm = ((px - W / 2) / (H / 2)) * 36.0;
+                const idx = (py * W + px) * 4;
+                const res = evaluateEggGeometryAndCrack(x_mm, y_mm, params);
+
+                if (!res.inside) {
+                    // 環境背景 25°C
+                    data[idx] = 12; data[idx + 1] = 8; data[idx + 2] = 32; data[idx + 3] = 255;
+                } else {
+                    // 脈衝加熱後溫度場 (34.5°C 中心至 31.0°C 邊緣)，不受鈣斑顏色影響
+                    let tempC = 34.5 - 3.4 * res.normR2;
+                    if (res.crackIntensity > 0.05) {
+                        const drop = res.crackIntensity * 2.35;
+                        tempC -= drop;
+                        if (drop > maxDrop) maxDrop = drop;
+                    }
+                    const normT = (tempC - 25.0) / (35.2 - 25.0);
+                    const [r, g, b] = infernoColorMap(normT);
+                    data[idx] = r; data[idx + 1] = g; data[idx + 2] = b; data[idx + 3] = 255;
+                }
+            }
+        }
+        ctx.putImageData(imgData, 0, 0);
+
+        const maxGrad = 0.38 + maxDrop * 1.45;
+        document.getElementById('irMaxTemp').textContent = '34.5 °C';
+        document.getElementById('irDeltaT').textContent = '-' + maxDrop.toFixed(2) + ' °C';
+        document.getElementById('irGradient').textContent = maxGrad.toFixed(2) + ' °C/mm';
+
+        const triggered = maxGrad > 1.15;
+        const score = Math.min(1.0, Math.max(0, (maxGrad - 0.5) / 2.2));
+        return { triggered, score };
+    }
+
+    // 5. 繪製微焦點軟 X 光穿透與高頻缺陷強化模組
+    function renderXrayModule(params) {
+        const canvas = document.getElementById('canvasXray');
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+        const imgData = ctx.createImageData(W, H);
+        const data = imgData.data;
+
+        // 管電壓越高，碳酸鈣線性衰減係數 μ 越低
+        const mu = 1.85 * Math.pow(30.0 / params.xrayKvp, 1.35);
+        let defectPixels = 0;
+        let maxContrast = 0.8;
+
+        for (let py = 0; py < H; py++) {
+            const y_mm = ((py - H / 2) / (H / 2)) * 36.0;
+            for (let px = 0; px < W; px++) {
+                const x_mm = ((px - W / 2) / (H / 2)) * 36.0;
+                const idx = (py * W + px) * 4;
+                const res = evaluateEggGeometryAndCrack(x_mm, y_mm, params);
+
+                if (!res.inside) {
+                    data[idx] = 6; data[idx + 1] = 10; data[idx + 2] = 18; data[idx + 3] = 255;
+                } else {
+                    // 投影厚度：邊緣切線方向較厚
+                    const projThick = params.shellThickness_mm / Math.sqrt(Math.max(0.08, 1.0 - 0.78 * res.normR2));
+                    const effThick = projThick * (1.0 - 0.88 * res.crackIntensity);
+                    const attenuation = 1.0 - Math.exp(-mu * effThick);
+
+                    // X 光青藍灰階底圖 + 缺陷高頻偽彩強化
+                    let baseGray = Math.round(attenuation * 210);
+                    let r = baseGray * 0.75;
+                    let g = baseGray * 0.92;
+                    let b = Math.min(255, baseGray * 1.15);
+
+                    if (res.crackIntensity > 0.12) {
+                        defectPixels++;
+                        const cRatio = res.crackIntensity * (mu * params.shellThickness_mm) * 14.5;
+                        if (cRatio > maxContrast) maxContrast = cRatio;
+                        // 在 X 光影像上以亮青色/洋紅標記高通厚度突變區
+                        r = Math.min(255, r + res.crackIntensity * 220);
+                        g = Math.min(255, g + res.crackIntensity * 60);
+                        b = Math.min(255, b + res.crackIntensity * 180);
+                    }
+
+                    data[idx] = r; data[idx + 1] = g; data[idx + 2] = b; data[idx + 3] = 255;
+                }
+            }
+        }
+        ctx.putImageData(imgData, 0, 0);
+
+        document.getElementById('xrMu').textContent = mu.toFixed(2) + ' mm⁻¹';
+        document.getElementById('xrContrast').textContent = maxContrast.toFixed(1) + ' %';
+        document.getElementById('xrPixels').textContent = defectPixels + ' px';
+
+        const triggered = defectPixels > 25;
+        const score = Math.min(1.0, defectPixels / 180.0);
+        return { triggered, score };
+    }
+
+    // 6. 繪製雷射散斑干涉與高壓微電流模組
+    function renderLaserHvModule(params) {
+        const canvas = document.getElementById('canvasLaser');
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+        const imgData = ctx.createImageData(W, H);
+        const data = imgData.data;
+
+        let maxDecor = 0.06;
+
+        for (let py = 0; py < H; py++) {
+            const y_mm = ((py - H / 2) / (H / 2)) * 36.0;
+            for (let px = 0; px < W; px++) {
+                const x_mm = ((px - W / 2) / (H / 2)) * 36.0;
+                const idx = (py * W + px) * 4;
+                const res = evaluateEggGeometryAndCrack(x_mm, y_mm, params);
+
+                if (!res.inside) {
+                    data[idx] = 8; data[idx + 1] = 8; data[idx + 2] = 14; data[idx + 3] = 255;
+                } else {
+                    // 650nm 雷射散斑干涉條紋與裂紋微應變去相關亮帶
+                    const fringe = 0.5 + 0.5 * Math.cos(Math.sqrt(res.normR2) * 38.0 + res.crackIntensity * 8.5);
+                    const speckle = pseudoRandom(px, py);
+                    let r = (fringe * 150 + speckle * 55) * (1.0 - 0.35 * res.normR2);
+                    let g = 12;
+                    let b = 28;
+
+                    if (res.crackIntensity > 0.1) {
+                        const decor = res.crackIntensity * 0.92;
+                        if (decor > maxDecor) maxDecor = decor;
+                        r = 255;
+                        g = Math.min(255, res.crackIntensity * 230);
+                        b = Math.min(255, res.crackIntensity * 120);
+                    }
+
+                    data[idx] = r; data[idx + 1] = g; data[idx + 2] = b; data[idx + 3] = 255;
+                }
+            }
+        }
+        ctx.putImageData(imgData, 0, 0);
+
+        // 高壓檢漏僅在裂紋深度 >= 95% (傷及蛋殼膜) 時產生顯著漏電流
+        const membraneBroken = (params.crackType !== 'none') && (params.crackDepthRatio >= 0.92) && (params.crackWidth_mm >= 0.04);
+        const hvCurrent = membraneBroken ? (18.5 + params.crackWidth_mm * 120).toFixed(1) : '0.2';
+
+        document.getElementById('lsDecor').textContent = maxDecor.toFixed(2);
+        document.getElementById('hvCurrent').textContent = hvCurrent + ' μA';
+        document.getElementById('hvMembrane').textContent = membraneBroken ? '絕緣擊穿 (破膜)' : '完好絕緣';
+    }
+
+    function setLedState(ledId, textId, triggered) {
+        const led = document.getElementById(ledId);
+        const txt = document.getElementById(textId);
+        if (triggered) {
+            led.className = 'led-dot led-warn';
+            txt.textContent = 'CRACK ALERT';
+            txt.style.color = '#f87171';
+        } else {
+            led.className = 'led-dot led-ok';
+            txt.textContent = 'PASS';
+            txt.style.color = '#4ade80';
+        }
+    }
+
+    function updateSimulation() {
+        const length_mm = parseFloat(document.getElementById('eggLength').value);
+        const diameter_mm = +(length_mm * 0.76).toFixed(1);
+        const shellThickness_mm = parseFloat(document.getElementById('shellThickness').value);
+        const crackWidth_mm = parseFloat(document.getElementById('crackWidth').value);
+        const crackDepthPct = parseFloat(document.getElementById('crackDepth').value);
+        const crackLength_mm = parseFloat(document.getElementById('crackLength').value);
+        const surfaceNoise = parseFloat(document.getElementById('surfaceNoise').value);
+        const xrayKvp = parseFloat(document.getElementById('xrayKvp').value);
+        const crackType = document.getElementById('crackType').value;
+
+        document.getElementById('dimVal').textContent = `${length_mm.toFixed(1)} × ${diameter_mm.toFixed(1)} mm`;
+        document.getElementById('thickVal').textContent = `${shellThickness_mm.toFixed(2)} mm`;
+        document.getElementById('widthVal').textContent = `${crackWidth_mm.toFixed(2)} mm`;
+        document.getElementById('depthVal').textContent = `${crackDepthPct.toFixed(0)} %`;
+        document.getElementById('lenVal').textContent = `${crackLength_mm.toFixed(1)} mm`;
+        document.getElementById('noiseVal').textContent = `${surfaceNoise.toFixed(0)} %`;
+        document.getElementById('kvpVal').textContent = `${xrayKvp.toFixed(0)} kVp`;
+
+        const params = {
+            length_mm,
+            diameter_mm,
+            shellThickness_mm,
+            crackWidth_mm,
+            crackDepthRatio: crackDepthPct / 100.0,
+            crackLength_mm,
+            surfaceNoise,
+            xrayKvp,
+            crackType
+        };
+
+        const rAc = renderAcousticModule(params);
+        const rUs = renderUltrasonicModule(params);
+        const rOp = renderOpticalModule(params);
+        const rIr = renderInfraredModule(params);
+        const rXr = renderXrayModule(params);
+        renderLaserHvModule(params);
+
+        setLedState('ledAcoustic', 'stateAcoustic', rAc.triggered);
+        setLedState('ledUltrasonic', 'stateUltrasonic', rUs.triggered);
+        setLedState('ledOptical', 'stateOptical', rOp.triggered);
+        setLedState('ledInfrared', 'stateInfrared', rIr.triggered);
+        setLedState('ledXray', 'stateXray', rXr.triggered);
+
+        // 加權計算總信心度
+        const fusionConfidence = (
+            0.25 * rAc.score +
+            0.25 * rUs.score +
+            0.15 * rOp.score +
+            0.15 * rIr.score +
+            0.20 * rXr.score
+        ) * 100.0;
+
+        const clampedConf = Math.min(100, Math.max(0, fusionConfidence));
+        document.getElementById('fusionScoreLabel').textContent = clampedConf.toFixed(1) + '%';
+
+        const bar = document.getElementById('fusionProgressBar');
+        bar.style.width = clampedConf + '%';
+        bar.style.backgroundColor = clampedConf >= 45 ? '#ef4444' : (clampedConf >= 25 ? '#f59e0b' : '#22c55e');
+
+        const badge = document.getElementById('finalVerdictBadge');
+        const verdictText = document.getElementById('verdictText');
+        if (clampedConf >= 42.0) {
+            badge.className = 'status-badge status-cracked';
+            verdictText.textContent = `CRACKED / 檢出裂紋不良品 (信心度 ${clampedConf.toFixed(1)}%)`;
+        } else {
+            badge.className = 'status-badge status-intact';
+            verdictText.textContent = `INTACT / 完好合格品 (裂紋機率 ${clampedConf.toFixed(1)}%)`;
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        updateSimulation();
+    });
+</script>
+</body>
+</html>
