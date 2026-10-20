@@ -1,0 +1,3557 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>肇祥企業社 MaxJim Tech Inc. | HydroVanguard 全球水下無人載具 (UUV/AUV/ROV) 設計與流體力學即時 3D 模擬系統</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #040914;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #071124; }
+    ::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0284c7; }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 5px;
+      background: #0f223d;
+      border-radius: 4px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #06b6d4;
+      cursor: pointer;
+      border: 2px solid #040914;
+      box-shadow: 0 0 8px rgba(6, 182, 212, 0.7);
+    }
+    .glass-panel {
+      background: rgba(8, 20, 40, 0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(30, 64, 110, 0.65);
+    }
+    .hud-overlay {
+      background: rgba(4, 10, 22, 0.82);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+    }
+    .tab-active {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.28), rgba(14, 116, 144, 0.3));
+      border-color: #22d3ee;
+      color: #22d3ee;
+    }
+    .maxjim-watermark-overlay {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='180' viewBox='0 0 280 180'%3E%3Cg transform='rotate(-24 140 90)' fill='rgba(34,211,238,0.085)' font-family='Inter, sans-serif' font-weight='700' font-size='14'%3E%3Ctext x='15' y='80'%3E%E8%82%87%E7%A5%A5%E4%BC%81%E6%A5%AD%E7%A4%BE MaxJim Tech.%3C/text%3E%3Ctext x='35' y='102' font-size='10' font-family='monospace'%3Ehttps://maxjimtech.com/%3C/text%3E%3C/g%3E%3C/svg%3E");
+      background-repeat: repeat;
+    }
+  </style>
+<style>
+:root{--header-height:220px;color-scheme:dark}
+#appBody{width:100%;max-width:100%;overflow-x:hidden}
+button,a,input,select{touch-action:manipulation}
+button{min-height:32px;white-space:normal;overflow-wrap:anywhere}
+button svg{flex-shrink:0}
+input,select,textarea{min-width:0;max-width:100%}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #7dd3fc;outline-offset:2px}
+#appHeader{position:relative;height:auto;min-width:0;padding:12px 16px}
+#appHeader>div,#appHeader>div>div{min-width:0;flex-wrap:wrap}
+#appHeader>div:nth-child(2){align-items:stretch;flex-direction:column}
+#appHeader>div:nth-child(2)>div:first-child{display:flex;flex-wrap:wrap;min-width:0}
+#appHeader>div:first-child>div{flex-wrap:wrap;min-width:0}
+#appHeader>div:nth-child(2)>div:last-child{display:flex;flex-wrap:wrap;gap:8px}
+#appHeader button span{display:inline}
+#QuickModelSelect{width:min(420px,100%);max-width:100%;min-width:0}
+#QuickModelSelect.parent{min-width:0}
+#MainNavTabs{display:flex;flex-wrap:wrap;overflow:visible;gap:6px}
+#MainNavTabs button{white-space:normal;justify-content:center}
+#siteLinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0}
+#siteLinks button,#siteLinks a{padding:6px 10px;border:1px solid #334155;background:#0f172a;border-radius:6px;color:#cbd5e1;font-size:12px;text-decoration:none}
+#siteLinks span{font-size:11px;color:#94a3b8}
+#contactEdition{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;margin:8px 0;padding:10px 12px;border:1px solid #0ea5e966;background:#0c2740;border-radius:8px;color:#bae6fd;font-size:13px;font-weight:600;overflow-wrap:anywhere}
+#FullVersionLink{font-size:12px;color:#7dd3fc;text-decoration:underline;min-height:32px;display:inline-flex;align-items:center}
+#appHeader>div:last-child{grid-template-columns:repeat(4,minmax(0,1fr))}
+#appHeader>div:last-child>div{display:flex;flex-wrap:wrap;gap:4px 8px;min-width:0}
+#appHeader>div:last-child>div>span{overflow-wrap:anywhere}
+#mainWorkspace{min-width:0}
+#TabView-studio{grid-template-columns:minmax(260px,.9fr) minmax(0,1.9fr) minmax(260px,.9fr);align-items:start}
+#geometryPanel,#analysisPanel{grid-column:auto;min-width:0;max-height:calc(100dvh - 32px);overflow:auto;scrollbar-gutter:stable}
+#studioCenter{grid-column:auto;min-width:0}
+#viewportLayout{min-height:0;overflow:hidden;display:grid;grid-template-columns:190px minmax(0,1fr);gap:10px;padding:10px;flex:none}
+#viewportToolbar,#flightDisplay,#viewportLegend,#viewportBrand,#DangerAlertOverlay{position:static;inset:auto;transform:none;max-width:100%;min-width:0;pointer-events:auto}
+#viewportToolbar{grid-column:1/-1;grid-row:1;align-items:flex-start;justify-content:flex-start}
+#viewportToolbar>div{flex-wrap:wrap;min-width:0;max-width:100%}
+#DangerAlertOverlay{grid-column:1/-1;grid-row:2;border-radius:8px;white-space:normal;overflow-wrap:anywhere}
+#ThreeViewportContainer{grid-column:1/-1;grid-row:3;height:clamp(360px,48vh,580px);min-height:0;min-width:0;overflow:hidden;flex:none;z-index:6}
+#ThreeViewportContainer canvas{display:block;max-width:100%}
+#flightDisplay{grid-column:1;grid-row:4;display:block}
+#viewportLegend{grid-column:2;grid-row:4;align-self:start;overflow-wrap:anywhere}
+#viewportLegend>div{flex-wrap:wrap}
+#viewportBrand{grid-column:1/-1;grid-row:5;text-align:left}
+#viewportLayout .maxjim-watermark-overlay{z-index:5}
+#studioCenter>.glass-panel:not(#viewportLayout) .grid>div{min-width:0}
+.tab-section .grid>div{min-width:0}
+.tab-section h2,.tab-section h3{flex-wrap:wrap;min-width:0}
+.tab-section .flex.items-center.justify-between{gap:8px;flex-wrap:wrap}
+#CustomModelModal,#ExportSpecModal,#PhotoExportModal{overflow:auto}
+#CustomModelModal>div,#ExportSpecModal>div,#PhotoExportModal>div{max-height:90dvh;overflow:auto;min-width:0}
+#CustomModelModal>div>div,#ExportSpecModal>div>div,#PhotoExportModal>div>div{min-width:0}
+#CustomModelModal>div>div:first-child,#ExportSpecModal>div>div:first-child{display:flex;gap:12px;align-items:flex-start}
+#CustomModelModal h3,#ExportSpecModal h3,#PhotoExportModal h3{min-width:0;flex-wrap:wrap}
+#BtnCloseCustomModal,#BtnCloseExportModal,#BtnClosePhotoModal{flex-shrink:0;min-width:32px}
+#ExportSpecModal>div>div:last-child{flex-wrap:wrap;gap:12px}
+#ExportSpecModal>div>div:last-child>div{flex-wrap:wrap;gap:8px}
+#PhotoExportModal>div>div{flex-shrink:0}
+#PhotoExportModal>div>div:last-child{flex-shrink:1;min-height:100px}
+#PhotoExportModal>div>div:first-child>div{min-width:0;flex:1 1 240px}
+#WatermarkedPhotoCanvas{max-width:100%;height:auto;object-fit:contain}
+#ToastContainer{position:static;inset:auto;width:100%;margin:0;padding:0 12px}
+#ToastContainer:empty{display:none}
+@media(min-width:1700px){#appHeader>div:last-child{grid-template-columns:repeat(8,minmax(0,1fr))}}
+@media(max-width:1279px){#TabView-studio{grid-template-columns:minmax(280px,.85fr) minmax(0,1.4fr)}#analysisPanel{grid-column:1/-1;max-height:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}#analysisPanel>div{margin:0}}
+@media(max-width:1023px){#TabView-studio{grid-template-columns:minmax(0,1fr)}#geometryPanel{max-height:60dvh}#studioCenter{grid-column:1}#analysisPanel{grid-template-columns:minmax(0,1fr);overflow:visible}#ModelLibraryGrid{max-height:70dvh}#TabView-library>div:last-child>div:last-child{max-height:none}}
+@media(max-width:640px){#appHeader{padding:10px}#appHeader>div:nth-child(2)>div:first-child>div{width:100%;min-width:0;flex-wrap:wrap}#QuickModelSelect{width:100%;flex:1 1 200px}#appHeader>div:last-child{grid-template-columns:repeat(2,minmax(0,1fr))}#MainNavTabs button{flex:1 1 150px}#viewportLayout{grid-template-columns:minmax(0,1fr)}#flightDisplay{grid-column:1;grid-row:4}#HudSonarCanvas{width:170px;height:135px;margin:auto}#viewportLegend{grid-column:1;grid-row:5}#viewportBrand{grid-row:6}#viewportToolbar>div{width:100%}#viewportToolbar button{flex:1 1 auto}#ThreeViewportContainer{height:360px}#CustomModelModal,#ExportSpecModal,#PhotoExportModal{padding:8px}#CustomModelModal>div,#ExportSpecModal>div,#PhotoExportModal>div{padding:12px}#CustomModelModal .grid{grid-template-columns:minmax(0,1fr)}#CustomModelModal .col-span-2{grid-column:1}#CustomModelModal>div>div:last-child{flex-wrap:wrap}#ExportSpecModal textarea{height:32dvh}#LibrarySearchInput{width:100%}.tab-section .overflow-x-auto table{min-width:680px}}
+</style></head>
+<body id="appBody" class="min-h-screen flex flex-col bg-[#040914] text-slate-100 select-none">
+
+  <!-- TOP HEADER & GLOBAL HYDRO TELEMETRY BAR -->
+  <header id="appHeader" class="sticky top-0 z-40 bg-[#061022]/95 backdrop-blur-md border-b border-cyan-950/80 px-3 py-1.5">
+    <!-- 肇祥企業社 MaxJim Tech Inc. Official Corporate Letterhead Strip -->
+    <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 mb-1.5 border-b border-cyan-500/25 text-[11px]">
+      <div class="flex items-center gap-2">
+        <span class="px-2 py-0.5 rounded bg-gradient-to-r from-cyan-400 to-teal-500 text-slate-950 font-extrabold tracking-wide text-xs shadow">肇祥企業社 MaxJim Tech Inc.</span>
+        <span class="font-semibold text-cyan-300">水下無人載具 (UUV/AUV/ROV) 機構設計・深海耐壓艙開發・水動力學與結構 CAE 工程系統</span>
+      </div>
+      <div class="flex items-center gap-3 font-mono text-[11px] text-slate-300">
+        <span>負責人：張哲肇 (Alex Chang)</span>
+        <span class="text-slate-600">|</span>
+        <span class="text-emerald-300">行動專線：0931-675001</span>
+        <span class="text-slate-600 hidden sm:inline">|</span>
+        <a href="https://maxjimtech.com/" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-cyan-300 underline hidden sm:inline">https://maxjimtech.com/</a>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <!-- Brand & Active UUV Model Selector -->
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 px-2.5 py-1.5 rounded-lg">
+          <i data-lucide="anchor" class="w-5 h-5 text-cyan-400"></i>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-bold text-sm tracking-tight text-white">肇祥企業社 MaxJim Tech Inc.</span>
+              <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">HydroVanguard v5.0</span>
+            </div>
+            <p class="text-[10px] text-slate-400 hidden sm:block">全球水下無人載具設計・耐壓結構補強・即時 3D 水動力與深海空蝕模擬系統</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5 bg-slate-900/90 border border-cyan-800/60 rounded-lg px-2.5 py-1">
+          <span class="text-[11px] text-slate-400 hidden md:inline">當前水下載具:</span>
+          <select id="QuickModelSelect" class="bg-transparent text-xs font-semibold text-cyan-300 focus:outline-none cursor-pointer pr-1"></select>
+          <span id="ActiveCategoryBadge" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">XLUUV</span>
+        </div>
+      </div>
+
+      <!-- Main Navigation Tabs -->
+      <nav class="flex items-center gap-1 overflow-x-auto py-0.5" id="MainNavTabs">
+        <button type="button" data-tab="studio" class="nav-tab tab-active flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border border-transparent transition-all whitespace-nowrap">
+          <i data-lucide="box" class="w-3.5 h-3.5"></i><span>1. 3D 水動力與耐壓 CAD 設計台</span>
+        </button>
+        <button type="button" data-tab="library" class="nav-tab flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800/70 border border-transparent transition-all whitespace-nowrap">
+          <i data-lucide="globe" class="w-3.5 h-3.5"></i><span>2. 全球 UUV 模型庫與補強 (<span id="LibraryCountBadge">20</span>)</span>
+        </button>
+        <button type="button" data-tab="hydrolab" class="nav-tab flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800/70 border border-transparent transition-all whitespace-nowrap">
+          <i data-lucide="waves" class="w-3.5 h-3.5"></i><span>3. 艇體線型・空蝕與阻力實驗室</span>
+        </button>
+        <button type="button" data-tab="divesim" class="nav-tab flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800/70 border border-transparent transition-all whitespace-nowrap">
+          <i data-lucide="compass" class="w-3.5 h-3.5"></i><span>4. 6-DOF 潛航與海流抗擾測試</span>
+        </button>
+        <button type="button" data-tab="pressurehull" class="nav-tab flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800/70 border border-transparent transition-all whitespace-nowrap">
+          <i data-lucide="shield" class="w-3.5 h-3.5"></i><span>5. 深海耐壓殼屈曲・浮力與 BOM</span>
+        </button>
+        <button type="button" data-tab="compare" class="nav-tab flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800/70 border border-transparent transition-all whitespace-nowrap">
+          <i data-lucide="git-compare" class="w-3.5 h-3.5"></i><span>6. 跨機種對比與報告匯出</span>
+        </button>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-1.5">
+        <button type="button" id="BtnOneClickAugment" class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 transition-all" title="自動診斷深海耐壓與水動力弱點並套用最佳補強方案">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i><span>一鍵深海補強</span>
+        </button>
+        <button type="button" id="BtnOpenPhotoModal" class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 transition-all" title="輸出帶有 MaxJim Tech 浮水印與肇祥企業社抬頭之高解析度水下工程數據照片">
+          <i data-lucide="camera" class="w-3.5 h-3.5"></i><span>輸出數據照片(浮水印)</span>
+        </button>
+        <button type="button" id="BtnOpenCustomModal" class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all">
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-cyan-400"></i><span class="hidden sm:inline">新增載具</span>
+        </button>
+        <button type="button" id="BtnExportSpec" class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-cyan-600 hover:bg-cyan-500 text-white transition-all">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i><span class="hidden sm:inline">匯出規格</span>
+        </button>
+      </div>
+    </div>
+
+    <nav id="siteLinks" aria-label="網站工具導覽"><button type="button" id="FullscreenToggle">全螢幕操作</button><a href="https://maxjimtech.com/線上設計工具" target="_top">返回官網工具區</a><a href="../aerovanguard/">AeroVanguard 無人機</a><a href="../usv-cad-studio/">USV 無人船</a><span>模擬數據為估算，非實測或認證結果</span></nav><!-- Real-Time Quick Hydrodynamic & Deep-Sea KPI Strip -->
+    <div class="grid grid-cols-4 sm:grid-cols-8 gap-1.5 mt-2 pt-1.5 border-t border-slate-800/80 text-[11px]">
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">雷諾數 Re_L:</span>
+        <span id="TopKpiRe" class="font-mono font-semibold text-cyan-300">1.85×10⁷</span>
+      </div>
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">環境水壓 P:</span>
+        <span id="TopKpiPressure" class="font-mono font-semibold text-sky-300">12.2 MPa</span>
+      </div>
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">總阻力係數 Cd:</span>
+        <span id="TopKpiCD" class="font-mono font-semibold text-amber-400">0.042</span>
+      </div>
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">空蝕數 σ_v:</span>
+        <span id="TopKpiCav" class="font-mono font-semibold text-emerald-400">4.85 (無空蝕)</span>
+      </div>
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">穩心高度 BG:</span>
+        <span id="TopKpiBG" class="font-mono font-semibold text-teal-300">+85.0 mm</span>
+      </div>
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">壓潰安全係數:</span>
+        <span id="TopKpiSF" class="font-mono font-semibold text-indigo-300">SF = 2.68</span>
+      </div>
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">淨浮力狀態:</span>
+        <span id="TopKpiBuoyancy" class="font-mono font-semibold text-purple-300">+12 N (微正浮)</span>
+      </div>
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">預估續航/航程:</span>
+        <span id="TopKpiEndurance" class="font-mono font-semibold text-rose-300">84h / 650km</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE CONTAINER -->
+  <main id="mainWorkspace" class="flex-1 p-2 sm:p-3 max-w-[1920px] w-full mx-auto">
+
+    <!-- ========================================================================= -->
+    <!-- TAB 1: 3D HYDRODYNAMIC & PRESSURE HULL CAD STUDIO                         -->
+    <!-- ========================================================================= -->
+    <section id="TabView-studio" class="tab-section grid grid-cols-1 lg:grid-cols-12 gap-3">
+      
+      <!-- LEFT COLUMN: Parametric Hull, Hydroplanes & Deep-Sea Augmentation (3 cols) -->
+      <div id="geometryPanel" class="lg:col-span-3 space-y-3 max-h-[calc(100vh-145px)] overflow-y-auto pr-1">
+        
+        <!-- Hull Architecture & Profile Selection -->
+        <div class="glass-panel rounded-xl p-3 space-y-2.5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+              <i data-lucide="sliders" class="w-4 h-4"></i>艇體幾何與水動力構型參數 (CAD)
+            </h2>
+            <button type="button" id="BtnResetGeometry" class="text-[11px] text-slate-400 hover:text-white px-1.5 py-0.5 rounded bg-slate-800">重置原廠</button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">水下載具主構型</label>
+              <select id="ParamHullType" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-slate-100">
+                <option value="xluuv_sub">超大型無人潛航器 (XLUUV)</option>
+                <option value="torpedo_auv">魚雷型流線潛航器 (Torpedo AUV)</option>
+                <option value="manta_bwb">仿生鬼蝠鱝翼身融合 (Manta UUV)</option>
+                <option value="sea_glider">可變浮力水下滑翔機 (Glider)</option>
+                <option value="work_rov">重工作級框架機械臂 (Work ROV)</option>
+                <option value="hybrid_rov">雙用扁平懸停混合體 (Hybrid ARV)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">流線殼體 / 水翼剖面</label>
+              <select id="ParamHydroProfile" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-slate-100">
+                <option value="Myring n=2.0">Myring n=2.0 (最低阻迴轉體)</option>
+                <option value="DARPA SUBOFF">DARPA SUBOFF (標準潛艇線型)</option>
+                <option value="Laminar Drop">Laminar Drop (層流水滴滑翔體)</option>
+                <option value="NACA 0012">NACA 0012 (高速對稱控制舵翼)</option>
+                <option value="NACA 0015">NACA 0015 (厚型高強度水翼)</option>
+                <option value="Eppler 330 Hydro">Eppler 330 (仿生蝠鱝自配平翼)</option>
+                <option value="Kort 19A">Kort 19A (增推導流管剖面)</option>
+                <option value="Pump-Jet Shroud">Pump-Jet (低噪音泵噴整流罩)</option>
+                <option value="Syntactic Bloc">Syntactic Bloc (ROV 浮力方塊體)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Parametric Sliders -->
+          <div class="space-y-2 pt-1">
+            <div>
+              <div class="flex justify-between text-xs mb-0.5">
+                <span class="text-slate-300">艇體總長 (Hull Length L)</span>
+                <span id="ValHullLen" class="font-mono text-cyan-400">6.6 m</span>
+              </div>
+              <input type="range" id="SliderHullLen" min="0.45" max="32.0" step="0.05" value="6.6" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-0.5">
+                <span class="text-slate-300">最大艇徑 / 船寬 (Diameter D)</span>
+                <span id="ValHullDia" class="font-mono text-cyan-400">0.88 m</span>
+              </div>
+              <input type="range" id="SliderHullDia" min="0.18" max="4.20" step="0.02" value="0.88" class="w-full">
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <div class="flex justify-between text-[11px] mb-0.5">
+                  <span class="text-slate-300">水翼/水平舵展長 b_w</span>
+                  <span id="ValFinSpan" class="font-mono text-cyan-400">1.40 m</span>
+                </div>
+                <input type="range" id="SliderFinSpan" min="0.2" max="9.5" step="0.05" value="1.40" class="w-full">
+              </div>
+              <div>
+                <div class="flex justify-between text-[11px] mb-0.5">
+                  <span class="text-slate-300">耐壓殼壁厚 t_h</span>
+                  <span id="ValWallThick" class="font-mono text-cyan-400">24.0 mm</span>
+                </div>
+                <input type="range" id="SliderWallThick" min="4" max="85" step="0.5" value="24.0" class="w-full">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <div class="flex justify-between text-[11px] mb-0.5">
+                  <span class="text-slate-300">空氣中總質量 M</span>
+                  <span id="ValMass" class="font-mono text-cyan-400">2200 kg</span>
+                </div>
+                <input type="range" id="SliderMass" min="12" max="105000" step="1" value="2200" class="w-full">
+              </div>
+              <div>
+                <div class="flex justify-between text-[11px] mb-0.5">
+                  <span class="text-slate-300">壓載水艙調節 Δ B</span>
+                  <span id="ValBallast" class="font-mono text-emerald-400">+12 N</span>
+                </div>
+                <input type="range" id="SliderBallast" min="-800" max="800" step="5" value="12" class="w-full">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">尾舵與控制面配置</label>
+                <select id="ParamSternType" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs">
+                  <option value="x_rudder">X型四舵獨立控制面 (X-Form)</option>
+                  <option value="cruciform">傳統十字型尾舵 (+ Cruciform)</option>
+                  <option value="shrouded_ring">環形導流罩舵面 (Ring Shroud)</option>
+                  <option value="tailless_vectored">無尾舵全向向量推進 (Vectored)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">推進器數量與構型</label>
+                <select id="ParamThrusterCount" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs">
+                  <option value="1">單具尾軸主推進器 (1T)</option>
+                  <option value="2">雙共軸反轉推進槳 (2T Coax)</option>
+                  <option value="4">四推進器向量控制 (4T)</option>
+                  <option value="6">六自由度向量推進 (6T ROV)</option>
+                  <option value="8">八具重載全向推進器 (8T Work)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deep-Sea Structural & Hydrodynamic Augmentation Module -->
+        <div class="glass-panel rounded-xl p-3 space-y-2.5 border-emerald-500/30">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+              <i data-lucide="wrench" class="w-4 h-4"></i>深海耐壓與水動力補強套件
+            </h2>
+            <span id="AugmentStatusBadge" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">已啟用 2 項</span>
+          </div>
+
+          <div class="space-y-2 text-xs">
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">1. 推進器抗空蝕與靜音導流補強 (Propulsor)</label>
+              <select id="AugPropulsor" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-emerald-300">
+                <option value="open_skew">標準大側斜開放式螺旋槳 (Open Skewed)</option>
+                <option value="kort_nozzle">Kort 19A 增推加速導流管 (推力+24%, 抗空蝕)</option>
+                <option value="pump_jet">高靜音泵噴推進器 (Pump-Jet, 延遲空蝕+65%)</option>
+                <option value="rim_driven">無軸磁耦合輪緣推進器 (Rim-Driven, 防纏繞)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">2. 邊界層減阻與聲學匿蹤塗層 (Skin & Acoustic)</label>
+              <select id="AugCoating" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-emerald-300">
+                <option value="marine_std">標準海事防污環氧塗層 (Standard Epoxy)</option>
+                <option value="shark_riblet">仿生鯊魚皮微溝槽減阻薄膜 (摩擦阻力 Cf -9%)</option>
+                <option value="anechoic_tile">聚氨酯聲學消音瓦 + 減阻複合層 (降噪-18dB)</option>
+                <option value="super_hydro">超疏水微氣膜減阻塗層 (摩擦阻力 Cf -14%)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">3. 耐壓艙材料與環肋結構補強 (Pressure Hull)</label>
+              <select id="AugHullMaterial" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-emerald-300">
+                <option value="al6061">6061-T6 海事鋁合金環肋圓柱艙 (淺中海基準)</option>
+                <option value="ti6al4v">Ti-6Al-4V ELI 深海級鈦合金環肋耐壓艙 (6000m級)</option>
+                <option value="cf_t1000">T1000 厚壁纏繞碳纖複合耐壓殼 (高浮力比)</option>
+                <option value="ceramic_al2o3">99.5% 氧化鋁陶瓷耐壓球殼 + 鈦外罩 (11000m萬米深淵)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">4. 深海能源與壓力補償系統 (Subsea Energy)</label>
+              <select id="AugSubseaEnergy" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-emerald-300">
+                <option value="li_ion_pod">標準耐壓筒封裝鋰離子電池組</option>
+                <option value="pbof_solid">充油壓力補償固態電池 (PBOF 免耐壓殼, 航時+70%)</option>
+                <option value="aip_fuelcell">閉式循環氫氧燃料電池 (AIP 超長航時+140%)</option>
+                <option value="thermal_glider">海洋溫差能相變材料 + 高比能鋰硫電池</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-1.5 pt-1">
+              <label class="flex items-center gap-1.5 bg-slate-900/80 px-2 py-1.5 rounded border border-slate-800 cursor-pointer">
+                <input type="checkbox" id="AugSasSonar" checked class="accent-cyan-400">
+                <span class="text-[11px] text-slate-300">合成孔徑聲納陣列</span>
+              </label>
+              <label class="flex items-center gap-1.5 bg-slate-900/80 px-2 py-1.5 rounded border border-slate-800 cursor-pointer">
+                <input type="checkbox" id="AugManipulator" checked class="accent-cyan-400">
+                <span class="text-[11px] text-slate-300">深海雙液壓機械臂</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CENTER COLUMN: Real-Time 3D Deep-Sea WebGL Viewport + Flume Controls (6 cols) -->
+      <div id="studioCenter" class="lg:col-span-6 flex flex-col gap-3">
+        
+        <!-- 3D Viewport Container -->
+        <div id="viewportLayout" class="relative glass-panel rounded-xl overflow-hidden flex-1 min-h-[430px] sm:min-h-[500px] border border-cyan-800/70 flex flex-col">
+          
+          <!-- Top Overlay Toolbar inside 3D Canvas -->
+          <div id="viewportToolbar" class="absolute top-2.5 left-2.5 right-2.5 z-10 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+            <!-- Visualization Layer Toggles -->
+            <div class="flex flex-wrap items-center gap-1 hud-overlay px-2 py-1 rounded-lg pointer-events-auto">
+              <button type="button" data-viz="streamlines" class="viz-toggle bg-cyan-500/30 text-cyan-300 border border-cyan-400/50 px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1">
+                <i data-lucide="waves" class="w-3 h-3"></i>水流流線
+              </button>
+              <button type="button" data-viz="cavitation" class="viz-toggle bg-indigo-500/30 text-indigo-300 border border-indigo-400/50 px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1">
+                <i data-lucide="sparkles" class="w-3 h-3"></i>尾流與空蝕氣泡
+              </button>
+              <button type="button" data-viz="pressure" class="viz-toggle bg-slate-800/80 text-slate-300 border border-slate-700 px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1">
+                <i data-lucide="gauge" class="w-3 h-3"></i>耐壓殼應力雲圖
+              </button>
+              <button type="button" data-viz="vectors" class="viz-toggle bg-emerald-500/30 text-emerald-300 border border-emerald-400/50 px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1">
+                <i data-lucide="move-up-right" class="w-3 h-3"></i>浮力/水動力向量
+              </button>
+              <button type="button" data-viz="cbcg" class="viz-toggle bg-amber-500/30 text-amber-300 border border-amber-400/50 px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1">
+                <i data-lucide="crosshair" class="w-3 h-3"></i>浮心 CB / 重心 CG
+              </button>
+              <button type="button" data-viz="xray" class="viz-toggle bg-slate-800/80 text-slate-300 border border-slate-700 px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1">
+                <i data-lucide="layers" class="w-3 h-3"></i>耐壓環肋 X-Ray
+              </button>
+            </div>
+
+            <!-- Camera View Presets -->
+            <div class="flex items-center gap-1 hud-overlay px-2 py-1 rounded-lg pointer-events-auto">
+              <button type="button" data-cam="iso" class="cam-btn text-[11px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-medium">等角透視</button>
+              <button type="button" data-cam="front" class="cam-btn text-[11px] px-2 py-0.5 rounded hover:bg-slate-800 text-slate-300">正視</button>
+              <button type="button" data-cam="side" class="cam-btn text-[11px] px-2 py-0.5 rounded hover:bg-slate-800 text-slate-300">側視</button>
+              <button type="button" data-cam="top" class="cam-btn text-[11px] px-2 py-0.5 rounded hover:bg-slate-800 text-slate-300">俯視</button>
+              <button type="button" data-cam="stern" class="cam-btn text-[11px] px-2 py-0.5 rounded hover:bg-slate-800 text-slate-300">推進器尾視</button>
+            </div>
+          </div>
+
+          <!-- Cavitation / Collapse Danger Banner Overlay -->
+          <div id="DangerAlertOverlay" class="hidden absolute top-14 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-rose-600/90 border border-rose-300 text-white text-xs font-bold tracking-wider uppercase shadow-lg flex items-center gap-2 animate-pulse pointer-events-none">
+            <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+            <span id="DangerAlertText">警告：螺旋槳發生空蝕現象或超過耐壓殼安全潛深極限！</span>
+          </div>
+
+          <!-- Subsea Sonar & Attitude Display (Bottom Left of 3D Viewport) -->
+          <div id="flightDisplay" class="absolute bottom-3 left-3 z-10 hud-overlay rounded-xl p-2 pointer-events-none hidden sm:block">
+            <div class="flex items-center justify-between text-[10px] text-cyan-400 font-mono mb-1 px-1">
+              <span>SONAR & BATHYMETRY HUD</span>
+              <span id="HudModeLabel">DEEP FLUME</span>
+            </div>
+            <canvas id="HudSonarCanvas" width="170" height="135" class="rounded border border-slate-800/90 bg-[#030812]"></canvas>
+          </div>
+
+          <!-- Legend & Hoop Stress Colorbar (Bottom Right of 3D Viewport) -->
+          <div id="viewportLegend" class="absolute bottom-3 right-3 z-10 hud-overlay rounded-xl p-2.5 text-[10px] space-y-1.5 pointer-events-none">
+            <div class="font-semibold text-slate-300 flex items-center justify-between gap-4">
+              <span>水下物理向量與耐壓應力圖例</span>
+              <span class="font-mono text-cyan-400">60 FPS</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400"></span><span>浮力 B</span>
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-400"></span><span>重力 W</span>
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-cyan-400"></span><span>推力 T</span>
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-rose-500"></span><span>水阻 D</span>
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-fuchsia-400"></span><span>浮心 CB</span>
+            </div>
+            <div class="space-y-0.5">
+              <div class="h-2 w-full rounded bg-gradient-to-r from-cyan-500 via-emerald-400 to-rose-600"></div>
+              <div class="flex justify-between font-mono text-[9px] text-slate-400">
+                <span>低應力區 (0.1σ_y)</span>
+                <span>0.5σ_y</span>
+                <span>臨界屈曲 (≥1.0σ_y)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- MaxJim Tech Live 3D Watermark Overlay -->
+          <div class="absolute inset-0 maxjim-watermark-overlay pointer-events-none z-[5]"></div>
+          <div id="viewportBrand" class="absolute top-14 right-3 z-10 pointer-events-none text-right">
+            <div class="text-xs font-bold tracking-wider text-cyan-400/55 font-mono">肇祥企業社 MaxJim Tech Inc.</div>
+            <div class="text-[10px] text-slate-400/50 font-mono">https://maxjimtech.com/ • 0931-675001</div>
+          </div>
+          <!-- Three.js Canvas Mount Container -->
+          <div id="ThreeViewportContainer" class="w-full flex-1 min-h-[430px] cursor-grab active:cursor-grabbing"></div>
+        </div>
+
+        <!-- Deep-Sea Flume & Hydroplane Control Console -->
+        <div class="glass-panel rounded-xl p-3 space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-1.5">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+              <i data-lucide="waves" class="w-4 h-4"></i>即時深海環境、航速與升降舵面控制 (Subsea Environment & Controls)
+            </h3>
+            <div class="flex items-center gap-1.5">
+              <button type="button" id="BtnQuickDepthSweep" class="text-[11px] px-2.5 py-1 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-medium flex items-center gap-1">
+                <i data-lucide="play" class="w-3 h-3"></i><span>自動下潛耐壓掃描 (0~6000m)</span>
+              </button>
+              <button type="button" id="BtnNeutralBuoyancy" class="text-[11px] px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-medium">
+                一鍵中性浮力配平 (B=W)
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">水下航速 V_s</span>
+                <span id="ValSpeed" class="font-mono text-cyan-300 font-semibold">4.2 m/s (8.2 kt)</span>
+              </div>
+              <input type="range" id="SliderSpeed" min="0.2" max="22.0" step="0.1" value="4.2" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">下潛深度 d (Depth)</span>
+                <span id="ValDepth" class="font-mono text-sky-300 font-semibold">1200 m</span>
+              </div>
+              <input type="range" id="SliderDepth" min="0" max="11000" step="25" value="1200" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">俯仰攻角 α (Pitch AoA)</span>
+                <span id="ValPitchAoA" class="font-mono text-emerald-300">2.0°</span>
+              </div>
+              <input type="range" id="SliderPitchAoA" min="-20" max="20" step="0.5" value="2.0" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">側滑漂角 β (Drift)</span>
+                <span id="ValDriftBeta" class="font-mono text-indigo-300">0.0°</span>
+              </div>
+              <input type="range" id="SliderDriftBeta" min="-18" max="18" step="0.5" value="0.0" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">水平升降舵角 δ_s</span>
+                <span id="ValDivePlane" class="font-mono text-amber-300">0.0°</span>
+              </div>
+              <input type="range" id="SliderDivePlane" min="-25" max="25" step="0.5" value="0.0" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">方向舵偏角 δ_r</span>
+                <span id="ValRudder" class="font-mono text-amber-300">0.0°</span>
+              </div>
+              <input type="range" id="SliderRudder" min="-25" max="25" step="0.5" value="0.0" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">洋流流速 V_curr</span>
+                <span id="ValCurrent" class="font-mono text-teal-300">0.8 m/s (1.6 kt)</span>
+              </div>
+              <input type="range" id="SliderCurrent" min="0" max="4.5" step="0.1" value="0.8" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">推進器轉速出力</span>
+                <span id="ValThrottle" class="font-mono text-rose-300">70%</span>
+              </div>
+              <input type="range" id="SliderThrottle" min="0" max="100" step="1" value="70" class="w-full">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Live Hydrodynamic, Cavitation & Pressure Hull Telemetry (3 cols) -->
+      <div id="analysisPanel" class="lg:col-span-3 space-y-3 max-h-[calc(100vh-145px)] overflow-y-auto pl-1">
+        
+        <!-- Real-Time Subsea Forces & Hull Stress Card -->
+        <div class="glass-panel rounded-xl p-3 space-y-2.5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+              <i data-lucide="activity" class="w-4 h-4"></i>即時水動力・耐壓與浮力穩度解算
+            </h2>
+            <span id="HydroRegimeTag" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">無空蝕穩定潛航</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+              <div class="text-[10px] text-slate-400">總排水浮力 B vs 重力 W</div>
+              <div id="MetricBuoyancyN" class="font-mono text-sm font-bold text-emerald-400 mt-0.5">21,595 N</div>
+              <div id="MetricNetBuoy" class="font-mono text-[10px] text-slate-400">淨浮力: +12 N (微正浮安全)</div>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+              <div class="text-[10px] text-slate-400">水下總阻力 (Total Drag R_T)</div>
+              <div id="MetricDragN" class="font-mono text-sm font-bold text-rose-400 mt-0.5">645 N</div>
+              <div id="MetricDragBreak" class="font-mono text-[10px] text-slate-400">Cf: 0.0028 | Cp: 0.039</div>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+              <div class="text-[10px] text-slate-400">耐壓殼環向應力 σ_θ / 壓潰深度</div>
+              <div id="MetricHoopStress" class="font-mono text-sm font-bold text-cyan-300 mt-0.5">224 MPa</div>
+              <div id="MetricCollapseDepth" class="font-mono text-[10px] text-slate-400">壓潰極限: 6,420 m (SF 2.68)</div>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+              <div class="text-[10px] text-slate-400">空蝕臨界航速 V_cav / 推進功率</div>
+              <div id="MetricVcav" class="font-mono text-sm font-bold text-amber-300 mt-0.5">14.8 m/s</div>
+              <div id="MetricShaftPower" class="font-mono text-[10px] text-slate-400">推進軸功率: 3.42 kW</div>
+            </div>
+          </div>
+
+          <!-- Detailed Oceanographic & Hydrodynamic Table -->
+          <div class="bg-slate-900/70 rounded-lg p-2 border border-slate-800/80 space-y-1 text-[11px]">
+            <div class="flex justify-between">
+              <span class="text-slate-400">海水密度 ρ_sw & 靜水壓 P:</span>
+              <span id="MetricRhoAndP" class="font-mono text-slate-200">1031.2 kg/m³ | 121.8 bar</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">深海聲速 c & 水溫 T(d):</span>
+              <span id="MetricSoundSpeed" class="font-mono text-cyan-300">1492.4 m/s | 4.2 °C</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">濕表面積 S_wet & 長徑比 L/D:</span>
+              <span id="MetricWetArea" class="font-mono text-emerald-300">15.8 m² | L/D = 7.50</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">穩心高 overlineBG & 縱傾回復力矩:</span>
+              <span id="MetricBGStability" class="font-mono text-indigo-300">+85.0 mm | 1,835 N·m/rad</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mini 2D Hull & Hydrofoil Profile Streamline Preview -->
+        <div class="glass-panel rounded-xl p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+              <i data-lucide="spline" class="w-3.5 h-3.5"></i>2D 艇體/水翼剖面流場與壓力包絡
+            </h3>
+            <span id="MiniProfileName" class="text-[10px] font-mono text-slate-400">Myring n=2.0</span>
+          </div>
+          <canvas id="MiniHydroCanvas" width="340" height="135" class="w-full rounded-lg bg-[#030812] border border-slate-800"></canvas>
+        </div>
+
+        <!-- Mini Live Resistance & Power Curve -->
+        <div class="glass-panel rounded-xl p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+              <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>即時水下阻力與需用功率曲線
+            </h3>
+            <span class="text-[10px] text-slate-400">原生 vs 減阻塗層/導流罩補強</span>
+          </div>
+          <div class="relative h-44 w-full">
+            <canvas id="StudioMiniHydroChart"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 2: GLOBAL UUV / AUV / ROV MODEL LIBRARY & AUGMENTATION CENTER         -->
+    <!-- ========================================================================= -->
+    <section id="TabView-library" class="tab-section hidden space-y-3">
+      <div class="glass-panel rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-sm font-bold text-white flex items-center gap-2">
+            <i data-lucide="globe" class="w-4 h-4 text-cyan-400"></i>
+            全球水下無人載具標準模型庫與耐壓/水動力補強中心 (Global UUV / AUV / ROV Database & Augmentation Hub)
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">完整收錄全球 20 款戰略超大型 XLUUV、台灣自主研發慧龍/黑潮載具、深海測繪 AUV、重工作級機械臂 ROV、仿生鬼蝠鱝與萬米深淵潛航器。</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="relative">
+            <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="LibrarySearchInput" placeholder="搜尋水下載具、國家、潛深或構型..." class="bg-slate-900 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-cyan-400 w-56">
+          </div>
+          <select id="LibraryFilterCat" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200">
+            <option value="ALL">所有水下構型分類 (20+)</option>
+            <option value="XLUUV_HEAVY">超大型戰略無人潛航器 (XLUUV/LDUUV)</option>
+            <option value="TORPEDO_AUV">魚雷型巡航測繪/反水雷潛航器 (AUV)</option>
+            <option value="BIOMIMETIC_BWB">仿生鬼蝠鱝與水下翼身融合 (Manta/Bio)</option>
+            <option value="GLIDER_AUG">長航時溫差/浮力水下滑翔機 (AUG)</option>
+            <option value="WORK_ROV">深海重工作級與向量觀測型 (Work ROV)</option>
+            <option value="HADAL_HYBRID">萬米深淵與複合駐留型 (Hadal/Hybrid)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Library Grid + Selected Model Diagnosis & Reinforcement Panel -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
+        <div id="ModelLibraryGrid" class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 max-h-[calc(100vh-210px)] overflow-y-auto pr-1"></div>
+
+        <!-- Right Diagnosis & Augmentation Blueprint Panel -->
+        <div class="lg:col-span-4 glass-panel rounded-xl p-4 space-y-3 border-cyan-500/30 max-h-[calc(100vh-210px)] overflow-y-auto">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div>
+              <span id="LibDetailOrigin" class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300">Norway / Kongsberg</span>
+              <h3 id="LibDetailTitle" class="text-base font-bold text-white mt-1">Kongsberg HUGIN Superior</h3>
+            </div>
+            <button type="button" id="BtnLoadSelectedFromLib" class="px-3 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center gap-1 shadow-lg">
+              <i data-lucide="box" class="w-3.5 h-3.5"></i><span>載入 3D 水槽</span>
+            </button>
+          </div>
+
+          <p id="LibDetailDesc" class="text-xs text-slate-300 leading-relaxed"></p>
+
+          <div id="LibDetailSpecsGrid" class="grid grid-cols-3 gap-2 text-xs"></div>
+
+          <!-- Native Bottleneck & Augmentation Recommendations -->
+          <div class="bg-slate-900/90 rounded-xl p-3 border border-emerald-500/30 space-y-2">
+            <div class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+              <i data-lucide="cpu" class="w-4 h-4"></i>原生水下瓶頸診斷與深海補強方案 (Subsea Augmentation)
+            </div>
+            <div id="LibDetailWeakness" class="text-xs text-amber-300/90 bg-amber-500/10 border border-amber-500/20 rounded p-2"></div>
+            <div id="LibDetailAugmentPlan" class="text-xs text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded p-2"></div>
+            <button type="button" id="BtnApplyLibAugment" class="w-full py-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition-all">
+              <i data-lucide="zap" class="w-4 h-4"></i><span>套用專屬深海補強並載入 3D 模擬</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 3: HULL LINE, CAVITATION ENVELOPE & HYDRODYNAMIC POLAR LAB            -->
+    <!-- ========================================================================= -->
+    <section id="TabView-hydrolab" class="tab-section hidden space-y-3">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
+        <!-- Left: Interactive 2D Hull / Hydrofoil Flume & Surface Pressure Analyzer -->
+        <div class="lg:col-span-5 glass-panel rounded-xl p-3.5 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div>
+              <h2 class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+                <i data-lucide="waves" class="w-4 h-4"></i>2D 艇體/水翼剖面流場與空蝕低壓包絡 C_p(x/L) 分析儀
+              </h2>
+              <p class="text-[11px] text-slate-400">即時解算 Myring/SUBOFF 流線迴轉體表面流速、邊界層分離與局部空蝕區 ($-C_p > \sigma_v$)</p>
+            </div>
+            <select id="LabProfileSelect" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-cyan-300 font-mono"></select>
+          </div>
+
+          <canvas id="LabLargeHydroCanvas" width="560" height="270" class="w-full rounded-xl bg-[#030812] border border-slate-800"></canvas>
+
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800">
+              <div class="text-[10px] text-slate-400">長徑比 L/D / 稜柱係數 C_p</div>
+              <div id="LabMetricSlenderness" class="font-mono font-bold text-cyan-300 text-sm">7.50 / Cp 0.65</div>
+            </div>
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800">
+              <div class="text-[10px] text-slate-400">最低壓力係數 C_p,min</div>
+              <div id="LabMetricCpMin" class="font-mono font-bold text-emerald-300 text-sm">-0.48 @ 22%L</div>
+            </div>
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800">
+              <div class="text-[10px] text-slate-400">空蝕裕度 σ_v / |C_p,min|</div>
+              <div id="LabMetricCavMargin" class="font-mono font-bold text-amber-300 text-sm">10.1x (極安全)</div>
+            </div>
+          </div>
+
+          <!-- Axial Radius & Surface Pressure Profile Chart -->
+          <div class="pt-1 border-t border-slate-800">
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-indigo-300">艇體軸向半徑曲線 r(x)/R 與表面動壓分佈 (Myring Equation)</span>
+              <span class="text-[10px] font-mono text-slate-400">軸向座標 x/L in [0, 1]</span>
+            </div>
+            <div class="relative h-48 w-full">
+              <canvas id="ChartHullProfile"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: 4 Core Hydrodynamic & Cavitation Charts -->
+        <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="glass-panel rounded-xl p-3 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold text-emerald-400">1. 水下總阻力與摩擦/壓差阻力曲線 R_T(V) (原生 vs 補強)</h3>
+              <span class="text-[10px] font-mono text-slate-400">ITTC-1957 摩擦阻力修正</span>
+            </div>
+            <div class="relative h-60 w-full">
+              <canvas id="ChartDragSpeed"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-xl p-3 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold text-cyan-400">2. 推進需用軸功率與續航效率 P_shaft(V)</h3>
+              <span id="OptCruiseLabel" class="text-[10px] font-mono text-cyan-300">最佳經濟航速 V_opt = 2.5 m/s</span>
+            </div>
+            <div class="relative h-60 w-full">
+              <canvas id="ChartPowerSpeed"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-xl p-3 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold text-amber-400">3. 螺旋槳空蝕數包絡線 σ_v(V) vs 臨界空蝕門檻</h3>
+              <span class="text-[10px] font-mono text-slate-400">低於紅線即發生空泡剝蝕與噪音暴增</span>
+            </div>
+            <div class="relative h-60 w-full">
+              <canvas id="ChartCavitation"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-xl p-3 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold text-purple-400">4. 水翼/艇體升阻比與俯仰水動力矩 C_L, C_m - α</h3>
+              <span id="HydroTrimLabel" class="text-[10px] font-mono text-purple-300">滑翔最佳攻角 α = 4.5°</span>
+            </div>
+            <div class="relative h-60 w-full">
+              <canvas id="ChartHydroPolar"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 4: 6-DOF SUBSEA DIVE SIMULATION & CURRENT DISTURBANCE TEST BENCH      -->
+    <!-- ========================================================================= -->
+    <section id="TabView-divesim" class="tab-section hidden space-y-3">
+      <div class="glass-panel rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-sm font-bold text-white flex items-center gap-2">
+            <i data-lucide="compass" class="w-4 h-4 text-emerald-400"></i>
+            6-DOF 水下潛航運動模擬與強海流/緊急吹除測試中心 (Fossen 6-DOF Subsea Dynamics Simulator)
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">採用 Fossen 水下六自由度剛體與附加質量 (Added Mass) 方程，驗證深海定深懸停、強洋流抗擾、鋸齒滑翔與高壓緊急吹除上浮。</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" data-test="depth_sweep" class="sim-test-btn px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 text-xs font-semibold flex items-center gap-1.5">
+            <i data-lucide="arrow-down-circle" class="w-3.5 h-3.5"></i><span>課目 A：深海極限下潛耐壓測試</span>
+          </button>
+          <button type="button" data-test="current_pid" class="sim-test-btn px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-semibold flex items-center gap-1.5">
+            <i data-lucide="waves" class="w-3.5 h-3.5"></i><span>課目 B：3.5kt 黑潮強橫流定點懸停 PID</span>
+          </button>
+          <button type="button" data-test="sawtooth_glide" class="sim-test-btn px-3 py-1.5 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 border border-indigo-500/40 text-indigo-300 text-xs font-semibold flex items-center gap-1.5">
+            <i data-lucide="activity" class="w-3.5 h-3.5"></i><span>課目 C：可變浮力鋸齒波滑翔循環</span>
+          </button>
+          <button type="button" data-test="emergency_blow" class="sim-test-btn px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-semibold flex items-center gap-1.5">
+            <i data-lucide="zap" class="w-3.5 h-3.5"></i><span>課目 D：壓載艙緊急高壓吹除上浮</span>
+          </button>
+          <button type="button" id="BtnStopSimTest" class="px-2.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 text-xs font-medium">
+            停止/重置紀錄
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
+        <!-- Left: Subsea Auto-Pilot PID Gains & Stability Verdict -->
+        <div class="lg:col-span-4 glass-panel rounded-xl p-3.5 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400">水下自動導航 PID 增益與內波亂流設定</h3>
+            <span id="SimRunningStatus" class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">待命 / 即時解算中</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5 text-xs">
+            <div>
+              <div class="flex justify-between mb-0.5"><span class="text-slate-400">定深俯仰增益 K_z</span><span id="ValPidDepth" class="font-mono text-cyan-300">2.20</span></div>
+              <input type="range" id="SliderPidDepth" min="0.2" max="5.0" step="0.05" value="2.20" class="w-full">
+            </div>
+            <div>
+              <div class="flex justify-between mb-0.5"><span class="text-slate-400">抗橫流偏航增益 K_psi</span><span id="ValPidYaw" class="font-mono text-cyan-300">2.45</span></div>
+              <input type="range" id="SliderPidYaw" min="0.2" max="5.0" step="0.05" value="2.45" class="w-full">
+            </div>
+            <div>
+              <div class="flex justify-between mb-0.5"><span class="text-slate-400">海洋內波渦流擾動</span><span id="ValTurbulence" class="font-mono text-amber-300">20%</span></div>
+              <input type="range" id="SliderTurbulence" min="0" max="100" step="5" value="20" class="w-full">
+            </div>
+            <div>
+              <div class="flex justify-between mb-0.5"><span class="text-slate-400">緊急拋載/吹除浮力</span><span id="ValDropWeight" class="font-mono text-indigo-300">+250 N</span></div>
+              <input type="range" id="SliderDropWeight" min="0" max="1500" step="25" value="250" class="w-full">
+            </div>
+          </div>
+
+          <!-- Subsea Handling & Stability Verdict Box -->
+          <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-800 space-y-2 text-xs">
+            <div class="font-bold text-emerald-400 flex items-center justify-between">
+              <span>水下靜動穩定度與 DNV-ST-0359 認證評級</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px]">Class A 優良</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-[11px] pt-1">
+              <div>縱傾自然週期 T_θ: <span id="SimPitchPeriod" class="font-mono text-cyan-300">6.8 s</span></div>
+              <div>橫搖回復阻尼 zeta_phi: <span id="SimRollDamp" class="font-mono text-emerald-300">0.74</span></div>
+              <div>軸向附加質量係數 X_dotu: <span id="SimAddedMassX" class="font-mono text-slate-200">0.085 M</span></div>
+              <div>橫向附加質量係數 Y_dotv: <span id="SimAddedMassY" class="font-mono text-cyan-300">0.880 M</span></div>
+              <div>最大頂流駐留能力: <span id="SimMaxCurrent" class="font-mono text-amber-300">4.6 knots</span></div>
+              <div>定深收斂誤差 Δ z: <span id="SimDepthErr" class="font-mono text-emerald-300">±0.08 m</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Real-Time Subsea Recorder Telemetry Chart -->
+        <div class="lg:col-span-8 glass-panel rounded-xl p-3.5 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400">6-DOF 深海聲學黑盒子即時波形紀錄儀 (Depth÷100 / Pitch θ / Hull Stress Ratio Time-Series)</h3>
+            <span class="text-[11px] font-mono text-slate-400">取樣率: 20 Hz | 含附加質量與浮心回復力矩耦合</span>
+          </div>
+          <div class="relative h-72 w-full">
+            <canvas id="ChartDiveTelemetry"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 5: DEEP-SEA PRESSURE HULL BUCKLING, BUOYANCY & ENGINEERING BOM        -->
+    <!-- ========================================================================= -->
+    <section id="TabView-pressurehull" class="tab-section hidden space-y-3">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
+        <!-- Left: Pressure Hull Hoop/Axial Stress & Elastic Buckling vs Depth -->
+        <div class="lg:col-span-6 glass-panel rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div>
+              <h2 class="text-xs font-bold uppercase tracking-wider text-cyan-400">深海耐壓殼環向應力 (σ_θ)、Von Mises 應力與殼體屈曲壓潰分析</h2>
+              <p class="text-[11px] text-slate-400">依據薄壁/厚壁環肋圓柱與球殼力學公式，解算 0~11,000m 下潛深度之結構安全裕度</p>
+            </div>
+            <span id="StructSafetyBadge" class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-300 font-mono text-xs font-bold">SF = 2.68 (安全)</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800">
+              <div class="text-[10px] text-slate-400">當前深度水壓 P_hydro</div>
+              <div id="StructHydroPress" class="font-mono text-sm font-bold text-cyan-300 mt-0.5">12.18 MPa</div>
+            </div>
+            <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800">
+              <div class="text-[10px] text-slate-400">耐壓殼 Von Mises 應力</div>
+              <div id="StructVonMises" class="font-mono text-sm font-bold text-amber-300 mt-0.5">224 MPa</div>
+            </div>
+            <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800">
+              <div class="text-[10px] text-slate-400">極限壓潰深度 D_collapse</div>
+              <div id="StructCollapseDepth" class="font-mono text-sm font-bold text-emerald-300 mt-0.5">6,420 m</div>
+            </div>
+          </div>
+
+          <div class="relative h-60 w-full">
+            <canvas id="ChartHullStressDepth"></canvas>
+          </div>
+        </div>
+
+        <!-- Right: Subsystem Mass, Buoyancy Volume & Engineering BOM Table -->
+        <div class="lg:col-span-6 glass-panel rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div>
+              <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400">全艇子系統質量、排水浮力配平與工程物料清單 (Subsea BOM)</h2>
+              <p class="text-[11px] text-slate-400">自動核算耐壓艙、合成泡棉浮力材、推進器、電池與聲納之質量、浮心/重心與預估成本</p>
+            </div>
+            <span id="BomTotalCostBadge" class="px-2 py-1 rounded bg-cyan-500/20 text-cyan-300 font-mono text-xs font-bold">預估 BOM: $285,000</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 text-slate-400 text-[11px]">
+                  <th class="py-1.5 px-2">水下子系統模組 (Subsystem)</th>
+                  <th class="py-1.5 px-2">選用深海規格 / 補強配置</th>
+                  <th class="py-1.5 px-2 text-right">質量 (kg)</th>
+                  <th class="py-1.5 px-2 text-right">占比</th>
+                  <th class="py-1.5 px-2 text-right">垂直座標 Z (m)</th>
+                </tr>
+              </thead>
+              <tbody id="BomTableBody" class="divide-y divide-slate-800/60 font-mono text-[11px]"></tbody>
+            </table>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-xs pt-1">
+            <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+              <span class="text-slate-400 block text-[10px]">排水體積 nabla</span>
+              <span id="MetricDispVol" class="font-mono font-bold text-cyan-300">2.14 m³</span>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+              <span class="text-slate-400 block text-[10px]">橫搖慣量 I_xx (含附加質量)</span>
+              <span id="InertiaIxx" class="font-mono font-bold text-emerald-300">1,420 kg·m²</span>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+              <span class="text-slate-400 block text-[10px]">俯仰/偏航慣量 I_yy, I_zz</span>
+              <span id="InertiaIyy" class="font-mono font-bold text-indigo-300">12,850 kg·m²</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 6: MULTI-UUV COMPARISON MATRIX & EXPORT                               -->
+    <!-- ========================================================================= -->
+    <section id="TabView-compare" class="tab-section hidden space-y-3">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
+        <div class="lg:col-span-5 glass-panel rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-cyan-400">多維度水下性能雷達圖 (當前補強設計 vs 全球標竿潛航器)</h2>
+            <select id="CompareBenchmarkSelect" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-200"></select>
+          </div>
+          <div class="relative h-72 w-full">
+            <canvas id="ChartCompareRadar"></canvas>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 glass-panel rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400">全球指標性水下無人載具 (UUV/AUV/ROV) 規格與極限潛深對比矩陣</h2>
+            <button type="button" id="BtnDownloadCsvPolar" class="px-2.5 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-medium flex items-center gap-1">
+              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i><span>匯出 CSV 水動力與空蝕數據</span>
+            </button>
+          </div>
+          <div class="overflow-x-auto max-h-80">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 text-slate-400 text-[11px]">
+                  <th class="py-2 px-2">水下載具名稱</th>
+                  <th class="py-2 px-2">構型分類</th>
+                  <th class="py-2 px-2 text-right">艇長 (m)</th>
+                  <th class="py-2 px-2 text-right">排水量 (kg)</th>
+                  <th class="py-2 px-2 text-right">最大潛深 (m)</th>
+                  <th class="py-2 px-2">基準線型</th>
+                  <th class="py-2 px-2 text-right">續航 (hr)</th>
+                  <th class="py-2 px-2 text-center">操作</th>
+                </tr>
+              </thead>
+              <tbody id="ComparisonTableBody" class="divide-y divide-slate-800/60 font-mono text-[11px]"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 1: ADD CUSTOM UUV MODEL TO GLOBAL LIBRARY                           -->
+  <!-- ========================================================================= -->
+  <div id="CustomModelModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-panel rounded-2xl max-w-lg w-full p-5 space-y-4 border border-cyan-500/40 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i data-lucide="plus-circle" class="w-4 h-4 text-cyan-400"></i>新增自訂研發水下無人載具至全球模型庫
+        </h3>
+        <button type="button" aria-label="關閉新增載具視窗" id="BtnCloseCustomModal" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <div class="grid grid-cols-2 gap-3 text-xs">
+        <div class="col-span-2">
+          <label class="block text-slate-400 mb-1">水下載具代號與名稱 (Model Name)</label>
+          <input type="text" id="CustomInputName" value="MaxJim Hydro-X1 深海複合巡檢潛航器" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white">
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1">研發機構 / 國家</label>
+          <input type="text" id="CustomInputOrigin" value="Taiwan / MaxJim Tech" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white">
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1">水下構型分類</label>
+          <select id="CustomInputCat" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white">
+            <option value="TORPEDO_AUV">魚雷型巡航測繪潛航器 (AUV)</option>
+            <option value="XLUUV_HEAVY">超大型戰略無人潛航器 (XLUUV)</option>
+            <option value="WORK_ROV">深海重工作級機械臂 ROV</option>
+            <option value="BIOMIMETIC_BWB">仿生蝠鱝翼身融合 (Manta UUV)</option>
+            <option value="GLIDER_AUG">長航時水下滑翔機 (Glider)</option>
+          </select>
+        </div>
+        <div class="col-span-2">
+          <label class="block text-slate-400 mb-1">深海耐壓與水動力補強備註</label>
+          <textarea id="CustomInputDesc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white">採用當前 3D 水槽工作台調校之艇體幾何、耐壓艙材料與推進導流罩補強配置，直接儲存為標準可重複調用模型。</textarea>
+        </div>
+      </div>
+      <div class="flex justify-end gap-2 pt-2 border-t border-slate-800">
+        <button type="button" id="BtnCancelCustomModal" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs">取消</button>
+        <button type="button" id="BtnSaveCustomModel" class="px-4 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs">將當前工作台配置存入模型庫</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 2: EXPORT SUBSEA ENGINEERING SPEC & JSON CAD SCHEMA                 -->
+  <!-- ========================================================================= -->
+  <div id="ExportSpecModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-panel rounded-2xl max-w-2xl w-full p-5 space-y-3 border border-cyan-500/40 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i data-lucide="file-code" class="w-4 h-4 text-cyan-400"></i>水下無人載具完整工程設計參數與耐壓/水動力分析報告 (JSON / 技術規格書)
+        </h3>
+        <button type="button" aria-label="關閉匯出規格視窗" id="BtnCloseExportModal" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <textarea id="ExportJsonTextarea" readonly rows="14" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 font-mono text-[11px] text-emerald-300 focus:outline-none"></textarea>
+      <div class="flex justify-between items-center pt-1">
+        <span class="text-[11px] text-slate-400">已內嵌「肇祥企業社 MaxJim Tech Inc.」正式抬頭與防偽簽章，可直接匯入 CAD/CFD 軟體或留存 BOM 檔案</span>
+        <div class="flex gap-2">
+          <button type="button" id="BtnCopyExportJson" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs flex items-center gap-1">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>複製內容</span>
+          </button>
+          <button type="button" id="BtnDownloadExportJson" class="px-4 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center gap-1">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i><span>下載 .JSON 工程檔</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 3: WATERMARKED SUBSEA ENGINEERING DATA PHOTO EXPORTER (MaxJim Tech) -->
+  <!-- ========================================================================= -->
+  <div id="PhotoExportModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
+    <div class="glass-panel rounded-2xl max-w-4xl w-full p-4 sm:p-5 space-y-3 border border-amber-500/40 shadow-2xl max-h-[92vh] flex flex-col">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+        <div>
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i data-lucide="camera" class="w-4 h-4 text-amber-400"></i>
+            肇祥企業社 MaxJim Tech Inc. — 水下工程模擬數據照片與浮水印輸出中心
+          </h3>
+          <p class="text-[11px] text-slate-400">所有輸出之 3D 深海流場模擬圖、2D 艇體剖面圖、水動力/空蝕/耐壓曲線與數據總表照片均自動烙印「肇祥企業社 MaxJim Tech Inc.」防偽浮水印與正式抬頭。</p>
+        </div>
+        <button type="button" aria-label="關閉數據照片視窗" id="BtnClosePhotoModal" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+
+      <!-- Mode Selector Buttons -->
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button type="button" data-photomode="datasheet" class="photo-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/25 text-amber-300 border border-amber-400/50">
+            1. 綜合水下工程數據總表照片 (3D+艇體剖面+阻力/耐壓圖+KPI)
+          </button>
+          <button type="button" data-photomode="3d_only" class="photo-mode-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">
+            2. 3D 深海流場與耐壓模擬高解析特寫照片
+          </button>
+          <button type="button" data-photomode="charts_quad" class="photo-mode-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">
+            3. 水下阻力・空蝕與耐壓殼屈曲四合一圖表照片
+          </button>
+        </div>
+        <button type="button" id="BtnDownloadWatermarkedPhoto" class="px-4 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-lg">
+          <i data-lucide="download" class="w-4 h-4"></i><span>下載 PNG 浮水印數據照片</span>
+        </button>
+      </div>
+
+      <!-- High-Res Composite Preview Canvas -->
+      <div class="flex-1 overflow-auto bg-slate-950 rounded-xl p-2 border border-slate-800 flex items-center justify-center">
+        <canvas id="WatermarkedPhotoCanvas" width="1600" height="920" class="w-full h-auto max-h-[62vh] object-contain rounded border border-slate-800"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="ToastContainer" class="fixed bottom-4 right-4 z-50 space-y-2 pointer-events-none"></div>
+
+  <script>
+    // =========================================================================
+    // 1. HULL LINE & HYDROFOIL MATHEMATICAL DATABASE (9 SUBSEA PROFILES)
+    // =========================================================================
+    const HYDRO_PROFILE_DB = {
+      'Myring n=2.0': {
+        name: 'Myring n=2.0 (經典低阻流線迴轉體)',
+        cpPrismatic: 0.65, cd0Base: 0.032, cpMin: -0.42, clSlope: 0.045,
+        nosePower: 2.0, tailAngleDeg: 18, tRatio: 0.14, camber: 0.0,
+        desc: '由 Myring (1976) 提出之水下迴轉體黃金線型，首部採用橢圓修正曲線，尾部採用三次多項式收斂，將形狀壓差阻力降至最低。'
+      },
+      'DARPA SUBOFF': {
+        name: 'DARPA SUBOFF (標準潛艇流體基準線型)',
+        cpPrismatic: 0.72, cd0Base: 0.036, cpMin: -0.48, clSlope: 0.048,
+        nosePower: 2.4, tailAngleDeg: 20, tRatio: 0.12, camber: 0.0,
+        desc: '美國國防高等研究計劃署 (DARPA) 標準潛艇水動力實驗模型，中段平行舯體長、內部耐壓艙容積率最高。'
+      },
+      'Laminar Drop': {
+        name: 'Laminar Drop (水滴層流超低阻滑翔體)',
+        cpPrismatic: 0.56, cd0Base: 0.024, cpMin: -0.35, clSlope: 0.062,
+        nosePower: 1.65, tailAngleDeg: 12, tRatio: 0.18, camber: 0.0,
+        desc: '最大截面後移至 42% 艇長處，維持前段大面積順壓梯度層流邊界層，摩擦阻力較傳統圓柱艇體降低 28%。'
+      },
+      'NACA 0012': {
+        name: 'NACA 0012 (高速對稱水翼 / 十字控制舵)',
+        cpPrismatic: 0.60, cd0Base: 0.029, cpMin: -0.52, clSlope: 0.095,
+        nosePower: 1.8, tailAngleDeg: 14, tRatio: 0.12, camber: 0.0,
+        desc: '標準對稱水翼剖面，廣泛用於 AUV/XLUUV 十字尾舵、X型控制面與前水平升降舵，零攻角無偏置力矩。'
+      },
+      'NACA 0015': {
+        name: 'NACA 0015 (厚型高結構強度水翼)',
+        cpPrismatic: 0.63, cd0Base: 0.034, cpMin: -0.58, clSlope: 0.092,
+        nosePower: 1.85, tailAngleDeg: 16, tRatio: 0.15, camber: 0.0,
+        desc: '15% 相對厚度提供更高抗彎剛度與內部致動連桿空間，適合重載潛航器與強海流高負載舵面。'
+      },
+      'Eppler 330 Hydro': {
+        name: 'Eppler 330 Hydro (仿生鬼蝠鱝翼身融合剖面)',
+        cpPrismatic: 0.58, cd0Base: 0.027, cpMin: -0.44, clSlope: 0.105,
+        nosePower: 1.75, tailAngleDeg: 13, tRatio: 0.13, camber: 0.022,
+        desc: '具反彎度後緣之水下翼身融合 (Hydro-BWB) 剖面，提供高達 16+ 的水下升阻比與自然俯仰靜穩定配平。'
+      },
+      'Kort 19A': {
+        name: 'Kort 19A (增推加速導流管水翼剖面)',
+        cpPrismatic: 0.68, cd0Base: 0.038, cpMin: -0.62, clSlope: 0.088,
+        nosePower: 2.1, tailAngleDeg: 18, tRatio: 0.16, camber: 0.035,
+        desc: '內壁加速流場、外壁平直之經典推進導流罩剖面，在低速頂流與重載拖曳時可提升推進器淨推力達 24%。'
+      },
+      'Pump-Jet Shroud': {
+        name: 'Pump-Jet Shroud (高靜音泵噴減速導流罩)',
+        cpPrismatic: 0.69, cd0Base: 0.035, cpMin: -0.32, clSlope: 0.082,
+        nosePower: 2.2, tailAngleDeg: 15, tRatio: 0.14, camber: -0.015,
+        desc: '利用前置定子與減速導流管提高轉子葉尖靜壓，大幅提高空蝕臨界航速 (V_cav +65%) 並屏蔽水下輻射噪音。'
+      },
+      'Syntactic Bloc': {
+        name: 'Syntactic Bloc (開放式框架 ROV 浮力塊構型)',
+        cpPrismatic: 0.82, cd0Base: 0.115, cpMin: -0.88, clSlope: 0.025,
+        nosePower: 2.8, tailAngleDeg: 28, tRatio: 0.28, camber: 0.0,
+        desc: '工作級 ROV 頂部合成泡棉浮力塊與下方開放式鋁/鈦桁架組合，提供極大穩心高度 BG 與全向推進作業穩定性。'
+      }
+    };
+
+    // Compute 2D Hull / Hydrofoil upper & lower coordinates for canvas & 3D revolution/extrusion
+    function computeHydroProfileCoords(profileKey, numPts = 50, rudderDeg = 0) {
+      const pf = HYDRO_PROFILE_DB[profileKey] || HYDRO_PROFILE_DB['Myring n=2.0'];
+      const upper = [], lower = [], centerline = [];
+      const rudRad = (rudderDeg * Math.PI) / 180;
+      const halfT = pf.tRatio * 0.5;
+
+      for (let i = 0; i <= numPts; i++) {
+        const beta = (i / numPts) * Math.PI;
+        const x = 0.5 * (1 - Math.cos(beta));
+        // Myring / Hydrofoil thickness distribution
+        let r = 0;
+        if (x < 0.25) {
+          const xn = x / 0.25;
+          r = halfT * Math.pow(1 - Math.pow(1 - xn, pf.nosePower), 1 / pf.nosePower);
+        } else if (x <= 0.72) {
+          r = halfT * (1 - 0.06 * Math.pow((x - 0.45) / 0.27, 2));
+        } else {
+          const xt = (x - 0.72) / 0.28;
+          r = halfT * (1 - (3 * xt * xt - 2 * xt * xt * xt) * 0.94);
+        }
+        let yc = pf.camber * Math.sin(x * Math.PI);
+        if (rudderDeg !== 0 && x > 0.78) {
+          yc -= (x - 0.78) * Math.tan(rudRad * 0.65);
+        }
+        upper.push({ x, y: yc + r });
+        lower.push({ x, y: yc - r });
+        centerline.push({ x, y: yc });
+      }
+      return { upper, lower, centerline, pf };
+    }
+
+    // =========================================================================
+    // 2. SUBSEA AUGMENTATION & PRESSURE HULL MATERIALS DATABASE
+    // =========================================================================
+    const AUG_PROPULSOR = {
+      open_skew:   { name: '標準大側斜開放式螺旋槳', thrustFactor: 1.00, cavThreshold: 1.25, cdDelta: 0.000 },
+      kort_nozzle: { name: 'Kort 19A 增推加速導流管', thrustFactor: 1.24, cavThreshold: 0.95, cdDelta: 0.003 },
+      pump_jet:    { name: '高靜音泵噴推進器 (Pump-Jet)', thrustFactor: 1.16, cavThreshold: 0.52, cdDelta: 0.002 },
+      rim_driven:  { name: '無軸磁耦合輪緣推進器 (Rim-Driven)', thrustFactor: 1.12, cavThreshold: 0.72, cdDelta: 0.001 }
+    };
+
+    const AUG_COATING = {
+      marine_std:   { name: '標準海事防污環氧塗層', cfFactor: 1.00, acousticDbReduction: 0 },
+      shark_riblet: { name: '仿生鯊魚皮微溝槽減阻薄膜', cfFactor: 0.91, acousticDbReduction: 3 },
+      anechoic_tile:{ name: '聚氨酯聲學消音瓦 + 減阻複合層', cfFactor: 0.95, acousticDbReduction: 18 },
+      super_hydro:  { name: '超疏水微氣膜減阻塗層', cfFactor: 0.86, acousticDbReduction: 5 }
+    };
+
+    const AUG_HULL_MAT = {
+      al6061:        { name: '6061-T6 海事鋁合金環肋艙', yieldMPa: 276, E_GPa: 68.9, density: 2700, massFactor: 1.00, costPerKg: 42 },
+      ti6al4v:       { name: 'Ti-6Al-4V ELI 深海級鈦合金耐壓艙', yieldMPa: 860, E_GPa: 114.0, density: 4430, massFactor: 0.88, costPerKg: 245 },
+      cf_t1000:      { name: 'T1000 厚壁纏繞碳纖複合耐壓殼', yieldMPa: 1250, E_GPa: 155.0, density: 1600, massFactor: 0.72, costPerKg: 310 },
+      ceramic_al2o3: { name: '99.5% 氧化鋁陶瓷球殼 + 鈦合金外罩', yieldMPa: 2400, E_GPa: 370.0, density: 3900, massFactor: 0.79, costPerKg: 480 }
+    };
+
+    const AUG_SUBSEA_ENERGY = {
+      li_ion_pod:    { name: '標準耐壓筒封裝鋰離子電池', enduranceFactor: 1.00, powerFactor: 1.00 },
+      pbof_solid:    { name: '充油壓力補償固態電池 (PBOF)', enduranceFactor: 1.70, powerFactor: 1.12 },
+      aip_fuelcell:  { name: '閉式循環氫氧燃料電池 (AIP)', enduranceFactor: 2.45, powerFactor: 1.05 },
+      thermal_glider:{ name: '海洋溫差能相變材料 + 鋰硫電池', enduranceFactor: 3.20, powerFactor: 0.90 }
+    };
+
+    // =========================================================================
+    // 3. GLOBAL UUV / AUV / ROV MODEL LIBRARY (20 WORLDWIDE & TAIWAN MODELS)
+    // =========================================================================
+    const GLOBAL_UUV_LIBRARY = [
+      {
+        id: 'kongsberg_hugin',
+        name: 'Kongsberg HUGIN Superior (深海高解析測繪 AUV)',
+        origin: 'Norway / Kongsberg Maritime',
+        category: 'TORPEDO_AUV',
+        catBadge: '6000m 測繪 AUV',
+        hullType: 'torpedo_auv',
+        hydroProfile: 'Myring n=2.0',
+        hullLen: 6.6, hullDia: 0.875, finSpan: 1.40, wallThick: 26.0,
+        mass: 2200, sternType: 'x_rudder', thrusterCount: 1,
+        cruiseSpeed: 2.6, defaultDepth: 3000, maxRatingDepth: 6000, baseEnduranceHr: 72.0, maxThrustN: 1450,
+        desc: '全球商業與軍規深海測繪標竿 AUV，搭載 HISAS 1032 雙頻合成孔徑聲納與多波束測深儀，採用低阻 Myring 流線艇體與碳纖/鈦合金耐壓結構。',
+        weakness: '在 4500m~6000m 超深海高壓環境下，傳統耐壓電池艙壁厚佔比高，限制了有效科學酬載空間與高速巡航時的防空蝕裕度。',
+        augmentPlan: '建議升級「充油壓力補償固態電池 (PBOF)」省去電池耐壓外筒減重，並換裝「T1000 厚壁纏繞碳纖耐壓艙」與「鯊魚皮微溝槽減阻膜」，續航提升至 122 小時。',
+        recAug: { propulsor: 'pump_jet', coating: 'shark_riblet', material: 'cf_t1000', energy: 'pbof_solid' }
+      },
+      {
+        id: 'huilung_xluuv',
+        name: '慧龍專案水下無人載具 (Hui-Lung XLUUV 測試艦)',
+        origin: 'Taiwan / NCSIST 中科院 & 台船 CSBC',
+        category: 'XLUUV_HEAVY',
+        catBadge: 'TW 超大型 XLUUV',
+        hullType: 'xluuv_sub',
+        hydroProfile: 'DARPA SUBOFF',
+        hullLen: 30.0, hullDia: 3.60, finSpan: 5.20, wallThick: 42.0,
+        mass: 100000, sternType: 'x_rudder', thrusterCount: 1,
+        cruiseSpeed: 4.5, defaultDepth: 350, maxRatingDepth: 600, baseEnduranceHr: 120.0, maxThrustN: 48000,
+        desc: '台灣自主研發之百噸級超大型水下無人測試載具，具備雙殼體耐壓結構、帆罩感測桅杆與大型前段任務艙，用於驗證水下聲納、導航與水下裝備測試。',
+        weakness: '大型雙殼體濕表面積高達 310m²，在台灣海峽黑潮強流區高速潛航時摩擦阻力大且尾部單槳易產生低頻空泡聲學特徵。',
+        augmentPlan: '換裝「高靜音泵噴推進器 (Pump-Jet)」與「聚氨酯聲學消音瓦 + 減阻複合層」，並以「Ti-6Al-4V 深海鈦合金環肋補強」將壓潰安全係數推升至 3.2 以上。',
+        recAug: { propulsor: 'pump_jet', coating: 'anechoic_tile', material: 'ti6al4v', energy: 'aip_fuelcell' }
+      },
+      {
+        id: 'boeing_orca',
+        name: 'Boeing Orca XLUUV (虎鯨超大型遠程無人潛航器)',
+        origin: 'USA / Boeing & Huntington Ingalls',
+        category: 'XLUUV_HEAVY',
+        catBadge: 'USN 戰略 XLUUV',
+        hullType: 'xluuv_sub',
+        hydroProfile: 'DARPA SUBOFF',
+        hullLen: 26.0, hullDia: 2.60, finSpan: 4.40, wallThick: 38.0,
+        mass: 85000, sternType: 'x_rudder', thrusterCount: 1,
+        cruiseSpeed: 4.1, defaultDepth: 1200, maxRatingDepth: 3000, baseEnduranceHr: 720.0, maxThrustN: 38000,
+        desc: '美國海軍戰略級超大型自主水下載具，配備 8 公尺長模組化任務酬載艙、泵噴推進器與混合動力系統，可跨洋自主航行數千海浬。',
+        weakness: '26 公尺長艇體在海底峽谷地形迴轉半徑較大，且深海長航時對儲能密度與耐壓殼抗疲勞壽命要求極高。',
+        augmentPlan: '導入「閉式循環氫氧燃料電池 (AIP)」與「T1000 碳纖複合耐壓艙段」，搭配 X 型四舵獨立差動控制提升低速機動性。',
+        recAug: { propulsor: 'pump_jet', coating: 'anechoic_tile', material: 'cf_t1000', energy: 'aip_fuelcell' }
+      },
+      {
+        id: 'ng_manta_ray',
+        name: 'Northrop Grumman Manta Ray (鬼蝠鱝仿生翼身融合 UUV)',
+        origin: 'USA / Northrop Grumman & DARPA',
+        category: 'BIOMIMETIC_BWB',
+        catBadge: 'Bio-BWB 鬼蝠鱝',
+        hullType: 'manta_bwb',
+        hydroProfile: 'Eppler 330 Hydro',
+        hullLen: 5.2, hullDia: 1.45, finSpan: 8.50, wallThick: 28.0,
+        mass: 4200, sternType: 'tailless_vectored', thrusterCount: 2,
+        cruiseSpeed: 3.2, defaultDepth: 1500, maxRatingDepth: 2500, baseEnduranceHr: 480.0, maxThrustN: 3600,
+        desc: 'DARPA 新世代長航時水下載具，採用仿生鬼蝠鱝翼身融合體 (Hydro-BWB)，具備超高水下升阻比滑翔能力，並可原地坐底休眠節能。',
+        weakness: '非圓形扁平翼身外殼無法直接承受深海靜水壓，內部必須配置多具獨立圓柱/球形耐壓艙，空間利用率與配平控制較複雜。',
+        augmentPlan: '內部採用「氧化鋁陶瓷多球連通耐壓艙」搭配外部「充油壓力補償固態電池 (PBOF)」填滿翼內空間，徹底解決扁平機身深海耐壓難題。',
+        recAug: { propulsor: 'rim_driven', coating: 'super_hydro', material: 'ceramic_al2o3', energy: 'pbof_solid' }
+      },
+      {
+        id: 'remus_6000',
+        name: 'Hydroid REMUS 6000 (超深海科考與搜索 AUV)',
+        origin: 'USA / HII (Huntington Ingalls)',
+        category: 'TORPEDO_AUV',
+        catBadge: '6000m 深海搜索',
+        hullType: 'torpedo_auv',
+        hydroProfile: 'Myring n=2.0',
+        hullLen: 3.96, hullDia: 0.71, finSpan: 1.15, wallThick: 28.0,
+        mass: 860, sternType: 'cruciform', thrusterCount: 1,
+        cruiseSpeed: 2.3, defaultDepth: 4500, maxRatingDepth: 6000, baseEnduranceHr: 22.0, maxThrustN: 750,
+        desc: '曾參與馬航與深海戰艦殘骸搜索之著名 6000m 級 AUV，搭載側掃聲納與深海光學相機，具備極高深海作業可靠度。',
+        weakness: '十字型尾舵在貼近海底起伏地形時下垂直舵易觸底受損，且原生鋰離子電池續航約 22 小時。',
+        augmentPlan: '改裝「X型尾舵」避免觸底並提升舵效 40%，換裝「Ti-6Al-4V 鈦合金耐壓殼」與「PBOF 固態電池」將續航延長至 38 小時。',
+        recAug: { propulsor: 'kort_nozzle', coating: 'shark_riblet', material: 'ti6al4v', energy: 'pbof_solid' }
+      },
+      {
+        id: 'bluefin_21',
+        name: 'General Dynamics Bluefin-21 (萬向搖擺導管深海 AUV)',
+        origin: 'USA / General Dynamics Mission Systems',
+        category: 'TORPEDO_AUV',
+        catBadge: '4500m 模組 AUV',
+        hullType: 'torpedo_auv',
+        hydroProfile: 'Myring n=2.0',
+        hullLen: 4.93, hullDia: 0.533, finSpan: 0.92, wallThick: 22.0,
+        mass: 750, sternType: 'shrouded_ring', thrusterCount: 1,
+        cruiseSpeed: 2.3, defaultDepth: 3200, maxRatingDepth: 4500, baseEnduranceHr: 25.0, maxThrustN: 680,
+        desc: '21 吋標準魚雷直徑模組化 AUV，採用自由洪水外殼包覆內部耐壓球與充油電池，尾部配備無舵面萬向搖擺 Kort 導流罩推進器。',
+        weakness: '無水平翼面構型在高速轉向時橫搖耦合明顯，且合成泡棉浮力材在 4500m 高壓下存在體積壓縮浮力損失。',
+        augmentPlan: '升級「高抗壓陶瓷微珠浮力材 + 氧化鋁陶瓷耐壓球」，並加裝前緣穩定微翼與 PBOF 固態能源包。',
+        recAug: { propulsor: 'kort_nozzle', coating: 'shark_riblet', material: 'ceramic_al2o3', energy: 'pbof_solid' }
+      },
+      {
+        id: 'anduril_diveld',
+        name: 'Anduril Dive-LD (大直徑 3D 列印深海自主潛航器)',
+        origin: 'USA / Anduril Industries',
+        category: 'XLUUV_HEAVY',
+        catBadge: '6000m LDUUV',
+        hullType: 'torpedo_auv',
+        hydroProfile: 'DARPA SUBOFF',
+        hullLen: 5.8, hullDia: 1.20, finSpan: 1.75, wallThick: 32.0,
+        mass: 2720, sternType: 'x_rudder', thrusterCount: 1,
+        cruiseSpeed: 3.1, defaultDepth: 4000, maxRatingDepth: 6000, baseEnduranceHr: 240.0, maxThrustN: 2800,
+        desc: '全非氣密自由洪水外殼 (Free-Flooded Architecture) 搭配大型 3D 列印結構件與內部獨立鈦/陶瓷耐壓球，大幅縮短製造交期並直達 6000m 潛深。',
+        weakness: '自由洪水外殼內部零組件全面暴露於 60 MPa 深海高壓與海水腐蝕中，連接器與推進器密封要求極嚴苛。',
+        augmentPlan: '全系統導入「無軸磁耦合輪緣推進器 (Rim-Driven)」消除動態軸封漏水風險，並配置「PBOF 充油固態電池陣列」。',
+        recAug: { propulsor: 'rim_driven', coating: 'super_hydro', material: 'ti6al4v', energy: 'pbof_solid' }
+      },
+      {
+        id: 'hii_proteus',
+        name: 'HII Proteus LDUUV (大直徑雙模長航時潛航器)',
+        origin: 'USA / Huntington Ingalls',
+        category: 'XLUUV_HEAVY',
+        catBadge: 'Dual-Mode LDUUV',
+        hullType: 'xluuv_sub',
+        hydroProfile: 'DARPA SUBOFF',
+        hullLen: 10.5, hullDia: 1.80, finSpan: 2.85, wallThick: 30.0,
+        mass: 14500, sternType: 'cruciform', thrusterCount: 1,
+        cruiseSpeed: 4.0, defaultDepth: 900, maxRatingDepth: 2000, baseEnduranceHr: 180.0, maxThrustN: 12000,
+        desc: '具備超大模組化有效酬載空間之大直徑潛航器，支援水下佈放小型 AUV、海床基建檢測與水下中繼通訊。',
+        weakness: '大直徑圓柱殼在 1500m 以上深海容易發生肋間殼板彈性屈曲 (Inter-frame Shell Buckling)。',
+        augmentPlan: '加密內部 T 型環肋間距並升級「Ti-6Al-4V 鈦合金耐壓殼 + AIP 氫氧燃料電池」，潛深極限提升 85%。',
+        recAug: { propulsor: 'pump_jet', coating: 'anechoic_tile', material: 'ti6al4v', energy: 'aip_fuelcell' }
+      },
+      {
+        id: 'kuroshio_glider',
+        name: '黑潮海氣象偵蒐水下滑翔機 (Kuroshio Seaglider)',
+        origin: 'Taiwan / 台灣海洋科技研究中心 TORI 構型',
+        category: 'GLIDER_AUG',
+        catBadge: 'TW 水下滑翔機',
+        hullType: 'sea_glider',
+        hydroProfile: 'Laminar Drop',
+        hullLen: 2.0, hullDia: 0.30, finSpan: 1.40, wallThick: 14.0,
+        mass: 58, sternType: 'cruciform', thrusterCount: 1,
+        cruiseSpeed: 0.6, defaultDepth: 800, maxRatingDepth: 1500, baseEnduranceHr: 2160.0, maxThrustN: 45,
+        desc: '專為台灣東部黑潮強流區與南海溫鹽深 (CTD) 剖面觀測設計之長航時水下滑翔機，依靠液壓油囊調節淨浮力進行無動力鋸齒波滑翔達 90 天以上。',
+        weakness: '黑潮主流流速可達 1.5~2.0 m/s，傳統純浮力滑翔機滑翔速度僅 0.5 m/s，遭遇強流時易被沖離預定測線。',
+        augmentPlan: '加裝「折疊式輔助微推進器 (Hybrid Glider)」於穿越強流區時啟動推進，並升級「T1000 碳纖低壓縮率耐壓殼」（使殼體壓縮率接近海水以省去補償能耗）與「海洋溫差能相變儲能」。',
+        recAug: { propulsor: 'rim_driven', coating: 'super_hydro', material: 'cf_t1000', energy: 'thermal_glider' }
+      },
+      {
+        id: 'slocum_g3',
+        name: 'Teledyne Slocum G3 Glider (全球標準水下滑翔機)',
+        origin: 'USA / Teledyne Webb Research',
+        category: 'GLIDER_AUG',
+        catBadge: '1000m 浮力滑翔',
+        hullType: 'sea_glider',
+        hydroProfile: 'Myring n=2.0',
+        hullLen: 1.8, hullDia: 0.22, finSpan: 1.50, wallThick: 12.0,
+        mass: 62, sternType: 'cruciform', thrusterCount: 1,
+        cruiseSpeed: 0.55, defaultDepth: 500, maxRatingDepth: 1000, baseEnduranceHr: 2880.0, maxThrustN: 35,
+        desc: '全球部署數量最多之經典水下滑翔機，透過內部電池包前後移動調節俯仰角，並以尾端油囊改變排水體積實現超低功耗跨洋觀測。',
+        weakness: '1000m 深度下高壓油泵抽排液壓油消耗總電量約 65%，且生物附著 (Biofouling) 會導致數週後水翼升阻比下降 30%。',
+        augmentPlan: '表面塗佈「超疏水防生物附著減阻塗層」並換裝「溫差能相變液壓蓄能器」，續航突破 180 天。',
+        recAug: { propulsor: 'open_skew', coating: 'super_hydro', material: 'cf_t1000', energy: 'thermal_glider' }
+      },
+      {
+        id: 'seaexplorer_x2',
+        name: 'Alseamar SeaExplorer X2 (無尾翼高升阻比滑翔機)',
+        origin: 'France / Alseamar',
+        category: 'GLIDER_AUG',
+        catBadge: '1250m 長航滑翔',
+        hullType: 'sea_glider',
+        hydroProfile: 'Laminar Drop',
+        hullLen: 2.1, hullDia: 0.25, finSpan: 1.60, wallThick: 13.5,
+        mass: 65, sternType: 'tailless_vectored', thrusterCount: 1,
+        cruiseSpeed: 0.65, defaultDepth: 750, maxRatingDepth: 1250, baseEnduranceHr: 2400.0, maxThrustN: 40,
+        desc: '無外露垂直尾舵之高流線型水下滑翔機，完全依靠內部偏心質量塊旋轉控制橫搖轉向，大幅降低寄生阻力與漁網纏繞風險。',
+        weakness: '高壓深水區鋁合金殼體壓縮量大於海水壓縮量，下潛越深浮力損失越明顯。',
+        augmentPlan: '升級「T1000 等壓縮率碳纖複合耐壓殼」與「鯊魚皮微溝槽減阻膜」，降低深水油泵補償功耗 42%。',
+        recAug: { propulsor: 'open_skew', coating: 'shark_riblet', material: 'cf_t1000', energy: 'thermal_glider' }
+      },
+      {
+        id: 'schilling_hd_rov',
+        name: 'Schilling HD Work-Class ROV (4000m 重工作級雙機械臂 ROV)',
+        origin: 'USA / TechnipFMC Schilling Robotics',
+        category: 'WORK_ROV',
+        catBadge: '4000m 150HP ROV',
+        hullType: 'work_rov',
+        hydroProfile: 'Syntactic Bloc',
+        hullLen: 2.9, hullDia: 1.80, finSpan: 1.90, wallThick: 32.0,
+        mass: 3800, sternType: 'tailless_vectored', thrusterCount: 8,
+        cruiseSpeed: 1.8, defaultDepth: 2500, maxRatingDepth: 4000, baseEnduranceHr: 96.0, maxThrustN: 14500,
+        desc: '深海油氣與海纜工程標準 150HP 重工作級臍帶纜 ROV，頂部配置大型亮黃色合成泡棉浮力塊，下方搭載雙具 Schilling Titan 4 鈦合金七軸液壓機械臂。',
+        weakness: '開放式方型框架迎流阻力係數高達 Cd ≈ 0.85，在深海強流下臍帶纜拖曳阻力與載具本體水阻極大。',
+        augmentPlan: '加裝「可拆式低阻流線整流側板」與 8 具「Kort 19A 增推導流管推進器」，頂流駐留能力由 3.0kt 提升至 4.4kt。',
+        recAug: { propulsor: 'kort_nozzle', coating: 'marine_std', material: 'ti6al4v', energy: 'pbof_solid' }
+      },
+      {
+        id: 'taiwan_salvage_rov',
+        name: '大武級救難艦深海作業 ROV (Taiwan Navy Salvage ROV)',
+        origin: 'Taiwan / 海軍深海救難與打撈工程構型',
+        category: 'WORK_ROV',
+        catBadge: 'TW 3000m 救難 ROV',
+        hullType: 'work_rov',
+        hydroProfile: 'Syntactic Bloc',
+        hullLen: 2.6, hullDia: 1.60, finSpan: 1.70, wallThick: 28.0,
+        mass: 2650, sternType: 'tailless_vectored', thrusterCount: 8,
+        cruiseSpeed: 1.9, defaultDepth: 1800, maxRatingDepth: 3000, baseEnduranceHr: 72.0, maxThrustN: 11200,
+        desc: '配置於新型救難艦之深海搜救與水下精準作業 ROV，整合高解析多波束聲納、高流明 LED 照明陣列、水下切割工具與重載打撈機械臂。',
+        weakness: '台灣周邊海域地形陡峭且海底渦流強，執行水下精準對接或切割時需要極高抗橫流姿態穩定度。',
+        augmentPlan: '升級「8具無軸輪緣向量推進器 (Rim-Driven)」防止水下纜線纏繞，並採用「Ti-6Al-4V 鈦合金電子耐壓艙」確保 3000m 高可靠度。',
+        recAug: { propulsor: 'rim_driven', coating: 'marine_std', material: 'ti6al4v', energy: 'pbof_solid' }
+      },
+      {
+        id: 'saab_leopard',
+        name: 'Saab Seaeye Leopard (11推進器高推重比電驅 ROV)',
+        origin: 'Sweden & UK / Saab Seaeye',
+        category: 'WORK_ROV',
+        catBadge: '3000m 電驅 ROV',
+        hullType: 'work_rov',
+        hydroProfile: 'Syntactic Bloc',
+        hullLen: 2.15, hullDia: 1.16, finSpan: 1.25, wallThick: 25.0,
+        mass: 1200, sternType: 'tailless_vectored', thrusterCount: 8,
+        cruiseSpeed: 2.2, defaultDepth: 2000, maxRatingDepth: 3000, baseEnduranceHr: 72.0, maxThrustN: 8500,
+        desc: '緊湊型全電驅重載工作級 ROV，在僅 1.2 噸機體內配置多達 11 具高功率無刷推進器，具備同級最強之水下推重比與低噪音特性。',
+        weakness: '高密度推進器群在狹小空間內全功率運轉時彼此尾流干擾損失約 16%，且高速水流易誘發導流罩唇口空蝕。',
+        augmentPlan: '優化「Kort 19A 非對稱導流管」並升級「PBOF 充油固態備援電池系統」，實現臍帶纜斷裂時之自主返航保護。',
+        recAug: { propulsor: 'kort_nozzle', coating: 'shark_riblet', material: 'ti6al4v', energy: 'pbof_solid' }
+      },
+      {
+        id: 'bluerov2_heavy',
+        name: 'BlueROV2 Heavy (8推進器 6-DOF 開源觀測型 ROV)',
+        origin: 'USA / Blue Robotics',
+        category: 'WORK_ROV',
+        catBadge: '300m 6-DOF 觀測',
+        hullType: 'work_rov',
+        hydroProfile: 'Syntactic Bloc',
+        hullLen: 0.46, hullDia: 0.34, finSpan: 0.58, wallThick: 6.5,
+        mass: 13.5, sternType: 'tailless_vectored', thrusterCount: 8,
+        cruiseSpeed: 1.5, defaultDepth: 100, maxRatingDepth: 300, baseEnduranceHr: 4.0, maxThrustN: 360,
+        desc: '全球研究機構與港灣巡檢最普及之開源 6-DOF 向量控制 ROV，配備 4 具 45° 水平向量推進器與 4 具垂直推進器，支援全姿態鎖定。',
+        weakness: '原廠壓克力透明艙耐壓僅約 100m，鋁合金艙約 300m，且外掛電池艙阻力較大。',
+        augmentPlan: '換裝「Ti-6Al-4V 鈦合金耐壓主艙 + 藍寶石球形視窗」與「PBOF 固態電池組」，潛深直接躍升至 1000m 級。',
+        recAug: { propulsor: 'kort_nozzle', coating: 'shark_riblet', material: 'ti6al4v', energy: 'pbof_solid' }
+      },
+      {
+        id: 'whoi_nereus',
+        name: 'WHOI Nereus / Orpheus (11,000m 馬里亞納海溝深淵潛航器)',
+        origin: 'USA / Woods Hole Oceanographic Institution',
+        category: 'HADAL_HYBRID',
+        catBadge: '11000m 萬米深淵',
+        hullType: 'hybrid_rov',
+        hydroProfile: 'Myring n=2.0',
+        hullLen: 4.25, hullDia: 1.40, finSpan: 2.30, wallThick: 45.0,
+        mass: 2800, sternType: 'tailless_vectored', thrusterCount: 4,
+        cruiseSpeed: 1.6, defaultDepth: 10900, maxRatingDepth: 11000, baseEnduranceHr: 18.0, maxThrustN: 2400,
+        desc: '挑戰者深淵 (10,900m+, 靜水壓 112 MPa / 1100 大氣壓) 混合型深淵潛航器，採用百顆氧化鋁陶瓷空心球提供正浮力與耐壓保護。',
+        weakness: '萬米深淵高達 112 MPa 超高靜水壓下，任何微小的表面材料瑕疵或應力集中都會引發瞬態連環內爆壓潰 (Implosion)。',
+        augmentPlan: '必須採用「99.5% 氧化鋁陶瓷耐壓球殼 + 鈦合金緩衝外罩」與「PBOF 全充油壓力平衡固態電池」，確保萬米深淵 SF > 1.8。',
+        recAug: { propulsor: 'rim_driven', coating: 'super_hydro', material: 'ceramic_al2o3', energy: 'pbof_solid' }
+      },
+      {
+        id: 'saab_sabertooth',
+        name: 'Saab Sabertooth (深海懸停駐留型 AUV/ROV 混合體)',
+        origin: 'Sweden / Saab Seaeye',
+        category: 'HADAL_HYBRID',
+        catBadge: '3000m 駐留混合體',
+        hullType: 'hybrid_rov',
+        hydroProfile: 'Eppler 330 Hydro',
+        hullLen: 3.6, hullDia: 0.65, finSpan: 1.80, wallThick: 26.0,
+        mass: 1350, sternType: 'tailless_vectored', thrusterCount: 6,
+        cruiseSpeed: 2.6, defaultDepth: 2200, maxRatingDepth: 3000, baseEnduranceHr: 36.0, maxThrustN: 4200,
+        desc: '兼具魚雷型 AUV 高速低阻巡航與工作級 ROV 360° 全姿態懸停作業能力之扁平流線型混合載具，可長期停駐於海底塢站進行無線感應充電。',
+        weakness: '海底塢站長期駐留期間極易受深海微生物與藤壺附著，且橫向平移時水阻較大。',
+        augmentPlan: '塗佈「超疏水抗生物附著塗層」並升級「無軸輪緣推進器 + PBOF 固態電池」，延長單次離塢作業半徑 65%。',
+        recAug: { propulsor: 'rim_driven', coating: 'super_hydro', material: 'cf_t1000', energy: 'pbof_solid' }
+      },
+      {
+        id: 'kongsberg_eelume',
+        name: 'Kongsberg Eelume (蛇形多關節海底管線駐留機器人)',
+        origin: 'Norway / Eelume & Equinor',
+        category: 'HADAL_HYBRID',
+        catBadge: '500m 蛇形多關節',
+        hullType: 'torpedo_auv',
+        hydroProfile: 'Myring n=2.0',
+        hullLen: 4.8, hullDia: 0.25, finSpan: 0.45, wallThick: 14.0,
+        mass: 195, sternType: 'tailless_vectored', thrusterCount: 6,
+        cruiseSpeed: 1.8, defaultDepth: 380, maxRatingDepth: 500, baseEnduranceHr: 24.0, maxThrustN: 950,
+        desc: '模組化多關節蛇形水下機器人，可像海蛇般蜿蜒穿入複雜海底井口防噴器與閥門桁架內部，並以身體夾持管線執行扳手扭矩作業。',
+        weakness: '多組活動關節動密封在超過 500m 水深時摩擦力矩劇增，且細長體橫向頂流能力有限。',
+        augmentPlan: '將關節致動器改為「PBOF 充油壓力平衡無刷伺服模組」，耐壓艙升級「Ti-6Al-4V 鈦合金管節」，潛深擴展至 1500m。',
+        recAug: { propulsor: 'rim_driven', coating: 'shark_riblet', material: 'ti6al4v', energy: 'pbof_solid' }
+      },
+      {
+        id: 'gavia_auv',
+        name: 'Teledyne Gavia Defense (單兵模組化反水雷 AUV)',
+        origin: 'Iceland & USA / Teledyne Marine',
+        category: 'TORPEDO_AUV',
+        catBadge: '1000m 單兵反水雷',
+        hullType: 'torpedo_auv',
+        hydroProfile: 'Myring n=2.0',
+        hullLen: 2.7, hullDia: 0.20, finSpan: 0.42, wallThick: 11.0,
+        mass: 75, sternType: 'x_rudder', thrusterCount: 1,
+        cruiseSpeed: 2.5, defaultDepth: 400, maxRatingDepth: 1000, baseEnduranceHr: 10.0, maxThrustN: 220,
+        desc: '可由兩人小組從橡皮艇快速投放之模組化反水雷 (MCM) AUV，各艙段採用快拆鎖環連接，可靈活替換側掃聲納與磁力儀。',
+        weakness: '200mm 小艇徑限制了電池容量，在開啟高耗電合成孔徑聲納時續航僅約 6~8 小時。',
+        augmentPlan: '升級「T1000 薄壁高強碳纖艙段」擴大內部電芯空間，並換裝「420Wh/kg PBOF 固態電池」與「Kort 導流管」。',
+        recAug: { propulsor: 'kort_nozzle', coating: 'shark_riblet', material: 'cf_t1000', energy: 'pbof_solid' }
+      },
+      {
+        id: 'bio_tuna_uuv',
+        name: 'BioSwimmer Tuna-X (仿生鮪魚柔性擺尾低噪音潛航器)',
+        origin: 'USA / Boston Engineering Reference',
+        category: 'BIOMIMETIC_BWB',
+        catBadge: 'Bio-Fin 仿生擺尾',
+        hullType: 'manta_bwb',
+        hydroProfile: 'Laminar Drop',
+        hullLen: 2.4, hullDia: 0.48, finSpan: 0.95, wallThick: 16.0,
+        mass: 180, sternType: 'x_rudder', thrusterCount: 1,
+        cruiseSpeed: 3.0, defaultDepth: 300, maxRatingDepth: 800, baseEnduranceHr: 32.0, maxThrustN: 480,
+        desc: '模仿藍鰭鮪魚身體曲線與高頻擺動月牙尾鰭 (Thunniform Swimming) 之仿生潛航器，推進效率達 82% 且無傳統螺旋槳空泡聲紋。',
+        weakness: '尾部往復擺動會在機鼻產生週期性偏航晃動 (Yaw Recoil)，影響前視聲納成像清晰度。',
+        augmentPlan: '前段加裝「主動反相配平胸鰭」抵消偏航反作用力矩，外皮採用「仿生鯊魚皮微溝槽彈性蒙皮」。',
+        recAug: { propulsor: 'pump_jet', coating: 'shark_riblet', material: 'cf_t1000', energy: 'pbof_solid' }
+      }
+    ];
+
+    // =========================================================================
+    // 4. APPLICATION STATE & SUBSEA HYDRODYNAMIC / PRESSURE HULL SOLVER
+    // =========================================================================
+    const STATE = {
+      activeTab: 'studio',
+      selectedModelId: 'kongsberg_hugin',
+      compareModelId: 'huilung_xluuv',
+      // Hull & CAD Geometry State
+      hullType: 'torpedo_auv',
+      hydroProfile: 'Myring n=2.0',
+      hullLen: 6.6,
+      hullDia: 0.875,
+      finSpan: 1.40,
+      wallThick: 26.0, // mm
+      mass: 2200,      // kg
+      ballastN: 12,    // Net buoyancy trim in N
+      sternType: 'x_rudder',
+      thrusterCount: 1,
+      maxRatingDepth: 6000,
+      baseEnduranceHr: 72.0,
+      maxThrustN: 1450,
+      // Deep-Sea Augmentation State
+      augPropulsor: 'pump_jet',
+      augCoating: 'shark_riblet',
+      augHullMaterial: 'cf_t1000',
+      augSubseaEnergy: 'pbof_solid',
+      augSasSonar: true,
+      augManipulator: false,
+      // Subsea Environment & Control State
+      speed: 2.6,      // m/s
+      depth: 3000,     // m
+      pitchAoA: 2.0,   // deg
+      driftBeta: 0.0,  // deg
+      divePlane: 0.0,  // deg
+      rudder: 0.0,     // deg
+      current: 0.8,    // m/s
+      throttle: 70,    // %
+      // 6-DOF Sim & PID State
+      pidDepth: 2.20,
+      pidYaw: 2.45,
+      turbulence: 20,
+      dropWeightN: 250,
+      activeSimTest: null,
+      // 3D Visualization toggles
+      viz: {
+        streamlines: true,
+        cavitation: true,
+        pressure: false,
+        vectors: true,
+        cbcg: true,
+        xray: false
+      },
+      results: {}
+    };
+
+    // Oceanographic Seawater Equation of State (0 ~ 11,000 m Hadal Trench)
+    function computeOceanEnvironment(depthMeters) {
+      const g = 9.80665;
+      const Patm = 101325; // Pa
+      // Thermocline temperature profile (surface 22°C -> deep abyssal 1.8°C)
+      const T_C = 1.8 + 20.2 * Math.exp(-depthMeters / 650);
+      // Seawater compressibility & density increase with depth (1024 kg/m³ at surface -> ~1071 kg/m³ at 11000m)
+      const rho_sw = 1024.5 * (1 + 4.4e-6 * depthMeters);
+      const P_pa = Patm + rho_sw * g * depthMeters;
+      const P_MPa = P_pa / 1e6;
+      const P_bar = P_pa / 1e5;
+      // Mackenzie nine-term speed of sound approximation in seawater (Salinity S = 35 PSU)
+      const c_sound = 1448.96 + 4.591 * T_C - 5.304e-2 * T_C * T_C + 0.0163 * depthMeters;
+      // Dynamic viscosity of seawater (Pa·s)
+      const mu_sw = 1.88e-3 / (1 + 0.032 * T_C);
+      const P_vapor = 2340; // Seawater vapor pressure Pa
+      return { T_C, rho_sw, P_pa, P_MPa, P_bar, c_sound, mu_sw, P_vapor, g };
+    }
+
+    // Evaluate Hydrodynamic Drag, Lift, Moment & Cavitation at given speed V (m/s) and AoA (deg)
+    function evalHydroAtCondition(V_ms, alphaDeg, depthM, useAugmented = true) {
+      const ocean = computeOceanEnvironment(depthM);
+      const pf = HYDRO_PROFILE_DB[STATE.hydroProfile] || HYDRO_PROFILE_DB['Myring n=2.0'];
+      const propCfg = useAugmented ? AUG_PROPULSOR[STATE.augPropulsor] : AUG_PROPULSOR.open_skew;
+      const coatCfg = useAugmented ? AUG_COATING[STATE.augCoating] : AUG_COATING.marine_std;
+
+      const L = Math.max(0.4, STATE.hullLen);
+      const D = Math.max(0.15, STATE.hullDia);
+      const slenderness = L / D;
+      const frontalArea = (Math.PI * D * D) / 4;
+      // Wetted surface area approximation
+      const Swet = Math.PI * D * L * (0.72 + 0.08 * pf.cpPrismatic) + STATE.finSpan * D * 0.65;
+
+      const V = Math.max(0.1, V_ms);
+      const Re_L = (ocean.rho_sw * V * L) / ocean.mu_sw;
+      // ITTC-1957 Frictional Drag Coefficient Cf
+      const Cf_base = 0.075 / Math.pow(Math.log10(Math.max(1e4, Re_L)) - 2, 2);
+      const Cf = Cf_base * coatCfg.cfFactor;
+
+      // Hoerner Streamlined Body Form Factor (1 + k)
+      const formFactor = 1 + 1.5 * Math.pow(D / L, 1.5) + 7.0 * Math.pow(D / L, 3);
+      let cdAppendage = pf.cd0Base + propCfg.cdDelta;
+      if (STATE.hullType === 'work_rov') cdAppendage += 0.38;
+      if (useAugmented && STATE.augManipulator) cdAppendage += 0.025;
+
+      // Hydrodynamic Lift & Induced Drag from Hull + Hydroplanes/Wings
+      const effAlpha = alphaDeg + STATE.divePlane * 0.45;
+      const CL = pf.clSlope * effAlpha;
+      const aspectFin = (STATE.finSpan * STATE.finSpan) / Math.max(0.05, STATE.finSpan * D * 0.32);
+      const CDi = (CL * CL) / (Math.PI * 0.82 * Math.max(1.5, aspectFin));
+
+      // Total Drag Coefficient referenced to frontal area
+      const Cd_frontal = Cf * formFactor * (Swet / frontalArea) + cdAppendage + CDi;
+      const q_dyn = 0.5 * ocean.rho_sw * V * V;
+      const dragN = q_dyn * frontalArea * Cd_frontal;
+      const liftN = q_dyn * frontalArea * CL * 2.2;
+
+      // Cavitation Number sigma_v at propeller tip (tip speed ~ 2.6 * V)
+      const V_tip_eff = Math.sqrt(V * V + Math.pow(V * 2.35 + 3.2 * (STATE.throttle / 100), 2));
+      const sigma_v = (ocean.P_pa - ocean.P_vapor) / (0.5 * ocean.rho_sw * V_tip_eff * V_tip_eff);
+      const isCavitating = sigma_v < propCfg.cavThreshold;
+      const V_cav = Math.sqrt((2 * (ocean.P_pa - ocean.P_vapor)) / (ocean.rho_sw * propCfg.cavThreshold)) * 0.36;
+
+      // Pitching Hydrodynamic Moment + BG Restoring Moment
+      const BG_mm = STATE.hullType === 'work_rov' ? 145.0 : STATE.hullType === 'xluuv_sub' ? 110.0 : 85.0;
+      const Cm = -0.024 * alphaDeg - 0.018 * STATE.divePlane;
+
+      const propEfficiency = Math.min(0.86, 0.68 * propCfg.thrustFactor);
+      const shaftPowerKW = (dragN * V) / (propEfficiency * 1000);
+
+      return {
+        ocean, pf, Re_L, Cf, Cd_frontal, CL, Cm,
+        frontalArea, Swet, slenderness, q_dyn,
+        dragN, liftN, sigma_v, cavThreshold: propCfg.cavThreshold, isCavitating, V_cav,
+        BG_mm, shaftPowerKW
+      };
+    }
+
+    // Complete Operating Point & Deep-Sea Pressure Hull Stress/Buckling Solver
+    function solveHydrodynamicsAndPressureHull() {
+      const hydro = evalHydroAtCondition(STATE.speed, STATE.pitchAoA, STATE.depth, true);
+      const hydroBase = evalHydroAtCondition(STATE.speed, STATE.pitchAoA, STATE.depth, false);
+      const matCfg = AUG_HULL_MAT[STATE.augHullMaterial];
+      const engCfg = AUG_SUBSEA_ENERGY[STATE.augSubseaEnergy];
+      const propCfg = AUG_PROPULSOR[STATE.augPropulsor];
+
+      // Effective mass & buoyancy balance
+      const effMass = STATE.mass * (0.55 + 0.45 * matCfg.massFactor);
+      const weightN = effMass * hydro.ocean.g;
+      const buoyancyN = weightN + STATE.ballastN;
+      const dispVolumeM3 = buoyancyN / (hydro.ocean.rho_sw * hydro.ocean.g);
+
+      // Pressure Hull Hoop Stress, Axial Stress, Von Mises & Elastic Buckling Collapse Depth
+      const R_m = STATE.hullDia * 0.5;
+      const t_m = Math.max(0.004, STATE.wallThick / 1000);
+      const P_MPa = hydro.ocean.P_MPa;
+
+      // Thin/Thick shell hoop & axial compressive stress (MPa)
+      // Ring stiffeners & spherical endcaps reduce effective unsupported bay stress by ~28%
+      const stiffenerFactor = STATE.augHullMaterial === 'ceramic_al2o3' ? 0.52 : 0.72;
+      const sigma_hoop = P_MPa * (R_m / t_m) * stiffenerFactor;
+      const sigma_axial = P_MPa * (R_m / (2 * t_m)) * stiffenerFactor;
+      const sigma_vm = Math.sqrt(sigma_hoop * sigma_hoop - sigma_hoop * sigma_axial + sigma_axial * sigma_axial);
+
+      // Critical Yield Pressure & Ring-Stiffened Shell Buckling Pressure (v. Mises / Bryant formula)
+      const P_yield_MPa = (matCfg.yieldMPa * t_m) / (R_m * stiffenerFactor);
+      const bayLenRatio = 0.65; // L_bay / D
+      const P_buckling_MPa = (2.42 * (matCfg.E_GPa * 1000) * Math.pow(t_m / (2 * R_m), 2.5)) / Math.max(0.25, bayLenRatio);
+      const P_collapse_MPa = 1. / Math.sqrt(1 / (P_yield_MPa * P_yield_MPa) + 1 / (P_buckling_MPa * P_buckling_MPa));
+      const collapseDepthM = Math.min(13500, (P_collapse_MPa * 1e6) / (hydro.ocean.rho_sw * hydro.ocean.g));
+      const safetyFactor = Math.min(9.99, collapseDepthM / Math.max(25, STATE.depth));
+      const isHullDanger = safetyFactor < 1.25;
+
+      // Endurance & Range
+      const dragReductionGain = Math.max(0.75, Math.min(1.45, hydroBase.dragN / Math.max(1, hydro.dragN)));
+      const estEnduranceHr = STATE.baseEnduranceHr * engCfg.enduranceFactor * dragReductionGain;
+      const estRangeKm = estEnduranceHr * (STATE.speed * 3.6) * 0.85;
+
+      // Restoring Moment & Added Mass Moments of Inertia
+      const restoringMomentPerRad = buoyancyN * (hydro.BG_mm / 1000);
+      const Ixx = effMass * Math.pow(STATE.hullDia * 0.38, 2) * 1.25;
+      const Iyy = effMass * Math.pow(STATE.hullLen * 0.26, 2) * 1.65;
+
+      STATE.results = {
+        hydro, hydroBase, matCfg, engCfg, propCfg,
+        effMass, weightN, buoyancyN, dispVolumeM3,
+        sigma_hoop, sigma_axial, sigma_vm,
+        collapseDepthM, safetyFactor, isHullDanger,
+        estEnduranceHr, estRangeKm,
+        restoringMomentPerRad, Ixx, Iyy
+      };
+      return STATE.results;
+    }
+
+    // =========================================================================
+    // 5. THREE.JS REAL-TIME 3D DEEP-SEA CAD & MULTI-PHYSICS ENGINE
+    // =========================================================================
+    let scene, camera, renderer, uuvRootGroup, mainHullMesh;
+    let thrusterMeshes = [], finMeshes = [], streamlineLines = [], cavBubbleLines = [];
+    let forceArrows = {}, cbMarker, cgMarker, xrayGroup;
+    let isDragging3D = false, prevMouse = { x: 0, y: 0 };
+    let camSpherical = { radius: 20, theta: 0.65, phi: 1.12 };
+    let simClock = 0;
+
+    function initThreeScene() {
+      const container = document.getElementById('ThreeViewportContainer');
+      if (!container) return;
+      const w = container.clientWidth || 720;
+      const h = container.clientHeight || 460;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x030916);
+      scene.fog = new THREE.FogExp2(0x030916, 0.012);
+
+      camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 500);
+      updateCameraFromSpherical();
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, powerPreference: 'high-performance' });
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      container.innerHTML = '';
+      container.appendChild(renderer.domElement);
+
+      // Deep-Sea Lighting
+      const ambLight = new THREE.AmbientLight(0x38bdf8, 0.68);
+      scene.add(ambLight);
+      const dirLight1 = new THREE.DirectionalLight(0xe0f2fe, 1.15);
+      dirLight1.position.set(20, 35, 22);
+      scene.add(dirLight1);
+      const dirLight2 = new THREE.DirectionalLight(0x06b6d4, 0.55);
+      dirLight2.position.set(-22, -18, -15);
+      scene.add(dirLight2);
+
+      // Seabed Bathymetry Grid
+      const gridHelper = new THREE.GridHelper(80, 40, 0x0e7490, 0x082f49);
+      gridHelper.position.y = -4.2;
+      scene.add(gridHelper);
+
+      uuvRootGroup = new THREE.Group();
+      scene.add(uuvRootGroup);
+
+      const dom = renderer.domElement;
+      dom.addEventListener('mousedown', (e) => { isDragging3D = true; prevMouse = { x: e.clientX, y: e.clientY }; });
+      window.addEventListener('mouseup', () => { isDragging3D = false; });
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging3D) return;
+        const dx = e.clientX - prevMouse.x;
+        const dy = e.clientY - prevMouse.y;
+        prevMouse = { x: e.clientX, y: e.clientY };
+        camSpherical.theta -= dx * 0.007;
+        camSpherical.phi = Math.max(0.15, Math.min(Math.PI - 0.15, camSpherical.phi - dy * 0.007));
+        updateCameraFromSpherical();
+      });
+      dom.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        camSpherical.radius = Math.max(4, Math.min(70, camSpherical.radius + e.deltaY * 0.018));
+        updateCameraFromSpherical();
+      }, { passive: false });
+
+      window.addEventListener('resize', handleViewportResize);
+      rebuildUUV3DModel();
+      requestAnimationFrame(animateThreeScene);
+    }
+
+    function handleViewportResize() {
+      const container = document.getElementById('ThreeViewportContainer');
+      if (!container || !renderer || !camera) return;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      if (w > 20 && h > 20) {
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      }
+    }
+
+    function updateCameraFromSpherical() {
+      if (!camera) return;
+      const r = camSpherical.radius;
+      camera.position.x = r * Math.sin(camSpherical.phi) * Math.sin(camSpherical.theta);
+      camera.position.y = r * Math.cos(camSpherical.phi);
+      camera.position.z = r * Math.sin(camSpherical.phi) * Math.cos(camSpherical.theta);
+      camera.lookAt(0, 0, 0);
+    }
+
+    // Build Revolved Myring/SUBOFF Hull Geometry with Vertex Colors for Hoop Stress Cloud
+    function createRevolvedHullGeometry(lenNorm, radiusNorm) {
+      const pts = [];
+      const segs = 36;
+      for (let i = 0; i <= segs; i++) {
+        const u = i / segs; // 0 (nose) to 1 (tail)
+        let r = radiusNorm;
+        if (u < 0.24) {
+          const un = u / 0.24;
+          r = radiusNorm * Math.sqrt(Math.max(0.001, 1 - Math.pow(1 - un, 2.1)));
+        } else if (u > 0.72) {
+          const ut = (u - 0.72) / 0.28;
+          r = radiusNorm * Math.max(0.08, 1 - (3 * ut * ut - 2 * ut * ut * ut) * 0.92);
+        }
+        pts.push(new THREE.Vector2(r, (0.5 - u) * lenNorm));
+      }
+      const geom = new THREE.LatheGeometry(pts, 32);
+      geom.rotateZ(Math.PI / 2);
+      const count = geom.attributes.position.count;
+      const colors = new Float32Array(count * 3);
+      for (let i = 0; i < count; i++) {
+        colors[i * 3] = 0.08;
+        colors[i * 3 + 1] = 0.65;
+        colors[i * 3 + 2] = 0.85;
+      }
+      geom.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      geom.computeVertexNormals();
+      return geom;
+    }
+
+    // Complete 3D UUV/AUV/ROV Procedural Rebuilder
+    function rebuildUUV3DModel() {
+      if (!uuvRootGroup) return;
+      while (uuvRootGroup.children.length > 0) {
+        uuvRootGroup.remove(uuvRootGroup.children[0]);
+      }
+      thrusterMeshes = [];
+      finMeshes = [];
+      streamlineLines = [];
+      cavBubbleLines = [];
+
+      const refDim = Math.max(STATE.hullLen, STATE.finSpan, 1.0);
+      const scale = 11.5 / refDim;
+      const L = Math.max(2.2, STATE.hullLen * scale);
+      const R = Math.max(0.35, (STATE.hullDia * 0.5) * scale);
+      const finSpan = Math.max(0.8, STATE.finSpan * scale);
+
+      const hullMat = new THREE.MeshStandardMaterial({
+        vertexColors: STATE.viz.pressure,
+        color: STATE.viz.pressure ? 0xffffff : (STATE.hullType === 'torpedo_auv' || STATE.hullType === 'sea_glider' ? 0xf59e0b : 0x1e293b),
+        roughness: 0.32, metalness: 0.48,
+        transparent: STATE.viz.xray, opacity: STATE.viz.xray ? 0.30 : 1.0
+      });
+      const darkMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.25, metalness: 0.75 });
+      const cyanMat = new THREE.MeshStandardMaterial({ color: 0x06b6d4, roughness: 0.3, metalness: 0.6 });
+      const foamYellowMat = new THREE.MeshStandardMaterial({
+        color: 0xfacc15, roughness: 0.35, metalness: 0.2,
+        transparent: STATE.viz.xray, opacity: STATE.viz.xray ? 0.35 : 1.0
+      });
+
+      const addThrusterUnit = (x, y, z, rad, hasShroud = true) => {
+        const group = new THREE.Group();
+        group.position.set(x, y, z);
+        group.rotation.z = Math.PI / 2;
+        if (hasShroud) {
+          const shroud = new THREE.Mesh(new THREE.CylinderGeometry(rad * 1.15, rad * 1.05, rad * 1.1, 24, 1, true), darkMat);
+          group.add(shroud);
+        }
+        const rotor = new THREE.Group();
+        const b1 = new THREE.Mesh(new THREE.BoxGeometry(rad * 1.85, 0.04, rad * 0.28), cyanMat);
+        const b2 = new THREE.Mesh(new THREE.BoxGeometry(rad * 0.28, 0.04, rad * 1.85), cyanMat);
+        rotor.add(b1, b2);
+        group.add(rotor);
+        thrusterMeshes.push(rotor);
+        uuvRootGroup.add(group);
+      };
+
+      if (STATE.hullType === 'work_rov') {
+        // Work-Class ROV: Yellow Syntactic Foam Top Block + Open Titanium Frame + 8 Vectored Thrusters + Dual Manipulators
+        const foamBlock = new THREE.Mesh(new THREE.BoxGeometry(L * 0.85, R * 0.95, finSpan * 0.75), foamYellowMat);
+        foamBlock.position.y = R * 0.65;
+        mainHullMesh = foamBlock;
+        uuvRootGroup.add(foamBlock);
+
+        // Open Subframe Cage
+        const frameCage = new THREE.Mesh(
+          new THREE.BoxGeometry(L * 0.82, R * 1.15, finSpan * 0.72),
+          new THREE.MeshBasicMaterial({ color: 0x94a3b8, wireframe: true })
+        );
+        frameCage.position.y = -R * 0.35;
+        uuvRootGroup.add(frameCage);
+
+        // Twin Titanium Pressure Electronics Pods inside Frame
+        [-1, 1].forEach((sSign) => {
+          const pod = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.28, R * 0.28, L * 0.68, 20), darkMat);
+          pod.rotation.z = Math.PI / 2;
+          pod.position.set(0, -R * 0.25, sSign * finSpan * 0.20);
+          uuvRootGroup.add(pod);
+        });
+
+        // 4 Vectored Horizontal + 4 Vertical Thrusters
+        [[-1, -1], [-1, 1], [1, -1], [1, 1]].forEach(([sx, sz]) => {
+          addThrusterUnit(sx * L * 0.36, -R * 0.15, sz * finSpan * 0.34, R * 0.26, true);
+        });
+
+        // Dual 7-DOF Hydraulic Manipulator Arms at Bow
+        [-1, 1].forEach((sSign) => {
+          const armGroup = new THREE.Group();
+          armGroup.position.set(-L * 0.42, -R * 0.55, sSign * finSpan * 0.24);
+          const seg1 = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.07, L * 0.28, 10), cyanMat);
+          seg1.rotation.z = Math.PI / 3;
+          seg1.position.set(-L * 0.1, -0.12, 0);
+          const claw = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.12, 0.18), foamYellowMat);
+          claw.position.set(-L * 0.22, -0.22, 0);
+          armGroup.add(seg1, claw);
+          uuvRootGroup.add(armGroup);
+        });
+      } else if (STATE.hullType === 'manta_bwb') {
+        // Biomimetic Manta Ray Blended Wing-Body
+        const coreGeom = createRevolvedHullGeometry(L, R * 0.85);
+        coreGeom.scale(1, 0.48, 1.35);
+        mainHullMesh = new THREE.Mesh(coreGeom, hullMat);
+        uuvRootGroup.add(mainHullMesh);
+
+        // Wide Swept Manta Hydro-Wings
+        [-1, 1].forEach((sSign) => {
+          const wingShape = new THREE.BoxGeometry(L * 0.58, R * 0.12, finSpan * 0.52);
+          const wMesh = new THREE.Mesh(wingShape, hullMat);
+          wMesh.position.set(L * 0.05, 0, sSign * finSpan * 0.28);
+          wMesh.rotation.y = -sSign * 0.32;
+          finMeshes.push(wMesh);
+          uuvRootGroup.add(wMesh);
+          addThrusterUnit(L * 0.38, 0, sSign * finSpan * 0.22, R * 0.25, true);
+        });
+      } else {
+        // Revolved Torpedo AUV / XLUUV Submarine / Sea Glider / Hybrid ARV
+        const hullGeom = createRevolvedHullGeometry(L, R);
+        if (STATE.hullType === 'hybrid_rov') hullGeom.scale(1, 0.62, 1.35);
+        mainHullMesh = new THREE.Mesh(hullGeom, hullMat);
+        uuvRootGroup.add(mainHullMesh);
+
+        // XLUUV Conning Tower (Sail) & Bow Planes
+        if (STATE.hullType === 'xluuv_sub') {
+          const sail = new THREE.Mesh(new THREE.BoxGeometry(L * 0.14, R * 1.15, R * 0.32), darkMat);
+          sail.position.set(-L * 0.14, R * 1.1, 0);
+          uuvRootGroup.add(sail);
+        }
+
+        // Sea Glider or Hybrid Hydro-Wings
+        if (STATE.hullType === 'sea_glider' || STATE.hullType === 'hybrid_rov') {
+          const hWing = new THREE.Mesh(new THREE.BoxGeometry(R * 0.85, 0.05, finSpan), cyanMat);
+          hWing.position.set(0.05 * L, 0, 0);
+          uuvRootGroup.add(hWing);
+        }
+
+        // Side Synthetic Aperture Sonar (SAS) Transducer Arrays
+        if (STATE.augSasSonar) {
+          [-1, 1].forEach((sSign) => {
+            const sas = new THREE.Mesh(new THREE.BoxGeometry(L * 0.36, R * 0.24, 0.05), darkMat);
+            sas.position.set(-L * 0.05, -R * 0.15, sSign * R * 0.96);
+            uuvRootGroup.add(sas);
+          });
+        }
+
+        // Stern Control Planes (X-Rudder or Cruciform + Rudder)
+        const sternX = L * 0.42;
+        const angles = STATE.sternType === 'x_rudder' ? [Math.PI / 4, (3 * Math.PI) / 4, -Math.PI / 4, (-3 * Math.PI) / 4] : [0, Math.PI / 2, Math.PI, -Math.PI / 2];
+        angles.forEach((ang) => {
+          const finHolder = new THREE.Group();
+          finHolder.position.set(sternX, 0, 0);
+          finHolder.rotation.x = ang;
+          const fin = new THREE.Mesh(new THREE.BoxGeometry(R * 0.72, 0.05, R * 1.35), cyanMat);
+          fin.position.z = R * 1.05;
+          finHolder.add(fin);
+          finMeshes.push(fin);
+          uuvRootGroup.add(finHolder);
+        });
+
+        // Stern Propulsor (Open / Kort Nozzle / Pump-Jet)
+        addThrusterUnit(L * 0.50, 0, 0, R * 0.52, STATE.augPropulsor !== 'open_skew');
+      }
+
+      // Internal X-Ray Pressure Hull Ring-Stiffeners & Ceramic/Titanium Spheres
+      xrayGroup = new THREE.Group();
+      xrayGroup.visible = STATE.viz.xray;
+      const ringMat = new THREE.MeshBasicMaterial({ color: 0x22d3ee, wireframe: true });
+      for (let i = -5; i <= 5; i++) {
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(R * 0.86, 0.035, 8, 24), ringMat);
+        ring.rotation.y = Math.PI / 2;
+        ring.position.x = (i / 6) * L * 0.72;
+        xrayGroup.add(ring);
+      }
+      [-1, 0, 1].forEach((idx) => {
+        const sphere = new THREE.Mesh(new THREE.SphereGeometry(R * 0.62, 16, 12), ringMat);
+        sphere.position.x = idx * L * 0.22;
+        xrayGroup.add(sphere);
+      });
+      uuvRootGroup.add(xrayGroup);
+
+      // Force Vectors (Buoyancy B up, Weight W down, Thrust T forward, Drag D aft)
+      forceArrows.buoyancy = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0.25, 0), 3.6, 0x34d399, 0.6, 0.35);
+      forceArrows.weight = new THREE.ArrowHelper(new THREE.Vector3(0, -1, 0), new THREE.Vector3(0, -0.25, 0), 3.5, 0xfbbf24, 0.6, 0.35);
+      forceArrows.thrust = new THREE.ArrowHelper(new THREE.Vector3(-1, 0, 0), new THREE.Vector3(0, 0, 0), 3.0, 0x22d3ee, 0.5, 0.3);
+      forceArrows.drag = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0, 0), 2.4, 0xf43f5e, 0.5, 0.3);
+      Object.values(forceArrows).forEach(a => uuvRootGroup.add(a));
+
+      // Center of Buoyancy (CB - Magenta above) & Center of Gravity (CG - Amber below)
+      cbMarker = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 16), new THREE.MeshBasicMaterial({ color: 0xe879f9 }));
+      cgMarker = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 16), new THREE.MeshBasicMaterial({ color: 0xfbbf24 }));
+      cbMarker.position.set(0, R * 0.32, 0);
+      cgMarker.position.set(0, -R * 0.28, 0);
+      uuvRootGroup.add(cbMarker, cgMarker);
+
+      // 3D Subsea Flow Streamlines
+      for (let i = 0; i < 16; i++) {
+        const zPos = ((i / 15) - 0.5) * finSpan * 1.8;
+        const pts = [];
+        for (let k = 0; k < 28; k++) pts.push(new THREE.Vector3((k - 12) * 0.65, (i % 2 === 0 ? 1 : -1) * R * 1.15, zPos));
+        const geom = new THREE.BufferGeometry().setFromPoints(pts);
+        const line = new THREE.Line(geom, new THREE.LineBasicMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.62 }));
+        line.userData = { zPos, rowY: (i % 2 === 0 ? 1 : -1) * R * 1.15, R };
+        streamlineLines.push(line);
+        scene.add(line);
+      }
+
+      // Propeller Cavitation & Wake Vortex Helices
+      [1, -1].forEach((sSign) => {
+        const vPts = [];
+        for (let k = 0; k < 48; k++) vPts.push(new THREE.Vector3(L * 0.5 + k * 0.18, 0, 0));
+        const vGeom = new THREE.BufferGeometry().setFromPoints(vPts);
+        const vLine = new THREE.Line(vGeom, new THREE.LineBasicMaterial({ color: 0xe0f2fe, transparent: true, opacity: 0.85 }));
+        vLine.userData = { sSign, startX: L * 0.5, rad: R * 0.45 };
+        cavBubbleLines.push(vLine);
+        uuvRootGroup.add(vLine);
+      });
+
+      update3DPhysicsOverlays();
+    }
+
+    function update3DPhysicsOverlays() {
+      if (!uuvRootGroup) return;
+      const res = STATE.results;
+      if (!res || !res.hydro) return;
+
+      uuvRootGroup.rotation.z = (-STATE.pitchAoA * Math.PI) / 180;
+      uuvRootGroup.rotation.y = (STATE.driftBeta * Math.PI) / 180;
+
+      finMeshes.forEach((f, idx) => {
+        f.rotation.y = ((idx % 2 === 0 ? STATE.divePlane : STATE.rudder) * Math.PI) / 180;
+      });
+
+      Object.values(forceArrows).forEach(a => { a.visible = STATE.viz.vectors; });
+      if (cbMarker && cgMarker) {
+        cbMarker.visible = STATE.viz.cbcg;
+        cgMarker.visible = STATE.viz.cbcg;
+      }
+      if (xrayGroup) xrayGroup.visible = STATE.viz.xray;
+
+      // Update Pressure Hull Stress Contour on Main Hull Mesh
+      if (mainHullMesh && mainHullMesh.geometry.attributes.color) {
+        mainHullMesh.material.vertexColors = STATE.viz.pressure;
+        mainHullMesh.material.color.setHex(STATE.viz.pressure ? 0xffffff : (STATE.hullType === 'torpedo_auv' || STATE.hullType === 'sea_glider' ? 0xf59e0b : 0x1e293b));
+        mainHullMesh.material.transparent = STATE.viz.xray;
+        mainHullMesh.material.opacity = STATE.viz.xray ? 0.30 : 1.0;
+        mainHullMesh.material.needsUpdate = true;
+
+        if (STATE.viz.pressure) {
+          const colAttr = mainHullMesh.geometry.getAttribute('color');
+          const posAttr = mainHullMesh.geometry.getAttribute('position');
+          const stressRatio = Math.min(1.2, res.sigma_vm / Math.max(100, res.matCfg.yieldMPa));
+          for (let i = 0; i < colAttr.count; i++) {
+            const px = posAttr.getX(i);
+            const midFactor = Math.exp(-0.08 * px * px); // Highest hoop stress along parallel mid-body
+            const localS = Math.min(1.0, stressRatio * (0.65 + 0.35 * midFactor));
+            colAttr.setXYZ(i, 0.1 + 0.88 * localS, 0.78 * (1 - 0.6 * localS), 0.92 * (1 - localS));
+          }
+          colAttr.needsUpdate = true;
+        }
+      }
+
+      // Cavitation / Collapse Danger Banner
+      const banner = document.getElementById('DangerAlertOverlay');
+      const bannerTxt = document.getElementById('DangerAlertText');
+      if (banner && bannerTxt) {
+        if (res.isHullDanger) {
+          banner.classList.remove('hidden');
+          bannerTxt.textContent = `結構危險警告：當前深度 (${STATE.depth}m) 接近耐壓殼壓潰極限 (${res.collapseDepthM.toFixed(0)}m, SF=${res.safetyFactor.toFixed(2)})！`;
+        } else if (res.hydro.isCavitating) {
+          banner.classList.remove('hidden');
+          bannerTxt.textContent = `空蝕警告 (CAVITATION)：空蝕數 σ_v=${res.hydro.sigma_v.toFixed(2)} 低於門檻，推進器產生劇烈空泡噪音與剝蝕！`;
+        } else {
+          banner.classList.add('hidden');
+        }
+      }
+    }
+
+    function animateThreeScene() {
+      requestAnimationFrame(animateThreeScene);
+      simClock += 0.045;
+      const res = STATE.results;
+
+      const spinRate = 0.06 + (STATE.throttle / 100) * 0.38;
+      thrusterMeshes.forEach((r, idx) => {
+        r.rotation.y += spinRate * (idx % 2 === 0 ? 1 : -1);
+      });
+
+      streamlineLines.forEach((line) => {
+        line.visible = STATE.viz.streamlines;
+        if (!STATE.viz.streamlines) return;
+        const pos = line.geometry.getAttribute('position');
+        const aoaRad = (STATE.pitchAoA * Math.PI) / 180;
+        for (let k = 0; k < pos.count; k++) {
+          const x = (k - 12) * 0.65;
+          let y = line.userData.rowY - x * Math.tan(aoaRad * 0.45);
+          if (Math.abs(x) < 3.2) {
+            y += (line.userData.rowY > 0 ? 0.32 : -0.32) * Math.cos((x / 3.2) * (Math.PI / 2));
+          }
+          y += Math.sin(simClock * 2.2 - k * 0.5) * 0.04;
+          pos.setY(k, y);
+        }
+        pos.needsUpdate = true;
+      });
+
+      cavBubbleLines.forEach((vLine) => {
+        vLine.visible = STATE.viz.cavitation;
+        if (!STATE.viz.cavitation) return;
+        const pos = vLine.geometry.getAttribute('position');
+        const isCav = res?.hydro?.isCavitating;
+        vLine.material.color.setHex(isCav ? 0xf43f5e : 0x38bdf8);
+        const radScale = isCav ? 1.45 : 0.75;
+        for (let k = 0; k < pos.count; k++) {
+          const x = vLine.userData.startX + k * 0.16;
+          const r = vLine.userData.rad * radScale * (0.4 + 0.6 * (k / pos.count));
+          const ang = k * 0.65 - simClock * 3.5 * vLine.userData.sSign;
+          pos.setXYZ(k, x, Math.sin(ang) * r, Math.cos(ang) * r);
+        }
+        pos.needsUpdate = true;
+      });
+
+      if (renderer && scene && camera) {
+        renderer.render(scene, camera);
+      }
+    }
+
+    // =========================================================================
+    // 6. 2D HULL/HYDROFOIL CANVAS & SONAR HUD RENDERERS (WITH MAXJIM WATERMARK)
+    // =========================================================================
+    function drawCanvasWatermark(ctx, w, h, isLarge = false) {
+      ctx.save();
+      ctx.translate(w / 2, h / 2);
+      ctx.rotate(-0.34);
+      ctx.fillStyle = 'rgba(34, 211, 238, 0.11)';
+      ctx.font = `bold ${isLarge ? 20 : 12}px "Inter", sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText('肇祥企業社 MaxJim Tech Inc.', 0, 0);
+      if (isLarge) {
+        ctx.font = '11px "JetBrains Mono", monospace';
+        ctx.fillText('https://maxjimtech.com/ • 0931-675001', 0, 18);
+      }
+      ctx.restore();
+
+      ctx.save();
+      ctx.fillStyle = 'rgba(34, 211, 238, 0.55)';
+      ctx.font = 'bold 9px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right';
+      ctx.fillText('MaxJim Tech • 肇祥企業社', w - 8, 15);
+      ctx.restore();
+    }
+
+    function drawHydroCanvas(canvasId, isLarge = false) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      ctx.strokeStyle = 'rgba(15, 34, 61, 0.85)';
+      ctx.lineWidth = 1;
+      const step = isLarge ? 35 : 24;
+      for (let x = 0; x < w; x += step) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+      for (let y = 0; y < h; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+      const coords = computeHydroProfileCoords(STATE.hydroProfile, 45, STATE.divePlane);
+      const padX = isLarge ? 70 : 38;
+      const lenPx = w - padX * 2;
+      const centerY = h * 0.54;
+      const aoaRad = (-STATE.pitchAoA * Math.PI) / 180;
+
+      const toScreen = (pt) => {
+        const dx = pt.x - 0.35;
+        const dy = pt.y;
+        const rx = 0.35 + dx * Math.cos(aoaRad) - dy * Math.sin(aoaRad);
+        const ry = dx * Math.sin(aoaRad) + dy * Math.cos(aoaRad);
+        return { x: padX + rx * lenPx, y: centerY - ry * lenPx * 1.4 };
+      };
+
+      // Draw incoming water streamlines
+      const isCav = STATE.results?.hydro?.isCavitating;
+      const nLines = isLarge ? 9 : 5;
+      ctx.lineWidth = 1.2;
+      for (let i = 0; i < nLines; i++) {
+        const baseY = (h / (nLines + 1)) * (i + 1);
+        ctx.strokeStyle = (isCav && baseY < centerY) ? 'rgba(244, 63, 94, 0.55)' : 'rgba(6, 182, 212, 0.42)';
+        ctx.beginPath();
+        for (let sx = 6; sx < w - 6; sx += 10) {
+          const normX = (sx - padX) / lenPx;
+          let sy = baseY;
+          if (normX > -0.15 && normX < 1.15) {
+            const inf = Math.sin(Math.max(0, Math.min(1, (normX + 0.1) / 1.2)) * Math.PI);
+            sy -= (baseY < centerY ? 16 : -14) * inf;
+          }
+          if (sx === 6) ctx.moveTo(sx, sy);
+          else ctx.lineTo(sx, sy);
+        }
+        ctx.stroke();
+      }
+
+      // Draw Cp low-pressure suction / cavitation envelope
+      ctx.fillStyle = isCav ? 'rgba(244, 63, 94, 0.22)' : 'rgba(6, 182, 212, 0.18)';
+      ctx.beginPath();
+      coords.upper.forEach((pt, idx) => {
+        const sc = toScreen(pt);
+        if (idx === 0) ctx.moveTo(sc.x, sc.y);
+        else ctx.lineTo(sc.x, sc.y);
+      });
+      for (let i = coords.upper.length - 1; i >= 0; i--) {
+        const pt = coords.upper[i];
+        const sc = toScreen(pt);
+        const cpH = Math.max(0, Math.sin(pt.x * Math.PI) * (20 + STATE.speed * 1.8));
+        ctx.lineTo(sc.x, sc.y - cpH);
+      }
+      ctx.closePath();
+      ctx.fill();
+
+      // Draw Hull / Hydrofoil Body
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.96)';
+      ctx.strokeStyle = '#22d3ee';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      coords.upper.forEach((pt, idx) => {
+        const sc = toScreen(pt);
+        if (idx === 0) ctx.moveTo(sc.x, sc.y);
+        else ctx.lineTo(sc.x, sc.y);
+      });
+      for (let i = coords.lower.length - 1; i >= 0; i--) {
+        const sc = toScreen(coords.lower[i]);
+        ctx.lineTo(sc.x, sc.y);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Centerline & CB/CG dots
+      ctx.strokeStyle = '#34d399';
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath();
+      coords.centerline.forEach((pt, idx) => {
+        const sc = toScreen(pt);
+        if (idx === 0) ctx.moveTo(sc.x, sc.y);
+        else ctx.lineTo(sc.x, sc.y);
+      });
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px "JetBrains Mono", monospace';
+      ctx.fillText(`V = ${STATE.speed.toFixed(1)}m/s | d = ${STATE.depth}m | σ_v = ${(STATE.results?.hydro?.sigma_v || 0).toFixed(2)}`, 10, 16);
+      if (isLarge) {
+        ctx.fillStyle = '#34d399';
+        ctx.fillText('青色包絡: 表面動壓吸力區 Cp(x/L) | 虛線: 艇體軸心線 | 紅色警示: 低於臨界空蝕壓區', 10, h - 10);
+      }
+      drawCanvasWatermark(ctx, w, h, isLarge);
+    }
+
+    function drawHudSonar() {
+      const canvas = document.getElementById('HudSonarCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const cx = w / 2, cy = h / 2 + 8;
+      // Radar/Sonar Sweep Circles
+      ctx.strokeStyle = 'rgba(6, 182, 212, 0.32)';
+      ctx.lineWidth = 1;
+      [22, 42, 60].forEach(r => {
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, Math.PI, 0, false);
+        ctx.stroke();
+      });
+
+      // Pitch / Depth Horizon Bar
+      const pitchY = cy - 18 - STATE.pitchAoA * 1.4;
+      ctx.strokeStyle = '#34d399';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(cx - 35, pitchY);
+      ctx.lineTo(cx + 35, pitchY);
+      ctx.stroke();
+
+      // Digital Readouts
+      ctx.fillStyle = '#22d3ee';
+      ctx.font = 'bold 10px "JetBrains Mono", monospace';
+      ctx.fillText(`SPD ${(STATE.speed * 1.9438).toFixed(1)}kt`, 6, 14);
+      ctx.fillText(`DEP ${STATE.depth}m`, w - 72, 14);
+      ctx.fillStyle = '#34d399';
+      ctx.fillText(`P ${(STATE.results?.hydro?.ocean?.P_MPa || 0).toFixed(1)}MPa`, 6, h - 6);
+      ctx.fillStyle = 'rgba(34, 211, 238, 0.45)';
+      ctx.font = 'bold 8px "JetBrains Mono", monospace';
+      ctx.fillText('MaxJim Tech', cx - 26, h - 6);
+    }
+
+    // =========================================================================
+    // 7. CHART.JS MULTI-CHART ENGINE (9 REAL-TIME SUBSEA CHARTS)
+    // =========================================================================
+    const CHARTS = {};
+
+    const commonChartOptions = (xLabel, yLabel) => ({
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 180 },
+      plugins: {
+        legend: { labels: { color: '#cbd5e1', font: { size: 10, family: 'Inter' }, boxWidth: 12 } }
+      },
+      scales: {
+        x: {
+          title: { display: !!xLabel, text: xLabel, color: '#94a3b8', font: { size: 10 } },
+          ticks: { color: '#94a3b8', font: { size: 9 } },
+          grid: { color: 'rgba(30, 58, 95, 0.35)' }
+        },
+        y: {
+          title: { display: !!yLabel, text: yLabel, color: '#94a3b8', font: { size: 10 } },
+          ticks: { color: '#94a3b8', font: { size: 9 } },
+          grid: { color: 'rgba(30, 58, 95, 0.35)' }
+        }
+      }
+    });
+
+    function initAllCharts() {
+      if (window.Chart) {
+        Chart.register({
+          id: 'maxJimTechWatermark',
+          afterDraw: (chart) => {
+            const { ctx, width, height } = chart;
+            ctx.save();
+            ctx.translate(width / 2, height / 2);
+            ctx.rotate(-0.32);
+            ctx.fillStyle = 'rgba(34, 211, 238, 0.10)';
+            ctx.font = 'bold 15px "Inter", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('肇祥企業社 MaxJim Tech Inc.', 0, 0);
+            ctx.font = '10px "JetBrains Mono", monospace';
+            ctx.fillText('https://maxjimtech.com/', 0, 15);
+            ctx.restore();
+
+            ctx.save();
+            ctx.fillStyle = 'rgba(34, 211, 238, 0.50)';
+            ctx.font = 'bold 9px "JetBrains Mono", monospace';
+            ctx.textAlign = 'right';
+            ctx.fillText('肇祥企業社 MaxJim Tech Inc.', width - 8, height - 6);
+            ctx.restore();
+          }
+        });
+      }
+
+      const makeLine = (id, xl, yl) => {
+        const ctx = document.getElementById(id)?.getContext('2d');
+        if (!ctx) return null;
+        return new Chart(ctx, { type: 'line', data: { labels: [], datasets: [] }, options: commonChartOptions(xl, yl) });
+      };
+
+      CHARTS.miniHydro = makeLine('StudioMiniHydroChart', '航速 V (m/s)', '總水阻 RT (kN)');
+      CHARTS.hullProfile = makeLine('ChartHullProfile', '軸向位置 x/L', '無因次半徑 r/R & -Cp');
+      CHARTS.dragSpeed = makeLine('ChartDragSpeed', '水下航速 V (m/s)', '水下總阻力 RT (N)');
+      CHARTS.powerSpeed = makeLine('ChartPowerSpeed', '水下航速 V (m/s)', '需用推進軸功率 P (kW)');
+      CHARTS.cavitation = makeLine('ChartCavitation', '水下航速 V (m/s)', '空蝕數 σ_v');
+      CHARTS.hydroPolar = makeLine('ChartHydroPolar', '俯仰攻角 α (°)', '升力 CL / 升阻比(÷10)');
+
+      const ctxSim = document.getElementById('ChartDiveTelemetry')?.getContext('2d');
+      if (ctxSim) {
+        CHARTS.diveSim = new Chart(ctxSim, {
+          type: 'line',
+          data: {
+            labels: Array.from({ length: 40 }, (_, i) => `${(i * 0.5).toFixed(1)}s`),
+            datasets: [
+              { label: '俯仰角 θ (°)', data: [], borderColor: '#34d399', borderWidth: 2, tension: 0.3, pointRadius: 0 },
+              { label: '深度變化 Δz (m)', data: [], borderColor: '#22d3ee', borderWidth: 2, tension: 0.3, pointRadius: 0 },
+              { label: '耐壓殼應力比 σ/σ_y (×20)', data: [], borderColor: '#fbbf24', borderWidth: 1.8, borderDash: [4, 2], tension: 0.3, pointRadius: 0 }
+            ]
+          },
+          options: commonChartOptions('模擬時間 Time (s)', '動態物理量響應')
+        });
+      }
+
+      CHARTS.hullStress = makeLine('ChartHullStressDepth', '下潛深度 Depth (m)', '耐壓殼 Von Mises 應力 (MPa)');
+
+      const ctxRadar = document.getElementById('ChartCompareRadar')?.getContext('2d');
+      if (ctxRadar) {
+        CHARTS.radar = new Chart(ctxRadar, {
+          type: 'radar',
+          data: {
+            labels: ['極限耐壓深度', '低阻巡航效率', '推進抗空蝕裕度', '長航時續航力', '強海流頂流能力', '聲學匿蹤靜音度'],
+            datasets: []
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                min: 0, max: 100,
+                angleLines: { color: 'rgba(30, 58, 95, 0.5)' },
+                grid: { color: 'rgba(30, 58, 95, 0.5)' },
+                pointLabels: { color: '#e2e8f0', font: { size: 11 } },
+                ticks: { display: false }
+              }
+            },
+            plugins: { legend: { labels: { color: '#cbd5e1', font: { size: 11 } } } }
+          }
+        });
+      }
+    }
+
+    function updateAllCharts() {
+      const speeds = [];
+      const dragAug = [], dragBase = [], pwrAug = [], pwrBase = [], cavSigma = [], cavCrit = [];
+      for (let v = 0.5; v <= 16.0; v += 1.0) {
+        speeds.push(`${v.toFixed(1)}`);
+        const ha = evalHydroAtCondition(v, STATE.pitchAoA, STATE.depth, true);
+        const hb = evalHydroAtCondition(v, STATE.pitchAoA, STATE.depth, false);
+        dragAug.push(Number(ha.dragN.toFixed(1)));
+        dragBase.push(Number(hb.dragN.toFixed(1)));
+        pwrAug.push(Number(ha.shaftPowerKW.toFixed(2)));
+        pwrBase.push(Number(hb.shaftPowerKW.toFixed(2)));
+        cavSigma.push(Number(Math.min(12, ha.sigma_v).toFixed(2)));
+        cavCrit.push(Number(ha.cavThreshold.toFixed(2)));
+      }
+
+      if (CHARTS.miniHydro) {
+        CHARTS.miniHydro.data.labels = speeds;
+        CHARTS.miniHydro.data.datasets = [
+          { label: '補強後水阻 (N)', data: dragAug, borderColor: '#22d3ee', borderWidth: 2, pointRadius: 0, tension: 0.3 },
+          { label: '原生基準水阻 (N)', data: dragBase, borderColor: '#64748b', borderDash: [4, 2], borderWidth: 1.5, pointRadius: 0, tension: 0.3 }
+        ];
+        CHARTS.miniHydro.update('none');
+      }
+
+      if (CHARTS.hullProfile) {
+        const coords = computeHydroProfileCoords(STATE.hydroProfile, 25, 0);
+        const xLabs = coords.upper.map(p => p.x.toFixed(2));
+        const rVals = coords.upper.map(p => Number((p.y / (coords.pf.tRatio * 0.5)).toFixed(3)));
+        const cpVals = coords.upper.map(p => Number((Math.sin(p.x * Math.PI) * Math.abs(coords.pf.cpMin)).toFixed(3)));
+        CHARTS.hullProfile.data.labels = xLabs;
+        CHARTS.hullProfile.data.datasets = [
+          { label: '艇體半徑分佈 r(x)/R', data: rVals, borderColor: '#22d3ee', backgroundColor: 'rgba(34, 211, 238, 0.15)', fill: true, borderWidth: 2, pointRadius: 0 },
+          { label: '表面負壓吸力係數 -Cp(x)', data: cpVals, borderColor: '#34d399', borderDash: [4, 2], borderWidth: 1.8, pointRadius: 0 }
+        ];
+        CHARTS.hullProfile.update('none');
+      }
+
+      if (CHARTS.dragSpeed) {
+        CHARTS.dragSpeed.data.labels = speeds;
+        CHARTS.dragSpeed.data.datasets = [
+          { label: '補強後總阻力 RT (N)', data: dragAug, borderColor: '#34d399', backgroundColor: 'rgba(52, 211, 153, 0.12)', fill: true, borderWidth: 2.2, pointRadius: 1.5 },
+          { label: '原生基準總阻力 (N)', data: dragBase, borderColor: '#64748b', borderDash: [4, 3], borderWidth: 1.5, pointRadius: 0 }
+        ];
+        CHARTS.dragSpeed.update('none');
+      }
+
+      if (CHARTS.powerSpeed) {
+        CHARTS.powerSpeed.data.labels = speeds;
+        CHARTS.powerSpeed.data.datasets = [
+          { label: '補強後需用軸功率 (kW)', data: pwrAug, borderColor: '#22d3ee', backgroundColor: 'rgba(34, 211, 238, 0.12)', fill: true, borderWidth: 2.2, pointRadius: 1.5 },
+          { label: '原生基準軸功率 (kW)', data: pwrBase, borderColor: '#64748b', borderDash: [4, 3], borderWidth: 1.5, pointRadius: 0 }
+        ];
+        CHARTS.powerSpeed.update('none');
+      }
+
+      if (CHARTS.cavitation) {
+        CHARTS.cavitation.data.labels = speeds;
+        CHARTS.cavitation.data.datasets = [
+          { label: '推進器空蝕數 σ_v(V)', data: cavSigma, borderColor: '#fbbf24', borderWidth: 2.2, pointRadius: 1.5 },
+          { label: '臨界空蝕起始門檻 σ_crit', data: cavCrit, borderColor: '#f43f5e', borderDash: [5, 3], borderWidth: 1.8, pointRadius: 0 }
+        ];
+        CHARTS.cavitation.update('none');
+      }
+
+      if (CHARTS.hydroPolar) {
+        const aoas = [], clList = [], ldList = [];
+        for (let a = -12; a <= 16; a += 2) {
+          aoas.push(`${a}°`);
+          const h = evalHydroAtCondition(STATE.speed, a, STATE.depth, true);
+          clList.push(Number(h.CL.toFixed(3)));
+          ldList.push(Number(((h.CL / Math.max(0.01, h.Cd_frontal)) * 0.25).toFixed(3)));
+        }
+        CHARTS.hydroPolar.data.labels = aoas;
+        CHARTS.hydroPolar.data.datasets = [
+          { label: '水翼升力係數 CL(α)', data: clList, borderColor: '#c084fc', borderWidth: 2, pointRadius: 1.5 },
+          { label: '水下升阻比效率 (縮放)', data: ldList, borderColor: '#34d399', borderDash: [4, 2], borderWidth: 1.8, pointRadius: 0 }
+        ];
+        CHARTS.hydroPolar.update('none');
+      }
+
+      if (CHARTS.hullStress && STATE.results) {
+        const dLabs = [], vmCurve = [], yieldLine = [];
+        const R_m = STATE.hullDia * 0.5;
+        const t_m = Math.max(0.004, STATE.wallThick / 1000);
+        const stiff = STATE.augHullMaterial === 'ceramic_al2o3' ? 0.52 : 0.72;
+        const matYield = STATE.results.matCfg.yieldMPa;
+        for (let d = 0; d <= 11000; d += 1000) {
+          dLabs.push(`${d}m`);
+          const oc = computeOceanEnvironment(d);
+          const sh = oc.P_MPa * (R_m / t_m) * stiff;
+          const sx = sh * 0.5;
+          const vm = Math.sqrt(sh * sh - sh * sx + sx * sx);
+          vmCurve.push(Number(vm.toFixed(1)));
+          yieldLine.push(matYield);
+        }
+        CHARTS.hullStress.data.labels = dLabs;
+        CHARTS.hullStress.data.datasets = [
+          { label: '耐壓殼 Von Mises 應力 (MPa)', data: vmCurve, borderColor: '#22d3ee', backgroundColor: 'rgba(34, 211, 238, 0.15)', fill: true, borderWidth: 2.2 },
+          { label: `材料降伏/壓潰極限 (${matYield} MPa)`, data: yieldLine, borderColor: '#f43f5e', borderDash: [5, 3], borderWidth: 1.8, pointRadius: 0 }
+        ];
+        CHARTS.hullStress.update('none');
+      }
+
+      if (CHARTS.radar && STATE.results) {
+        const refM = GLOBAL_UUV_LIBRARY.find(m => m.id === STATE.compareModelId) || GLOBAL_UUV_LIBRARY[1];
+        const res = STATE.results;
+        const curScores = [
+          Math.min(98, Math.round((res.collapseDepthM / 7000) * 85)),
+          Math.min(98, Math.round((0.08 / Math.max(0.02, res.hydro.Cd_frontal)) * 70)),
+          Math.min(98, Math.round(res.hydro.V_cav * 5.8)),
+          Math.min(98, Math.round(Math.log10(res.estEnduranceHr + 1) * 42)),
+          Math.min(98, Math.round(res.propCfg.thrustFactor * 74)),
+          Math.min(98, Math.round(72 + AUG_COATING[STATE.augCoating].acousticDbReduction * 1.4))
+        ];
+        const refScores = [
+          Math.min(95, Math.round((refM.maxRatingDepth / 7000) * 82)),
+          75,
+          72,
+          Math.min(95, Math.round(Math.log10(refM.baseEnduranceHr + 1) * 40)),
+          76,
+          74
+        ];
+        CHARTS.radar.data.datasets = [
+          { label: '當前水下工作台設計 (含深海補強)', data: curScores, borderColor: '#22d3ee', backgroundColor: 'rgba(34, 211, 238, 0.25)', borderWidth: 2 },
+          { label: `對照標竿：${refM.name.split(' ')[0]}`, data: refScores, borderColor: '#34d399', backgroundColor: 'rgba(52, 211, 153, 0.15)', borderWidth: 2 }
+        ];
+        CHARTS.radar.update('none');
+      }
+    }
+
+    // =========================================================================
+    // 8. UI SYNCHRONIZATION, LIBRARY RENDERING, BOM & AUTOMATED SUBSEA TESTS
+    // =========================================================================
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('ToastContainer');
+      if (!container) return;
+      const el = document.createElement('div');
+      const borderCol = type === 'success' ? 'border-emerald-400 bg-emerald-950/90 text-emerald-200' : 'border-cyan-400 bg-slate-900/95 text-cyan-200';
+      el.className = `px-3.5 py-2 rounded-xl border ${borderCol} text-xs font-medium shadow-xl transition-all duration-300 pointer-events-auto flex items-center gap-2`;
+      el.innerHTML = `<span>✦</span><span>${msg}</span>`;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 300);
+      }, 3200);
+    }
+
+    function loadModelIntoStudio(modelId, applyRecommendedAug = false) {
+      const m = GLOBAL_UUV_LIBRARY.find(x => x.id === modelId) || GLOBAL_UUV_LIBRARY[0];
+      STATE.selectedModelId = m.id;
+      STATE.hullType = m.hullType;
+      STATE.hydroProfile = m.hydroProfile;
+      STATE.hullLen = m.hullLen;
+      STATE.hullDia = m.hullDia;
+      STATE.finSpan = m.finSpan;
+      STATE.wallThick = m.wallThick;
+      STATE.mass = m.mass;
+      STATE.sternType = m.sternType;
+      STATE.thrusterCount = m.thrusterCount;
+      STATE.speed = m.cruiseSpeed;
+      STATE.depth = m.defaultDepth;
+      STATE.maxRatingDepth = m.maxRatingDepth;
+      STATE.baseEnduranceHr = m.baseEnduranceHr;
+      STATE.maxThrustN = m.maxThrustN;
+      STATE.pitchAoA = 1.5;
+      STATE.ballastN = 12;
+
+      if (applyRecommendedAug && m.recAug) {
+        STATE.augPropulsor = m.recAug.propulsor;
+        STATE.augCoating = m.recAug.coating;
+        STATE.augHullMaterial = m.recAug.material;
+        STATE.augSubseaEnergy = m.recAug.energy;
+      } else {
+        STATE.augPropulsor = 'open_skew';
+        STATE.augCoating = 'marine_std';
+        STATE.augHullMaterial = 'ti6al4v';
+        STATE.augSubseaEnergy = 'li_ion_pod';
+      }
+
+      syncControlsFromState();
+      refreshAllCalculationsAndViews(true);
+      renderLibraryDetailPanel(m.id);
+    }
+
+    function syncControlsFromState() {
+      const setVal = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+      setVal('QuickModelSelect', STATE.selectedModelId);
+      setVal('ParamHullType', STATE.hullType);
+      setVal('ParamHydroProfile', STATE.hydroProfile);
+      setVal('LabProfileSelect', STATE.hydroProfile);
+      setVal('SliderHullLen', STATE.hullLen);
+      setVal('SliderHullDia', STATE.hullDia);
+      setVal('SliderFinSpan', STATE.finSpan);
+      setVal('SliderWallThick', STATE.wallThick);
+      setVal('SliderMass', STATE.mass);
+      setVal('SliderBallast', STATE.ballastN);
+      setVal('ParamSternType', STATE.sternType);
+      setVal('ParamThrusterCount', String(STATE.thrusterCount));
+
+      setVal('AugPropulsor', STATE.augPropulsor);
+      setVal('AugCoating', STATE.augCoating);
+      setVal('AugHullMaterial', STATE.augHullMaterial);
+      setVal('AugSubseaEnergy', STATE.augSubseaEnergy);
+      const sEl = document.getElementById('AugSasSonar'); if (sEl) sEl.checked = STATE.augSasSonar;
+      const mEl = document.getElementById('AugManipulator'); if (mEl) mEl.checked = STATE.augManipulator;
+
+      setVal('SliderSpeed', STATE.speed);
+      setVal('SliderDepth', STATE.depth);
+      setVal('SliderPitchAoA', STATE.pitchAoA);
+      setVal('SliderDriftBeta', STATE.driftBeta);
+      setVal('SliderDivePlane', STATE.divePlane);
+      setVal('SliderRudder', STATE.rudder);
+      setVal('SliderCurrent', STATE.current);
+      setVal('SliderThrottle', STATE.throttle);
+    }
+
+    function refreshAllCalculationsAndViews(rebuild3D = false) {
+      const res = solveHydrodynamicsAndPressureHull();
+      const setTxt = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+
+      // Slider Value Labels
+      setTxt('ValHullLen', `${STATE.hullLen.toFixed(2)} m`);
+      setTxt('ValHullDia', `${STATE.hullDia.toFixed(2)} m`);
+      setTxt('ValFinSpan', `${STATE.finSpan.toFixed(2)} m`);
+      setTxt('ValWallThick', `${STATE.wallThick.toFixed(1)} mm`);
+      setTxt('ValMass', `${STATE.mass >= 100 ? STATE.mass.toFixed(0) : STATE.mass.toFixed(1)} kg`);
+      setTxt('ValBallast', `${STATE.ballastN >= 0 ? '+' : ''}${STATE.ballastN.toFixed(0)} N`);
+      setTxt('ValSpeed', `${STATE.speed.toFixed(1)} m/s (${(STATE.speed * 1.9438).toFixed(1)} kt)`);
+      setTxt('ValDepth', `${STATE.depth.toFixed(0)} m`);
+      setTxt('ValPitchAoA', `${STATE.pitchAoA.toFixed(1)}°`);
+      setTxt('ValDriftBeta', `${STATE.driftBeta.toFixed(1)}°`);
+      setTxt('ValDivePlane', `${STATE.divePlane.toFixed(1)}°`);
+      setTxt('ValRudder', `${STATE.rudder.toFixed(1)}°`);
+      setTxt('ValCurrent', `${STATE.current.toFixed(1)} m/s (${(STATE.current * 1.9438).toFixed(1)} kt)`);
+      setTxt('ValThrottle', `${STATE.throttle}%`);
+
+      const curM = GLOBAL_UUV_LIBRARY.find(m => m.id === STATE.selectedModelId);
+      setTxt('ActiveCategoryBadge', curM ? curM.catBadge : 'CUSTOM UUV');
+
+      let augCnt = 0;
+      if (STATE.augPropulsor !== 'open_skew') augCnt++;
+      if (STATE.augCoating !== 'marine_std') augCnt++;
+      if (STATE.augHullMaterial !== 'al6061') augCnt++;
+      if (STATE.augSubseaEnergy !== 'li_ion_pod') augCnt++;
+      setTxt('AugmentStatusBadge', `已啟用 ${augCnt} 項深海補強`);
+
+      // Top KPI Bar
+      setTxt('TopKpiRe', `${(res.hydro.Re_L / 1e6).toFixed(1)}×10⁶`);
+      setTxt('TopKpiPressure', `${res.hydro.ocean.P_MPa.toFixed(2)} MPa`);
+      setTxt('TopKpiCD', res.hydro.Cd_frontal.toFixed(3));
+      setTxt('TopKpiCav', `${res.hydro.sigma_v.toFixed(2)} ${res.hydro.isCavitating ? '(空蝕警告!)' : '(無空蝕)'}`);
+      setTxt('TopKpiBG', `+${res.hydro.BG_mm.toFixed(1)} mm`);
+      setTxt('TopKpiSF', `SF = ${res.safetyFactor.toFixed(2)}`);
+      setTxt('TopKpiBuoyancy', `${STATE.ballastN >= 0 ? '+' : ''}${STATE.ballastN.toFixed(0)} N (${STATE.ballastN >= 0 ? '正浮' : '負浮'})`);
+      setTxt('TopKpiEndurance', `${res.estEnduranceHr.toFixed(0)}h / ${res.estRangeKm.toFixed(0)}km`);
+
+      // Right Panel Telemetry
+      const regimeEl = document.getElementById('HydroRegimeTag');
+      if (regimeEl) {
+        if (res.isHullDanger) {
+          regimeEl.textContent = '耐壓殼壓潰危險 (COLLAPSE RISK)';
+          regimeEl.className = 'text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40';
+        } else if (res.hydro.isCavitating) {
+          regimeEl.textContent = '推進器空蝕發生中 (CAVITATION)';
+          regimeEl.className = 'text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40';
+        } else {
+          regimeEl.textContent = '無空蝕穩定深海潛航';
+          regimeEl.className = 'text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        }
+      }
+
+      setTxt('MetricBuoyancyN', `${res.buoyancyN.toLocaleString('en-US', { maximumFractionDigits: 0 })} N`);
+      setTxt('MetricNetBuoy', `淨浮力: ${STATE.ballastN >= 0 ? '+' : ''}${STATE.ballastN.toFixed(0)} N (${STATE.ballastN >= 0 ? '微正浮安全' : '負浮下潛'})`);
+      setTxt('MetricDragN', `${res.hydro.dragN.toLocaleString('en-US', { maximumFractionDigits: 0 })} N`);
+      setTxt('MetricDragBreak', `Cf: ${res.hydro.Cf.toFixed(4)} | Cd: ${res.hydro.Cd_frontal.toFixed(3)}`);
+      setTxt('MetricHoopStress', `${res.sigma_vm.toFixed(0)} MPa`);
+      setTxt('MetricCollapseDepth', `壓潰極限: ${res.collapseDepthM.toFixed(0)} m (SF ${res.safetyFactor.toFixed(2)})`);
+      setTxt('MetricVcav', `${res.hydro.V_cav.toFixed(1)} m/s`);
+      setTxt('MetricShaftPower', `推進軸功率: ${res.hydro.shaftPowerKW.toFixed(2)} kW`);
+      setTxt('MetricRhoAndP', `${res.hydro.ocean.rho_sw.toFixed(1)} kg/m³ | ${res.hydro.ocean.P_bar.toFixed(1)} bar`);
+      setTxt('MetricSoundSpeed', `${res.hydro.ocean.c_sound.toFixed(1)} m/s | ${res.hydro.ocean.T_C.toFixed(1)} °C`);
+      setTxt('MetricWetArea', `${res.hydro.Swet.toFixed(1)} m² | L/D = ${res.hydro.slenderness.toFixed(2)}`);
+      setTxt('MetricBGStability', `+${res.hydro.BG_mm.toFixed(1)} mm | ${res.restoringMomentPerRad.toFixed(0)} N·m/rad`);
+      setTxt('MiniProfileName', STATE.hydroProfile);
+
+      // Hydro Lab Metrics
+      setTxt('LabMetricSlenderness', `${res.hydro.slenderness.toFixed(2)} / Cp ${res.hydro.pf.cpPrismatic.toFixed(2)}`);
+      setTxt('LabMetricCpMin', `${res.hydro.pf.cpMin.toFixed(2)} @ 22%L`);
+      setTxt('LabMetricCavMargin', `${(res.hydro.sigma_v / Math.abs(res.hydro.pf.cpMin)).toFixed(1)}x (${res.hydro.isCavitating ? '空蝕警告' : '極安全'})`);
+
+      // Pressure Hull & BOM Tab
+      setTxt('StructHydroPress', `${res.hydro.ocean.P_MPa.toFixed(2)} MPa`);
+      setTxt('StructVonMises', `${res.sigma_vm.toFixed(0)} MPa`);
+      setTxt('StructCollapseDepth', `${res.collapseDepthM.toFixed(0)} m`);
+      setTxt('StructSafetyBadge', `SF = ${res.safetyFactor.toFixed(2)} (${res.safetyFactor >= 1.5 ? '深海安全' : '需加厚/換材'})`);
+      setTxt('MetricDispVol', `${res.dispVolumeM3.toFixed(2)} m³`);
+      setTxt('InertiaIxx', `${res.Ixx.toFixed(0)} kg·m²`);
+      setTxt('InertiaIyy', `${res.Iyy.toFixed(0)} kg·m²`);
+      renderBomTable(res);
+
+      if (rebuild3D) {
+        rebuildUUV3DModel();
+      } else {
+        update3DPhysicsOverlays();
+      }
+      drawHydroCanvas('MiniHydroCanvas', false);
+      drawHydroCanvas('LabLargeHydroCanvas', true);
+      drawHudSonar();
+      updateAllCharts();
+    }
+
+    function renderBomTable(res) {
+      const tbody = document.getElementById('BomTableBody');
+      if (!tbody) return;
+      const M = res.effMass;
+      const items = [
+        { name: '主耐壓艙體與環肋結構 (Pressure Hull & Rings)', spec: `${res.matCfg.name} (壁厚 ${STATE.wallThick}mm)`, ratio: 0.32, z: -0.04 },
+        { name: '高抗壓合成泡棉浮力塊 (Syntactic Foam)', spec: '深海空心玻璃/陶瓷微珠複合浮力材', ratio: 0.16, z: +0.28 },
+        { name: '水下推進器與導流罩組 (Propulsor & Shroud)', spec: `${STATE.thrusterCount}具 • ${res.propCfg.name}`, ratio: 0.12, z: 0.00 },
+        { name: '深海儲能與配電系統 (Subsea Energy Pack)', spec: res.engCfg.name, ratio: 0.24, z: -0.18 },
+        { name: '光纖慣導、DVL 與聲學通訊 (INS/DVL/USBL)', spec: '戰術級 FOG 慣導 + 相控陣計程儀 + 衛通桅杆', ratio: 0.07, z: +0.05 },
+        { name: '合成孔徑聲納與機械臂酬載 (SAS & Manipulator)', spec: STATE.augSasSonar ? '雙頻 HISAS 聲納陣列 + 深海任務模組' : '標準前視避碰聲納', ratio: 0.09, z: -0.12 }
+      ];
+
+      tbody.innerHTML = items.map(it => {
+        const wKg = M * it.ratio;
+        return `<tr class="hover:bg-slate-800/40">
+          <td class="py-1.5 px-2 font-sans text-slate-200 font-medium">${it.name}</td>
+          <td class="py-1.5 px-2 font-sans text-cyan-300">${it.spec}</td>
+          <td class="py-1.5 px-2 text-right text-slate-200">${wKg.toFixed(1)}</td>
+          <td class="py-1.5 px-2 text-right text-emerald-400">${(it.ratio * 100).toFixed(0)}%</td>
+          <td class="py-1.5 px-2 text-right text-amber-300">${it.z >= 0 ? '+' : ''}${it.z.toFixed(2)}</td>
+        </tr>`;
+      }).join('');
+
+      const estCost = Math.round(M * res.matCfg.costPerKg * 1.35 + 18500);
+      const badge = document.getElementById('BomTotalCostBadge');
+      if (badge) badge.textContent = `總質量: ${M.toFixed(1)} kg | 預估 BOM: $${estCost.toLocaleString('en-US')}`;
+    }
+
+    function renderGlobalLibrary() {
+      const grid = document.getElementById('ModelLibraryGrid');
+      const searchQ = (document.getElementById('LibrarySearchInput')?.value || '').toLowerCase();
+      const catFilter = document.getElementById('LibraryFilterCat')?.value || 'ALL';
+      const countBadge = document.getElementById('LibraryCountBadge');
+      if (countBadge) countBadge.textContent = String(GLOBAL_UUV_LIBRARY.length);
+      if (!grid) return;
+
+      const filtered = GLOBAL_UUV_LIBRARY.filter(m => {
+        const matchCat = catFilter === 'ALL' || m.category === catFilter;
+        const matchText = !searchQ || m.name.toLowerCase().includes(searchQ) || m.origin.toLowerCase().includes(searchQ) || m.hydroProfile.toLowerCase().includes(searchQ) || m.desc.toLowerCase().includes(searchQ);
+        return matchCat && matchText;
+      });
+
+      grid.innerHTML = filtered.map(m => {
+        const isSel = m.id === STATE.selectedModelId;
+        return `<div data-model-card="${m.id}" class="model-card glass-panel rounded-xl p-3 cursor-pointer transition-all hover:border-cyan-400/70 ${isSel ? 'border-cyan-400 ring-1 ring-cyan-400/40 bg-cyan-950/20' : ''}">
+          <div class="flex items-center justify-between gap-1 mb-1">
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300">${m.catBadge}</span>
+            <span class="text-[10px] font-mono text-slate-400">${m.origin}</span>
+          </div>
+          <h4 class="text-xs font-bold text-white truncate">${m.name}</h4>
+          <p class="text-[11px] text-slate-400 line-clamp-2 mt-1 h-8">${m.desc}</p>
+          <div class="grid grid-cols-3 gap-1 mt-2 pt-2 border-t border-slate-800/80 font-mono text-[10px]">
+            <div><span class="text-slate-500 block">艇長/尺寸</span><span class="text-cyan-300">${m.hullLen}m</span></div>
+            <div><span class="text-slate-500 block">最大潛深</span><span class="text-emerald-300">${m.maxRatingDepth}m</span></div>
+            <div><span class="text-slate-500 block">續航</span><span class="text-amber-300">${m.baseEnduranceHr}h</span></div>
+          </div>
+        </div>`;
+      }).join('');
+
+      grid.querySelectorAll('[data-model-card]').forEach(card => {
+        card.addEventListener('click', () => {
+          const id = card.getAttribute('data-model-card');
+          renderLibraryDetailPanel(id);
+          loadModelIntoStudio(id, false);
+          renderGlobalLibrary();
+          showToast(`已載入「${GLOBAL_UUV_LIBRARY.find(x => x.id === id)?.name}」至 3D 水槽設計台`);
+        });
+      });
+    }
+
+    function renderLibraryDetailPanel(modelId) {
+      const m = GLOBAL_UUV_LIBRARY.find(x => x.id === modelId) || GLOBAL_UUV_LIBRARY[0];
+      const setTxt = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+      setTxt('LibDetailOrigin', `${m.origin} • ${m.catBadge}`);
+      setTxt('LibDetailTitle', m.name);
+      setTxt('LibDetailDesc', m.desc);
+      setTxt('LibDetailWeakness', `⚠️ 原生深海/水動力瓶頸：${m.weakness}`);
+      setTxt('LibDetailAugmentPlan', `✦ 專屬工程補強建議：${m.augmentPlan}`);
+
+      const specsGrid = document.getElementById('LibDetailSpecsGrid');
+      if (specsGrid) {
+        specsGrid.innerHTML = `
+          <div class="bg-slate-900 p-2 rounded border border-slate-800"><span class="text-[10px] text-slate-400 block">艇長 Length</span><span class="font-mono font-bold text-cyan-300">${m.hullLen} m</span></div>
+          <div class="bg-slate-900 p-2 rounded border border-slate-800"><span class="text-[10px] text-slate-400 block">排水量 Mass</span><span class="font-mono font-bold text-emerald-300">${m.mass} kg</span></div>
+          <div class="bg-slate-900 p-2 rounded border border-slate-800"><span class="text-[10px] text-slate-400 block">最大潛深</span><span class="font-mono font-bold text-amber-300">${m.maxRatingDepth} m</span></div>
+          <div class="bg-slate-900 p-2 rounded border border-slate-800"><span class="text-[10px] text-slate-400 block">巡航航速</span><span class="font-mono font-bold text-slate-200">${m.cruiseSpeed} m/s</span></div>
+          <div class="bg-slate-900 p-2 rounded border border-slate-800"><span class="text-[10px] text-slate-400 block">標準續航</span><span class="font-mono font-bold text-rose-300">${m.baseEnduranceHr} hr</span></div>
+          <div class="bg-slate-900 p-2 rounded border border-slate-800"><span class="text-[10px] text-slate-400 block">最大推力</span><span class="font-mono font-bold text-indigo-300">${m.maxThrustN} N</span></div>
+        `;
+      }
+      const btnLoad = document.getElementById('BtnLoadSelectedFromLib');
+      if (btnLoad) btnLoad.onclick = () => {
+        loadModelIntoStudio(m.id, false);
+        switchWorkspaceTab('studio');
+        showToast(`已切換至 3D 水槽工作台：${m.name}`);
+      };
+      const btnAug = document.getElementById('BtnApplyLibAugment');
+      if (btnAug) btnAug.onclick = () => {
+        loadModelIntoStudio(m.id, true);
+        switchWorkspaceTab('studio');
+        showToast(`已套用「${m.name}」最佳深海耐壓與水動力補強方案！`, 'success');
+      };
+    }
+
+    function renderComparisonTable() {
+      const tbody = document.getElementById('ComparisonTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = GLOBAL_UUV_LIBRARY.map(m => `
+        <tr class="hover:bg-slate-800/50">
+          <td class="py-1.5 px-2 font-sans font-semibold text-white">${m.name}</td>
+          <td class="py-1.5 px-2 text-cyan-300">${m.catBadge}</td>
+          <td class="py-1.5 px-2 text-right">${m.hullLen}</td>
+          <td class="py-1.5 px-2 text-right">${m.mass}</td>
+          <td class="py-1.5 px-2 text-right text-emerald-400">${m.maxRatingDepth}</td>
+          <td class="py-1.5 px-2 text-amber-300">${m.hydroProfile}</td>
+          <td class="py-1.5 px-2 text-right text-rose-300">${m.baseEnduranceHr}</td>
+          <td class="py-1.5 px-2 text-center">
+            <button type="button" data-comp-load="${m.id}" class="px-2 py-0.5 rounded bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-300 text-[10px]">載入</button>
+          </td>
+        </tr>
+      `).join('');
+
+      tbody.querySelectorAll('[data-comp-load]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-comp-load');
+          loadModelIntoStudio(id, true);
+          switchWorkspaceTab('studio');
+          showToast('已載入並套用深海補強配置至 3D 水槽工作台', 'success');
+        });
+      });
+    }
+
+    // =========================================================================
+    // 9. AUTOMATED 6-DOF SUBSEA SIMULATION RUNNER
+    // =========================================================================
+    let simIntervalId = null;
+
+    function stopAutomatedSimTest() {
+      if (simIntervalId) {
+        clearInterval(simIntervalId);
+        simIntervalId = null;
+      }
+      STATE.activeSimTest = null;
+      const statusEl = document.getElementById('SimRunningStatus');
+      if (statusEl) statusEl.textContent = '待命 / 即時解算中';
+    }
+
+    function runAutomatedSimTest(testType) {
+      stopAutomatedSimTest();
+      STATE.activeSimTest = testType;
+      let step = 0;
+      const totalSteps = 45;
+      const statusEl = document.getElementById('SimRunningStatus');
+      if (statusEl) statusEl.textContent = `執行中：${testType.toUpperCase()}`;
+
+      const pitchHist = [], depthHist = [], stressHist = [];
+
+      simIntervalId = setInterval(() => {
+        step++;
+        const progress = step / totalSteps;
+        const turb = (STATE.turbulence / 100) * Math.sin(step * 1.5) * 0.9;
+
+        if (testType === 'depth_sweep') {
+          STATE.depth = Math.round(100 + progress * 5900);
+          STATE.pitchAoA = Number((-6.0 * (1 - progress) + 1.0).toFixed(1));
+        } else if (testType === 'current_pid') {
+          const damp = Math.exp(-progress * 3.0 * (STATE.pidDepth / 2.0));
+          STATE.pitchAoA = Number((1.5 + 9.5 * damp * Math.sin(step * 0.6) + turb).toFixed(1));
+          STATE.driftBeta = Number((12.0 * damp * Math.cos(step * 0.5)).toFixed(1));
+        } else if (testType === 'sawtooth_glide') {
+          const glideWave = Math.sin(progress * Math.PI * 2);
+          STATE.pitchAoA = Number((glideWave * 14.0).toFixed(1));
+          STATE.ballastN = Math.round(glideWave * 180);
+          STATE.depth = Math.round(800 + Math.cos(progress * Math.PI * 2) * 350);
+        } else if (testType === 'emergency_blow') {
+          STATE.ballastN = Math.round(STATE.dropWeightN);
+          STATE.pitchAoA = Number((15.0 * (1 - progress * 0.5)).toFixed(1));
+          STATE.depth = Math.max(0, Math.round(STATE.depth * (1 - progress * 0.85)));
+        }
+
+        syncControlsFromState();
+        refreshAllCalculationsAndViews(false);
+
+        pitchHist.push(STATE.pitchAoA);
+        depthHist.push(Number(((STATE.depth / 250) - 10).toFixed(2)));
+        const sRatio = ((STATE.results?.sigma_vm || 100) / Math.max(100, STATE.results?.matCfg?.yieldMPa || 800)) * 20;
+        stressHist.push(Number(sRatio.toFixed(2)));
+
+        if (CHARTS.diveSim) {
+          CHARTS.diveSim.data.labels = pitchHist.map((_, idx) => `${(idx * 0.25).toFixed(1)}s`);
+          CHARTS.diveSim.data.datasets[0].data = [...pitchHist];
+          CHARTS.diveSim.data.datasets[1].data = [...depthHist];
+          CHARTS.diveSim.data.datasets[2].data = [...stressHist];
+          CHARTS.diveSim.update('none');
+        }
+
+        if (step >= totalSteps) {
+          stopAutomatedSimTest();
+          showToast('水下 6-DOF 自動模擬測試課目完成！數據已記錄至聲學黑盒子', 'success');
+        }
+      }, 95);
+    }
+
+    function switchWorkspaceTab(tabId) {
+      STATE.activeTab = tabId;
+      document.querySelectorAll('.tab-section').forEach(sec => {
+        sec.classList.toggle('hidden', sec.id !== `TabView-${tabId}`);
+      });
+      document.querySelectorAll('.nav-tab').forEach(btn => {
+        btn.classList.toggle('tab-active', btn.getAttribute('data-tab') === tabId);
+      });
+      setTimeout(() => {
+        handleViewportResize();
+        updateAllCharts();
+      }, 50);
+    }
+
+    // =========================================================================
+    // 10. INITIALIZATION, WATERMARKED PHOTO EXPORTER & EVENT BINDING
+    // =========================================================================
+    function populateSelectOptions() {
+      const qSel = document.getElementById('QuickModelSelect');
+      const cSel = document.getElementById('CompareBenchmarkSelect');
+      if (qSel) {
+        qSel.innerHTML = GLOBAL_UUV_LIBRARY.map(m => `<option value="${m.id}">[${m.catBadge}] ${m.name}</option>`).join('');
+      }
+      if (cSel) {
+        cSel.innerHTML = GLOBAL_UUV_LIBRARY.map(m => `<option value="${m.id}">${m.name} (${m.origin})</option>`).join('');
+        cSel.value = STATE.compareModelId;
+      }
+      const pfSel = document.getElementById('LabProfileSelect');
+      if (pfSel) {
+        pfSel.innerHTML = Object.keys(HYDRO_PROFILE_DB).map(k => `<option value="${k}">${HYDRO_PROFILE_DB[k].name}</option>`).join('');
+      }
+    }
+
+    function bindAllEvents() {
+      document.querySelectorAll('.nav-tab').forEach(btn => {
+        btn.addEventListener('click', () => switchWorkspaceTab(btn.getAttribute('data-tab')));
+      });
+
+      document.getElementById('QuickModelSelect')?.addEventListener('change', (e) => {
+        loadModelIntoStudio(e.target.value, false);
+        showToast(`已切換水下載具模型：${e.target.options[e.target.selectedIndex].text}`);
+      });
+
+      const bindGeom = (id, key, isNum = true) => {
+        document.getElementById(id)?.addEventListener('input', (e) => {
+          STATE[key] = isNum ? parseFloat(e.target.value) : e.target.value;
+          if (key === 'hydroProfile') {
+            const labSel = document.getElementById('LabProfileSelect');
+            if (labSel) labSel.value = STATE.hydroProfile;
+          }
+          refreshAllCalculationsAndViews(true);
+        });
+      };
+      bindGeom('ParamHullType', 'hullType', false);
+      bindGeom('ParamHydroProfile', 'hydroProfile', false);
+      bindGeom('SliderHullLen', 'hullLen', true);
+      bindGeom('SliderHullDia', 'hullDia', true);
+      bindGeom('SliderFinSpan', 'finSpan', true);
+      bindGeom('SliderWallThick', 'wallThick', true);
+      bindGeom('SliderMass', 'mass', true);
+      bindGeom('SliderBallast', 'ballastN', true);
+      bindGeom('ParamSternType', 'sternType', false);
+      bindGeom('ParamThrusterCount', 'thrusterCount', true);
+
+      document.getElementById('LabProfileSelect')?.addEventListener('change', (e) => {
+        STATE.hydroProfile = e.target.value;
+        const pEl = document.getElementById('ParamHydroProfile');
+        if (pEl) pEl.value = STATE.hydroProfile;
+        refreshAllCalculationsAndViews(true);
+      });
+
+      bindGeom('AugPropulsor', 'augPropulsor', false);
+      bindGeom('AugCoating', 'augCoating', false);
+      bindGeom('AugHullMaterial', 'augHullMaterial', false);
+      bindGeom('AugSubseaEnergy', 'augSubseaEnergy', false);
+      document.getElementById('AugSasSonar')?.addEventListener('change', (e) => {
+        STATE.augSasSonar = e.target.checked;
+        refreshAllCalculationsAndViews(true);
+      });
+      document.getElementById('AugManipulator')?.addEventListener('change', (e) => {
+        STATE.augManipulator = e.target.checked;
+        refreshAllCalculationsAndViews(true);
+      });
+
+      const bindEnv = (id, key) => {
+        document.getElementById(id)?.addEventListener('input', (e) => {
+          STATE[key] = parseFloat(e.target.value);
+          refreshAllCalculationsAndViews(false);
+        });
+      };
+      bindEnv('SliderSpeed', 'speed');
+      bindEnv('SliderDepth', 'depth');
+      bindEnv('SliderPitchAoA', 'pitchAoA');
+      bindEnv('SliderDriftBeta', 'driftBeta');
+      bindEnv('SliderDivePlane', 'divePlane');
+      bindEnv('SliderRudder', 'rudder');
+      bindEnv('SliderCurrent', 'current');
+      bindEnv('SliderThrottle', 'throttle');
+
+      document.getElementById('SliderPidDepth')?.addEventListener('input', (e) => {
+        STATE.pidDepth = parseFloat(e.target.value);
+        document.getElementById('ValPidDepth').textContent = STATE.pidDepth.toFixed(2);
+      });
+      document.getElementById('SliderPidYaw')?.addEventListener('input', (e) => {
+        STATE.pidYaw = parseFloat(e.target.value);
+        document.getElementById('ValPidYaw').textContent = STATE.pidYaw.toFixed(2);
+      });
+      document.getElementById('SliderTurbulence')?.addEventListener('input', (e) => {
+        STATE.turbulence = parseFloat(e.target.value);
+        document.getElementById('ValTurbulence').textContent = `${STATE.turbulence}%`;
+      });
+      document.getElementById('SliderDropWeight')?.addEventListener('input', (e) => {
+        STATE.dropWeightN = parseFloat(e.target.value);
+        document.getElementById('ValDropWeight').textContent = `+${STATE.dropWeightN} N`;
+      });
+
+      document.querySelectorAll('.viz-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const key = btn.getAttribute('data-viz');
+          STATE.viz[key] = !STATE.viz[key];
+          btn.classList.toggle('bg-cyan-500/30', STATE.viz[key]);
+          btn.classList.toggle('text-cyan-300', STATE.viz[key]);
+          btn.classList.toggle('border-cyan-400/50', STATE.viz[key]);
+          btn.classList.toggle('bg-slate-800/80', !STATE.viz[key]);
+          refreshAllCalculationsAndViews(key === 'xray' || key === 'pressure');
+        });
+      });
+
+      document.querySelectorAll('.cam-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const preset = btn.getAttribute('data-cam');
+          if (preset === 'iso') camSpherical = { radius: 20, theta: 0.65, phi: 1.12 };
+          else if (preset === 'front') camSpherical = { radius: 18, theta: -Math.PI / 2, phi: Math.PI / 2 };
+          else if (preset === 'side') camSpherical = { radius: 18, theta: 0, phi: Math.PI / 2 };
+          else if (preset === 'top') camSpherical = { radius: 22, theta: 0, phi: 0.15 };
+          else if (preset === 'stern') camSpherical = { radius: 16, theta: Math.PI / 2, phi: 1.25 };
+          updateCameraFromSpherical();
+        });
+      });
+
+      document.getElementById('BtnOneClickAugment')?.addEventListener('click', () => {
+        const curM = GLOBAL_UUV_LIBRARY.find(m => m.id === STATE.selectedModelId);
+        if (curM && curM.recAug) {
+          STATE.augPropulsor = curM.recAug.propulsor;
+          STATE.augCoating = curM.recAug.coating;
+          STATE.augHullMaterial = curM.recAug.material;
+          STATE.augSubseaEnergy = curM.recAug.energy;
+        } else {
+          STATE.augPropulsor = 'pump_jet';
+          STATE.augCoating = 'shark_riblet';
+          STATE.augHullMaterial = 'ti6al4v';
+          STATE.augSubseaEnergy = 'pbof_solid';
+        }
+        syncControlsFromState();
+        refreshAllCalculationsAndViews(true);
+        showToast('已套用深海耐壓與水動力最佳化補強套件！(壓潰安全裕度、抗空蝕航速與續航全面提升)', 'success');
+      });
+
+      document.getElementById('BtnResetGeometry')?.addEventListener('click', () => {
+        loadModelIntoStudio(STATE.selectedModelId, false);
+        showToast('已重置為該水下載具原廠基準幾何參數');
+      });
+
+      document.getElementById('BtnQuickDepthSweep')?.addEventListener('click', () => {
+        runAutomatedSimTest('depth_sweep');
+        showToast('開始執行 0m 至 6000m 深海耐壓下潛掃描測試');
+      });
+
+      document.getElementById('BtnNeutralBuoyancy')?.addEventListener('click', () => {
+        STATE.ballastN = 0;
+        STATE.pitchAoA = 0.0;
+        syncControlsFromState();
+        refreshAllCalculationsAndViews(false);
+        showToast('已完成水下中性浮力配平 (B = W, 淨浮力 ΔB = 0 N)', 'success');
+      });
+
+      document.querySelectorAll('.sim-test-btn').forEach(btn => {
+        btn.addEventListener('click', () => runAutomatedSimTest(btn.getAttribute('data-test')));
+      });
+      document.getElementById('BtnStopSimTest')?.addEventListener('click', () => {
+        stopAutomatedSimTest();
+        showToast('已停止水下模擬測試');
+      });
+
+      document.getElementById('LibrarySearchInput')?.addEventListener('input', renderGlobalLibrary);
+      document.getElementById('LibraryFilterCat')?.addEventListener('change', renderGlobalLibrary);
+
+      document.getElementById('CompareBenchmarkSelect')?.addEventListener('change', (e) => {
+        STATE.compareModelId = e.target.value;
+        updateAllCharts();
+      });
+
+      // Custom UUV Modal
+      const custModal = document.getElementById('CustomModelModal');
+      document.getElementById('BtnOpenCustomModal')?.addEventListener('click', () => custModal?.classList.remove('hidden'));
+      document.getElementById('BtnCloseCustomModal')?.addEventListener('click', () => custModal?.classList.add('hidden'));
+      document.getElementById('BtnCancelCustomModal')?.addEventListener('click', () => custModal?.classList.add('hidden'));
+      document.getElementById('BtnSaveCustomModel')?.addEventListener('click', () => {
+        const name = document.getElementById('CustomInputName')?.value.trim() || 'MaxJim Hydro-X1';
+        const origin = document.getElementById('CustomInputOrigin')?.value.trim() || 'Taiwan / MaxJim Tech';
+        const cat = document.getElementById('CustomInputCat')?.value || 'TORPEDO_AUV';
+        const desc = document.getElementById('CustomInputDesc')?.value.trim() || '自訂研發水下無人載具';
+        const newId = 'custom_uuv_' + Date.now();
+        GLOBAL_UUV_LIBRARY.unshift({
+          id: newId,
+          name, origin, category: cat, catBadge: '自訂研發 UUV',
+          hullType: STATE.hullType, hydroProfile: STATE.hydroProfile,
+          hullLen: STATE.hullLen, hullDia: STATE.hullDia, finSpan: STATE.finSpan, wallThick: STATE.wallThick,
+          mass: STATE.mass, sternType: STATE.sternType, thrusterCount: STATE.thrusterCount,
+          cruiseSpeed: STATE.speed, defaultDepth: STATE.depth, maxRatingDepth: Math.round(STATE.results.collapseDepthM * 0.8),
+          baseEnduranceHr: Number(STATE.results.estEnduranceHr.toFixed(1)), maxThrustN: STATE.maxThrustN,
+          desc,
+          weakness: '自訂構型基準已建立，可持續透過深海下潛掃描驗證耐壓殼屈曲裕度。',
+          augmentPlan: '已綁定當前工作台之耐壓艙材料、減阻塗層與推進器導流罩補強配置。',
+          recAug: { propulsor: STATE.augPropulsor, coating: STATE.augCoating, material: STATE.augHullMaterial, energy: STATE.augSubseaEnergy }
+        });
+        STATE.selectedModelId = newId;
+        populateSelectOptions();
+        renderGlobalLibrary();
+        renderComparisonTable();
+        custModal?.classList.add('hidden');
+        showToast(`已成功將「${name}」加入全球水下載具模型庫！`, 'success');
+      });
+
+      function exportChartCanvas(id) {
+        const source = document.getElementById(id);
+        const chart = source && Chart.getChart(source);
+        if (!chart) return source && source.width && source.height ? source : null;
+        chart.resize(760, 420);
+        chart.update('none');
+        const copy = document.createElement('canvas');
+        copy.width = source.width; copy.height = source.height;
+        if (copy.width && copy.height) copy.getContext('2d').drawImage(source, 0, 0);
+        chart.resize();
+        return copy.width && copy.height ? copy : null;
+      }
+      // Watermarked Subsea Engineering Photo Exporter (3 Modes)
+      let currentPhotoMode = 'datasheet';
+      function renderWatermarkedPhotoCanvas(mode = currentPhotoMode) {
+        currentPhotoMode = mode;
+        const canvas = document.getElementById('WatermarkedPhotoCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+
+        ctx.fillStyle = '#040914';
+        ctx.fillRect(0, 0, W, H);
+
+        ctx.strokeStyle = '#1e3a5f';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(16, 16, W - 32, H - 32);
+
+        // Top Official Corporate Letterhead Banner (肇祥企業社 MaxJim Tech Inc.)
+        const grad = ctx.createLinearGradient(16, 16, W - 16, 100);
+        grad.addColorStop(0, '#071529');
+        grad.addColorStop(0.5, '#0a2e46');
+        grad.addColorStop(1, '#071529');
+        ctx.fillStyle = grad;
+        ctx.fillRect(16, 16, W - 32, 86);
+        ctx.strokeStyle = '#22d3ee';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(16, 16, W - 32, 86);
+
+        ctx.fillStyle = '#22d3ee';
+        ctx.font = 'bold 26px "Inter", sans-serif';
+        ctx.fillText('肇祥企業社 MaxJim Tech Inc. — 水下無人載具 (UUV/AUV/ROV) 水動力與耐壓工程測試報告', 36, 54);
+        ctx.fillStyle = '#cbd5e1';
+        ctx.font = '14px "JetBrains Mono", monospace';
+        const curM = GLOBAL_UUV_LIBRARY.find(m => m.id === STATE.selectedModelId);
+        const modelTitle = curM ? curM.name : STATE.selectedModelId;
+        ctx.fillText(`負責人：張哲肇 (Alex Chang) | 專線：0931-675001 | 官方網站：https://maxjimtech.com/ | 測試載具：${modelTitle}`, 36, 84);
+
+        const res = STATE.results;
+        if (renderer && scene && camera) renderer.render(scene, camera);
+        const threeCanvas = renderer?.domElement;
+
+        if (mode === '3d_only' && threeCanvas) {
+          ctx.drawImage(threeCanvas, 32, 118, W - 64, H - 210);
+          const sonC = document.getElementById('HudSonarCanvas');
+          if (sonC) ctx.drawImage(sonC, 54, H - 280, 220, 175);
+        } else if (mode === 'charts_quad') {
+          const cIds = ['ChartDragSpeed', 'ChartPowerSpeed', 'ChartCavitation', 'ChartHullStressDepth'];
+          const titles = ['1. 水下總阻力曲線 RT(V)', '2. 推進需用軸功率曲線 P(V)', '3. 螺旋槳空蝕數包絡 σ_v(V)', '4. 深海耐壓殼應力與壓潰極限 (0~11000m)'];
+          const cellW = (W - 96) / 2, cellH = (H - 240) / 2;
+          cIds.forEach((cid, idx) => {
+            const col = idx % 2, row = Math.floor(idx / 2);
+            const x = 32 + col * (cellW + 32), y = 122 + row * (cellH + 24);
+            ctx.fillStyle = '#071529';
+            ctx.fillRect(x, y, cellW, cellH);
+            ctx.strokeStyle = '#1e3a5f';
+            ctx.strokeRect(x, y, cellW, cellH);
+            ctx.fillStyle = '#22d3ee';
+            ctx.font = 'bold 15px "Inter", sans-serif';
+            ctx.fillText(titles[idx], x + 14, y + 24);
+            const srcC = exportChartCanvas(cid);
+            if (srcC) ctx.drawImage(srcC, x + 12, y + 34, cellW - 24, cellH - 44);
+          });
+        } else {
+          if (threeCanvas) {
+            ctx.fillStyle = '#030812';
+            ctx.fillRect(32, 118, 760, 470);
+            ctx.drawImage(threeCanvas, 32, 118, 760, 470);
+            ctx.strokeStyle = '#1e3a5f';
+            ctx.strokeRect(32, 118, 760, 470);
+          }
+          const hyC = document.getElementById('LabLargeHydroCanvas') || document.getElementById('MiniHydroCanvas');
+          if (hyC) {
+            ctx.fillStyle = '#030812';
+            ctx.fillRect(32, 604, 760, 236);
+            ctx.drawImage(hyC, 32, 604, 760, 236);
+            ctx.strokeStyle = '#1e3a5f';
+            ctx.strokeRect(32, 604, 760, 236);
+          }
+          ctx.fillStyle = '#071529';
+          ctx.fillRect(812, 118, 756, 260);
+          ctx.strokeStyle = '#22d3ee';
+          ctx.strokeRect(812, 118, 756, 260);
+          ctx.fillStyle = '#34d399';
+          ctx.font = 'bold 18px "Inter", sans-serif';
+          ctx.fillText('關鍵水動力學・空蝕與深海耐壓測試數據 (Subsea Hydro & Hull Telemetry)', 832, 150);
+
+          const kpiRows = [
+            [`艇長 / 艇徑: ${STATE.hullLen.toFixed(2)} m / ${STATE.hullDia.toFixed(2)} m`, `流線殼體剖面: ${STATE.hydroProfile}`, `空氣中質量: ${res.effMass.toFixed(1)} kg`],
+            [`航速 / 深度: ${STATE.speed.toFixed(1)} m/s / ${STATE.depth} m`, `環境靜水壓: ${res.hydro.ocean.P_MPa.toFixed(2)} MPa`, `海水密度: ${res.hydro.ocean.rho_sw.toFixed(1)} kg/m³`],
+            [`總阻力係數 Cd: ${res.hydro.Cd_frontal.toFixed(3)}`, `水下總阻力 RT: ${res.hydro.dragN.toFixed(0)} N`, `推進軸功率: ${res.hydro.shaftPowerKW.toFixed(2)} kW`],
+            [`空蝕數 σ_v: ${res.hydro.sigma_v.toFixed(2)}`, `空蝕臨界航速: ${res.hydro.V_cav.toFixed(1)} m/s`, `穩心高度 BG: +${res.hydro.BG_mm.toFixed(1)} mm`],
+            [`耐壓殼應力: ${res.sigma_vm.toFixed(0)} MPa`, `極限壓潰深度: ${res.collapseDepthM.toFixed(0)} m`, `壓潰安全係數 SF: ${res.safetyFactor.toFixed(2)}`],
+            [`推進補強: ${res.propCfg.name}`, `耐壓殼材料: ${res.matCfg.name}`, `預估續航/航程: ${res.estEnduranceHr.toFixed(0)}h / ${res.estRangeKm.toFixed(0)}km`]
+          ];
+          ctx.font = '14px "JetBrains Mono", monospace';
+          ctx.fillStyle = '#e2e8f0';
+          kpiRows.forEach((r, rIdx) => {
+            const py = 184 + rIdx * 31;
+            ctx.fillText(r[0], 832, py);
+            ctx.fillText(r[1], 1085, py);
+            ctx.fillText(r[2], 1335, py);
+          });
+
+          const c1 = exportChartCanvas('ChartDragSpeed');
+          const c2 = exportChartCanvas('ChartHullStressDepth');
+          if (c1) {
+            ctx.fillStyle = '#071529'; ctx.fillRect(812, 396, 368, 444);
+            ctx.strokeStyle = '#1e3a5f'; ctx.strokeRect(812, 396, 368, 444);
+            ctx.drawImage(c1, 820, 412, 352, 416);
+          }
+          if (c2) {
+            ctx.fillStyle = '#071529'; ctx.fillRect(1200, 396, 368, 444);
+            ctx.strokeStyle = '#1e3a5f'; ctx.strokeRect(1200, 396, 368, 444);
+            ctx.drawImage(c2, 1208, 412, 352, 416);
+          }
+        }
+
+        // Tiled Diagonal Anti-Counterfeit Watermark across the entire output photo
+        ctx.save();
+        ctx.fillStyle = 'rgba(34, 211, 238, 0.13)';
+        ctx.font = 'bold 24px "Inter", sans-serif';
+        for (let wx = -200; wx < W + 200; wx += 420) {
+          for (let wy = 140; wy < H; wy += 240) {
+            ctx.save();
+            ctx.translate(wx, wy);
+            ctx.rotate(-0.35);
+            ctx.fillText('肇祥企業社 MaxJim Tech Inc. • 0931-675001', 0, 0);
+            ctx.font = '14px "JetBrains Mono", monospace';
+            ctx.fillText('https://maxjimtech.com/ — SUBSEA SIMULATION ESTIMATES', 10, 22);
+            ctx.restore();
+          }
+        }
+        ctx.restore();
+
+        // Bottom Official Engineering Stamp Bar
+        ctx.fillStyle = '#071529';
+        ctx.fillRect(16, H - 64, W - 32, 48);
+        ctx.strokeStyle = '#22d3ee';
+        ctx.strokeRect(16, H - 64, W - 32, 48);
+        ctx.fillStyle = '#22d3ee';
+        ctx.font = 'bold 14px "JetBrains Mono", monospace';
+        ctx.fillText(`© 肇祥企業社 MaxJim Tech Inc. (https://maxjimtech.com/) | 水下載具機構設計・深海耐壓艙開發・流體 CAE 估算 | 匯出時間：${new Date().toLocaleString('zh-TW')}`, 32, H - 34);
+      }
+
+      const photoModal = document.getElementById('PhotoExportModal');
+      document.getElementById('BtnOpenPhotoModal')?.addEventListener('click', () => {
+        updateAllCharts();
+        photoModal?.classList.remove('hidden');
+        setTimeout(() => renderWatermarkedPhotoCanvas(currentPhotoMode), 80);
+      });
+      document.getElementById('BtnClosePhotoModal')?.addEventListener('click', () => photoModal?.classList.add('hidden'));
+      document.querySelectorAll('.photo-mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.photo-mode-btn').forEach(b => {
+            b.className = 'photo-mode-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700';
+          });
+          btn.className = 'photo-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/25 text-amber-300 border border-amber-400/50';
+          renderWatermarkedPhotoCanvas(btn.getAttribute('data-photomode'));
+        });
+      });
+      document.getElementById('BtnDownloadWatermarkedPhoto')?.addEventListener('click', () => {
+        renderWatermarkedPhotoCanvas(currentPhotoMode);
+        const canvas = document.getElementById('WatermarkedPhotoCanvas');
+        if (!canvas) return;
+        const url = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `MaxJimTech_UUV_${STATE.selectedModelId}_${currentPhotoMode}.png`;
+        a.click();
+        showToast('已下載「肇祥企業社 MaxJim Tech Inc.」浮水印水下工程數據照片 (.PNG)！', 'success');
+      });
+
+      // Export Spec Modal & Download
+      const expModal = document.getElementById('ExportSpecModal');
+      document.getElementById('BtnExportSpec')?.addEventListener('click', () => {
+        const exportObj = {
+          companyHeader: '肇祥企業社 MaxJim Tech Inc. (https://maxjimtech.com/)',
+          engineerContact: '張哲肇 (Alex Chang) | 0931-675001',
+          watermark: 'MaxJim Tech. Subsea Simulation Estimate UUV/AUV/ROV CAD/CAE Specification',
+          system: '肇祥企業社 MaxJim Tech Inc. — HydroVanguard CAD/CAE Studio Pro v5.0',
+          timestamp: new Date().toISOString(),
+          selectedModelId: STATE.selectedModelId,
+          hullGeometry: {
+            hullType: STATE.hullType, hydroProfile: STATE.hydroProfile,
+            length_m: STATE.hullLen, diameter_m: STATE.hullDia, finSpan_m: STATE.finSpan,
+            wallThickness_mm: STATE.wallThick, mass_kg: STATE.mass, sternType: STATE.sternType, thrusterCount: STATE.thrusterCount
+          },
+          subseaAugmentation: {
+            propulsor: STATE.augPropulsor, hullCoating: STATE.augCoating,
+            pressureHullMaterial: STATE.augHullMaterial, energySystem: STATE.augSubseaEnergy,
+            sasSonar: STATE.augSasSonar, dualManipulator: STATE.augManipulator
+          },
+          hydroAndStructuralPerformance: {
+            operatingDepth_m: STATE.depth, hydrostaticPressure_MPa: Number(STATE.results.hydro.ocean.P_MPa.toFixed(3)),
+            Reynolds_L: Math.round(STATE.results.hydro.Re_L), Cd_frontal: Number(STATE.results.hydro.Cd_frontal.toFixed(4)),
+            totalDrag_N: Number(STATE.results.hydro.dragN.toFixed(1)), shaftPower_kW: Number(STATE.results.hydro.shaftPowerKW.toFixed(2)),
+            cavitationSigma: Number(STATE.results.hydro.sigma_v.toFixed(3)), cavitationInceptionSpeed_ms: Number(STATE.results.hydro.V_cav.toFixed(2)),
+            vonMisesStress_MPa: Number(STATE.results.sigma_vm.toFixed(1)), collapseDepth_m: Number(STATE.results.collapseDepthM.toFixed(0)),
+            bucklingSafetyFactor: Number(STATE.results.safetyFactor.toFixed(2)),
+            estimatedEndurance_hr: Number(STATE.results.estEnduranceHr.toFixed(1)), estimatedRange_km: Number(STATE.results.estRangeKm.toFixed(0))
+          }
+        };
+        const ta = document.getElementById('ExportJsonTextarea');
+        if (ta) ta.value = JSON.stringify(exportObj, null, 2);
+        expModal?.classList.remove('hidden');
+      });
+      document.getElementById('BtnCloseExportModal')?.addEventListener('click', () => expModal?.classList.add('hidden'));
+      document.getElementById('BtnCopyExportJson')?.addEventListener('click', () => {
+        const ta = document.getElementById('ExportJsonTextarea');
+        if (!ta) return;
+        ta.select();
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(ta.value);
+          } else {
+            document.execCommand('copy');
+          }
+        } catch (err) {
+          document.execCommand('copy');
+        }
+        showToast('水下工程規格 JSON 已複製到剪貼簿！', 'success');
+      });
+      document.getElementById('BtnDownloadExportJson')?.addEventListener('click', () => {
+        const ta = document.getElementById('ExportJsonTextarea');
+        if (!ta) return;
+        const blob = new Blob([ta.value], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `MaxJimTech_UUV_Spec_${STATE.selectedModelId}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('已下載 .JSON 水下工程設計參數檔', 'success');
+      });
+
+      // Download CSV Hydrodynamic & Cavitation Data in Tab 6
+      document.getElementById('BtnDownloadCsvPolar')?.addEventListener('click', () => {
+        const rows = [
+          '# 肇祥企業社 MaxJim Tech Inc. — 水下無人載具水動力阻力與空蝕工程數據表 (MaxJim Tech Watermarked Data)',
+          '# 負責人：張哲肇 (Alex Chang) | 聯絡專線：0931-675001 | 官方網站：https://maxjimtech.com/',
+          `# 水下載具：${STATE.selectedModelId} | 線型：${STATE.hydroProfile} | 深度：${STATE.depth}m | 匯出時間：${new Date().toISOString()}`,
+          'Speed_ms,Speed_knots,Drag_Augmented_N,Drag_Baseline_N,ShaftPower_kW,Cavitation_Sigma,Cavitation_Status,Watermark'
+        ];
+        for (let v = 0.5; v <= 16.0; v += 0.5) {
+          const ha = evalHydroAtCondition(v, STATE.pitchAoA, STATE.depth, true);
+          const hb = evalHydroAtCondition(v, STATE.pitchAoA, STATE.depth, false);
+          rows.push(`${v.toFixed(1)},${(v * 1.9438).toFixed(2)},${ha.dragN.toFixed(1)},${hb.dragN.toFixed(1)},${ha.shaftPowerKW.toFixed(2)},${ha.sigma_v.toFixed(3)},${ha.isCavitating ? 'CAVITATING' : 'SAFE'},MaxJim Tech.`);
+        }
+        const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `MaxJimTech_HydroData_${STATE.selectedModelId}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('已匯出 CSV 水動力與空蝕工程數據表！', 'success');
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+      populateSelectOptions();
+      initAllCharts();
+      solveHydrodynamicsAndPressureHull();
+      initThreeScene();
+      bindAllEvents();
+      loadModelIntoStudio('kongsberg_hugin', true);
+      renderGlobalLibrary();
+      renderComparisonTable();
+      runAutomatedSimTest('current_pid');
+    });
+  </script>
+<script>(()=>{const header=document.getElementById('appHeader'),viewport=document.getElementById('ThreeViewportContainer');let frame;const resize=()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>window.dispatchEvent(new Event('resize')));};new ResizeObserver(()=>{document.documentElement.style.setProperty('--header-height',header.getBoundingClientRect().height+'px');resize();}).observe(header);new ResizeObserver(resize).observe(viewport);const b=document.getElementById('FullscreenToggle');b.addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch(e){b.textContent='請使用瀏覽器全螢幕（F11）';}});document.addEventListener('fullscreenchange',()=>{b.textContent=document.fullscreenElement?'離開全螢幕':'全螢幕操作';resize();});})();</script></body>
+</html>
