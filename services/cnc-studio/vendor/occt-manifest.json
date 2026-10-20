@@ -1,0 +1,23 @@
+{
+  "package": "opencascade.js",
+  "version": "1.1.1",
+  "parts": [
+    "occt.wasm.gz.000",
+    "occt.wasm.gz.001",
+    "occt.wasm.gz.002",
+    "occt.wasm.gz.003",
+    "occt.wasm.gz.004",
+    "occt.wasm.gz.005",
+    "occt.wasm.gz.006",
+    "occt.wasm.gz.007",
+    "occt.wasm.gz.008",
+    "occt.wasm.gz.009",
+    "occt.wasm.gz.010",
+    "occt.wasm.gz.011",
+    "occt.wasm.gz.012",
+    "occt.wasm.gz.013"
+  ],
+  "compressed_bytes": 13726832,
+  "bytes": 65864037,
+  "sha256": "6cc2f3fa1611d32ad7563f7092aa1bf58741124302630cef7d21561ecd7b7284"
+}
