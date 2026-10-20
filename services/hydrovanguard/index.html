@@ -3274,12 +3274,19 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
         const source = document.getElementById(id);
         const chart = source && Chart.getChart(source);
         if (!chart) return source && source.width && source.height ? source : null;
-        chart.resize(760, 420);
-        chart.update('none');
+        const renderCanvas = document.createElement('canvas');
+        renderCanvas.width = 760; renderCanvas.height = 420;
+        const rendered = new Chart(renderCanvas, {
+          type: chart.config.type,
+          data: JSON.parse(JSON.stringify(chart.data)),
+          options: {...chart.config.options, responsive: false, maintainAspectRatio: false, animation: false, devicePixelRatio: 1},
+          plugins: chart.config.plugins || []
+        });
+        rendered.update('none');
         const copy = document.createElement('canvas');
-        copy.width = source.width; copy.height = source.height;
-        if (copy.width && copy.height) copy.getContext('2d').drawImage(source, 0, 0);
-        chart.resize();
+        copy.width = renderCanvas.width; copy.height = renderCanvas.height;
+        copy.getContext('2d').drawImage(renderCanvas, 0, 0);
+        rendered.destroy();
         return copy.width && copy.height ? copy : null;
       }
       // Watermarked Subsea Engineering Photo Exporter (3 Modes)
