@@ -1,0 +1,3705 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>肇祥企業社 MaxJim Tech. | AeroVanguard 全球無人飛行載具設計與氣動力學即時 3D 模擬系統</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #070b14;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 5px;
+      background: #1e293b;
+      border-radius: 4px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #38bdf8;
+      cursor: pointer;
+      border: 2px solid #0f172a;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+    }
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+    }
+    .hud-overlay {
+      background: rgba(7, 11, 20, 0.78);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+    .tab-active {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.25), rgba(37, 99, 235, 0.25));
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+    .maxjim-watermark-overlay {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='180' viewBox='0 0 280 180'%3E%3Cg transform='rotate(-24 140 90)' fill='rgba(56,189,248,0.085)' font-family='Inter, sans-serif' font-weight='700' font-size='14'%3E%3Ctext x='15' y='80'%3E%E8%82%87%E7%A5%A5%E4%BC%81%E6%A5%AD%E7%A4%BE MaxJim Tech.%3C/text%3E%3Ctext x='35' y='102' font-size='10' font-family='monospace'%3Ehttps://maxjimtech.com/%3C/text%3E%3C/g%3E%3C/svg%3E");
+      background-repeat: repeat;
+    }
+  </style>
+<style>
+:root{--header-height:220px;color-scheme:dark}
+#appBody{width:100%;max-width:100%;overflow-x:hidden}
+button,a,input,select{touch-action:manipulation}
+button{min-height:32px;white-space:normal;overflow-wrap:anywhere}
+button svg{flex-shrink:0}
+input,select,textarea{min-width:0;max-width:100%}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #7dd3fc;outline-offset:2px}
+#appHeader{position:relative;height:auto;min-width:0;padding:12px 16px}
+#appHeader>div,#appHeader>div>div{min-width:0;flex-wrap:wrap}
+#appHeader>div:nth-child(2){align-items:stretch;flex-direction:column}
+#appHeader>div:nth-child(2)>div:first-child{display:flex;flex-wrap:wrap;min-width:0}
+#appHeader>div:first-child>div{flex-wrap:wrap;min-width:0}
+#appHeader>div:nth-child(2)>div:last-child{display:flex;flex-wrap:wrap;gap:8px}
+#appHeader button span{display:inline}
+#QuickModelSelect{width:min(420px,100%);max-width:100%;min-width:0}
+#QuickModelSelect.parent{min-width:0}
+#MainNavTabs{display:flex;flex-wrap:wrap;overflow:visible;gap:6px}
+#MainNavTabs button{white-space:normal;justify-content:center}
+#siteLinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0}
+#siteLinks button,#siteLinks a{padding:6px 10px;border:1px solid #334155;background:#0f172a;border-radius:6px;color:#cbd5e1;font-size:12px;text-decoration:none}
+#siteLinks span{font-size:11px;color:#94a3b8}
+#contactEdition{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;margin:8px 0;padding:10px 12px;border:1px solid #0ea5e966;background:#0c2740;border-radius:8px;color:#bae6fd;font-size:13px;font-weight:600;overflow-wrap:anywhere}
+#FullVersionLink{font-size:12px;color:#7dd3fc;text-decoration:underline;min-height:32px;display:inline-flex;align-items:center}
+#appHeader>div:last-child{grid-template-columns:repeat(4,minmax(0,1fr))}
+#appHeader>div:last-child>div{display:flex;flex-wrap:wrap;gap:4px 8px;min-width:0}
+#appHeader>div:last-child>div>span{overflow-wrap:anywhere}
+#mainWorkspace{min-width:0}
+#TabView-studio{grid-template-columns:minmax(260px,.9fr) minmax(0,1.9fr) minmax(260px,.9fr);align-items:start}
+#geometryPanel,#analysisPanel{grid-column:auto;min-width:0;max-height:calc(100dvh - 32px);overflow:auto;scrollbar-gutter:stable}
+#studioCenter{grid-column:auto;min-width:0}
+#viewportLayout{min-height:0;overflow:hidden;display:grid;grid-template-columns:190px minmax(0,1fr);gap:10px;padding:10px;flex:none}
+#viewportToolbar,#flightDisplay,#viewportLegend,#viewportBrand,#StallAlertOverlay{position:static;inset:auto;transform:none;max-width:100%;min-width:0;pointer-events:auto}
+#viewportToolbar{grid-column:1/-1;grid-row:1;align-items:flex-start;justify-content:flex-start}
+#viewportToolbar>div{flex-wrap:wrap;min-width:0;max-width:100%}
+#StallAlertOverlay{grid-column:1/-1;grid-row:2;border-radius:8px;white-space:normal;overflow-wrap:anywhere}
+#ThreeViewportContainer{grid-column:1/-1;grid-row:3;height:clamp(360px,48vh,580px);min-height:0;min-width:0;overflow:hidden;flex:none;z-index:6}
+#ThreeViewportContainer canvas{display:block;max-width:100%}
+#flightDisplay{grid-column:1;grid-row:4;display:block}
+#viewportLegend{grid-column:2;grid-row:4;align-self:start;overflow-wrap:anywhere}
+#viewportLegend>div{flex-wrap:wrap}
+#viewportBrand{grid-column:1/-1;grid-row:5;text-align:left}
+#viewportLayout .maxjim-watermark-overlay{z-index:5}
+#studioCenter>.glass-panel:not(#viewportLayout) .grid>div{min-width:0}
+.tab-section .grid>div{min-width:0}
+.tab-section h2,.tab-section h3{flex-wrap:wrap;min-width:0}
+.tab-section .flex.items-center.justify-between{gap:8px;flex-wrap:wrap}
+#CustomModelModal,#ExportSpecModal,#PhotoExportModal{overflow:auto}
+#CustomModelModal>div,#ExportSpecModal>div,#PhotoExportModal>div{max-height:90dvh;overflow:auto;min-width:0}
+#CustomModelModal>div>div,#ExportSpecModal>div>div,#PhotoExportModal>div>div{min-width:0}
+#CustomModelModal>div>div:first-child,#ExportSpecModal>div>div:first-child{display:flex;gap:12px;align-items:flex-start}
+#CustomModelModal h3,#ExportSpecModal h3,#PhotoExportModal h3{min-width:0;flex-wrap:wrap}
+#BtnCloseCustomModal,#BtnCloseExportModal,#BtnClosePhotoModal{flex-shrink:0;min-width:32px}
+#ExportSpecModal>div>div:last-child{flex-wrap:wrap;gap:12px}
+#ExportSpecModal>div>div:last-child>div{flex-wrap:wrap;gap:8px}
+#PhotoExportModal>div>div{flex-shrink:0}
+#PhotoExportModal>div>div:last-child{flex-shrink:1;min-height:100px}
+#PhotoExportModal>div>div:first-child>div{min-width:0;flex:1 1 240px}
+#WatermarkedPhotoCanvas{max-width:100%;height:auto;object-fit:contain}
+#ToastContainer{position:static;inset:auto;width:100%;margin:0;padding:0 12px}
+#ToastContainer:empty{display:none}
+@media(min-width:1700px){#appHeader>div:last-child{grid-template-columns:repeat(8,minmax(0,1fr))}}
+@media(max-width:1279px){#TabView-studio{grid-template-columns:minmax(280px,.85fr) minmax(0,1.4fr)}#analysisPanel{grid-column:1/-1;max-height:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}#analysisPanel>div{margin:0}}
+@media(max-width:1023px){#TabView-studio{grid-template-columns:minmax(0,1fr)}#geometryPanel{max-height:60dvh}#studioCenter{grid-column:1}#analysisPanel{grid-template-columns:minmax(0,1fr);overflow:visible}#ModelLibraryGrid{max-height:70dvh}#TabView-library>div:last-child>div:last-child{max-height:none}}
+@media(max-width:640px){#appHeader{padding:10px}#appHeader>div:nth-child(2)>div:first-child>div{width:100%;min-width:0;flex-wrap:wrap}#QuickModelSelect{width:100%;flex:1 1 200px}#appHeader>div:last-child{grid-template-columns:repeat(2,minmax(0,1fr))}#MainNavTabs button{flex:1 1 150px}#viewportLayout{grid-template-columns:minmax(0,1fr)}#flightDisplay{grid-column:1;grid-row:4}#HudPfdCanvas{width:170px;height:135px;margin:auto}#viewportLegend{grid-column:1;grid-row:5}#viewportBrand{grid-row:6}#viewportToolbar>div{width:100%}#viewportToolbar button{flex:1 1 auto}#ThreeViewportContainer{height:360px}#CustomModelModal,#ExportSpecModal,#PhotoExportModal{padding:8px}#CustomModelModal>div,#ExportSpecModal>div,#PhotoExportModal>div{padding:12px}#CustomModelModal .grid{grid-template-columns:minmax(0,1fr)}#CustomModelModal .col-span-2{grid-column:1}#CustomModelModal>div>div:last-child{flex-wrap:wrap}#ExportSpecModal textarea{height:32dvh}#LibrarySearchInput{width:100%}.tab-section .overflow-x-auto table{min-width:680px}}
+</style></head>
+<body id="appBody" class="min-h-screen flex flex-col bg-[#070b14] text-slate-100 select-none">
+
+  <!-- TOP HEADER & GLOBAL TELEMETRY BAR -->
+  <header id="appHeader" class="sticky top-0 z-40 bg-[#0b1120]/95 backdrop-blur-md border-b border-slate-800 px-3 py-1.5">
+    <!-- 肇祥企業社 MaxJim Tech. Official Corporate Letterhead Strip -->
+    <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 mb-1.5 border-b border-sky-500/25 text-[11px]">
+      <div class="flex items-center gap-2">
+        <span class="px-2 py-0.5 rounded bg-gradient-to-r from-sky-500 to-blue-600 text-slate-950 font-extrabold tracking-wide text-xs shadow">肇祥企業社 MaxJim Tech.</span>
+        <span class="font-semibold text-sky-300">無人飛行載具機構設計・治具開發・氣動與結構 CAE 工程系統</span>
+      </div>
+      <div class="flex items-center gap-3 font-mono text-[11px] text-slate-300">
+        <span>負責人：張哲肇 (Alex Chang)</span>
+        <span class="text-slate-600">|</span>
+        <span class="text-emerald-300">行動專線：0931-765001</span>
+        <span class="text-slate-600 hidden sm:inline">|</span>
+        <a href="https://maxjimtech.com/" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:text-sky-300 underline hidden sm:inline">https://maxjimtech.com/</a>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <!-- Brand & Active Model Selector -->
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 bg-sky-500/10 border border-sky-500/30 px-2.5 py-1.5 rounded-lg">
+          <i data-lucide="plane" class="w-5 h-5 text-sky-400"></i>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-bold text-sm tracking-tight text-white">肇祥企業社 MaxJim Tech.</span>
+              <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">AeroVanguard v4.8 民用版</span>
+            </div>
+            <p class="text-[10px] text-slate-400 hidden sm:block">全球無人飛行載具設計・模型補強・即時 3D 氣動模擬系統 (MaxJim Tech. Watermarked)</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5 bg-slate-900/90 border border-slate-700/80 rounded-lg px-2.5 py-1">
+          <span class="text-[11px] text-slate-400 hidden md:inline">當前載具:</span>
+          <select id="QuickModelSelect" class="bg-transparent text-xs font-semibold text-sky-300 focus:outline-none cursor-pointer pr-1"></select>
+          <span id="ActiveCategoryBadge" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">MALE</span>
+        </div>
+      </div>
+
+      <!-- Main Navigation Tabs -->
+      <nav class="flex items-center gap-1 overflow-x-auto py-0.5" id="MainNavTabs">
+        <button type="button" data-tab="studio" class="nav-tab tab-active flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border border-transparent transition-all whitespace-nowrap">
+          <i data-lucide="box" class="w-3.5 h-3.5"></i><span>1. 3D 氣動與 CAD 設計台</span>
+        </button>
+        <button type="button" data-tab="library" class="nav-tab flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800/70 border border-transparent transition-all whitespace-nowrap">
+          <i data-lucide="globe" class="w-3.5 h-3.5"></i><span>2. 全球模型庫與補強 (<span id="LibraryCountBadge">20</span>)</span>
+        </button>
+        <button type="button" data-tab="aerolab" class="nav-tab flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800/70 border border-transparent transition-all whitespace-nowrap">
+          <i data-lucide="wind" class="w-3.5 h-3.5"></i><span>3. 翼型與極曲線實驗室</span>
+        </button>
+        <button type="button" data-tab="flightsim" class="nav-tab flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800/70 border border-transparent transition-all whitespace-nowrap">
+          <i data-lucide="gauge" class="w-3.5 h-3.5"></i><span>4. 6-DOF 飛行模擬測試</span>
+        </button>
+        <button type="button" data-tab="structural" class="nav-tab flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800/70 border border-transparent transition-all whitespace-nowrap">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i><span>5. 結構力學・配重與 BOM</span>
+        </button>
+        <button type="button" data-tab="compare" class="nav-tab flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800/70 border border-transparent transition-all whitespace-nowrap">
+          <i data-lucide="git-compare" class="w-3.5 h-3.5"></i><span>6. 跨機型對比與匯出</span>
+        </button>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-1.5">
+        <button type="button" id="BtnOneClickAugment" class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 transition-all" title="自動診斷氣動與結構弱點並套用最佳補強方案">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i><span>一鍵智能補強</span>
+        </button>
+        <button type="button" id="BtnOpenPhotoModal" class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 transition-all" title="輸出帶有 MaxJim Tech 浮水印與肇祥企業社抬頭之高解析度工程數據照片">
+          <i data-lucide="camera" class="w-3.5 h-3.5"></i><span>輸出數據照片(浮水印)</span>
+        </button>
+        <button type="button" id="BtnOpenCustomModal" class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all">
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-sky-400"></i><span class="hidden sm:inline">新增機型</span>
+        </button>
+        <button type="button" id="BtnExportSpec" class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-sky-600 hover:bg-sky-500 text-white transition-all">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i><span class="hidden sm:inline">匯出規格</span>
+        </button>
+      </div>
+    </div>
+
+    <nav id="siteLinks" aria-label="網站工具導覽"><button type="button" id="FullscreenToggle">全螢幕操作</button><a href="https://maxjimtech.com/線上設計工具" target="_top">返回官網工具區</a><a href="../ugv-cad-studio/">UGV 無人車</a><a href="../usv-cad-studio/">USV 無人船</a><span>民用研究版 · 模擬數據為估算</span></nav><div id="contactEdition"><span>完整版本 請洽 肇祥企業社 MaxJim Tech Inc.</span><a id="FullVersionLink" href="https://github.com/maxjimtech/maxjimtech.github.io/blob/main/services/aerovanguard/maxjim_tech_aerovanguard_3d.html" target="_blank" rel="noopener noreferrer">民用完整版本（GitHub）</a></div><!-- Real-Time Quick KPI Strip -->
+    <div class="grid grid-cols-4 sm:grid-cols-8 gap-1.5 mt-2 pt-1.5 border-t border-slate-800/80 text-[11px]">
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">雷諾數 Re:</span>
+        <span id="TopKpiRe" class="font-mono font-semibold text-sky-300">2.45×10⁶</span>
+      </div>
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">馬赫數 Ma:</span>
+        <span id="TopKpiMach" class="font-mono font-semibold text-cyan-300">0.18</span>
+      </div>
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">升力係數 CL:</span>
+        <span id="TopKpiCL" class="font-mono font-semibold text-emerald-400">0.842</span>
+      </div>
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">阻力係數 CD:</span>
+        <span id="TopKpiCD" class="font-mono font-semibold text-amber-400">0.038</span>
+      </div>
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">升阻比 L/D:</span>
+        <span id="TopKpiLD" class="font-mono font-semibold text-teal-300">22.1</span>
+      </div>
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">靜穩定裕度 SM:</span>
+        <span id="TopKpiSM" class="font-mono font-semibold text-indigo-300">+14.2%</span>
+      </div>
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">推重比 T/W:</span>
+        <span id="TopKpiTW" class="font-mono font-semibold text-purple-300">0.42</span>
+      </div>
+      <div class="bg-slate-900/80 px-2 py-1 rounded border border-slate-800 flex justify-between items-center">
+        <span class="text-slate-400">預估滯空/航程:</span>
+        <span id="TopKpiEndurance" class="font-mono font-semibold text-rose-300">27.5h / 2450km</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE CONTAINER -->
+  <main id="mainWorkspace" class="flex-1 p-2 sm:p-3 max-w-[1920px] w-full mx-auto">
+
+    <!-- ========================================================================= -->
+    <!-- TAB 1: 3D CAD & LIVE AERODYNAMIC WIND TUNNEL STUDIO                       -->
+    <!-- ========================================================================= -->
+    <section id="TabView-studio" class="tab-section grid grid-cols-1 lg:grid-cols-12 gap-3">
+      
+      <!-- LEFT COLUMN: Parametric CAD & Augmentation Controls (3 cols on lg) -->
+      <div id="geometryPanel" class="lg:col-span-3 space-y-3 max-h-[calc(100vh-135px)] overflow-y-auto pr-1">
+        
+        <!-- Airframe Architecture & Airfoil Selection -->
+        <div class="glass-panel rounded-xl p-3 space-y-2.5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
+              <i data-lucide="sliders" class="w-4 h-4"></i>機體幾何與構型參數 (CAD)
+            </h2>
+            <button type="button" id="BtnResetGeometry" class="text-[11px] text-slate-400 hover:text-white px-1.5 py-0.5 rounded bg-slate-800">重置原廠</button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">氣動佈局構型</label>
+              <select id="ParamAirframeType" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-slate-100">
+                <option value="fixed_male">長滯空固定翼 (MALE/HALE)</option>
+                <option value="twin_boom">雙尾桁推進式 (Twin-Boom)</option>
+                <option value="flying_wing">無尾飛翼/翼身融合 (BWB)</option>
+                <option value="quadplane_vtol">複合翼垂直起降 (4+1 VTOL)</option>
+                <option value="tiltrotor_vtol">傾轉旋翼載具 (Tilt-Rotor)</option>
+                <option value="multirotor">多旋翼重載平台 (Multi-Rotor)</option>
+                <option value="heli_coaxial">無人直升機/共軸雙槳</option>
+                <option value="ducted_fan">涵道風扇垂直起降 (Ducted)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">主翼剖面翼型 (Airfoil)</label>
+              <select id="ParamAirfoil" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-slate-100">
+                <option value="NACA 64-212">NACA 64-212 (層流低阻)</option>
+                <option value="NACA 4415">NACA 4415 (高升力長航時)</option>
+                <option value="NACA 4412">NACA 4412 (通用型)</option>
+                <option value="NACA 2412">NACA 2412 (標準巡航翼)</option>
+                <option value="NACA 0012">NACA 0012 (對稱高速/旋翼)</option>
+                <option value="Selig S1223">Selig S1223 (低雷諾數超高升力)</option>
+                <option value="Eppler 330">Eppler 330 (飛翼反彎度配平)</option>
+                <option value="MH 114">MH 114 (VTOL 複合翼高效)</option>
+                <option value="SC(2)-0610">SC(2)-0610 (超臨界跨音速)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Parametric Sliders -->
+          <div class="space-y-2 pt-1">
+            <div>
+              <div class="flex justify-between text-xs mb-0.5">
+                <span class="text-slate-300">翼展 / 旋翼直徑 (Span b)</span>
+                <span id="ValSpan" class="font-mono text-sky-400">20.1 m</span>
+              </div>
+              <input type="range" id="SliderSpan" min="0.4" max="42.0" step="0.1" value="20.1" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-0.5">
+                <span class="text-slate-300">翼根弦長 (Root Chord c_r)</span>
+                <span id="ValRootChord" class="font-mono text-sky-400">1.45 m</span>
+              </div>
+              <input type="range" id="SliderRootChord" min="0.12" max="5.5" step="0.02" value="1.45" class="w-full">
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <div class="flex justify-between text-[11px] mb-0.5">
+                  <span class="text-slate-300">尖根比 λ</span>
+                  <span id="ValTaper" class="font-mono text-sky-400">0.42</span>
+                </div>
+                <input type="range" id="SliderTaper" min="0.15" max="1.0" step="0.01" value="0.42" class="w-full">
+              </div>
+              <div>
+                <div class="flex justify-between text-[11px] mb-0.5">
+                  <span class="text-slate-300">前緣後掠角 Λ</span>
+                  <span id="ValSweep" class="font-mono text-sky-400">4.0°</span>
+                </div>
+                <input type="range" id="SliderSweep" min="-15" max="55" step="0.5" value="4.0" class="w-full">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <div class="flex justify-between text-[11px] mb-0.5">
+                  <span class="text-slate-300">上反角 Γ</span>
+                  <span id="ValDihedral" class="font-mono text-sky-400">3.0°</span>
+                </div>
+                <input type="range" id="SliderDihedral" min="-8" max="12" step="0.5" value="3.0" class="w-full">
+              </div>
+              <div>
+                <div class="flex justify-between text-[11px] mb-0.5">
+                  <span class="text-slate-300">機翼扭轉 (Washout)</span>
+                  <span id="ValWashout" class="font-mono text-sky-400">-2.0°</span>
+                </div>
+                <input type="range" id="SliderWashout" min="-6" max="4" step="0.5" value="-2.0" class="w-full">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <div class="flex justify-between text-[11px] mb-0.5">
+                  <span class="text-slate-300">機身長度 L_f</span>
+                  <span id="ValFuseLen" class="font-mono text-sky-400">11.0 m</span>
+                </div>
+                <input type="range" id="SliderFuseLen" min="0.35" max="22.0" step="0.1" value="11.0" class="w-full">
+              </div>
+              <div>
+                <div class="flex justify-between text-[11px] mb-0.5">
+                  <span class="text-slate-300">最大起飛重量 MTOW</span>
+                  <span id="ValMass" class="font-mono text-sky-400">4760 kg</span>
+                </div>
+                <input type="range" id="SliderMass" min="1.5" max="21000" step="0.5" value="4760" class="w-full">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">尾翼配置型式</label>
+                <select id="ParamTailType" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs">
+                  <option value="v_tail">Y型/正V尾翼 (V-Tail)</option>
+                  <option value="inv_v_tail">雙桁倒V尾 (Inverted V)</option>
+                  <option value="t_tail">高置 T 型尾翼 (T-Tail)</option>
+                  <option value="conventional">傳統十字尾翼 (Conventional)</option>
+                  <option value="tailless">無尾翼/翼尖垂尾 (Tailless)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">旋翼/螺旋槳數量</label>
+                <select id="ParamRotorCount" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs">
+                  <option value="1">單具主推進槳 (1P)</option>
+                  <option value="2">雙發/共軸雙槳 (2P)</option>
+                  <option value="4">四旋翼構型 (Quad X4)</option>
+                  <option value="5">4+1 複合翼 (QuadPlane)</option>
+                  <option value="6">六傾轉旋翼 (Hex Tilt 6P)</option>
+                  <option value="8">八槳共軸重載 (Octo X8)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Model Reinforcement & Aero Augmentation Module -->
+        <div class="glass-panel rounded-xl p-3 space-y-2.5 border-emerald-500/30">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+              <i data-lucide="wrench" class="w-4 h-4"></i>氣動與機構補強套件 (Augmentation)
+            </h2>
+            <span id="AugmentStatusBadge" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">已啟用 1 項</span>
+          </div>
+
+          <div class="space-y-2 text-xs">
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">1. 翼尖渦流抑制補強 (Wingtip Device)</label>
+              <select id="AugWinglet" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-emerald-300">
+                <option value="none">標準平直翼尖 (Plain Tip - 基準)</option>
+                <option value="blended">融合式上揚小翼 (Blended Winglet, e+11%)</option>
+                <option value="sharklet">鯊魚鰭斜削小翼 (Sharklet, e+14%)</option>
+                <option value="scimitar">分叉式雙彎刀小翼 (Split Scimitar, e+17%)</option>
+                <option value="endplate">端板/翼尖垂尾 (Wingtip Endplate, e+9%)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">2. 邊界層與增升裝置補強 (High-Lift & BL)</label>
+              <select id="AugHighLift" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-emerald-300">
+                <option value="plain">標準後緣襟翼 (Plain Trailing Flap)</option>
+                <option value="fowler">單開縫富勒襟翼 (Fowler Flap, CLmax+0.45)</option>
+                <option value="slat_fowler">前緣縫翼 + 富勒襟翼 (LE Slat + Fowler, 延遲失速+5°)</option>
+                <option value="vg_array">微渦流產生器陣列 (Vortex Generators, 抑制分離)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">3. 主樑與機體複合材料補強 (Structural Spec)</label>
+              <select id="AugMaterial" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-emerald-300">
+                <option value="al7075">7075-T6 航太鋁合金半硬殼結構</option>
+                <option value="t700_cf">Toray T700 碳纖維複合雙大樑</option>
+                <option value="t800_nomex">T800 高模量碳纖 + Nomex 蜂巢夾芯 (減重18%)</option>
+                <option value="ti_hybrid">T1000 碳纖主樑 + 鈦合金 Ti-6Al-4V 翼根接頭補強</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">4. 推進與能源系統補強 (Energy & Redundancy)</label>
+              <select id="AugEnergy" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-emerald-300">
+                <option value="standard">標準航空燃油 / LiPo 220Wh/kg 電池</option>
+                <option value="solid_state">固態鋰金屬電池組 (420 Wh/kg, 航時+65%)</option>
+                <option value="solar_skin">機翼表面鈣鈦礦太陽能薄膜 + 固態電池混動</option>
+                <option value="h2_fuelcell">液態氫燃料電池 + 高效推進螺旋槳升級</option>
+                <option value="heavy_turbo">渦輪增壓重油引擎 + 低噪音彎刀槳補強</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-1.5 pt-1">
+              <label class="flex items-center gap-1.5 bg-slate-900/80 px-2 py-1.5 rounded border border-slate-800 cursor-pointer">
+                <input type="checkbox" id="AugEoIrGimbal" checked class="accent-sky-400">
+                <span class="text-[11px] text-slate-300">光電/紅外線吊艙</span>
+              </label>
+              <label class="flex items-center gap-1.5 bg-slate-900/80 px-2 py-1.5 rounded border border-slate-800 cursor-pointer">
+                <input type="checkbox" id="AugRetractGear" checked class="accent-sky-400">
+                <span class="text-[11px] text-slate-300">收放式減阻起落架</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CENTER COLUMN: Real-Time 3D WebGL Viewport + Wind Tunnel Controls (6 cols on lg) -->
+      <div id="studioCenter" class="lg:col-span-6 flex flex-col gap-3">
+        
+        <!-- 3D Viewport Container -->
+        <div id="viewportLayout" class="relative glass-panel rounded-xl overflow-hidden flex-1 min-h-[430px] sm:min-h-[500px] border border-slate-700/80 flex flex-col">
+          
+          <!-- Top Overlay Toolbar inside 3D Canvas -->
+          <div id="viewportToolbar" class="absolute top-2.5 left-2.5 right-2.5 z-10 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+            <!-- Visualization Layer Toggles -->
+            <div class="flex flex-wrap items-center gap-1 hud-overlay px-2 py-1 rounded-lg pointer-events-auto">
+              <button type="button" data-viz="streamlines" class="viz-toggle bg-sky-500/30 text-sky-300 border border-sky-400/50 px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1">
+                <i data-lucide="wind" class="w-3 h-3"></i>氣流流線
+              </button>
+              <button type="button" data-viz="vortices" class="viz-toggle bg-indigo-500/30 text-indigo-300 border border-indigo-400/50 px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1">
+                <i data-lucide="tornado" class="w-3 h-3"></i>翼尖渦流
+              </button>
+              <button type="button" data-viz="pressure" class="viz-toggle bg-slate-800/80 text-slate-300 border border-slate-700 px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1">
+                <i data-lucide="flame" class="w-3 h-3"></i>表面壓力 Cp
+              </button>
+              <button type="button" data-viz="vectors" class="viz-toggle bg-emerald-500/30 text-emerald-300 border border-emerald-400/50 px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1">
+                <i data-lucide="move-up-right" class="w-3 h-3"></i>氣動力向量
+              </button>
+              <button type="button" data-viz="cgnp" class="viz-toggle bg-amber-500/30 text-amber-300 border border-amber-400/50 px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1">
+                <i data-lucide="crosshair" class="w-3 h-3"></i>CG / NP
+              </button>
+              <button type="button" data-viz="xray" class="viz-toggle bg-slate-800/80 text-slate-300 border border-slate-700 px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1">
+                <i data-lucide="layers" class="w-3 h-3"></i>結構 X-Ray
+              </button>
+            </div>
+
+            <!-- Camera View Presets -->
+            <div class="flex items-center gap-1 hud-overlay px-2 py-1 rounded-lg pointer-events-auto">
+              <button type="button" data-cam="iso" class="cam-btn text-[11px] px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-medium">等角透視</button>
+              <button type="button" data-cam="front" class="cam-btn text-[11px] px-2 py-0.5 rounded hover:bg-slate-800 text-slate-300">正視</button>
+              <button type="button" data-cam="side" class="cam-btn text-[11px] px-2 py-0.5 rounded hover:bg-slate-800 text-slate-300">側視</button>
+              <button type="button" data-cam="top" class="cam-btn text-[11px] px-2 py-0.5 rounded hover:bg-slate-800 text-slate-300">俯視</button>
+              <button type="button" data-cam="chase" class="cam-btn text-[11px] px-2 py-0.5 rounded hover:bg-slate-800 text-slate-300">追尾</button>
+            </div>
+          </div>
+
+          <!-- Stall / Warning Banner Overlay -->
+          <div id="StallAlertOverlay" class="hidden absolute top-14 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 rounded-full bg-rose-600/90 border border-rose-300 text-white text-xs font-bold tracking-wider uppercase shadow-lg flex items-center gap-2 animate-pulse pointer-events-none">
+            <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+            <span id="StallAlertText">警告：超過臨界失速攻角 (STALL REGIME) — 氣流分離渦流生成中</span>
+          </div>
+
+          <!-- Primary Flight Display (PFD) Mini HUD Canvas (Bottom Left of 3D Viewport) -->
+          <div id="flightDisplay" class="absolute bottom-3 left-3 z-10 hud-overlay rounded-xl p-2 pointer-events-none hidden sm:block">
+            <div class="flex items-center justify-between text-[10px] text-sky-400 font-mono mb-1 px-1">
+              <span>PFD 姿態與飛行包絡線</span>
+              <span id="HudModeLabel">WIND TUNNEL</span>
+            </div>
+            <canvas id="HudPfdCanvas" width="170" height="135" class="rounded border border-slate-800/90 bg-[#050811]"></canvas>
+          </div>
+
+          <!-- Legend & Cp Colorbar (Bottom Right of 3D Viewport) -->
+          <div id="viewportLegend" class="absolute bottom-3 right-3 z-10 hud-overlay rounded-xl p-2.5 text-[10px] space-y-1.5 pointer-events-none">
+            <div class="font-semibold text-slate-300 flex items-center justify-between gap-4">
+              <span>物理向量與表面 Cp 圖例</span>
+              <span class="font-mono text-sky-400" id="ViewportFps">60 FPS</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400"></span><span>升力 L</span>
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-rose-500"></span><span>阻力 D</span>
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-cyan-400"></span><span>推力 T</span>
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-400"></span><span>重心 CG</span>
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-fuchsia-400"></span><span>中性點 NP</span>
+            </div>
+            <div class="space-y-0.5">
+              <div class="h-2 w-full rounded bg-gradient-to-r from-blue-600 via-emerald-400 to-rose-600"></div>
+              <div class="flex justify-between font-mono text-[9px] text-slate-400">
+                <span>Cp -2.2 (低壓吸力區)</span>
+                <span>0.0</span>
+                <span>+1.0 (駐點高壓)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- MaxJim Tech Live 3D Watermark Overlay -->
+          <div class="absolute inset-0 maxjim-watermark-overlay pointer-events-none z-[5]"></div>
+          <div id="viewportBrand" class="absolute top-14 right-3 z-10 pointer-events-none text-right">
+            <div class="text-xs font-bold tracking-wider text-sky-400/55 font-mono">肇祥企業社 MaxJim Tech.</div>
+            <div class="text-[10px] text-slate-400/50 font-mono">https://maxjimtech.com/ • 0931-765001</div>
+          </div>
+          <!-- Three.js Canvas Mount Container -->
+          <div id="ThreeViewportContainer" class="w-full flex-1 min-h-[430px] cursor-grab active:cursor-grabbing"></div>
+        </div>
+
+        <!-- Wind Tunnel & Control Surface Interactive Console -->
+        <div class="glass-panel rounded-xl p-3 space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-1.5">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+              <i data-lucide="compass" class="w-4 h-4"></i>即時風洞飛行條件與舵面控制 (Flight Condition & Controls)
+            </h3>
+            <div class="flex items-center gap-1.5">
+              <button type="button" id="BtnQuickSweepAoA" class="text-[11px] px-2.5 py-1 rounded bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 font-medium flex items-center gap-1">
+                <i data-lucide="play" class="w-3 h-3"></i><span>自動攻角掃描 (-8°~+22°)</span>
+              </button>
+              <button type="button" id="BtnTrimAircraft" class="text-[11px] px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-medium">
+                自動平飛配平 (L=W)
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">真空速 V_∞</span>
+                <span id="ValAirspeed" class="font-mono text-cyan-300 font-semibold">62.0 m/s (223 km/h)</span>
+              </div>
+              <input type="range" id="SliderAirspeed" min="5" max="240" step="1" value="62" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">迎角 / 攻角 α (AoA)</span>
+                <span id="ValAoA" class="font-mono text-emerald-300 font-semibold">4.5°</span>
+              </div>
+              <input type="range" id="SliderAoA" min="-10" max="24" step="0.2" value="4.5" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">側滑角 β (Sideslip)</span>
+                <span id="ValBeta" class="font-mono text-sky-300">0.0°</span>
+              </div>
+              <input type="range" id="SliderBeta" min="-18" max="18" step="0.5" value="0" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">海拔高度 h (ISA)</span>
+                <span id="ValAltitude" class="font-mono text-indigo-300">3500 m</span>
+              </div>
+              <input type="range" id="SliderAltitude" min="0" max="18000" step="100" value="3500" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">後緣襟翼偏角 δ_f</span>
+                <span id="ValFlap" class="font-mono text-amber-300">0°</span>
+              </div>
+              <input type="range" id="SliderFlap" min="-5" max="40" step="1" value="0" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">升降舵偏角 δ_e</span>
+                <span id="ValElevator" class="font-mono text-amber-300">0.0°</span>
+              </div>
+              <input type="range" id="SliderElevator" min="-25" max="25" step="0.5" value="0" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">副翼差動偏角 δ_a</span>
+                <span id="ValAileron" class="font-mono text-amber-300">0.0°</span>
+              </div>
+              <input type="range" id="SliderAileron" min="-25" max="25" step="0.5" value="0" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-0.5">
+                <span class="text-slate-400">推進油門 / 傾轉角</span>
+                <span id="ValThrottle" class="font-mono text-rose-300">75%</span>
+              </div>
+              <input type="range" id="SliderThrottle" min="0" max="100" step="1" value="75" class="w-full">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Live Aerodynamic & Stability Telemetry + Mini Polar (3 cols on lg) -->
+      <div id="analysisPanel" class="lg:col-span-3 space-y-3 max-h-[calc(100vh-135px)] overflow-y-auto pl-1">
+        
+        <!-- Real-Time Forces & Moments Card -->
+        <div class="glass-panel rounded-xl p-3 space-y-2.5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+              <i data-lucide="activity" class="w-4 h-4"></i>即時氣動力學與穩定度解算
+            </h2>
+            <span id="FlightRegimeTag" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">亞音速穩定附著流</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+              <div class="text-[10px] text-slate-400">總升力 (Total Lift L)</div>
+              <div id="MetricLiftN" class="font-mono text-sm font-bold text-emerald-400 mt-0.5">48,120 N</div>
+              <div id="MetricLiftKgf" class="font-mono text-[10px] text-slate-400">4,905 kgf (過載 1.03G)</div>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+              <div class="text-[10px] text-slate-400">總阻力 (Total Drag D)</div>
+              <div id="MetricDragN" class="font-mono text-sm font-bold text-rose-400 mt-0.5">2,175 N</div>
+              <div id="MetricDragBreak" class="font-mono text-[10px] text-slate-400">CD0: 0.019 | CDi: 0.019</div>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+              <div class="text-[10px] text-slate-400">主翼幾何展弦比 AR / 有效 AR_eff</div>
+              <div id="MetricAR" class="font-mono text-sm font-bold text-sky-300 mt-0.5">19.6 / 22.3</div>
+              <div id="MetricWingArea" class="font-mono text-[10px] text-slate-400">翼面積 S: 20.6 m² | e: 0.89</div>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+              <div class="text-[10px] text-slate-400">失速速度 V_stall / 巡航需用功率</div>
+              <div id="MetricVstall" class="font-mono text-sm font-bold text-amber-300 mt-0.5">38.4 m/s</div>
+              <div id="MetricPowerReq" class="font-mono text-[10px] text-slate-400">需用功率: 134.8 kW</div>
+            </div>
+          </div>
+
+          <!-- Detailed Aerodynamic Coefficients Table -->
+          <div class="bg-slate-900/70 rounded-lg p-2 border border-slate-800/80 space-y-1 text-[11px]">
+            <div class="flex justify-between">
+              <span class="text-slate-400">動壓 q_∞ & 大氣密度 ρ:</span>
+              <span id="MetricQandRho" class="font-mono text-slate-200">1,660 Pa | 0.863 kg/m³</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">俯仰力矩係數 C_m & 斜率 C_mα:</span>
+              <span id="MetricCm" class="font-mono text-sky-300">-0.018 (dCm/dα = -0.64 /rad)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">翼根彎矩 M_root & 安全係數:</span>
+              <span id="MetricRootMoment" class="font-mono text-emerald-300">121.4 kN·m (SF = 2.45)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">翼載荷 W/S & 氣動中心 X_NP:</span>
+              <span id="MetricWingLoading" class="font-mono text-indigo-300">231.0 kg/m² | 38.2% MAC</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mini 2D Airfoil Section & Cp Preview -->
+        <div class="glass-panel rounded-xl p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
+              <i data-lucide="spline" class="w-3.5 h-3.5"></i>2D 翼型剖面流場與壓力包絡
+            </h3>
+            <span id="MiniAirfoilName" class="text-[10px] font-mono text-slate-400">NACA 64-212</span>
+          </div>
+          <canvas id="MiniAirfoilCanvas" width="340" height="135" class="w-full rounded-lg bg-[#050811] border border-slate-800"></canvas>
+        </div>
+
+        <!-- Mini Live Polar Curve (CL vs AoA & L/D) -->
+        <div class="glass-panel rounded-xl p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+              <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>即時升力與升阻比工作點
+            </h3>
+            <span class="text-[10px] text-slate-400">紅點 = 當前攻角 α</span>
+          </div>
+          <div class="relative h-44 w-full">
+            <canvas id="StudioMiniPolarChart"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 2: GLOBAL UAV MODEL LIBRARY & AUGMENTATION CENTER                     -->
+    <!-- ========================================================================= -->
+    <section id="TabView-library" class="tab-section hidden space-y-3">
+      <div class="glass-panel rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-sm font-bold text-white flex items-center gap-2">
+            <i data-lucide="globe" class="w-4 h-4 text-sky-400"></i>
+            全球無人飛行載具標準模型庫與氣動/機構補強中心 (Global UAV Database & Augmentation Hub)
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">收錄 6 款民用測繪、巡檢、物流與太陽能研究機型，可比較幾何參數與模擬結果。</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="relative">
+            <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="LibrarySearchInput" placeholder="搜尋機型、國家、翼型或構型..." class="bg-slate-900 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-sky-400 w-56">
+          </div>
+          <select id="LibraryFilterCat" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200">
+            <option value="ALL">所有民用構型分類</option>
+            <option value="MALE_HALE">中高空長滯空固定翼 (MALE/HALE)</option>
+            <option value="BWB_DELTA">飛翼與翼身融合 (BWB/Delta)</option>
+            <option value="VTOL_HYBRID">複合翼與傾轉旋翼 (QuadPlane/Tilt-Rotor)</option>
+            <option value="MULTIROTOR">工業多旋翼 (Multi-Rotor/FPV)</option>
+            <option value="HELI_COAX">無人直升機與共軸雙槳 (Heli/Coaxial)</option>
+            <option value="FUTURE_SOLAR">前瞻太陽能/eVTOL/涵道風扇</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Library Grid + Selected Model Diagnosis & Reinforcement Panel -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
+        <div id="ModelLibraryGrid" class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 max-h-[calc(100vh-210px)] overflow-y-auto pr-1"></div>
+
+        <!-- Right Diagnosis & Augmentation Blueprint Panel -->
+        <div class="lg:col-span-4 glass-panel rounded-xl p-4 space-y-3 border-sky-500/30 max-h-[calc(100vh-210px)] overflow-y-auto">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div>
+              <span id="LibDetailOrigin" class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300">USA / General Atomics</span>
+              <h3 id="LibDetailTitle" class="text-base font-bold text-white mt-1">MQ-9 Reaper (死神)</h3>
+            </div>
+            <button type="button" id="BtnLoadSelectedFromLib" class="px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs flex items-center gap-1 shadow-lg">
+              <i data-lucide="box" class="w-3.5 h-3.5"></i><span>載入 3D 工作台</span>
+            </button>
+          </div>
+
+          <p id="LibDetailDesc" class="text-xs text-slate-300 leading-relaxed"></p>
+
+          <div id="LibDetailSpecsGrid" class="grid grid-cols-3 gap-2 text-xs"></div>
+
+          <!-- Native Bottleneck & Augmentation Recommendations -->
+          <div class="bg-slate-900/90 rounded-xl p-3 border border-emerald-500/30 space-y-2">
+            <div class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+              <i data-lucide="cpu" class="w-4 h-4"></i>原生構型極限診斷與工程補強方案 (Model Augmentation)
+            </div>
+            <div id="LibDetailWeakness" class="text-xs text-amber-300/90 bg-amber-500/10 border border-amber-500/20 rounded p-2"></div>
+            <div id="LibDetailAugmentPlan" class="text-xs text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded p-2"></div>
+            <button type="button" id="BtnApplyLibAugment" class="w-full py-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition-all">
+              <i data-lucide="zap" class="w-4 h-4"></i><span>套用專屬補強方案並載入 3D 模擬</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 3: AERODYNAMIC POLAR CURVES & 2D AIRFOIL WIND TUNNEL LAB              -->
+    <!-- ========================================================================= -->
+    <section id="TabView-aerolab" class="tab-section hidden space-y-3">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
+        <!-- Left: Interactive 2D Airfoil Wind Tunnel & Boundary Layer Analyzer -->
+        <div class="lg:col-span-5 glass-panel rounded-xl p-3.5 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div>
+              <h2 class="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
+                <i data-lucide="wind" class="w-4 h-4"></i>2D 翼型剖面流場與表面壓力係數 C_p(x/c) 分析儀
+              </h2>
+              <p class="text-[11px] text-slate-400">即時解算翼型上下表面速度分佈、駐點位移、中弧線彎度與邊界層轉捩點</p>
+            </div>
+            <select id="LabAirfoilSelect" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-sky-300 font-mono"></select>
+          </div>
+
+          <canvas id="LabLargeAirfoilCanvas" width="560" height="270" class="w-full rounded-xl bg-[#050811] border border-slate-800"></canvas>
+
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800">
+              <div class="text-[10px] text-slate-400">最大相對厚度 t/c</div>
+              <div id="LabMetricThickness" class="font-mono font-bold text-sky-300 text-sm">12.0% @ 30%c</div>
+            </div>
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800">
+              <div class="text-[10px] text-slate-400">最大相對彎度 f/c</div>
+              <div id="LabMetricCamber" class="font-mono font-bold text-emerald-300 text-sm">2.0% @ 40%c</div>
+            </div>
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800">
+              <div class="text-[10px] text-slate-400">零升攻角 α_L=0 / α_stall</div>
+              <div id="LabMetricZeroAoA" class="font-mono font-bold text-amber-300 text-sm">-2.2° / 15.5°</div>
+            </div>
+          </div>
+
+          <!-- Spanwise Lift Distribution Chart -->
+          <div class="pt-1 border-t border-slate-800">
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-indigo-300">展向環量與局部升力分佈 C_l(y) (Prandtl 升力線 vs 理想橢圓)</span>
+              <span class="text-[10px] font-mono text-slate-400">半翼展 2y/b in [0, 1]</span>
+            </div>
+            <div class="relative h-48 w-full">
+              <canvas id="ChartSpanwiseLift"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: 3 Core Aerodynamic Polar Charts (Baseline vs Reinforced) -->
+        <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="glass-panel rounded-xl p-3 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold text-emerald-400">1. 升力曲線 C_L - α (原生基準 vs 補強後)</h3>
+              <span class="text-[10px] font-mono text-slate-400">含失速後非線性分離模型</span>
+            </div>
+            <div class="relative h-60 w-full">
+              <canvas id="ChartClAlpha"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-xl p-3 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold text-sky-400">2. 升阻比特性曲線 L/D - α (滑翔與巡航效率)</h3>
+              <span id="MaxLDLabel" class="text-[10px] font-mono text-sky-300">(L/D)max = 24.8 @ 5.0°</span>
+            </div>
+            <div class="relative h-60 w-full">
+              <canvas id="ChartLDAlpha"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-xl p-3 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold text-amber-400">3. 阻力極曲線 Drag Polar (C_L vs C_D)</h3>
+              <span class="text-[10px] font-mono text-slate-400">CD = CD0 + CL²/(π·e·AR)</span>
+            </div>
+            <div class="relative h-60 w-full">
+              <canvas id="ChartDragPolar"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-xl p-3 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold text-purple-400">4. 俯仰力矩與縱向靜穩定度 C_m - α</h3>
+              <span id="TrimAlphaLabel" class="text-[10px] font-mono text-purple-300">配平攻角 α_trim = 3.8°</span>
+            </div>
+            <div class="relative h-60 w-full">
+              <canvas id="ChartCmAlpha"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 4: 6-DOF FLIGHT SIMULATION & AUTOMATED TEST BENCH                     -->
+    <!-- ========================================================================= -->
+    <section id="TabView-flightsim" class="tab-section hidden space-y-3">
+      <div class="glass-panel rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-sm font-bold text-white flex items-center gap-2">
+            <i data-lucide="gauge" class="w-4 h-4 text-emerald-400"></i>
+            6-DOF 動態飛行模擬測試與極限包絡線驗證中心 (Automated Flight Test & Telemetry Recorder)
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">選擇下方自動化工程測試課目，系統將即時驅動 6-DOF 姿態動力學方程並繪製時域飛航黑盒子響應曲線。</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" data-test="aoa_sweep" class="sim-test-btn px-3 py-1.5 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-300 text-xs font-semibold flex items-center gap-1.5">
+            <i data-lucide="trending-up" class="w-3.5 h-3.5"></i><span>課目 A：失速攻角掃描</span>
+          </button>
+          <button type="button" data-test="gust_pid" class="sim-test-btn px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-semibold flex items-center gap-1.5">
+            <i data-lucide="wind" class="w-3.5 h-3.5"></i><span>課目 B：15m/s 強陣風 PID 穩定收斂</span>
+          </button>
+          <button type="button" data-test="vtol_trans" class="sim-test-btn px-3 py-1.5 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 border border-indigo-500/40 text-indigo-300 text-xs font-semibold flex items-center gap-1.5">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i><span>課目 C：VTOL 垂直起降轉平飛過渡</span>
+          </button>
+          <button type="button" data-test="high_g" class="sim-test-btn px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-semibold flex items-center gap-1.5">
+            <i data-lucide="zap" class="w-3.5 h-3.5"></i><span>課目 D：4.5G 急拉結構過載極限測試</span>
+          </button>
+          <button type="button" id="BtnStopSimTest" class="px-2.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 text-xs font-medium">
+            停止/重置紀錄
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
+        <!-- Left: Flight Control Stick, PID Gains & Live Status -->
+        <div class="lg:col-span-4 glass-panel rounded-xl p-3.5 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-sky-400">飛控律 PID 增益與陣風擾動設定</h3>
+            <span id="SimRunningStatus" class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">待命 / 即時解算中</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5 text-xs">
+            <div>
+              <div class="flex justify-between mb-0.5"><span class="text-slate-400">俯仰阻尼增益 K_q</span><span id="ValPidPitch" class="font-mono text-sky-300">1.85</span></div>
+              <input type="range" id="SliderPidPitch" min="0.2" max="5.0" step="0.05" value="1.85" class="w-full">
+            </div>
+            <div>
+              <div class="flex justify-between mb-0.5"><span class="text-slate-400">滾轉阻尼增益 K_p</span><span id="ValPidRoll" class="font-mono text-sky-300">2.10</span></div>
+              <input type="range" id="SliderPidRoll" min="0.2" max="5.0" step="0.05" value="2.10" class="w-full">
+            </div>
+            <div>
+              <div class="flex justify-between mb-0.5"><span class="text-slate-400">大氣亂流強度 (Dryden)</span><span id="ValTurbulence" class="font-mono text-amber-300">15%</span></div>
+              <input type="range" id="SliderTurbulence" min="0" max="100" step="5" value="15" class="w-full">
+            </div>
+            <div>
+              <div class="flex justify-between mb-0.5"><span class="text-slate-400">VTOL 傾轉過渡進度</span><span id="ValVtolTilt" class="font-mono text-indigo-300">90° (巡航)</span></div>
+              <input type="range" id="SliderVtolTilt" min="0" max="90" step="1" value="90" class="w-full">
+            </div>
+          </div>
+
+          <!-- Flight Test Verdict Box -->
+          <div id="SimTestReportBox" class="bg-slate-900/90 rounded-xl p-3 border border-slate-800 space-y-2 text-xs">
+            <div class="font-bold text-emerald-400 flex items-center justify-between">
+              <span>飛行品質與 MIL-STD-1797 穩定度評級</span>
+              <span id="SimHandlingLevel" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px]">Level 1 優良</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-[11px] pt-1">
+              <div>短週期自然頻率 omega_sp: <span id="SimOmegaSp" class="font-mono text-sky-300">3.42 rad/s</span></div>
+              <div>短週期阻尼比 zeta_sp: <span id="SimZetaSp" class="font-mono text-emerald-300">0.68</span></div>
+              <div>長週期 (Phugoid) 週期: <span id="SimPhugoidT" class="font-mono text-slate-200">28.4 s</span></div>
+              <div>荷蘭滾 (Dutch Roll) zeta_d: <span id="SimDutchRoll" class="font-mono text-sky-300">0.24</span></div>
+              <div>最大瞬態過載 n_z,max: <span id="SimMaxG" class="font-mono text-amber-300">1.03 G</span></div>
+              <div>姿態收斂時間 T_settle: <span id="SimSettleTime" class="font-mono text-emerald-300">1.8 s</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Real-Time Flight Recorder Telemetry Chart -->
+        <div class="lg:col-span-8 glass-panel rounded-xl p-3.5 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400">6-DOF 飛航黑盒子即時波形紀錄儀 (Pitch / AoA / G-Load / L/D Time-Series)</h3>
+            <span class="text-[11px] font-mono text-slate-400" id="SimTelemetrySub">取樣率: 20 Hz | 動態閉迴路響應</span>
+          </div>
+          <div class="relative h-72 w-full">
+            <canvas id="ChartFlightTelemetry"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 5: STRUCTURAL FEA, CG BALANCE & ENGINEERING BOM                       -->
+    <!-- ========================================================================= -->
+    <section id="TabView-structural" class="tab-section hidden space-y-3">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
+        <!-- Left: Structural Bending Moment, Stress & Flutter Margin -->
+        <div class="lg:col-span-6 glass-panel rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div>
+              <h2 class="text-xs font-bold uppercase tracking-wider text-sky-400">機翼主樑彎矩分佈、Von Mises 應力與氣動彈性顫振分析</h2>
+              <p class="text-[11px] text-slate-400">依據翼根彎矩 M(y)、主樑慣性矩與所選複合材料計算結構安全裕度</p>
+            </div>
+            <span id="StructSafetyBadge" class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-300 font-mono text-xs font-bold">SF = 2.45 (安全)</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800">
+              <div class="text-[10px] text-slate-400">翼根最大彎矩 M_root</div>
+              <div id="StructRootMoment" class="font-mono text-sm font-bold text-sky-300 mt-0.5">121.4 kN·m</div>
+            </div>
+            <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800">
+              <div class="text-[10px] text-slate-400">主樑最大應力 σ_max</div>
+              <div id="StructMaxStress" class="font-mono text-sm font-bold text-amber-300 mt-0.5">312 MPa</div>
+            </div>
+            <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800">
+              <div class="text-[10px] text-slate-400">翼尖撓度 δ_tip / 顫振裕度</div>
+              <div id="StructTipDeflect" class="font-mono text-sm font-bold text-emerald-300 mt-0.5">0.42 m (+68% V_f)</div>
+            </div>
+          </div>
+
+          <div class="relative h-60 w-full">
+            <canvas id="ChartStructuralMoment"></canvas>
+          </div>
+        </div>
+
+        <!-- Right: Subsystem Weight, CG Balance & BOM Table -->
+        <div class="lg:col-span-6 glass-panel rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div>
+              <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400">全機子系統配重、重心 (X_CG) 與工程物料清單 (BOM)</h2>
+              <p class="text-[11px] text-slate-400">自動核算空機重量、酬載比例、三軸轉動慣量 (I_xx, I_yy, I_zz) 與預估硬體成本</p>
+            </div>
+            <span id="BomTotalCostBadge" class="px-2 py-1 rounded bg-sky-500/20 text-sky-300 font-mono text-xs font-bold">預估 BOM: $148,500</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 text-slate-400 text-[11px]">
+                  <th class="py-1.5 px-2">子系統模組 (Subsystem)</th>
+                  <th class="py-1.5 px-2">選用規格 / 補強配置</th>
+                  <th class="py-1.5 px-2 text-right">質量 (kg)</th>
+                  <th class="py-1.5 px-2 text-right">占比</th>
+                  <th class="py-1.5 px-2 text-right">力臂 X_cg (m)</th>
+                </tr>
+              </thead>
+              <tbody id="BomTableBody" class="divide-y divide-slate-800/60 font-mono text-[11px]"></tbody>
+            </table>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-xs pt-1">
+            <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+              <span class="text-slate-400 block text-[10px]">滾轉慣量 I_xx</span>
+              <span id="InertiaIxx" class="font-mono font-bold text-sky-300">28,450 kg·m²</span>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+              <span class="text-slate-400 block text-[10px]">俯仰慣量 I_yy</span>
+              <span id="InertiaIyy" class="font-mono font-bold text-emerald-300">19,820 kg·m²</span>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+              <span class="text-slate-400 block text-[10px]">偏航慣量 I_zz</span>
+              <span id="InertiaIzz" class="font-mono font-bold text-indigo-300">44,120 kg·m²</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 6: MULTI-UAV COMPARISON MATRIX & EXPORT                               -->
+    <!-- ========================================================================= -->
+    <section id="TabView-compare" class="tab-section hidden space-y-3">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
+        <div class="lg:col-span-5 glass-panel rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-sky-400">多維度性能雷達圖 (當前補強設計 vs 全球標竿機型)</h2>
+            <select id="CompareBenchmarkSelect" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-200"></select>
+          </div>
+          <div class="relative h-72 w-full">
+            <canvas id="ChartCompareRadar"></canvas>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 glass-panel rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400">全球指標性 UAV 規格與氣動效率橫向對比矩陣</h2>
+            <button type="button" id="BtnDownloadCsvPolar" class="px-2.5 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-medium flex items-center gap-1">
+              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i><span>匯出 CSV 氣動極曲線數據</span>
+            </button>
+          </div>
+          <div class="overflow-x-auto max-h-80">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 text-slate-400 text-[11px]">
+                  <th class="py-2 px-2">機型名稱</th>
+                  <th class="py-2 px-2">構型分類</th>
+                  <th class="py-2 px-2 text-right">翼展 (m)</th>
+                  <th class="py-2 px-2 text-right">MTOW (kg)</th>
+                  <th class="py-2 px-2">基準翼型</th>
+                  <th class="py-2 px-2 text-right">最大 L/D</th>
+                  <th class="py-2 px-2 text-right">滯空 (hr)</th>
+                  <th class="py-2 px-2 text-center">操作</th>
+                </tr>
+              </thead>
+              <tbody id="ComparisonTableBody" class="divide-y divide-slate-800/60 font-mono text-[11px]"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 1: ADD CUSTOM UAV MODEL TO GLOBAL LIBRARY                           -->
+  <!-- ========================================================================= -->
+  <div id="CustomModelModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-panel rounded-2xl max-w-lg w-full p-5 space-y-4 border border-sky-500/40 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i data-lucide="plus-circle" class="w-4 h-4 text-sky-400"></i>新增自訂研發無人機至全球模型庫
+        </h3>
+        <button type="button" aria-label="關閉新增機型視窗" id="BtnCloseCustomModal" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <div class="grid grid-cols-2 gap-3 text-xs">
+        <div class="col-span-2">
+          <label for="CustomInputName" class="block text-slate-400 mb-1">機型代號與名稱 (Model Name)</label>
+          <input type="text" id="CustomInputName" value="MaxJim Aero-X1 民用複合翼" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white">
+        </div>
+        <div>
+          <label for="CustomInputOrigin" class="block text-slate-400 mb-1">研發機構 / 國家</label>
+          <input type="text" id="CustomInputOrigin" value="Taiwan / MaxJim Tech" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white">
+        </div>
+        <div>
+          <label for="CustomInputCat" class="block text-slate-400 mb-1">分類標籤</label>
+          <select id="CustomInputCat" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white">
+            <option value="VTOL_HYBRID">複合翼與傾轉旋翼 (VTOL)</option>
+            <option value="MALE_HALE">中高空長滯空固定翼 (MALE)</option>
+            <option value="BWB_DELTA">飛翼與三角翼 (BWB/Delta)</option>
+            <option value="MULTIROTOR">工業多旋翼</option>
+          </select>
+        </div>
+        <div class="col-span-2">
+          <label for="CustomInputDesc" class="block text-slate-400 mb-1">設計定位與結構補強備註</label>
+          <textarea id="CustomInputDesc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white">採用當前 3D 工作台調校之幾何參數、翼型與複合材料補強配置，直接儲存為標準可重複調用模型。</textarea>
+        </div>
+      </div>
+      <div class="flex justify-end gap-2 pt-2 border-t border-slate-800">
+        <button type="button" id="BtnCancelCustomModal" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs">取消</button>
+        <button type="button" id="BtnSaveCustomModel" class="px-4 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs">將當前工作台配置存入模型庫</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 2: EXPORT ENGINEERING SPEC & JSON CAD SCHEMA                        -->
+  <!-- ========================================================================= -->
+  <div id="ExportSpecModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-panel rounded-2xl max-w-2xl w-full p-5 space-y-3 border border-sky-500/40 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i data-lucide="file-code" class="w-4 h-4 text-sky-400"></i>無人飛行載具完整工程設計參數與氣動分析報告 (JSON / 技術規格書)
+        </h3>
+        <button type="button" aria-label="關閉匯出規格視窗" id="BtnCloseExportModal" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <textarea id="ExportJsonTextarea" readonly rows="14" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 font-mono text-[11px] text-emerald-300 focus:outline-none"></textarea>
+      <div class="flex justify-between items-center pt-1">
+        <span class="text-[11px] text-slate-400">可直接匯入 CAD 參數腳本、XFLR5 / OpenVSP 轉換器或留存工程 BOM 檔案</span>
+        <div class="flex gap-2">
+          <button type="button" id="BtnCopyExportJson" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs flex items-center gap-1">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>複製內容</span>
+          </button>
+          <button type="button" id="BtnDownloadExportJson" class="px-4 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs flex items-center gap-1">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i><span>下載 .JSON 工程檔</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 3: WATERMARKED ENGINEERING DATA PHOTO EXPORTER (MaxJim Tech.)       -->
+  <!-- ========================================================================= -->
+  <div id="PhotoExportModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
+    <div class="glass-panel rounded-2xl max-w-4xl w-full p-4 sm:p-5 space-y-3 border border-amber-500/40 shadow-2xl max-h-[92vh] flex flex-col">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+        <div>
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i data-lucide="camera" class="w-4 h-4 text-amber-400"></i>
+            肇祥企業社 MaxJim Tech. — 工程模擬數據照片與浮水印輸出中心
+          </h3>
+          <p class="text-[11px] text-slate-400">所有輸出之 3D 模擬圖、2D 翼型圖、氣動極曲線與工程數據報告照片均自動烙印「肇祥企業社 MaxJim Tech.」防偽浮水印與正式抬頭。</p>
+        </div>
+        <button type="button" aria-label="關閉數據照片視窗" id="BtnClosePhotoModal" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+
+      <!-- Mode Selector Buttons -->
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button type="button" data-photomode="datasheet" class="photo-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/25 text-amber-300 border border-amber-400/50">
+            1. 綜合工程數據總表照片 (3D+翼型+極曲線+KPI)
+          </button>
+          <button type="button" data-photomode="3d_only" class="photo-mode-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">
+            2. 3D 氣動模擬高解析特寫照片
+          </button>
+          <button type="button" data-photomode="charts_quad" class="photo-mode-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700">
+            3. 氣動極曲線與結構力學四合一數據圖表照片
+          </button>
+        </div>
+        <button type="button" id="BtnDownloadWatermarkedPhoto" class="px-4 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-lg">
+          <i data-lucide="download" class="w-4 h-4"></i><span>下載 PNG 浮水印數據照片</span>
+        </button>
+      </div>
+
+      <!-- High-Res Composite Preview Canvas -->
+      <div class="flex-1 overflow-auto bg-slate-950 rounded-xl p-2 border border-slate-800 flex items-center justify-center">
+        <canvas id="WatermarkedPhotoCanvas" width="1600" height="920" class="w-full h-auto max-h-[62vh] object-contain rounded border border-slate-800"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="ToastContainer" class="fixed bottom-4 right-4 z-50 space-y-2 pointer-events-none"></div>
+
+  <script>
+    // =========================================================================
+    // 1. AIRFOIL MATHEMATICAL & AERODYNAMIC DATABASE (9 PRECISION PROFILES)
+    // =========================================================================
+    const AIRFOIL_DB = {
+      'NACA 64-212': {
+        name: 'NACA 64-212 (層流低阻長航時翼型)',
+        m: 0.02, p: 0.40, t: 0.12, reflex: 0.0,
+        alpha0: -1.8, clSlope: 0.108, clMaxBase: 1.48, alphaStallBase: 15.0,
+        cd0Base: 0.0058, cm0: -0.045,
+        desc: '6系列層流翼型，前40%弦長維持順壓梯度層流邊界層，摩擦阻力極低，廣泛用於 MQ-9 等長滯空無人機。'
+      },
+      'NACA 4415': {
+        name: 'NACA 4415 (高升力厚翼型)',
+        m: 0.04, p: 0.40, t: 0.15, reflex: 0.0,
+        alpha0: -4.0, clSlope: 0.106, clMaxBase: 1.65, alphaStallBase: 16.5,
+        cd0Base: 0.0078, cm0: -0.088,
+        desc: '4%高彎度、15%相對厚度，提供充裕的主樑結構高度與溫和失速特性，適用中大型戰術雙尾桁無人機。'
+      },
+      'NACA 4412': {
+        name: 'NACA 4412 (經典高升力翼型)',
+        m: 0.04, p: 0.40, t: 0.12, reflex: 0.0,
+        alpha0: -3.8, clSlope: 0.107, clMaxBase: 1.58, alphaStallBase: 15.5,
+        cd0Base: 0.0070, cm0: -0.085,
+        desc: '高升阻比與高巡航效率兼具的經典戰術無人機翼型，短場起降性能優異。'
+      },
+      'NACA 2412': {
+        name: 'NACA 2412 (通用穩定巡航翼型)',
+        m: 0.02, p: 0.40, t: 0.12, reflex: 0.0,
+        alpha0: -2.1, clSlope: 0.105, clMaxBase: 1.45, alphaStallBase: 15.2,
+        cd0Base: 0.0065, cm0: -0.048,
+        desc: '2%中等彎度，俯仰力矩小，尾翼配平阻力低，適合中小型偵察固定翼。'
+      },
+      'NACA 0012': {
+        name: 'NACA 0012 (對稱翼型 / 旋翼與高速載具)',
+        m: 0.00, p: 0.30, t: 0.12, reflex: 0.0,
+        alpha0: 0.0, clSlope: 0.104, clMaxBase: 1.28, alphaStallBase: 14.0,
+        cd0Base: 0.0060, cm0: 0.000,
+        desc: '零彎度對稱剖面，壓力中心幾乎不隨攻角移動，廣泛用於無人直升機主旋翼、研究載具與全動尾翼。'
+      },
+      'Selig S1223': {
+        name: 'Selig S1223 (低雷諾數極高升力翼型)',
+        m: 0.082, p: 0.45, t: 0.121, reflex: -0.01,
+        alpha0: -6.8, clSlope: 0.112, clMaxBase: 2.15, alphaStallBase: 14.8,
+        cd0Base: 0.0115, cm0: -0.195,
+        desc: '專為低雷諾數 (Re < 5×10⁵) 重載無人機與太陽能機設計，具備凹入式後緣增升結構，CLmax 可突破 2.1。'
+      },
+      'Eppler 330': {
+        name: 'Eppler 330 Reflex (無尾飛翼自配平反彎度翼型)',
+        m: 0.024, p: 0.30, t: 0.11, reflex: 0.022,
+        alpha0: -0.9, clSlope: 0.101, clMaxBase: 1.32, alphaStallBase: 14.5,
+        cd0Base: 0.0064, cm0: +0.025,
+        desc: '後緣具正反彎度 (Reflex Camber)，產生正零升俯仰力矩 (+Cm0)，使無尾飛翼無需水平尾翼即可達成縱向靜穩定配平。'
+      },
+      'MH 114': {
+        name: 'MH 114 (VTOL 複合翼高效巡航翼型)',
+        m: 0.052, p: 0.42, t: 0.13, reflex: 0.0,
+        alpha0: -4.6, clSlope: 0.109, clMaxBase: 1.78, alphaStallBase: 16.0,
+        cd0Base: 0.0072, cm0: -0.110,
+        desc: '專為電動垂直起降複合翼 (QuadPlane) 開發，降低過渡段失速速度並最大化平飛巡航升阻比。'
+      },
+      'SC(2)-0610': {
+        name: 'NASA SC(2)-0610 (超臨界高亞音速翼型)',
+        m: 0.018, p: 0.55, t: 0.10, reflex: -0.005,
+        alpha0: -1.6, clSlope: 0.110, clMaxBase: 1.38, alphaStallBase: 14.2,
+        cd0Base: 0.0055, cm0: -0.065,
+        desc: '平坦上表面延遲激波生成，提高臨界馬赫數 (M_crit > 0.78)，適用於 X-47B 與高空高速噴射無人機。'
+      }
+    };
+
+    // Generate upper & lower airfoil coordinates (x in [0,1])
+    function computeAirfoilCoords(airfoilKey, numPts = 50, flapDeg = 0) {
+      const af = AIRFOIL_DB[airfoilKey] || AIRFOIL_DB['NACA 64-212'];
+      const m = af.m, p = af.p, t = af.t, reflex = af.reflex || 0;
+      const upper = [], lower = [], camber = [];
+      const flapRad = (flapDeg * Math.PI) / 180;
+      for (let i = 0; i <= numPts; i++) {
+        const beta = (i / numPts) * Math.PI;
+        const x = 0.5 * (1 - Math.cos(beta)); // Cosine clustering near LE/TE
+        const yt = 5 * t * (0.2969 * Math.sqrt(x) - 0.1260 * x - 0.3516 * x * x + 0.2843 * Math.pow(x, 3) - 0.1015 * Math.pow(x, 4));
+        let yc = 0, dyc = 0;
+        if (m > 0 && p > 0) {
+          if (x < p) {
+            yc = (m / (p * p)) * (2 * p * x - x * x);
+            dyc = (2 * m / (p * p)) * (p - x);
+          } else {
+            yc = (m / Math.pow(1 - p, 2)) * ((1 - 2 * p) + 2 * p * x - x * x);
+            dyc = (2 * m / Math.pow(1 - p, 2)) * (p - x);
+          }
+        }
+        if (reflex !== 0 && x > 0.65) {
+          const rx = (x - 0.65) / 0.35;
+          yc += reflex * rx * rx;
+          dyc += reflex * (2 * rx / 0.35);
+        }
+        // Trailing-edge flap deflection for x > 0.72
+        if (flapDeg !== 0 && x > 0.72) {
+          const dx = x - 0.72;
+          yc -= dx * Math.tan(flapRad * 0.65);
+          dyc -= Math.tan(flapRad * 0.65);
+        }
+        const theta = Math.atan(dyc);
+        upper.push({ x: x - yt * Math.sin(theta), y: yc + yt * Math.cos(theta) });
+        lower.push({ x: x + yt * Math.sin(theta), y: yc - yt * Math.cos(theta) });
+        camber.push({ x, y: yc });
+      }
+      return { upper, lower, camber, af };
+    }
+
+    // =========================================================================
+    // 2. AUGMENTATION & STRUCTURAL MATERIALS DATABASE
+    // =========================================================================
+    const AUGMENT_WINGLETS = {
+      none:     { name: '標準平直翼尖', eFactor: 1.00, cd0Delta: 0.0000, weightPct: 0.00 },
+      blended:  { name: '融合式上揚小翼 (Blended)', eFactor: 1.11, cd0Delta: 0.0004, weightPct: 0.012 },
+      sharklet: { name: '鯊魚鰭斜削小翼 (Sharklet)', eFactor: 1.14, cd0Delta: 0.0005, weightPct: 0.015 },
+      scimitar: { name: '分叉雙彎刀小翼 (Split Scimitar)', eFactor: 1.17, cd0Delta: 0.0007, weightPct: 0.018 },
+      endplate: { name: '端板/翼尖垂尾 (Endplate)', eFactor: 1.09, cd0Delta: 0.0006, weightPct: 0.010 }
+    };
+
+    const AUGMENT_HIGHLIFT = {
+      plain:       { name: '標準後緣襟翼', clMaxBonus: 0.00, stallDegBonus: 0.0, cd0Delta: 0.0000 },
+      fowler:      { name: '單開縫富勒襟翼 (Fowler)', clMaxBonus: 0.45, stallDegBonus: 1.5, cd0Delta: 0.0012 },
+      slat_fowler: { name: '前緣縫翼 + 富勒襟翼', clMaxBonus: 0.72, stallDegBonus: 5.0, cd0Delta: 0.0020 },
+      vg_array:    { name: '微渦流產生器陣列 (VG)', clMaxBonus: 0.22, stallDegBonus: 3.5, cd0Delta: 0.0005 }
+    };
+
+    const AUGMENT_MATERIALS = {
+      al7075:     { name: '7075-T6 航太鋁合金', yieldMPa: 503, E_GPa: 71.7, massFactor: 1.00, costPerKg: 48 },
+      t700_cf:    { name: 'Toray T700 碳纖複合雙大樑', yieldMPa: 1450, E_GPa: 135.0, massFactor: 0.86, costPerKg: 135 },
+      t800_nomex: { name: 'T800 高模量碳纖 + Nomex 蜂巢', yieldMPa: 1850, E_GPa: 162.0, massFactor: 0.78, costPerKg: 210 },
+      ti_hybrid:  { name: 'T1000 碳纖主樑 + 鈦合金翼根補強', yieldMPa: 2350, E_GPa: 185.0, massFactor: 0.81, costPerKg: 320 }
+    };
+
+    const AUGMENT_ENERGY = {
+      standard:    { name: '標準燃油 / LiPo (220Wh/kg)', enduranceFactor: 1.00, twBonus: 1.00 },
+      solid_state: { name: '高能量密度固態鋰電池 (420Wh/kg)', enduranceFactor: 1.65, twBonus: 1.08 },
+      solar_skin:  { name: '鈣鈦礦太陽能薄膜機翼 + 固態電池', enduranceFactor: 2.25, twBonus: 0.98 },
+      h2_fuelcell: { name: '液態氫燃料電池長航時系統', enduranceFactor: 2.10, twBonus: 1.02 },
+      heavy_turbo: { name: '渦輪增壓重油引擎 + 彎刀靜音槳', enduranceFactor: 1.38, twBonus: 1.22 }
+    };
+
+    // =========================================================================
+    // 3. GLOBAL UAV MODEL LIBRARY (20 WORLDWIDE & INDIGENOUS MODELS)
+    // =========================================================================
+    const GLOBAL_UAV_LIBRARY = [
+      {
+        id: 'jouav_cw30e',
+        name: 'JOUAV CW-30E (雙尾桁四軸複合翼 VTOL)',
+        origin: 'Industrial / JOUAV',
+        category: 'VTOL_HYBRID',
+        catBadge: '4+1 複合翼 VTOL',
+        airframeType: 'quadplane_vtol',
+        airfoil: 'MH 114',
+        span: 4.0, rootChord: 0.36, taper: 0.65, sweep: 2.0, dihedral: 2.0, washout: -1.5,
+        fuseLen: 2.1, mass: 36, tailType: 'inv_v_tail', rotorCount: 5,
+        cruiseSpeed: 28, defaultAlt: 1200, baseEnduranceHr: 6.5, maxThrustN: 680,
+        desc: '工業級 4+1 複合翼垂直起降無人機（四具垂直升力旋翼 + 一具後推巡航槳），兼具多旋翼免跑道垂直起降與固定翼長距離測繪巡航優勢。',
+        weakness: '平飛巡航時四具停止旋轉的垂直升力槳與支撐桿產生額外 18%~22% 寄生阻力，且死重降低有效酬載。',
+        augmentPlan: '加裝「順槳鎖定整流罩與鯊魚鰭小翼」，並將垂直起降電池升級為「420Wh/kg 固態鋰電池」，航時由 6.5h 大幅提升至 10.5h。',
+        recAug: { winglet: 'sharklet', highLift: 'fowler', material: 't800_nomex', energy: 'solid_state' }
+      },
+      {
+        id: 'wingcopter_198',
+        name: 'Wingcopter 198 (專利傾轉旋翼物流 VTOL)',
+        origin: 'Germany / Wingcopter',
+        category: 'VTOL_HYBRID',
+        catBadge: 'Tilt-Rotor 傾轉',
+        airframeType: 'tiltrotor_vtol',
+        airfoil: 'MH 114',
+        span: 1.98, rootChord: 0.28, taper: 0.58, sweep: -6.0, dihedral: 1.5, washout: -1.0,
+        fuseLen: 1.5, mass: 24, tailType: 't_tail', rotorCount: 6,
+        cruiseSpeed: 36, defaultAlt: 800, baseEnduranceHr: 1.8, maxThrustN: 520,
+        desc: '採用前掠主翼與多傾轉旋翼機構，垂直起飛後旋翼傾轉 90° 轉為高效前拉螺旋槳，消除了傳統複合翼的死重與巡航廢阻。',
+        weakness: '傾轉過渡段 (Transition Corridor 12~22 m/s) 機翼處於半失速與旋翼下洗流耦合區，俯仰力矩非線性變化劇烈。',
+        augmentPlan: '配置「前緣微渦流產生器 (VG)」穩定過渡段氣流，並將傾轉伺服機構升級為「鈦合金諧波減速器 + 固態電池」。',
+        recAug: { winglet: 'blended', highLift: 'vg_array', material: 'ti_hybrid', energy: 'solid_state' }
+      },
+      {
+        id: 'dji_m350_rtk',
+        name: 'DJI Matrice 350 RTK (旗艦工業巡檢四軸)',
+        origin: 'Global Commercial / DJI',
+        category: 'MULTIROTOR',
+        catBadge: 'Industrial X4',
+        airframeType: 'multirotor',
+        airfoil: 'NACA 0012',
+        span: 0.90, rootChord: 0.08, taper: 0.70, sweep: 0.0, dihedral: 5.0, washout: 0.0,
+        fuseLen: 0.81, mass: 9.2, tailType: 'tailless', rotorCount: 4,
+        cruiseSpeed: 15, defaultAlt: 400, baseEnduranceHr: 0.92, maxThrustN: 240,
+        desc: '全球普及率最高之工業級全天候巡檢四旋翼無人機，採用下置折疊機臂與 5° 內傾馬達座設計以提升抗風滾轉穩定度。',
+        weakness: '純多旋翼構型完全依賴旋翼動量變化產生升力，等效升阻比僅約 3.5~4.5，受電池能量密度限制滯空約 55 分鐘。',
+        augmentPlan: '換裝「420Wh/kg 固態鋰電池組」與「T800 超輕量碳纖桁架 + 翼尖降噪小翼槳」，滯空時間可突破 90 分鐘。',
+        recAug: { winglet: 'blended', highLift: 'plain', material: 't800_nomex', energy: 'solid_state' }
+      },
+      {
+        id: 'dji_flycart30',
+        name: 'DJI FlyCart 30 (重型物流共軸八槳 X8)',
+        origin: 'Global Commercial / DJI',
+        category: 'MULTIROTOR',
+        catBadge: 'Heavy Cargo X8',
+        airframeType: 'multirotor',
+        airfoil: 'NACA 4412',
+        span: 1.90, rootChord: 0.14, taper: 0.65, sweep: 0.0, dihedral: 3.0, washout: 0.0,
+        fuseLen: 1.59, mass: 95.0, tailType: 'tailless', rotorCount: 8,
+        cruiseSpeed: 18, defaultAlt: 1500, baseEnduranceHr: 0.50, maxThrustN: 2200,
+        desc: '四軸八槳共軸構型 (Coaxial Octocopter) 重載山地物流無人機，最大起飛重量達 95kg，具備單軸動力失效保護與降落傘系統。',
+        weakness: '共軸上下槳之間存在約 12%~15% 誘導下洗流干擾損失，且滿載 30kg 貨物時機臂根部承受極大高頻交變彎矩。',
+        augmentPlan: '升級「T1000 碳纖機臂 + 鈦合金折疊鎖扣補強」，並優化上下槳差動螺距與固態電池系統。',
+        recAug: { winglet: 'sharklet', highLift: 'fowler', material: 'ti_hybrid', energy: 'solid_state' }
+      },
+      {
+        id: 'freefly_alta_x',
+        name: 'Freefly Alta X (重載專業航拍/光達四軸)',
+        origin: 'USA / Freefly Systems',
+        category: 'MULTIROTOR',
+        catBadge: 'Heavy Quad 33"',
+        airframeType: 'multirotor',
+        airfoil: 'NACA 4412',
+        span: 1.42, rootChord: 0.11, taper: 0.68, sweep: 0.0, dihedral: 4.0, washout: 0.0,
+        fuseLen: 1.15, mass: 34.8, tailType: 'tailless', rotorCount: 4,
+        cruiseSpeed: 16, defaultAlt: 800, baseEnduranceHr: 0.65, maxThrustN: 820,
+        desc: '搭載 33 吋超大折疊碳纖槳與主動抗振機臂 (ActiveBlade) 之重載四軸平台，降低了槳盤載荷以提升懸停效率。',
+        weakness: '大直徑 33 吋旋翼在高速前飛與陣風下容易產生揮舞力矩與機臂結構共振。',
+        augmentPlan: '導入「T800 碳纖 + Nomex 阻尼夾芯機臂」抑制模態共振，並升級固態高倍率電池。',
+        recAug: { winglet: 'blended', highLift: 'plain', material: 't800_nomex', energy: 'solid_state' }
+      },
+      {
+        id: 'airbus_zephyr',
+        name: 'Airbus Zephyr S (平流層太陽能偽衛星 HAPS)',
+        origin: 'Europe / Airbus Defence',
+        category: 'FUTURE_SOLAR',
+        catBadge: 'Solar HALE 偽衛星',
+        airframeType: 'fixed_male',
+        airfoil: 'Selig S1223',
+        span: 25.0, rootChord: 1.05, taper: 0.65, sweep: 0.0, dihedral: 5.5, washout: -1.5,
+        fuseLen: 7.5, mass: 75.0, tailType: 't_tail', rotorCount: 2,
+        cruiseSpeed: 18, defaultAlt: 18000, baseEnduranceHr: 600.0, maxThrustN: 220,
+        desc: '超輕量化平流層太陽能無人機 (MTOW 僅 75kg、翼展 25m)，日間以太陽能薄膜充電並爬升至 21km，夜間依靠高比能電池滑翔巡航數週。',
+        weakness: '極低翼載荷 (2.8 kg/m²) 與超柔韌大展弦比機翼在穿越對流層亂流時極易遭受結構大撓度變形破壞。',
+        augmentPlan: '採用「T1000 超高模量碳纖薄殼主樑」搭配「鈣鈦礦太陽能薄膜 + 420Wh/kg 固態鋰硫電池」與陣風減載主動副翼控制。',
+        recAug: { winglet: 'blended', highLift: 'plain', material: 't800_nomex', energy: 'solar_skin' }
+      }
+    ];
+
+    // =========================================================================
+    // 4. APPLICATION STATE & PHYSICS/AERODYNAMIC SOLVER ENGINE
+    // =========================================================================
+    const STATE = {
+      activeTab: 'studio',
+      selectedModelId: 'jouav_cw30e',
+      compareModelId: 'wingcopter_198',
+      // Geometry & CAD state
+      airframeType: 'fixed_male',
+      airfoil: 'NACA 64-212',
+      span: 20.1,
+      rootChord: 1.45,
+      taper: 0.42,
+      sweep: 4.0,
+      dihedral: 3.0,
+      washout: -2.0,
+      fuseLen: 11.0,
+      mass: 4760,
+      tailType: 'v_tail',
+      rotorCount: 1,
+      baseEnduranceHr: 27.0,
+      maxThrustN: 14500,
+      // Augmentation state
+      augWinglet: 'blended',
+      augHighLift: 'plain',
+      augMaterial: 't700_cf',
+      augEnergy: 'standard',
+      augEoIrGimbal: true,
+      augRetractGear: true,
+      // Wind tunnel & Flight condition state
+      airspeed: 62.0, // m/s
+      aoa: 4.5,       // deg
+      beta: 0.0,      // deg
+      altitude: 3500, // m
+      flap: 0,        // deg
+      elevator: 0.0,  // deg
+      aileron: 0.0,   // deg
+      throttle: 75,   // %
+      vtolTilt: 90,   // deg (90 = cruise forward, 0 = vertical hover)
+      // 6-DOF Sim & PID state
+      pidPitch: 1.85,
+      pidRoll: 2.10,
+      turbulence: 15,
+      activeSimTest: null,
+      simTime: 0,
+      // 3D Visualization toggles
+      viz: {
+        streamlines: true,
+        vortices: true,
+        pressure: false,
+        vectors: true,
+        cgnp: true,
+        xray: false
+      },
+      cameraPreset: 'iso',
+      // Computed results cache
+      results: {}
+    };
+
+    // International Standard Atmosphere (ISA) model (0 ~ 20,000 m)
+    function computeISA(altMeters) {
+      const T0 = 288.15, P0 = 101325, rho0 = 1.225, L = 0.0065, R = 287.05, g = 9.80665;
+      let T, P, rho;
+      if (altMeters <= 11000) {
+        T = T0 - L * altMeters;
+        P = P0 * Math.pow(T / T0, g / (L * R));
+        rho = P / (R * T);
+      } else {
+        T = 216.65;
+        const P11 = P0 * Math.pow(216.65 / T0, g / (L * R));
+        P = P11 * Math.exp(-g * (altMeters - 11000) / (R * T));
+        rho = P / (R * T);
+      }
+      const speedOfSound = Math.sqrt(1.4 * R * T);
+      // Sutherland's formula for dynamic viscosity mu
+      const mu = 1.458e-6 * Math.pow(T, 1.5) / (T + 110.4);
+      return { T, P, rho, a: speedOfSound, mu };
+    }
+
+    // Core Aerodynamic coefficient evaluator for any given AoA (deg), with baseline vs augmented mode
+    function evalAeroAtAoA(alphaDeg, useAugmented = true) {
+      const af = AIRFOIL_DB[STATE.airfoil] || AIRFOIL_DB['NACA 64-212'];
+      const tipChord = STATE.rootChord * STATE.taper;
+      const meanChord = 0.5 * (STATE.rootChord + tipChord);
+      const wingArea = Math.max(0.08, STATE.span * meanChord);
+      const AR = (STATE.span * STATE.span) / wingArea;
+
+      const wingletCfg = useAugmented ? AUGMENT_WINGLETS[STATE.augWinglet] : AUGMENT_WINGLETS.none;
+      const hlCfg = useAugmented ? AUGMENT_HIGHLIFT[STATE.augHighLift] : AUGMENT_HIGHLIFT.plain;
+      const matCfg = useAugmented ? AUGMENT_MATERIALS[STATE.augMaterial] : AUGMENT_MATERIALS.al7075;
+
+      // Effective Aspect Ratio & Oswald efficiency factor e
+      const sweepRad = (Math.abs(STATE.sweep) * Math.PI) / 180;
+      let eBase = 1.78 * (1 - 0.045 * Math.pow(Math.min(AR, 22), 0.68)) - 0.64;
+      eBase = Math.max(0.68, Math.min(0.88, eBase * Math.cos(sweepRad * 0.5)));
+      const eEff = Math.min(0.96, eBase * wingletCfg.eFactor);
+      const AReff = AR * wingletCfg.eFactor;
+
+      // 3D finite-wing lift curve slope per degree (Prandtl / Helmbold correction)
+      const a0_per_deg = af.clSlope * Math.cos(sweepRad);
+      const a3d_per_deg = a0_per_deg / (1 + (a0_per_deg * 57.2958) / (Math.PI * AReff));
+
+      // Flap & high-lift effects
+      const flapDeg = useAugmented ? STATE.flap : 0;
+      const dCL_flap = 0.014 * flapDeg + (flapDeg > 5 ? hlCfg.clMaxBonus * 0.45 : hlCfg.clMaxBonus * 0.15);
+      const alphaStall = af.alphaStallBase + hlCfg.stallDegBonus - (flapDeg * 0.08);
+      const clMax = af.clMaxBase + hlCfg.clMaxBonus + 0.011 * flapDeg;
+
+      const effAlpha = alphaDeg - af.alpha0 + STATE.washout * 0.35;
+      let CL = a3d_per_deg * effAlpha + dCL_flap;
+      let isStalled = false;
+      let stallSeverity = 0;
+
+      // Post-stall non-linear separation roll-off
+      if (alphaDeg > alphaStall) {
+        isStalled = true;
+        const over = alphaDeg - alphaStall;
+        stallSeverity = Math.min(1.0, over / 8.0);
+        const peakCL = a3d_per_deg * (alphaStall - af.alpha0 + STATE.washout * 0.35) + dCL_flap;
+        CL = peakCL * Math.exp(-0.085 * over * over) + 0.42 * Math.sin((alphaDeg * Math.PI) / 180) * Math.cos((alphaDeg * Math.PI) / 180);
+      } else if (alphaDeg < -11) {
+        isStalled = true;
+        const under = -11 - alphaDeg;
+        stallSeverity = Math.min(1.0, under / 6.0);
+        CL = a3d_per_deg * (-11 - af.alpha0) * Math.exp(-0.09 * under * under);
+      }
+      CL = Math.max(-1.35, Math.min(clMax + 0.25, CL));
+
+      // Parasitic drag CD0 (airframe + gear + gimbal + flap + augmentation)
+      let cd0Airframe = 0.012;
+      if (STATE.airframeType === 'multirotor') cd0Airframe = 0.065;
+      else if (STATE.airframeType === 'heli_coaxial') cd0Airframe = 0.038;
+      else if (STATE.airframeType === 'quadplane_vtol') cd0Airframe = 0.022;
+      else if (STATE.airframeType === 'flying_wing') cd0Airframe = 0.0085;
+
+      const gearDrag = (useAugmented && !STATE.augRetractGear) ? 0.0045 : 0.0008;
+      const gimbalDrag = (useAugmented && STATE.augEoIrGimbal) ? 0.0018 : 0.0000;
+      const flapDrag = 0.00022 * flapDeg * flapDeg;
+      const stallDrag = isStalled ? 0.18 * stallSeverity * stallSeverity + 0.04 * stallSeverity : 0;
+
+      const CD0 = af.cd0Base + cd0Airframe + wingletCfg.cd0Delta + hlCfg.cd0Delta + gearDrag + gimbalDrag + flapDrag;
+      const CDi = (CL * CL) / (Math.PI * eEff * AReff);
+      const CD = CD0 + CDi + stallDrag;
+      const LD = Math.abs(CD) > 1e-5 ? CL / CD : 0;
+
+      // Longitudinal Static Margin & Pitching Moment Cm
+      let smBase = 0.145; // +14.5% static margin
+      if (STATE.airframeType === 'flying_wing') smBase = 0.068;
+      else if (STATE.airframeType === 'multirotor') smBase = 0.050;
+      const cmAlpha_per_deg = -a3d_per_deg * smBase;
+      const dCm_elev = -0.016 * STATE.elevator;
+      const Cm = af.cm0 + cmAlpha_per_deg * (alphaDeg - 3.5) + dCm_elev;
+
+      return {
+        CL, CD, CD0, CDi, LD, Cm, cmAlpha_per_rad: cmAlpha_per_deg * 57.2958,
+        AR, AReff, eEff, wingArea, meanChord, tipChord,
+        alphaStall, clMax, isStalled, stallSeverity, smPct: smBase * 100,
+        matCfg
+      };
+    }
+
+    // Solve complete operating point & structural/mission metrics
+    function solveAerodynamicsAndStructures() {
+      const isa = computeISA(STATE.altitude);
+      const aero = evalAeroAtAoA(STATE.aoa, true);
+      const aeroBase = evalAeroAtAoA(STATE.aoa, false);
+      const V = Math.max(1, STATE.airspeed);
+      const q = 0.5 * isa.rho * V * V;
+      const Re = (isa.rho * V * aero.meanChord) / isa.mu;
+      const Mach = V / isa.a;
+
+      const matCfg = AUGMENT_MATERIALS[STATE.augMaterial];
+      const energyCfg = AUGMENT_ENERGY[STATE.augEnergy];
+      const wingletCfg = AUGMENT_WINGLETS[STATE.augWinglet];
+
+      // Effective mass after structural material & winglet adjustments
+      const effMass = STATE.mass * (0.62 + 0.38 * matCfg.massFactor) * (1 + wingletCfg.weightPct);
+      const weightN = effMass * 9.80665;
+
+      // For multirotor / VTOL in hover or low speed, blend rotor thrust lift with aerodynamic wing lift
+      const tiltRad = (STATE.vtolTilt * Math.PI) / 180;
+      const maxThrust = STATE.maxThrustN * energyCfg.twBonus * (isa.rho / 1.225 * 0.65 + 0.35);
+      const currentThrustN = maxThrust * (STATE.throttle / 100);
+
+      let aeroLiftN = q * aero.wingArea * aero.CL;
+      let aeroDragN = q * aero.wingArea * aero.CD;
+
+      // Add rotor vertical lift component for multirotor, heli, or tilted VTOL
+      let rotorVertLiftN = 0;
+      if (STATE.airframeType === 'multirotor' || STATE.airframeType === 'heli_coaxial' || STATE.airframeType === 'ducted_fan') {
+        rotorVertLiftN = currentThrustN * 0.92;
+      } else if (STATE.airframeType === 'quadplane_vtol' || STATE.airframeType === 'tiltrotor_vtol') {
+        rotorVertLiftN = currentThrustN * Math.cos(tiltRad);
+      }
+
+      const totalLiftN = aeroLiftN + rotorVertLiftN;
+      const loadFactorG = totalLiftN / Math.max(1, weightN);
+
+      // Stall speed V_stall (for wing-borne flight)
+      const Vstall = Math.sqrt((2 * weightN) / (isa.rho * aero.wingArea * Math.max(0.5, aero.clMax)));
+      const powerReqKW = (aeroDragN * V + rotorVertLiftN * 6.5) / 1000;
+
+      // Structural Root Bending Moment & Spar Stress
+      const halfSpan = STATE.span * 0.5;
+      const rootMomentNm = Math.abs(totalLiftN) * 0.5 * (0.42 * halfSpan);
+      const sparHeight = Math.max(0.018, STATE.rootChord * (AIRFOIL_DB[STATE.airfoil]?.t || 0.12) * 0.78);
+      const sectionModulus = Math.max(1e-6, 0.045 * STATE.rootChord * sparHeight * sparHeight);
+      const maxStressMPa = (rootMomentNm / sectionModulus) / 1e6;
+      const safetyFactor = Math.min(9.9, matCfg.yieldMPa / Math.max(12, maxStressMPa));
+      const tipDeflectionM = (Math.abs(totalLiftN) * Math.pow(halfSpan, 3)) / (8 * (matCfg.E_GPa * 1e9) * sectionModulus * sparHeight * 0.5);
+
+      // Endurance & Range (Breguet-inspired model)
+      const ldRatioFactor = Math.max(0.5, Math.min(1.6, Math.abs(aero.LD) / 18.0));
+      const estEnduranceHr = STATE.baseEnduranceHr * energyCfg.enduranceFactor * (STATE.airframeType === 'multirotor' ? 1.0 : (0.65 + 0.35 * ldRatioFactor));
+      const estRangeKm = estEnduranceHr * (V * 3.6) * 0.82;
+
+      // Moments of Inertia
+      const Ixx = effMass * Math.pow(STATE.span * 0.26, 2);
+      const Iyy = effMass * Math.pow(STATE.fuseLen * 0.28, 2);
+      const Izz = Ixx + Iyy * 0.85;
+
+      STATE.results = {
+        isa, aero, aeroBase, q, Re, Mach,
+        effMass, weightN, aeroLiftN, totalLiftN, aeroDragN, currentThrustN,
+        loadFactorG, Vstall, powerReqKW,
+        rootMomentKNm: rootMomentNm / 1000,
+        maxStressMPa, safetyFactor, tipDeflectionM: Math.min(STATE.span * 0.18, tipDeflectionM),
+        estEnduranceHr, estRangeKm,
+        Ixx, Iyy, Izz,
+        twRatio: maxThrust / Math.max(1, weightN)
+      };
+      return STATE.results;
+    }
+
+    // =========================================================================
+    // 5. THREE.JS REAL-TIME 3D PROCEDURAL CAD & MULTI-PHYSICS ENGINE
+    // =========================================================================
+    let scene, camera, renderer, uavRootGroup, wingMeshLeft, wingMeshRight;
+    let propMeshes = [], controlSurfaceMeshes = [], streamlineLines = [], vortexLines = [];
+    let forceArrows = {}, cgMarker, npMarker, xrayGroup;
+    let isDragging3D = false, prevMouse = { x: 0, y: 0 };
+    let camSpherical = { radius: 22, theta: 0.68, phi: 1.08 };
+    let simClock = 0;
+
+    function initThreeScene() {
+      const container = document.getElementById('ThreeViewportContainer');
+      if (!container) return;
+      const w = container.clientWidth || 720;
+      const h = container.clientHeight || 460;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x060a14);
+      scene.fog = new THREE.FogExp2(0x060a14, 0.008);
+
+      camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 500);
+      updateCameraFromSpherical();
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, powerPreference: 'high-performance' });
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      container.innerHTML = '';
+      container.appendChild(renderer.domElement);
+
+      // Lighting
+      const ambLight = new THREE.AmbientLight(0x94a3b8, 0.75);
+      scene.add(ambLight);
+      const dirLight1 = new THREE.DirectionalLight(0xf8fafc, 1.15);
+      dirLight1.position.set(25, 35, 20);
+      scene.add(dirLight1);
+      const dirLight2 = new THREE.DirectionalLight(0x38bdf8, 0.45);
+      dirLight2.position.set(-20, -15, -15);
+      scene.add(dirLight2);
+
+      // Subsonic Wind Tunnel Floor Grid
+      const gridHelper = new THREE.GridHelper(80, 40, 0x1e3a8a, 0x0f172a);
+      gridHelper.position.y = -4.2;
+      scene.add(gridHelper);
+
+      uavRootGroup = new THREE.Group();
+      scene.add(uavRootGroup);
+
+      // Mouse & Touch Orbit Controls
+      const dom = renderer.domElement;
+      dom.addEventListener('mousedown', (e) => { isDragging3D = true; prevMouse = { x: e.clientX, y: e.clientY }; });
+      window.addEventListener('mouseup', () => { isDragging3D = false; });
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging3D) return;
+        const dx = e.clientX - prevMouse.x;
+        const dy = e.clientY - prevMouse.y;
+        prevMouse = { x: e.clientX, y: e.clientY };
+        camSpherical.theta -= dx * 0.007;
+        camSpherical.phi = Math.max(0.15, Math.min(Math.PI - 0.15, camSpherical.phi - dy * 0.007));
+        updateCameraFromSpherical();
+      });
+      dom.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        camSpherical.radius = Math.max(4, Math.min(75, camSpherical.radius + e.deltaY * 0.018));
+        updateCameraFromSpherical();
+      }, { passive: false });
+
+      window.addEventListener('resize', handleViewportResize);
+      rebuildUAV3DModel();
+      requestAnimationFrame(animateThreeScene);
+    }
+
+    function handleViewportResize() {
+      const container = document.getElementById('ThreeViewportContainer');
+      if (!container || !renderer || !camera) return;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      if (w > 20 && h > 20) {
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      }
+    }
+
+    function updateCameraFromSpherical() {
+      if (!camera) return;
+      const r = camSpherical.radius;
+      camera.position.x = r * Math.sin(camSpherical.phi) * Math.sin(camSpherical.theta);
+      camera.position.y = r * Math.cos(camSpherical.phi);
+      camera.position.z = r * Math.sin(camSpherical.phi) * Math.cos(camSpherical.theta);
+      camera.lookAt(0, 0, 0);
+    }
+
+    // Build real 3D wing half geometry with vertex colors for Cp heatmap
+    function createParametricWingGeometry(sideSign, normSpan, normRootC, taper, sweepRad, dihedralRad, airfoilKey) {
+      const spanSegs = 18;
+      const profilePts = 22;
+      const coords = computeAirfoilCoords(airfoilKey, profilePts / 2, STATE.flap);
+      // Combine upper (TE->LE) and lower (LE->TE) into closed loop
+      const loop = [];
+      for (let i = coords.upper.length - 1; i >= 0; i--) loop.push(coords.upper[i]);
+      for (let i = 1; i < coords.lower.length; i++) loop.push(coords.lower[i]);
+
+      const positions = [];
+      const colors = [];
+      const indices = [];
+      const nLoop = loop.length;
+
+      for (let s = 0; s <= spanSegs; s++) {
+        const frac = s / spanSegs;
+        const z = sideSign * frac * normSpan;
+        const chord = normRootC * (1 - frac * (1 - taper));
+        const xOffset = frac * normSpan * Math.tan(sweepRad);
+        const yOffset = frac * normSpan * Math.tan(dihedralRad);
+
+        for (let p = 0; p < nLoop; p++) {
+          const pt = loop[p];
+          const px = (pt.x - 0.35) * chord + xOffset;
+          const py = pt.y * chord + yOffset;
+          positions.push(px, py, z);
+          colors.push(0.22, 0.65, 0.92);
+        }
+      }
+
+      for (let s = 0; s < spanSegs; s++) {
+        for (let p = 0; p < nLoop - 1; p++) {
+          const a = s * nLoop + p;
+          const b = (s + 1) * nLoop + p;
+          const c = (s + 1) * nLoop + (p + 1);
+          const d = s * nLoop + (p + 1);
+          if (sideSign > 0) {
+            indices.push(a, b, c, a, c, d);
+          } else {
+            indices.push(a, c, b, a, d, c);
+          }
+        }
+      }
+
+      const geom = new THREE.BufferGeometry();
+      geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+      geom.setIndex(indices);
+      geom.computeVertexNormals();
+      geom.userData = { spanSegs, nLoop, loop };
+      return geom;
+    }
+
+    // Complete 3D UAV Procedural Rebuilder
+    function rebuildUAV3DModel() {
+      if (!uavRootGroup) return;
+      while (uavRootGroup.children.length > 0) {
+        uavRootGroup.remove(uavRootGroup.children[0]);
+      }
+      propMeshes = [];
+      controlSurfaceMeshes = [];
+      streamlineLines = [];
+      vortexLines = [];
+
+      // Normalize scale so everything fits nicely in a ~14 unit bounding sphere
+      const refDim = Math.max(STATE.span, STATE.fuseLen, 0.8);
+      const scale = 12.0 / refDim;
+      const halfSpan = (STATE.span * 0.5) * scale;
+      const rootC = Math.max(0.45, STATE.rootChord * scale);
+      const fuseL = Math.max(1.2, STATE.fuseLen * scale);
+      const sweepRad = (STATE.sweep * Math.PI) / 180;
+      const dihedralRad = (STATE.dihedral * Math.PI) / 180;
+
+      const bodyMat = new THREE.MeshStandardMaterial({
+        color: 0x334155, roughness: 0.35, metalness: 0.45,
+        transparent: STATE.viz.xray, opacity: STATE.viz.xray ? 0.32 : 1.0
+      });
+      const wingMat = new THREE.MeshStandardMaterial({
+        vertexColors: STATE.viz.pressure,
+        color: STATE.viz.pressure ? 0xffffff : 0x475569,
+        roughness: 0.35, metalness: 0.35,
+        side: THREE.DoubleSide,
+        transparent: STATE.viz.xray, opacity: STATE.viz.xray ? 0.35 : 1.0
+      });
+      const accentMat = new THREE.MeshStandardMaterial({ color: 0x0ea5e9, roughness: 0.3, metalness: 0.6 });
+      const darkMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.2, metalness: 0.8 });
+
+      const addRotorAssembly = (x, y, z, radius, isTiltable = false) => {
+        const holder = new THREE.Group();
+        holder.position.set(x, y, z);
+        holder.userData.isTiltable = isTiltable;
+
+        const motor = new THREE.Mesh(new THREE.CylinderGeometry(radius * 0.14, radius * 0.14, radius * 0.22, 16), darkMat);
+        holder.add(motor);
+
+        const spinner = new THREE.Group();
+        const blade1 = new THREE.Mesh(new THREE.BoxGeometry(radius * 2.0, 0.03, radius * 0.14), accentMat);
+        const blade2 = new THREE.Mesh(new THREE.BoxGeometry(radius * 0.14, 0.03, radius * 2.0), accentMat);
+        const disc = new THREE.Mesh(
+          new THREE.RingGeometry(radius * 0.18, radius, 28),
+          new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide, transparent: true, opacity: 0.18 })
+        );
+        disc.rotation.x = Math.PI / 2;
+        spinner.add(blade1, blade2, disc);
+        spinner.position.y = radius * 0.14;
+        holder.add(spinner);
+        propMeshes.push({ holder, spinner, isTiltable });
+        uavRootGroup.add(holder);
+      };
+
+      // Build Airframe Fuselage & Wings based on STATE.airframeType
+      if (STATE.airframeType === 'multirotor') {
+        // Central Carbon Frame + 4 or 8 Arms
+        const core = new THREE.Mesh(new THREE.CylinderGeometry(halfSpan * 0.24, halfSpan * 0.28, halfSpan * 0.14, 8), bodyMat);
+        const dome = new THREE.Mesh(new THREE.SphereGeometry(halfSpan * 0.2, 16, 12), darkMat);
+        dome.position.y = halfSpan * 0.08;
+        uavRootGroup.add(core, dome);
+
+        const numArms = STATE.rotorCount >= 6 ? 6 : 4;
+        for (let i = 0; i < numArms; i++) {
+          const ang = (i / numArms) * Math.PI * 2 + Math.PI / 4;
+          const armGroup = new THREE.Group();
+          armGroup.rotation.y = ang;
+          const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.09, halfSpan, 10), bodyMat);
+          arm.rotation.z = Math.PI / 2;
+          arm.position.x = halfSpan * 0.5;
+          armGroup.add(arm);
+          uavRootGroup.add(armGroup);
+
+          const rx = Math.cos(-ang) * halfSpan;
+          const rz = Math.sin(-ang) * halfSpan;
+          addRotorAssembly(rx, 0.12, rz, halfSpan * 0.36, false);
+          if (STATE.rotorCount === 8) {
+            addRotorAssembly(rx, -0.15, rz, halfSpan * 0.36, false);
+          }
+        }
+      } else if (STATE.airframeType === 'ducted_fan') {
+        // Annular Ducted Fan Body
+        const ductOuter = new THREE.Mesh(new THREE.CylinderGeometry(halfSpan * 0.55, halfSpan * 0.48, fuseL * 0.45, 32, 1, true), bodyMat);
+        const centerPod = new THREE.Mesh(new THREE.CylinderGeometry(halfSpan * 0.16, halfSpan * 0.12, fuseL * 0.75, 20), accentMat);
+        uavRootGroup.add(ductOuter, centerPod);
+        addRotorAssembly(0, fuseL * 0.15, 0, halfSpan * 0.48, false);
+      } else {
+        // Fixed-Wing / Flying-Wing / Delta / VTOL Hybrid / Heli Main Fuselage
+        const fuseRadius = STATE.airframeType === 'flying_wing' ? rootC * 0.22 : Math.max(0.28, fuseL * 0.068);
+        const fuseGeom = new THREE.CylinderGeometry(fuseRadius * 0.65, fuseRadius * 0.85, fuseL, 24);
+        fuseGeom.rotateZ(Math.PI / 2);
+        fuseGeom.scale(1, 0.82, 1.05);
+        const fuseMesh = new THREE.Mesh(fuseGeom, bodyMat);
+        uavRootGroup.add(fuseMesh);
+
+        // Nose Radome / SATCOM Hump (MQ-9 / Teng-Yun style)
+        const noseGeom = new THREE.SphereGeometry(fuseRadius * 0.85, 24, 16);
+        noseGeom.scale(2.2, 0.88, 1.0);
+        const noseMesh = new THREE.Mesh(noseGeom, bodyMat);
+        noseMesh.position.x = -fuseL * 0.48;
+        uavRootGroup.add(noseMesh);
+
+        // EO/IR Gimbal Turret under nose
+        if (STATE.augEoIrGimbal) {
+          const gimbal = new THREE.Mesh(new THREE.SphereGeometry(fuseRadius * 0.45, 16, 16), darkMat);
+          gimbal.position.set(-fuseL * 0.38, -fuseRadius * 0.85, 0);
+          uavRootGroup.add(gimbal);
+        }
+
+        // Main Parametric Wings (unless pure Coaxial Cylinder)
+        if (STATE.airframeType !== 'heli_coaxial') {
+          const geomR = createParametricWingGeometry(1, halfSpan, rootC, STATE.taper, sweepRad, dihedralRad, STATE.airfoil);
+          const geomL = createParametricWingGeometry(-1, halfSpan, rootC, STATE.taper, sweepRad, dihedralRad, STATE.airfoil);
+          wingMeshRight = new THREE.Mesh(geomR, wingMat);
+          wingMeshLeft = new THREE.Mesh(geomL, wingMat);
+          uavRootGroup.add(wingMeshRight, wingMeshLeft);
+
+          // Winglets Augmentation Geometry at Wingtips
+          if (STATE.augWinglet !== 'none') {
+            const tipC = rootC * STATE.taper;
+            const tipX = halfSpan * Math.tan(sweepRad);
+            const tipY = halfSpan * Math.tan(dihedralRad);
+            const wlH = Math.max(0.35, halfSpan * 0.14);
+            [1, -1].forEach((sSign) => {
+              const wlGeom = new THREE.BoxGeometry(tipC * 0.75, wlH, 0.05);
+              const wlMesh = new THREE.Mesh(wlGeom, accentMat);
+              wlMesh.position.set(tipX + tipC * 0.15, tipY + wlH * 0.42, sSign * halfSpan);
+              wlMesh.rotation.x = -sSign * 0.22;
+              uavRootGroup.add(wlMesh);
+              if (STATE.augWinglet === 'scimitar') {
+                const lowerWl = new THREE.Mesh(new THREE.BoxGeometry(tipC * 0.55, wlH * 0.55, 0.04), accentMat);
+                lowerWl.position.set(tipX + tipC * 0.2, tipY - wlH * 0.25, sSign * halfSpan);
+                lowerWl.rotation.x = sSign * 0.35;
+                uavRootGroup.add(lowerWl);
+              }
+            });
+          }
+
+          // Animated Ailerons & Flaps on Wing Trailing Edge
+          [1, -1].forEach((sSign) => {
+            const ail = new THREE.Mesh(new THREE.BoxGeometry(rootC * 0.22, 0.04, halfSpan * 0.28), accentMat);
+            ail.position.set(halfSpan * 0.72 * Math.tan(sweepRad) + rootC * 0.42, halfSpan * 0.72 * Math.tan(dihedralRad), sSign * halfSpan * 0.72);
+            ail.userData = { type: 'aileron', side: sSign };
+            controlSurfaceMeshes.push(ail);
+            uavRootGroup.add(ail);
+          });
+        }
+
+        // Twin Booms for TB2 / Albatross / QuadPlane
+        if (STATE.airframeType === 'twin_boom' || STATE.airframeType === 'quadplane_vtol') {
+          const boomZ = halfSpan * 0.34;
+          [1, -1].forEach((sSign) => {
+            const boom = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, fuseL * 0.92, 12), bodyMat);
+            boom.rotation.z = Math.PI / 2;
+            boom.position.set(fuseL * 0.18, 0, sSign * boomZ);
+            uavRootGroup.add(boom);
+
+            if (STATE.airframeType === 'quadplane_vtol') {
+              addRotorAssembly(-fuseL * 0.22, 0.14, sSign * boomZ, halfSpan * 0.18, false);
+              addRotorAssembly(fuseL * 0.38, 0.14, sSign * boomZ, halfSpan * 0.18, false);
+            }
+          });
+        }
+
+        // Empennage / Tail Surfaces
+        if (STATE.tailType !== 'tailless' && STATE.airframeType !== 'flying_wing') {
+          const tailX = fuseL * 0.52;
+          const tailSpan = Math.max(0.8, halfSpan * 0.32);
+          if (STATE.tailType === 'v_tail' || STATE.tailType === 'inv_v_tail') {
+            const vSign = STATE.tailType === 'inv_v_tail' ? -1 : 1;
+            [1, -1].forEach((sSign) => {
+              const vFin = new THREE.Mesh(new THREE.BoxGeometry(rootC * 0.65, 0.05, tailSpan), bodyMat);
+              vFin.position.set(tailX, vSign * tailSpan * 0.32, sSign * tailSpan * 0.42);
+              vFin.rotation.x = -sSign * vSign * 0.62;
+              vFin.userData = { type: 'elevator' };
+              controlSurfaceMeshes.push(vFin);
+              uavRootGroup.add(vFin);
+            });
+          } else {
+            const hTail = new THREE.Mesh(new THREE.BoxGeometry(rootC * 0.65, 0.05, tailSpan * 1.4), bodyMat);
+            const vTail = new THREE.Mesh(new THREE.BoxGeometry(rootC * 0.72, tailSpan * 0.65, 0.05), bodyMat);
+            const hY = STATE.tailType === 't_tail' ? tailSpan * 0.62 : 0.05;
+            hTail.position.set(tailX, hY, 0);
+            vTail.position.set(tailX, tailSpan * 0.32, 0);
+            hTail.userData = { type: 'elevator' };
+            controlSurfaceMeshes.push(hTail);
+            uavRootGroup.add(hTail, vTail);
+          }
+        }
+
+        // Propulsion Placement (Pusher, Tilt-Rotor, or Helicopter Rotor)
+        if (STATE.airframeType === 'heli_coaxial') {
+          addRotorAssembly(0, fuseRadius * 1.35, 0, halfSpan * 0.92, false);
+          if (STATE.rotorCount >= 2) {
+            addRotorAssembly(0, fuseRadius * 1.85, 0, halfSpan * 0.92, false);
+          }
+        } else if (STATE.airframeType === 'tiltrotor_vtol') {
+          [1, -1].forEach((sSign) => {
+            addRotorAssembly(-rootC * 0.35, 0.1, sSign * halfSpan * 0.48, halfSpan * 0.22, true);
+            addRotorAssembly(-rootC * 0.20, 0.15, sSign * halfSpan * 0.95, halfSpan * 0.22, true);
+          });
+        } else {
+          // Aft Pusher Propeller
+          const pusher = new THREE.Group();
+          pusher.position.set(fuseL * 0.56, 0.08, 0);
+          pusher.rotation.z = Math.PI / 2;
+          const spinner = new THREE.Group();
+          const b1 = new THREE.Mesh(new THREE.BoxGeometry(rootC * 1.25, 0.04, 0.12), accentMat);
+          const b2 = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.04, rootC * 1.25), accentMat);
+          spinner.add(b1, b2);
+          pusher.add(spinner);
+          propMeshes.push({ holder: pusher, spinner, isTiltable: false });
+          uavRootGroup.add(pusher);
+        }
+      }
+
+      // Structural X-Ray Internal Spars & Wing Ribs
+      xrayGroup = new THREE.Group();
+      xrayGroup.visible = STATE.viz.xray;
+      const sparMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, wireframe: true });
+      const frontSpar = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.14, halfSpan * 1.92), sparMat);
+      frontSpar.position.x = -rootC * 0.12;
+      const rearSpar = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.11, halfSpan * 1.85), sparMat);
+      rearSpar.position.x = rootC * 0.25;
+      xrayGroup.add(frontSpar, rearSpar);
+      for (let r = -8; r <= 8; r++) {
+        if (r === 0) continue;
+        const rib = new THREE.Mesh(new THREE.BoxGeometry(rootC * 0.72, 0.12, 0.03), sparMat);
+        rib.position.z = (r / 8) * halfSpan * 0.92;
+        xrayGroup.add(rib);
+      }
+      uavRootGroup.add(xrayGroup);
+
+      // Force Vectors (Lift, Drag, Thrust, Weight)
+      forceArrows.lift = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0), 3.5, 0x34d399, 0.6, 0.35);
+      forceArrows.drag = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0, 0), 2.2, 0xf43f5e, 0.5, 0.3);
+      forceArrows.thrust = new THREE.ArrowHelper(new THREE.Vector3(-1, 0, 0), new THREE.Vector3(0, 0, 0), 2.8, 0x22d3ee, 0.5, 0.3);
+      forceArrows.weight = new THREE.ArrowHelper(new THREE.Vector3(0, -1, 0), new THREE.Vector3(-0.2, 0, 0), 3.2, 0xfbbf24, 0.5, 0.3);
+      Object.values(forceArrows).forEach(a => uavRootGroup.add(a));
+
+      // CG & NP Markers
+      cgMarker = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 16), new THREE.MeshBasicMaterial({ color: 0xfbbf24 }));
+      npMarker = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 16), new THREE.MeshBasicMaterial({ color: 0xe879f9 }));
+      cgMarker.position.set(-0.35, 0.15, 0);
+      npMarker.position.set(0.32, 0.15, 0);
+      uavRootGroup.add(cgMarker, npMarker);
+
+      // 3D Streamlines
+      const numStreamlines = 18;
+      for (let i = 0; i < numStreamlines; i++) {
+        const zPos = ((i / (numStreamlines - 1)) - 0.5) * halfSpan * 1.9;
+        const pts = [];
+        for (let k = 0; k < 28; k++) pts.push(new THREE.Vector3((k - 12) * 0.65, 0.25, zPos));
+        const geom = new THREE.BufferGeometry().setFromPoints(pts);
+        const line = new THREE.Line(geom, new THREE.LineBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.65 }));
+        line.userData = { zPos, row: i % 2 === 0 ? 0.28 : -0.22 };
+        streamlineLines.push(line);
+        scene.add(line);
+      }
+
+      // Wingtip Vortex Spirals
+      [1, -1].forEach((sSign) => {
+        const vPts = [];
+        for (let k = 0; k < 45; k++) vPts.push(new THREE.Vector3(k * 0.25, 0, sSign * halfSpan));
+        const vGeom = new THREE.BufferGeometry().setFromPoints(vPts);
+        const vLine = new THREE.Line(vGeom, new THREE.LineBasicMaterial({ color: 0x818cf8, transparent: true, opacity: 0.8 }));
+        vLine.userData = { sSign, halfSpan };
+        vortexLines.push(vLine);
+        uavRootGroup.add(vLine);
+      });
+
+      update3DPhysicsOverlays();
+    }
+
+    // Update 3D model attitude, control deflections, Cp heatmap, streamlines & vortices
+    function update3DPhysicsOverlays() {
+      if (!uavRootGroup) return;
+      const res = STATE.results;
+      if (!res || !res.aero) return;
+
+      // Pitch (AoA), Yaw (Beta), Roll attitude on UAV Root
+      uavRootGroup.rotation.z = (-STATE.aoa * Math.PI) / 180;
+      uavRootGroup.rotation.y = (STATE.beta * Math.PI) / 180;
+      uavRootGroup.rotation.x = (STATE.aileron * 0.35 * Math.PI) / 180;
+
+      // Control surfaces deflection
+      controlSurfaceMeshes.forEach((m) => {
+        if (m.userData.type === 'aileron') {
+          m.rotation.z = (m.userData.side * STATE.aileron * Math.PI) / 180;
+        } else if (m.userData.type === 'elevator') {
+          m.rotation.z = (STATE.elevator * Math.PI) / 180;
+        }
+      });
+
+      // Tilt-rotor angle update
+      propMeshes.forEach((p) => {
+        if (p.isTiltable) {
+          p.holder.rotation.z = (STATE.vtolTilt * Math.PI) / 180;
+        }
+      });
+
+      // Visibility toggles
+      Object.values(forceArrows).forEach(a => { a.visible = STATE.viz.vectors; });
+      if (forceArrows.lift) {
+        const liftLen = Math.max(0.8, Math.min(5.5, 3.2 * Math.abs(res.loadFactorG)));
+        forceArrows.lift.setLength(liftLen, 0.55, 0.32);
+        forceArrows.drag.setLength(Math.max(0.6, Math.min(4.5, 1.5 + res.aero.CD * 22)), 0.45, 0.28);
+        forceArrows.thrust.setLength(Math.max(0.5, (STATE.throttle / 100) * 3.6), 0.45, 0.28);
+      }
+      if (cgMarker && npMarker) {
+        cgMarker.visible = STATE.viz.cgnp;
+        npMarker.visible = STATE.viz.cgnp;
+      }
+      if (xrayGroup) xrayGroup.visible = STATE.viz.xray;
+
+      // Update Cp Heatmap Vertex Colors on Wings
+      [wingMeshRight, wingMeshLeft].forEach((wMesh) => {
+        if (!wMesh) return;
+        wMesh.material.vertexColors = STATE.viz.pressure;
+        wMesh.material.color.setHex(STATE.viz.pressure ? 0xffffff : 0x475569);
+        wMesh.material.transparent = STATE.viz.xray;
+        wMesh.material.opacity = STATE.viz.xray ? 0.35 : 1.0;
+        wMesh.material.needsUpdate = true;
+
+        if (STATE.viz.pressure) {
+          const colAttr = wMesh.geometry.getAttribute('color');
+          const posAttr = wMesh.geometry.getAttribute('position');
+          for (let i = 0; i < colAttr.count; i++) {
+            const px = posAttr.getX(i);
+            const py = posAttr.getY(i);
+            if (res.aero.isStalled && py > 0) {
+              colAttr.setXYZ(i, 0.95, 0.22, 0.35); // Stall separation red-magenta alert
+            } else if (py > 0.01) {
+              // Upper surface suction (blue -> cyan -> green)
+              const suction = Math.min(1, Math.max(0, (0.5 - px * 0.25) * Math.max(0.2, res.aero.CL)));
+              colAttr.setXYZ(i, 0.08, 0.45 + 0.45 * suction, 0.95);
+            } else {
+              // Lower surface positive pressure (emerald -> amber)
+              colAttr.setXYZ(i, 0.25 + Math.max(0, STATE.aoa * 0.03), 0.78, 0.35);
+            }
+          }
+          colAttr.needsUpdate = true;
+        }
+      });
+
+      // Stall Warning Banner
+      const stallBanner = document.getElementById('StallAlertOverlay');
+      if (stallBanner) {
+        stallBanner.classList.toggle('hidden', !res.aero.isStalled);
+      }
+    }
+
+    function animateThreeScene() {
+      requestAnimationFrame(animateThreeScene);
+      simClock += 0.04;
+      const res = STATE.results;
+
+      // Spin propellers/rotors proportional to throttle
+      const spinRate = 0.08 + (STATE.throttle / 100) * 0.45;
+      propMeshes.forEach((p, idx) => {
+        p.spinner.rotation.y += spinRate * (idx % 2 === 0 ? 1 : -1);
+      });
+
+      // Animate 3D Streamlines
+      streamlineLines.forEach((line, idx) => {
+        line.visible = STATE.viz.streamlines;
+        if (!STATE.viz.streamlines) return;
+        const pos = line.geometry.getAttribute('position');
+        const aoaRad = (STATE.aoa * Math.PI) / 180;
+        const isStalled = res?.aero?.isStalled;
+        for (let k = 0; k < pos.count; k++) {
+          const x = (k - 12) * 0.65;
+          let y = line.userData.row - x * Math.tan(aoaRad * 0.55);
+          if (Math.abs(x) < 2.2) {
+            y += (line.userData.row > 0 ? 0.38 : -0.15) * Math.cos((x / 2.2) * (Math.PI / 2));
+          }
+          if (isStalled && x > 0 && line.userData.row > 0) {
+            // Turbulent separation wake oscillation
+            y += Math.sin(simClock * 3.2 - k * 0.8 + idx) * (0.28 + x * 0.08);
+          } else {
+            y += Math.sin(simClock * 2.0 - k * 0.45) * 0.03;
+          }
+          pos.setY(k, y);
+        }
+        pos.needsUpdate = true;
+      });
+
+      // Animate Wingtip Vortices
+      vortexLines.forEach((vLine) => {
+        vLine.visible = STATE.viz.vortices;
+        if (!STATE.viz.vortices) return;
+        const pos = vLine.geometry.getAttribute('position');
+        const clStrength = Math.max(0.15, Math.abs(res?.aero?.CL || 0.6));
+        const wingletSuppress = STATE.augWinglet === 'none' ? 1.0 : 0.55;
+        for (let k = 0; k < pos.count; k++) {
+          const x = k * 0.24;
+          const r = (k / pos.count) * 0.65 * clStrength * wingletSuppress;
+          const ang = k * 0.55 - simClock * 3.0 * vLine.userData.sSign;
+          pos.setXYZ(k, x, Math.sin(ang) * r, vLine.userData.sSign * vLine.userData.halfSpan + Math.cos(ang) * r);
+        }
+        pos.needsUpdate = true;
+      });
+
+      if (renderer && scene && camera) {
+        renderer.render(scene, camera);
+      }
+    }
+
+    // =========================================================================
+    // 6. 2D AIRFOIL CANVAS & PFD HUD CANVAS RENDERERS
+    // =========================================================================
+    function drawAirfoilCanvas(canvasId, isLarge = false) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Background grid
+      ctx.strokeStyle = 'rgba(30, 41, 59, 0.75)';
+      ctx.lineWidth = 1;
+      const step = isLarge ? 35 : 24;
+      for (let x = 0; x < w; x += step) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = 0; y < h; y += step) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      const coords = computeAirfoilCoords(STATE.airfoil, 45, STATE.flap);
+      const padX = isLarge ? 75 : 42;
+      const chordPx = w - padX * 2;
+      const centerY = h * 0.56;
+      const aoaRad = (-STATE.aoa * Math.PI) / 180;
+
+      // Transform airfoil coordinate (x in [0,1], y) with AoA rotation around quarter-chord (0.25, 0)
+      const toScreen = (pt) => {
+        const dx = pt.x - 0.25;
+        const dy = pt.y;
+        const rx = 0.25 + dx * Math.cos(aoaRad) - dy * Math.sin(aoaRad);
+        const ry = dx * Math.sin(aoaRad) + dy * Math.cos(aoaRad);
+        return {
+          x: padX + rx * chordPx,
+          y: centerY - ry * chordPx * 1.35
+        };
+      };
+
+      // Draw incoming 2D airflow streamlines
+      const isStalled = STATE.results?.aero?.isStalled;
+      ctx.lineWidth = 1.2;
+      const nLines = isLarge ? 9 : 5;
+      for (let i = 0; i < nLines; i++) {
+        const baseY = (h / (nLines + 1)) * (i + 1);
+        ctx.strokeStyle = (isStalled && baseY < centerY) ? 'rgba(244, 63, 94, 0.55)' : 'rgba(56, 189, 248, 0.40)';
+        ctx.beginPath();
+        for (let sx = 6; sx < w - 6; sx += 10) {
+          const normX = (sx - padX) / chordPx;
+          let sy = baseY;
+          if (normX > -0.15 && normX < 1.15) {
+            const influence = Math.sin(Math.max(0, Math.min(1, (normX + 0.1) / 1.2)) * Math.PI);
+            sy -= (baseY < centerY ? 18 : 8) * influence * (1 + STATE.aoa * 0.06);
+            if (isStalled && baseY < centerY && normX > 0.35) {
+              sy += Math.sin(normX * 18 + simClock * 2) * 14 * (normX - 0.3);
+            }
+          }
+          if (sx === 6) ctx.moveTo(sx, sy);
+          else ctx.lineTo(sx, sy);
+        }
+        ctx.stroke();
+      }
+
+      // Draw Cp Suction Envelope above upper surface
+      ctx.fillStyle = isStalled ? 'rgba(244, 63, 94, 0.18)' : 'rgba(14, 165, 233, 0.18)';
+      ctx.beginPath();
+      coords.upper.forEach((pt, idx) => {
+        const sc = toScreen(pt);
+        if (idx === 0) ctx.moveTo(sc.x, sc.y);
+        else ctx.lineTo(sc.x, sc.y);
+      });
+      for (let i = coords.upper.length - 1; i >= 0; i--) {
+        const pt = coords.upper[i];
+        const sc = toScreen(pt);
+        const cpHeight = Math.max(0, (1 - pt.x) * Math.sin(pt.x * Math.PI * 0.85) * (22 + STATE.aoa * 2.2));
+        ctx.lineTo(sc.x, sc.y - cpHeight);
+      }
+      ctx.closePath();
+      ctx.fill();
+
+      // Draw Airfoil Closed Polygon
+      ctx.fillStyle = 'rgba(30, 41, 59, 0.95)';
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      coords.upper.forEach((pt, idx) => {
+        const sc = toScreen(pt);
+        if (idx === 0) ctx.moveTo(sc.x, sc.y);
+        else ctx.lineTo(sc.x, sc.y);
+      });
+      for (let i = coords.lower.length - 1; i >= 0; i--) {
+        const sc = toScreen(coords.lower[i]);
+        ctx.lineTo(sc.x, sc.y);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Draw Mean Camber Line
+      ctx.strokeStyle = '#34d399';
+      ctx.setLineDash([4, 3]);
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      coords.camber.forEach((pt, idx) => {
+        const sc = toScreen(pt);
+        if (idx === 0) ctx.moveTo(sc.x, sc.y);
+        else ctx.lineTo(sc.x, sc.y);
+      });
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Quarter-chord Aerodynamic Center dot
+      const acPt = toScreen({ x: 0.25, y: 0 });
+      ctx.fillStyle = '#fbbf24';
+      ctx.beginPath();
+      ctx.arc(acPt.x, acPt.y, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Labels
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px "JetBrains Mono", monospace';
+      ctx.fillText(`α = ${STATE.aoa.toFixed(1)}° | δf = ${STATE.flap}° | CL = ${(STATE.results?.aero?.CL || 0).toFixed(3)}`, 10, 16);
+      if (isLarge) {
+        ctx.fillStyle = '#34d399';
+        ctx.fillText('綠色虛線: 中弧線 (Mean Camber) | 藍區: 上表面低壓吸力包絡 Cp(x/c) | 黃點: 1/4弦氣動中心', 10, h - 10);
+      }
+      // MaxJim Tech Watermark on 2D Airfoil Canvas
+      drawCanvasWatermark(ctx, w, h, isLarge);
+    }
+
+    function drawCanvasWatermark(ctx, w, h, isLarge = false) {
+      ctx.save();
+      // Diagonal center watermark
+      ctx.translate(w / 2, h / 2);
+      ctx.rotate(-0.34);
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.11)';
+      ctx.font = `bold ${isLarge ? 20 : 12}px "Inter", sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText('肇祥企業社 MaxJim Tech.', 0, 0);
+      if (isLarge) {
+        ctx.font = '11px "JetBrains Mono", monospace';
+        ctx.fillText('https://maxjimtech.com/ • 0931-765001', 0, 18);
+      }
+      ctx.restore();
+
+      // Corner official stamp
+      ctx.save();
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.55)';
+      ctx.font = 'bold 9px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right';
+      ctx.fillText('MaxJim Tech • 肇祥企業社', w - 8, 15);
+      ctx.restore();
+    }
+
+    // Primary Flight Display (PFD) Artificial Horizon HUD
+    function drawHudPfd() {
+      const canvas = document.getElementById('HudPfdCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const cx = w / 2, cy = h / 2;
+      const rollRad = (STATE.aileron * 0.45 * Math.PI) / 180;
+      const pitchOffset = STATE.aoa * 2.5;
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(rollRad);
+
+      // Sky & Ground halves
+      ctx.fillStyle = 'rgba(14, 116, 144, 0.45)';
+      ctx.fillRect(-w, -h * 2 + pitchOffset, w * 2, h * 2);
+      ctx.fillStyle = 'rgba(120, 53, 15, 0.45)';
+      ctx.fillRect(-w, pitchOffset, w * 2, h * 2);
+
+      // Horizon Line
+      ctx.strokeStyle = '#34d399';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(-w, pitchOffset);
+      ctx.lineTo(w, pitchOffset);
+      ctx.stroke();
+
+      // Pitch Ladder
+      ctx.strokeStyle = 'rgba(52, 211, 153, 0.75)';
+      ctx.lineWidth = 1;
+      [-10, -5, 5, 10, 15].forEach((deg) => {
+        const y = pitchOffset - deg * 2.5;
+        ctx.beginPath();
+        ctx.moveTo(-18, y); ctx.lineTo(18, y);
+        ctx.stroke();
+      });
+      ctx.restore();
+
+      // Fixed Aircraft Reference Reticle
+      ctx.strokeStyle = '#fbbf24';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(cx - 28, cy); ctx.lineTo(cx - 8, cy); ctx.lineTo(cx - 8, cy + 5);
+      ctx.moveTo(cx + 28, cy); ctx.lineTo(cx + 8, cy); ctx.lineTo(cx + 8, cy + 5);
+      ctx.stroke();
+
+      // HUD Digital Readouts
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 10px "JetBrains Mono", monospace';
+      ctx.fillText(`SPD ${STATE.airspeed.toFixed(0)}m/s`, 6, 14);
+      ctx.fillText(`ALT ${STATE.altitude.toFixed(0)}m`, w - 68, 14);
+      ctx.fillStyle = '#34d399';
+      ctx.fillText(`G ${(STATE.results?.loadFactorG || 1.0).toFixed(2)}`, 6, h - 6);
+      ctx.fillText(`α ${STATE.aoa.toFixed(1)}°`, w - 52, h - 6);
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.45)';
+      ctx.font = 'bold 8px "JetBrains Mono", monospace';
+      ctx.fillText('MaxJim Tech', cx - 26, h - 6);
+    }
+
+    // =========================================================================
+    // 7. CHART.JS MULTI-CHART ENGINE (9 REAL-TIME INTERACTIVE CHARTS)
+    // =========================================================================
+    const CHARTS = {};
+
+    const commonChartOptions = (xLabel, yLabel) => ({
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 180 },
+      plugins: {
+        legend: { labels: { color: '#cbd5e1', font: { size: 10, family: 'Inter' }, boxWidth: 12 } }
+      },
+      scales: {
+        x: {
+          title: { display: !!xLabel, text: xLabel, color: '#94a3b8', font: { size: 10 } },
+          ticks: { color: '#94a3b8', font: { size: 9 } },
+          grid: { color: 'rgba(51, 65, 85, 0.35)' }
+        },
+        y: {
+          title: { display: !!yLabel, text: yLabel, color: '#94a3b8', font: { size: 10 } },
+          ticks: { color: '#94a3b8', font: { size: 9 } },
+          grid: { color: 'rgba(51, 65, 85, 0.35)' }
+        }
+      }
+    });
+
+    function initAllCharts() {
+      // Register Global MaxJim Tech Watermark Plugin for all Chart.js instances
+      if (window.Chart) {
+        Chart.register({
+          id: 'maxJimTechWatermark',
+          afterDraw: (chart) => {
+            const { ctx, width, height } = chart;
+            ctx.save();
+            ctx.translate(width / 2, height / 2);
+            ctx.rotate(-0.32);
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.10)';
+            ctx.font = 'bold 15px "Inter", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('肇祥企業社 MaxJim Tech.', 0, 0);
+            ctx.font = '10px "JetBrains Mono", monospace';
+            ctx.fillText('https://maxjimtech.com/', 0, 15);
+            ctx.restore();
+
+            ctx.save();
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.50)';
+            ctx.font = 'bold 9px "JetBrains Mono", monospace';
+            ctx.textAlign = 'right';
+            ctx.fillText('肇祥企業社 MaxJim Tech.', width - 8, height - 6);
+            ctx.restore();
+          }
+        });
+      }
+      // 1. Studio Mini Polar Chart
+      const ctxMini = document.getElementById('StudioMiniPolarChart')?.getContext('2d');
+      if (ctxMini) {
+        CHARTS.miniPolar = new Chart(ctxMini, {
+          type: 'line',
+          data: { labels: [], datasets: [] },
+          options: commonChartOptions('攻角 α (°)', 'CL / (L/D÷20)')
+        });
+      }
+
+      // 2. Spanwise Lift Distribution Chart
+      const ctxSpan = document.getElementById('ChartSpanwiseLift')?.getContext('2d');
+      if (ctxSpan) {
+        CHARTS.spanwise = new Chart(ctxSpan, {
+          type: 'line',
+          data: { labels: [], datasets: [] },
+          options: commonChartOptions('展向無因次座標 2y/b', '局部升力係數 Cl(y)')
+        });
+      }
+
+      // 3. CL vs Alpha
+      const ctxCl = document.getElementById('ChartClAlpha')?.getContext('2d');
+      if (ctxCl) {
+        CHARTS.clAlpha = new Chart(ctxCl, {
+          type: 'line',
+          data: { labels: [], datasets: [] },
+          options: commonChartOptions('攻角 α (°)', '升力係數 CL')
+        });
+      }
+
+      // 4. L/D vs Alpha
+      const ctxLd = document.getElementById('ChartLDAlpha')?.getContext('2d');
+      if (ctxLd) {
+        CHARTS.ldAlpha = new Chart(ctxLd, {
+          type: 'line',
+          data: { labels: [], datasets: [] },
+          options: commonChartOptions('攻角 α (°)', '升阻比 L/D')
+        });
+      }
+
+      // 5. Drag Polar (CL vs CD)
+      const ctxDrag = document.getElementById('ChartDragPolar')?.getContext('2d');
+      if (ctxDrag) {
+        CHARTS.dragPolar = new Chart(ctxDrag, {
+          type: 'line',
+          data: { labels: [], datasets: [] },
+          options: commonChartOptions('阻力係數 CD', '升力係數 CL')
+        });
+      }
+
+      // 6. Cm vs Alpha
+      const ctxCm = document.getElementById('ChartCmAlpha')?.getContext('2d');
+      if (ctxCm) {
+        CHARTS.cmAlpha = new Chart(ctxCm, {
+          type: 'line',
+          data: { labels: [], datasets: [] },
+          options: commonChartOptions('攻角 α (°)', '俯仰力矩係數 Cm')
+        });
+      }
+
+      // 7. 6-DOF Flight Telemetry Recorder
+      const ctxSim = document.getElementById('ChartFlightTelemetry')?.getContext('2d');
+      if (ctxSim) {
+        CHARTS.flightSim = new Chart(ctxSim, {
+          type: 'line',
+          data: {
+            labels: Array.from({ length: 40 }, (_, i) => `${(i * 0.2).toFixed(1)}s`),
+            datasets: [
+              { label: '攻角 α (°)', data: [], borderColor: '#34d399', borderWidth: 2, tension: 0.3, pointRadius: 0 },
+              { label: '俯仰角 θ (°)', data: [], borderColor: '#38bdf8', borderWidth: 2, tension: 0.3, pointRadius: 0 },
+              { label: '過載 G 值 (×5)', data: [], borderColor: '#fbbf24', borderWidth: 1.8, borderDash: [4, 2], tension: 0.3, pointRadius: 0 }
+            ]
+          },
+          options: commonChartOptions('模擬時間 Time (s)', '物理量響應幅值')
+        });
+      }
+
+      // 8. Structural Root-to-Tip Bending Moment & Stress
+      const ctxStruct = document.getElementById('ChartStructuralMoment')?.getContext('2d');
+      if (ctxStruct) {
+        CHARTS.structural = new Chart(ctxStruct, {
+          type: 'line',
+          data: { labels: [], datasets: [] },
+          options: commonChartOptions('展向位置 2y/b (翼根 0 → 翼尖 1)', '彎矩 M(y) [kN·m] / 應力比')
+        });
+      }
+
+      // 9. Multi-UAV Comparison Radar
+      const ctxRadar = document.getElementById('ChartCompareRadar')?.getContext('2d');
+      if (ctxRadar) {
+        CHARTS.radar = new Chart(ctxRadar, {
+          type: 'radar',
+          data: {
+            labels: ['最大升阻比 (L/D)', '長滯空能力', '推重比機動性', '結構安全裕度', '低速防失速裕度', '酬載重量效率'],
+            datasets: []
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                min: 0, max: 100,
+                angleLines: { color: 'rgba(71, 85, 105, 0.4)' },
+                grid: { color: 'rgba(71, 85, 105, 0.4)' },
+                pointLabels: { color: '#e2e8f0', font: { size: 11 } },
+                ticks: { display: false }
+              }
+            },
+            plugins: { legend: { labels: { color: '#cbd5e1', font: { size: 11 } } } }
+          }
+        });
+      }
+    }
+
+    function updateAllCharts() {
+      const alphas = [];
+      const clAug = [], clBase = [], ldAug = [], ldBase = [], cdAug = [], cmAug = [];
+      let maxLD = -999, bestAlpha = 0, trimAlpha = 0, minCmDiff = 999;
+
+      for (let a = -10; a <= 24; a += 1) {
+        alphas.push(`${a}°`);
+        const aug = evalAeroAtAoA(a, true);
+        const bas = evalAeroAtAoA(a, false);
+        clAug.push(Number(aug.CL.toFixed(3)));
+        clBase.push(Number(bas.CL.toFixed(3)));
+        ldAug.push(Number(aug.LD.toFixed(2)));
+        ldBase.push(Number(bas.LD.toFixed(2)));
+        cdAug.push(Number(aug.CD.toFixed(4)));
+        cmAug.push(Number(aug.Cm.toFixed(3)));
+
+        if (aug.LD > maxLD) { maxLD = aug.LD; bestAlpha = a; }
+        if (Math.abs(aug.Cm) < minCmDiff) { minCmDiff = Math.abs(aug.Cm); trimAlpha = a; }
+      }
+
+      const maxLDLabel = document.getElementById('MaxLDLabel');
+      if (maxLDLabel) maxLDLabel.textContent = `(L/D)max = ${maxLD.toFixed(1)} @ ${bestAlpha}°`;
+      const trimLabel = document.getElementById('TrimAlphaLabel');
+      if (trimLabel) trimLabel.textContent = `配平攻角 α_trim ≈ ${trimAlpha.toFixed(1)}°`;
+
+      // Update 1: Studio Mini Polar
+      if (CHARTS.miniPolar) {
+        CHARTS.miniPolar.data.labels = alphas;
+        CHARTS.miniPolar.data.datasets = [
+          { label: '升力係數 CL (補強後)', data: clAug, borderColor: '#34d399', borderWidth: 2, pointRadius: 0, tension: 0.25 },
+          { label: '升阻比 L/D ÷ 20', data: ldAug.map(v => Number((v / 20).toFixed(3))), borderColor: '#38bdf8', borderWidth: 1.8, borderDash: [4, 2], pointRadius: 0, tension: 0.25 }
+        ];
+        CHARTS.miniPolar.update('none');
+      }
+
+      // Update 2: Spanwise Lift Distribution (Schrenk approximation: average of elliptical & planform taper)
+      if (CHARTS.spanwise) {
+        const spanLabs = [];
+        const clLocal = [], clEllip = [];
+        const currCL = Math.max(0.1, STATE.results?.aero?.CL || 0.7);
+        for (let i = 0; i <= 20; i++) {
+          const eta = i / 20; // 2y/b
+          spanLabs.push(eta.toFixed(2));
+          const ellip = (4 / Math.PI) * Math.sqrt(Math.max(0, 1 - eta * eta)) * currCL;
+          const taperPlanform = (2 / (1 + STATE.taper)) * (1 - (1 - STATE.taper) * eta) * currCL;
+          const wingletBoost = STATE.augWinglet !== 'none' ? 1.06 * Math.pow(1 - Math.pow(eta, 4), 0.25) : 1.0;
+          clEllip.push(Number(ellip.toFixed(3)));
+          clLocal.push(Number((0.5 * (ellip + taperPlanform) * wingletBoost).toFixed(3)));
+        }
+        CHARTS.spanwise.data.labels = spanLabs;
+        CHARTS.spanwise.data.datasets = [
+          { label: '當前機翼展向 Cl(y) (含小翼補強)', data: clLocal, borderColor: '#38bdf8', backgroundColor: 'rgba(56, 189, 248, 0.15)', fill: true, borderWidth: 2, pointRadius: 0, tension: 0.3 },
+          { label: '理想橢圓升力分佈 (Prandtl 基準)', data: clEllip, borderColor: '#94a3b8', borderDash: [5, 3], borderWidth: 1.5, pointRadius: 0, tension: 0.3 }
+        ];
+        CHARTS.spanwise.update('none');
+      }
+
+      // Update 3: CL vs Alpha
+      if (CHARTS.clAlpha) {
+        CHARTS.clAlpha.data.labels = alphas;
+        CHARTS.clAlpha.data.datasets = [
+          { label: '補強後 CL(α)', data: clAug, borderColor: '#34d399', backgroundColor: 'rgba(52, 211, 153, 0.12)', fill: true, borderWidth: 2.2, pointRadius: 1.5, tension: 0.25 },
+          { label: '原生基準 CL(α)', data: clBase, borderColor: '#64748b', borderDash: [4, 3], borderWidth: 1.5, pointRadius: 0, tension: 0.25 }
+        ];
+        CHARTS.clAlpha.update('none');
+      }
+
+      // Update 4: L/D vs Alpha
+      if (CHARTS.ldAlpha) {
+        CHARTS.ldAlpha.data.labels = alphas;
+        CHARTS.ldAlpha.data.datasets = [
+          { label: '補強後升阻比 L/D', data: ldAug, borderColor: '#38bdf8', backgroundColor: 'rgba(56, 189, 248, 0.12)', fill: true, borderWidth: 2.2, pointRadius: 1.5, tension: 0.25 },
+          { label: '原生基準 L/D', data: ldBase, borderColor: '#64748b', borderDash: [4, 3], borderWidth: 1.5, pointRadius: 0, tension: 0.25 }
+        ];
+        CHARTS.ldAlpha.update('none');
+      }
+
+      // Update 5: Drag Polar
+      if (CHARTS.dragPolar) {
+        CHARTS.dragPolar.data.labels = cdAug.map(v => v.toFixed(3));
+        CHARTS.dragPolar.data.datasets = [
+          { label: '極曲線 CL vs CD', data: clAug, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.12)', fill: true, borderWidth: 2, pointRadius: 2, tension: 0.25 }
+        ];
+        CHARTS.dragPolar.update('none');
+      }
+
+      // Update 6: Cm vs Alpha
+      if (CHARTS.cmAlpha) {
+        CHARTS.cmAlpha.data.labels = alphas;
+        CHARTS.cmAlpha.data.datasets = [
+          { label: '俯仰力矩 Cm(α) (斜率 < 0 為靜穩定)', data: cmAug, borderColor: '#c084fc', borderWidth: 2.2, pointRadius: 1.5, tension: 0.2 }
+        ];
+        CHARTS.cmAlpha.update('none');
+      }
+
+      // Update 8: Structural Bending Moment Distribution
+      if (CHARTS.structural && STATE.results) {
+        const sLabs = [], mCurve = [], stressCurve = [];
+        const M0 = STATE.results.rootMomentKNm;
+        const S0 = STATE.results.maxStressMPa;
+        for (let i = 0; i <= 20; i++) {
+          const eta = i / 20;
+          sLabs.push(eta.toFixed(2));
+          mCurve.push(Number((M0 * Math.pow(1 - eta, 2.35)).toFixed(2)));
+          stressCurve.push(Number(((S0 * Math.pow(1 - eta, 1.65)) / 10).toFixed(2)));
+        }
+        CHARTS.structural.data.labels = sLabs;
+        CHARTS.structural.data.datasets = [
+          { label: '截面彎矩 M(y) [kN·m]', data: mCurve, borderColor: '#38bdf8', backgroundColor: 'rgba(56, 189, 248, 0.15)', fill: true, borderWidth: 2.2, pointRadius: 0 },
+          { label: '主樑應力 σ(y) [×10 MPa]', data: stressCurve, borderColor: '#fbbf24', borderDash: [4, 2], borderWidth: 1.8, pointRadius: 0 }
+        ];
+        CHARTS.structural.update('none');
+      }
+
+      // Update 9: Comparison Radar
+      if (CHARTS.radar && STATE.results) {
+        const refModel = GLOBAL_UAV_LIBRARY.find(m => m.id === STATE.compareModelId) || GLOBAL_UAV_LIBRARY[1];
+        const curScore = [
+          Math.min(98, Math.max(25, Math.abs(STATE.results.aero.LD) * 3.8)),
+          Math.min(98, Math.max(20, Math.log10(STATE.results.estEnduranceHr + 1) * 58)),
+          Math.min(98, Math.max(25, STATE.results.twRatio * 68)),
+          Math.min(98, Math.max(30, STATE.results.safetyFactor * 34)),
+          Math.min(98, Math.max(30, STATE.results.aero.alphaStall * 4.8)),
+          Math.min(98, Math.max(35, (1 / AUGMENT_MATERIALS[STATE.augMaterial].massFactor) * 72))
+        ];
+        const refScore = [
+          Math.min(95, (refModel.span / refModel.rootChord) * 3.6),
+          Math.min(95, Math.log10(refModel.baseEnduranceHr + 1) * 55),
+          Math.min(95, (refModel.maxThrustN / (refModel.mass * 9.81)) * 65),
+          72,
+          70,
+          74
+        ];
+        CHARTS.radar.data.datasets = [
+          {
+            label: '當前工作台機型 (含補強)',
+            data: curScore.map(v => Math.round(v)),
+            borderColor: '#38bdf8',
+            backgroundColor: 'rgba(56, 189, 248, 0.25)',
+            borderWidth: 2
+          },
+          {
+            label: `對照標竿：${refModel.name.split(' ')[0]}`,
+            data: refScore.map(v => Math.round(v)),
+            borderColor: '#34d399',
+            backgroundColor: 'rgba(52, 211, 153, 0.15)',
+            borderWidth: 2
+          }
+        ];
+        CHARTS.radar.update('none');
+      }
+    }
+
+    // =========================================================================
+    // 8. UI SYNCHRONIZATION, LIBRARY RENDERING, BOM & AUTOMATED FLIGHT TESTS
+    // =========================================================================
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('ToastContainer');
+      if (!container) return;
+      const el = document.createElement('div');
+      const borderCol = type === 'success' ? 'border-emerald-400 bg-emerald-950/90 text-emerald-200' : 'border-sky-400 bg-slate-900/95 text-sky-200';
+      el.className = `px-3.5 py-2 rounded-xl border ${borderCol} text-xs font-medium shadow-xl transition-all duration-300 pointer-events-auto flex items-center gap-2`;
+      el.innerHTML = `<span>✦</span><span>${msg}</span>`;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 300);
+      }, 3200);
+    }
+
+    function loadModelIntoStudio(modelId, applyRecommendedAug = false) {
+      const m = GLOBAL_UAV_LIBRARY.find(x => x.id === modelId) || GLOBAL_UAV_LIBRARY[0];
+      STATE.selectedModelId = m.id;
+      STATE.airframeType = m.airframeType;
+      STATE.airfoil = m.airfoil;
+      STATE.span = m.span;
+      STATE.rootChord = m.rootChord;
+      STATE.taper = m.taper;
+      STATE.sweep = m.sweep;
+      STATE.dihedral = m.dihedral;
+      STATE.washout = m.washout;
+      STATE.fuseLen = m.fuseLen;
+      STATE.mass = m.mass;
+      STATE.tailType = m.tailType;
+      STATE.rotorCount = m.rotorCount;
+      STATE.airspeed = m.cruiseSpeed;
+      STATE.altitude = m.defaultAlt;
+      STATE.baseEnduranceHr = m.baseEnduranceHr;
+      STATE.maxThrustN = m.maxThrustN;
+      STATE.aoa = 4.2;
+      STATE.flap = 0;
+
+      if (applyRecommendedAug && m.recAug) {
+        STATE.augWinglet = m.recAug.winglet;
+        STATE.augHighLift = m.recAug.highLift;
+        STATE.augMaterial = m.recAug.material;
+        STATE.augEnergy = m.recAug.energy;
+      } else {
+        STATE.augWinglet = 'none';
+        STATE.augHighLift = 'plain';
+        STATE.augMaterial = 't700_cf';
+        STATE.augEnergy = 'standard';
+      }
+
+      syncControlsFromState();
+      refreshAllCalculationsAndViews(true);
+      renderLibraryDetailPanel(m.id);
+    }
+
+    function syncControlsFromState() {
+      const setVal = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+      setVal('QuickModelSelect', STATE.selectedModelId);
+      setVal('ParamAirframeType', STATE.airframeType);
+      setVal('ParamAirfoil', STATE.airfoil);
+      setVal('LabAirfoilSelect', STATE.airfoil);
+      setVal('SliderSpan', STATE.span);
+      setVal('SliderRootChord', STATE.rootChord);
+      setVal('SliderTaper', STATE.taper);
+      setVal('SliderSweep', STATE.sweep);
+      setVal('SliderDihedral', STATE.dihedral);
+      setVal('SliderWashout', STATE.washout);
+      setVal('SliderFuseLen', STATE.fuseLen);
+      setVal('SliderMass', STATE.mass);
+      setVal('ParamTailType', STATE.tailType);
+      setVal('ParamRotorCount', String(STATE.rotorCount));
+
+      setVal('AugWinglet', STATE.augWinglet);
+      setVal('AugHighLift', STATE.augHighLift);
+      setVal('AugMaterial', STATE.augMaterial);
+      setVal('AugEnergy', STATE.augEnergy);
+      const gEl = document.getElementById('AugEoIrGimbal'); if (gEl) gEl.checked = STATE.augEoIrGimbal;
+      const rEl = document.getElementById('AugRetractGear'); if (rEl) rEl.checked = STATE.augRetractGear;
+
+      setVal('SliderAirspeed', STATE.airspeed);
+      setVal('SliderAoA', STATE.aoa);
+      setVal('SliderBeta', STATE.beta);
+      setVal('SliderAltitude', STATE.altitude);
+      setVal('SliderFlap', STATE.flap);
+      setVal('SliderElevator', STATE.elevator);
+      setVal('SliderAileron', STATE.aileron);
+      setVal('SliderThrottle', STATE.throttle);
+      setVal('SliderVtolTilt', STATE.vtolTilt);
+    }
+
+    function refreshAllCalculationsAndViews(rebuild3D = false) {
+      const res = solveAerodynamicsAndStructures();
+      const setTxt = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+
+      // Slider Value Labels
+      setTxt('ValSpan', `${STATE.span.toFixed(1)} m`);
+      setTxt('ValRootChord', `${STATE.rootChord.toFixed(2)} m`);
+      setTxt('ValTaper', STATE.taper.toFixed(2));
+      setTxt('ValSweep', `${STATE.sweep.toFixed(1)}°`);
+      setTxt('ValDihedral', `${STATE.dihedral.toFixed(1)}°`);
+      setTxt('ValWashout', `${STATE.washout.toFixed(1)}°`);
+      setTxt('ValFuseLen', `${STATE.fuseLen.toFixed(1)} m`);
+      setTxt('ValMass', `${STATE.mass >= 100 ? STATE.mass.toFixed(0) : STATE.mass.toFixed(1)} kg`);
+      setTxt('ValAirspeed', `${STATE.airspeed.toFixed(0)} m/s (${(STATE.airspeed * 3.6).toFixed(0)} km/h)`);
+      setTxt('ValAoA', `${STATE.aoa.toFixed(1)}°`);
+      setTxt('ValBeta', `${STATE.beta.toFixed(1)}°`);
+      setTxt('ValAltitude', `${STATE.altitude.toFixed(0)} m`);
+      setTxt('ValFlap', `${STATE.flap}°`);
+      setTxt('ValElevator', `${STATE.elevator.toFixed(1)}°`);
+      setTxt('ValAileron', `${STATE.aileron.toFixed(1)}°`);
+      setTxt('ValThrottle', `${STATE.throttle}%`);
+      setTxt('ValVtolTilt', `${STATE.vtolTilt}° ${STATE.vtolTilt < 30 ? '(垂直懸停)' : STATE.vtolTilt < 75 ? '(傾轉過渡)' : '(巡航)'}`);
+
+      const curM = GLOBAL_UAV_LIBRARY.find(m => m.id === STATE.selectedModelId);
+      setTxt('ActiveCategoryBadge', curM ? curM.catBadge : 'CUSTOM');
+
+      // Count active augmentations
+      let augCnt = 0;
+      if (STATE.augWinglet !== 'none') augCnt++;
+      if (STATE.augHighLift !== 'plain') augCnt++;
+      if (STATE.augMaterial !== 'al7075') augCnt++;
+      if (STATE.augEnergy !== 'standard') augCnt++;
+      setTxt('AugmentStatusBadge', `已啟用 ${augCnt} 項補強`);
+
+      // Top KPI Bar
+      setTxt('TopKpiRe', `${(res.Re / 1e6).toFixed(2)}×10⁶`);
+      setTxt('TopKpiMach', res.Mach.toFixed(2));
+      setTxt('TopKpiCL', res.aero.CL.toFixed(3));
+      setTxt('TopKpiCD', res.aero.CD.toFixed(3));
+      setTxt('TopKpiLD', res.aero.LD.toFixed(1));
+      setTxt('TopKpiSM', `+${res.aero.smPct.toFixed(1)}%`);
+      setTxt('TopKpiTW', res.twRatio.toFixed(2));
+      setTxt('TopKpiEndurance', `${res.estEnduranceHr.toFixed(1)}h / ${res.estRangeKm.toFixed(0)}km`);
+
+      // Right Panel Telemetry
+      const regimeEl = document.getElementById('FlightRegimeTag');
+      if (regimeEl) {
+        if (res.aero.isStalled) {
+          regimeEl.textContent = '失速氣流分離警告 (STALL)';
+          regimeEl.className = 'text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40';
+        } else if (res.Mach > 0.72) {
+          regimeEl.textContent = '高亞音速壓縮流區';
+          regimeEl.className = 'text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40';
+        } else {
+          regimeEl.textContent = '亞音速穩定附著流';
+          regimeEl.className = 'text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        }
+      }
+
+      setTxt('MetricLiftN', `${res.totalLiftN.toLocaleString('en-US', { maximumFractionDigits: 0 })} N`);
+      setTxt('MetricLiftKgf', `${(res.totalLiftN / 9.80665).toFixed(0)} kgf (過載 ${res.loadFactorG.toFixed(2)}G)`);
+      setTxt('MetricDragN', `${res.aeroDragN.toLocaleString('en-US', { maximumFractionDigits: 0 })} N`);
+      setTxt('MetricDragBreak', `CD0: ${res.aero.CD0.toFixed(3)} | CDi: ${res.aero.CDi.toFixed(3)}`);
+      setTxt('MetricAR', `${res.aero.AR.toFixed(1)} / ${res.aero.AReff.toFixed(1)}`);
+      setTxt('MetricWingArea', `翼面積 S: ${res.aero.wingArea.toFixed(2)} m² | e: ${res.aero.eEff.toFixed(2)}`);
+      setTxt('MetricVstall', `${res.Vstall.toFixed(1)} m/s`);
+      setTxt('MetricPowerReq', `需用功率: ${res.powerReqKW.toFixed(1)} kW`);
+      setTxt('MetricQandRho', `${res.q.toFixed(0)} Pa | ${res.isa.rho.toFixed(3)} kg/m³`);
+      setTxt('MetricCm', `${res.aero.Cm.toFixed(3)} (dCm/dα = ${res.aero.cmAlpha_per_rad.toFixed(2)} /rad)`);
+      setTxt('MetricRootMoment', `${res.rootMomentKNm.toFixed(1)} kN·m (SF = ${res.safetyFactor.toFixed(2)})`);
+      setTxt('MetricWingLoading', `${(res.effMass / res.aero.wingArea).toFixed(1)} kg/m² | 38.2% MAC`);
+      setTxt('MiniAirfoilName', STATE.airfoil);
+
+      // Airfoil Lab Metrics
+      const af = AIRFOIL_DB[STATE.airfoil] || AIRFOIL_DB['NACA 64-212'];
+      setTxt('LabMetricThickness', `${(af.t * 100).toFixed(1)}% @ 30%c`);
+      setTxt('LabMetricCamber', `${(af.m * 100).toFixed(1)}% @ ${(af.p * 100).toFixed(0)}%c`);
+      setTxt('LabMetricZeroAoA', `${af.alpha0.toFixed(1)}° / ${res.aero.alphaStall.toFixed(1)}°`);
+
+      // Structural & BOM Tab
+      setTxt('StructRootMoment', `${res.rootMomentKNm.toFixed(1)} kN·m`);
+      setTxt('StructMaxStress', `${res.maxStressMPa.toFixed(0)} MPa`);
+      setTxt('StructTipDeflect', `${res.tipDeflectionM.toFixed(2)} m (+68% V_f)`);
+      setTxt('StructSafetyBadge', `SF = ${res.safetyFactor.toFixed(2)} (${res.safetyFactor >= 1.5 ? '結構安全' : '需補強警告'})`);
+      setTxt('InertiaIxx', `${res.Ixx.toFixed(0)} kg·m²`);
+      setTxt('InertiaIyy', `${res.Iyy.toFixed(0)} kg·m²`);
+      setTxt('InertiaIzz', `${res.Izz.toFixed(0)} kg·m²`);
+      renderBomTable(res);
+
+      // 3D & 2D Canvases + Charts
+      if (rebuild3D) {
+        rebuildUAV3DModel();
+      } else {
+        update3DPhysicsOverlays();
+      }
+      drawAirfoilCanvas('MiniAirfoilCanvas', false);
+      drawAirfoilCanvas('LabLargeAirfoilCanvas', true);
+      drawHudPfd();
+      updateAllCharts();
+    }
+
+    // Render Subsystem Weight, CG & BOM Table
+    function renderBomTable(res) {
+      const tbody = document.getElementById('BomTableBody');
+      if (!tbody) return;
+      const matCfg = AUGMENT_MATERIALS[STATE.augMaterial];
+      const engCfg = AUGMENT_ENERGY[STATE.augEnergy];
+      const wlCfg = AUGMENT_WINGLETS[STATE.augWinglet];
+      const M = res.effMass;
+
+      const items = [
+        { name: '主翼結構與前後主樑 (Wing & Spars)', spec: `${matCfg.name} + ${wlCfg.name}`, ratio: 0.22, xcg: 0.02 },
+        { name: '機身單體殼與尾翼組 (Fuselage & Tail)', spec: matCfg.name, ratio: 0.19, xcg: -0.15 },
+        { name: '推進動力與螺旋槳模組 (Propulsion)', spec: `${STATE.rotorCount}具動力單元 (推力 ${STATE.maxThrustN}N)`, ratio: 0.16, xcg: 0.85 },
+        { name: '能源儲能系統 (Fuel / Battery Pack)', spec: engCfg.name, ratio: 0.26, xcg: -0.05 },
+        { name: '飛控航電與衛通資料鏈 (Avionics & SATCOM)', spec: '三餘度飛控 + RTK + 抗干擾資料鏈', ratio: 0.06, xcg: -1.10 },
+        { name: '光電紅外線吊艙與任務酬載 (EO/IR Payload)', spec: STATE.augEoIrGimbal ? '多光譜 EO/IR 陀螺穩定吊艙 + 任務掛載' : '標準內部偵蒐酬載', ratio: 0.11, xcg: -1.45 }
+      ];
+
+      tbody.innerHTML = items.map(it => {
+        const wKg = M * it.ratio;
+        return `<tr class="hover:bg-slate-800/40">
+          <td class="py-1.5 px-2 font-sans text-slate-200 font-medium">${it.name}</td>
+          <td class="py-1.5 px-2 font-sans text-sky-300">${it.spec}</td>
+          <td class="py-1.5 px-2 text-right text-slate-200">${wKg.toFixed(1)}</td>
+          <td class="py-1.5 px-2 text-right text-emerald-400">${(it.ratio * 100).toFixed(0)}%</td>
+          <td class="py-1.5 px-2 text-right text-amber-300">${it.xcg >= 0 ? '+' : ''}${it.xcg.toFixed(2)}</td>
+        </tr>`;
+      }).join('');
+
+      const estCost = Math.round(M * matCfg.costPerKg * 1.45 + 3200);
+      const badge = document.getElementById('BomTotalCostBadge');
+      if (badge) badge.textContent = `總質量: ${M.toFixed(1)} kg | 預估 BOM: $${estCost.toLocaleString('en-US')}`;
+    }
+
+    // Render Global UAV Model Library Grid & Detail Panel
+    function renderGlobalLibrary() {
+      const grid = document.getElementById('ModelLibraryGrid');
+      const searchQ = (document.getElementById('LibrarySearchInput')?.value || '').toLowerCase();
+      const catFilter = document.getElementById('LibraryFilterCat')?.value || 'ALL';
+      const countBadge = document.getElementById('LibraryCountBadge');
+      if (countBadge) countBadge.textContent = String(GLOBAL_UAV_LIBRARY.length);
+      if (!grid) return;
+
+      const filtered = GLOBAL_UAV_LIBRARY.filter(m => {
+        const matchCat = catFilter === 'ALL' || m.category === catFilter;
+        const matchText = !searchQ || m.name.toLowerCase().includes(searchQ) || m.origin.toLowerCase().includes(searchQ) || m.airfoil.toLowerCase().includes(searchQ) || m.desc.toLowerCase().includes(searchQ);
+        return matchCat && matchText;
+      });
+
+      grid.innerHTML = filtered.map(m => {
+        const isSel = m.id === STATE.selectedModelId;
+        return `<div data-model-card="${m.id}" class="model-card glass-panel rounded-xl p-3 cursor-pointer transition-all hover:border-sky-400/70 ${isSel ? 'border-sky-400 ring-1 ring-sky-400/40 bg-sky-950/20' : ''}">
+          <div class="flex items-center justify-between gap-1 mb-1">
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300">${m.catBadge}</span>
+            <span class="text-[10px] font-mono text-slate-400">${m.origin}</span>
+          </div>
+          <h4 class="text-xs font-bold text-white truncate">${m.name}</h4>
+          <p class="text-[11px] text-slate-400 line-clamp-2 mt-1 h-8">${m.desc}</p>
+          <div class="grid grid-cols-3 gap-1 mt-2 pt-2 border-t border-slate-800/80 font-mono text-[10px]">
+            <div><span class="text-slate-500 block">翼展/軸距</span><span class="text-sky-300">${m.span}m</span></div>
+            <div><span class="text-slate-500 block">起飛重</span><span class="text-emerald-300">${m.mass}kg</span></div>
+            <div><span class="text-slate-500 block">滯空</span><span class="text-amber-300">${m.baseEnduranceHr}h</span></div>
+          </div>
+        </div>`;
+      }).join('');
+
+      grid.querySelectorAll('[data-model-card]').forEach(card => {
+        card.addEventListener('click', () => {
+          const id = card.getAttribute('data-model-card');
+          renderLibraryDetailPanel(id);
+          loadModelIntoStudio(id, false);
+          renderGlobalLibrary();
+          showToast(`已載入「${GLOBAL_UAV_LIBRARY.find(x => x.id === id)?.name}」至 3D 設計台`);
+        });
+      });
+    }
+
+    function renderLibraryDetailPanel(modelId) {
+      const m = GLOBAL_UAV_LIBRARY.find(x => x.id === modelId) || GLOBAL_UAV_LIBRARY[0];
+      const setTxt = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+      setTxt('LibDetailOrigin', `${m.origin} • ${m.catBadge}`);
+      setTxt('LibDetailTitle', m.name);
+      setTxt('LibDetailDesc', m.desc);
+      setTxt('LibDetailWeakness', `⚠️ 原生構型極限瓶頸：${m.weakness}`);
+      setTxt('LibDetailAugmentPlan', `✦ 專屬工程補強建議：${m.augmentPlan}`);
+
+      const specsGrid = document.getElementById('LibDetailSpecsGrid');
+      if (specsGrid) {
+        specsGrid.innerHTML = `
+          <div class="bg-slate-900 p-2 rounded border border-slate-800"><span class="text-[10px] text-slate-400 block">翼展 Span</span><span class="font-mono font-bold text-sky-300">${m.span} m</span></div>
+          <div class="bg-slate-900 p-2 rounded border border-slate-800"><span class="text-[10px] text-slate-400 block">MTOW 重量</span><span class="font-mono font-bold text-emerald-300">${m.mass} kg</span></div>
+          <div class="bg-slate-900 p-2 rounded border border-slate-800"><span class="text-[10px] text-slate-400 block">基準翼型</span><span class="font-mono font-bold text-amber-300">${m.airfoil}</span></div>
+          <div class="bg-slate-900 p-2 rounded border border-slate-800"><span class="text-[10px] text-slate-400 block">巡航速度</span><span class="font-mono font-bold text-slate-200">${m.cruiseSpeed} m/s</span></div>
+          <div class="bg-slate-900 p-2 rounded border border-slate-800"><span class="text-[10px] text-slate-400 block">標準滯空</span><span class="font-mono font-bold text-rose-300">${m.baseEnduranceHr} hr</span></div>
+          <div class="bg-slate-900 p-2 rounded border border-slate-800"><span class="text-[10px] text-slate-400 block">最大推力</span><span class="font-mono font-bold text-indigo-300">${m.maxThrustN} N</span></div>
+        `;
+      }
+      const btnLoad = document.getElementById('BtnLoadSelectedFromLib');
+      if (btnLoad) btnLoad.onclick = () => {
+        loadModelIntoStudio(m.id, false);
+        switchWorkspaceTab('studio');
+        showToast(`已切換至 3D 工作台：${m.name}`);
+      };
+      const btnAug = document.getElementById('BtnApplyLibAugment');
+      if (btnAug) btnAug.onclick = () => {
+        loadModelIntoStudio(m.id, true);
+        switchWorkspaceTab('studio');
+        showToast(`已套用「${m.name}」最佳氣動與結構補強方案！`, 'success');
+      };
+    }
+
+    function renderComparisonTable() {
+      const tbody = document.getElementById('ComparisonTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = GLOBAL_UAV_LIBRARY.map(m => {
+        const approxAR = (m.span / Math.max(0.1, m.rootChord * (1 + m.taper) * 0.5)).toFixed(1);
+        const approxLD = m.airframeType === 'multirotor' ? '4.2' : (Math.min(28, 7 + Number(approxAR) * 0.85)).toFixed(1);
+        return `<tr class="hover:bg-slate-800/50">
+          <td class="py-1.5 px-2 font-sans font-semibold text-white">${m.name}</td>
+          <td class="py-1.5 px-2 text-sky-300">${m.catBadge}</td>
+          <td class="py-1.5 px-2 text-right">${m.span}</td>
+          <td class="py-1.5 px-2 text-right">${m.mass}</td>
+          <td class="py-1.5 px-2 text-amber-300">${m.airfoil}</td>
+          <td class="py-1.5 px-2 text-right text-emerald-400">${approxLD}</td>
+          <td class="py-1.5 px-2 text-right text-rose-300">${m.baseEnduranceHr}</td>
+          <td class="py-1.5 px-2 text-center">
+            <button type="button" data-comp-load="${m.id}" class="px-2 py-0.5 rounded bg-sky-500/20 hover:bg-sky-500/40 text-sky-300 text-[10px]">載入</button>
+          </td>
+        </tr>`;
+      }).join('');
+
+      tbody.querySelectorAll('[data-comp-load]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-comp-load');
+          loadModelIntoStudio(id, true);
+          switchWorkspaceTab('studio');
+          showToast('已載入並套用補強配置至 3D 工作台', 'success');
+        });
+      });
+    }
+
+    // =========================================================================
+    // 9. AUTOMATED 6-DOF FLIGHT SIMULATION & WIND TUNNEL SWEEP RUNNER
+    // =========================================================================
+    let simIntervalId = null;
+
+    function stopAutomatedSimTest() {
+      if (simIntervalId) {
+        clearInterval(simIntervalId);
+        simIntervalId = null;
+      }
+      STATE.activeSimTest = null;
+      const statusEl = document.getElementById('SimRunningStatus');
+      if (statusEl) statusEl.textContent = '待命 / 即時解算中';
+    }
+
+    function runAutomatedSimTest(testType) {
+      stopAutomatedSimTest();
+      STATE.activeSimTest = testType;
+      let step = 0;
+      const totalSteps = 45;
+      const statusEl = document.getElementById('SimRunningStatus');
+      if (statusEl) statusEl.textContent = `執行中：${testType.toUpperCase()}`;
+
+      const aoaHistory = [], pitchHistory = [], gHistory = [];
+
+      simIntervalId = setInterval(() => {
+        step++;
+        const progress = step / totalSteps;
+        const turb = (STATE.turbulence / 100) * (Math.sin(step * 1.7) * 0.8);
+
+        if (testType === 'aoa_sweep') {
+          STATE.aoa = Number((-8 + progress * 30).toFixed(1));
+        } else if (testType === 'gust_pid') {
+          const damp = Math.exp(-progress * 3.2 * (STATE.pidPitch / 1.8));
+          STATE.aoa = Number((4.5 + 11.0 * damp * Math.sin(step * 0.65) + turb).toFixed(1));
+          STATE.aileron = Number((14.0 * damp * Math.cos(step * 0.55)).toFixed(1));
+        } else if (testType === 'vtol_trans') {
+          STATE.vtolTilt = Math.round(progress * 90);
+          STATE.airspeed = Math.round(8 + progress * 58);
+          STATE.aoa = Number((12.0 * (1 - progress) + 4.0 * progress).toFixed(1));
+        } else if (testType === 'high_g') {
+          STATE.aoa = Number((4.0 + Math.sin(progress * Math.PI) * 11.5).toFixed(1));
+          STATE.elevator = Number((-Math.sin(progress * Math.PI) * 16.0).toFixed(1));
+        }
+
+        syncControlsFromState();
+        refreshAllCalculationsAndViews(false);
+
+        aoaHistory.push(STATE.aoa);
+        pitchHistory.push(Number((STATE.aoa - STATE.elevator * 0.35).toFixed(2)));
+        gHistory.push(Number(((STATE.results?.loadFactorG || 1) * 5).toFixed(2)));
+
+        if (CHARTS.flightSim) {
+          CHARTS.flightSim.data.labels = aoaHistory.map((_, idx) => `${(idx * 0.15).toFixed(1)}s`);
+          CHARTS.flightSim.data.datasets[0].data = [...aoaHistory];
+          CHARTS.flightSim.data.datasets[1].data = [...pitchHistory];
+          CHARTS.flightSim.data.datasets[2].data = [...gHistory];
+          CHARTS.flightSim.update('none');
+        }
+
+        const setTxt = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+        setTxt('SimMaxG', `${Math.max(1.0, ...(gHistory.map(v => v / 5))).toFixed(2)} G`);
+        setTxt('SimZetaSp', (0.42 + STATE.pidPitch * 0.14).toFixed(2));
+        setTxt('SimSettleTime', `${(3.2 / Math.max(0.5, STATE.pidPitch)).toFixed(1)} s`);
+
+        if (step >= totalSteps) {
+          stopAutomatedSimTest();
+          showToast('自動模擬測試課目完成！數據已記錄至波形圖', 'success');
+        }
+      }, 95);
+    }
+
+    function switchWorkspaceTab(tabId) {
+      STATE.activeTab = tabId;
+      document.querySelectorAll('.tab-section').forEach(sec => {
+        sec.classList.toggle('hidden', sec.id !== `TabView-${tabId}`);
+      });
+      document.querySelectorAll('.nav-tab').forEach(btn => {
+        btn.classList.toggle('tab-active', btn.getAttribute('data-tab') === tabId);
+      });
+      setTimeout(() => {
+        handleViewportResize();
+        updateAllCharts();
+      }, 50);
+    }
+
+    // =========================================================================
+    // 10. INITIALIZATION & EVENT LISTENERS BINDING
+    // =========================================================================
+    function populateSelectOptions() {
+      const qSel = document.getElementById('QuickModelSelect');
+      const cSel = document.getElementById('CompareBenchmarkSelect');
+      if (qSel) {
+        qSel.innerHTML = GLOBAL_UAV_LIBRARY.map(m => `<option value="${m.id}">[${m.catBadge}] ${m.name}</option>`).join('');
+      }
+      if (cSel) {
+        cSel.innerHTML = GLOBAL_UAV_LIBRARY.map(m => `<option value="${m.id}">${m.name} (${m.origin})</option>`).join('');
+        cSel.value = STATE.compareModelId;
+      }
+      const afSel = document.getElementById('LabAirfoilSelect');
+      if (afSel) {
+        afSel.innerHTML = Object.keys(AIRFOIL_DB).map(k => `<option value="${k}">${AIRFOIL_DB[k].name}</option>`).join('');
+      }
+    }
+
+    function bindAllEvents() {
+      // Tab Navigation
+      document.querySelectorAll('.nav-tab').forEach(btn => {
+        btn.addEventListener('click', () => switchWorkspaceTab(btn.getAttribute('data-tab')));
+      });
+
+      // Quick Model Selector
+      document.getElementById('QuickModelSelect')?.addEventListener('change', (e) => {
+        loadModelIntoStudio(e.target.value, false);
+        showToast(`已切換載具模型：${e.target.options[e.target.selectedIndex].text}`);
+      });
+
+      // Geometry Sliders & Selects (trigger 3D rebuild)
+      const bindGeom = (id, key, isNum = true) => {
+        document.getElementById(id)?.addEventListener('input', (e) => {
+          STATE[key] = isNum ? parseFloat(e.target.value) : e.target.value;
+          if (key === 'airfoil') {
+            const labSel = document.getElementById('LabAirfoilSelect');
+            if (labSel) labSel.value = STATE.airfoil;
+          }
+          refreshAllCalculationsAndViews(true);
+        });
+      };
+      bindGeom('ParamAirframeType', 'airframeType', false);
+      bindGeom('ParamAirfoil', 'airfoil', false);
+      bindGeom('SliderSpan', 'span', true);
+      bindGeom('SliderRootChord', 'rootChord', true);
+      bindGeom('SliderTaper', 'taper', true);
+      bindGeom('SliderSweep', 'sweep', true);
+      bindGeom('SliderDihedral', 'dihedral', true);
+      bindGeom('SliderWashout', 'washout', true);
+      bindGeom('SliderFuseLen', 'fuseLen', true);
+      bindGeom('SliderMass', 'mass', true);
+      bindGeom('ParamTailType', 'tailType', false);
+      bindGeom('ParamRotorCount', 'rotorCount', true);
+
+      // Lab Airfoil Select sync
+      document.getElementById('LabAirfoilSelect')?.addEventListener('change', (e) => {
+        STATE.airfoil = e.target.value;
+        const pAf = document.getElementById('ParamAirfoil');
+        if (pAf) pAf.value = STATE.airfoil;
+        refreshAllCalculationsAndViews(true);
+      });
+
+      // Augmentation Controls
+      bindGeom('AugWinglet', 'augWinglet', false);
+      bindGeom('AugHighLift', 'augHighLift', false);
+      bindGeom('AugMaterial', 'augMaterial', false);
+      bindGeom('AugEnergy', 'augEnergy', false);
+      document.getElementById('AugEoIrGimbal')?.addEventListener('change', (e) => {
+        STATE.augEoIrGimbal = e.target.checked;
+        refreshAllCalculationsAndViews(true);
+      });
+      document.getElementById('AugRetractGear')?.addEventListener('change', (e) => {
+        STATE.augRetractGear = e.target.checked;
+        refreshAllCalculationsAndViews(false);
+      });
+
+      // Flight Condition Sliders (fast physics update without full mesh rebuild unless flap changes)
+      const bindFlight = (id, key, rebuild = false) => {
+        document.getElementById(id)?.addEventListener('input', (e) => {
+          STATE[key] = parseFloat(e.target.value);
+          refreshAllCalculationsAndViews(rebuild);
+        });
+      };
+      bindFlight('SliderAirspeed', 'airspeed', false);
+      bindFlight('SliderAoA', 'aoa', false);
+      bindFlight('SliderBeta', 'beta', false);
+      bindFlight('SliderAltitude', 'altitude', false);
+      bindFlight('SliderFlap', 'flap', true);
+      bindFlight('SliderElevator', 'elevator', false);
+      bindFlight('SliderAileron', 'aileron', false);
+      bindFlight('SliderThrottle', 'throttle', false);
+      bindFlight('SliderVtolTilt', 'vtolTilt', false);
+
+      // PID & Sim Sliders
+      document.getElementById('SliderPidPitch')?.addEventListener('input', (e) => {
+        STATE.pidPitch = parseFloat(e.target.value);
+        document.getElementById('ValPidPitch').textContent = STATE.pidPitch.toFixed(2);
+      });
+      document.getElementById('SliderPidRoll')?.addEventListener('input', (e) => {
+        STATE.pidRoll = parseFloat(e.target.value);
+        document.getElementById('ValPidRoll').textContent = STATE.pidRoll.toFixed(2);
+      });
+      document.getElementById('SliderTurbulence')?.addEventListener('input', (e) => {
+        STATE.turbulence = parseFloat(e.target.value);
+        document.getElementById('ValTurbulence').textContent = `${STATE.turbulence}%`;
+      });
+
+      // 3D Visualization Layer Toggles
+      document.querySelectorAll('.viz-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const key = btn.getAttribute('data-viz');
+          STATE.viz[key] = !STATE.viz[key];
+          btn.classList.toggle('bg-sky-500/30', STATE.viz[key]);
+          btn.classList.toggle('text-sky-300', STATE.viz[key]);
+          btn.classList.toggle('border-sky-400/50', STATE.viz[key]);
+          btn.classList.toggle('bg-slate-800/80', !STATE.viz[key]);
+          refreshAllCalculationsAndViews(key === 'xray' || key === 'pressure');
+        });
+      });
+
+      // Camera View Presets
+      document.querySelectorAll('.cam-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const preset = btn.getAttribute('data-cam');
+          if (preset === 'iso') camSpherical = { radius: 22, theta: 0.68, phi: 1.08 };
+          else if (preset === 'front') camSpherical = { radius: 20, theta: -Math.PI / 2, phi: Math.PI / 2 };
+          else if (preset === 'side') camSpherical = { radius: 20, theta: 0, phi: Math.PI / 2 };
+          else if (preset === 'top') camSpherical = { radius: 24, theta: 0, phi: 0.15 };
+          else if (preset === 'chase') camSpherical = { radius: 18, theta: Math.PI / 2, phi: 1.25 };
+          updateCameraFromSpherical();
+        });
+      });
+
+      // One-Click Smart Augmentation
+      document.getElementById('BtnOneClickAugment')?.addEventListener('click', () => {
+        const curM = GLOBAL_UAV_LIBRARY.find(m => m.id === STATE.selectedModelId);
+        if (curM && curM.recAug) {
+          STATE.augWinglet = curM.recAug.winglet;
+          STATE.augHighLift = curM.recAug.highLift;
+          STATE.augMaterial = curM.recAug.material;
+          STATE.augEnergy = curM.recAug.energy;
+        } else {
+          STATE.augWinglet = 'scimitar';
+          STATE.augHighLift = 'slat_fowler';
+          STATE.augMaterial = 't800_nomex';
+          STATE.augEnergy = 'solid_state';
+        }
+        syncControlsFromState();
+        refreshAllCalculationsAndViews(true);
+        showToast('已套用 AI 氣動與結構最佳化補強套件！(誘導阻力下降、結構安全裕度與航時全面提升)', 'success');
+      });
+
+      // Reset Geometry
+      document.getElementById('BtnResetGeometry')?.addEventListener('click', () => {
+        loadModelIntoStudio(STATE.selectedModelId, false);
+        showToast('已重置為該機型原廠基準幾何參數');
+      });
+
+      // Quick AoA Sweep & Trim in Studio
+      document.getElementById('BtnQuickSweepAoA')?.addEventListener('click', () => {
+        runAutomatedSimTest('aoa_sweep');
+        showToast('開始執行風洞攻角自動掃描 (-8° 至 +22°)');
+      });
+      document.getElementById('BtnTrimAircraft')?.addEventListener('click', () => {
+        // Find AoA where Lift ≈ Weight
+        let bestA = 3.5, minDiff = 1e9;
+        for (let a = -4; a <= 14; a += 0.2) {
+          STATE.aoa = a;
+          const r = solveAerodynamicsAndStructures();
+          const diff = Math.abs(r.loadFactorG - 1.0);
+          if (diff < minDiff) { minDiff = diff; bestA = a; }
+        }
+        STATE.aoa = Number(bestA.toFixed(1));
+        STATE.elevator = Number((-STATE.aoa * 0.25).toFixed(1));
+        syncControlsFromState();
+        refreshAllCalculationsAndViews(false);
+        showToast(`已完成水平巡航配平：α_trim = ${STATE.aoa}°, 過載 = ${STATE.results.loadFactorG.toFixed(2)}G`, 'success');
+      });
+
+      // Automated Sim Tests in Tab 4
+      document.querySelectorAll('.sim-test-btn').forEach(btn => {
+        btn.addEventListener('click', () => runAutomatedSimTest(btn.getAttribute('data-test')));
+      });
+      document.getElementById('BtnStopSimTest')?.addEventListener('click', () => {
+        stopAutomatedSimTest();
+        showToast('已停止模擬測試');
+      });
+
+      // Library Search & Filter
+      document.getElementById('LibrarySearchInput')?.addEventListener('input', renderGlobalLibrary);
+      document.getElementById('LibraryFilterCat')?.addEventListener('change', renderGlobalLibrary);
+
+      // Compare Benchmark Select
+      document.getElementById('CompareBenchmarkSelect')?.addEventListener('change', (e) => {
+        STATE.compareModelId = e.target.value;
+        updateAllCharts();
+      });
+
+      // Custom Model Modal
+      const custModal = document.getElementById('CustomModelModal');
+      document.getElementById('BtnOpenCustomModal')?.addEventListener('click', () => custModal?.classList.remove('hidden'));
+      document.getElementById('BtnCloseCustomModal')?.addEventListener('click', () => custModal?.classList.add('hidden'));
+      document.getElementById('BtnCancelCustomModal')?.addEventListener('click', () => custModal?.classList.add('hidden'));
+      document.getElementById('BtnSaveCustomModel')?.addEventListener('click', () => {
+        const name = document.getElementById('CustomInputName')?.value.trim() || 'Custom UAV X-1';
+        const origin = document.getElementById('CustomInputOrigin')?.value.trim() || 'Custom Lab';
+        const cat = document.getElementById('CustomInputCat')?.value || 'VTOL_HYBRID';
+        const desc = document.getElementById('CustomInputDesc')?.value.trim() || '自訂研發無人飛行載具';
+        const newId = 'custom_' + Date.now();
+        GLOBAL_UAV_LIBRARY.unshift({
+          id: newId,
+          name, origin, category: cat, catBadge: '自訂研發',
+          airframeType: STATE.airframeType, airfoil: STATE.airfoil,
+          span: STATE.span, rootChord: STATE.rootChord, taper: STATE.taper,
+          sweep: STATE.sweep, dihedral: STATE.dihedral, washout: STATE.washout,
+          fuseLen: STATE.fuseLen, mass: STATE.mass, tailType: STATE.tailType, rotorCount: STATE.rotorCount,
+          cruiseSpeed: STATE.airspeed, defaultAlt: STATE.altitude, baseEnduranceHr: Number(STATE.results.estEnduranceHr.toFixed(1)),
+          maxThrustN: STATE.maxThrustN,
+          desc,
+          weakness: '自訂構型基準已建立，可持續透過風洞攻角掃描檢驗極限失速特性。',
+          augmentPlan: '已綁定當前工作台之翼尖小翼、高升力裝置與複合材料補強參數。',
+          recAug: { winglet: STATE.augWinglet, highLift: STATE.augHighLift, material: STATE.augMaterial, energy: STATE.augEnergy }
+        });
+        STATE.selectedModelId = newId;
+        populateSelectOptions();
+        renderGlobalLibrary();
+        renderComparisonTable();
+        custModal?.classList.add('hidden');
+        showToast(`已成功將「${name}」加入全球模型庫！`, 'success');
+      });
+
+      // Watermarked Engineering Photo Exporter (3 Modes)
+      let currentPhotoMode = 'datasheet';
+      function renderWatermarkedPhotoCanvas(mode = currentPhotoMode) {
+        currentPhotoMode = mode;
+        const canvas = document.getElementById('WatermarkedPhotoCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+
+        // Background
+        ctx.fillStyle = '#060a14';
+        ctx.fillRect(0, 0, W, H);
+
+        // Engineering Grid Border
+        ctx.strokeStyle = '#1e293b';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(16, 16, W - 32, H - 32);
+
+        // Top Official Corporate Letterhead Banner (肇祥企業社 MaxJim Tech.)
+        const grad = ctx.createLinearGradient(16, 16, W - 16, 100);
+        grad.addColorStop(0, '#0f172a');
+        grad.addColorStop(0.5, '#0c2442');
+        grad.addColorStop(1, '#0f172a');
+        ctx.fillStyle = grad;
+        ctx.fillRect(16, 16, W - 32, 86);
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(16, 16, W - 32, 86);
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = 'bold 26px "Inter", sans-serif';
+        ctx.fillText('肇祥企業社 MaxJim Tech. — 無人飛行載具氣動與結構工程測試報告', 36, 54);
+        ctx.fillStyle = '#cbd5e1';
+        ctx.font = '14px "JetBrains Mono", monospace';
+        const curM = GLOBAL_UAV_LIBRARY.find(m => m.id === STATE.selectedModelId);
+        const modelTitle = curM ? curM.name : STATE.selectedModelId;
+        ctx.fillText(`負責人：張哲肇 (Alex Chang) | 專線：0931-765001 | 官方網站：https://maxjimtech.com/ | 測試機型：${modelTitle}`, 36, 84);
+
+        const res = STATE.results;
+        // Force a fresh 3D render before capturing WebGL canvas
+        if (renderer && scene && camera) renderer.render(scene, camera);
+        const threeCanvas = renderer?.domElement;
+
+        if (mode === '3d_only' && threeCanvas) {
+          ctx.drawImage(threeCanvas, 32, 118, W - 64, H - 210);
+          const pfdC = document.getElementById('HudPfdCanvas');
+          if (pfdC) ctx.drawImage(pfdC, 54, H - 280, 220, 175);
+        } else if (mode === 'charts_quad') {
+          const cIds = ['ChartClAlpha', 'ChartLDAlpha', 'ChartDragPolar', 'ChartStructuralMoment'];
+          const titles = ['1. 升力曲線 CL vs α (含補強對比)', '2. 升阻比曲線 L/D vs α', '3. 阻力極曲線 Drag Polar', '4. 主樑彎矩與應力分佈 M(y)'];
+          const cellW = (W - 96) / 2, cellH = (H - 240) / 2;
+          cIds.forEach((cid, idx) => {
+            const col = idx % 2, row = Math.floor(idx / 2);
+            const x = 32 + col * (cellW + 32), y = 122 + row * (cellH + 24);
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(x, y, cellW, cellH);
+            ctx.strokeStyle = '#334155';
+            ctx.strokeRect(x, y, cellW, cellH);
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = 'bold 15px "Inter", sans-serif';
+            ctx.fillText(titles[idx], x + 14, y + 24);
+            const srcC = document.getElementById(cid);
+            if (srcC) ctx.drawImage(srcC, x + 12, y + 34, cellW - 24, cellH - 44);
+          });
+        } else {
+          // Default 'datasheet': 3D View + 2D Airfoil + Polar Charts + Engineering KPI Table
+          if (threeCanvas) {
+            ctx.fillStyle = '#090f1d';
+            ctx.fillRect(32, 118, 760, 470);
+            ctx.drawImage(threeCanvas, 32, 118, 760, 470);
+            ctx.strokeStyle = '#334155';
+            ctx.strokeRect(32, 118, 760, 470);
+          }
+          const afC = document.getElementById('LabLargeAirfoilCanvas') || document.getElementById('MiniAirfoilCanvas');
+          if (afC) {
+            ctx.fillStyle = '#090f1d';
+            ctx.fillRect(32, 604, 760, 236);
+            ctx.drawImage(afC, 32, 604, 760, 236);
+            ctx.strokeStyle = '#334155';
+            ctx.strokeRect(32, 604, 760, 236);
+          }
+          // Right side: KPI Data Block + 2 Polar Charts
+          ctx.fillStyle = '#0f172a';
+          ctx.fillRect(812, 118, 756, 260);
+          ctx.strokeStyle = '#38bdf8';
+          ctx.strokeRect(812, 118, 756, 260);
+          ctx.fillStyle = '#34d399';
+          ctx.font = 'bold 18px "Inter", sans-serif';
+          ctx.fillText('關鍵氣動力學與結構工程測試數據 (Aerodynamic & Structural Telemetry)', 832, 150);
+
+          const kpiRows = [
+            [`翼展 / 根弦長: ${STATE.span.toFixed(1)} m / ${STATE.rootChord.toFixed(2)} m`, `主翼剖面翼型: ${STATE.airfoil}`, `最大起飛重量: ${res.effMass.toFixed(1)} kg`],
+            [`真空速 / 攻角: ${STATE.airspeed.toFixed(0)} m/s / α = ${STATE.aoa.toFixed(1)}°`, `雷諾數 Re: ${(res.Re / 1e6).toFixed(2)}×10⁶`, `馬赫數 Mach: ${res.Mach.toFixed(3)}`],
+            [`升力係數 CL: ${res.aero.CL.toFixed(3)}`, `阻力係數 CD: ${res.aero.CD.toFixed(4)}`, `升阻比 L/D: ${res.aero.LD.toFixed(2)}`],
+            [`總升力 L: ${res.totalLiftN.toFixed(0)} N (${res.loadFactorG.toFixed(2)}G)`, `總阻力 D: ${res.aeroDragN.toFixed(0)} N`, `失速速度 Vstall: ${res.Vstall.toFixed(1)} m/s`],
+            [`翼根最大彎矩: ${res.rootMomentKNm.toFixed(1)} kN·m`, `主樑最大應力: ${res.maxStressMPa.toFixed(0)} MPa`, `結構安全係數 SF: ${res.safetyFactor.toFixed(2)}`],
+            [`翼尖小翼補強: ${AUGMENT_WINGLETS[STATE.augWinglet].name}`, `複合材料: ${AUGMENT_MATERIALS[STATE.augMaterial].name}`, `預估滯空/航程: ${res.estEnduranceHr.toFixed(1)}h / ${res.estRangeKm.toFixed(0)}km`]
+          ];
+          ctx.font = '14px "JetBrains Mono", monospace';
+          ctx.fillStyle = '#e2e8f0';
+          kpiRows.forEach((r, rIdx) => {
+            const py = 184 + rIdx * 31;
+            ctx.fillText(r[0], 832, py);
+            ctx.fillText(r[1], 1085, py);
+            ctx.fillText(r[2], 1335, py);
+          });
+
+          const clC = document.getElementById('ChartClAlpha');
+          const ldC = document.getElementById('ChartLDAlpha');
+          if (clC) {
+            ctx.fillStyle = '#0f172a'; ctx.fillRect(812, 396, 368, 444);
+            ctx.strokeStyle = '#334155'; ctx.strokeRect(812, 396, 368, 444);
+            ctx.drawImage(clC, 820, 412, 352, 416);
+          }
+          if (ldC) {
+            ctx.fillStyle = '#0f172a'; ctx.fillRect(1200, 396, 368, 444);
+            ctx.strokeStyle = '#334155'; ctx.strokeRect(1200, 396, 368, 444);
+            ctx.drawImage(ldC, 1208, 412, 352, 416);
+          }
+        }
+
+        // Tiled Diagonal Anti-Counterfeit Watermark across the entire output photo
+        ctx.save();
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.13)';
+        ctx.font = 'bold 24px "Inter", sans-serif';
+        for (let wx = -200; wx < W + 200; wx += 420) {
+          for (let wy = 140; wy < H; wy += 240) {
+            ctx.save();
+            ctx.translate(wx, wy);
+            ctx.rotate(-0.35);
+            ctx.fillText('肇祥企業社 MaxJim Tech. • 0931-765001', 0, 0);
+            ctx.font = '14px "JetBrains Mono", monospace';
+            ctx.fillText('https://maxjimtech.com/ — SIMULATION ESTIMATES', 10, 22);
+            ctx.restore();
+          }
+        }
+        ctx.restore();
+
+        // Bottom Official Engineering Stamp Bar
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(16, H - 64, W - 32, 48);
+        ctx.strokeStyle = '#38bdf8';
+        ctx.strokeRect(16, H - 64, W - 32, 48);
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = 'bold 14px "JetBrains Mono", monospace';
+        ctx.fillText(`© 肇祥企業社 MaxJim Tech. (https://maxjimtech.com/) | 機構設計・治具開發・無人載具 CAE 模擬估算 | 匯出時間：${new Date().toLocaleString('zh-TW')}`, 32, H - 34);
+      }
+
+      const photoModal = document.getElementById('PhotoExportModal');
+      document.getElementById('BtnOpenPhotoModal')?.addEventListener('click', () => {
+        updateAllCharts();
+        photoModal?.classList.remove('hidden');
+        setTimeout(() => renderWatermarkedPhotoCanvas(currentPhotoMode), 80);
+      });
+      document.getElementById('BtnClosePhotoModal')?.addEventListener('click', () => photoModal?.classList.add('hidden'));
+      document.querySelectorAll('.photo-mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.photo-mode-btn').forEach(b => {
+            b.className = 'photo-mode-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700';
+          });
+          btn.className = 'photo-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/25 text-amber-300 border border-amber-400/50';
+          renderWatermarkedPhotoCanvas(btn.getAttribute('data-photomode'));
+        });
+      });
+      document.getElementById('BtnDownloadWatermarkedPhoto')?.addEventListener('click', () => {
+        renderWatermarkedPhotoCanvas(currentPhotoMode);
+        const canvas = document.getElementById('WatermarkedPhotoCanvas');
+        if (!canvas) return;
+        const url = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `MaxJimTech_UAV_${STATE.selectedModelId}_${currentPhotoMode}.png`;
+        a.click();
+        showToast('已下載「肇祥企業社 MaxJim Tech.」浮水印工程數據照片 (.PNG)！', 'success');
+      });
+
+      // Export Spec Modal & Download
+      const expModal = document.getElementById('ExportSpecModal');
+      document.getElementById('BtnExportSpec')?.addEventListener('click', () => {
+        const exportObj = {
+          companyHeader: '肇祥企業社 MaxJim Tech. (https://maxjimtech.com/)',
+          engineerContact: '張哲肇 (Alex Chang) | 0931-765001',
+          watermark: 'MaxJim Tech. Official Verified UAV CAD/CAE Specification',
+          system: '肇祥企業社 MaxJim Tech. — AeroVanguard CAD/CAE Studio Pro v4.8',
+          timestamp: new Date().toISOString(),
+          selectedModelId: STATE.selectedModelId,
+          geometry: {
+            airframeType: STATE.airframeType, airfoil: STATE.airfoil,
+            span_m: STATE.span, rootChord_m: STATE.rootChord, taperRatio: STATE.taper,
+            sweep_deg: STATE.sweep, dihedral_deg: STATE.dihedral, washout_deg: STATE.washout,
+            fuselageLength_m: STATE.fuseLen, mtow_kg: STATE.mass, tailType: STATE.tailType, rotorCount: STATE.rotorCount
+          },
+          augmentation: {
+            winglet: STATE.augWinglet, highLift: STATE.augHighLift,
+            structuralMaterial: STATE.augMaterial, energySystem: STATE.augEnergy,
+            eoIrGimbal: STATE.augEoIrGimbal, retractableGear: STATE.augRetractGear
+          },
+          aerodynamicPerformance: {
+            Reynolds: Math.round(STATE.results.Re), Mach: Number(STATE.results.Mach.toFixed(3)),
+            CL: Number(STATE.results.aero.CL.toFixed(4)), CD: Number(STATE.results.aero.CD.toFixed(4)),
+            LD_ratio: Number(STATE.results.aero.LD.toFixed(2)), staticMargin_pct: Number(STATE.results.aero.smPct.toFixed(1)),
+            Vstall_ms: Number(STATE.results.Vstall.toFixed(2)), rootBendingMoment_kNm: Number(STATE.results.rootMomentKNm.toFixed(2)),
+            structuralSafetyFactor: Number(STATE.results.safetyFactor.toFixed(2)),
+            estimatedEndurance_hr: Number(STATE.results.estEnduranceHr.toFixed(2)),
+            estimatedRange_km: Number(STATE.results.estRangeKm.toFixed(0))
+          }
+        };
+        const ta = document.getElementById('ExportJsonTextarea');
+        if (ta) ta.value = JSON.stringify(exportObj, null, 2);
+        expModal?.classList.remove('hidden');
+      });
+      document.getElementById('BtnCloseExportModal')?.addEventListener('click', () => expModal?.classList.add('hidden'));
+      document.getElementById('BtnCopyExportJson')?.addEventListener('click', () => {
+        const ta = document.getElementById('ExportJsonTextarea');
+        if (!ta) return;
+        ta.select();
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(ta.value);
+          } else {
+            document.execCommand('copy');
+          }
+        } catch (err) {
+          document.execCommand('copy');
+        }
+        showToast('工程規格 JSON 已複製到剪貼簿！', 'success');
+      });
+      document.getElementById('BtnDownloadExportJson')?.addEventListener('click', () => {
+        const ta = document.getElementById('ExportJsonTextarea');
+        if (!ta) return;
+        const blob = new Blob([ta.value], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `UAV_Spec_${STATE.selectedModelId}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('已下載 .JSON 工程設計參數檔', 'success');
+      });
+
+      // Download CSV Polar in Tab 6
+      document.getElementById('BtnDownloadCsvPolar')?.addEventListener('click', () => {
+        const rows = [
+          '# 肇祥企業社 MaxJim Tech. — 無人飛行載具氣動極曲線工程數據表 (MaxJim Tech Watermarked Data)',
+          '# 負責人：張哲肇 (Alex Chang) | 聯絡專線：0931-765001 | 官方網站：https://maxjimtech.com/',
+          `# 載具模型：${STATE.selectedModelId} | 翼型：${STATE.airfoil} | 匯出時間：${new Date().toISOString()}`,
+          'Alpha_deg,CL_Augmented,CD_Augmented,LD_Augmented,Cm_Augmented,CL_Baseline,LD_Baseline,Watermark'
+        ];
+        for (let a = -10; a <= 24; a += 1) {
+          const aug = evalAeroAtAoA(a, true);
+          const bas = evalAeroAtAoA(a, false);
+          rows.push(`${a},${aug.CL.toFixed(4)},${aug.CD.toFixed(4)},${aug.LD.toFixed(2)},${aug.Cm.toFixed(4)},${bas.CL.toFixed(4)},${bas.LD.toFixed(2)},MaxJim Tech.`);
+        }
+        const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `AeroPolar_${STATE.selectedModelId}_${STATE.airfoil.replace(/\s+/g, '_')}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('已匯出 CSV 氣動極曲線數據表！', 'success');
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+      populateSelectOptions();
+      initAllCharts();
+      solveAerodynamicsAndStructures();
+      initThreeScene();
+      bindAllEvents();
+      loadModelIntoStudio('jouav_cw30e', true);
+      renderGlobalLibrary();
+      renderComparisonTable();
+      // Seed initial 6-DOF chart data
+      runAutomatedSimTest('gust_pid');
+    });
+  </script>
+<script>(()=>{const header=document.getElementById('appHeader'),viewport=document.getElementById('ThreeViewportContainer');let frame;const resize=()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>window.dispatchEvent(new Event('resize')));};new ResizeObserver(()=>{document.documentElement.style.setProperty('--header-height',header.getBoundingClientRect().height+'px');resize();}).observe(header);new ResizeObserver(resize).observe(viewport);const b=document.getElementById('FullscreenToggle');b.addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch(e){b.textContent='請使用瀏覽器全螢幕（F11）';}});document.addEventListener('fullscreenchange',()=>{b.textContent=document.fullscreenElement?'離開全螢幕':'全螢幕操作';resize();});})();</script></body>
+</html>
