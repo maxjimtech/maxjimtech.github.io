@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaxJim Tech. Inc. | 全蛋 360° 聲學與空耦超音波探頭陣列運動學模擬系統 (支援單模組獨立驗證)</title>
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --panel-bg: #131c2e;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --brand-cyan: #06b6d4;
+            --brand-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.45;
+            padding: 14px;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, #0f172a 0%, #1e293b 55%, #0f172a 100%);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--brand-cyan);
+            border-radius: 10px;
+            padding: 14px 22px;
+            margin-bottom: 14px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+        }
+
+        .brand-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            background: linear-gradient(135deg, var(--brand-cyan), var(--brand-blue));
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.15rem;
+            padding: 4px 12px;
+            border-radius: 6px;
+            letter-spacing: 1px;
+        }
+
+        header h1 {
+            font-size: 1.25rem;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        header .subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-optimize {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #fff;
+            border: 1px solid #34d399;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-optimize:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 22px rgba(16, 185, 129, 0.7);
+            background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 14px;
+        }
+
+        @media (max-width: 1180px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .panel {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px;
+            transition: opacity 0.25s ease, border-color 0.25s ease;
+        }
+
+        .panel.disabled-module {
+            opacity: 0.48;
+            border-style: dashed;
+        }
+
+        .panel-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--brand-cyan);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 7px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .control-group {
+            margin-bottom: 10px;
+        }
+
+        .control-group label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 3px;
+        }
+
+        .control-group span.val {
+            color: var(--text-main);
+            font-family: monospace;
+            font-weight: 700;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--brand-cyan);
+            cursor: pointer;
+        }
+
+        .opt-mode-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .btn-sub {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 7px 6px;
+            border-radius: 6px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-align: center;
+        }
+
+        .btn-sub:hover, .btn-sub.active {
+            background-color: rgba(6, 182, 212, 0.22);
+            border-color: var(--brand-cyan);
+            color: var(--brand-cyan);
+        }
+
+        .btn-sub.mode-ac.active {
+            background-color: rgba(56, 189, 248, 0.25);
+            border-color: #38bdf8;
+            color: #38bdf8;
+        }
+
+        .btn-sub.mode-us.active {
+            background-color: rgba(245, 158, 11, 0.25);
+            border-color: #f59e0b;
+            color: #fbbf24;
+        }
+
+        .workspace {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .kpi-bar {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+        }
+
+        @media (max-width: 1400px) {
+            .kpi-bar {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .kpi-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .kpi-card .k-title {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+        }
+
+        .kpi-card .k-value {
+            font-size: 1.15rem;
+            font-weight: 800;
+            font-family: monospace;
+            color: var(--brand-cyan);
+            margin-top: 4px;
+        }
+
+        .kpi-card .k-sub {
+            font-size: 0.72rem;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .canvas-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        @media (max-width: 1000px) {
+            .canvas-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .canvas-box {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .canvas-container {
+            background-color: #060911;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        canvas {
+            width: 100%;
+            height: 280px;
+            display: block;
+        }
+
+        .legend-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 8px;
+            font-size: 0.76rem;
+            color: var(--text-muted);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        th, td {
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: rgba(15, 23, 42, 0.7);
+            color: var(--brand-cyan);
+            font-weight: 600;
+        }
+
+        .badge-pass {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        .badge-fail {
+            background: rgba(239, 68, 68, 0.25);
+            color: #f87171;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        .opt-toast {
+            font-size: 0.78rem;
+            color: #34d399;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            padding: 8px 10px;
+            border-radius: 6px;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .module-tag {
+            font-size: 0.72rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="brand-box">
+        <div class="brand-header">
+            <span class="brand-logo">MaxJim Tech. Inc.</span>
+            <h1>全蛋 360° 旋轉聲學共振與空耦超音波探頭陣列模擬系統</h1>
+        </div>
+        <div class="subtitle">支援「雙模態融合」、「純模組1 (敲擊聲學)」與「純模組2 (空耦超音波)」0~6 組探頭獨立配置與一鍵最佳化 (Metric Units)</div>
+    </div>
+    <div class="header-actions">
+        <button class="btn-optimize" onclick="runOneClickOptimization(currentStrategy)">
+            <span>⚡ 一鍵最佳化當前架構 (Auto-Optimize)</span>
+        </button>
+    </div>
+</header>
+
+<div class="main-grid">
+    <!-- 左側參數與模式切換面板 -->
+    <aside class="sidebar">
+        <div class="panel">
+            <div class="panel-title">
+                <span>感測模組架構選擇 (Module Mode)</span>
+            </div>
+            <div class="opt-mode-row">
+                <button id="modeDual" class="btn-sub active" onclick="selectSensorMode('dual')">雙模組融合<br>(模組 1 + 2)</button>
+                <button id="modeOnlyM1" class="btn-sub mode-ac" onclick="selectSensorMode('only_m1')">純模組 1<br>(超音波=0組)</button>
+                <button id="modeOnlyM2" class="btn-sub mode-us" onclick="selectSensorMode('only_m2')">純模組 2<br>(聲學=0組)</button>
+            </div>
+
+            <div class="panel-title" style="margin-top:10px;">
+                <span>一鍵優化目標策略 (Optimization Targets)</span>
+            </div>
+            <div class="opt-mode-row">
+                <button id="optBalanced" class="btn-sub active" onclick="runOneClickOptimization('balanced')">標準高覆蓋平衡</button>
+                <button id="optSpeed" class="btn-sub" onclick="runOneClickOptimization('speed')">極速產線優先</button>
+                <button id="optPrecision" class="btn-sub" onclick="runOneClickOptimization('precision')">零盲區精密級</button>
+            </div>
+            <div class="opt-mode-row">
+                <button class="btn-sub" onclick="toggleAnimation()" id="btnPlayPause">⏸ 暫停旋轉</button>
+                <button class="btn-sub" onclick="randomizeCrack()">🎲 隨機裂紋位置</button>
+                <button class="btn-sub" onclick="resetRotation()">🔄 重置角度 0°</button>
+            </div>
+            <div id="optMessage" class="opt-toast"></div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">
+                <span>1. 蛋體幾何與旋轉運動學參數</span>
+            </div>
+            <div class="control-group">
+                <label>蛋體縱軸長 (Egg Length, L) <span class="val" id="valLength">58.0 mm</span></label>
+                <input type="range" id="eggLength" min="48.0" max="68.0" step="0.5" value="58.0" oninput="onManualChange()">
+            </div>
+            <div class="control-group">
+                <label>最大赤道橫徑 (Equator Dia, D) <span class="val" id="valDia">44.0 mm</span></label>
+                <input type="range" id="eggDia" min="36.0" max="52.0" step="0.5" value="44.0" oninput="onManualChange()">
+            </div>
+            <div class="control-group">
+                <label>蛋體自轉速度 (Rotational Speed) <span class="val" id="valRpm">180 RPM</span></label>
+                <input type="range" id="eggRpm" min="30" max="420" step="5" value="180" oninput="onManualChange()">
+            </div>
+            <div class="control-group">
+                <label>設定旋轉檢測圈數 (Target Revolutions) <span class="val" id="valRevs">1.00 圈 (360°)</span></label>
+                <input type="range" id="targetRevs" min="0.5" max="2.0" step="0.25" value="1.0" oninput="onManualChange()">
+            </div>
+        </div>
+
+        <div class="panel" id="panelModule1">
+            <div class="panel-title">
+                <span>模組 1：敲擊聲學共振陣列 (Acoustic)</span>
+                <span id="tagModule1" class="module-tag" style="background:rgba(56,189,248,0.2); color:#38bdf8;">ACTIVE</span>
+            </div>
+            <div class="control-group">
+                <label>聲學探頭數量 (可設為 0 組關閉) <span class="val" id="valAcProbes">3 組</span></label>
+                <input type="range" id="acProbes" min="0" max="6" step="1" value="3" oninput="onManualChange()">
+            </div>
+            <div class="control-group">
+                <label>單探頭每圈敲擊點數 (Hits / 360°) <span class="val" id="valAcPoints">6 點/圈</span></label>
+                <input type="range" id="acPoints" min="3" max="16" step="1" value="6" oninput="onManualChange()">
+            </div>
+            <div class="control-group">
+                <label>單點聲學有效共振感測半徑 <span class="val" id="valAcRadius">14.5 mm</span></label>
+                <input type="range" id="acRadius" min="8.0" max="22.0" step="0.5" value="14.5" oninput="onManualChange()">
+            </div>
+        </div>
+
+        <div class="panel" id="panelModule2">
+            <div class="panel-title">
+                <span>模組 2：40kHz 空耦超音波陣列 (US)</span>
+                <span id="tagModule2" class="module-tag" style="background:rgba(245,158,11,0.2); color:#fbbf24;">ACTIVE</span>
+            </div>
+            <div class="control-group">
+                <label>超音波探頭對數 (可設為 0 對關閉) <span class="val" id="valUsProbes">4 對</span></label>
+                <input type="range" id="usProbes" min="0" max="6" step="1" value="4" oninput="onManualChange()">
+            </div>
+            <div class="control-group">
+                <label>單對每圈脈衝採樣點數 (Pulses / 360°) <span class="val" id="valUsPoints">18 點/圈</span></label>
+                <input type="range" id="usPoints" min="6" max="36" step="2" value="18" oninput="onManualChange()">
+            </div>
+            <div class="control-group">
+                <label>超音波表面瑞利波聲束半寬 <span class="val" id="valUsRadius">6.5 mm</span></label>
+                <input type="range" id="usRadius" min="3.5" max="12.0" step="0.5" value="6.5" oninput="onManualChange()">
+            </div>
+            <div class="control-group">
+                <label>探頭提離距離 (Lift-off Distance) <span class="val" id="valLiftoff">8.0 mm</span></label>
+                <input type="range" id="usLiftoff" min="3.0" max="18.0" step="0.5" value="8.0" oninput="onManualChange()">
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">
+                <span>待測樣本裂紋配置 (Crack Target)</span>
+            </div>
+            <div class="control-group">
+                <label>裂紋中心經度 / 緯度 <span class="val" id="valCrackLoc">135° / +12°</span></label>
+                <input type="range" id="crackLon" min="0" max="355" step="5" value="135" oninput="onManualChange()">
+            </div>
+            <div class="control-group">
+                <label>裂紋緯度偏移 (鈍端 -60° ~ 尖端 +60°) <span class="val" id="valCrackLat">+12°</span></label>
+                <input type="range" id="crackLat" min="-60" max="60" step="2" value="12" oninput="onManualChange()">
+            </div>
+            <div class="control-group">
+                <label>裂紋總延伸長度 (Crack Length) <span class="val" id="valCrackLen">14.0 mm</span></label>
+                <input type="range" id="crackLen" min="4.0" max="32.0" step="1.0" value="14.0" oninput="onManualChange()">
+            </div>
+        </div>
+    </aside>
+
+    <!-- 右側模擬主視窗 -->
+    <main class="workspace">
+        <!-- 關鍵工程指標列 (KPIs) -->
+        <div class="kpi-bar">
+            <div class="kpi-card">
+                <span class="k-title">360° 全表面有效覆蓋率</span>
+                <span class="k-value" id="kpiCoverage">98.4 %</span>
+                <span class="k-sub" id="kpiBlindSpot">未覆蓋盲區: 1.6%</span>
+            </div>
+            <div class="kpi-card">
+                <span class="k-title">模組 1 聲學點距 (Δs_ac)</span>
+                <span class="k-value" id="kpiAcSpacing">23.0 mm</span>
+                <span class="k-sub" id="kpiAcAngle">步進角 Δθ: 60.0°</span>
+            </div>
+            <div class="kpi-card">
+                <span class="k-title">模組 2 超音波點距 (Δs_us)</span>
+                <span class="k-value" id="kpiUsSpacing">7.7 mm</span>
+                <span class="k-sub" id="kpiUsAngle">步進角 Δθ: 20.0°</span>
+            </div>
+            <div class="kpi-card">
+                <span class="k-title">單顆旋轉檢測總耗時</span>
+                <span class="k-value" id="kpiTime">333 ms</span>
+                <span class="k-sub" id="kpiThroughput">產線極限: 3.0 顆/秒/道</span>
+            </div>
+            <div class="kpi-card">
+                <span class="k-title">硬體觸發頻率 (M1 / M2)</span>
+                <span class="k-value" id="kpiFreq">18 / 54 Hz</span>
+                <span class="k-sub" id="kpiFreqStatus">電磁閥與FFT裕度正常</span>
+            </div>
+            <div class="kpi-card">
+                <span class="k-title">目標裂紋攔截狀態</span>
+                <span class="k-value" id="kpiDetectStatus" style="color:var(--accent-green);">DETECTED</span>
+                <span class="k-sub" id="kpiHitsCount">聲學命中 2 點 | 超音波 4 點</span>
+            </div>
+        </div>
+
+        <!-- 視覺化 Canvas 雙聯畫布 (上排) -->
+        <div class="canvas-grid">
+            <!-- 畫布 1：機構剖面與探頭空間幾何配置 -->
+            <div class="canvas-box">
+                <div class="panel-title">
+                    <span>視圖 1：雙錐滾輪機構、探頭緯度安裝位置與即時旋轉剖面</span>
+                    <span id="angleIndicator" style="font-family:monospace; color:var(--text-main);">θ = 0.0°</span>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="canvasRig" width="540" height="280"></canvas>
+                </div>
+                <div class="legend-bar">
+                    <div class="legend-item"><i class="dot" style="background:#38bdf8;"></i>模組 1：敲擊聲學探頭 (AC)</div>
+                    <div class="legend-item"><i class="dot" style="background:#f59e0b;"></i>模組 2：40kHz 空耦超音波探頭組 (US)</div>
+                    <div class="legend-item"><i class="dot" style="background:#ef4444;"></i>待測裂紋軌跡</div>
+                </div>
+            </div>
+
+            <!-- 畫布 2：全蛋 360° 展開表面檢測點網格與覆蓋熱區圖 -->
+            <div class="canvas-box">
+                <div class="panel-title">
+                    <span>視圖 2：全蛋 360° × 180° 球面展開檢測點距網格與覆蓋率地圖</span>
+                    <span id="activeModeBadge" style="font-size:0.75rem; color:var(--brand-cyan);">雙模態融合模式</span>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="canvasUnwrap" width="540" height="280"></canvas>
+                </div>
+                <div class="legend-bar">
+                    <div class="legend-item"><i class="dot" style="background:rgba(56,189,248,0.45); border:1px solid #38bdf8;"></i>模組 1 聲學共振包絡區</div>
+                    <div class="legend-item"><i class="dot" style="background:rgba(245,158,11,0.5); border:1px solid #f59e0b;"></i>模組 2 超音波瑞利波掃描帶</div>
+                    <div class="legend-item"><i class="dot" style="background:#10b981;"></i>成功攔截裂紋之觸發點</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 畫布 3：360° 旋轉全週期多通道即時訊號特徵流 -->
+        <div class="canvas-box">
+            <div class="panel-title">
+                <span>視圖 3：0° ~ 360° 旋轉角度域即時共振頻移 (Δf) 與超音波透射衰減 (Vpp) 監測曲線</span>
+                <span style="font-size:0.75rem; color:var(--text-muted);">Angular Domain Signal Trace</span>
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasSignals" width="1100" height="210" style="height:210px;"></canvas>
+            </div>
+        </div>
+
+        <!-- 探頭空間座標與點距工程明細表 -->
+        <div class="panel">
+            <div class="panel-title">
+                <span>MaxJim Tech. Inc. 探頭安裝座標、點對點弧距與時間裕度工程規格表</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>探頭編號與類型</th>
+                        <th>安裝軸向位置 Z (mm)</th>
+                        <th>表面緯度角 φ (deg)</th>
+                        <th>該緯度迴轉半徑 R(φ)</th>
+                        <th>點對點周向弧距 Δs_θ</th>
+                        <th>相鄰探頭軸向間距 Δs_z</th>
+                        <th>單次採樣時間間隔 Δt</th>
+                        <th>訊號碰撞/裕度評估</th>
+                    </tr>
+                </thead>
+                <tbody id="probeSpecTableBody">
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script>
+    let currentAngleDeg = 0;
+    let isPlaying = true;
+    let lastTimestamp = performance.now();
+    let currentSensorMode = 'dual';   // 'dual' | 'only_m1' | 'only_m2'
+    let currentStrategy = 'balanced'; // 'balanced' | 'speed' | 'precision'
+
+    // 計算蛋形在給定緯度角 phi_rad (-pi/2 鈍端 ~ +pi/2 尖端) 的座標 (z_mm, r_mm)
+    function getEggProfile(phi_rad, L_mm, D_mm) {
+        const a = D_mm / 2.0;
+        const b = L_mm / 2.0;
+        const z = b * Math.sin(phi_rad);
+        const taper = 1.0 - 0.14 * Math.sin(phi_rad);
+        const r = a * Math.cos(phi_rad) * taper;
+        return { z_mm: z, r_mm: Math.max(0.5, r) };
+    }
+
+    // 根據探頭數量 (0 ~ 6) 分配最佳緯度角 (deg)
+    function getProbeLatitudes(count, mode) {
+        if (count <= 0) return [];
+        if (count === 1) return [0];
+        if (count === 2) return [-28, 28];
+        if (count === 3) return [-42, 0, 42];
+        if (count === 4) return mode === 'ac' ? [-48, -16, 16, 48] : [-52, -18, 18, 52];
+        if (count === 5) return [-56, -28, 0, 28, 56];
+        return [-62, -37, -12, 12, 37, 62];
+    }
+
+    // 切換「雙模組融合 / 純模組1 / 純模組2」
+    function selectSensorMode(mode) {
+        currentSensorMode = mode;
+        updateModeButtonsUI();
+
+        if (mode === 'only_m1') {
+            document.getElementById('usProbes').value = 0;
+            if (parseInt(document.getElementById('acProbes').value) === 0) {
+                document.getElementById('acProbes').value = 4;
+            }
+        } else if (mode === 'only_m2') {
+            document.getElementById('acProbes').value = 0;
+            if (parseInt(document.getElementById('usProbes').value) === 0) {
+                document.getElementById('usProbes').value = 5;
+            }
+        } else {
+            if (parseInt(document.getElementById('acProbes').value) === 0) {
+                document.getElementById('acProbes').value = 3;
+            }
+            if (parseInt(document.getElementById('usProbes').value) === 0) {
+                document.getElementById('usProbes').value = 4;
+            }
+        }
+        runOneClickOptimization(currentStrategy);
+    }
+
+    function updateModeButtonsUI() {
+        document.getElementById('modeDual').classList.toggle('active', currentSensorMode === 'dual');
+        document.getElementById('modeOnlyM1').classList.toggle('active', currentSensorMode === 'only_m1');
+        document.getElementById('modeOnlyM2').classList.toggle('active', currentSensorMode === 'only_m2');
+
+        const acCount = parseInt(document.getElementById('acProbes').value);
+        const usCount = parseInt(document.getElementById('usProbes').value);
+
+        const panel1 = document.getElementById('panelModule1');
+        const tag1 = document.getElementById('tagModule1');
+        if (acCount === 0) {
+            panel1.classList.add('disabled-module');
+            tag1.textContent = '0 組 (OFF)';
+            tag1.style.background = 'rgba(148,163,184,0.15)';
+            tag1.style.color = '#94a3b8';
+        } else {
+            panel1.classList.remove('disabled-module');
+            tag1.textContent = `${acCount} 組運行中`;
+            tag1.style.background = 'rgba(56,189,248,0.2)';
+            tag1.style.color = '#38bdf8';
+        }
+
+        const panel2 = document.getElementById('panelModule2');
+        const tag2 = document.getElementById('tagModule2');
+        if (usCount === 0) {
+            panel2.classList.add('disabled-module');
+            tag2.textContent = '0 對 (OFF)';
+            tag2.style.background = 'rgba(148,163,184,0.15)';
+            tag2.style.color = '#94a3b8';
+        } else {
+            panel2.classList.remove('disabled-module');
+            tag2.textContent = `${usCount} 對運行中`;
+            tag2.style.background = 'rgba(245,158,11,0.2)';
+            tag2.style.color = '#fbbf24';
+        }
+
+        const badge = document.getElementById('activeModeBadge');
+        if (acCount > 0 && usCount > 0) {
+            badge.textContent = '當前架構：雙模態融合 (模組 1 + 模組 2)';
+            badge.style.color = 'var(--brand-cyan)';
+        } else if (acCount > 0 && usCount === 0) {
+            badge.textContent = '當前架構：純模組 1 (敲擊聲學共振獨立檢測)';
+            badge.style.color = '#38bdf8';
+        } else if (acCount === 0 && usCount > 0) {
+            badge.textContent = '當前架構：純模組 2 (40kHz 空耦超音波獨立檢測)';
+            badge.style.color = '#fbbf24';
+        } else {
+            badge.textContent = '⚠️ 警告：兩個模組皆設為 0 組 (無探頭啟用)';
+            badge.style.color = '#ef4444';
+        }
+    }
+
+    function getSystemState() {
+        const L_mm = parseFloat(document.getElementById('eggLength').value);
+        const D_mm = parseFloat(document.getElementById('eggDia').value);
+        const rpm = parseFloat(document.getElementById('eggRpm').value);
+        const targetRevs = parseFloat(document.getElementById('targetRevs').value);
+
+        const acProbes = parseInt(document.getElementById('acProbes').value);
+        const acPoints = parseInt(document.getElementById('acPoints').value);
+        const acRadius = parseFloat(document.getElementById('acRadius').value);
+
+        const usProbes = parseInt(document.getElementById('usProbes').value);
+        const usPoints = parseInt(document.getElementById('usPoints').value);
+        const usRadius = parseFloat(document.getElementById('usRadius').value);
+        const usLiftoff = parseFloat(document.getElementById('usLiftoff').value);
+
+        const crackLon = parseFloat(document.getElementById('crackLon').value);
+        const crackLat = parseFloat(document.getElementById('crackLat').value);
+        const crackLen = parseFloat(document.getElementById('crackLen').value);
+
+        document.getElementById('valLength').textContent = `${L_mm.toFixed(1)} mm`;
+        document.getElementById('valDia').textContent = `${D_mm.toFixed(1)} mm`;
+        document.getElementById('valRpm').textContent = `${rpm.toFixed(0)} RPM`;
+        document.getElementById('valRevs').textContent = `${targetRevs.toFixed(2)} 圈 (${(targetRevs * 360).toFixed(0)}°)`;
+
+        document.getElementById('valAcProbes').textContent = acProbes === 0 ? '0 組 (已關閉)' : `${acProbes} 組`;
+        document.getElementById('valAcPoints').textContent = `${acPoints} 點/圈`;
+        document.getElementById('valAcRadius').textContent = `${acRadius.toFixed(1)} mm`;
+
+        document.getElementById('valUsProbes').textContent = usProbes === 0 ? '0 對 (已關閉)' : `${usProbes} 對`;
+        document.getElementById('valUsPoints').textContent = `${usPoints} 點/圈`;
+        document.getElementById('valUsRadius').textContent = `${usRadius.toFixed(1)} mm`;
+        document.getElementById('valLiftoff').textContent = `${usLiftoff.toFixed(1)} mm`;
+
+        document.getElementById('valCrackLoc').textContent = `${crackLon.toFixed(0)}° / ${crackLat >= 0 ? '+' : ''}${crackLat.toFixed(0)}°`;
+        document.getElementById('valCrackLat').textContent = `${crackLat >= 0 ? '+' : ''}${crackLat.toFixed(0)}°`;
+        document.getElementById('valCrackLen').textContent = `${crackLen.toFixed(1)} mm`;
+
+        const rps = rpm / 60.0;
+        const degPerSec = rps * 360.0;
+        const singleRevTime_ms = (1.0 / rps) * 1000.0;
+        const totalInspectTime_ms = singleRevTime_ms * targetRevs;
+
+        const acLats = getProbeLatitudes(acProbes, 'ac');
+        const usLats = getProbeLatitudes(usProbes, 'us');
+
+        return {
+            L_mm, D_mm, rpm, rps, degPerSec, targetRevs,
+            singleRevTime_ms, totalInspectTime_ms,
+            acProbes, acPoints, acRadius, acLats,
+            usProbes, usPoints, usRadius, usLiftoff, usLats,
+            crackLon, crackLat, crackLen
+        };
+    }
+
+    function calcEggSurfaceDistMm(lon1_deg, lat1_deg, lon2_deg, lat2_deg, L_mm, D_mm) {
+        const phi1 = lat1_deg * Math.PI / 180.0;
+        const phi2 = lat2_deg * Math.PI / 180.0;
+        const avgPhi = 0.5 * (phi1 + phi2);
+        const prof = getEggProfile(avgPhi, L_mm, D_mm);
+
+        let dLon = Math.abs(lon1_deg - lon2_deg) % 360.0;
+        if (dLon > 180.0) dLon = 360.0 - dLon;
+        const arcLon_mm = prof.r_mm * (dLon * Math.PI / 180.0);
+
+        const avgRadiusMeridian = 0.5 * (L_mm / 2.0 + D_mm / 2.0);
+        const arcLat_mm = avgRadiusMeridian * Math.abs(phi1 - phi2);
+
+        return Math.hypot(arcLon_mm, arcLat_mm);
+    }
+
+    function getCrackSamplePoints(state) {
+        const pts = [];
+        const numSamples = 11;
+        const halfLen = state.crackLen / 2.0;
+        const tiltRad = 35.0 * Math.PI / 180.0;
+        const equatorR = state.D_mm / 2.0;
+        const meridianR = state.L_mm / 2.0;
+
+        for (let i = 0; i < numSamples; i++) {
+            const s = -halfLen + (i / (numSamples - 1)) * state.crackLen;
+            const dLon_deg = ((s * Math.cos(tiltRad)) / equatorR) * (180.0 / Math.PI);
+            const dLat_deg = ((s * Math.sin(tiltRad)) / meridianR) * (180.0 / Math.PI);
+            pts.push({
+                lon: (state.crackLon + dLon_deg + 360.0) % 360.0,
+                lat: Math.max(-82, Math.min(82, state.crackLat + dLat_deg))
+            });
+        }
+        return pts;
+    }
+
+    function analyzeCoverageAndHits(state) {
+        const acSamples = [];
+        const usSamples = [];
+
+        if (state.acProbes > 0) {
+            const acStepDeg = 360.0 / state.acPoints;
+            const totalAcSteps = Math.round(state.acPoints * state.targetRevs);
+            state.acLats.forEach((lat, pIdx) => {
+                const phaseOffset = (pIdx % 2 === 1) ? (acStepDeg * 0.5) : 0.0;
+                for (let k = 0; k < totalAcSteps; k++) {
+                    const lon = (k * acStepDeg + phaseOffset) % 360.0;
+                    acSamples.push({ probeIdx: pIdx, lat, lon, radius: state.acRadius });
+                }
+            });
+        }
+
+        if (state.usProbes > 0) {
+            const usStepDeg = 360.0 / state.usPoints;
+            const totalUsSteps = Math.round(state.usPoints * state.targetRevs);
+            state.usLats.forEach((lat, pIdx) => {
+                const phaseOffset = (pIdx % 2 === 1) ? (usStepDeg * 0.5) : 0.0;
+                for (let k = 0; k < totalUsSteps; k++) {
+                    const lon = (k * usStepDeg + phaseOffset) % 360.0;
+                    usSamples.push({ probeIdx: pIdx, lat, lon, radius: state.usRadius });
+                }
+            });
+        }
+
+        let coveredArea = 0;
+        let totalArea = 0;
+        for (let lat = -80; lat <= 80; lat += 10) {
+            const weight = Math.cos(lat * Math.PI / 180.0);
+            for (let lon = 0; lon < 360; lon += 10) {
+                totalArea += weight;
+                let isCov = false;
+                for (let s of acSamples) {
+                    if (calcEggSurfaceDistMm(lon, lat, s.lon, s.lat, state.L_mm, state.D_mm) <= s.radius) {
+                        isCov = true; break;
+                    }
+                }
+                if (!isCov) {
+                    for (let s of usSamples) {
+                        if (calcEggSurfaceDistMm(lon, lat, s.lon, s.lat, state.L_mm, state.D_mm) <= s.radius) {
+                            isCov = true; break;
+                        }
+                    }
+                }
+                if (isCov) coveredArea += weight;
+            }
+        }
+        const coveragePct = totalArea > 0 ? (coveredArea / totalArea) * 100.0 : 0.0;
+
+        const crackPts = getCrackSamplePoints(state);
+        let acHitCount = 0;
+        let usHitCount = 0;
+
+        acSamples.forEach(s => {
+            s.hitCrack = false;
+            for (let cp of crackPts) {
+                if (calcEggSurfaceDistMm(s.lon, s.lat, cp.lon, cp.lat, state.L_mm, state.D_mm) <= s.radius * 0.92) {
+                    s.hitCrack = true;
+                    acHitCount++;
+                    break;
+                }
+            }
+        });
+
+        usSamples.forEach(s => {
+            s.hitCrack = false;
+            for (let cp of crackPts) {
+                if (calcEggSurfaceDistMm(s.lon, s.lat, cp.lon, cp.lat, state.L_mm, state.D_mm) <= s.radius * 0.95) {
+                    s.hitCrack = true;
+                    usHitCount++;
+                    break;
+                }
+            }
+        });
+
+        return {
+            acSamples,
+            usSamples,
+            crackPts,
+            coveragePct,
+            acHitCount,
+            usHitCount
+        };
+    }
+
+    function drawMechanicalRig(state, analysis) {
+        const canvas = document.getElementById('canvasRig');
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.strokeStyle = '#131c2e';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+        for (let y = 0; y < H; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+
+        const cx = W * 0.5, cy = H * 0.54;
+        const scale = 3.6;
+
+        // 底部雙錐滾輪
+        ctx.fillStyle = '#1e293b';
+        ctx.strokeStyle = '#475569';
+        ctx.lineWidth = 2;
+        const rollerY = cy + (state.D_mm / 2.0) * scale + 18;
+        [-75, 75].forEach(offsetX => {
+            ctx.beginPath();
+            ctx.moveTo(cx + offsetX - 38, rollerY - 16);
+            ctx.lineTo(cx + offsetX + 38, rollerY - 16);
+            ctx.lineTo(cx + offsetX + 24, rollerY + 22);
+            ctx.lineTo(cx + offsetX - 24, rollerY + 22);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        });
+        ctx.fillStyle = '#64748b';
+        ctx.font = '11px monospace';
+        ctx.fillText(`Biconical Drive Rollers (${state.rpm} RPM)`, cx - 88, H - 8);
+
+        // 蛋體輪廓
+        ctx.save();
+        ctx.beginPath();
+        for (let deg = -90; deg <= 90; deg += 3) {
+            const prof = getEggProfile(deg * Math.PI / 180.0, state.L_mm, state.D_mm);
+            const px = cx + prof.z_mm * scale;
+            const py = cy - prof.r_mm * scale;
+            if (deg === -90) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        for (let deg = 90; deg >= -90; deg -= 3) {
+            const prof = getEggProfile(deg * Math.PI / 180.0, state.L_mm, state.D_mm);
+            const px = cx + prof.z_mm * scale;
+            const py = cy + prof.r_mm * scale;
+            ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+
+        const eggGrad = ctx.createRadialGradient(cx - 15, cy - 20, 8, cx, cy, (state.L_mm / 2) * scale);
+        eggGrad.addColorStop(0, '#fde68a');
+        eggGrad.addColorStop(0.7, '#d97706');
+        eggGrad.addColorStop(1, '#78350f');
+        ctx.fillStyle = eggGrad;
+        ctx.fill();
+        ctx.lineWidth = 2.2;
+        ctx.strokeStyle = '#fef3c7';
+        ctx.stroke();
+
+        ctx.clip();
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
+        ctx.lineWidth = 1;
+        for (let baseLon = 0; baseLon < 360; baseLon += 30) {
+            const relLon = ((baseLon - currentAngleDeg) % 360 + 360) % 360;
+            if (relLon <= 180) {
+                const elevFactor = Math.cos(relLon * Math.PI / 180.0);
+                ctx.beginPath();
+                for (let deg = -90; deg <= 90; deg += 6) {
+                    const prof = getEggProfile(deg * Math.PI / 180.0, state.L_mm, state.D_mm);
+                    const px = cx + prof.z_mm * scale;
+                    const py = cy - prof.r_mm * scale * elevFactor;
+                    if (deg === -90) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+            }
+        }
+
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 2.8;
+        ctx.beginPath();
+        let started = false;
+        analysis.crackPts.forEach(cp => {
+            const relLon = ((cp.lon - currentAngleDeg) % 360 + 360) % 360;
+            if (relLon <= 180) {
+                const elevFactor = Math.cos(relLon * Math.PI / 180.0);
+                const prof = getEggProfile(cp.lat * Math.PI / 180.0, state.L_mm, state.D_mm);
+                const px = cx + prof.z_mm * scale;
+                const py = cy - prof.r_mm * scale * elevFactor;
+                if (!started) { ctx.moveTo(px, py); started = true; }
+                else { ctx.lineTo(px, py); }
+            }
+        });
+        ctx.stroke();
+        ctx.restore();
+
+        // 繪製模組 1：敲擊聲學探頭 (若 > 0 組)
+        state.acLats.forEach((lat, idx) => {
+            const prof = getEggProfile(lat * Math.PI / 180.0, state.L_mm, state.D_mm);
+            const px = cx + prof.z_mm * scale;
+            const pySurface = cy - prof.r_mm * scale;
+            const probeY = pySurface - 28;
+
+            ctx.fillStyle = '#0284c7';
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 1.5;
+            ctx.fillRect(px - 8, probeY - 26, 16, 26);
+            ctx.strokeRect(px - 8, probeY - 26, 16, 26);
+
+            ctx.beginPath();
+            ctx.moveTo(px, probeY);
+            ctx.lineTo(px, pySurface);
+            ctx.strokeStyle = '#38bdf8';
+            ctx.stroke();
+
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = 'bold 10px monospace';
+            ctx.fillText(`AC${idx + 1}`, px - 10, probeY - 30);
+        });
+
+        // 繪製模組 2：空耦超音波探頭組 (若 > 0 對)
+        state.usLats.forEach((lat, idx) => {
+            const prof = getEggProfile(lat * Math.PI / 180.0, state.L_mm, state.D_mm);
+            const px = cx + prof.z_mm * scale;
+            const pySurface = cy + prof.r_mm * scale;
+            const liftoffPx = state.usLiftoff * scale * 0.65;
+            const probeY = pySurface + liftoffPx;
+
+            ctx.fillStyle = '#d97706';
+            ctx.strokeStyle = '#fbbf24';
+            ctx.lineWidth = 1.5;
+            ctx.fillRect(px - 7, probeY, 14, 22);
+            ctx.strokeRect(px - 7, probeY, 14, 22);
+
+            ctx.fillStyle = 'rgba(245, 158, 11, 0.28)';
+            ctx.beginPath();
+            ctx.moveTo(px - 6, probeY);
+            ctx.lineTo(px + 6, probeY);
+            ctx.lineTo(px + state.usRadius * scale * 0.5, pySurface);
+            ctx.lineTo(px - state.usRadius * scale * 0.5, pySurface);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.fillStyle = '#fbbf24';
+            ctx.font = 'bold 10px monospace';
+            ctx.fillText(`US${idx + 1}`, px - 10, probeY + 34);
+        });
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '11px sans-serif';
+        ctx.fillText('鈍端 (-90°)', 14, cy + 4);
+        ctx.fillText('尖端 (+90°)', W - 75, cy + 4);
+    }
+
+    function drawUnwrappedSurfaceMap(state, analysis) {
+        const canvas = document.getElementById('canvasUnwrap');
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        const padL = 42, padR = 16, padT = 18, padB = 26;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+
+        const lonToX = lon => padL + (lon / 360.0) * plotW;
+        const latToY = lat => padT + ((90.0 - lat) / 180.0) * plotH;
+
+        ctx.strokeStyle = '#1e293b';
+        ctx.lineWidth = 1;
+        ctx.fillStyle = '#64748b';
+        ctx.font = '10px monospace';
+
+        for (let lon = 0; lon <= 360; lon += 60) {
+            const x = lonToX(lon);
+            ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + plotH); ctx.stroke();
+            ctx.fillText(`${lon}°`, x - 10, H - 8);
+        }
+        for (let lat = -90; lat <= 90; lat += 30) {
+            const y = latToY(lat);
+            ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + plotW, y); ctx.stroke();
+            ctx.fillText(`${lat > 0 ? '+' : ''}${lat}°`, 6, y + 3);
+        }
+
+        const scaleMmToPx = plotW / (Math.PI * state.D_mm);
+
+        // 模組 1 點位
+        analysis.acSamples.forEach(s => {
+            const x = lonToX(s.lon);
+            const y = latToY(s.lat);
+            const rPx = s.radius * scaleMmToPx;
+
+            ctx.beginPath();
+            ctx.arc(x, y, rPx, 0, Math.PI * 2);
+            ctx.fillStyle = s.hitCrack ? 'rgba(16, 185, 129, 0.28)' : 'rgba(56, 189, 248, 0.14)';
+            ctx.fill();
+            ctx.strokeStyle = s.hitCrack ? '#10b981' : 'rgba(56, 189, 248, 0.45)';
+            ctx.lineWidth = s.hitCrack ? 1.8 : 1.0;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = s.hitCrack ? '#10b981' : '#38bdf8';
+            ctx.fill();
+        });
+
+        // 模組 2 點位
+        analysis.usSamples.forEach(s => {
+            const x = lonToX(s.lon);
+            const y = latToY(s.lat);
+            const rPx = s.radius * scaleMmToPx;
+
+            ctx.beginPath();
+            ctx.arc(x, y, rPx, 0, Math.PI * 2);
+            ctx.fillStyle = s.hitCrack ? 'rgba(16, 185, 129, 0.35)' : 'rgba(245, 158, 11, 0.18)';
+            ctx.fill();
+            ctx.strokeStyle = s.hitCrack ? '#10b981' : 'rgba(245, 158, 11, 0.55)';
+            ctx.lineWidth = s.hitCrack ? 1.8 : 0.9;
+            ctx.stroke();
+
+            ctx.fillStyle = s.hitCrack ? '#10b981' : '#f59e0b';
+            ctx.fillRect(x - 1.5, y - 1.5, 3, 3);
+        });
+
+        // 裂紋軌跡
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 3.2;
+        ctx.beginPath();
+        analysis.crackPts.forEach((cp, idx) => {
+            const x = lonToX(cp.lon);
+            const y = latToY(cp.lat);
+            if (idx === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // 旋轉掃描線
+        const scanX = lonToX(currentAngleDeg);
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(scanX, padT);
+        ctx.lineTo(scanX, padT + plotH);
+        ctx.stroke();
+        ctx.setLineDash([]);
+    }
+
+    function drawAngularSignals(state, analysis) {
+        const canvas = document.getElementById('canvasSignals');
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        const padL = 55, padR = 20, padT = 18, padB = 24;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+
+        ctx.strokeStyle = '#1e293b';
+        ctx.lineWidth = 1;
+        ctx.fillStyle = '#64748b';
+        ctx.font = '10px monospace';
+        for (let lon = 0; lon <= 360; lon += 30) {
+            const x = padL + (lon / 360.0) * plotW;
+            ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + plotH); ctx.stroke();
+            ctx.fillText(`${lon}°`, x - 10, H - 6);
+        }
+
+        // 上軌：模組 1 敲擊聲學
+        if (state.acProbes > 0) {
+            ctx.beginPath();
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 2;
+            for (let lon = 0; lon <= 360; lon += 2) {
+                let minDist = 999;
+                for (let cp of analysis.crackPts) {
+                    const d = calcEggSurfaceDistMm(lon, cp.lat, cp.lon, cp.lat, state.L_mm, state.D_mm);
+                    if (d < minDist) minDist = d;
+                }
+                const drop = Math.exp(-Math.pow(minDist / state.acRadius, 2));
+                const freq = 4100 - 850 * drop;
+                const x = padL + (lon / 360.0) * plotW;
+                const y = padT + (1.0 - (freq - 2900) / 1500) * (plotH * 0.45);
+                if (lon === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            analysis.acSamples.forEach(s => {
+                const x = padL + (s.lon / 360.0) * plotW;
+                const y = padT + (s.hitCrack ? 0.32 : 0.09) * plotH;
+                ctx.beginPath();
+                ctx.arc(x, y, s.hitCrack ? 4.5 : 3, 0, Math.PI * 2);
+                ctx.fillStyle = s.hitCrack ? '#ef4444' : '#38bdf8';
+                ctx.fill();
+            });
+            ctx.fillStyle = '#38bdf8';
+            ctx.fillText(`上軌 (模組 1): 聲學共振主頻 f1 (${state.acProbes} 組探頭啟用)`, padL + 8, padT + 14);
+        } else {
+            ctx.fillStyle = '#64748b';
+            ctx.fillText('上軌 (模組 1): 敲擊聲學共振探頭已設為 0 組 (OFF)', padL + 8, padT + 28);
+        }
+
+        // 下軌：模組 2 空耦超音波
+        if (state.usProbes > 0) {
+            const liftoffFactor = Math.exp(-(state.usLiftoff - 5.0) * 0.045);
+            ctx.beginPath();
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 2;
+            for (let lon = 0; lon <= 360; lon += 1) {
+                let minDist = 999;
+                for (let cp of analysis.crackPts) {
+                    const d = calcEggSurfaceDistMm(lon, cp.lat, cp.lon, cp.lat, state.L_mm, state.D_mm);
+                    if (d < minDist) minDist = d;
+                }
+                const atten = Math.exp(-Math.pow(minDist / state.usRadius, 2));
+                const vpp = (1.85 * liftoffFactor) * (1.0 - 0.72 * atten);
+                const x = padL + (lon / 360.0) * plotW;
+                const y = padT + plotH * 0.52 + (1.0 - vpp / 2.0) * (plotH * 0.44);
+                if (lon === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            analysis.usSamples.forEach(s => {
+                const x = padL + (s.lon / 360.0) * plotW;
+                const y = padT + (s.hitCrack ? 0.88 : 0.60) * plotH;
+                ctx.fillStyle = s.hitCrack ? '#ef4444' : '#f59e0b';
+                ctx.fillRect(x - 2, y - 2, 4, 4);
+            });
+            ctx.fillStyle = '#f59e0b';
+            ctx.fillText(`下軌 (模組 2): 40kHz 空耦超音波 Vpp (${state.usProbes} 對探頭啟用)`, padL + 8, padT + plotH * 0.55);
+        } else {
+            ctx.fillStyle = '#64748b';
+            ctx.fillText('下軌 (模組 2): 40kHz 空耦超音波探頭已設為 0 對 (OFF)', padL + 8, padT + plotH * 0.68);
+        }
+    }
+
+    function updateEngineeringTableAndKpis(state, analysis) {
+        const equatorCircum_mm = Math.PI * state.D_mm;
+        const acStepDeg = 360.0 / state.acPoints;
+        const usStepDeg = 360.0 / state.usPoints;
+        const acEquatorSpacing_mm = equatorCircum_mm / state.acPoints;
+        const usEquatorSpacing_mm = equatorCircum_mm / state.usPoints;
+
+        const acTriggerFreq_hz = state.acProbes > 0 ? (state.acPoints * state.rps) : 0;
+        const usTriggerFreq_hz = state.usProbes > 0 ? (state.usPoints * state.rps) : 0;
+
+        document.getElementById('kpiCoverage').textContent = `${analysis.coveragePct.toFixed(1)} %`;
+        document.getElementById('kpiBlindSpot').textContent = `未覆蓋盲區: ${(100 - analysis.coveragePct).toFixed(1)}%`;
+
+        if (state.acProbes > 0) {
+            document.getElementById('kpiAcSpacing').textContent = `${acEquatorSpacing_mm.toFixed(1)} mm`;
+            document.getElementById('kpiAcAngle').textContent = `步進角 Δθ: ${acStepDeg.toFixed(1)}°`;
+        } else {
+            document.getElementById('kpiAcSpacing').textContent = 'OFF (0組)';
+            document.getElementById('kpiAcAngle').textContent = '模組 1 未啟用';
+        }
+
+        if (state.usProbes > 0) {
+            document.getElementById('kpiUsSpacing').textContent = `${usEquatorSpacing_mm.toFixed(1)} mm`;
+            document.getElementById('kpiUsAngle').textContent = `步進角 Δθ: ${usStepDeg.toFixed(1)}°`;
+        } else {
+            document.getElementById('kpiUsSpacing').textContent = 'OFF (0對)';
+            document.getElementById('kpiUsAngle').textContent = '模組 2 未啟用';
+        }
+
+        document.getElementById('kpiTime').textContent = `${state.totalInspectTime_ms.toFixed(0)} ms`;
+        const throughput = 1000.0 / state.totalInspectTime_ms;
+        document.getElementById('kpiThroughput').textContent = `單道產能: ${throughput.toFixed(1)} 顆/秒`;
+
+        document.getElementById('kpiFreq').textContent = `${acTriggerFreq_hz.toFixed(0)} / ${usTriggerFreq_hz.toFixed(0)} Hz`;
+        const freqWarn = (acTriggerFreq_hz > 40) ? '⚠️ 聲學敲擊過密(餘振干擾)' : '硬體觸發裕度正常';
+        document.getElementById('kpiFreqStatus').textContent = freqWarn;
+
+        const detected = (analysis.acHitCount + analysis.usHitCount) > 0;
+        const statusEl = document.getElementById('kpiDetectStatus');
+        statusEl.textContent = detected ? 'DETECTED (成功攔截)' : 'MISSED (漏檢警告)';
+        statusEl.style.color = detected ? 'var(--accent-green)' : 'var(--accent-red)';
+        document.getElementById('kpiHitsCount').textContent =
+            `聲學命中 ${analysis.acHitCount} 點 | 超音波 ${analysis.usHitCount} 點`;
+
+        const tbody = document.getElementById('probeSpecTableBody');
+        tbody.innerHTML = '';
+
+        if (state.acProbes === 0 && state.usProbes === 0) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td colspan="8" style="text-align:center; color:#ef4444; padding:16px;">目前模組 1 與模組 2 探頭數量皆為 0 組，請至少啟用一組探頭或點擊上方「一鍵最佳化」。</td>`;
+            tbody.appendChild(tr);
+            return;
+        }
+
+        state.acLats.forEach((lat, idx) => {
+            const phi = lat * Math.PI / 180.0;
+            const prof = getEggProfile(phi, state.L_mm, state.D_mm);
+            const circumAtLat = 2 * Math.PI * prof.r_mm;
+            const spacingTheta = circumAtLat / state.acPoints;
+            const dt_ms = 1000.0 / acTriggerFreq_hz;
+
+            let axialDistStr = '基準端';
+            if (idx > 0) {
+                const prevPhi = state.acLats[idx - 1] * Math.PI / 180.0;
+                const prevProf = getEggProfile(prevPhi, state.L_mm, state.D_mm);
+                const dz = Math.hypot(prof.z_mm - prevProf.z_mm, prof.r_mm - prevProf.r_mm);
+                axialDistStr = `${dz.toFixed(1)} mm`;
+            }
+
+            const statusBadge = (dt_ms >= 22.0 && spacingTheta <= state.acRadius * 1.9)
+                ? `<span class="badge-pass">OK (裕度充足)</span>`
+                : `<span class="badge-fail">${dt_ms < 22.0 ? '敲擊過密 (<22ms)' : '點距過大'}</span>`;
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong style="color:#38bdf8;">AC-${idx + 1} (模組1 敲擊聲學)</strong></td>
+                <td>Z = ${prof.z_mm >= 0 ? '+' : ''}${prof.z_mm.toFixed(1)} mm</td>
+                <td>${lat >= 0 ? '+' : ''}${lat}°</td>
+                <td>${prof.r_mm.toFixed(1)} mm</td>
+                <td><strong>${spacingTheta.toFixed(1)} mm</strong> (Δθ=${acStepDeg.toFixed(1)}°)</td>
+                <td>${axialDistStr}</td>
+                <td>${dt_ms.toFixed(1)} ms (${acTriggerFreq_hz.toFixed(1)} Hz)</td>
+                <td>${statusBadge}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        state.usLats.forEach((lat, idx) => {
+            const phi = lat * Math.PI / 180.0;
+            const prof = getEggProfile(phi, state.L_mm, state.D_mm);
+            const circumAtLat = 2 * Math.PI * prof.r_mm;
+            const spacingTheta = circumAtLat / state.usPoints;
+            const dt_ms = 1000.0 / usTriggerFreq_hz;
+
+            let axialDistStr = '基準端';
+            if (idx > 0) {
+                const prevPhi = state.usLats[idx - 1] * Math.PI / 180.0;
+                const prevProf = getEggProfile(prevPhi, state.L_mm, state.D_mm);
+                const dz = Math.hypot(prof.z_mm - prevProf.z_mm, prof.r_mm - prevProf.r_mm);
+                axialDistStr = `${dz.toFixed(1)} mm`;
+            }
+
+            const statusBadge = (spacingTheta <= state.usRadius * 1.85 && state.usLiftoff <= 12.0)
+                ? `<span class="badge-pass">OK (瑞利波連續)</span>`
+                : `<span class="badge-fail">${state.usLiftoff > 12.0 ? '提離衰減過大' : '周向點距過疏'}</span>`;
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong style="color:#f59e0b;">US-${idx + 1} (模組2 空耦超音波)</strong></td>
+                <td>Z = ${prof.z_mm >= 0 ? '+' : ''}${prof.z_mm.toFixed(1)} mm</td>
+                <td>${lat >= 0 ? '+' : ''}${lat}°</td>
+                <td>${prof.r_mm.toFixed(1)} mm</td>
+                <td><strong>${spacingTheta.toFixed(1)} mm</strong> (Δθ=${usStepDeg.toFixed(1)}°)</td>
+                <td>${axialDistStr}</td>
+                <td>${dt_ms.toFixed(1)} ms (${usTriggerFreq_hz.toFixed(1)} Hz)</td>
+                <td>${statusBadge}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // 一鍵最佳化工程演算法 (支援雙模組、純模組1、純模組2 自動判別)
+    function runOneClickOptimization(strategy) {
+        currentStrategy = strategy;
+        document.getElementById('optBalanced').classList.toggle('active', strategy === 'balanced');
+        document.getElementById('optSpeed').classList.toggle('active', strategy === 'speed');
+        document.getElementById('optPrecision').classList.toggle('active', strategy === 'precision');
+
+        const L_mm = parseFloat(document.getElementById('eggLength').value);
+        const D_mm = parseFloat(document.getElementById('eggDia').value);
+        const acRadius = parseFloat(document.getElementById('acRadius').value);
+        const usRadius = parseFloat(document.getElementById('usRadius').value);
+
+        const equatorCircum = Math.PI * D_mm;
+        const meridianArc = 0.5 * Math.PI * (0.5 * (L_mm + D_mm));
+
+        let optAcProbes = 0, optAcPoints = 6, optUsProbes = 0, optUsPoints = 18, optRpm = 180, optRevs = 1.0, optLiftoff = 6.0;
+
+        if (currentSensorMode === 'only_m1') {
+            // 純模組 1 (敲擊聲學共振，超音波固定為 0 組)
+            optUsProbes = 0;
+            if (strategy === 'speed') {
+                optAcProbes = Math.min(6, Math.max(3, Math.ceil(meridianArc / (acRadius * 1.75))));
+                optAcPoints = Math.max(6, Math.ceil(equatorCircum / (acRadius * 1.70)));
+                optRpm = Math.min(340, Math.floor((36.0 / optAcPoints) * 60.0 / 5) * 5);
+                optRevs = 1.0;
+            } else if (strategy === 'precision') {
+                optAcProbes = Math.min(6, Math.max(4, Math.ceil(meridianArc / (acRadius * 1.25))));
+                optAcPoints = Math.min(14, Math.max(9, Math.ceil(equatorCircum / (acRadius * 1.25))));
+                optRpm = Math.min(220, Math.floor((28.0 / optAcPoints) * 60.0 / 5) * 5);
+                optRevs = 1.25;
+            } else {
+                optAcProbes = Math.min(6, Math.max(4, Math.ceil(meridianArc / (acRadius * 1.45))));
+                optAcPoints = Math.min(12, Math.max(8, Math.ceil(equatorCircum / (acRadius * 1.45))));
+                optRpm = Math.min(260, Math.floor((32.0 / optAcPoints) * 60.0 / 5) * 5);
+                optRevs = 1.0;
+            }
+        } else if (currentSensorMode === 'only_m2') {
+            // 純模組 2 (40kHz 空耦超音波，敲擊聲學固定為 0 組)
+            optAcProbes = 0;
+            if (strategy === 'speed') {
+                optUsProbes = Math.min(6, Math.max(4, Math.ceil(meridianArc / (usRadius * 1.85))));
+                optUsPoints = Math.max(16, Math.ceil(equatorCircum / (usRadius * 1.55)));
+                optRpm = 330; // 純超音波無機械電磁閥餘振限制，可拉高轉速
+                optRevs = 1.0;
+                optLiftoff = 6.5;
+            } else if (strategy === 'precision') {
+                optUsProbes = 6;
+                optUsPoints = Math.min(34, Math.max(24, Math.ceil(equatorCircum / (usRadius * 1.15))));
+                optRpm = 240;
+                optRevs = 1.25;
+                optLiftoff = 4.5;
+            } else {
+                optUsProbes = Math.min(6, Math.max(5, Math.ceil(meridianArc / (usRadius * 1.55))));
+                optUsPoints = Math.min(28, Math.max(20, Math.ceil(equatorCircum / (usRadius * 1.30))));
+                optRpm = 285;
+                optRevs = 1.0;
+                optLiftoff = 5.5;
+            }
+        } else {
+            // 雙模組融合模式
+            if (strategy === 'speed') {
+                optAcProbes = Math.max(2, Math.ceil(meridianArc / (acRadius * 2.1)));
+                optAcPoints = Math.max(5, Math.ceil(equatorCircum / (acRadius * 1.95)));
+                optUsProbes = Math.max(3, Math.ceil(meridianArc / (usRadius * 2.2)));
+                optUsPoints = Math.max(12, Math.ceil(equatorCircum / (usRadius * 1.75)));
+                optRpm = Math.min(360, Math.floor((36.0 / optAcPoints) * 60.0 / 5) * 5);
+                optRevs = 1.0;
+                optLiftoff = 6.5;
+            } else if (strategy === 'precision') {
+                optAcProbes = Math.min(5, Math.ceil(meridianArc / (acRadius * 1.45)));
+                optAcPoints = Math.min(12, Math.ceil(equatorCircum / (acRadius * 1.35)));
+                optUsProbes = Math.min(6, Math.ceil(meridianArc / (usRadius * 1.45)));
+                optUsPoints = Math.min(28, Math.ceil(equatorCircum / (usRadius * 1.25)));
+                optRpm = Math.min(210, Math.floor((28.0 / optAcPoints) * 60.0 / 5) * 5);
+                optRevs = 1.25;
+                optLiftoff = 5.0;
+            } else {
+                optAcProbes = Math.min(4, Math.max(3, Math.ceil(meridianArc / (acRadius * 1.75))));
+                optAcPoints = Math.min(10, Math.max(6, Math.ceil(equatorCircum / (acRadius * 1.65))));
+                optUsProbes = Math.min(5, Math.max(4, Math.ceil(meridianArc / (usRadius * 1.75))));
+                optUsPoints = Math.min(24, Math.max(16, Math.ceil(equatorCircum / (usRadius * 1.45))));
+                optRpm = Math.min(270, Math.floor((30.0 / optAcPoints) * 60.0 / 5) * 5);
+                optRevs = 1.0;
+                optLiftoff = 6.0;
+            }
+        }
+
+        // 確保雙數點位對齊 UI step
+        if (optUsPoints % 2 !== 0) optUsPoints += 1;
+
+        document.getElementById('acProbes').value = optAcProbes;
+        document.getElementById('acPoints').value = optAcPoints;
+        document.getElementById('usProbes').value = optUsProbes;
+        document.getElementById('usPoints').value = optUsPoints;
+        document.getElementById('eggRpm').value = optRpm;
+        document.getElementById('targetRevs').value = optRevs;
+        document.getElementById('usLiftoff').value = optLiftoff;
+
+        updateModeButtonsUI();
+        refreshAllViews();
+
+        const toast = document.getElementById('optMessage');
+        toast.style.display = 'block';
+        const modeTitle = currentSensorMode === 'only_m1' ? '純模組1 (聲學)' : (currentSensorMode === 'only_m2' ? '純模組2 (超音波)' : '雙模態融合');
+        toast.innerHTML = `✅ <strong>MaxJim Auto-Optimizer [${modeTitle}]：</strong><br>聲學 ${optAcProbes} 組 (${optAcProbes > 0 ? optAcPoints + '點/圈' : 'OFF'}) + 超音波 ${optUsProbes} 對 (${optUsProbes > 0 ? optUsPoints + '點/圈' : 'OFF'}) @ ${optRpm} RPM`;
+    }
+
+    // 當手動拉動滑桿把某模組拉到 0 組時，自動同步頂部模式按鈕狀態
+    function onManualChange() {
+        document.getElementById('optMessage').style.display = 'none';
+        const acCount = parseInt(document.getElementById('acProbes').value);
+        const usCount = parseInt(document.getElementById('usProbes').value);
+
+        if (acCount > 0 && usCount === 0) currentSensorMode = 'only_m1';
+        else if (acCount === 0 && usCount > 0) currentSensorMode = 'only_m2';
+        else if (acCount > 0 && usCount > 0) currentSensorMode = 'dual';
+
+        updateModeButtonsUI();
+        refreshAllViews();
+    }
+
+    function toggleAnimation() {
+        isPlaying = !isPlaying;
+        document.getElementById('btnPlayPause').textContent = isPlaying ? '⏸ 暫停旋轉' : '▶ 啟動旋轉';
+    }
+
+    function resetRotation() {
+        currentAngleDeg = 0;
+        refreshAllViews();
+    }
+
+    function randomizeCrack() {
+        const randomLon = Math.floor(Math.random() * 70) * 5;
+        const randomLat = Math.floor((Math.random() * 110) - 55);
+        document.getElementById('crackLon').value = randomLon;
+        document.getElementById('crackLat').value = randomLat;
+        refreshAllViews();
+    }
+
+    function refreshAllViews() {
+        const state = getSystemState();
+        const analysis = analyzeCoverageAndHits(state);
+        drawMechanicalRig(state, analysis);
+        drawUnwrappedSurfaceMap(state, analysis);
+        drawAngularSignals(state, analysis);
+        updateEngineeringTableAndKpis(state, analysis);
+    }
+
+    function animationLoop(timestamp) {
+        const dt_sec = (timestamp - lastTimestamp) / 1000.0;
+        lastTimestamp = timestamp;
+
+        if (isPlaying) {
+            const state = getSystemState();
+            const visualSpeedScale = 0.12;
+            currentAngleDeg = (currentAngleDeg + state.degPerSec * visualSpeedScale * dt_sec) % 360.0;
+            document.getElementById('angleIndicator').textContent = `θ = ${currentAngleDeg.toFixed(1)}° (0.12x 慢動作觀測)`;
+
+            const analysis = analyzeCoverageAndHits(state);
+            drawMechanicalRig(state, analysis);
+            drawUnwrappedSurfaceMap(state, analysis);
+        }
+        requestAnimationFrame(animationLoop);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        selectSensorMode('dual');
+        requestAnimationFrame(animationLoop);
+    });
+</script>
+</body>
+</html>
