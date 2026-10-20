@@ -3270,6 +3270,18 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
         showToast(`已成功將「${name}」加入全球水下載具模型庫！`, 'success');
       });
 
+      function exportChartCanvas(id) {
+        const source = document.getElementById(id);
+        const chart = source && Chart.getChart(source);
+        if (!chart) return source && source.width && source.height ? source : null;
+        chart.resize(760, 420);
+        chart.update('none');
+        const copy = document.createElement('canvas');
+        copy.width = source.width; copy.height = source.height;
+        if (copy.width && copy.height) copy.getContext('2d').drawImage(source, 0, 0);
+        chart.resize();
+        return copy.width && copy.height ? copy : null;
+      }
       // Watermarked Subsea Engineering Photo Exporter (3 Modes)
       let currentPhotoMode = 'datasheet';
       function renderWatermarkedPhotoCanvas(mode = currentPhotoMode) {
@@ -3328,7 +3340,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
             ctx.fillStyle = '#22d3ee';
             ctx.font = 'bold 15px "Inter", sans-serif';
             ctx.fillText(titles[idx], x + 14, y + 24);
-            const srcC = document.getElementById(cid);
+            const srcC = exportChartCanvas(cid);
             if (srcC) ctx.drawImage(srcC, x + 12, y + 34, cellW - 24, cellH - 44);
           });
         } else {
@@ -3372,8 +3384,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
             ctx.fillText(r[2], 1335, py);
           });
 
-          const c1 = document.getElementById('ChartDragSpeed');
-          const c2 = document.getElementById('ChartHullStressDepth');
+          const c1 = exportChartCanvas('ChartDragSpeed');
+          const c2 = exportChartCanvas('ChartHullStressDepth');
           if (c1) {
             ctx.fillStyle = '#071529'; ctx.fillRect(812, 396, 368, 444);
             ctx.strokeStyle = '#1e3a5f'; ctx.strokeRect(812, 396, 368, 444);
@@ -3410,7 +3422,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
         ctx.strokeRect(16, H - 64, W - 32, 48);
         ctx.fillStyle = '#22d3ee';
         ctx.font = 'bold 14px "JetBrains Mono", monospace';
-        ctx.fillText(`© 肇祥企業社 MaxJim Tech Inc. (https://maxjimtech.com/) | 水下載具機構設計・深海耐壓艙開發・流體 CAE 驗證 | 匯出時間：${new Date().toLocaleString('zh-TW')}`, 32, H - 34);
+        ctx.fillText(`© 肇祥企業社 MaxJim Tech Inc. (https://maxjimtech.com/) | 水下載具機構設計・深海耐壓艙開發・流體 CAE 估算 | 匯出時間：${new Date().toLocaleString('zh-TW')}`, 32, H - 34);
       }
 
       const photoModal = document.getElementById('PhotoExportModal');
@@ -3447,7 +3459,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
         const exportObj = {
           companyHeader: '肇祥企業社 MaxJim Tech Inc. (https://maxjimtech.com/)',
           engineerContact: '張哲肇 (Alex Chang) | 0931-675001',
-          watermark: 'MaxJim Tech. Official Verified Subsea UUV/AUV/ROV CAD/CAE Specification',
+          watermark: 'MaxJim Tech. Subsea Simulation Estimate UUV/AUV/ROV CAD/CAE Specification',
           system: '肇祥企業社 MaxJim Tech Inc. — HydroVanguard CAD/CAE Studio Pro v5.0',
           timestamp: new Date().toISOString(),
           selectedModelId: STATE.selectedModelId,
