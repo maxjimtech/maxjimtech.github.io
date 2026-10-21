@@ -59,7 +59,7 @@ export function analyzeSTEP(oc,bytes,name='part.step'){
   const model={name,size,vertices,triangles,features,supported,difference_mm3:difference,
    frame:'G54 X/Y finished bbox minimum; finished top Z0; +Z tool axis',
    audit:{valid,solid_count:solidCount,face_count:faceCount,volume_mm3:V,bounds_mm:b,size_mm:size,engine:'OpenCascade.js 1.1.1 / OCCT 7.4 WASM'},
-   limitations:supported?[]:['不符合本版單一實體、矩形塊＋頂開矩形口袋＋垂直通孔的精確重建條件。可預覽，禁止 NC。']};
+   limitations:supported?[]:['不符合 2.5D 精確特徵模式的矩形塊＋頂開矩形口袋＋垂直通孔條件；可改用整合三軸高度場模式檢查曲面、凸台、孔洞與深槽。']};
   model.surface=inspectSurface(model);
   return model;
  }finally{

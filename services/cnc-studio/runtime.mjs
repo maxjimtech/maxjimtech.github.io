@@ -15,7 +15,7 @@ export function callEngine(operation,payload){
 export async function browserAPI(path,body,headers){
  if(path==='/api/status'){
   const response=await fetch(new URL('./catalog.json',import.meta.url));if(!response.ok)throw Error('刀具目錄讀取失敗');
-  return {version:'0.5.0',shared_version:'0.2.0',catalog:await response.json(),laya_enabled:false,laya:{loaded:false,status:'REPLACED_BY_OPTIONAL_MINILM'}};
+  return {version:'0.6.0',shared_version:'0.2.0',catalog:await response.json(),laya_enabled:false,laya:{loaded:false,status:'REPLACED_BY_OPTIONAL_MINILM'}};
  }
  if(path==='/api/upload')return callEngine('analyze',{bytes:await body.arrayBuffer(),name:decodeURIComponent(headers['X-Filename'])});
  if(path==='/api/demo'){

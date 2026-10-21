@@ -3,7 +3,7 @@ import {runLite,stopLite} from './lite-runtime.mjs';
 import {applyLiteAdvice,confirmLiteReview} from './decision-lite.mjs';
 import {renderStock,simulationFrame} from './stock-view.mjs';
 import {stockAsSTL} from './stock-stl.mjs';
-const APP_VERSION='0.5.0';
+const APP_VERSION='0.6.0';
 let ncURL=null;
 'use strict';
 const $=id=>document.getElementById(id);
@@ -33,25 +33,25 @@ function clearPlan(){if(ncURL){URL.revokeObjectURL(ncURL);ncURL=null;}
 }
 function labelOptions(id,items){$(id).replaceChildren(...items.map(item=>{let option=document.createElement('option');option.value=item.id;option.textContent=item.name;return option;}));}
 function machineFields(){const m=catalog.machines.find(m=>m.id===$('machine').value);['x','y','z'].forEach((v,i)=>$('travel_'+v).value=m.travel[i]);$('rpm_limit').value=m.rpm;$('feed_limit').value=m.feed;}
-function toolInfo(){const t=catalog?.tools.find(t=>t.id===$('tool').value);if(t)$('toolinfo').textContent=`T${t.number} · Ø${t.diameter} mm · 有效刃長 ${t.flute_length} mm · 伸出 ${t.length} mm · 刀柄 Ø${t.holder_diameter} mm。`+(t.kind==='ballmill'?'僅限 +Z 三軸曲面掃描，保留未加工邊界。':'通孔依孔徑自動配對目錄鑽頭。');}
+function toolInfo(){const t=catalog?.tools.find(t=>t.id===$('tool').value);if(t)$('toolinfo').textContent=`T${t.number} · Ø${t.diameter} mm · 有效刃長 ${t.flute_length} mm · 伸出 ${t.length} mm · 刀柄 Ø${t.holder_diameter} mm。`+(t.kind==='ballmill'?'用於 +Z 可達曲面／孔槽精修，保留未加工邊界。':'通孔依孔徑自動配對目錄鑽頭。');}
 function surfaceMode(){return $('machining_mode').value==='surface';}
 function showModelReview(){
  if(!model)return;
  const surface=surfaceMode(),ok=surface?model.surface?.supported:model.supported;
- $('modelstate').textContent=ok?(surface?'曲面高度場可規劃 · +Z 球刀':'2.5D 幾何已辨識 · +Z 加工'):'目前模式僅供預覽 · 不支援此加工';
- $('featurecount').textContent=surface?(model.surface?.supported?'1 曲面':'—'):model.features.length;
+ $('modelstate').textContent=ok?(surface?'整合高度場可規劃 · +Z 三軸':'2.5D 幾何已辨識 · +Z 加工'):'目前模式僅供預覽 · 不支援此加工';
+ $('featurecount').textContent=surface?(model.surface?.supported?'曲面／孔槽':'—'):model.features.length;
  $('review').replaceChildren();
- if(surface)reviewLine(ok?`STEP 單實體高度場支援檢查通過；頂面 ${model.surface.triangles} 個網格三角形，Z 最低 ${model.surface.lowest_z.toFixed(3)} mm。`:`曲面雕刻阻擋：${model.surface?.reason||'無法辨識曲面'}`,!ok);
+ if(surface)reviewLine(ok?`STEP 單實體 +Z 可達高度場通過；${model.surface.triangles} 個上表面三角形，Z 最低 ${model.surface.lowest_z.toFixed(3)} mm，通底／外形空白取樣 ${model.surface.void_sample_pct}% 。`:`整合高度場阻擋：${model.surface?.reason||'無法辨識 +Z 可達表面'}`,!ok);
  else reviewLine(ok?`WASM BREP 精確支援檢查通過；重建體積差 ${model.difference_mm3.toFixed(5)} mm³。`:model.limitations.join(' '),!ok);
  reviewLine('座標為成品包圍盒 X/Y 最小值、頂面 Z0；刀軸固定 +Z。原始 STEP 不會改寫。');
- if(surface)reviewLine('曲面為網格近似工程草稿；未檢查完整機械干涉與實際材料移除。');
+ if(surface)reviewLine('可整合曲面、凸台、平面盲孔／通孔投影與深槽；倒扣、側孔、封閉內腔仍不支援。');
 }
 function updateMode(){
  const surface=surfaceMode();
  $('surface-options').hidden=!surface;$('rough-options').hidden=surface;$('rough-parameters').hidden=surface;
- $('surface-status').textContent=!model?'曲面支援狀態：尚未載入 STEP':model.surface?.supported?
-  `曲面支援：完整 XY 高度場 · ${model.surface.triangles} 面 · 最低 Z ${model.surface.lowest_z.toFixed(2)} mm`:
-  `曲面不支援：${model.surface?.reason||'未辨識到符合限制的曲面'}`;
+ $('surface-status').textContent=!model?'整合高度場支援狀態：尚未載入 STEP':model.surface?.supported?
+  `整合高度場：+Z 可達 · ${model.surface.triangles} 面 · 最低 Z ${model.surface.lowest_z.toFixed(2)} mm`:
+  `整合高度場不支援：${model.surface?.reason||'未辨識到 +Z 可達表面'}`;
  $('use_lite').disabled=surface;$('lite-label').title=surface?'曲面模式僅由確定性幾何規則決策':'';
  if(surface)$('use_lite').checked=false;
  if(catalog){
@@ -59,7 +59,7 @@ function updateMode(){
   labelOptions('tool',tools);
   $('tool').value=surface?'ball6':roughTool;
   if(!$('tool').value)$('tool').selectedIndex=0;
-  $('tool-label').firstChild.textContent=surface?'球頭銑刀':'口袋／面銑刀';
+  $('tool-label').firstChild.textContent=surface?'精修球頭銑刀':'口袋／面銑刀';
   toolInfo();
  }
  showModelReview();
@@ -83,7 +83,7 @@ function acceptModel(result){model=result.model;clearPlan();for(const [key,value
 async function importFile(file){if(!file||busy)return;clearPlan();setBusy(true,'讀取 STEP 幾何…');try{acceptModel(await job('/api/upload',file,{'Content-Type':'application/octet-stream','X-Filename':encodeURIComponent(file.name)}));toast('STEP 已載入');}catch(e){toast(e.message);}finally{setBusy(false);$('file').value='';}}
 $('upload').onclick=()=>$('file').click();$('file').onchange=()=>importFile($('file').files[0]);$('upload').ondragover=e=>e.preventDefault();$('upload').ondrop=e=>{e.preventDefault();importFile(e.dataTransfer.files[0]);};
 $('demo').onclick=async()=>{setBusy(true,'在 WASM 讀取實際範例 STEP…');try{acceptModel(await job('/api/demo',{}));toast('範例工件已載入');}catch(e){toast(e.message);}finally{setBusy(false);}};
-$('surface-demo').onclick=async()=>{setBusy(true,'在 WASM 讀取凹弧曲面 STEP…');try{acceptModel(await job('/api/surface-demo',{}));$('machining_mode').value='surface';updateMode();toast('曲面 STEP 已載入；請確認預粗加工後規劃球刀刀路');}catch(e){toast(e.message);}finally{setBusy(false);}};
+$('surface-demo').onclick=async()=>{setBusy(true,'在 WASM 讀取凹弧曲面 STEP…');try{acceptModel(await job('/api/surface-demo',{}));$('machining_mode').value='surface';updateMode();toast('曲面 STEP 已載入；可直接建立平刀粗加工＋球刀精修整合刀路');}catch(e){toast(e.message);}finally{setBusy(false);}};
 $('source_mode').onchange=()=>{
  if(busy)return;
  clearPlan();const importing=isGcodeMode();
@@ -103,8 +103,8 @@ $('gcode-file').onchange=async()=>{
  }catch(e){gcodeSource='';$('gcode-name').textContent='匯入 CNC G-code';toast(e.message);}finally{$('gcode-file').value='';}
 };
 $('gcode-demo').onclick=async()=>{
- try{clearPlan();const res=await fetch(new URL('./examples/removal-demo.nc',import.meta.url));if(!res.ok)throw Error('G-code 範例不存在');
-  gcodeSource=await res.text();$('gcode-name').textContent='removal-demo.nc';clearPlan();toast('FANUC 三軸 G01 除料範例已讀取');
+ try{clearPlan();const res=await fetch(new URL('./examples/arc-removal-demo.nc',import.meta.url));if(!res.ok)throw Error('G-code 範例不存在');
+  gcodeSource=await res.text();$('gcode-name').textContent='arc-removal-demo.nc';clearPlan();toast('FANUC G02／G03 圓弧除料範例已讀取');
  }catch(e){gcodeSource='';$('gcode-name').textContent='匯入 CNC G-code';toast(e.message);}
 };
 $('gcode-form').onsubmit=async e=>{
@@ -146,7 +146,7 @@ $('setup').onsubmit=async e=>{
    strategy=advice.answers.strategy.choice;
    autoForCam=false; // AI suggestions already passed the numeric candidate gates.
   }
-  const surfaceOptions={stepover_mm:Number($('surface_stepover').value),sample_mm:Number($('surface_sample').value),finish_allowance_mm:Number($('surface_allowance').value),pre_roughed:$('pre_roughed').checked};
+  const surfaceOptions={stepover_mm:Number($('surface_stepover').value),sample_mm:Number($('surface_sample').value),finish_allowance_mm:Number($('surface_allowance').value),rough_allowance_mm:Number($('surface_rough_allowance').value),rough_tool:$('surface-rough-tool').value,pre_roughed:$('pre_roughed').checked};
   const result=await callEngine(surface?'surfacePlan':'plan',{model,settings:draftSettings,auto_machine:autoForCam,strategy,surface:surfaceOptions});
   if(lite)applyLiteAdvice(result,advice); // Always require human review; do not generate NC yet.
   acceptPlan(result);
@@ -221,11 +221,10 @@ function draw(){const rect=canvas.getBoundingClientRect();if(!rect.width)return;
 }
 function animate(now){if(playing&&plan){elapsed=Math.min(total,elapsed+(now-last)/1000*Number($('speed').value));if(elapsed>=total){playing=false;$('play').textContent='▶';}draw();}last=now;requestAnimationFrame(animate);}requestAnimationFrame(animate);new ResizeObserver(draw).observe(canvas.parentElement);
 api('/api/status').then(data=>{
- catalog=data.catalog;labelOptions('machine',catalog.machines);labelOptions('gcode-machine',catalog.machines);labelOptions('material',catalog.materials);labelOptions('fixture',catalog.fixtures);
+ catalog=data.catalog;labelOptions('machine',catalog.machines);labelOptions('gcode-machine',catalog.machines);labelOptions('material',catalog.materials);labelOptions('fixture',catalog.fixtures);labelOptions('surface-rough-tool',catalog.tools.filter(t=>t.kind==='endmill'));$('surface-rough-tool').value='em6';
  labelOptions('gcode-material',catalog.materials);labelOptions('gcode-tool',catalog.tools);$('gcode-tool').value='em6';$('gcode-material').value='al6061';
  machineFields();updateMode();$('service').textContent='瀏覽器版 '+data.version+' · WASM 按需載入';$('use_lite').checked=false;draw();
 }).catch(e=>{$('service').textContent='瀏覽器資源載入失敗';toast(e.message);});
 
 $('cancel').onclick=()=>{stopEngine();stopLite();};
 window.addEventListener('beforeunload',()=>{stopEngine();stopLite();if(ncURL)URL.revokeObjectURL(ncURL);});
-

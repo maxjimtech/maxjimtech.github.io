@@ -112,8 +112,8 @@ export function gcode(plan,catalog){
  const tools=Object.fromEntries(catalog.tools.map(t=>[t.id,t])),safe=plan.settings.safe_z;
  const isSurface=plan.strategy==='surface_raster';
  const lines=['%','O1001 (CNC STUDIO BROWSER - FANUC DRAFT)',`(PLAN ${plan.id||'LOCAL'})`,`(MATERIAL ${plan.settings.material} - STARTING VALUES ONLY)`,
-  isSurface?'(BALL-NOSE SURFACE SAMPLE - PRE-ROUGHED STOCK REQUIRED)':'(ROUGHING ONLY - POCKET CORNER STOCK REMAINS)',
-  isSurface?'(MESH APPROXIMATION AND ALLOWANCE - VERIFY BALL COLLISION)':'(2.5D PLANAR ROUGHING)',
+  isSurface?(plan.surface_settings?.integrated_roughing?'(INTEGRATED FLAT-END ROUGHING AND BALL-NOSE FINISH)':'(BALL-NOSE FINISH - PRE-ROUGHED STOCK CONFIRMED)'):'(ROUGHING ONLY - POCKET CORNER STOCK REMAINS)',
+  isSurface?'(TOP-ACCESSIBLE MESH APPROXIMATION - VERIFY TOOL AND HOLDER COLLISION)':'(2.5D PLANAR ROUGHING)',
   '(G54 X/Y FINISHED BBOX MIN - FINISHED TOP Z0)','(VERIFY G54 H OFFSETS FIXTURE AND TOOLCHANGE)','G21 G17 G90 G94 G40 G80','G54'];let active=null;
  for(const op of plan.operations){const opMoves=plan.moves.filter(m=>m.op===op.id);if(!opMoves.length)continue;const t=tools[op.tool];if(active!==t.id){if(active!==null)lines.push(`G00 Z${safe.toFixed(4)}`,'M09','M05');lines.push('M00 (MANUALLY VERIFY SAFE TOOLCHANGE POSITION)',`T${String(t.number).padStart(2,'0')} M06`,`G00 G43 H${String(t.number).padStart(2,'0')} Z${safe.toFixed(4)}`,`S${op.rpm} M03`,'M08');active=t.id;}lines.push(`(OP ${op.id+1})`);for(const m of opMoves){let line=`${m.mode} X${m.b[0].toFixed(4)} Y${m.b[1].toFixed(4)} Z${m.b[2].toFixed(4)}`;if(m.mode==='G1')line+=` F${m.feed.toFixed(1)}`;lines.push(line);}}
  lines.push(`G00 Z${safe.toFixed(4)}`,'M09','M05','M30','%');return lines.join('\n')+'\n';
