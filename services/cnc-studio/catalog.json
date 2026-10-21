@@ -12,7 +12,8 @@
   "tools": [
     {"id":"em6","name":"T1 · Ø6 中心切削平底銑刀","number":1,"kind":"endmill","diameter":6,"flutes":4,"flute_length":22,"length":60,"holder_diameter":25,"holder_length":40},
     {"id":"em10","name":"T2 · Ø10 中心切削平底銑刀","number":2,"kind":"endmill","diameter":10,"flutes":4,"flute_length":30,"length":70,"holder_diameter":32,"holder_length":40},
-    {"id":"drill12","name":"T3 · Ø12 麻花鑽","number":3,"kind":"drill","diameter":12,"flutes":2,"flute_length":45,"length":85,"holder_diameter":28,"holder_length":40}
+    {"id":"drill12","name":"T3 · Ø12 麻花鑽","number":3,"kind":"drill","diameter":12,"flutes":2,"flute_length":45,"length":85,"holder_diameter":28,"holder_length":40},
+    {"id":"ball6","name":"T4 · Ø6 球頭銑刀（曲面）","number":4,"kind":"ballmill","diameter":6,"flutes":2,"flute_length":22,"length":65,"holder_diameter":25,"holder_length":40}
   ],
   "fixtures": [
     {"id":"vise","name":"虎鉗／平行墊塊","note":"需自行設定並核對顎口與墊塊；檢查使用下列包絡盒"},

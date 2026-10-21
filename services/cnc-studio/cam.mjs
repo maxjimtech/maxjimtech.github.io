@@ -31,6 +31,33 @@ export function chooseMachine(model,settings,catalog){
  const candidates=catalog.machines.filter(m=>m.travel.every((v,i)=>v>=required[i])).sort((a,b)=>a.travel.reduce((x,y)=>x*y,1)-b.travel.reduce((x,y)=>x*y,1));
  return {machine:candidates[0]?.id||settings.machine,required_mm:required,candidates:candidates.map(m=>m.id),method:'numeric-capacity-rule; not Laya'};
 }
+export function inspectMotion(moves,settings,catalog){
+ const machine=settings.resolved_machine,collisions=[],blockers=[];
+ const tools=Object.fromEntries(catalog.tools.map(t=>[t.id,t]));
+ let time=0,cutLength=0;
+ const min=[Infinity,Infinity,Infinity],max=[-Infinity,-Infinity,-Infinity];let maxRadius=0,maxHeight=0;
+ for(const [i,m] of moves.entries()){
+  const t=tools[m.tool];if(!t)throw Error('刀路中有不存在的刀具');
+  const length=Math.hypot(...m.b.map((v,j)=>v-m.a[j]));
+  time+=length/(m.mode==='G0'?machine.rapid:m.feed);
+  if(m.mode==='G1')cutLength+=length;
+  for(let bi=0;bi<settings.fixture_boxes.length&&collisions.length<=100;bi++){
+   const b=settings.fixture_boxes[bi];
+   if(segmentBox(m.a,m.b,b,t.diameter/2,0,t.length)||
+      segmentBox(m.a,m.b,b,t.holder_diameter/2,t.length,t.length+t.holder_length))collisions.push({move:i,box:bi});
+  }
+  for(let axis=0;axis<3;axis++){
+   min[axis]=Math.min(min[axis],m.a[axis],m.b[axis]);max[axis]=Math.max(max[axis],m.a[axis],m.b[axis]);
+  }
+  maxRadius=Math.max(maxRadius,t.diameter/2);
+  maxHeight=Math.max(maxHeight,t.length+t.holder_length);
+ }
+ if(collisions.length)blockers.push('刀具／刀柄掃掠包絡與治具盒相交，禁止輸出。');
+ if(moves.length&&min.some((v,i)=>max[i]-v+(i<2?2*maxRadius:maxHeight)>machine.travel[i]))
+  blockers.push('刀具掃掠範圍超出母機行程範本；尚未核對實際機械座標極限。');
+ return {minutes:time,cut_mm:cutLength,collisions,blockers};
+}
+
 export function buildPlan(model,supplied,catalog,strategy='raster'){
  const c=validate(model,supplied,catalog),machine=c.resolved_machine,material=catalog.materials.find(v=>v.id===c.material),tool=catalog.tools.find(v=>v.id===c.tool);
  if(tool.kind!=='endmill')throw Error('面銑／口袋需中心切削平底銑刀');
@@ -77,21 +104,17 @@ export function buildPlan(model,supplied,catalog,strategy='raster'){
   }
   if(!moves.length)blockers.push('此素材沒有可支援的加工，未產生刀路。');
  }
- const collisions=[],tools=Object.fromEntries(catalog.tools.map(t=>[t.id,t]));let time=0,cutLength=0;
- let min=[Infinity,Infinity,Infinity],max=[-Infinity,-Infinity,-Infinity],maxRadius=0,maxHeight=0;
- for(const [i,m]of moves.entries()){
-  const t=tools[m.tool],length=Math.hypot(...m.b.map((v,i)=>v-m.a[i]));time+=length/(m.mode==='G0'?machine.rapid:m.feed);if(m.mode==='G1')cutLength+=length;
-  for(let bi=0;bi<c.fixture_boxes.length&&collisions.length<=100;bi++){const b=c.fixture_boxes[bi];if(segmentBox(m.a,m.b,b,t.diameter/2,0,t.length)||segmentBox(m.a,m.b,b,t.holder_diameter/2,t.length,t.length+t.holder_length))collisions.push({move:i,box:bi});}
-  for(let a=0;a<3;a++){min[a]=Math.min(min[a],m.a[a],m.b[a]);max[a]=Math.max(max[a],m.a[a],m.b[a]);}maxRadius=Math.max(maxRadius,t.diameter/2);maxHeight=Math.max(maxHeight,t.length+t.holder_length);
- }
- if(collisions.length)blockers.push('刀具／刀柄掃掠包絡與治具盒相交，禁止輸出。');
- if(moves.length&&min.some((v,i)=>max[i]-v+(i<2?2*maxRadius:maxHeight)>machine.travel[i]))blockers.push('刀具掃掠範圍超出母機行程範本；尚未核對實際機械座標極限。');
- return {settings:c,tasks,operations:ops,moves,strategy,blockers:[...new Set(blockers)],warnings,collisions,minutes:Math.round(time*100)/100,cut_mm:Math.round(cutLength*10)/10,status:blockers.length?'BLOCKED':'DRAFT',scope:'Browser exact-BREP gate; bounded three-axis 2.5D roughing only',ai:{status:'RULES_ENGINE',executed:false,review_required:false}};
+ const inspection=inspectMotion(moves,c,catalog);blockers.push(...inspection.blockers);
+ return {settings:c,tasks,operations:ops,moves,strategy,blockers:[...new Set(blockers)],warnings,collisions:inspection.collisions,minutes:Math.round(inspection.minutes*100)/100,cut_mm:Math.round(inspection.cut_mm*10)/10,status:blockers.length?'BLOCKED':'DRAFT',scope:'Browser exact-BREP gate; bounded three-axis 2.5D roughing only',ai:{status:'RULES_ENGINE',executed:false,review_required:false}};
 }
 export function gcode(plan,catalog){
  if(plan.blockers.length||!plan.moves.length)throw Error('目前計畫有阻擋項目，不能輸出 NC');
  const tools=Object.fromEntries(catalog.tools.map(t=>[t.id,t])),safe=plan.settings.safe_z;
- const lines=['%','O1001 (CNC STUDIO BROWSER - FANUC DRAFT)',`(PLAN ${plan.id||'LOCAL'})`,`(MATERIAL ${plan.settings.material} - STARTING VALUES ONLY)`,'(ROUGHING ONLY - POCKET CORNER STOCK REMAINS)','(G54 X/Y FINISHED BBOX MIN - FINISHED TOP Z0)','(VERIFY G54 H OFFSETS FIXTURE AND TOOLCHANGE)','G21 G17 G90 G94 G40 G80','G54'];let active=null;
+ const isSurface=plan.strategy==='surface_raster';
+ const lines=['%','O1001 (CNC STUDIO BROWSER - FANUC DRAFT)',`(PLAN ${plan.id||'LOCAL'})`,`(MATERIAL ${plan.settings.material} - STARTING VALUES ONLY)`,
+  isSurface?'(BALL-NOSE SURFACE SAMPLE - PRE-ROUGHED STOCK REQUIRED)':'(ROUGHING ONLY - POCKET CORNER STOCK REMAINS)',
+  isSurface?'(MESH APPROXIMATION AND ALLOWANCE - VERIFY BALL COLLISION)':'(2.5D PLANAR ROUGHING)',
+  '(G54 X/Y FINISHED BBOX MIN - FINISHED TOP Z0)','(VERIFY G54 H OFFSETS FIXTURE AND TOOLCHANGE)','G21 G17 G90 G94 G40 G80','G54'];let active=null;
  for(const op of plan.operations){const opMoves=plan.moves.filter(m=>m.op===op.id);if(!opMoves.length)continue;const t=tools[op.tool];if(active!==t.id){if(active!==null)lines.push(`G00 Z${safe.toFixed(4)}`,'M09','M05');lines.push('M00 (MANUALLY VERIFY SAFE TOOLCHANGE POSITION)',`T${String(t.number).padStart(2,'0')} M06`,`G00 G43 H${String(t.number).padStart(2,'0')} Z${safe.toFixed(4)}`,`S${op.rpm} M03`,'M08');active=t.id;}lines.push(`(OP ${op.id+1})`);for(const m of opMoves){let line=`${m.mode} X${m.b[0].toFixed(4)} Y${m.b[1].toFixed(4)} Z${m.b[2].toFixed(4)}`;if(m.mode==='G1')line+=` F${m.feed.toFixed(1)}`;lines.push(line);}}
  lines.push(`G00 Z${safe.toFixed(4)}`,'M09','M05','M30','%');return lines.join('\n')+'\n';
 }

@@ -1,4 +1,5 @@
-// Exact BREP support gate. The viewer mesh never determines NC eligibility.
+// Exact 2.5D BREP support gate; separate constrained mesh heightfield screening for surface drafts.
+import {inspectSurface} from './surface.mjs';
 export function analyzeSTEP(oc,bytes,name='part.step'){
  const owned=[]; const own=o=>(owned.push(o),o); const E=oc.TopAbs_ShapeEnum;
  const xyz=p=>[p.X(),p.Y(),p.Z()];
@@ -55,10 +56,12 @@ export function analyzeSTEP(oc,bytes,name='part.step'){
    for(let i=1;i<=triangulation.NbTriangles();i++){const t=own(triangulation.Triangle(i)),indices=[t.Value(1)-1+offset,t.Value(2)-1+offset,t.Value(3)-1+offset];if(face.Orientation_1().value===oc.TopAbs_Orientation.TopAbs_REVERSED.value)indices.reverse();triangles.push(indices);}
    if(triangles.length>100000)throw Error('網格超過 100,000 三角形，請先簡化模型');
   });
-  return {name,size,vertices,triangles,features,supported,difference_mm3:difference,
+  const model={name,size,vertices,triangles,features,supported,difference_mm3:difference,
    frame:'G54 X/Y finished bbox minimum; finished top Z0; +Z tool axis',
    audit:{valid,solid_count:solidCount,face_count:faceCount,volume_mm3:V,bounds_mm:b,size_mm:size,engine:'OpenCascade.js 1.1.1 / OCCT 7.4 WASM'},
    limitations:supported?[]:['不符合本版單一實體、矩形塊＋頂開矩形口袋＋垂直通孔的精確重建條件。可預覽，禁止 NC。']};
+  model.surface=inspectSurface(model);
+  return model;
  }finally{
   try{oc.FS.unlink(file);}catch{}
   for(let i=owned.length-1;i>=0;i--){try{owned[i].delete();}catch{}}
