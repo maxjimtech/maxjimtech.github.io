@@ -1,0 +1,26 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CNC Studio · 產品研究與支援範圍</title><link rel="stylesheet" href="sixaxis.css"><style>main{max-width:1080px;margin:50px auto;padding:0 24px}h1{font-size:30px;margin:15px 0}h2{font-size:19px;margin:32px 0 14px}p{line-height:1.9;color:#a9bdd0;margin:10px 0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{padding:22px;border:1px solid #304056;background:#101c2b}.card h2{margin:0 0 12px;font-size:19px}table{width:100%;border-collapse:collapse;font-size:12px}td,th{text-align:left;vertical-align:top;padding:13px 10px;border-bottom:1px solid #253347;line-height:1.7}th{color:#68d6c7}.yes{color:#68d6c7}.partial{color:#edc485}.pending{color:#90a2b5}.links{display:flex;gap:20px;flex-wrap:wrap;margin:18px 0}.table-wrap{overflow:auto}#audit{padding:18px;background:#132737;border:1px solid #315064}@media(max-width:700px){.cards{grid-template-columns:1fr}main{margin-top:28px}}</style></head><body><header class="topbar"><a class="brand" href="sixaxis.html"><span class="brandmark">M</span><b>CNC<span>STUDIO</span></b></a><nav><a href="sixaxis.html">六軸工作台 →</a><a href="index.html">STEP / CAM</a></nav></header><main><span class="badge">RESEARCH / 2026-10-23</span><h1>從成熟產品流程，建立可驗證的工作台。</h1><p>以 VERICUT、Hexagon NCSIMUL、Autodesk CAMplete 三個代表性產品作為研究對象；選擇依據是多軸 NC 驗證、加工物檢查與操作介面覆蓋，並非全球排名。依官方公開文件與示意圖整理功能，沒有取得其商業程式或驗證內部演算法。</p>
+<div class="cards"><section class="card"><h2>VERICUT</h2><p>以專案樹、圖形視窗、NC 面板、狀態、告警與播放控制組成工作空間。分析頁提供設計／加工物比對，量測及優化為另外的功能群。</p><a href="https://help.vericut.com/4_vericut_help/2.6.0_main_window_and_key_features">官方介面說明 ↗</a></section><section class="card"><h2>NCSIMUL</h2><p>將程式驗證、運動／除料與工件檢查串成流程，並檢查快速移動或主軸停止時的撞料。其他模組處理優化、母機轉換與車間資料。</p><a href="https://bynder.hexagon.com/asset/29e3aaf4-77a4-4d87-af59-bb02e5ba847a/Hexagon-MI-NCSIMUL_Product_Brochure_A4_web_en_2020.pdf">官方產品手冊 ↗</a></section><section class="card"><h2>CAMplete</h2><p>以母機模型、軸運動、碰撞／行程及素材比對檢查程式。TruePath 提供後處理與旋轉控制；TurnMill 另處理多任務同步及時間軸。</p><a href="https://www.autodesk.com/au/products/camplete/features">官方功能說明 ↗</a></section></div>
+<h2>介面整合方式</h2><p>左側設定母機、素材、刀具與夾具；中間查看 3D 加工物、剖面與旋轉軸曲線；右側編輯 NC 並定位告警。底部播放、倒帶、逐行與變速控制保持連動。這是自行實作的瀏覽器介面，沒有複製商業產品程式碼、商標素材或專有引擎。</p>
+<h2>0.7.0 功能對照</h2><div class="table-wrap"><table><thead><tr><th>功能群</th><th>本版狀態</th><th>實作與界限</th></tr></thead><tbody>
+<tr><td>專案、設定與 NC 編輯</td><td class="yes">已實作</td><td>JSON 專案保存、NC 匯入／編輯／匯出；修改即撤銷舊結果。STEP 基準另存原檔。</td></tr>
+<tr><td>STEP 製程分解與母機／刀具選擇</td><td class="partial">既有三軸模式</td><td>精確 2.5D 特徵與 +Z 可達的整合曲面／孔槽粗精加工；規則選擇，MiniLM 為選用建議。</td></tr>
+<tr><td>六軸運動</td><td class="partial">通用機構</td><td>XYZABC 連動；固定工件、ABC 刀頭；兩種旋轉組合、刀尖或樞軸座標。未套用實機逆運動學。</td></tr>
+<tr><td>圓弧、螺旋與進給</td><td class="yes">已實作子集</td><td>G0–G3、G17–19、IJK／正負 R、整圓、G20/21、G90/91、G90.1/91.1、G93/94。G18 右手方向已修正。</td></tr>
+<tr><td>立體加工物除料</td><td class="partial">體素近似</td><td>平刀、球刀、118° 鑽尖；逐步旋轉掃掠，可保留側孔與倒扣。上限 700,000 體素，非精確布林曲面。</td></tr>
+<tr><td>材料與刀具管理</td><td class="yes">基本庫</td><td>四種材料密度、可編輯刀具尺寸與 T 編號。材料影響重量估算，未計算切削力或建議六軸進給。</td></tr>
+<tr><td>撞料與刀具組檢查</td><td class="partial">取樣檢查</td><td>快速撞料、停主軸進料、刀桿、刀把；夾具採保守包絡提示，沒有完整母機實體干涉。</td></tr>
+<tr><td>軸行程／速度／主軸上限</td><td class="yes">可設定</td><td>六軸界限與最高速度、超速提示；時間不含加減速、換刀與控制器等待。</td></tr>
+<tr><td>NC、告警、時間軸連動</td><td class="yes">已實作</td><td>告警定位程式行與刀路、遇警暫停、逐行、倒帶、倍速與任意進度。</td></tr>
+<tr><td>3D／正視圖／剖面</td><td class="yes">已實作</td><td>WebGL、拖曳旋轉、縮放、XY/XZ/YZ 視圖與可移動體素剖面；圖層開關及 ABC 角度曲線。</td></tr>
+<tr><td>設計與完工物比對</td><td class="partial">體素近似</td><td>單一有效 STEP 實體，以多重射線區間計算過切與殘料；支援封閉內腔。多實體可預覽，需分件比較。</td></tr>
+<tr><td>報告與加工物匯出</td><td class="yes">已實作</td><td>含輸入 SHA-256、設定、告警、近似體積／質量的 JSON 報告；完工體素 STL（mm）。</td></tr>
+<tr><td>控制器巨集、子程式、固定循環、補正</td><td class="pending">尚未實作</td><td>六軸遇 G43/H、G41/42、G43.4、G68.2、G53/G28、G81/G83、巨集、子程式、M00/M01 等會停止解析。</td></tr>
+<tr><td>實機數位分身與 RTCP</td><td class="pending">尚未實作</td><td>需母機幾何、軸鏈、零偏、回轉中心、控制器型號與參數；通用 ABC 並不代表實機已驗證。</td></tr>
+<tr><td>自動六軸 STEP CAM／跨母機轉換</td><td class="pending">尚未實作</td><td>本版六軸接受既有 NC；三軸 STEP CAM 仍在原工作台。沒有自動刀軸、裝夾與可達性求解。</td></tr>
+<tr><td>力學與切削優化</td><td class="pending">尚未實作</td><td>力、功率、撓度、熱、刀具壽命、恆切屑負載與自動進給優化需要校正資料。</td></tr>
+<tr><td>多通道車銑、主副軸、刀塔同步</td><td class="pending">尚未實作</td><td>六個座標軸不等於多通道車銑控制。沒有同步等待、主軸交接與車削除料。</td></tr>
+<tr><td>探針、量測、PMI／公差報告</td><td class="pending">尚未實作</td><td>不將體素比對當作尺寸量測或公差合格判定。</td></tr>
+<tr><td>工具資料交換、MES、即時母機連線</td><td class="pending">尚未實作</td><td>無 DIN/ISO 工具庫整合、現場設備連線、排程、權限與企業資料同步。</td></tr>
+<tr><td>磨削、線切割、複材、增材等製程</td><td class="pending">尚未實作</td><td>目前為旋轉刀具銑削／鑽削幾何模擬。</td></tr>
+</tbody></table></div>
+<h2>三輪審核紀錄</h2><div id="audit">驗證結果載入中…</div><p>審核覆蓋已實作功能，包含解析／數值、真實 Chrome Worker/WebGL/WASM 操作與既有 STEP/CAM 回歸。自動測試通過代表所列案例通過，不能取代實際母機、控制器與製造精度驗證。MiniLM 使用離線 mock 回歸，遠端模型的即時推論另列未驗證。</p><div class="links"><a href="review-report.json">下載三輪驗證紀錄 ↓</a><a href="README.md">技術說明與操作界限 ↗</a><a href="sixaxis.html">開啟六軸工作台 →</a></div></main><script type="module">const el=document.getElementById('audit');try{const r=await fetch('review-report.json');if(!r.ok)throw Error();const d=await r.json();el.textContent=d.status==='passed'?`0.7.0 · ${d.rounds.length} 輪完成；每輪 ${d.checks_per_round} 項，共 ${d.total_checks} 次通過。完整案例與執行時間見下載紀錄。`:'此候選版本的三輪驗證尚未完成。';}catch{el.textContent='本地候選版本驗證中，尚無三輪完成紀錄。';}</script></body></html>

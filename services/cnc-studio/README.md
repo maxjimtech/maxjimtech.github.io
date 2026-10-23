@@ -1,52 +1,110 @@
-# CNC Studio 瀏覽器版 v0.6.0
+# CNC Studio 0.7.0
 
-線上入口：https://maxjimtech.github.io/services/cnc-studio/
+Static browser CNC engineering workbench: HTML/CSS/ES modules, Web Workers,
+WebGL and OpenCascade WASM. No local Laya service is called.
 
-本版以 HTML、CSS、JavaScript 模組與 OpenCascade WebAssembly 在瀏覽器本機解析 STEP 及 FANUC 風格 G-code。可設定母機、材料、素材、刀具與 G54 起點，播放 3D／XY／XZ／YZ 刀路及逐步除料，並輸出工程草稿 NC、工作單 JSON 與近似完工素材 STL。
+- `index.html`: existing STEP recognition, three-axis rough/finish CAM,
+  FANUC-style draft output and heightfield stock simulation.
+- `sixaxis.html`: generic XYZABC NC verification and volumetric stock removal.
+- `research.html`: official-product research and feature coverage.
+- `review-report.json`: three complete review rounds with named cases.
 
-## G-code 圓弧與除料
+## Workflow
 
-1. 選擇「G-code → 素材除料」，讀取 `.nc`、`.tap`、`.gcode` 或 `.txt`，或載入內建 G02／G03 範例。
-2. 設定虛擬母機、材料、素材 X/Y/Z、G54 頂面、網格間距及第一段運動前的刀尖 X/Y/Z。
-3. 選擇未含 T/M06 時的預設刀具，按「解析 G-code 並模擬除料」。
-4. 拖動時間軸檢視切削過程，或直接顯示除料完成後工件。
+Load NC or the supplied demo, configure initial XYZABC, machine limits, stock,
+material, tools and fixtures, then run analysis. Inspect alerts, 3D/2D views,
+sections and axis curves. Alerts jump to the NC line. Playback supports step,
+rewind, speed and stop-on-alert. Load a STEP reference, align it and compare
+finished stock. Export original NC, project JSON, voxel STL or a JSON report.
+Projects preserve NC and configuration; retain STEP files separately.
 
-支援三軸 G00／G01，以及 G17／G18／G19 平面的 G02／G03：
+Ctrl+Enter runs analysis; Space toggles playback outside inputs. Drag rotates,
+wheel zooms. Setup/code changes revoke previous results and derived exports.
 
-- IJK 增量圓心，及 G90.1／G91.1 圓心模式。
-- 正 R 小圓弧、負 R 大圓弧、IJK 完整圓。
-- 圓弧平面以外第三軸同步移動的螺旋圓弧。
-- 圓弧依最大 0.05 mm 弦誤差且最大 5° 角度步距細分；每一圓弧最多 10,000 段，整份程式細分後最多 80,000 段。
+## Kinematics
 
-解析器會拒絕半徑不一致、R 與 IJK 混用、錯誤平面中心量、巨集、子程式、固定循環、G28／G53、刀徑補正、未知軸與未知指令。G43/H 只辨識並警告，不套用真實刀長補正值。
+Fixed workpiece, one G54 work frame in mm. A/B/C are right-hand active rotations
+about fixed X/Y/Z axes, degrees, with column vectors:
 
-## STEP 整合加工
+- Default `R = Rz(C) Ry(B) Rx(A)`; alternative `R = Rx(A) Ry(B) Rz(C)`.
+- TCP: `tip = XYZ`; direction from tip to holder is `R [0,0,1]`.
+- Pivot: `tip = XYZ - R [0,0,tool.length]`.
 
-STEP 模式保留原本的 2.5D 精確特徵模式，適用矩形塊、頂開矩形口袋及垂直通孔。新增「整合三軸曲面／孔槽粗精加工」：
+XYZABC interpolate within each move. Signed unwrapped angles are preserved;
+no shortest-path wrapping. This is generic forward kinematics, not a validated
+physical six-joint head, inverse kinematics, table/table machine or FANUC RTCP.
 
-- 讀取單一有效封閉實體，以三角網格建立固定 +Z 刀軸的上方可達高度場。
-- 同一引擎處理自由曲面、凸台、階梯、平面盲孔、通孔投影與深槽，不再要求只有一種 STEP 特徵型態。
-- 未勾選「已預粗加工」時，以平底銑刀分層往復粗加工，再以球頭銑刀進行曲面／孔槽精修。
-- 可設定粗加工刀具、粗加工預留、球刀預留、球刀行距及取樣距離；刀具足跡會對目標高度場做半徑偏置，避免刀心直接穿入凸台或孔槽側壁。
-- 產生刀路後可用相同的素材除料核心檢視加工後工件。
+## NC subset and time
 
-「任意 STEP」在本版的工程定義是：單一實體，且所有待加工幾何能由固定 +Z 三軸刀具從上方到達。高於底面的向下表面會被判定為倒扣、側向內腔或封閉內腔並阻擋。多實體、側孔、五軸曲面、刀柄需要傾斜才能到達的區域仍需專業 CAM。
+G0/G1/G2/G3; G17/G18/G19; IJK or positive/negative R; full circles and helical
+motion; G90.1/G91.1; G20/G21; G90/G91; G54; G93/G94; T/M6; M3/M4/M5/S.
+ABC can accompany arcs. G18 uses the right-handed ZX plane: G03 from X1 Z0
+around the origin travels toward X0 Z-1. Default maximum arc tessellation error
+is 0.05 mm; radial endpoint inconsistency consumes at most 10% of that tolerance.
 
-## 除料模型
+G93 requires F in every feed block: duration = 60/F seconds. Arc subdivisions
+share block time. G94 uses XYZ distance for mixed motion and angular travel
+for pure rotation. Rapid time uses the slowest configured axis. Acceleration,
+jerk, spindle ramp, tool changes and M-code waits are not modeled.
 
-- 素材使用 XY 高度網格，最大 35,000 格、每方向最多 180 格，網格間距 0.35–5 mm。
-- 平刀、球刀及 118° 鑽尖依刀尖路徑掃掠；G00 只做接觸風險檢查，不移除材料。
-- 計算 61 個等時間影格、移除／剩餘體積、標稱材料密度估算質量，以及 3D、XY、XZ、YZ 顯示。
-- STL 是高度場近似的剩餘素材，不是原 STEP 精度或精確 BREP。
+Six-axis G43/H, G43.4, G68.2, G41/G42, G53/G28, other work offsets, canned
+cycles, macros, subprograms, M00/M01 and unsupported words stop parsing. Supply
+explicitly converted tip/pivot coordinates. Legacy three-axis G43 retains its
+previous advisory behavior; that is not a machine H-table simulation.
 
-高度場不能重建倒扣、側孔、封閉內腔、刀柄／主軸頭完整干涉、機台運動學、切削力、刀具變形或控制器加減速。時間不含換刀、停機與加減速。所有 FANUC 輸出皆為工程審查草稿；實機前須由專業 CAM 校驗工件座標、刀補、真實母機、夾治具、碰撞及空跑，不能直接作為製造放行依據。
+## Geometry and bounds
 
-## MiniLM / Laya
+The rectangular stock is a 3D voxel grid, fitted exactly to input dimensions.
+Multiple vertical intervals retain side holes and undercuts. Tool profiles are
+flat endmill, spherical-tip endmill and 118-degree drill. Shank and holder are
+cylinders. Rotary sweep sampling uses travel and tool reach to bound spacing
+to 0.45 of the smallest cell. First-removal timestamps allow reverse playback.
 
-加工策略預設由幾何與確定性規則決策，不需 Laya。2.5D 模式仍可選擇實驗性的 MiniLM 語意相似度排序並要求人工確認；正式網路上的 ONNX 推論與加工領域校準仍未完成驗證。這項功能不修改中央 Laya 開關。
+Rapid and stopped-spindle motion never remove stock and raise alerts. Other
+checks cover shank/holder-stock contacts, axis travel/speed, spindle rpm and
+conservative tool/fixture box envelopes. Fixture corner near misses may be
+reported. Voxel-center testing can miss sub-voxel features; this is not exact
+Boolean material removal or a guaranteed continuous collision solver. No full
+machine body, fixture mesh, force, wear, heat or deflection model is included.
 
-## 部署
+Materials affect estimated mass only: Al6061 2.70, S45C 7.85, SUS304 7.93,
+machining wax 0.90 g/cm³. Limits: 3 MB NC, 120,000 source lines, 80,000 parsed
+motion segments, 700,000 voxels, 120,000 sweep samples, 180 million voxel
+candidate checks. Coarsen resolution or split NC when limits are reached.
 
-GitHub Pages 以 HTTPS 提供 ES modules、Web Worker、WASM 與 fetch。下載原始碼後應由本地 HTTP 靜態伺服器開啟，不能以 `file://` 直接雙擊。OpenCascade 核心及授權位於 `vendor/`，STEP 與 G-code 範例位於 `examples/`。
+## STEP reference and existing CAM
 
-本版驗證涵蓋圓弧語法與幾何、圓弧除料、真實 STEP／WASM 的自由曲面、盲孔、凸台、深槽整合粗精加工、完工素材、STL 水密性、舊版 2.5D 相容性及 Chrome Worker／WASM UI 流程。測試數量與發布證據記錄於版本快照及 `cnc-studio/reports/`。
+Reference STEP is normalized to X/Y bounding-box minimum = 0 and top Z = 0,
+then the explicit offset is applied. Validate this placement against NC G54.
+Single-solid comparison uses even/odd vertical ray intervals, preserving
+enclosed cavities. Overcut/residual volumes are voxel-center estimates within
+stock bounds, subject also to reference tessellation. Target outside stock is
+flagged. Multiple solids can be previewed but must be split for comparison.
+
+The original CAM workbench still generates bounded 2.5D and single-solid
++Z-accessible three-axis rough/finish drafts. It does not automatically plan
+simultaneous six-axis NC. Arbitrary reference geometry does not establish
+tool accessibility. Side features require suitable external CAM/NC.
+Optional MiniLM advisory ranking is lazy-loaded; regression uses mocked
+embeddings. Live remote model inference is not covered by this release review.
+
+## Research and verification
+
+Official VERICUT, NCSIMUL and CAMplete documentation informs the workflow.
+The implementation is original code, with no proprietary engine or assets.
+See `research-ledger.json` for observed evidence and remaining unknowns.
+The feature matrix explicitly distinguishes implemented, approximate and
+unimplemented families, including actual RTCP, six-axis STEP CAM, multichannel
+turn-mill synchronization, probing, metrology, force optimization and MES.
+
+Tests check independent geometry oracles, arc handedness, kinematics, timing,
+stock removal, alerts, density, STL signed volume/edges and cavity comparison.
+Real Chrome tests cover Workers/WebGL/WASM, import/export, playback, invalidation,
+cancellation and responsive layouts. All available legacy tests are repeated
+in each review round. The UI and source tests are retained in the review source
+package. New six-axis UI has no CDN runtime library or font dependency.
+
+Serve via HTTP (ES modules/Workers cannot be run by opening file://). The demo
+stock 80:50 is approximately 1.6:1; entered engineering dimensions take precedence.
+Results are engineering previews, not actual FANUC controller qualification,
+metrology certification or machine-run approval.

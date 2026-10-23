@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-23",
+  "scope": "Public documentation and UI workflow research; no proprietary binaries or engines supplied",
+  "selection": "Three representative multi-axis NC verification products, not an independently established global ranking",
+  "sources": [
+    {"id":"DOC-VERICUT-UI","product":"VERICUT","url":"https://help.vericut.com/4_vericut_help/2.6.0_main_window_and_key_features","evidence":"official-public-documentation","observed":"Project tree, graphics, NC/status/log panels, graph and analysis feature families","design_use":"Settings on left, viewport center, NC and alerts on right"},
+    {"id":"DOC-VERICUT-PLAYBACK","product":"VERICUT","url":"https://help.vericut.com/reviewer_help/04_animation_controls","evidence":"official-public-documentation","observed":"Animation controls and status feedback","design_use":"Step, rewind, playback and speed controls"},
+    {"id":"DOC-NCSIMUL","product":"Hexagon NCSIMUL","url":"https://bynder.hexagon.com/asset/29e3aaf4-77a4-4d87-af59-bb02e5ba847a/Hexagon-MI-NCSIMUL_Product_Brochure_A4_web_en_2020.pdf","evidence":"official-public-brochure","observed":"Program verification, motion/removal, part inspection and separate optimization/machine-conversion modules","design_use":"Linked validation, stock removal and reference comparison workflow","limitation":"Brochure dated 2020; used for documented feature families, not current licensing or module availability"},
+    {"id":"DOC-CAMPLETE","product":"Autodesk CAMplete","url":"https://www.autodesk.com/au/products/camplete/features","evidence":"official-public-documentation","observed":"Axis motion, collision/overtravel, stock comparison, postprocessing; TurnMill synchronization","design_use":"Axis limits, ABC graph, stock comparison and explicit unsupported-feature matrix"},
+    {"id":"RS274-FEED","url":"https://www.linuxcnc.org/docs/stable/html/gcode/g-code.html","evidence":"official-technical-reference","observed":"G93 inverse time, G94 and arc conventions","limitation":"Semantic reference for generic parser; not proof of compatibility with any FANUC controller"}
+  ],
+  "runtime_evidence": [
+    {"id":"ev_1759d12ea1b9cc1d01cb77253085bde4f860ab333e3e9aec968dbc9ee4a15327","tool":"REA list_browser_targets","confidence":"observed","finding":"Owned Chrome 155 acceptance tab exposes the local six-axis workbench"},
+    {"id":"ev_044865fdf4e4032c36c4f64e8fa96653f71ac1deb2795ef401944aeb4d273e22","tool":"REA inspect_web_page","confidence":"observed","finding":"Local sixaxis.html runtime, accessibility and console observation after integration-test actions","limitations":["Attach-window observation only; prior events unavailable","Source identity requires separate file-hash manifest","No proprietary product runtime inspected"]}
+  ],
+  "inference": "The original three-panel layout and linked playback are design choices informed by public workflows; they do not reproduce proprietary implementations.",
+  "answered": ["Representative product selection", "Public UI and feature families", "Working generic XYZABC implementation", "Three-round review of implemented test coverage"],
+  "partial": ["Full commercial feature integration: implemented/approximate/pending matrix published", "Arbitrary STEP: reference geometry accepted within bounds, automatic CAM remains three-axis"],
+  "unresolved": ["Machine-specific FANUC RTCP and controller semantics", "Six-axis automatic CAM", "Whole-machine solids and exact continuous collision", "Force optimization and calibration", "Multichannel turn-mill", "Probing and dimensional qualification", "Real MiniLM ONNX inference", "Enterprise tooling and live machine connectivity"]
+}

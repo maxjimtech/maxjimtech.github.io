@@ -6,7 +6,7 @@ const finite=(value,name,lo=-10000,hi=10000)=>{
  return value;
 };
 const modTau=value=>((value%TAU)+TAU)%TAU;
-const planeData=plane=>plane==='G17'?{u:0,v:1,w:2,letters:['I','J']}:plane==='G18'?{u:0,v:2,w:1,letters:['I','K']}:{u:1,v:2,w:0,letters:['J','K']};
+const planeData=plane=>plane==='G17'?{u:0,v:1,w:2,letters:['I','J']}:plane==='G18'?{u:2,v:0,w:1,letters:['K','I']}:{u:1,v:2,w:0,letters:['J','K']};
 
 function arcSweep(start,end,center,cw,fullCircle=false){
  const a0=Math.atan2(start[1]-center[1],start[0]-center[0]);
@@ -44,11 +44,11 @@ function tessellateArc(start,end,{plane,cw,centerWords,radius,centerAbsolute,tol
   const r0=Math.hypot(p0[0]-center[0],p0[1]-center[1]),r1=Math.hypot(p1[0]-center[0],p1[1]-center[1]);
   if(r0<1e-7)throw Error(`第 ${lineNo} 行圓弧半徑為零`);
   const fullCircle=Math.hypot(p1[0]-p0[0],p1[1]-p0[1])<1e-7;
-  if(!fullCircle&&Math.abs(r0-r1)>Math.max(.02,r0*.002))throw Error(`第 ${lineNo} 行 IJK 圓心至起終點半徑不一致`);
+  if(!fullCircle&&Math.abs(r0-r1)>Math.min(.01,tolerance*.1))throw Error(`第 ${lineNo} 行 IJK 圓心至起終點半徑不一致`);
   geometry={center,...arcSweep(p0,p1,center,cw,fullCircle)};
  }
  const r=Math.hypot(p0[0]-center[0],p0[1]-center[1]);
- const chordAngle=2*Math.acos(Math.max(-1,Math.min(1,1-Math.min(tolerance,r)/r)));
+ const chordAngle=2*Math.acos(Math.max(-1,Math.min(1,1-Math.min(tolerance*.9,r)/r)));
  const stepAngle=Math.min(Math.PI/36,Number.isFinite(chordAngle)&&chordAngle>1e-6?chordAngle:Math.PI/180);
  const count=Math.max(1,Math.ceil(geometry.sweep/stepAngle));
  if(count>10000)throw Error(`第 ${lineNo} 行圓弧需要超過 10,000 段，請檢查半徑或單位`);
@@ -62,7 +62,7 @@ function tessellateArc(start,end,{plane,cw,centerWords,radius,centerAbsolute,tol
  return {points,radius:r,sweep_rad:geometry.sweep,plane,cw,center:[...center],helical_mm:end[w]-start[w]};
 }
 
-export function parseGcode(source,catalog,{default_tool='em6',initial_x=0,initial_y=0,initial_z=10,machine='vmc400',arc_tolerance_mm=.05}={}){
+export function parseGcode(source,catalog,{default_tool='em6',initial_x=0,initial_y=0,initial_z=10,machine='vmc400',arc_tolerance_mm=.05,six_axis=false,initial_abc=[0,0,0]}={}){
  if(typeof source!=='string'||new TextEncoder().encode(source).length>3*1024*1024)throw Error('G-code 檔案需為 UTF-8 文字且不超過 3 MB');
  const lines=source.replace(/\r\n?/g,'\n').split('\n');
  if(lines.length>120000)throw Error('G-code 超過 120,000 行上限');
@@ -71,16 +71,18 @@ export function parseGcode(source,catalog,{default_tool='em6',initial_x=0,initia
  const defaultTool=catalog.tools.find(t=>t.id===default_tool);
  const machineData=catalog.machines.find(m=>m.id===machine);
  if(!defaultTool||!machineData)throw Error('選用刀具或母機不存在');
- let activeTool=defaultTool,preparedTool=null,unit=1,absolute=true,centerAbsolute=false,plane='G17',motion=null,feed=null,rpm=0;
+ let activeTool=defaultTool,preparedTool=null,unit=1,absolute=true,centerAbsolute=false,plane='G17',motion=null,feed=null,feedWord=null,rpm=0;
  let position=[finite(initial_x,'初始 X',-10000,10000),finite(initial_y,'初始 Y',-10000,10000),finite(initial_z,'初始刀尖 Z',-500,500)];
  const positionAtStart=[...position];
+ let angles=initial_abc.map(v=>finite(v,'初始 ABC',-36000,36000)),feedMode=94,spindle=false;
+ if(angles.length!==3)throw Error('初始 ABC 需有三個角度');
  let ended=false,toolComp=false,firstActualTool=false,arcBlocks=0,arcSegments=0;
  const warnings=[],moves=[],operations=[],tasks=[],seenToolNumbers=new Set();
  let activeOperation=-1;
  const appendMove=(a,b,mode,lineNo,extra={})=>{
   if(moves.length>=80000)throw Error('G-code 細分後超過 80,000 段刀路上限');
   if(activeOperation<0){activeOperation=operations.length;operations.push({id:activeOperation,title:`T${activeTool.number} · ${activeTool.name}`,tool:activeTool.id,rpm:Math.round(rpm),feed:feed||0,start:moves.length});seenToolNumbers.add(activeTool.number);}
-  moves.push({a:[...a],b:[...b],mode,tool:activeTool.id,feed:mode==='G0'?0:feed,op:activeOperation,line:lineNo,...extra});
+  moves.push({a:[...a],b:[...b],mode,tool:activeTool.id,feed:mode==='G0'?0:feed,op:activeOperation,line:lineNo,...(six_axis?{abc_a:[...angles],abc_b:[...angles],feed_mode:feedMode,spindle:spindle&&rpm>0,rpm}:{}),...extra});
  };
  for(let row=0;row<lines.length;row++){
   let line=lines[row];const lineNo=row+1;
@@ -92,34 +94,45 @@ export function parseGcode(source,catalog,{default_tool='em6',initial_x=0,initia
   if(ended){warnings.push(`M30/M02 後另有程式，已忽略第 ${lineNo} 行以後內容。`);break;}
   if(/[\[\]#\/]/.test(code))throw Error(`第 ${lineNo} 行含巨集、條件式或選擇執行，無法安全模擬`);
   const compact=code.replace(/\s+/g,'');let words=[],index=0;const token=/([A-Z])([+-]?(?:\d+(?:\.\d*)?|\.\d+))/y;
-  while(index<compact.length){token.lastIndex=index;const match=token.exec(compact);if(!match)throw Error(`第 ${lineNo} 行無法解析：「${compact.slice(index,Math.min(index+24,compact.length))}」`);const val=Number(match[2]);finite(val,`第 ${lineNo} 行 ${match[1]}`);words.push({key:match[1],value:val});index=token.lastIndex;}
+  while(index<compact.length){token.lastIndex=index;const match=token.exec(compact);if(!match)throw Error(`第 ${lineNo} 行無法解析：「${compact.slice(index,Math.min(index+24,compact.length))}」`);const val=Number(match[2]),limit='FS'.includes(match[1])?60000:'ABC'.includes(match[1])?36000:'NO'.includes(match[1])?100000000:10000;finite(val,`第 ${lineNo} 行 ${match[1]}`,-limit,limit);words.push({key:match[1],value:val});index=token.lastIndex;}
   if(words.length>32)throw Error(`第 ${lineNo} 行指令過多`);
   const codes=words.filter(w=>w.key==='G').map(w=>w.value),mcodes=words.filter(w=>w.key==='M').map(w=>w.value);
-  for(const w of words){if(!'NGMOTXYZFSHIJKR'.includes(w.key))throw Error(`第 ${lineNo} 行 ${w.key} 軸／補正／循環指令尚未支援`);if('NMOTH'.includes(w.key)&&!Number.isInteger(w.value))throw Error(`第 ${lineNo} 行 ${w.key} 編號不是整數`);}
+  for(const w of words){if(!(six_axis?'NGMOTXYZABCFSHIJKR':'NGMOTXYZFSHIJKR').includes(w.key))throw Error(`第 ${lineNo} 行 ${w.key} 軸／補正／循環指令尚未支援`);if('NMOTH'.includes(w.key)&&!Number.isInteger(w.value))throw Error(`第 ${lineNo} 行 ${w.key} 編號不是整數`);}
+  if(codes.filter(x=>[93,94].includes(x)).length>1)throw Error(`第 ${lineNo} 行進給模式衝突`);
+  if(six_axis&&mcodes.some(x=>x===0||x===1))throw Error(`第 ${lineNo} 行 M00/M01 暫停尚未建模，請先拆分程式`);
   if(codes.filter(x=>[0,1,2,3].includes(x)).length>1)throw Error(`第 ${lineNo} 行同時指定多個運動模式`);
   if(codes.filter(x=>x===20||x===21).length>1||codes.filter(x=>x===90||x===91).length>1||codes.filter(x=>x===90.1||x===91.1).length>1)throw Error(`第 ${lineNo} 行單位或座標模式互相衝突`);
   if(codes.filter(x=>[17,18,19].includes(x)).length>1)throw Error(`第 ${lineNo} 行圓弧平面模式互相衝突`);
   if(mcodes.length!==new Set(mcodes).size)throw Error(`第 ${lineNo} 行重複 M 指令`);
-  if(mcodes.some(x=>x===2||x===30||x===6)&&words.some(w=>'XYZ'.includes(w.key)))throw Error(`第 ${lineNo} 行換刀／結束程式不可同時含座標移動`);
-  for(const g of codes){if([0,1,2,3].includes(g))motion=`G${g}`;else if([17,18,19].includes(g))plane=`G${g}`;else if(g===20)unit=25.4;else if(g===21)unit=1;else if(g===90)absolute=true;else if(g===91)absolute=false;else if(g===90.1)centerAbsolute=true;else if(g===91.1)centerAbsolute=false;else if(g===43)toolComp=true;else if(g===49)toolComp=false;else if([40,54,80,94].includes(g)){}else throw Error(`第 ${lineNo} 行 G${g} 尚未支援（刀徑補正、固定循環、G53/G28 等需專用解析）`);}
+  if(six_axis&&mcodes.filter(m=>[3,4,5].includes(m)).length>1)throw Error(`第 ${lineNo} 行主軸指令衝突`);
+  if(six_axis&&words.some(w=>w.key==='H'))throw Error(`第 ${lineNo} 行 H 刀長表尚未建模，請使用已換算的刀尖或樞軸座標`);
+  if(mcodes.some(x=>x===2||x===30||x===6)&&words.some(w=>'XYZABC'.includes(w.key)))throw Error(`第 ${lineNo} 行換刀／結束程式不可同時含座標移動`);
+  if(codes.includes(93)){if(!six_axis)throw Error('G93 僅支援六軸工作台');feedMode=93;feed=null;feedWord=null;}
+  if(codes.includes(94)&&feedMode!==94){feedMode=94;feed=null;feedWord=null;}
+  for(const g of codes){if([0,1,2,3].includes(g))motion=`G${g}`;else if([17,18,19].includes(g))plane=`G${g}`;else if(g===20)unit=25.4;else if(g===21)unit=1;else if(g===90)absolute=true;else if(g===91)absolute=false;else if(g===90.1)centerAbsolute=true;else if(g===91.1)centerAbsolute=false;else if(g===43){if(six_axis)throw Error(`第 ${lineNo} 行六軸不套用 G43/H；請提供已換算刀尖座標或選擇樞軸模式`);toolComp=true;}else if(g===49)toolComp=false;else if([40,54,80,94].includes(g)||(six_axis&&g===93)){}else throw Error(`第 ${lineNo} 行 G${g} 尚未支援（刀徑補正、固定循環、G53/G28 等需專用解析）`);}
   const one=letter=>{const group=words.filter(w=>w.key===letter);if(group.length>1)throw Error(`第 ${lineNo} 行重複 ${letter}`);return group[0]?.value;};
   const requested=one('T');if(requested!==undefined){preparedTool=allTools.get(requested);if(!preparedTool)throw Error(`第 ${lineNo} 行 T${requested} 未列於刀具資料庫；請新增刀具後再模擬`);}
   for(const m of mcodes){if(m===6){if(!preparedTool)throw Error(`第 ${lineNo} 行 M06 缺少有效 T 刀具編號`);activeTool=preparedTool;firstActualTool=true;activeOperation=-1;}else if(m===2||m===30)ended=true;else if(![0,1,3,4,5,7,8,9].includes(m))throw Error(`第 ${lineNo} 行 M${m} 尚未支援`);}
   const h=one('H');if(h!==undefined&&h!==activeTool.number)warnings.push(`第 ${lineNo} 行 H${h} 與 T${activeTool.number} 不同，刀長補正需依母機確認。`);
-  const f=one('F');if(f!==undefined)feed=finite(f*unit,`第 ${lineNo} 行進給`,.01,60000);
+  if(mcodes.some(x=>x===3||x===4))spindle=true;if(mcodes.includes(5))spindle=false;
+  const f=one('F');if(f!==undefined){feedWord=f;feed=finite(f*(feedMode===93?1:unit),`第 ${lineNo} 行進給`,.01,60000);}
   const s=one('S');if(s!==undefined)rpm=finite(s,`第 ${lineNo} 行轉速`,0,60000);
   const target=[...position];let hasAxis=false;
   for(let axis=0;axis<3;axis++){const value=one('XYZ'[axis]);if(value!==undefined){target[axis]=finite((absolute?0:position[axis])+value*unit,`第 ${lineNo} 行座標`);hasAxis=true;}}
+  const nextAngles=[...angles];let hasRotary=false;
+  if(six_axis)for(let axis=0;axis<3;axis++){const value=one('ABC'[axis]);if(value!==undefined){nextAngles[axis]=finite((absolute?0:angles[axis])+value,`第 ${lineNo} 行旋轉角度`,-36000,36000);hasRotary=true;}}
   const centerWords={};for(const letter of ['I','J','K']){const value=one(letter);if(value!==undefined)centerWords[letter]=value*unit;}
   const radiusWord=one('R'),radius=radiusWord===undefined?undefined:radiusWord*unit,hasArcDefinition=radius!==undefined||Object.keys(centerWords).length>0;
-  if(!hasAxis&&!((motion==='G2'||motion==='G3')&&hasArcDefinition))continue;
+  if(!hasAxis&&!hasRotary&&!((motion==='G2'||motion==='G3')&&hasArcDefinition))continue;
   if(!motion)throw Error(`第 ${lineNo} 行帶有座標但未指定運動模式`);
   if(motion!=='G2'&&motion!=='G3'&&hasArcDefinition)throw Error(`第 ${lineNo} 行 IJK/R 只能用於 G02/G03`);
   if(motion!=='G0'&&!(feed>0))throw Error(`第 ${lineNo} 行切削刀路缺少有效 F 值`);
-  if(motion==='G0'||motion==='G1'){if(target.every((v,i)=>Math.abs(v-position[i])<1e-7))continue;appendMove(position,target,motion,lineNo);position=target;continue;}
+  if(six_axis&&motion!=='G0'&&feedMode===93&&f===undefined)throw Error(`第 ${lineNo} 行 G93 每個進給區塊都需要 F`);
+  const timing=six_axis&&feedMode===93&&motion!=='G0'?{duration_s:60/feed}:{};
+  if(motion==='G0'||motion==='G1'){const rotaryOnly=target.every((v,i)=>Math.abs(v-position[i])<1e-7);if(rotaryOnly&&nextAngles.every((v,i)=>Math.abs(v-angles[i])<1e-7))continue;appendMove(position,target,motion,lineNo,{...(six_axis?{abc_b:nextAngles,rotary_only:rotaryOnly,feed:rotaryOnly&&feedMode===94?feedWord:feed,...timing}: {})});position=target;angles=nextAngles;continue;}
   const arc=tessellateArc(position,target,{plane,cw:motion==='G2',centerWords,radius,centerAbsolute,tolerance:arcTolerance,lineNo});let last=[...position];arcBlocks++;
-  for(let i=0;i<arc.points.length;i++){const point=arc.points[i];appendMove(last,point,'G1',lineNo,{source_mode:motion,arc_block:arcBlocks,arc_segment:i+1,arc_segments:arc.points.length});last=point;arcSegments++;}
-  position=target;
+  for(let i=0;i<arc.points.length;i++){const point=arc.points[i];appendMove(last,point,'G1',lineNo,{source_mode:motion,arc_block:arcBlocks,arc_segment:i+1,arc_segments:arc.points.length,...(six_axis?{abc_a:angles.map((v,j)=>v+(nextAngles[j]-v)*i/arc.points.length),abc_b:angles.map((v,j)=>v+(nextAngles[j]-v)*(i+1)/arc.points.length),...(timing.duration_s?{duration_s:timing.duration_s/arc.points.length}:{})}:{})});last=point;arcSegments++;}
+  position=target;angles=nextAngles;
  }
  if(!moves.length)throw Error('G-code 未包含有效的 G00/G01/G02/G03 刀具移動');
  if(!moves.some(m=>m.mode==='G1'))warnings.push('程式只有快速移動 G00，沒有實際切削進給。');

@@ -1,0 +1,322 @@
+{
+  "system": "cncStudio",
+  "version": "0.7.0",
+  "created_at": "2026-10-23T10:22:46.694Z",
+  "status": "browser_engineering_release",
+  "scope": "Full file SHA256; 408 automated test executions; no controller or machine qualification",
+  "files": [
+    {
+      "path": "app.mjs",
+      "bytes": 28395,
+      "sha256": "c9dce44af0553dfa2ce91613f58304b8ff60befcafdeb19b1a05522fd0c76bf3",
+      "git_sha": "1ffca0a3af93bb2c957ee0e7a196fd2392aac7b7"
+    },
+    {
+      "path": "cam.mjs",
+      "bytes": 11909,
+      "sha256": "25546e5a03dc2e73794a0461fb78de323f467df3101aa679c2023a6e70734b26",
+      "git_sha": "768f3f452cc0f18abb0e274a1ecec9c5aea0c021"
+    },
+    {
+      "path": "catalog.json",
+      "bytes": 1981,
+      "sha256": "5e1bc76bc0e54586c45f10de3834560f46d6007f1e2340c5d5a04ed9b870e22f",
+      "git_sha": "64c6e47674c124c10817ba62b2830e36dde8ae9a"
+    },
+    {
+      "path": "decision-lite.mjs",
+      "bytes": 6501,
+      "sha256": "cc54f7cb33cb81420fa7578e90f1d32e209b65d883aae7afa70f2e0aec964cbd",
+      "git_sha": "80be8892df1fcde2788724b9a38a32db9c0f7dc2"
+    },
+    {
+      "path": "engine-worker.mjs",
+      "bytes": 3787,
+      "sha256": "8b717fc51032cf1e92d26b015eb526b247f1a350b70bc079456aba4a4614a5a4",
+      "git_sha": "d46bfb0560dee324d7ac2fc161654e2d9d05d746"
+    },
+    {
+      "path": "examples/arc-removal-demo.nc",
+      "bytes": 330,
+      "sha256": "694a48321080c413a23ae4ba6d5ddd31dcd0167e92ebeb65f178bacbedaa1df8",
+      "git_sha": "6e822530e6747223f73466aab73c433febf5c8b3"
+    },
+    {
+      "path": "examples/demo.step",
+      "bytes": 19773,
+      "sha256": "eeba83caa6bf799d93720de241d79317b0d0a4aa63766dac093f4dae927c08d6",
+      "git_sha": "c2de2c3d23d8832b48af1998d6813af310a577fd"
+    },
+    {
+      "path": "examples/removal-demo.nc",
+      "bytes": 413,
+      "sha256": "edf5441350d06501a8fd5cde28c929097a32af10b77c52c402545d812940d1d4",
+      "git_sha": "fe545e02d13b97e398b061d9a29a8809a9cf6bd1"
+    },
+    {
+      "path": "examples/sixaxis-demo.nc",
+      "bytes": 466,
+      "sha256": "a12db4a11dd5a00e04c487db404ed8667fcaefe98cc3d17e5851af3432070b88",
+      "git_sha": "afd337af756895eacfc7107f654fb5308e6c5625"
+    },
+    {
+      "path": "examples/surface_trough.step",
+      "bytes": 22855,
+      "sha256": "9209028671238ca26dbf58e80ee9e8500d26bc7926e57c9e43efaf23591a8baa",
+      "git_sha": "dbeb7f37a35b579f3cb31970a7c4564a54564047"
+    },
+    {
+      "path": "favicon.ico",
+      "bytes": 4745,
+      "sha256": "8a72b2b7ffa51d19540046771654fb71208161aa917d8ad114b58706fdcd034d",
+      "git_sha": "7b4e2d317f33cdf5ef1e5b18f6727fe2c09e92d3"
+    },
+    {
+      "path": "gcode-import.mjs",
+      "bytes": 15358,
+      "sha256": "d6cd0525c2500eaf1822fcda0029670e92416f7ac2cb2519a8338b0b3e642f65",
+      "git_sha": "a2aca89dd3ad6e6879e9fc43548ad7141dae1fa2"
+    },
+    {
+      "path": "index.html",
+      "bytes": 14593,
+      "sha256": "b257174d9773be288f390b4002b8dcbef6d48f6f19a225bd27799184e9f87713",
+      "git_sha": "b164f5ec5e3f742402a456f50665fce8553a8886"
+    },
+    {
+      "path": "kernel.mjs",
+      "bytes": 6042,
+      "sha256": "b78dfd43457e579e4bec343bfb680cdbb9742822a3a0418266f8d510e9fbb34f",
+      "git_sha": "3a26c528832e72c7ed2f399a314b1c2888bb49b5"
+    },
+    {
+      "path": "lite-runtime.mjs",
+      "bytes": 1077,
+      "sha256": "3dac47ebcdfab27d13d568c7fd35c5049b30064d5252a42a03a7764513c0b16c",
+      "git_sha": "85dc66dff2baab23dfe07a54d2997b83855b86f4"
+    },
+    {
+      "path": "lite-worker.mjs",
+      "bytes": 1032,
+      "sha256": "8e240a86ede97c900ff77d480803a7e72f7a265402b154db50e39baf4b4186c9",
+      "git_sha": "30f2e28c44b2ee899f16a32d4c05ae9a9a000e67"
+    },
+    {
+      "path": "material-sim.mjs",
+      "bytes": 6653,
+      "sha256": "50a09b98c73c203651a2cef26452564cabffc3bbb85b5f1f233b727af291ace7",
+      "git_sha": "090baa7b6ac275f34ae5ce2fd7e2428a25f13902"
+    },
+    {
+      "path": "occt-loader.mjs",
+      "bytes": 1806,
+      "sha256": "98f3fc6e24b9f8a81a4df8c8ca8971d0bdc88909edf33b677e772be6e19d86fd",
+      "git_sha": "e1c5a03fa8bf2a49b937e3bf7649199634008909"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6088,
+      "sha256": "50b2d3c7e83b8ca459fbe76ece60b49b081b566fd2f46f025113bd27061fc637",
+      "git_sha": "7b105337cfb410e2871aa3bda116524ecedeed64"
+    },
+    {
+      "path": "research-ledger.json",
+      "bytes": 3659,
+      "sha256": "ae89ed649787c263ecb8f963afb23772ef3f7d7d6666ab80803b1248ce73c88b",
+      "git_sha": "776c3e2588edca78de04f4461f8e36959d5f1f60"
+    },
+    {
+      "path": "research.html",
+      "bytes": 8339,
+      "sha256": "cc5aefb3f728bce87de8f97ccd9f3883079985c6112907ad8dbde62bff2001a7",
+      "git_sha": "439ea79107583d7b5a708732f62a8553525fa427"
+    },
+    {
+      "path": "review-report.json",
+      "bytes": 20426,
+      "sha256": "ea327b6e19bdd91f35e7d0bc01731c8fd3970ddc478234865d587705c0b6d031",
+      "git_sha": "e706923b6f744a46d39ba10732b31e30e2c44b89"
+    },
+    {
+      "path": "review-source.zip",
+      "bytes": 148723,
+      "sha256": "69fd5d0a6f3e16c7ce9c824959a9176b9defef9f89da55c6c7e602eb385efd5e",
+      "git_sha": "4feda6a8a9af59bf2d63c8438b3beb5e7f918d9e"
+    },
+    {
+      "path": "runtime.mjs",
+      "bytes": 2251,
+      "sha256": "c667a27138c60ae179853a377c01b6cded64906e8fa281b4458899b27520be7a",
+      "git_sha": "69a7ecf6ddb2eb3f22dec28a7938229306ad591c"
+    },
+    {
+      "path": "sixaxis-app.mjs",
+      "bytes": 17992,
+      "sha256": "0443d188a3dec4461863508e457365060713cb9160fadc7cb9db1eb64d9199d1",
+      "git_sha": "1fd2b8fbdb14b9f8fe82c25cb570c88ba1b99dd5"
+    },
+    {
+      "path": "sixaxis-compare.mjs",
+      "bytes": 2259,
+      "sha256": "71fd3e01b5e238239ea9a0c4396932c283430dcf6879ae6869c8f09162326938",
+      "git_sha": "d1a013a671553040d8fb032eccf7ff073d8f6f07"
+    },
+    {
+      "path": "sixaxis-core.mjs",
+      "bytes": 12983,
+      "sha256": "b24f36983197d0a68b20b659277bf6279575eeb7f5d9688b5efa3ff34203d075",
+      "git_sha": "c17150f1a4c857e492ea7fcd7f0b2533774b2825"
+    },
+    {
+      "path": "sixaxis-view.mjs",
+      "bytes": 7614,
+      "sha256": "5d48e1b429f642081c5aecceb6b9744fd6b5e7e1a5fa439ec3ae933488cbe6d6",
+      "git_sha": "6bb50a61b387997632cc51e92e22dd977ef97232"
+    },
+    {
+      "path": "sixaxis-worker.mjs",
+      "bytes": 594,
+      "sha256": "7f33499899fb847e12a21b200a5d43e620a228df37a193c09e4b8c4a34729448",
+      "git_sha": "bce71ab7302f54e387241e901d3b403a2c0e8a54"
+    },
+    {
+      "path": "sixaxis.css",
+      "bytes": 9450,
+      "sha256": "4c7e96433e8edaee68f2bcd32bef787a05f5b146b4538df774b39117de101dfe",
+      "git_sha": "def7fb370e8723128524af4a3f58640ff24f3e30"
+    },
+    {
+      "path": "sixaxis.html",
+      "bytes": 8638,
+      "sha256": "50c5e76d07afc43ebf1b1c3d6e3491664e79cab53fbc3dd275645d07d6748f56",
+      "git_sha": "118ea530f753a34bedc7bcfaea18ed9922ed6ea1"
+    },
+    {
+      "path": "stock-stl.mjs",
+      "bytes": 3266,
+      "sha256": "2b93ff25ce5caf2f2ef7f2cc1d08a0fc8d3625473425c95077de9df73031fa50",
+      "git_sha": "bd226c07f53b4c731c17c39f52248d11bd0dd39a"
+    },
+    {
+      "path": "stock-view.mjs",
+      "bytes": 4035,
+      "sha256": "84d0d0c9046c39103bffb5b96c21d76f8b1872f2a96ca9bb0b6c0e67152ff86c",
+      "git_sha": "1819dd0529bd5bb37a52ed7f8a05bb9095ddb8ca"
+    },
+    {
+      "path": "style.css",
+      "bytes": 11836,
+      "sha256": "9939d488ba60b39ef63c6f671a19034e18ae4e838c21316a9ccca9f2f91dc531",
+      "git_sha": "5b69f8de38209fbe426055dfb07512d32e58976a"
+    },
+    {
+      "path": "surface.mjs",
+      "bytes": 13785,
+      "sha256": "2c65d6ac48c2e31e6a308838c9cc14f3e3fcf8d82c74ad4e067a591ce971feb3",
+      "git_sha": "1a7bde30e96efda7aa7688b5d2ca0deef193e00e"
+    },
+    {
+      "path": "vendor/occt-manifest.json",
+      "bytes": 563,
+      "sha256": "04071edd96dc1b21025974e821760ab01a4bd0c81495ba07383a8627d874c000",
+      "git_sha": "6005491110edd3b4051da0424f7b317279030062"
+    },
+    {
+      "path": "vendor/occt.LICENSE.txt",
+      "bytes": 26526,
+      "sha256": "20c17d8b8c48a600800dfd14f95d5cb9ff47066a9641ddeab48dc54aec96e331",
+      "git_sha": "8000a6faacf471c537530805ab29523c7732e11a"
+    },
+    {
+      "path": "vendor/occt.mjs",
+      "bytes": 330826,
+      "sha256": "d44e64f32817d3e110acbd2056671e73deb587d4bda1b8bf907cb6c39dfcda75",
+      "git_sha": "aa58de4fa89cb57e1790c95070bb203820c44bf2"
+    },
+    {
+      "path": "vendor/occt.wasm.gz.000",
+      "bytes": 1048576,
+      "sha256": "5051d7495514c88365a9a1551cfc5752a5e5480db61f4b645035be0e77fdf18a",
+      "git_sha": "4f7dd419a7c32c25e884bc41dc7a8b643dd0ffe8"
+    },
+    {
+      "path": "vendor/occt.wasm.gz.001",
+      "bytes": 1048576,
+      "sha256": "c51fd1f9c474304d98e56b0b47ceb272df175c30d03fa9caedfcc5252cce4a9b",
+      "git_sha": "587605cc4cd42e2e92ae2a13645e9df22efbbd3a"
+    },
+    {
+      "path": "vendor/occt.wasm.gz.002",
+      "bytes": 1048576,
+      "sha256": "76c7f71577068bb48a07cf26d579bb80e7c7ffbb55e9cfb08feed0e22fe4f37b",
+      "git_sha": "06afd9f2e4c980b8976e29015fa2ad8aee7c4128"
+    },
+    {
+      "path": "vendor/occt.wasm.gz.003",
+      "bytes": 1048576,
+      "sha256": "0b56119864d3439ad8c1d2e04fa98091337d72e4d7a0585c0d0308ebf7f12334",
+      "git_sha": "c6ab1ed9fb8674b2e4369772bc3a553c2cdb71cb"
+    },
+    {
+      "path": "vendor/occt.wasm.gz.004",
+      "bytes": 1048576,
+      "sha256": "86b1f26c18458f9c7e4816d48d03aeac19faab5ac6efe1da5285f5587e209cdc",
+      "git_sha": "34fbc25c64276add3cacaf47a083654f3b2c6e71"
+    },
+    {
+      "path": "vendor/occt.wasm.gz.005",
+      "bytes": 1048576,
+      "sha256": "d0fdda40e68a61b3dd0b0b0d24ff0e8a911aafbbfe4f29fe98c8b3af69ca6abd",
+      "git_sha": "6f1a7a72f2c1d3b679bfcbe9d8c61209fbe6d87b"
+    },
+    {
+      "path": "vendor/occt.wasm.gz.006",
+      "bytes": 1048576,
+      "sha256": "1f4a069a95ef6445e538eb21491f6c13dfb7a1c2c8ab45a38a7c45029bf1a689",
+      "git_sha": "54a1db2bba02bcfedf3e1e62236375fc5e7cfb18"
+    },
+    {
+      "path": "vendor/occt.wasm.gz.007",
+      "bytes": 1048576,
+      "sha256": "cba2b15ab6d3472515ebfe8258d75078b343a00a867acb59514b29282740c28f",
+      "git_sha": "aaa1580e91e6ae370cd0edf3f68f302fb2a577bd"
+    },
+    {
+      "path": "vendor/occt.wasm.gz.008",
+      "bytes": 1048576,
+      "sha256": "fbe3109d3352bf649874e7fcc4c23843979460b5cec55ff77106143e3754193f",
+      "git_sha": "131c419dfa8a5ec01f62ba6d006282994528a4f7"
+    },
+    {
+      "path": "vendor/occt.wasm.gz.009",
+      "bytes": 1048576,
+      "sha256": "b9a3893ee99fc428a26b1e73a62f3cf24e3c97535608e36a1f359b1b9f2fea57",
+      "git_sha": "397d163e2775a55de5bc546ac0028bff256e4479"
+    },
+    {
+      "path": "vendor/occt.wasm.gz.010",
+      "bytes": 1048576,
+      "sha256": "f070ef50ea6c40520e92c368fc1adb9fc932e90d8957e78c0919cd222ee3e318",
+      "git_sha": "8e09da0b0e32223f9ec4226f31493dd544f0b9ff"
+    },
+    {
+      "path": "vendor/occt.wasm.gz.011",
+      "bytes": 1048576,
+      "sha256": "cdf02122d97541a86a707bd18485b79833f1c22c8fedcfb5f7249162326f2e31",
+      "git_sha": "5b57fd3355ac8382e3d466e6395a4ec3cdf01686"
+    },
+    {
+      "path": "vendor/occt.wasm.gz.012",
+      "bytes": 1048576,
+      "sha256": "d2e172ad49eb218a273a989fd480fdeb12ca2cae1dd16e46530ffd44feaa35dd",
+      "git_sha": "64cdcf2ad3af128602c84856be1517aa5c170d52"
+    },
+    {
+      "path": "vendor/occt.wasm.gz.013",
+      "bytes": 95344,
+      "sha256": "28600235d50d7a3047e074ef7594eb49edc6daab13499d4e599c6968e88a2154",
+      "git_sha": "0db40a2b9abe1dfba5460d41eb4dc2520d4cd670"
+    }
+  ],
+  "errors": []
+}

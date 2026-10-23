@@ -1,0 +1,558 @@
+{
+  "version": "0.7.0",
+  "status": "passed",
+  "reviewed_at": "2026-10-23T10:22:20.504Z",
+  "checks_per_round": 136,
+  "total_checks": 408,
+  "rounds": [
+    {
+      "round": 1,
+      "started": "2026-10-23T10:15:34.445Z",
+      "ended": "2026-10-23T10:16:32.784Z",
+      "checks": 136,
+      "pass": true,
+      "suites": [
+        {
+          "test": "kernel-test.mjs",
+          "pass": true,
+          "checks": 1,
+          "duration_ms": 4807
+        },
+        {
+          "test": "geometry-cases.mjs",
+          "pass": true,
+          "checks": 7,
+          "duration_ms": 9286
+        },
+        {
+          "test": "cam-test.mjs",
+          "pass": true,
+          "checks": 14,
+          "duration_ms": 128
+        },
+        {
+          "test": "lite-test.mjs",
+          "pass": true,
+          "checks": 7,
+          "duration_ms": 141
+        },
+        {
+          "test": "surface-test.mjs",
+          "pass": true,
+          "checks": 14,
+          "duration_ms": 6881
+        },
+        {
+          "test": "gcode-removal-test.mjs",
+          "pass": true,
+          "checks": 21,
+          "duration_ms": 444
+        },
+        {
+          "test": "parity-test.mjs",
+          "pass": true,
+          "checks": 6,
+          "duration_ms": 151
+        },
+        {
+          "test": "sixaxis-test.mjs",
+          "pass": true,
+          "checks": 36,
+          "duration_ms": 764
+        },
+        {
+          "test": "browser-ui-test.mjs",
+          "pass": true,
+          "checks": 12,
+          "duration_ms": 25395
+        },
+        {
+          "test": "sixaxis-ui-test.mjs",
+          "pass": true,
+          "checks": 18,
+          "duration_ms": 10314
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "started": "2026-10-23T10:17:04.437Z",
+      "ended": "2026-10-23T10:18:02.514Z",
+      "checks": 136,
+      "pass": true,
+      "suites": [
+        {
+          "test": "kernel-test.mjs",
+          "pass": true,
+          "checks": 1,
+          "duration_ms": 4523
+        },
+        {
+          "test": "geometry-cases.mjs",
+          "pass": true,
+          "checks": 7,
+          "duration_ms": 9068
+        },
+        {
+          "test": "cam-test.mjs",
+          "pass": true,
+          "checks": 14,
+          "duration_ms": 161
+        },
+        {
+          "test": "lite-test.mjs",
+          "pass": true,
+          "checks": 7,
+          "duration_ms": 117
+        },
+        {
+          "test": "surface-test.mjs",
+          "pass": true,
+          "checks": 14,
+          "duration_ms": 7287
+        },
+        {
+          "test": "gcode-removal-test.mjs",
+          "pass": true,
+          "checks": 21,
+          "duration_ms": 537
+        },
+        {
+          "test": "parity-test.mjs",
+          "pass": true,
+          "checks": 6,
+          "duration_ms": 166
+        },
+        {
+          "test": "sixaxis-test.mjs",
+          "pass": true,
+          "checks": 36,
+          "duration_ms": 823
+        },
+        {
+          "test": "browser-ui-test.mjs",
+          "pass": true,
+          "checks": 12,
+          "duration_ms": 24764
+        },
+        {
+          "test": "sixaxis-ui-test.mjs",
+          "pass": true,
+          "checks": 18,
+          "duration_ms": 10588
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "started": "2026-10-23T10:18:02.687Z",
+      "ended": "2026-10-23T10:19:02.451Z",
+      "checks": 136,
+      "pass": true,
+      "suites": [
+        {
+          "test": "kernel-test.mjs",
+          "pass": true,
+          "checks": 1,
+          "duration_ms": 4033
+        },
+        {
+          "test": "geometry-cases.mjs",
+          "pass": true,
+          "checks": 7,
+          "duration_ms": 8034
+        },
+        {
+          "test": "cam-test.mjs",
+          "pass": true,
+          "checks": 14,
+          "duration_ms": 141
+        },
+        {
+          "test": "lite-test.mjs",
+          "pass": true,
+          "checks": 7,
+          "duration_ms": 134
+        },
+        {
+          "test": "surface-test.mjs",
+          "pass": true,
+          "checks": 14,
+          "duration_ms": 7392
+        },
+        {
+          "test": "gcode-removal-test.mjs",
+          "pass": true,
+          "checks": 21,
+          "duration_ms": 488
+        },
+        {
+          "test": "parity-test.mjs",
+          "pass": true,
+          "checks": 6,
+          "duration_ms": 195
+        },
+        {
+          "test": "sixaxis-test.mjs",
+          "pass": true,
+          "checks": 36,
+          "duration_ms": 993
+        },
+        {
+          "test": "browser-ui-test.mjs",
+          "pass": true,
+          "checks": 12,
+          "duration_ms": 26636
+        },
+        {
+          "test": "sixaxis-ui-test.mjs",
+          "pass": true,
+          "checks": 18,
+          "duration_ms": 11685
+        }
+      ]
+    }
+  ],
+  "cases": [
+    "kernel: STEP/WASM smoke",
+    "geometry: alternate",
+    "geometry: sphere",
+    "geometry: blind_hole",
+    "geometry: boss",
+    "geometry: multi",
+    "geometry: open_face",
+    "geometry: three_repeat_imports_after_cleanup",
+    "cam-test.mjs: actual_wasm_geometry",
+    "cam-test.mjs: six_ops_464_moves",
+    "cam-test.mjs: NC_has_exact_simulated_points",
+    "cam-test.mjs: rapid_xy_at_safe_z",
+    "cam-test.mjs: swept_fixture_collision",
+    "cam-test.mjs: stock_xy_mismatch_blocks",
+    "cam-test.mjs: invalid_numbers",
+    "cam-test.mjs: small_machine_blocks",
+    "cam-test.mjs: drill_tip_blocks",
+    "cam-test.mjs: material_changes_calculation",
+    "cam-test.mjs: tool_changes_calculation",
+    "cam-test.mjs: strategy_changes_calculation",
+    "cam-test.mjs: unsupported_no_NC",
+    "cam-test.mjs: capacity_rule_picks_smallest",
+    "lite-test.mjs: bounded_full_job_machine_tool_strategy",
+    "lite-test.mjs: manual_machine_stays_locked",
+    "lite-test.mjs: geometry_restricts_tool_diameter",
+    "lite-test.mjs: large_stock_restricts_machine_travel",
+    "lite-test.mjs: fixture_blocker_cannot_be_overridden",
+    "lite-test.mjs: unsupported_geometry_blocks_model",
+    "lite-test.mjs: invalid_vectors_and_tool_tampering_fail_closed",
+    "surface-test.mjs: real_step_valid_single_solid",
+    "surface-test.mjs: concave_step_heightfield",
+    "surface-test.mjs: ball_tool_clearance_and_mesh_allowance",
+    "surface-test.mjs: flat_tool_clearance_respects_curves_and_vertical_steps",
+    "surface-test.mjs: surface_raster_has_feeds_operations_and_draft",
+    "surface-test.mjs: nc_and_simulation_share_every_coordinate",
+    "surface-test.mjs: rapid_xy_always_at_safe_z",
+    "surface-test.mjs: integrated_flat_roughing_then_ball_finish_without_prerough",
+    "surface-test.mjs: fixture_intersection_blocks_nc",
+    "surface-test.mjs: wrong_tool_and_invalid_parameters_rejected",
+    "surface-test.mjs: stock_clearance_and_travel_block",
+    "surface-test.mjs: unsupported_step_is_rejected",
+    "surface-test.mjs: top_accessible_blind_hole_boss_and_deep_step_share_one_engine",
+    "surface-test.mjs: legacy_plan_not_broken_by_surface_additions",
+    "gcode-removal-test.mjs: real_fanuc_sample_import",
+    "gcode-removal-test.mjs: material_removed_and_finished_workpiece",
+    "gcode-removal-test.mjs: removal_is_monotone_and_initial_stock_is_flat",
+    "gcode-removal-test.mjs: actual_material_changes_mass_but_not_shape",
+    "gcode-removal-test.mjs: mm_inch_and_incremental_motion",
+    "gcode-removal-test.mjs: tool_change_fanuc_multitool_catalog",
+    "gcode-removal-test.mjs: strictly_reject_unsupported_or_dangerous_codes",
+    "gcode-removal-test.mjs: g02_g03_xy_ijk_and_r_are_tessellated_with_endpoints_preserved",
+    "gcode-removal-test.mjs: full_circle_absolute_center_and_major_radius_modes",
+    "gcode-removal-test.mjs: g18_g19_helical_arcs_interpolate_third_axis",
+    "gcode-removal-test.mjs: arc_validation_rejects_ambiguous_or_inconsistent_geometry",
+    "gcode-removal-test.mjs: circular_cut_removes_curved_groove_and_finished_stock",
+    "gcode-removal-test.mjs: explicit_initial_tool_tip_is_respected",
+    "gcode-removal-test.mjs: noncutting_rapid_never_removes_stock",
+    "gcode-removal-test.mjs: long_rapid_crossing_narrow_blank_is_detected",
+    "gcode-removal-test.mjs: ball_and_drill_have_conical_or_spherical_footprints",
+    "gcode-removal-test.mjs: render_3d_xy_xz_yz_from_real_simulation_frames",
+    "gcode-removal-test.mjs: generated_fanuc_program_import_reproduces_original_toolpath",
+    "gcode-removal-test.mjs: final_heightfield_exports_approximate_binary_stl",
+    "gcode-removal-test.mjs: exported_mesh_has_opposed_shared_edges_and_correct_volume",
+    "gcode-removal-test.mjs: stepped_surface_corner_stays_watertight",
+    "parity-test.mjs: parity al6061 em6 464",
+    "parity-test.mjs: parity al6061 em10 328",
+    "parity-test.mjs: parity s45c em6 828",
+    "parity-test.mjs: parity s45c em10 556",
+    "parity-test.mjs: parity sus304 em6 1406",
+    "parity-test.mjs: parity sus304 em10 917",
+    "sixaxis-test.mjs: right_hand_axes_and_combined_rotation",
+    "sixaxis-test.mjs: rotation_preserves_lengths_seeded",
+    "sixaxis-test.mjs: tcp_and_pivot_are_distinct",
+    "sixaxis-test.mjs: abc_absolute_incremental_inch_angles_unscaled",
+    "sixaxis-test.mjs: signed_rotary_path_does_not_shortcut",
+    "sixaxis-test.mjs: inverse_time_per_block_and_arc_duration",
+    "sixaxis-test.mjs: pure_rotary_g94_degrees_per_minute_even_inch",
+    "sixaxis-test.mjs: high_spindle_and_feed_words_do_not_hit_coordinate_limit",
+    "sixaxis-test.mjs: modal_rotary_feed_survives_unit_change",
+    "sixaxis-test.mjs: arc_endpoint_radius_error_is_bounded_independently_of_radius",
+    "sixaxis-test.mjs: rapid_time_synchronized_slowest_axis",
+    "sixaxis-test.mjs: mixed_g94_angular_limit_flags",
+    "sixaxis-test.mjs: g17_g18_g19_correct_ccw_handedness",
+    "sixaxis-test.mjs: arcs_interpolate_all_rotary_axes",
+    "sixaxis-test.mjs: unsupported_controller_features_and_invalid_setup_rejected",
+    "sixaxis-test.mjs: voxel_budget_rejected_before_allocation",
+    "sixaxis-test.mjs: tool_spindle_modal_state_and_changes",
+    "sixaxis-test.mjs: tool_profiles_have_analytical_sphere_and_cone_tips",
+    "sixaxis-test.mjs: plunge_matches_independent_cylinder_voxel_oracle",
+    "sixaxis-test.mjs: side_bore_preserves_ceiling_and_floor",
+    "sixaxis-test.mjs: pure_angular_sweep_removes_side_material",
+    "sixaxis-test.mjs: pivot_sweep_moves_tip_without_xyz_translation",
+    "sixaxis-test.mjs: rapid_and_stopped_spindle_do_not_remove",
+    "sixaxis-test.mjs: shank_and_holder_collisions_flagged",
+    "sixaxis-test.mjs: fixture_collision_and_nonintersection",
+    "sixaxis-test.mjs: axis_limits_and_spindle_limits",
+    "sixaxis-test.mjs: stock_removal_rewind_and_volume_conservation",
+    "sixaxis-test.mjs: material_density_only_changes_mass",
+    "sixaxis-test.mjs: nonintegral_dimensions_preserve_stock_volume",
+    "sixaxis-test.mjs: stl_volume_normals_and_closed_edges",
+    "sixaxis-test.mjs: nominal_full_stock_overcut_matches_removed_volume",
+    "sixaxis-test.mjs: nominal_inner_void_even_odd_not_heightfield",
+    "sixaxis-test.mjs: nominal_offset_and_outside_stock_flag",
+    "sixaxis-test.mjs: overlapping_multiple_step_solids_are_not_silently_xor_compared",
+    "sixaxis-test.mjs: project_roundtrip_and_malformed_rejected",
+    "sixaxis-test.mjs: real_sixaxis_demo_completes_with_side_cut_and_inverse_time",
+    "browser-ui-test.mjs: page_initialized",
+    "browser-ui-test.mjs: real_surface_step_import_worker_wasm",
+    "browser-ui-test.mjs: integrated_flat_rough_and_ball_finish_plan",
+    "browser-ui-test.mjs: accepted_surface_nc_and_2d_3d_playback",
+    "browser-ui-test.mjs: changing_setup_revokes_previous_nc",
+    "browser-ui-test.mjs: legacy_rough_demo_still_functions",
+    "browser-ui-test.mjs: original_step_plan_can_simulate_stock_removal",
+    "browser-ui-test.mjs: gcode_mode_selects_independent_stock_and_material",
+    "browser-ui-test.mjs: live_gcode_parse_worker_and_progressive_material_removal",
+    "browser-ui-test.mjs: gcode_stock_edit_revokes_old_result",
+    "browser-ui-test.mjs: configured_initial_tool_tip_is_applied_in_browser",
+    "browser-ui-test.mjs: unsupported_gcode_is_rejected_in_browser",
+    "sixaxis-ui-test.mjs: workspace_initializes_local_webgl_and_default_catalog",
+    "sixaxis-ui-test.mjs: sixaxis_worker_demo_material_removal",
+    "sixaxis-ui-test.mjs: timeline_final_rewind_and_coordinate_readouts",
+    "sixaxis-ui-test.mjs: animation_speed_pause_and_scrub",
+    "sixaxis-ui-test.mjs: 3d_orthographic_views_and_layer_controls",
+    "sixaxis-ui-test.mjs: xy_xz_yz_stock_sections_and_slice_location",
+    "sixaxis-ui-test.mjs: real_downloads_project_nc_stl_and_report",
+    "sixaxis-ui-test.mjs: editing_invalidates_all_derived_exports",
+    "sixaxis-ui-test.mjs: project_file_restores_setup_and_source",
+    "sixaxis-ui-test.mjs: nc_file_import_and_unsupported_program_blocks_result",
+    "sixaxis-ui-test.mjs: tool_catalog_json_validation_and_resolution_budget",
+    "sixaxis-ui-test.mjs: cancel_prevents_stale_worker_results",
+    "sixaxis-ui-test.mjs: rapid_collision_alert_jumps_to_source",
+    "sixaxis-ui-test.mjs: playback_stops_at_collision",
+    "sixaxis-ui-test.mjs: actual_step_wasm_reference_import_and_comparison",
+    "sixaxis-ui-test.mjs: mobile_layout_has_no_horizontal_overflow",
+    "sixaxis-ui-test.mjs: desktop_result_visual_and_webgl_pixels",
+    "sixaxis-ui-test.mjs: no_browser_runtime_or_resource_errors"
+  ],
+  "reviewed_files": [
+    {
+      "path": "app.mjs",
+      "sha256": "c9dce44af0553dfa2ce91613f58304b8ff60befcafdeb19b1a05522fd0c76bf3"
+    },
+    {
+      "path": "cam.mjs",
+      "sha256": "25546e5a03dc2e73794a0461fb78de323f467df3101aa679c2023a6e70734b26"
+    },
+    {
+      "path": "catalog.json",
+      "sha256": "5e1bc76bc0e54586c45f10de3834560f46d6007f1e2340c5d5a04ed9b870e22f"
+    },
+    {
+      "path": "decision-lite.mjs",
+      "sha256": "cc54f7cb33cb81420fa7578e90f1d32e209b65d883aae7afa70f2e0aec964cbd"
+    },
+    {
+      "path": "engine-worker.mjs",
+      "sha256": "8b717fc51032cf1e92d26b015eb526b247f1a350b70bc079456aba4a4614a5a4"
+    },
+    {
+      "path": "examples/arc-removal-demo.nc",
+      "sha256": "694a48321080c413a23ae4ba6d5ddd31dcd0167e92ebeb65f178bacbedaa1df8"
+    },
+    {
+      "path": "examples/demo.step",
+      "sha256": "eeba83caa6bf799d93720de241d79317b0d0a4aa63766dac093f4dae927c08d6"
+    },
+    {
+      "path": "examples/removal-demo.nc",
+      "sha256": "edf5441350d06501a8fd5cde28c929097a32af10b77c52c402545d812940d1d4"
+    },
+    {
+      "path": "examples/sixaxis-demo.nc",
+      "sha256": "a12db4a11dd5a00e04c487db404ed8667fcaefe98cc3d17e5851af3432070b88"
+    },
+    {
+      "path": "examples/surface_trough.step",
+      "sha256": "9209028671238ca26dbf58e80ee9e8500d26bc7926e57c9e43efaf23591a8baa"
+    },
+    {
+      "path": "gcode-import.mjs",
+      "sha256": "d6cd0525c2500eaf1822fcda0029670e92416f7ac2cb2519a8338b0b3e642f65"
+    },
+    {
+      "path": "index.html",
+      "sha256": "b257174d9773be288f390b4002b8dcbef6d48f6f19a225bd27799184e9f87713"
+    },
+    {
+      "path": "kernel.mjs",
+      "sha256": "b78dfd43457e579e4bec343bfb680cdbb9742822a3a0418266f8d510e9fbb34f"
+    },
+    {
+      "path": "lite-runtime.mjs",
+      "sha256": "3dac47ebcdfab27d13d568c7fd35c5049b30064d5252a42a03a7764513c0b16c"
+    },
+    {
+      "path": "lite-worker.mjs",
+      "sha256": "8e240a86ede97c900ff77d480803a7e72f7a265402b154db50e39baf4b4186c9"
+    },
+    {
+      "path": "material-sim.mjs",
+      "sha256": "50a09b98c73c203651a2cef26452564cabffc3bbb85b5f1f233b727af291ace7"
+    },
+    {
+      "path": "occt-loader.mjs",
+      "sha256": "98f3fc6e24b9f8a81a4df8c8ca8971d0bdc88909edf33b677e772be6e19d86fd"
+    },
+    {
+      "path": "research-ledger.json",
+      "sha256": "ae89ed649787c263ecb8f963afb23772ef3f7d7d6666ab80803b1248ce73c88b"
+    },
+    {
+      "path": "research.html",
+      "sha256": "cc5aefb3f728bce87de8f97ccd9f3883079985c6112907ad8dbde62bff2001a7"
+    },
+    {
+      "path": "runtime.mjs",
+      "sha256": "c667a27138c60ae179853a377c01b6cded64906e8fa281b4458899b27520be7a"
+    },
+    {
+      "path": "sixaxis-app.mjs",
+      "sha256": "0443d188a3dec4461863508e457365060713cb9160fadc7cb9db1eb64d9199d1"
+    },
+    {
+      "path": "sixaxis-compare.mjs",
+      "sha256": "71fd3e01b5e238239ea9a0c4396932c283430dcf6879ae6869c8f09162326938"
+    },
+    {
+      "path": "sixaxis-core.mjs",
+      "sha256": "b24f36983197d0a68b20b659277bf6279575eeb7f5d9688b5efa3ff34203d075"
+    },
+    {
+      "path": "sixaxis-view.mjs",
+      "sha256": "5d48e1b429f642081c5aecceb6b9744fd6b5e7e1a5fa439ec3ae933488cbe6d6"
+    },
+    {
+      "path": "sixaxis-worker.mjs",
+      "sha256": "7f33499899fb847e12a21b200a5d43e620a228df37a193c09e4b8c4a34729448"
+    },
+    {
+      "path": "sixaxis.css",
+      "sha256": "4c7e96433e8edaee68f2bcd32bef787a05f5b146b4538df774b39117de101dfe"
+    },
+    {
+      "path": "sixaxis.html",
+      "sha256": "50c5e76d07afc43ebf1b1c3d6e3491664e79cab53fbc3dd275645d07d6748f56"
+    },
+    {
+      "path": "stock-stl.mjs",
+      "sha256": "2b93ff25ce5caf2f2ef7f2cc1d08a0fc8d3625473425c95077de9df73031fa50"
+    },
+    {
+      "path": "stock-view.mjs",
+      "sha256": "84d0d0c9046c39103bffb5b96c21d76f8b1872f2a96ca9bb0b6c0e67152ff86c"
+    },
+    {
+      "path": "style.css",
+      "sha256": "9939d488ba60b39ef63c6f671a19034e18ae4e838c21316a9ccca9f2f91dc531"
+    },
+    {
+      "path": "surface.mjs",
+      "sha256": "2c65d6ac48c2e31e6a308838c9cc14f3e3fcf8d82c74ad4e067a591ce971feb3"
+    },
+    {
+      "path": "vendor/occt-manifest.json",
+      "sha256": "04071edd96dc1b21025974e821760ab01a4bd0c81495ba07383a8627d874c000"
+    },
+    {
+      "path": "vendor/occt.mjs",
+      "sha256": "d44e64f32817d3e110acbd2056671e73deb587d4bda1b8bf907cb6c39dfcda75"
+    }
+  ],
+  "test_sources": [
+    {
+      "path": "tests/kernel-test.mjs",
+      "sha256": "b9fcc09fe0f9c3d96928f12bd62516a5979710195df27895abe9277d776a1881"
+    },
+    {
+      "path": "tests/geometry-cases.mjs",
+      "sha256": "e1b5c57b6e5f3a4d79d37be43d63dee4a34d4ba7737a41437a1f29e0d3816926"
+    },
+    {
+      "path": "tests/cam-test.mjs",
+      "sha256": "ddef091d359557af91dae79488d74b4efc27290bbaf4ac2606a442da0ea3fc83"
+    },
+    {
+      "path": "tests/lite-test.mjs",
+      "sha256": "2b4592f775ad94a84439ee01ad55b27a731e150aee697090b4e3661998c30d69"
+    },
+    {
+      "path": "tests/surface-test.mjs",
+      "sha256": "a618b819ad81c9558c6b0ff230c99f8744f0095f25453295454b5858c2a5d843"
+    },
+    {
+      "path": "tests/gcode-removal-test.mjs",
+      "sha256": "449c8d9a9c15b6895f3823da275991ea6404e6f033d3e540730ca38ba85370cd"
+    },
+    {
+      "path": "tests/parity-test.mjs",
+      "sha256": "398163aedd542486a5c03272e9ba002e348cc0a110cafeb4ce20b6e2c2cd087d"
+    },
+    {
+      "path": "tests/sixaxis-test.mjs",
+      "sha256": "1034bbef3251338f773530168a7ae6accfd839786ac47b76879c2037d31e27b6"
+    },
+    {
+      "path": "tests/browser-ui-test.mjs",
+      "sha256": "c0c191caead6a94d7f2261ad625ad77ce4371393e3342411cd45fd004fbfddd4"
+    },
+    {
+      "path": "tests/sixaxis-ui-test.mjs",
+      "sha256": "0a9a9318aadeff6b4f1611e9143f729743ad632c0aa5c5c1a7ba17cfda91190d"
+    },
+    {
+      "path": "tests/review-all.mjs",
+      "sha256": "d7583abfda456c36fef250ed5b6ee32c50429925072c647092a8b9e5a0ed217a"
+    },
+    {
+      "path": "tests/serve-local.mjs",
+      "sha256": "4c08b3662d11cc6d02cb2e2163dcb6e343a0e8d96380acdc4aaf539df963ad15"
+    },
+    {
+      "path": "tests/wasm-node.mjs",
+      "sha256": "baf887b191eac42ebae5c613972837449e4c546772477158b73e40155c1f2044"
+    },
+    {
+      "path": "tests/occt-node.cjs",
+      "sha256": "0cf5ae4f317278d921971f841e161b913f35543adcaaa3aead3bf921a1239a2b"
+    }
+  ],
+  "review_notes": [
+    "Round 1: known numerical and geometry cases, real browser integration, legacy regressions.",
+    "Round 2: same coverage with alternate random rotation seed and repeated browser file/playback operations.",
+    "Round 3: same coverage with another seed; exact reviewed runtime hashes compared across all rounds.",
+    "Screenshots visually reviewed for desktop and mobile; no claim of independent human or multi-agent reviews."
+  ],
+  "limitations": [
+    "Automated cases establish bounded evidence, not universal correctness.",
+    "MiniLM tests use mocks; live ONNX inference unverified.",
+    "Generic XYZABC, voxel removal and conservative fixture envelopes are approximations.",
+    "No actual FANUC controller/machine qualification; feature gaps listed in research.html."
+  ]
+}
