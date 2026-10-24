@@ -1,0 +1,27 @@
+name: Xiaoyuge leaderboard security
+on:
+  pull_request:
+    paths: ['api/score.js', 'lib/score-*.mjs', 'xiaoyuge/**', 'games/xiaoyuge/**', 'tests/score*.mjs', 'vercel.json', '.github/workflows/xiaoyuge-security.yml']
+  push:
+    branches: [main, security/xiaoyuge-leaderboard]
+    paths: ['api/score.js', 'lib/score-*.mjs', 'xiaoyuge/**', 'games/xiaoyuge/**', 'tests/score*.mjs', 'vercel.json', '.github/workflows/xiaoyuge-security.yml']
+permissions:
+  contents: read
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7.4
+        ports: ['6379:6379']
+        options: --health-cmd "redis-cli ping" --health-interval 5s --health-timeout 3s --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: sudo apt-get update -qq && sudo apt-get install -y redis-tools
+      - run: node tests/score.test.mjs
+      - run: node tests/score-redis.test.mjs
+        env:
+          REDIS_TEST_PORT: '6379'
