@@ -1,0 +1,2054 @@
+{
+  "肇祥企業社 Maxjimtech · 工具盒配套 3D 佈局規劃與 EVA 工程系統 v5.0 Flagship": {
+    "en": "Maxjimtech · 3D Toolbox & EVA Engineering v5.0 Flagship",
+    "ja": "Maxjimtech · 3D工具箱・EVA設計 v5.0 Flagship",
+    "de": "Maxjimtech · 3D-Werkzeugkasten- und EVA-Planung v5.0 Flagship",
+    "fr": "Maxjimtech · Conception 3D de coffrets et EVA v5.0 Flagship"
+  },
+  "肇祥企業社 Maxjimtech · 工具盒配套 3D 佈局規劃與 EVA 工程系統": {
+    "en": "Maxjimtech · 3D Toolbox & EVA Foam Engineering System",
+    "ja": "Maxjimtech · 3D工具箱レイアウト・EVA設計システム",
+    "de": "Maxjimtech · 3D-Werkzeugkasten- und EVA-Planungssystem",
+    "fr": "Maxjimtech · Système de conception 3D de coffrets et mousse EVA"
+  },
+  "60款國際標準手工具 · 16款盒體/抽屜盤 · 10大成套範本 · 3D爆炸分解 · 重心平衡分析 · 1:1 AutoCAD DXF/SVG 匯出": {
+    "en": "60 standard hand tools · 16 cases/trays · 10 kits · 3D exploded view · CoG analysis · 1:1 DXF/SVG export",
+    "ja": "標準工具60種 · ケース・トレー16種 · セット10種 · 3D分解図 · 重心解析 · 1:1 DXF/SVG出力",
+    "de": "60 Standardwerkzeuge · 16 Koffer/Einsätze · 10 Sets · 3D-Explosionsansicht · Schwerpunktanalyse · DXF/SVG 1:1",
+    "fr": "60 outils normalisés · 16 coffrets/plateaux · 10 kits · Vue éclatée 3D · Analyse du centre de gravité · Export DXF/SVG 1:1"
+  },
+  "EN / 中文": {
+    "en": "Language",
+    "ja": "言語",
+    "de": "Sprache",
+    "fr": "Langue"
+  },
+  "復原": {
+    "en": "Undo",
+    "ja": "元に戻す",
+    "de": "Rückgängig",
+    "fr": "Annuler"
+  },
+  "重做": {
+    "en": "Redo",
+    "ja": "やり直す",
+    "de": "Wiederholen",
+    "fr": "Rétablir"
+  },
+  "匯出 CAD (DXF)": {
+    "en": "Export CAD (DXF)",
+    "ja": "CAD出力 (DXF)",
+    "de": "CAD exportieren (DXF)",
+    "fr": "Exporter CAO (DXF)"
+  },
+  "2D 雷切圖 (SVG)": {
+    "en": "2D laser layout (SVG)",
+    "ja": "2Dレーザー加工図 (SVG)",
+    "de": "2D-Laserschnitt (SVG)",
+    "fr": "Plan laser 2D (SVG)"
+  },
+  "報價 BOM (CSV)": {
+    "en": "Cost BOM (CSV)",
+    "ja": "見積BOM (CSV)",
+    "de": "Kostenstückliste (CSV)",
+    "fr": "Nomenclature chiffrée (CSV)"
+  },
+  "截圖": {
+    "en": "Snapshot",
+    "ja": "画像保存",
+    "de": "Bild speichern",
+    "fr": "Capture"
+  },
+  "存檔": {
+    "en": "Save",
+    "ja": "保存",
+    "de": "Speichern",
+    "fr": "Enregistrer"
+  },
+  "讀檔": {
+    "en": "Load",
+    "ja": "読込",
+    "de": "Laden",
+    "fr": "Charger"
+  },
+  "全螢幕操作": {
+    "en": "Fullscreen",
+    "ja": "全画面表示",
+    "de": "Vollbild",
+    "fr": "Plein écran"
+  },
+  "線上設計工具｜Online Design Tools": {
+    "en": "Online Design Tools",
+    "ja": "オンライン設計ツール",
+    "de": "Online-Konstruktionswerkzeuge",
+    "fr": "Outils de conception en ligne"
+  },
+  "工具盒與 EVA 規劃器 v5.0": {
+    "en": "Toolbox & EVA Planner v5.0",
+    "ja": "工具箱・EVAプランナー v5.0",
+    "de": "Werkzeugkasten- und EVA-Planer v5.0",
+    "fr": "Planificateur de coffrets et EVA v5.0"
+  },
+  "🧰 1.組套與盒體": {
+    "en": "🧰 1. Kits & cases",
+    "ja": "🧰 1. セット・ケース",
+    "de": "🧰 1. Sets & Koffer",
+    "fr": "🧰 1. Kits et coffrets"
+  },
+  "🔧 2.工具庫(60)": {
+    "en": "🔧 2. Tool library (60)",
+    "ja": "🔧 2. 工具庫 (60)",
+    "de": "🔧 2. Werkzeugbibliothek (60)",
+    "fr": "🔧 2. Bibliothèque (60)"
+  },
+  "🧽 3.EVA與構造": {
+    "en": "🧽 3. EVA & structure",
+    "ja": "🧽 3. EVA・構造",
+    "de": "🧽 3. EVA & Aufbau",
+    "fr": "🧽 3. EVA et structure"
+  },
+  "⚡ 4.排樣與對齊": {
+    "en": "⚡ 4. Layout & alignment",
+    "ja": "⚡ 4. 配置・整列",
+    "de": "⚡ 4. Anordnung & Ausrichtung",
+    "fr": "⚡ 4. Placement et alignement"
+  },
+  "國際手工具廠標準成套組套 (10大範本)": {
+    "en": "Standard tool kits (10 templates)",
+    "ja": "標準工具セット（10テンプレート）",
+    "de": "Standard-Werkzeugsätze (10 Vorlagen)",
+    "fr": "Kits d’outils standard (10 modèles)"
+  },
+  "1. 肇祥 Maxjimtech 24件 1/4\" 精密套筒扳手鐵盒組": {
+    "en": "1. Maxjimtech 24-piece 1/4\" precision socket metal case",
+    "ja": "1. Maxjimtech 24点 1/4\" 精密ソケット金属ケースセット",
+    "de": "1. Maxjimtech Metallkoffer mit 24 Präzisions-Steckwerkzeugen 1/4\"",
+    "fr": "1. Coffret métallique Maxjimtech de 24 douilles de précision 1/4\""
+  },
+  "2. 汽修大師 46件 1/2\" & 1/4\" 綜合扭力保修手提箱": {
+    "en": "2. Automotive 46-piece 1/2\" & 1/4\" torque service case",
+    "ja": "2. 自動車整備用46点 1/2\"・1/4\" トルク工具ケース",
+    "de": "2. Kfz-Servicekoffer mit 46 Drehmomentwerkzeugen 1/2\" & 1/4\"",
+    "fr": "2. Coffret d’entretien automobile de 46 outils 1/2\" et 1/4\""
+  },
+  "3. 歐規工具車 #1 抽屜：1/4\"+3/8\"+1/2\" 全系列棘輪套筒盤": {
+    "en": "3. European trolley drawer #1: 1/4\" + 3/8\" + 1/2\" ratchets and sockets",
+    "ja": "3. 欧州規格ワゴン引出し #1：1/4\"・3/8\"・1/2\" ラチェット・ソケット",
+    "de": "3. EU-Werkstattwagen Schublade #1: Ratschen und Nüsse 1/4\" + 3/8\" + 1/2\"",
+    "fr": "3. Tiroir européen n°1 : cliquets et douilles 1/4\" + 3/8\" + 1/2\""
+  },
+  "4. 歐規工具車 #2 抽屜：梅開扳手組 + 四大鉗類 + 起子盤": {
+    "en": "4. European trolley drawer #2: combination wrenches, four pliers and drivers",
+    "ja": "4. 欧州規格ワゴン引出し #2：コンビレンチ・ペンチ4種・ドライバー",
+    "de": "4. EU-Schublade #2: Ringmaulschlüssel, vier Zangen und Schraubendreher",
+    "fr": "4. Tiroir européen n°2 : clés mixtes, quatre pinces et tournevis"
+  },
+  "5. 歐規工具車 #3 抽屜：鉗工錘 + 游標卡尺 + 電表檢修盤": {
+    "en": "5. European trolley drawer #3: hammer, caliper and multimeter",
+    "ja": "5. 欧州規格ワゴン引出し #3：ハンマー・ノギス・テスター",
+    "de": "5. EU-Schublade #3: Hammer, Messschieber und Multimeter",
+    "fr": "5. Tiroir européen n°3 : marteau, pied à coulisse et multimètre"
+  },
+  "6. 1/3 窄版抽屜模組盤 A：專業四件式鉗類收納盤": {
+    "en": "6. 1/3 narrow drawer module A: professional four-plier tray",
+    "ja": "6. 1/3幅引出しモジュールA：プロ用ペンチ4点トレー",
+    "de": "6. 1/3-Schubladenmodul A: Profi-Einsatz für vier Zangen",
+    "fr": "6. Module étroit 1/3 A : plateau professionnel pour quatre pinces"
+  },
+  "7. 1/3 窄版抽屜模組盤 B：雙色起子與球頭六角扳手盤": {
+    "en": "7. 1/3 narrow drawer module B: dual-color drivers and ball-end hex keys",
+    "ja": "7. 1/3幅引出しモジュールB：2色ドライバー・ボール六角レンチ",
+    "de": "7. 1/3-Schubladenmodul B: Zweifarb-Schraubendreher und Kugelkopf-Inbusschlüssel",
+    "fr": "7. Module étroit 1/3 B : tournevis bicolores et clés hexagonales à boule"
+  },
+  "8. 工業氣動保修箱：1/2\" 氣動衝擊扳手 + 鉻鉬長套筒組": {
+    "en": "8. Industrial air-tool case: 1/2\" impact wrench and CR-MO deep sockets",
+    "ja": "8. 産業用エア工具ケース：1/2\" インパクトレンチ・CR-MOディープソケット",
+    "de": "8. Industrie-Druckluftkoffer: 1/2\"-Schlagschrauber und tiefe CR-MO-Nüsse",
+    "fr": "8. Coffret pneumatique industriel : clé à chocs 1/2\" et douilles longues CR-MO"
+  },
+  "9. 機電與新能源檢修氣密箱：數位扭力 + 電表 + 充電起子機": {
+    "en": "9. Electrical/EV rugged case: digital torque wrench, multimeter and cordless driver",
+    "ja": "9. 電機・EV整備用気密ケース：デジタルトルクレンチ・テスター・充電ドライバー",
+    "de": "9. Elektro-/EV-Schutzkoffer: Digital-Drehmomentschlüssel, Multimeter und Akkuschrauber",
+    "fr": "9. Coffret étanche électrique/VE : clé dynamométrique numérique, multimètre et visseuse sans fil"
+  },
+  "10. 歐美外銷 82/105件 綜合機電 DIY 手提箱": {
+    "en": "10. Export 82/105-piece electrical/mechanical DIY case",
+    "ja": "10. 欧米輸出向け82/105点 電機・機械DIYケース",
+    "de": "10. Export-Heimwerkerkoffer mit 82/105 Elektro-/Mechanikwerkzeugen",
+    "fr": "10. Coffret de bricolage électromécanique export de 82/105 pièces"
+  },
+  "自動載入對應盒體規格與最佳化工具排樣": {
+    "en": "Automatically load matching case dimensions and optimized tool layout",
+    "ja": "対応ケース寸法と最適な工具配置を自動読込",
+    "de": "Passende Koffermaße und optimierte Werkzeuganordnung automatisch laden",
+    "fr": "Charger automatiquement le coffret adapté et le placement optimisé"
+  },
+  "套用成套組套": {
+    "en": "Load tool kit",
+    "ja": "工具セットを適用",
+    "de": "Werkzeugsatz laden",
+    "fr": "Charger le kit"
+  },
+  "單獨切換盒體 / 工具車抽屜規格 (16款)": {
+    "en": "Case / trolley drawer dimensions (16 presets)",
+    "ja": "ケース・ワゴン引出し寸法（16種）",
+    "de": "Koffer-/Schubladenmaße (16 Vorlagen)",
+    "fr": "Dimensions du coffret / tiroir (16 modèles)"
+  },
+  "金屬鐵盒": {
+    "en": "Metal case",
+    "ja": "金属ケース",
+    "de": "Metallkoffer",
+    "fr": "Coffret métallique"
+  },
+  "1/4\" 迷你隨身套筒鐵盒 (195 × 105 × 38 mm)": {
+    "en": "1/4\" mini socket metal case (195 × 105 × 38 mm)",
+    "ja": "1/4\" ミニソケット金属ケース (195 × 105 × 38 mm)",
+    "de": "1/4\"-Mini-Steckschlüsselkoffer (195 × 105 × 38 mm)",
+    "fr": "Mini-coffret métallique de douilles 1/4\" (195 × 105 × 38 mm)"
+  },
+  "標準 24 件套筒鐵盒 (280 × 130 × 42 mm)": {
+    "en": "Standard 24-piece socket metal case (280 × 130 × 42 mm)",
+    "ja": "標準24点ソケット金属ケース (280 × 130 × 42 mm)",
+    "de": "Standard-Metallkoffer für 24 Steckwerkzeuge (280 × 130 × 42 mm)",
+    "fr": "Coffret métallique standard de 24 douilles (280 × 130 × 42 mm)"
+  },
+  "3/8\" 雙排套筒組鐵盒 (360 × 165 × 50 mm)": {
+    "en": "3/8\" double-row socket metal case (360 × 165 × 50 mm)",
+    "ja": "3/8\" 2列ソケット金属ケース (360 × 165 × 50 mm)",
+    "de": "3/8\"-Metallkoffer für zweireihige Steckwerkzeuge (360 × 165 × 50 mm)",
+    "fr": "Coffret métallique double rangée 3/8\" (360 × 165 × 50 mm)"
+  },
+  "1/2\" 重型雙扣金屬手提箱 (445 × 195 × 58 mm)": {
+    "en": "1/2\" heavy-duty metal case with two latches (445 × 195 × 58 mm)",
+    "ja": "1/2\" ダブルラッチ大型金属ケース (445 × 195 × 58 mm)",
+    "de": "1/2\"-Schwerlast-Metallkoffer mit zwei Verschlüssen (445 × 195 × 58 mm)",
+    "fr": "Coffret métallique renforcé à deux fermoirs 1/2\" (445 × 195 × 58 mm)"
+  },
+  "中型吹氣手提箱 (380 × 260 × 75 mm)": {
+    "en": "Medium blow-molded case (380 × 260 × 75 mm)",
+    "ja": "中型ブロー成形ケース (380 × 260 × 75 mm)",
+    "de": "Mittlerer blasgeformter Koffer (380 × 260 × 75 mm)",
+    "fr": "Coffret moyen moulé par soufflage (380 × 260 × 75 mm)"
+  },
+  "46/61 件汽修綜合吹氣箱 (420 × 280 × 85 mm)": {
+    "en": "46/61-piece automotive blow-molded case (420 × 280 × 85 mm)",
+    "ja": "46/61点自動車整備用ブロー成形ケース (420 × 280 × 85 mm)",
+    "de": "Blasgeformter Kfz-Koffer für 46/61 Teile (420 × 280 × 85 mm)",
+    "fr": "Coffret automobile soufflé de 46/61 pièces (420 × 280 × 85 mm)"
+  },
+  "94/108 件外銷雙開重型箱 (480 × 340 × 110 mm)": {
+    "en": "94/108-piece heavy double-opening case (480 × 340 × 110 mm)",
+    "ja": "94/108点両開き大型ケース (480 × 340 × 110 mm)",
+    "de": "Schwerer doppelt öffnender Koffer für 94/108 Teile (480 × 340 × 110 mm)",
+    "fr": "Coffret renforcé à double ouverture de 94/108 pièces (480 × 340 × 110 mm)"
+  },
+  "150 件旗艦重型工具箱 (540 × 380 × 120 mm)": {
+    "en": "150-piece flagship heavy-duty case (540 × 380 × 120 mm)",
+    "ja": "150点フラッグシップ大型工具ケース (540 × 380 × 120 mm)",
+    "de": "Premium-Schwerlastkoffer für 150 Teile (540 × 380 × 120 mm)",
+    "fr": "Coffret phare renforcé de 150 pièces (540 × 380 × 120 mm)"
+  },
+  "1/3 抽屜窄版 EVA 模組盤 (185 × 395 × 40 mm)": {
+    "en": "1/3 narrow EVA drawer module (185 × 395 × 40 mm)",
+    "ja": "1/3幅EVA引出しモジュール (185 × 395 × 40 mm)",
+    "de": "Schmales 1/3-EVA-Schubladenmodul (185 × 395 × 40 mm)",
+    "fr": "Module EVA étroit 1/3 pour tiroir (185 × 395 × 40 mm)"
+  },
+  "2/3 抽屜雙倍 EVA 模組盤 (370 × 395 × 40 mm)": {
+    "en": "2/3 double EVA drawer module (370 × 395 × 40 mm)",
+    "ja": "2/3幅EVA引出しモジュール (370 × 395 × 40 mm)",
+    "de": "Doppeltes 2/3-EVA-Schubladenmodul (370 × 395 × 40 mm)",
+    "fr": "Module EVA double 2/3 pour tiroir (370 × 395 × 40 mm)"
+  },
+  "標準工具車全抽屜 EVA 盤 #3 (554 × 260 × 45 mm)": {
+    "en": "Standard full-drawer EVA tray #3 (554 × 260 × 45 mm)",
+    "ja": "標準全幅引出しEVAトレー #3 (554 × 260 × 45 mm)",
+    "de": "Standard-EVA-Vollschubladeneinsatz #3 (554 × 260 × 45 mm)",
+    "fr": "Plateau EVA pour tiroir complet standard n°3 (554 × 260 × 45 mm)"
+  },
+  "歐規寬體全抽屜 EVA 模組盤 (565 × 395 × 50 mm)": {
+    "en": "European wide full-drawer EVA tray (565 × 395 × 50 mm)",
+    "ja": "欧州規格ワイド全幅EVAトレー (565 × 395 × 50 mm)",
+    "de": "Breiter EU-EVA-Vollschubladeneinsatz (565 × 395 × 50 mm)",
+    "fr": "Plateau EVA large pour tiroir européen complet (565 × 395 × 50 mm)"
+  },
+  "美規重型工具車深抽屜盤 (680 × 450 × 65 mm)": {
+    "en": "US heavy-duty deep drawer tray (680 × 450 × 65 mm)",
+    "ja": "米国規格大型深型引出しトレー (680 × 450 × 65 mm)",
+    "de": "US-Schwerlast-Tiefschubladeneinsatz (680 × 450 × 65 mm)",
+    "fr": "Plateau profond renforcé pour tiroir américain (680 × 450 × 65 mm)"
+  },
+  "IP67 軍規氣密防撞儀器箱 (430 × 320 × 135 mm)": {
+    "en": "IP67 rugged airtight instrument case (430 × 320 × 135 mm)",
+    "ja": "IP67耐衝撃気密計器ケース (430 × 320 × 135 mm)",
+    "de": "Robuster dichter IP67-Instrumentenkoffer (430 × 320 × 135 mm)",
+    "fr": "Valise étanche antichoc IP67 pour instruments (430 × 320 × 135 mm)"
+  },
+  "歐規 Systainer T-Loc 堆疊箱 (390 × 290 × 70 mm)": {
+    "en": "European Systainer T-Loc stacking case (390 × 290 × 70 mm)",
+    "ja": "欧州規格Systainer T-Loc積重ねケース (390 × 290 × 70 mm)",
+    "de": "EU-Systainer-T-Loc-Stapelkoffer (390 × 290 × 70 mm)",
+    "fr": "Coffret européen empilable Systainer T-Loc (390 × 290 × 70 mm)"
+  },
+  "精密檢具鋁框航空手提箱 (520 × 360 × 115 mm)": {
+    "en": "Aluminum flight case for precision gauges (520 × 360 × 115 mm)",
+    "ja": "精密検具用アルミフレームケース (520 × 360 × 115 mm)",
+    "de": "Aluminium-Flugkoffer für Präzisionslehren (520 × 360 × 115 mm)",
+    "fr": "Valise de transport à cadre aluminium pour instruments de précision (520 × 360 × 115 mm)"
+  },
+  "✏️ 自訂盒體尺寸 (Custom Dimensions)": {
+    "en": "✏️ Custom case dimensions",
+    "ja": "✏️ ケース寸法を指定",
+    "de": "✏️ Eigene Koffermaße",
+    "fr": "✏️ Dimensions personnalisées"
+  },
+  "外長 L (mm)": {
+    "en": "Outer length L (mm)",
+    "ja": "外寸長さ L (mm)",
+    "de": "Außenlänge L (mm)",
+    "fr": "Longueur extérieure L (mm)"
+  },
+  "外寬 W (mm)": {
+    "en": "Outer width W (mm)",
+    "ja": "外寸幅 W (mm)",
+    "de": "Außenbreite W (mm)",
+    "fr": "Largeur extérieure W (mm)"
+  },
+  "外高 H (mm)": {
+    "en": "Outer height H (mm)",
+    "ja": "外寸高さ H (mm)",
+    "de": "Außenhöhe H (mm)",
+    "fr": "Hauteur extérieure H (mm)"
+  },
+  "盒壁厚度 t (mm)": {
+    "en": "Wall thickness t (mm)",
+    "ja": "ケース肉厚 t (mm)",
+    "de": "Wandstärke t (mm)",
+    "fr": "Épaisseur de paroi t (mm)"
+  },
+  "底層 EVA 總厚 (mm)": {
+    "en": "Total bottom EVA thickness (mm)",
+    "ja": "底部EVA総厚 (mm)",
+    "de": "Gesamtdicke der unteren EVA-Schicht (mm)",
+    "fr": "Épaisseur totale de l’EVA inférieur (mm)"
+  },
+  "可用內徑 (L×W×H)：": {
+    "en": "Usable inside dimensions (L×W×H):",
+    "ja": "有効内寸 (L×W×H)：",
+    "de": "Nutzbare Innenmaße (L×W×H):",
+    "fr": "Dimensions intérieures utiles (L×W×H) :"
+  },
+  "EVA 有效面積 / 挖除率：": {
+    "en": "EVA usable area / cutout ratio:",
+    "ja": "EVA有効面積・切抜き率：",
+    "de": "EVA-Nutzfläche / Ausschnittanteil:",
+    "fr": "Surface EVA utile / taux de découpe :"
+  },
+  "手提重心平衡 (CoG)：": {
+    "en": "Case center of gravity (CoG):",
+    "ja": "ケース重心バランス (CoG)：",
+    "de": "Koffer-Schwerpunkt (CoG):",
+    "fr": "Centre de gravité du coffret (CoG) :"
+  },
+  "上蓋開闔角度 (Lid Angle)": {
+    "en": "Lid opening angle",
+    "ja": "蓋の開き角度",
+    "de": "Deckelöffnungswinkel",
+    "fr": "Angle d’ouverture du couvercle"
+  },
+  "蓋緊 (0°)": {
+    "en": "Closed (0°)",
+    "ja": "閉じる (0°)",
+    "de": "Geschlossen (0°)",
+    "fr": "Fermé (0°)"
+  },
+  "半開 (45°)": {
+    "en": "Half open (45°)",
+    "ja": "半開き (45°)",
+    "de": "Halb offen (45°)",
+    "fr": "Entrouvert (45°)"
+  },
+  "展示 (95°)": {
+    "en": "Display (95°)",
+    "ja": "展示 (95°)",
+    "de": "Präsentation (95°)",
+    "fr": "Présentation (95°)"
+  },
+  "無上蓋抽屜": {
+    "en": "Drawer without lid",
+    "ja": "蓋なし引出し",
+    "de": "Schublade ohne Deckel",
+    "fr": "Tiroir sans couvercle"
+  },
+  "💥 3D 結構爆炸分解圖 (Exploded View)": {
+    "en": "💥 3D exploded view",
+    "ja": "💥 3D分解図",
+    "de": "💥 3D-Explosionsansicht",
+    "fr": "💥 Vue éclatée 3D"
+  },
+  "拉動滑桿可分層展開：外盒底座 ➔ 底層警示EVA ➔ 頂層開槽EVA ➔ 手工具群 ➔ 上蓋泡棉與外蓋": {
+    "en": "Slide to separate layers: case base ➔ warning EVA ➔ pocket EVA ➔ tools ➔ lid foam and cover",
+    "ja": "スライダーで各層を展開：ケース底部 ➔ 警告色EVA ➔ ポケットEVA ➔ 工具 ➔ 蓋スポンジ・外蓋",
+    "de": "Schichten per Schieber trennen: Kofferboden ➔ Warn-EVA ➔ Taschen-EVA ➔ Werkzeuge ➔ Deckelschaum und Deckel",
+    "fr": "Séparer les couches : fond ➔ EVA d’alerte ➔ EVA à poches ➔ outils ➔ mousse et couvercle"
+  },
+  "國際標準手工具模型庫 (60款)": {
+    "en": "Standard hand tool library (60 models)",
+    "ja": "標準手工具ライブラリ（60種）",
+    "de": "Standard-Handwerkzeugbibliothek (60 Modelle)",
+    "fr": "Bibliothèque d’outils standard (60 modèles)"
+  },
+  "單次放入：": {
+    "en": "Batch quantity:",
+    "ja": "一度に追加：",
+    "de": "Menge pro Vorgang:",
+    "fr": "Quantité à ajouter :"
+  },
+  "全部 (60)": {
+    "en": "All (60)",
+    "ja": "すべて (60)",
+    "de": "Alle (60)",
+    "fr": "Tous (60)"
+  },
+  "棘輪/扭力": {
+    "en": "Ratchets / torque",
+    "ja": "ラチェット・トルク",
+    "de": "Ratschen / Drehmoment",
+    "fr": "Cliquets / couple"
+  },
+  "扳手/活動": {
+    "en": "Wrenches / adjustable",
+    "ja": "レンチ・モンキー",
+    "de": "Schlüssel / verstellbar",
+    "fr": "Clés / réglables"
+  },
+  "套筒/接桿": {
+    "en": "Sockets / extensions",
+    "ja": "ソケット・延長棒",
+    "de": "Nüsse / Verlängerungen",
+    "fr": "Douilles / rallonges"
+  },
+  "鉗類/夾持": {
+    "en": "Pliers / clamping",
+    "ja": "ペンチ・クランプ",
+    "de": "Zangen / Spannen",
+    "fr": "Pinces / serrage"
+  },
+  "起子/六角": {
+    "en": "Drivers / hex keys",
+    "ja": "ドライバー・六角",
+    "de": "Schraubendreher / Inbus",
+    "fr": "Tournevis / clés hexagonales"
+  },
+  "敲擊/金工": {
+    "en": "Striking / metalwork",
+    "ja": "打撃・金工作業",
+    "de": "Schlagwerkzeuge / Metall",
+    "fr": "Frappe / travail du métal"
+  },
+  "量測/電工": {
+    "en": "Measuring / electrical",
+    "ja": "測定・電気",
+    "de": "Messen / Elektro",
+    "fr": "Mesure / électricité"
+  },
+  "氣動/電動": {
+    "en": "Air / power tools",
+    "ja": "エア・電動工具",
+    "de": "Druckluft / Elektro",
+    "fr": "Pneumatique / électroportatif"
+  },
+  "➕ 自訂特規手工具 / 治具檢具輸入": {
+    "en": "➕ Custom tool / fixture / gauge",
+    "ja": "➕ 特殊工具・治具・検具の追加",
+    "de": "➕ Sonderwerkzeug / Vorrichtung / Lehre",
+    "fr": "➕ Outil spécial / montage / instrument"
+  },
+  "3D 幾何外型": {
+    "en": "3D geometry",
+    "ja": "3D形状",
+    "de": "3D-Geometrie",
+    "fr": "Géométrie 3D"
+  },
+  "棘輪扳手型": {
+    "en": "Ratchet shape",
+    "ja": "ラチェット型",
+    "de": "Ratschenform",
+    "fr": "Forme de cliquet"
+  },
+  "扭力扳手型": {
+    "en": "Torque wrench shape",
+    "ja": "トルクレンチ型",
+    "de": "Drehmomentschlüsselform",
+    "fr": "Forme de clé dynamométrique"
+  },
+  "梅開扳手型": {
+    "en": "Combination wrench shape",
+    "ja": "コンビレンチ型",
+    "de": "Ringmaulschlüsselform",
+    "fr": "Forme de clé mixte"
+  },
+  "套筒排組型": {
+    "en": "Socket rail shape",
+    "ja": "ソケット列型",
+    "de": "Stecknussleistenform",
+    "fr": "Forme de rail de douilles"
+  },
+  "雙柄鉗類": {
+    "en": "Two-handle pliers",
+    "ja": "両柄ペンチ型",
+    "de": "Zweigriffzange",
+    "fr": "Pince à deux branches"
+  },
+  "手柄起子型": {
+    "en": "Screwdriver shape",
+    "ja": "ドライバー型",
+    "de": "Schraubendreherform",
+    "fr": "Forme de tournevis"
+  },
+  "卡尺量具型": {
+    "en": "Caliper shape",
+    "ja": "ノギス型",
+    "de": "Messschieberform",
+    "fr": "Forme de pied à coulisse"
+  },
+  "電動/氣動槍型": {
+    "en": "Electric / air gun shape",
+    "ja": "電動・エアガン型",
+    "de": "Elektro-/Druckluftpistolenform",
+    "fr": "Forme de pistolet électrique / pneumatique"
+  },
+  "長方體模組": {
+    "en": "Rectangular block",
+    "ja": "直方体",
+    "de": "Quader",
+    "fr": "Bloc rectangulaire"
+  },
+  "臥式圓柱體": {
+    "en": "Horizontal cylinder",
+    "ja": "横向き円柱",
+    "de": "Liegender Zylinder",
+    "fr": "Cylindre horizontal"
+  },
+  "單重(g) / 塗裝色": {
+    "en": "Unit weight (g) / finish color",
+    "ja": "単体重量(g)・塗装色",
+    "de": "Stückgewicht (g) / Farbe",
+    "fr": "Poids unitaire (g) / couleur"
+  },
+  "長 L (mm)": {
+    "en": "Length L (mm)",
+    "ja": "長さ L (mm)",
+    "de": "Länge L (mm)",
+    "fr": "Longueur L (mm)"
+  },
+  "寬 W (mm)": {
+    "en": "Width W (mm)",
+    "ja": "幅 W (mm)",
+    "de": "Breite W (mm)",
+    "fr": "Largeur W (mm)"
+  },
+  "高 H (mm)": {
+    "en": "Height H (mm)",
+    "ja": "高さ H (mm)",
+    "de": "Höhe H (mm)",
+    "fr": "Hauteur H (mm)"
+  },
+  "+ 加入自訂工具至盒內": {
+    "en": "+ Add custom tool to case",
+    "ja": "+ 自作工具をケースに追加",
+    "de": "+ Eigenes Werkzeug hinzufügen",
+    "fr": "+ Ajouter l’outil personnalisé"
+  },
+  "盒體塗裝與 5S 雙色 EVA 泡棉工程設定": {
+    "en": "Case finish & 5S dual-color EVA settings",
+    "ja": "ケース塗装・5S二色EVA設定",
+    "de": "Kofferfarbe und zweifarbige 5S-EVA-Einstellungen",
+    "fr": "Finition du coffret et réglages EVA bicolore 5S"
+  },
+  "外盒塗裝色彩 (Case Finish)": {
+    "en": "Case finish color",
+    "ja": "ケース塗装色",
+    "de": "Kofferfarbe",
+    "fr": "Couleur du coffret"
+  },
+  "肇祥藍": {
+    "en": "Maxjimtech blue",
+    "ja": "Maxjimtechブルー",
+    "de": "Maxjimtech-Blau",
+    "fr": "Bleu Maxjimtech"
+  },
+  "戰術黑": {
+    "en": "Tactical black",
+    "ja": "タクティカルブラック",
+    "de": "Taktisches Schwarz",
+    "fr": "Noir tactique"
+  },
+  "工具紅": {
+    "en": "Tool red",
+    "ja": "ツールレッド",
+    "de": "Werkzeugrot",
+    "fr": "Rouge outil"
+  },
+  "鈦灰銀": {
+    "en": "Titanium silver gray",
+    "ja": "チタングレーシルバー",
+    "de": "Titan-Silbergrau",
+    "fr": "Gris argent titane"
+  },
+  "工程黃": {
+    "en": "Engineering yellow",
+    "ja": "エンジニアリングイエロー",
+    "de": "Technikgelb",
+    "fr": "Jaune technique"
+  },
+  "EVA 雙色防缺件管理配色 (5S Shadow Board)": {
+    "en": "5S dual-color EVA missing-tool management",
+    "ja": "5S工具欠品管理用二色EVA配色",
+    "de": "Zweifarb-EVA zur 5S-Fehlteilerkennung",
+    "fr": "EVA bicolore 5S pour repérer les outils manquants"
+  },
+  "頂層碳黑 / 底槽警示紅 (國際車間 5S 首選)": {
+    "en": "Carbon black top / warning red pockets (workshop 5S)",
+    "ja": "上面黒・底面警告赤（作業場5S）",
+    "de": "Oben Schwarz / Taschen Warnrot (Werkstatt-5S)",
+    "fr": "Dessus noir / poches rouge d’alerte (atelier 5S)"
+  },
+  "頂層碳黑 / 底槽肇祥藍 (Maxjimtech 經典款)": {
+    "en": "Carbon black top / Maxjimtech blue pockets",
+    "ja": "上面黒・底面Maxjimtechブルー",
+    "de": "Oben Schwarz / Taschen Maxjimtech-Blau",
+    "fr": "Dessus noir / poches bleu Maxjimtech"
+  },
+  "頂層碳黑 / 底槽安全黃 (高對比航空級)": {
+    "en": "Carbon black top / safety yellow pockets (high contrast)",
+    "ja": "上面黒・底面安全黄（高コントラスト）",
+    "de": "Oben Schwarz / Taschen Sicherheitsgelb (hoher Kontrast)",
+    "fr": "Dessus noir / poches jaune de sécurité (contraste élevé)"
+  },
+  "頂層碳黑 / 底槽翠綠 (新能源/VDE 認證風)": {
+    "en": "Carbon black top / emerald pockets (EV/VDE style)",
+    "ja": "上面黒・底面エメラルド（EV/VDE風）",
+    "de": "Oben Schwarz / Taschen Grün (EV-/VDE-Stil)",
+    "fr": "Dessus noir / poches vert émeraude (style VE/VDE)"
+  },
+  "3K 卡夢碳纖維紋理面 / 底槽紅": {
+    "en": "3K carbon-fiber texture / red pockets",
+    "ja": "3Kカーボン柄・底面赤",
+    "de": "3K-Carbonstruktur / rote Taschen",
+    "fr": "Texture carbone 3K / poches rouges"
+  },
+  "全黑高密度雷雕專用 EVA": {
+    "en": "All-black high-density EVA for laser engraving",
+    "ja": "レーザー刻印用高密度オールブラックEVA",
+    "de": "Schwarzes hochdichtes EVA für Lasergravur",
+    "fr": "EVA noir haute densité pour gravure laser"
+  },
+  "EVA 泡棉硬度等級": {
+    "en": "EVA foam hardness",
+    "ja": "EVA硬度",
+    "de": "EVA-Schaumhärte",
+    "fr": "Dureté de la mousse EVA"
+  },
+  "Shore A 38° (標準防震)": {
+    "en": "Shore A 38° (standard cushioning)",
+    "ja": "Shore A 38°（標準緩衝）",
+    "de": "Shore A 38° (Standarddämpfung)",
+    "fr": "Shore A 38° (amortissement standard)"
+  },
+  "Shore A 55° (CNC精雕級)": {
+    "en": "Shore A 55° (precision CNC)",
+    "ja": "Shore A 55°（精密CNC）",
+    "de": "Shore A 55° (Präzisions-CNC)",
+    "fr": "Shore A 55° (CNC de précision)"
+  },
+  "Shore A 70° (重型特硬XPE)": {
+    "en": "Shore A 70° (heavy-duty extra-hard XPE)",
+    "ja": "Shore A 70°（重量工具用高硬度XPE）",
+    "de": "Shore A 70° (extrahartes Schwerlast-XPE)",
+    "fr": "Shore A 70° (XPE extra-dur pour charges lourdes)"
+  },
+  "指槽直徑 (Finger Notch)": {
+    "en": "Finger notch diameter",
+    "ja": "指掛け溝の直径",
+    "de": "Durchmesser der Fingerkerbe",
+    "fr": "Diamètre de l’encoche de préhension"
+  },
+  "Ø18 mm (小型精密工具)": {
+    "en": "Ø18 mm (small precision tools)",
+    "ja": "Ø18 mm（小型精密工具）",
+    "de": "Ø18 mm (kleine Präzisionswerkzeuge)",
+    "fr": "Ø18 mm (petits outils de précision)"
+  },
+  "Ø22 mm (人體工學標準)": {
+    "en": "Ø22 mm (ergonomic standard)",
+    "ja": "Ø22 mm（人間工学標準）",
+    "de": "Ø22 mm (ergonomischer Standard)",
+    "fr": "Ø22 mm (standard ergonomique)"
+  },
+  "Ø26 mm (戴手套作業用)": {
+    "en": "Ø26 mm (gloved operation)",
+    "ja": "Ø26 mm（手袋着用）",
+    "de": "Ø26 mm (mit Handschuhen)",
+    "fr": "Ø26 mm (avec gants)"
+  },
+  "啟用真實 CNC 沉入開槽 (Pocket Cutout)": {
+    "en": "Enable recessed CNC pockets",
+    "ja": "CNC掘込みポケットを有効化",
+    "de": "Vertiefte CNC-Taschen aktivieren",
+    "fr": "Activer les poches CNC en creux"
+  },
+  "顯示雙側半圓手指拿取槽 (Finger Notches)": {
+    "en": "Show semicircular finger notches on both sides",
+    "ja": "両側の半円指掛け溝を表示",
+    "de": "Beidseitige halbkreisförmige Fingerkerben anzeigen",
+    "fr": "Afficher les encoches semi-circulaires des deux côtés"
+  },
+  "顯示上蓋內側防震波浪海綿 (Top Egg-Crate Foam)": {
+    "en": "Show egg-crate foam inside lid",
+    "ja": "蓋内側の波形スポンジを表示",
+    "de": "Noppenschaum im Deckel anzeigen",
+    "fr": "Afficher la mousse alvéolée du couvercle"
+  },
+  "EVA 表面雷射雕刻規格字樣 (Laser Labels)": {
+    "en": "Laser-engraved specification labels on EVA",
+    "ja": "EVA表面に仕様ラベルを刻印",
+    "de": "Lasergravierte Spezifikationen auf EVA",
+    "fr": "Étiquettes de spécification gravées au laser sur EVA"
+  },
+  "顯示 3D 盒體重心平衡十字標記 (CoG Target)": {
+    "en": "Show 3D case center-of-gravity marker",
+    "ja": "3Dケース重心マーカーを表示",
+    "de": "3D-Schwerpunktmarkierung anzeigen",
+    "fr": "Afficher le repère 3D du centre de gravité"
+  },
+  "⚡ 多策略智慧自動排樣演算法 (Auto-Pack)": {
+    "en": "⚡ Multi-strategy smart auto-layout",
+    "ja": "⚡ 複数戦略の自動配置",
+    "de": "⚡ Intelligente Anordnung mit mehreren Strategien",
+    "fr": "⚡ Placement automatique multistratégie"
+  },
+  "支援鎖定工具": {
+    "en": "Supports locked tools",
+    "ja": "工具ロック対応",
+    "de": "Gesperrte Werkzeuge unterstützt",
+    "fr": "Outils verrouillés pris en charge"
+  },
+  "排樣演算法策略": {
+    "en": "Layout strategy",
+    "ja": "配置戦略",
+    "de": "Anordnungsstrategie",
+    "fr": "Stratégie de placement"
+  },
+  "1. 緊湊面積最佳化 (自動評估 0°/90° 最大化裝載)": {
+    "en": "1. Compact area optimization (evaluate 0°/90° for maximum fit)",
+    "ja": "1. 面積最適化（0°/90°を評価して収納数最大化）",
+    "de": "1. Kompakte Flächenoptimierung (0°/90° für maximale Belegung)",
+    "fr": "1. Optimisation compacte (évaluation 0°/90° pour capacité maximale)"
+  },
+  "2. 依工具功能分區排樣 (扳手/套筒/鉗類/起子分區)": {
+    "en": "2. Group by tool function (wrenches / sockets / pliers / drivers)",
+    "ja": "2. 機能別配置（レンチ・ソケット・ペンチ・ドライバー）",
+    "de": "2. Nach Funktion gruppieren (Schlüssel / Nüsse / Zangen / Schraubendreher)",
+    "fr": "2. Regrouper par fonction (clés / douilles / pinces / tournevis)"
+  },
+  "3. 依長度階梯整列排樣 (長短由左至右井然有序)": {
+    "en": "3. Order by length (long to short from left to right)",
+    "ja": "3. 長さ順（左から右へ長い順）",
+    "de": "3. Nach Länge (links lang, rechts kurz)",
+    "fr": "3. Trier par longueur (du plus long au plus court de gauche à droite)"
+  },
+  "EVA 最小肋壁間距 (mm)": {
+    "en": "Minimum EVA rib width (mm)",
+    "ja": "EVA最小リブ幅 (mm)",
+    "de": "Mindest-EVA-Stegbreite (mm)",
+    "fr": "Largeur minimale des nervures EVA (mm)"
+  },
+  "外圍靠壁保留距 (mm)": {
+    "en": "Outer wall clearance (mm)",
+    "ja": "外周壁の余白 (mm)",
+    "de": "Randabstand zur Wand (mm)",
+    "fr": "Marge périphérique (mm)"
+  },
+  "⚡ 執行智慧自動排樣 (Auto-Pack Layout)": {
+    "en": "⚡ Run smart auto-layout",
+    "ja": "⚡ 自動配置を実行",
+    "de": "⚡ Intelligente Anordnung starten",
+    "fr": "⚡ Lancer le placement automatique"
+  },
+  "📐 CAD 快速對齊、鏡像與網格吸附": {
+    "en": "📐 CAD alignment, mirroring & grid snap",
+    "ja": "📐 CAD整列・反転・グリッド吸着",
+    "de": "📐 CAD-Ausrichtung, Spiegelung und Rasterfang",
+    "fr": "📐 Alignement CAO, symétrie et accrochage à la grille"
+  },
+  "🎯 整體置中對齊": {
+    "en": "🎯 Center all tools",
+    "ja": "🎯 全工具を中央へ",
+    "de": "🎯 Alle Werkzeuge zentrieren",
+    "fr": "🎯 Centrer tous les outils"
+  },
+  "↔️ 左右鏡像翻轉": {
+    "en": "↔️ Mirror horizontally",
+    "ja": "↔️ 左右反転",
+    "de": "↔️ Horizontal spiegeln",
+    "fr": "↔️ Symétrie horizontale"
+  },
+  "↕️ 上下鏡像翻轉": {
+    "en": "↕️ Mirror vertically",
+    "ja": "↕️ 上下反転",
+    "de": "↕️ Vertikal spiegeln",
+    "fr": "↕️ Symétrie verticale"
+  },
+  "↻ 全部旋轉 90°": {
+    "en": "↻ Rotate all 90°",
+    "ja": "↻ 全工具を90°回転",
+    "de": "↻ Alle um 90° drehen",
+    "fr": "↻ Tout tourner de 90°"
+  },
+  "滑鼠拖曳網格吸附 (Snap)": {
+    "en": "Mouse-drag grid snap",
+    "ja": "ドラッグ時のグリッド吸着",
+    "de": "Rasterfang beim Ziehen",
+    "fr": "Accrochage à la grille lors du déplacement"
+  },
+  "1 mm (精密微調)": {
+    "en": "1 mm (fine adjustment)",
+    "ja": "1 mm（精密調整）",
+    "de": "1 mm (Feineinstellung)",
+    "fr": "1 mm (réglage fin)"
+  },
+  "2 mm 網格": {
+    "en": "2 mm grid",
+    "ja": "2 mmグリッド",
+    "de": "2-mm-Raster",
+    "fr": "Grille de 2 mm"
+  },
+  "5 mm 標準網格": {
+    "en": "5 mm standard grid",
+    "ja": "5 mm標準グリッド",
+    "de": "5-mm-Standardraster",
+    "fr": "Grille standard de 5 mm"
+  },
+  "10 mm 快速網格": {
+    "en": "10 mm quick grid",
+    "ja": "10 mm高速グリッド",
+    "de": "10-mm-Schnellraster",
+    "fr": "Grille rapide de 10 mm"
+  },
+  "🗑️ 清空盒內所有工具 (Clear All)": {
+    "en": "🗑️ Clear all tools",
+    "ja": "🗑️ 全工具を削除",
+    "de": "🗑️ Alle Werkzeuge entfernen",
+    "fr": "🗑️ Retirer tous les outils"
+  },
+  "快捷鍵：": {
+    "en": "Shortcuts:",
+    "ja": "ショートカット：",
+    "de": "Tastenkürzel:",
+    "fr": "Raccourcis :"
+  },
+  "旋轉 ·": {
+    "en": "Rotate ·",
+    "ja": "回転 ·",
+    "de": "Drehen ·",
+    "fr": "Tourner ·"
+  },
+  "複製 ·": {
+    "en": "Duplicate ·",
+    "ja": "複製 ·",
+    "de": "Duplizieren ·",
+    "fr": "Dupliquer ·"
+  },
+  "刪除 ·": {
+    "en": "Delete ·",
+    "ja": "削除 ·",
+    "de": "Löschen ·",
+    "fr": "Supprimer ·"
+  },
+  "方向鍵": {
+    "en": "Arrow keys",
+    "ja": "矢印キー",
+    "de": "Pfeiltasten",
+    "fr": "Touches fléchées"
+  },
+  "微調": {
+    "en": "Fine adjustment",
+    "ja": "微調整",
+    "de": "Feineinstellung",
+    "fr": "Réglage fin"
+  },
+  "3D 等角 (ISO)": {
+    "en": "3D isometric (ISO)",
+    "ja": "3D等角 (ISO)",
+    "de": "3D isometrisch (ISO)",
+    "fr": "3D isométrique (ISO)"
+  },
+  "2D 俯視 (Top)": {
+    "en": "2D top view",
+    "ja": "2D上面",
+    "de": "2D-Draufsicht",
+    "fr": "Vue de dessus 2D"
+  },
+  "正視 (Front)": {
+    "en": "Front",
+    "ja": "正面",
+    "de": "Vorne",
+    "fr": "Face"
+  },
+  "側視 (Side)": {
+    "en": "Side",
+    "ja": "側面",
+    "de": "Seite",
+    "fr": "Côté"
+  },
+  "爆炸圖": {
+    "en": "Explode",
+    "ja": "分解図",
+    "de": "Explosionsansicht",
+    "fr": "Éclaté"
+  },
+  "尺寸線": {
+    "en": "Dimensions",
+    "ja": "寸法線",
+    "de": "Maße",
+    "fr": "Cotes"
+  },
+  "線框": {
+    "en": "Wireframe",
+    "ja": "ワイヤーフレーム",
+    "de": "Drahtmodell",
+    "fr": "Filaire"
+  },
+  "干涉檢測：合格無衝突": {
+    "en": "Clearance check: no conflicts",
+    "ja": "干渉検出：問題なし",
+    "de": "Abstandsprüfung: konfliktfrei",
+    "fr": "Contrôle des jeux : aucun conflit"
+  },
+  "選取工具名稱": {
+    "en": "Selected tool name",
+    "ja": "選択工具名",
+    "de": "Name des gewählten Werkzeugs",
+    "fr": "Nom de l’outil sélectionné"
+  },
+  "🔓 未鎖定": {
+    "en": "🔓 Unlocked",
+    "ja": "🔓 ロック解除",
+    "de": "🔓 Entsperrt",
+    "fr": "🔓 Déverrouillé"
+  },
+  "角度 (°)": {
+    "en": "Angle (°)",
+    "ja": "角度 (°)",
+    "de": "Winkel (°)",
+    "fr": "Angle (°)"
+  },
+  "挖深 (mm)": {
+    "en": "Pocket depth (mm)",
+    "ja": "溝深さ (mm)",
+    "de": "Taschentiefe (mm)",
+    "fr": "Profondeur de poche (mm)"
+  },
+  "🎯 置中": {
+    "en": "🎯 Center",
+    "ja": "🎯 中央へ",
+    "de": "🎯 Zentrieren",
+    "fr": "🎯 Centrer"
+  },
+  "複製": {
+    "en": "Duplicate",
+    "ja": "複製",
+    "de": "Duplizieren",
+    "fr": "Dupliquer"
+  },
+  "刪除": {
+    "en": "Delete",
+    "ja": "削除",
+    "de": "Löschen",
+    "fr": "Supprimer"
+  },
+  "配置工具數：": {
+    "en": "Tools placed:",
+    "ja": "配置工具数：",
+    "de": "Platzierte Werkzeuge:",
+    "fr": "Outils placés :"
+  },
+  "面積稼動率：": {
+    "en": "Area utilization:",
+    "ja": "面積使用率：",
+    "de": "Flächennutzung:",
+    "fr": "Occupation de surface :"
+  },
+  "整盒總重：": {
+    "en": "Total case weight:",
+    "ja": "ケース総重量：",
+    "de": "Koffer-Gesamtgewicht:",
+    "fr": "Poids total du coffret :"
+  },
+  "預估整組成本：": {
+    "en": "Estimated set cost:",
+    "ja": "セット推定原価：",
+    "de": "Geschätzte Satzkosten:",
+    "fr": "Coût estimé du kit :"
+  },
+  "BOM 與成本分析表": {
+    "en": "BOM & cost analysis",
+    "ja": "BOM・原価分析",
+    "de": "Stückliste und Kostenanalyse",
+    "fr": "Nomenclature et analyse des coûts"
+  },
+  "置放工具 BOM 物料與 EVA 成本分析": {
+    "en": "Tool BOM & EVA cost analysis",
+    "ja": "工具BOM・EVA原価分析",
+    "de": "Werkzeugstückliste und EVA-Kostenanalyse",
+    "fr": "Nomenclature des outils et coûts EVA"
+  },
+  "座標、開槽深度、DIN標準、單重與報價預估": {
+    "en": "Coordinates, pocket depth, DIN standard, weight & estimated price",
+    "ja": "座標・溝深さ・DIN規格・単重・推定価格",
+    "de": "Koordinaten, Taschentiefe, DIN-Norm, Gewicht und Schätzpreis",
+    "fr": "Coordonnées, profondeur de poche, norme DIN, poids et prix estimé"
+  },
+  "EVA 加工與成本估算摘要：": {
+    "en": "EVA machining & cost estimate:",
+    "ja": "EVA加工・原価推定：",
+    "de": "EVA-Bearbeitungs- und Kostenschätzung:",
+    "fr": "Estimation de l’usinage et des coûts EVA :"
+  },
+  "盒體 + EVA 內襯成本：": {
+    "en": "Case + EVA insert cost:",
+    "ja": "ケース＋EVA内装原価：",
+    "de": "Koffer- und EVA-Einsatzkosten:",
+    "fr": "Coût coffret + insert EVA :"
+  },
+  "建議出廠參考報價：": {
+    "en": "Suggested factory reference price:",
+    "ja": "参考工場出荷価格：",
+    "de": "Empfohlener Referenzpreis ab Werk:",
+    "fr": "Prix indicatif départ usine :"
+  },
+  "⌨️ 快捷鍵與 EVA 開槽工程規範指南": {
+    "en": "⌨️ Shortcuts & EVA pocket engineering guide",
+    "ja": "⌨️ ショートカット・EVA溝設計ガイド",
+    "de": "⌨️ Tastenkürzel und EVA-Taschenrichtlinien",
+    "fr": "⌨️ Raccourcis et guide technique des poches EVA"
+  },
+  "：旋轉選取工具 90°": {
+    "en": ": Rotate selected tool 90°",
+    "ja": "：選択工具を90°回転",
+    "de": ": Gewähltes Werkzeug um 90° drehen",
+    "fr": ": Tourner l’outil sélectionné de 90°"
+  },
+  "：快速複製選取工具": {
+    "en": ": Quickly duplicate selected tool",
+    "ja": "：選択工具を複製",
+    "de": ": Gewähltes Werkzeug duplizieren",
+    "fr": ": Dupliquer l’outil sélectionné"
+  },
+  "：鎖定/解鎖工具位置": {
+    "en": ": Lock / unlock tool position",
+    "ja": "：工具位置をロック・解除",
+    "de": ": Werkzeugposition sperren / entsperren",
+    "fr": ": Verrouiller / déverrouiller la position"
+  },
+  "：刪除選取工具": {
+    "en": ": Delete selected tool",
+    "ja": "：選択工具を削除",
+    "de": ": Gewähltes Werkzeug löschen",
+    "fr": ": Supprimer l’outil sélectionné"
+  },
+  "：1mm 精密微調座標": {
+    "en": ": Adjust position in 1 mm steps",
+    "ja": "：座標を1 mm単位で微調整",
+    "de": ": Position in 1-mm-Schritten anpassen",
+    "fr": ": Ajuster la position par pas de 1 mm"
+  },
+  "：復原 / 重做": {
+    "en": ": Undo / redo",
+    "ja": "：元に戻す・やり直す",
+    "de": ": Rückgängig / Wiederholen",
+    "fr": ": Annuler / rétablir"
+  },
+  "🛠️ 國際手工具廠 EVA 內襯設計準則：": {
+    "en": "🛠️ EVA insert design guidelines for tool manufacturers:",
+    "ja": "🛠️ 工具メーカー向けEVA内装設計指針：",
+    "de": "🛠️ EVA-Einsatzrichtlinien für Werkzeughersteller:",
+    "fr": "🛠️ Règles de conception des inserts EVA pour fabricants d’outils :"
+  },
+  "• 最小肋壁間距：建議 ≥ 6mm（防止取放工具時 EVA 泡棉撕裂變形）": {
+    "en": "• Minimum rib width: recommended ≥ 6 mm to prevent foam tearing or deformation during tool removal.",
+    "ja": "• 最小リブ幅：工具の出し入れによるEVAの裂け・変形防止のため6 mm以上を推奨。",
+    "de": "• Mindeststegbreite: ≥ 6 mm empfohlen, um Reißen und Verformen beim Entnehmen zu vermeiden.",
+    "fr": "• Nervures : largeur ≥ 6 mm recommandée pour éviter déchirures et déformations lors du retrait des outils."
+  },
+  "• 開槽沉入深度：建議為工具高度之 55%~70%，重型工具選用 Shore A 55°~70°": {
+    "en": "• Pocket depth: 55%–70% of tool height recommended; Shore A 55°–70° for heavy tools.",
+    "ja": "• 溝深さ：工具高さの55%～70%を推奨。重量工具にはShore A 55°～70°を使用。",
+    "de": "• Taschentiefe: 55–70 % der Werkzeughöhe empfohlen; Shore A 55°–70° für schwere Werkzeuge.",
+    "fr": "• Profondeur : 55 à 70 % de la hauteur de l’outil ; Shore A 55° à 70° pour les outils lourds."
+  },
+  "• 重心平衡 (CoG)：手提箱建議 X/Y 重心偏移量控制在 10% 以內，確保提取手感平穩": {
+    "en": "• CoG: keep case X/Y center-of-gravity offset within 10% for balanced carrying.",
+    "ja": "• 重心：安定して持ち運ぶため、X/Y重心偏差を10%以内に抑えることを推奨。",
+    "de": "• Schwerpunkt: X-/Y-Abweichung für ausgewogenes Tragen innerhalb von 10 % halten.",
+    "fr": "• Centre de gravité : limiter le décalage X/Y à 10 % pour un transport équilibré."
+  },
+  "通知內容": {
+    "en": "Notification",
+    "ja": "通知",
+    "de": "Benachrichtigung",
+    "fr": "Notification"
+  },
+  "切換中英文 / Switch Language": {
+    "en": "Language",
+    "ja": "言語",
+    "de": "Sprache",
+    "fr": "Langue"
+  },
+  "復原 Undo (Ctrl+Z)": {
+    "en": "Undo (Ctrl+Z)",
+    "ja": "元に戻す (Ctrl+Z)",
+    "de": "Rückgängig (Strg+Z)",
+    "fr": "Annuler (Ctrl+Z)"
+  },
+  "重做 Redo (Ctrl+Y)": {
+    "en": "Redo (Ctrl+Y)",
+    "ja": "やり直す (Ctrl+Y)",
+    "de": "Wiederholen (Strg+Y)",
+    "fr": "Rétablir (Ctrl+Y)"
+  },
+  "匯出 1:1 AutoCAD DXF 工程圖": {
+    "en": "Export 1:1 AutoCAD DXF drawing",
+    "ja": "1:1 AutoCAD DXF図面を出力",
+    "de": "AutoCAD-DXF-Zeichnung 1:1 exportieren",
+    "fr": "Exporter le dessin AutoCAD DXF à l’échelle 1:1"
+  },
+  "儲存專案 JSON": {
+    "en": "Save project JSON",
+    "ja": "プロジェクトJSONを保存",
+    "de": "Projekt als JSON speichern",
+    "fr": "Enregistrer le projet JSON"
+  },
+  "載入專案 JSON": {
+    "en": "Load project JSON",
+    "ja": "プロジェクトJSONを読込",
+    "de": "JSON-Projekt laden",
+    "fr": "Charger le projet JSON"
+  },
+  "快捷鍵與工程規範": {
+    "en": "Shortcuts & engineering guidelines",
+    "ja": "ショートカット・設計指針",
+    "de": "Tastenkürzel und Konstruktionsrichtlinien",
+    "fr": "Raccourcis et règles techniques"
+  },
+  "重置配置": {
+    "en": "Reset layout",
+    "ja": "配置を初期化",
+    "de": "Anordnung zurücksetzen",
+    "fr": "Réinitialiser le placement"
+  },
+  "線上設計工具 Online Design Tools": {
+    "en": "Online Design Tools",
+    "ja": "オンライン設計ツール",
+    "de": "Online-Konstruktionswerkzeuge",
+    "fr": "Outils de conception en ligne"
+  },
+  "── 五金沖壓鐵盒 (Metal Cases) ──": {
+    "en": "── Stamped metal cases ──",
+    "ja": "── プレス金属ケース ──",
+    "de": "── Gestanzte Metallkoffer ──",
+    "fr": "── Coffrets métalliques emboutis ──"
+  },
+  "── 吹氣箱 / 射出成型手提箱 (Blow/Injection Cases) ──": {
+    "en": "── Blow-molded / injection-molded cases ──",
+    "ja": "── ブロー・射出成形ケース ──",
+    "de": "── Blas- / spritzgeformte Koffer ──",
+    "fr": "── Coffrets soufflés / injectés ──"
+  },
+  "── 工具車標準抽屜 EVA 盤 (Tool Trolley Trays) ──": {
+    "en": "── Tool trolley EVA drawer trays ──",
+    "ja": "── ワゴン引出しEVAトレー ──",
+    "de": "── EVA-Schubladeneinsätze für Werkstattwagen ──",
+    "fr": "── Plateaux EVA de servante ──"
+  },
+  "── 防水軍規氣密箱 / 堆疊箱 (IP67 & Modular) ──": {
+    "en": "── IP67 rugged / stacking cases ──",
+    "ja": "── IP67気密・積重ねケース ──",
+    "de": "── IP67-Schutz- / Stapelkoffer ──",
+    "fr": "── Valises étanches IP67 / coffrets empilables ──"
+  },
+  "🔍 搜尋工具名稱、規格、DIN標準 (例: 1/2, 棘輪, 14mm, 鉗, PH2)...": {
+    "en": "🔍 Search tool name, size or DIN standard (e.g. 1/2, ratchet, 14mm, pliers, PH2)...",
+    "ja": "🔍 工具名・サイズ・DIN規格を検索（例：1/2、ラチェット、14mm、ペンチ、PH2）...",
+    "de": "🔍 Werkzeugname, Größe oder DIN-Norm suchen (z. B. 1/2, Ratsche, 14mm, Zange, PH2)...",
+    "fr": "🔍 Rechercher nom, taille ou norme DIN (ex. 1/2, cliquet, 14mm, pince, PH2)..."
+  },
+  "切換 3D 爆炸分解圖": {
+    "en": "Toggle 3D exploded view",
+    "ja": "3D分解図を切替",
+    "de": "3D-Explosionsansicht umschalten",
+    "fr": "Basculer la vue éclatée 3D"
+  },
+  "鎖定位置 (L)": {
+    "en": "Lock position (L)",
+    "ja": "位置をロック (L)",
+    "de": "Position sperren (L)",
+    "fr": "Verrouiller la position (L)"
+  },
+  "置中此工具": {
+    "en": "Center this tool",
+    "ja": "この工具を中央へ",
+    "de": "Dieses Werkzeug zentrieren",
+    "fr": "Centrer cet outil"
+  },
+  "鎖定位置": {
+    "en": "Lock position",
+    "ja": "位置をロック",
+    "de": "Position sperren",
+    "fr": "Verrouiller la position"
+  },
+  "1/4\" 72齒快脫梨形棘輪扳手": {
+    "en": "1/4\" 72T Quick-Release Ratchet",
+    "ja": "1/4\" 72歯クイックリリースラチェット",
+    "de": "1/4\"-72-Zahn-Schnelllöseratsche",
+    "fr": "Cliquet 1/4\" 72 dents à dégagement rapide"
+  },
+  "3/8\" 72齒梨形棘輪扳手": {
+    "en": "3/8\" 72T Pear Head Ratchet",
+    "ja": "3/8\" 72歯洋梨型ラチェット",
+    "de": "3/8\"-72-Zahn-Birnenkopfratsche",
+    "fr": "Cliquet 3/8\" 72 dents à tête poire"
+  },
+  "3/8\" 搖頭雙色棘輪扳手": {
+    "en": "3/8\" Flex-Head Ergonomic Ratchet",
+    "ja": "3/8\" 首振り2色ラチェット",
+    "de": "3/8\"-Gelenkkopfratsche mit Zweifarbgriff",
+    "fr": "Cliquet articulé bicolore 3/8\""
+  },
+  "1/2\" 工業級重型棘輪扳手": {
+    "en": "1/2\" Heavy-Duty Industrial Ratchet",
+    "ja": "1/2\" 産業用大型ラチェット",
+    "de": "1/2\"-Industrie-Schwerlastratsche",
+    "fr": "Cliquet industriel renforcé 1/2\""
+  },
+  "3/8\" 預置式扭力扳手 (10-60Nm)": {
+    "en": "3/8\" Click Torque Wrench (10-60Nm)",
+    "ja": "3/8\" プリセット型トルクレンチ (10-60Nm)",
+    "de": "3/8\"-Klick-Drehmomentschlüssel (10-60Nm)",
+    "fr": "Clé dynamométrique à déclenchement 3/8\" (10-60Nm)"
+  },
+  "1/2\" 預置式扭力扳手 (28-210Nm)": {
+    "en": "1/2\" Click Torque Wrench (28-210Nm)",
+    "ja": "1/2\" プリセット型トルクレンチ (28-210Nm)",
+    "de": "1/2\"-Klick-Drehmomentschlüssel (28-210Nm)",
+    "fr": "Clé dynamométrique à déclenchement 1/2\" (28-210Nm)"
+  },
+  "1/2\" 數位電子扭力扳手 (40-200Nm)": {
+    "en": "1/2\" Digital Torque Wrench (40-200Nm)",
+    "ja": "1/2\" デジタルトルクレンチ (40-200Nm)",
+    "de": "1/2\"-Digital-Drehmomentschlüssel (40-200Nm)",
+    "fr": "Clé dynamométrique numérique 1/2\" (40-200Nm)"
+  },
+  "1/2\" F型轉向桿 / 強生桿 250mm": {
+    "en": "1/2\" Swivel Breaker Bar 250mm",
+    "ja": "1/2\" 首振りスピンナーハンドル 250mm",
+    "de": "1/2\"-Gelenk-Kraftgriff 250mm",
+    "fr": "Poignée articulée de force 1/2\" 250mm"
+  },
+  "1/2\" 加長重型強生桿 380mm": {
+    "en": "1/2\" Heavy Breaker Bar 380mm",
+    "ja": "1/2\" 大型ロングスピンナーハンドル 380mm",
+    "de": "1/2\"-Schwerlast-Kraftgriff 380mm",
+    "fr": "Poignée de force renforcée 1/2\" 380mm"
+  },
+  "梅開複合扳手 8mm (CR-V)": {
+    "en": "Combination Wrench 8mm (CR-V)",
+    "ja": "コンビネーションレンチ 8mm (CR-V)",
+    "de": "Ringmaulschlüssel 8mm (CR-V)",
+    "fr": "Clé mixte 8mm (CR-V)"
+  },
+  "梅開複合扳手 10mm (CR-V)": {
+    "en": "Combination Wrench 10mm (CR-V)",
+    "ja": "コンビネーションレンチ 10mm (CR-V)",
+    "de": "Ringmaulschlüssel 10mm (CR-V)",
+    "fr": "Clé mixte 10mm (CR-V)"
+  },
+  "梅開複合扳手 12mm (CR-V)": {
+    "en": "Combination Wrench 12mm (CR-V)",
+    "ja": "コンビネーションレンチ 12mm (CR-V)",
+    "de": "Ringmaulschlüssel 12mm (CR-V)",
+    "fr": "Clé mixte 12mm (CR-V)"
+  },
+  "72齒棘輪梅開扳手 13mm": {
+    "en": "72T Ratcheting Wrench 13mm",
+    "ja": "72歯ラチェットコンビレンチ 13mm",
+    "de": "72-Zahn-Ratschen-Ringmaulschlüssel 13mm",
+    "fr": "Clé mixte à cliquet 72 dents 13mm"
+  },
+  "梅開複合扳手 14mm (單支)": {
+    "en": "Combination Wrench 14mm (single)",
+    "ja": "コンビネーションレンチ 14mm（単品）",
+    "de": "Ringmaulschlüssel 14mm (einzeln)",
+    "fr": "Clé mixte 14mm (unitaire)"
+  },
+  "梅開複合扳手 17mm (CR-V)": {
+    "en": "Combination Wrench 17mm (CR-V)",
+    "ja": "コンビネーションレンチ 17mm (CR-V)",
+    "de": "Ringmaulschlüssel 17mm (CR-V)",
+    "fr": "Clé mixte 17mm (CR-V)"
+  },
+  "梅開複合扳手 19mm (CR-V)": {
+    "en": "Combination Wrench 19mm (CR-V)",
+    "ja": "コンビネーションレンチ 19mm (CR-V)",
+    "de": "Ringmaulschlüssel 19mm (CR-V)",
+    "fr": "Clé mixte 19mm (CR-V)"
+  },
+  "梅開扳手階梯排組 (8~19mm 8件)": {
+    "en": "Combination Wrench Set (8-19mm 8pcs)",
+    "ja": "コンビレンチ階段セット（8～19mm 8点）",
+    "de": "Gestufter Ringmaulschlüsselsatz (8–19mm, 8 Teile)",
+    "fr": "Jeu étagé de clés mixtes (8–19mm, 8 pièces)"
+  },
+  "雙梅花偏置扳手排組 (8~22mm 6件)": {
+    "en": "Offset Double Ring Wrench Set (8-22mm 6pcs)",
+    "ja": "オフセット両口メガネレンチ（8～22mm 6点）",
+    "de": "Gekröpfter Doppelringschlüsselsatz (8–22mm, 6 Teile)",
+    "fr": "Jeu de clés polygonales coudées (8–22mm, 6 pièces)"
+  },
+  "工業級活動扳手 8\" (200mm)": {
+    "en": "Industrial Adjustable Wrench 8\" (200mm)",
+    "ja": "産業用モンキーレンチ 8\" (200mm)",
+    "de": "Industrie-Rollgabelschlüssel 8\" (200mm)",
+    "fr": "Clé à molette industrielle 8\" (200mm)"
+  },
+  "大開口薄型活動扳手 10\" (250mm)": {
+    "en": "Wide-Jaw Thin Adjustable Wrench 10\" (250mm)",
+    "ja": "薄型ワイドモンキーレンチ 10\" (250mm)",
+    "de": "Dünner Rollgabelschlüssel mit weiter Öffnung 10\" (250mm)",
+    "fr": "Clé à molette fine grande ouverture 10\" (250mm)"
+  },
+  "1/4\" 短套筒組 (4~13mm 6顆)": {
+    "en": "1/4\" Short Socket Strip (4-13mm 6pcs)",
+    "ja": "1/4\" ショートソケットセット（4～13mm 6点）",
+    "de": "1/4\"-Kurzstecknusssatz (4–13mm, 6 Teile)",
+    "fr": "Jeu de douilles courtes 1/4\" (4–13mm, 6 pièces)"
+  },
+  "1/4\" 精密短套筒排組 (4~14mm 10顆)": {
+    "en": "1/4\" Precision Socket Rail Set (4-14mm 10pcs)",
+    "ja": "1/4\" 精密ショートソケットレール（4～14mm 10点）",
+    "de": "1/4\"-Präzisions-Stecknussleiste (4–14mm, 10 Teile)",
+    "fr": "Rail de douilles courtes de précision 1/4\" (4–14mm, 10 pièces)"
+  },
+  "1/4\" 深孔長套筒組 (6~13mm 6顆)": {
+    "en": "1/4\" Deep Socket Strip (6-13mm 6pcs)",
+    "ja": "1/4\" ディープソケットセット（6～13mm 6点）",
+    "de": "1/4\"-Langstecknusssatz (6–13mm, 6 Teile)",
+    "fr": "Jeu de douilles longues 1/4\" (6–13mm, 6 pièces)"
+  },
+  "3/8\" 六角短套筒組 (8~19mm 8顆)": {
+    "en": "3/8\" Hex Socket Strip (8-19mm 8pcs)",
+    "ja": "3/8\" 六角ショートソケット（8～19mm 8点）",
+    "de": "3/8\"-Sechskant-Stecknusssatz (8–19mm, 8 Teile)",
+    "fr": "Jeu de douilles hexagonales courtes 3/8\" (8–19mm, 8 pièces)"
+  },
+  "1/2\" 鉻釩鋼短套筒組 (10~24mm 8顆)": {
+    "en": "1/2\" CR-V Short Socket Strip (10-24mm 8pcs)",
+    "ja": "1/2\" CR-Vショートソケット（10～24mm 8点）",
+    "de": "1/2\"-CR-V-Kurzstecknusssatz (10–24mm, 8 Teile)",
+    "fr": "Jeu de douilles courtes CR-V 1/2\" (10–24mm, 8 pièces)"
+  },
+  "1/2\" 氣動深孔套筒組 (4顆連列)": {
+    "en": "1/2\" CR-MO Deep Impact Sockets (4pcs)",
+    "ja": "1/2\" エア用ディープソケット（4点レール）",
+    "de": "1/2\"-CR-MO-Langschlagnüsse (4 Teile)",
+    "fr": "Douilles à chocs longues CR-MO 1/2\" (4 pièces)"
+  },
+  "氣動六角凸套筒組 (H5~H12 6顆)": {
+    "en": "Impact Hex Bit Socket Set (H5-H12 6pcs)",
+    "ja": "インパクト六角ビットソケット（H5～H12 6点）",
+    "de": "Schlag-Inbus-Stecknusssatz (H5–H12, 6 Teile)",
+    "fr": "Jeu de douilles à chocs hexagonales (H5–H12, 6 pièces)"
+  },
+  "3/8\" 星形 Torx 壓入套筒組 (T20~T50)": {
+    "en": "3/8\" Torx Bit Socket Set (T20-T50)",
+    "ja": "3/8\" Torxビットソケット（T20～T50）",
+    "de": "3/8\"-Torx-Bit-Stecknusssatz (T20–T50)",
+    "fr": "Jeu de douilles Torx 3/8\" (T20–T50)"
+  },
+  "火星塞磁性套筒 16mm (3/8\")": {
+    "en": "Magnetic Spark Plug Socket 16mm (3/8\")",
+    "ja": "マグネットプラグソケット 16mm (3/8\")",
+    "de": "Magnet-Zündkerzennuss 16mm (3/8\")",
+    "fr": "Douille magnétique à bougie 16mm (3/8\")"
+  },
+  "薄壁火星塞套筒 14mm (歐系車用)": {
+    "en": "Thin-Wall Spark Plug Socket 14mm (European cars)",
+    "ja": "薄肉プラグソケット 14mm（欧州車用）",
+    "de": "Dünnwandige Zündkerzennuss 14mm (europäische Fahrzeuge)",
+    "fr": "Douille à bougie à paroi fine 14mm (véhicules européens)"
+  },
+  "1/4\" 延長接桿 50mm": {
+    "en": "1/4\" Extension Bar 50mm",
+    "ja": "1/4\" エクステンションバー 50mm",
+    "de": "1/4\"-Verlängerung 50mm",
+    "fr": "Rallonge 1/4\" 50mm"
+  },
+  "1/4\" 延長接桿 100mm": {
+    "en": "1/4\" Extension Bar 100mm",
+    "ja": "1/4\" エクステンションバー 100mm",
+    "de": "1/4\"-Verlängerung 100mm",
+    "fr": "Rallonge 1/4\" 100mm"
+  },
+  "3/8\" 搖擺延長接桿 150mm": {
+    "en": "3/8\" Wobble Extension Bar 150mm",
+    "ja": "3/8\" 首振りエクステンションバー 150mm",
+    "de": "3/8\"-Taumelverlängerung 150mm",
+    "fr": "Rallonge oscillante 3/8\" 150mm"
+  },
+  "1/2\" 重型延長接桿 250mm": {
+    "en": "1/2\" Heavy Extension Bar 250mm",
+    "ja": "1/2\" 大型エクステンションバー 250mm",
+    "de": "1/2\"-Schwerlast-Verlängerung 250mm",
+    "fr": "Rallonge renforcée 1/2\" 250mm"
+  },
+  "1/4\" 萬向接頭 (Universal Joint)": {
+    "en": "1/4\" Universal Joint",
+    "ja": "1/4\" ユニバーサルジョイント",
+    "de": "1/4\"-Kardangelenk",
+    "fr": "Cardan universel 1/4\""
+  },
+  "1/2\" 萬向接頭 (Universal Joint)": {
+    "en": "1/2\" Universal Joint",
+    "ja": "1/2\" ユニバーサルジョイント",
+    "de": "1/2\"-Kardangelenk",
+    "fr": "Cardan universel 1/2\""
+  },
+  "滑行 T 型扳手桿 (1/4\" 115mm)": {
+    "en": "1/4\" Sliding T-Bar 115mm",
+    "ja": "スライドTハンドル (1/4\" 115mm)",
+    "de": "1/4\"-Gleit-T-Griff 115mm",
+    "fr": "Poignée coulissante en T 1/4\" 115mm"
+  },
+  "滑行 T 型扳手桿 (3/8\" 160mm)": {
+    "en": "3/8\" Sliding T-Bar 160mm",
+    "ja": "スライドTハンドル (3/8\" 160mm)",
+    "de": "3/8\"-Gleit-T-Griff 160mm",
+    "fr": "Poignée coulissante en T 3/8\" 160mm"
+  },
+  "多功能鋼絲鉗 7\" (180mm)": {
+    "en": "Combination Pliers 7\" (180mm)",
+    "ja": "多機能ペンチ 7\" (180mm)",
+    "de": "Kombizange 7\" (180mm)",
+    "fr": "Pince universelle 7\" (180mm)"
+  },
+  "重型省力鋼絲鉗 8\" (205mm)": {
+    "en": "Heavy-Duty Combination Pliers 8\" (205mm)",
+    "ja": "強力ペンチ 8\" (205mm)",
+    "de": "Kraft-Kombizange 8\" (205mm)",
+    "fr": "Pince universelle renforcée 8\" (205mm)"
+  },
+  "絕緣尖嘴鉗 6\" (165mm)": {
+    "en": "Insulated Long Nose Pliers 6\" (165mm)",
+    "ja": "絶縁ラジオペンチ 6\" (165mm)",
+    "de": "Isolierte Spitzzange 6\" (165mm)",
+    "fr": "Pince à bec long isolée 6\" (165mm)"
+  },
+  "彎嘴尖嘴鉗 6\" (45° 彎頭)": {
+    "en": "Bent Nose Pliers 6\" (45°)",
+    "ja": "先曲がりラジオペンチ 6\" (45°)",
+    "de": "Gebogene Spitzzange 6\" (45°)",
+    "fr": "Pince à bec coudé 6\" (45°)"
+  },
+  "省力斜口鉗 6\" (160mm)": {
+    "en": "Diagonal Cutting Nippers 6\" (160mm)",
+    "ja": "強力ニッパー 6\" (160mm)",
+    "de": "Kraft-Seitenschneider 6\" (160mm)",
+    "fr": "Pince coupante diagonale 6\" (160mm)"
+  },
+  "多段鯉魚鉗 / 水泵鉗 8\"": {
+    "en": "Water Pump Pliers 8\"",
+    "ja": "ウォーターポンププライヤー 8\"",
+    "de": "Wasserpumpenzange 8\"",
+    "fr": "Pince multiprise 8\""
+  },
+  "按鍵式快調水泵鉗 10\" (250mm)": {
+    "en": "Push-Button Water Pump Pliers 10\" (250mm)",
+    "ja": "ボタン式ウォーターポンププライヤー 10\" (250mm)",
+    "de": "Druckknopf-Wasserpumpenzange 10\" (250mm)",
+    "fr": "Pince multiprise à bouton-poussoir 10\" (250mm)"
+  },
+  "圓嘴大力鉗 / 萬能鉗 10\"": {
+    "en": "Curved-Jaw Locking Pliers 10\"",
+    "ja": "カーブジョーロッキングプライヤー 10\"",
+    "de": "Gripzange mit gebogenen Backen 10\"",
+    "fr": "Pince-étau à mâchoires courbes 10\""
+  },
+  "軸用/孔用卡簧鉗 7\" (Circlip)": {
+    "en": "Internal / External Circlip Pliers 7\"",
+    "ja": "穴・軸用スナップリングプライヤー 7\"",
+    "de": "Innen-/Außen-Sicherungsringzange 7\"",
+    "fr": "Pince à circlips intérieurs / extérieurs 7\""
+  },
+  "雙色人體工學十字起子 (PH1×100)": {
+    "en": "Dual-Color Ergonomic Phillips Screwdriver (PH1×100)",
+    "ja": "2色グリッププラスドライバー (PH1×100)",
+    "de": "Ergonomischer Zweifarb-Kreuzschlitzschraubendreher (PH1×100)",
+    "fr": "Tournevis cruciforme ergonomique bicolore (PH1×100)"
+  },
+  "雙色人體工學螺絲起子 (PH2×100)": {
+    "en": "Dual-Color Ergonomic Phillips Screwdriver (PH2×100)",
+    "ja": "2色グリッププラスドライバー (PH2×100)",
+    "de": "Ergonomischer Zweifarb-Kreuzschlitzschraubendreher (PH2×100)",
+    "fr": "Tournevis cruciforme ergonomique bicolore (PH2×100)"
+  },
+  "雙色人體工學一字起子 (SL6×100)": {
+    "en": "Dual-Color Ergonomic Slotted Screwdriver (SL6×100)",
+    "ja": "2色グリップマイナスドライバー (SL6×100)",
+    "de": "Ergonomischer Zweifarb-Schlitzschraubendreher (SL6×100)",
+    "fr": "Tournevis plat ergonomique bicolore (SL6×100)"
+  },
+  "1/4\" 方桿旋具手柄 150mm": {
+    "en": "1/4\" Square Drive Spinner Handle 150mm",
+    "ja": "1/4\" 角ドライブスピンナーハンドル 150mm",
+    "de": "1/4\"-Vierkant-Schraubendrehergriff 150mm",
+    "fr": "Poignée tournevis à carré 1/4\" 150mm"
+  },
+  "T型包膠六角扳手 H5×150mm": {
+    "en": "Rubber T-Handle Hex Key H5×150mm",
+    "ja": "樹脂グリップT型六角レンチ H5×150mm",
+    "de": "Ummantelter T-Griff-Inbusschlüssel H5×150mm",
+    "fr": "Clé hexagonale en T gainée H5×150mm"
+  },
+  "L型球頭內六角扳手組 (9件式)": {
+    "en": "L-Type Ball-End Hex Key Set (9pcs)",
+    "ja": "L型ボール六角レンチセット（9点）",
+    "de": "L-Kugelkopf-Inbusschlüsselsatz (9 Teile)",
+    "fr": "Jeu de clés hexagonales en L à boule (9 pièces)"
+  },
+  "L型中空星形扳手組 (T10~T50 9件)": {
+    "en": "Tamper-Torx L-Key Set (T10-T50 9pcs)",
+    "ja": "L型穴付きTorxレンチ（T10～T50 9点）",
+    "de": "L-Sicherheits-Torx-Schlüsselsatz (T10–T50, 9 Teile)",
+    "fr": "Jeu de clés Torx de sécurité en L (T10–T50, 9 pièces)"
+  },
+  "S2 旋具頭/起子頭模組盒 (30件)": {
+    "en": "S2 Screwdriver Bit Cassette (30pcs)",
+    "ja": "S2ドライバービットケース（30点）",
+    "de": "S2-Schrauberbit-Kassette (30 Teile)",
+    "fr": "Coffret d’embouts de vissage S2 (30 pièces)"
+  },
+  "S2 旋具頭模組排 (10件)": {
+    "en": "S2 Precision Bit Strip (10pcs)",
+    "ja": "S2ビットレール（10点）",
+    "de": "S2-Präzisions-Bitleiste (10 Teile)",
+    "fr": "Rail d’embouts S2 (10 pièces)"
+  },
+  "防震圓頭鉗工錘 300g": {
+    "en": "Anti-Vibration Ball-Peen Hammer 300g",
+    "ja": "防振ボールピンハンマー 300g",
+    "de": "Vibrationsarmer Kugelhammer 300g",
+    "fr": "Marteau à panne ronde antivibrations 300g"
+  },
+  "無反彈雙頭橡膠安裝錘 400g": {
+    "en": "Dead-Blow Double Soft-Face Mallet 400g",
+    "ja": "無反動両口ゴムハンマー 400g",
+    "de": "Rückschlagfreier Doppel-Gummihammer 400g",
+    "fr": "Maillet en caoutchouc double face sans rebond 400g"
+  },
+  "合金鋼冷鑿與中心沖組 (5件式)": {
+    "en": "Alloy Steel Cold Chisel & Center Punch Set (5pcs)",
+    "ja": "合金鋼タガネ・センターポンチ（5点）",
+    "de": "Legierter Flachmeißel- und Körnersatz (5 Teile)",
+    "fr": "Jeu de burins à froid et pointeaux en acier allié (5 pièces)"
+  },
+  "鋁合金重型美工刀": {
+    "en": "Heavy-Duty Aluminum Utility Knife",
+    "ja": "アルミ製大型カッターナイフ",
+    "de": "Robustes Aluminium-Cuttermesser",
+    "fr": "Cutter renforcé en aluminium"
+  },
+  "工業級數顯游標卡尺 0-150mm": {
+    "en": "Industrial Digital Caliper 0-150mm",
+    "ja": "産業用デジタルノギス 0-150mm",
+    "de": "Industrie-Digitalmessschieber 0–150mm",
+    "fr": "Pied à coulisse numérique industriel 0–150mm"
+  },
+  "防摔包膠鋼捲尺 5M×19mm": {
+    "en": "Shockproof Rubber-Coated Steel Tape 5M×19mm",
+    "ja": "耐衝撃ラバー被覆スチール巻尺 5M×19mm",
+    "de": "Stoßfestes gummiertes Stahlmaßband 5M×19mm",
+    "fr": "Mètre ruban acier gainé antichoc 5M×19mm"
+  },
+  "真有效值數位三用電表 (True RMS)": {
+    "en": "True-RMS Digital Multimeter",
+    "ja": "真の実効値デジタルマルチメーター",
+    "de": "True-RMS-Digitalmultimeter",
+    "fr": "Multimètre numérique à valeur efficace vraie"
+  },
+  "不銹鋼精密厚薄規 / 塞尺 (20片)": {
+    "en": "Stainless Precision Feeler Gauge (20 Blades)",
+    "ja": "ステンレス精密すきまゲージ（20枚）",
+    "de": "Präzisions-Edelstahl-Fühlerlehre (20 Blätter)",
+    "fr": "Jauge d’épaisseur de précision inox (20 lames)"
+  },
+  "1/2\" 工業級雙錘氣動衝擊扳手": {
+    "en": "1/2\" Industrial Twin-Hammer Air Impact Wrench",
+    "ja": "1/2\" 産業用ツインハンマーエアインパクトレンチ",
+    "de": "1/2\"-Industrie-Druckluftschlagschrauber mit Doppelhammer",
+    "fr": "Clé à chocs pneumatique industrielle à double marteau 1/2\""
+  },
+  "18V 無刷電動衝擊起子機": {
+    "en": "18V Brushless Cordless Impact Driver",
+    "ja": "18Vブラシレス充電インパクトドライバー",
+    "de": "18V-Akku-Schlagschrauber mit bürstenlosem Motor",
+    "fr": "Visseuse à chocs sans fil 18V sans balais"
+  },
+  "18V/20V 4.0Ah 鋰電池模組": {
+    "en": "18V/20V 4.0Ah Li-Ion Battery Pack",
+    "ja": "18V/20V 4.0Ahリチウムイオン電池",
+    "de": "18V/20V-4.0Ah-Lithium-Ionen-Akku",
+    "fr": "Batterie lithium-ion 18V/20V 4.0Ah"
+  },
+  "迷你鐵盒": {
+    "en": "Mini metal case",
+    "ja": "ミニ金属ケース",
+    "de": "Mini-Metallkoffer",
+    "fr": "Mini-coffret métallique"
+  },
+  "標準鐵盒": {
+    "en": "Standard metal case",
+    "ja": "標準金属ケース",
+    "de": "Standard-Metallkoffer",
+    "fr": "Coffret métallique standard"
+  },
+  "雙排鐵盒": {
+    "en": "Double-row metal case",
+    "ja": "2列金属ケース",
+    "de": "Zweireihiger Metallkoffer",
+    "fr": "Coffret métallique double rangée"
+  },
+  "重型鐵盒": {
+    "en": "Heavy metal case",
+    "ja": "大型金属ケース",
+    "de": "Schwerlast-Metallkoffer",
+    "fr": "Coffret métallique renforcé"
+  },
+  "中型吹氣箱": {
+    "en": "Medium blow-molded case",
+    "ja": "中型ブロー成形ケース",
+    "de": "Mittlerer blasgeformter Koffer",
+    "fr": "Coffret moyen soufflé"
+  },
+  "汽修吹氣箱": {
+    "en": "Automotive blow-molded case",
+    "ja": "自動車整備用ブロー成形ケース",
+    "de": "Blasgeformter Kfz-Koffer",
+    "fr": "Coffret automobile soufflé"
+  },
+  "大型重型箱": {
+    "en": "Large heavy-duty case",
+    "ja": "大型重量工具ケース",
+    "de": "Großer Schwerlastkoffer",
+    "fr": "Grand coffret renforcé"
+  },
+  "旗艦外銷箱": {
+    "en": "Flagship export case",
+    "ja": "フラッグシップ輸出用ケース",
+    "de": "Premium-Exportkoffer",
+    "fr": "Coffret export phare"
+  },
+  "1/3 抽屜盤": {
+    "en": "1/3 drawer tray",
+    "ja": "1/3引出しトレー",
+    "de": "1/3-Schubladeneinsatz",
+    "fr": "Plateau 1/3 de tiroir"
+  },
+  "2/3 抽屜盤": {
+    "en": "2/3 drawer tray",
+    "ja": "2/3引出しトレー",
+    "de": "2/3-Schubladeneinsatz",
+    "fr": "Plateau 2/3 de tiroir"
+  },
+  "標準全抽屜": {
+    "en": "Standard full drawer",
+    "ja": "標準全幅引出し",
+    "de": "Standard-Vollschublade",
+    "fr": "Tiroir complet standard"
+  },
+  "歐規全抽屜": {
+    "en": "European full drawer",
+    "ja": "欧州規格全幅引出し",
+    "de": "EU-Vollschublade",
+    "fr": "Tiroir européen complet"
+  },
+  "美規深抽屜": {
+    "en": "US deep drawer",
+    "ja": "米国規格深型引出し",
+    "de": "US-Tiefschublade",
+    "fr": "Tiroir américain profond"
+  },
+  "IP67 氣密箱": {
+    "en": "IP67 airtight case",
+    "ja": "IP67気密ケース",
+    "de": "Dichter IP67-Koffer",
+    "fr": "Valise étanche IP67"
+  },
+  "Systainer箱": {
+    "en": "Systainer case",
+    "ja": "Systainerケース",
+    "de": "Systainer-Koffer",
+    "fr": "Coffret Systainer"
+  },
+  "鋁框航空箱": {
+    "en": "Aluminum flight case",
+    "ja": "アルミフレーム運搬ケース",
+    "de": "Aluminium-Flugkoffer",
+    "fr": "Valise de transport aluminium"
+  },
+  "已復原上一步操作": {
+    "en": "Undo applied",
+    "ja": "前の操作を元に戻しました",
+    "de": "Letzter Schritt rückgängig gemacht",
+    "fr": "Dernière opération annulée"
+  },
+  "已重做操作": {
+    "en": "Redo applied",
+    "ja": "操作をやり直しました",
+    "de": "Schritt wiederholt",
+    "fr": "Opération rétablie"
+  },
+  "超出盒內壁安全邊界": {
+    "en": "Exceeds inner wall safety margin",
+    "ja": "ケース内壁の安全余白を超えています",
+    "de": "Sicherheitsabstand zur Innenwand überschritten",
+    "fr": "Dépasse la marge de sécurité de la paroi intérieure"
+  },
+  "干涉警示：存在碰撞、越界或上蓋高度干涉！": {
+    "en": "Warning: collision, boundary or lid-height conflict!",
+    "ja": "警告：衝突・境界越え・蓋高さの干渉があります！",
+    "de": "Warnung: Kollision, Grenz- oder Deckelhöhenkonflikt!",
+    "fr": "Alerte : collision, dépassement ou conflit de hauteur du couvercle !"
+  },
+  "干涉檢測：合格無衝突 (肋壁與淨高充足)": {
+    "en": "Clearance check: OK (sufficient ribs and height)",
+    "ja": "干渉検出：合格（リブ幅・有効高さ確保）",
+    "de": "Abstandsprüfung: OK (Stege und Höhe ausreichend)",
+    "fr": "Contrôle des jeux : conforme (nervures et hauteur suffisantes)"
+  },
+  "已完成多策略智慧自動排樣！": {
+    "en": "Smart auto-layout completed!",
+    "ja": "自動配置が完了しました！",
+    "de": "Intelligente Anordnung abgeschlossen!",
+    "fr": "Placement automatique terminé !"
+  },
+  "已載入標準成套工具組套！": {
+    "en": "Standard tool kit loaded!",
+    "ja": "標準工具セットを読み込みました！",
+    "de": "Standard-Werkzeugsatz geladen!",
+    "fr": "Kit d’outils standard chargé !"
+  },
+  "找不到符合關鍵字的手工具": {
+    "en": "No matching tools found",
+    "ja": "一致する工具がありません",
+    "de": "Keine passenden Werkzeuge gefunden",
+    "fr": "Aucun outil correspondant"
+  },
+  "+ 放入": {
+    "en": "+ Add",
+    "ja": "+ 追加",
+    "de": "+ Hinzufügen",
+    "fr": "+ Ajouter"
+  },
+  "挖除": {
+    "en": "Cutout",
+    "ja": "切抜き",
+    "de": "Ausschnitt",
+    "fr": "Découpe"
+  },
+  "平衡極佳": {
+    "en": "Well balanced",
+    "ja": "良好なバランス",
+    "de": "Gut ausbalanciert",
+    "fr": "Bien équilibré"
+  },
+  "略偏心": {
+    "en": "Slightly off-center",
+    "ja": "やや偏心",
+    "de": "Leicht außermittig",
+    "fr": "Légèrement décentré"
+  },
+  "目前盒內無工具，請從左側「組套範本」或「工具庫」點選加入": {
+    "en": "No tools placed. Add tools from the kit templates or tool library.",
+    "ja": "工具がありません。左のセットテンプレートまたは工具庫から追加してください。",
+    "de": "Keine Werkzeuge platziert. Aus Satzvorlagen oder Werkzeugbibliothek hinzufügen.",
+    "fr": "Aucun outil placé. Ajoutez-en depuis les modèles de kits ou la bibliothèque."
+  },
+  "🔒 已鎖定": {
+    "en": "🔒 Locked",
+    "ja": "🔒 ロック済み",
+    "de": "🔒 Gesperrt",
+    "fr": "🔒 Verrouillé"
+  },
+  "已移除指定工具": {
+    "en": "Tool removed",
+    "ja": "工具を削除しました",
+    "de": "Werkzeug entfernt",
+    "fr": "Outil retiré"
+  },
+  "此工具已鎖定位置 (按 L 鍵可解鎖)": {
+    "en": "Tool position is locked (press L to unlock)",
+    "ja": "工具位置はロックされています（Lで解除）",
+    "de": "Werkzeugposition gesperrt (L zum Entsperren)",
+    "fr": "Position verrouillée (appuyez sur L pour déverrouiller)"
+  },
+  "無上蓋": {
+    "en": "No lid",
+    "ja": "蓋なし",
+    "de": "Ohne Deckel",
+    "fr": "Sans couvercle"
+  },
+  "已展開 3D 結構爆炸分解圖": {
+    "en": "3D exploded view enabled",
+    "ja": "3D分解図を表示しました",
+    "de": "3D-Explosionsansicht aktiviert",
+    "fr": "Vue éclatée 3D activée"
+  },
+  "已恢復組合視角": {
+    "en": "Assembled view restored",
+    "ja": "組立表示に戻りました",
+    "de": "Zusammenbauansicht wiederhergestellt",
+    "fr": "Vue assemblée rétablie"
+  },
+  "自訂特規工具": {
+    "en": "Custom tool",
+    "ja": "特注工具",
+    "de": "Sonderwerkzeug",
+    "fr": "Outil personnalisé"
+  },
+  "已將整體工具置中對齊盒心！": {
+    "en": "All tools centered on case origin",
+    "ja": "全工具をケース中央に整列しました",
+    "de": "Alle Werkzeuge zur Koffermitte zentriert",
+    "fr": "Tous les outils centrés sur le coffret"
+  },
+  "已完成左右鏡像翻轉！": {
+    "en": "Layout mirrored horizontally",
+    "ja": "配置を左右反転しました",
+    "de": "Anordnung horizontal gespiegelt",
+    "fr": "Placement inversé horizontalement"
+  },
+  "已完成上下鏡像翻轉！": {
+    "en": "Layout mirrored vertically",
+    "ja": "配置を上下反転しました",
+    "de": "Anordnung vertikal gespiegelt",
+    "fr": "Placement inversé verticalement"
+  },
+  "已清空盒內所有工具": {
+    "en": "All tools cleared",
+    "ja": "全工具を削除しました",
+    "de": "Alle Werkzeuge entfernt",
+    "fr": "Tous les outils retirés"
+  },
+  "已匯出 1:1 AutoCAD DXF 工程圖檔！": {
+    "en": "1:1 AutoCAD DXF drawing exported!",
+    "ja": "1:1 AutoCAD DXF図面を出力しました！",
+    "de": "AutoCAD-DXF-Zeichnung 1:1 exportiert!",
+    "fr": "Dessin AutoCAD DXF 1:1 exporté !"
+  },
+  "已匯出 1:1 2D EVA 雷切開槽圖 (SVG)！": {
+    "en": "1:1 EVA laser/CNC SVG exported!",
+    "ja": "1:1 EVAレーザー加工図SVGを出力しました！",
+    "de": "EVA-Laser-/CNC-SVG 1:1 exportiert!",
+    "fr": "Plan SVG laser/CNC EVA 1:1 exporté !"
+  },
+  "合格": {
+    "en": "OK",
+    "ja": "合格",
+    "de": "OK",
+    "fr": "Conforme"
+  },
+  "已下載 BOM 與成本報價清單 (CSV)！": {
+    "en": "BOM & costing CSV downloaded!",
+    "ja": "BOM・見積CSVを出力しました！",
+    "de": "Stücklisten- und Kosten-CSV heruntergeladen!",
+    "fr": "Nomenclature et chiffrage CSV téléchargés !"
+  },
+  "已匯出 3D 渲染截圖 (PNG)！": {
+    "en": "3D render snapshot exported (PNG)!",
+    "ja": "3D画像PNGを出力しました！",
+    "de": "3D-Bild als PNG exportiert!",
+    "fr": "Capture du rendu 3D exportée (PNG) !"
+  },
+  "已儲存專案配置檔 (JSON)": {
+    "en": "Project configuration saved (JSON)",
+    "ja": "プロジェクト設定JSONを保存しました",
+    "de": "Projektkonfiguration gespeichert (JSON)",
+    "fr": "Configuration du projet enregistrée (JSON)"
+  },
+  "已成功載入專案配置檔！": {
+    "en": "Project configuration loaded!",
+    "ja": "プロジェクト設定を読み込みました！",
+    "de": "Projektkonfiguration geladen!",
+    "fr": "Configuration du projet chargée !"
+  },
+  "JSON 格式錯誤": {
+    "en": "Invalid JSON format",
+    "ja": "JSON形式が不正です",
+    "de": "Ungültiges JSON-Format",
+    "fr": "Format JSON incorrect"
+  },
+  "×1 件": {
+    "en": "×1 pcs",
+    "ja": "×1点",
+    "de": "×1 Stück",
+    "fr": "×1 pièces"
+  },
+  "×2 件": {
+    "en": "×2 pcs",
+    "ja": "×2点",
+    "de": "×2 Stück",
+    "fr": "×2 pièces"
+  },
+  "×4 件": {
+    "en": "×4 pcs",
+    "ja": "×4点",
+    "de": "×4 Stück",
+    "fr": "×4 pièces"
+  },
+  "×6 件": {
+    "en": "×6 pcs",
+    "ja": "×6点",
+    "de": "×6 Stück",
+    "fr": "×6 pièces"
+  },
+  "{0} 件": {
+    "en": "{0} pcs",
+    "ja": "{0}点",
+    "de": "{0} Stück",
+    "fr": "{0} pièces"
+  },
+  "{0}% (組合)": {
+    "en": "{0}% (assembled)",
+    "ja": "{0}%（組立）",
+    "de": "{0}% (montiert)",
+    "fr": "{0}% (assemblé)"
+  },
+  "{0}% (分解)": {
+    "en": "{0}% (exploded)",
+    "ja": "{0}%（分解）",
+    "de": "{0}% (zerlegt)",
+    "fr": "{0}% (éclaté)"
+  },
+  "{0}% (爆炸)": {
+    "en": "{0}% (exploded)",
+    "ja": "{0}%（分解）",
+    "de": "{0}% (zerlegt)",
+    "fr": "{0}% (éclaté)"
+  },
+  "{0} cm² (挖除 {1}%)": {
+    "en": "{0} cm² (cutout {1}%)",
+    "ja": "{0} cm²（切抜き {1}%）",
+    "de": "{0} cm² (Ausschnitt {1}%)",
+    "fr": "{0} cm² (découpe {1}%)"
+  },
+  "ΔX:{0}mm, ΔY:{1}mm (平衡極佳)": {
+    "en": "ΔX:{0}mm, ΔY:{1}mm (balanced)",
+    "ja": "ΔX:{0}mm, ΔY:{1}mm（良好）",
+    "de": "ΔX:{0}mm, ΔY:{1}mm (ausbalanciert)",
+    "fr": "ΔX:{0}mm, ΔY:{1}mm (équilibré)"
+  },
+  "ΔX:{0}mm, ΔY:{1}mm (略偏心)": {
+    "en": "ΔX:{0}mm, ΔY:{1}mm (off-center)",
+    "ja": "ΔX:{0}mm, ΔY:{1}mm（やや偏心）",
+    "de": "ΔX:{0}mm, ΔY:{1}mm (außermittig)",
+    "fr": "ΔX:{0}mm, ΔY:{1}mm (décentré)"
+  },
+  "ΔX: 0mm, ΔY: 0mm (極佳)": {
+    "en": "ΔX: 0mm, ΔY: 0mm (balanced)",
+    "ja": "ΔX: 0mm, ΔY: 0mm（良好）",
+    "de": "ΔX: 0mm, ΔY: 0mm (ausbalanciert)",
+    "fr": "ΔX: 0mm, ΔY: 0mm (équilibré)"
+  },
+  "CNC工時 ~{0} min": {
+    "en": "CNC time ~{0} min",
+    "ja": "CNC加工時間 約{0} min",
+    "de": "CNC-Zeit ~{0} min",
+    "fr": "Temps CNC ~{0} min"
+  },
+  "離開全螢幕": {
+    "en": "Exit fullscreen",
+    "ja": "全画面表示を終了",
+    "de": "Vollbild verlassen",
+    "fr": "Quitter le plein écran"
+  },
+  "請使用瀏覽器全螢幕（F11）": {
+    "en": "Use browser fullscreen (F11)",
+    "ja": "ブラウザーの全画面表示（F11）を使用してください",
+    "de": "Browser-Vollbild verwenden (F11)",
+    "fr": "Utilisez le plein écran du navigateur (F11)"
+  },
+  "已置入 {0} 件「{1}」": {
+    "en": "Added {0} × “{1}”",
+    "ja": "「{1}」を{0}点追加しました",
+    "de": "{0} × „{1}“ hinzugefügt",
+    "fr": "{0} × « {1} » ajouté(s)"
+  },
+  "已加入自訂工具「{0}」": {
+    "en": "Added custom tool “{0}”",
+    "ja": "自作工具「{0}」を追加しました",
+    "de": "Eigenes Werkzeug „{0}“ hinzugefügt",
+    "fr": "Outil personnalisé « {0} » ajouté"
+  },
+  "已複製「{0}」": {
+    "en": "Duplicated “{0}”",
+    "ja": "「{0}」を複製しました",
+    "de": "„{0}“ dupliziert",
+    "fr": "« {0} » dupliqué"
+  },
+  "與「{0}」間距過近 (<{1}mm)": {
+    "en": "Gap to “{0}” too small (<{1}mm)",
+    "ja": "「{0}」との間隔不足 (<{1}mm)",
+    "de": "Abstand zu „{0}“ zu klein (<{1}mm)",
+    "fr": "Écart trop faible avec « {0} » (<{1}mm)"
+  },
+  "{0}×{1}×{2}mm (深{3})": {
+    "en": "{0}×{1}×{2}mm (depth {3})",
+    "ja": "{0}×{1}×{2}mm（深さ{3}）",
+    "de": "{0}×{1}×{2}mm (Tiefe {3})",
+    "fr": "{0}×{1}×{2}mm (profondeur {3})"
+  },
+  "339.8 cm² (挖除 0%)": {
+    "en": "339.8 cm² (cutout 0%)",
+    "ja": "339.8 cm²（切抜き 0%）",
+    "de": "339.8 cm² (Ausschnitt 0%)",
+    "fr": "339.8 cm² (découpe 0%)"
+  },
+  "0% (組合)": {
+    "en": "0% (assembled)",
+    "ja": "0%（組立）",
+    "de": "0% (montiert)",
+    "fr": "0% (assemblé)"
+  },
+  "0 件": {
+    "en": "0 pcs",
+    "ja": "0点",
+    "de": "0 Stück",
+    "fr": "0 pièces"
+  },
+  "CNC工時 ~2.5 min": {
+    "en": "CNC time ~2.5 min",
+    "ja": "CNC加工時間 約2.5 min",
+    "de": "CNC-Zeit ~2.5 min",
+    "fr": "Temps CNC ~2.5 min"
+  },
+  "高度超限 ({0}>{1}mm 頂蓋干涉)": {
+    "en": "Height exceeded ({0}>{1}mm, lid interference)",
+    "ja": "高さ超過（{0}>{1}mm、蓋と干渉）",
+    "de": "Höhe überschritten ({0}>{1}mm, Deckelkollision)",
+    "fr": "Hauteur dépassée ({0}>{1}mm, conflit avec le couvercle)"
+  }
+}

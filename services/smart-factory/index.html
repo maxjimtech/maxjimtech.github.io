@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>肇祥企業社 Maxjimtech · 3D 智慧工廠自動化產線與廠房規劃系統 v2.0</title>
+  <script src="../shared/maxjim-i18n.js" data-mj-locales="./locales/ui.json"></script>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
@@ -96,12 +97,7 @@ html,body{width:100%;height:100%;height:100dvh;margin:0;min-width:320px}
 <a href="../toolbox-planner/" class="px-2 py-1 text-xs text-slate-300 hover:text-white">工具盒規劃器</a>
 <a href="https://maxjimtech.com/" class="px-2 py-1 text-xs text-slate-300 hover:text-white">返回官網</a>
 <a href="sample_projects/CNC_Robot_Cell_Project.json" download class="px-2 py-1 text-xs text-slate-300 hover:text-white">下載範例</a>
-      <button id="btnToggleLang" class="px-2.5 py-1.5 text-xs font-semibold rounded-md bg-blue-950/80 hover:bg-blue-900 text-blue-300 border border-blue-700/60 flex items-center gap-1.5 transition shadow-sm" title="切換語言 / Switch Language">
-        <span>🌐</span>
-        <span id="langLabel">EN / 中文</span>
-      </button>
-
-      <button id="btnToggleSim" class="px-3 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 hover:bg-emerald-500 text-white shadow-md shadow-emerald-600/20 flex items-center gap-1.5 transition">
+<button id="btnToggleSim" class="px-3 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 hover:bg-emerald-500 text-white shadow-md shadow-emerald-600/20 flex items-center gap-1.5 transition">
         <span id="simIcon">⏸</span>
         <span id="simLabel">產線動態模擬：運轉中</span>
       </button>
@@ -644,9 +640,9 @@ html,body{width:100%;height:100%;height:100dvh;margin:0;min-width:320px}
         <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
           <div class="flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-blue-400"></span>
-            <span id="inspectEqName" class="text-xs font-bold text-white truncate max-w-[200px]">選取設備名稱</span>
+            <span id="inspectEqName" data-mj-no-translate class="text-xs font-bold text-white truncate max-w-[200px]">選取設備名稱</span>
           </div>
-          <button id="btnCloseEqInspector" class="text-slate-400 hover:text-slate-200 text-xs">✕</button>
+          <button id="btnCloseEqInspector" title="關閉" aria-label="關閉" class="text-slate-400 hover:text-slate-200 text-xs">✕</button>
         </div>
 
         <div class="grid grid-cols-3 gap-2 text-xs">
@@ -713,7 +709,7 @@ html,body{width:100%;height:100%;height:100dvh;margin:0;min-width:320px}
           <h2 class="text-xs font-semibold text-white">廠房設備配置與電力負載表 (BOM)</h2>
           <p class="text-[10px] text-slate-400">工站座標、佔地尺寸、耗電量與安全距離</p>
         </div>
-        <button id="btnCloseBomDrawer" class="text-slate-400 hover:text-white p-1">✕</button>
+        <button id="btnCloseBomDrawer" title="關閉" aria-label="關閉" class="text-slate-400 hover:text-white p-1">✕</button>
       </div>
 
       <div class="flex-1 overflow-y-auto p-3 space-y-2">
@@ -740,7 +736,7 @@ html,body{width:100%;height:100%;height:100dvh;margin:0;min-width:320px}
   <!-- Custom Toast Notification -->
   <div id="toast" class="fixed top-16 right-6 bg-slate-900 border border-blue-500/80 text-white px-4 py-2.5 rounded-lg shadow-2xl text-xs z-50 transform transition-all duration-300 translate-y-2 opacity-0 pointer-events-none flex items-center gap-2">
     <span id="toastIcon" class="text-blue-400">✓</span>
-    <span id="toastMsg">通知訊息</span>
+    <span id="toastMsg" data-mj-no-translate>通知訊息</span>
   </div>
 
   <!-- Hidden File Input -->
@@ -775,9 +771,9 @@ html,body{width:100%;height:100%;height:100dvh;margin:0;min-width:320px}
     let nextEqId = 1;
     const animatedActors = []; // stores references to robot joints, AGVs, conveyors, rotary tables
 
-    function showToast(msg, icon = '✓', isError = false) {
+    function showToast(msg, icon = '✓', isError = false, literalDisplay = false) {
       const toast = document.getElementById('toast');
-      document.getElementById('toastMsg').innerText = msg;
+      document.getElementById('toastMsg').innerText = literalDisplay ? msg : tr(msg);
       document.getElementById('toastIcon').innerText = icon;
       toast.className = `fixed top-16 right-6 ${isError ? 'bg-rose-950 border-rose-500 text-rose-200' : 'bg-slate-900 border-blue-500 text-white'} border px-4 py-2.5 rounded-lg shadow-2xl text-xs z-50 transform transition-all duration-300 translate-y-0 opacity-100 flex items-center gap-2`;
       setTimeout(() => {
@@ -1610,7 +1606,7 @@ html,body{width:100%;height:100%;height:100dvh;margin:0;min-width:320px}
       document.getElementById('inputPlantW').value = state.plant.width;
       document.getElementById('inputPlantH').value = state.plant.height;
 
-      if (state.lang === 'en') { state.equipments.forEach(eq => { eq.name = translateEqName(eq.name, 'en'); }); }
+      // Equipment names remain canonical design data in every language.
       buildPlant3D();
       renderFactoryEquipments();
       showToast(state.lang === 'en' ? 'Loaded Turnkey Production Line Template!' : '已載入整廠自動化產線配置範本！', '🏭');
@@ -1672,11 +1668,11 @@ html,body{width:100%;height:100%;height:100dvh;margin:0;min-width:320px}
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-1.5 font-medium truncate">
               <span class="w-4 h-4 rounded-full bg-slate-700 text-[10px] flex items-center justify-center text-slate-300 shrink-0">${idx + 1}</span>
-              <span class="truncate">${eq.name}</span>
+              <span class="truncate" data-mj-no-translate>${escapeDisplay(displayEquipmentName(eq))}</span>
             </div>
             <div class="flex items-center gap-1 shrink-0">
-              <button data-act="rot" data-id="${eq.id}" class="p-1 rounded hover:bg-slate-700 text-slate-400 hover:text-white">↻</button>
-              <button data-act="del" data-id="${eq.id}" class="p-1 rounded hover:bg-rose-900 text-slate-400 hover:text-rose-300">✕</button>
+              <button title="旋轉" aria-label="旋轉" data-act="rot" data-id="${eq.id}" class="p-1 rounded hover:bg-slate-700 text-slate-400 hover:text-white">↻</button>
+              <button title="刪除" aria-label="刪除" data-act="del" data-id="${eq.id}" class="p-1 rounded hover:bg-rose-900 text-slate-400 hover:text-rose-300">✕</button>
             </div>
           </div>
           <div class="mt-1 flex items-center justify-between text-[10px] text-slate-400 font-mono">
@@ -1684,7 +1680,7 @@ html,body{width:100%;height:100%;height:100dvh;margin:0;min-width:320px}
             <span>${state.lang === 'en' ? 'Pos' : '座標'}: (${eq.x}m, ${eq.z}m)</span>
             <span class="text-amber-300">${eq.kw || 0}kW</span>
           </div>
-          ${eq.hasConflict ? `<div class="mt-1 text-[10px] text-rose-400">⚠️ ${eq.conflictReason}</div>` : ''}
+          ${eq.hasConflict ? `<div class="mt-1 text-[10px] text-rose-400" data-mj-no-translate>⚠️ ${escapeDisplay(displayConflictReason(eq.conflictReason))}</div>` : ''}
         `;
 
         div.addEventListener('click', (e) => {
@@ -1718,7 +1714,7 @@ html,body{width:100%;height:100%;height:100dvh;margin:0;min-width:320px}
       const inspector = document.getElementById('equipInspector');
 
       if (eq) {
-        document.getElementById('inspectEqName').innerText = eq.name;
+        document.getElementById('inspectEqName').innerText = displayEquipmentName(eq);
         document.getElementById('inspectEqX').value = eq.x;
         document.getElementById('inspectEqZ').value = eq.z;
         document.getElementById('inspectEqRot').value = eq.rot || 0;
@@ -1926,7 +1922,7 @@ html,body{width:100%;height:100%;height:100dvh;margin:0;min-width:320px}
         };
         state.equipments.push(newEq);
         selectEquipment(newEq.id);
-        showToast(state.lang === 'en' ? `Added "${newEq.name}" to plant` : `已新增「${newEq.name}」至廠房`, '🏭');
+        showToast(tr('已新增「{0}」至廠房').replace('{0}', () => displayEquipmentName(newEq)), '🏭', false, true);
       });
     });
 
@@ -1953,9 +1949,10 @@ html,body{width:100%;height:100%;height:100dvh;margin:0;min-width:320px}
         z: 0,
         rot: 0
       };
+      customNamedEquipments.add(newEq);
       state.equipments.push(newEq);
       selectEquipment(newEq.id);
-      showToast(state.lang === 'en' ? `Added custom equipment "${name}"` : `已加入自訂設備「${name}」`, '✅');
+      showToast(tr('已加入自訂設備「{0}」').replace('{0}', () => name), '✅', false, true);
     });
 
     // Auto-Arrange Factory Layout
@@ -2024,9 +2021,10 @@ html,body{width:100%;height:100%;height:100dvh;margin:0;min-width:320px}
       const eq = state.equipments.find(e => e.id === state.selectedEqId);
       if (eq) {
         const copy = { ...eq, id: nextEqId++, name: `${eq.name} (${state.lang === 'en' ? 'Copy' : '複本'})`, x: Number((eq.x + eq.l + 1.0).toFixed(1)) };
+        if (customNamedEquipments.has(eq)) customNamedEquipments.add(copy);
         state.equipments.push(copy);
         selectEquipment(copy.id);
-        showToast(state.lang === 'en' ? `Duplicated "${copy.name}"` : `已複製「${copy.name}」`, '📋');
+        showToast(tr('已複製「{0}」').replace('{0}', () => displayEquipmentName(copy)), '📋', false, true);
       }
     });
 
@@ -2322,239 +2320,43 @@ html,body{width:100%;height:100%;height:100dvh;margin:0;min-width:320px}
       'OP-30 客製化自動組裝專用機': 'OP-30 Custom Automated Assembly SPM'
     };
 
-    const eqNameReverseMap = {};
-    Object.keys(eqNameMap).forEach(k => { eqNameReverseMap[eqNameMap[k]] = k; });
-
-    function translateEqName(name, targetLang) {
-      if (!name) return name;
-      if (targetLang === 'en') {
-        if (eqNameMap[name]) return eqNameMap[name];
-        const copyMatch = name.match(/^(.*) \(複本\)$/);
-        if (copyMatch && eqNameMap[copyMatch[1]]) return `${eqNameMap[copyMatch[1]]} (Copy)`;
-        return name.replace(' (複本)', ' (Copy)');
-      } else {
-        if (eqNameReverseMap[name]) return eqNameReverseMap[name];
-        const copyMatch = name.match(/^(.*) \(Copy\)$/);
-        if (copyMatch && eqNameReverseMap[copyMatch[1]]) return `${eqNameReverseMap[copyMatch[1]]} (複本)`;
-        return name.replace(' (Copy)', ' (複本)');
+    // Display helpers deliberately do not change state, data-name, or inputs.
+    const eqNameReverseMap = Object.fromEntries(Object.entries(eqNameMap).map(([zh,en]) => [en,zh]));
+    const customNamedEquipments = new WeakSet();
+    const tr = text => window.MaxjimI18n ? window.MaxjimI18n.t(text) : text;
+    const escapeDisplay = text => String(text).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    function displayEquipmentName(eq) {
+      if (customNamedEquipments.has(eq)) return eq.name;
+      const canonical = eqNameReverseMap[eq.name] || eq.name;
+      if (Object.prototype.hasOwnProperty.call(eqNameMap,canonical)) return tr(canonical);
+      const copy = canonical.match(/^(.*) \((複本|Copy)\)$/);
+      if (copy) {
+        const original = eqNameReverseMap[copy[1]] || copy[1];
+        // Unknown/user names are never translated by substring matching.
+        const base = displayEquipmentName({ name: original });
+        return base + ' (' + tr('複本') + ')';
       }
+      return eq.name;
     }
-
-    const textPairs = [
-      // Header
-      ['肇祥企業社 Maxjimtech · 3D 智慧工廠自動化產線與廠房規劃系統', 'Maxjimtech · 3D Smart Factory Automation & Plant Layout Planner'],
-      ['機械手臂 · CNC工具母機 · 自動化專用機(SPM) · AGV/輸送搬運 · 廠房動線與電力評估', 'Robotics · CNC Machine Tools · Special Purpose Machines (SPM) · AGV/Conveyors · Plant & Power Planning'],
-      ['3D 截圖', '3D Snapshot'],
-      ['2D 廠房CAD圖 (SVG)', '2D CAD Plan (SVG)'],
-      ['匯出設備清單 (CSV)', 'Export BOM (CSV)'],
-      ['儲存專案', 'Save JSON'],
-      ['載入專案', 'Load JSON'],
-      ['重置廠房', 'Reset Plant'],
-      // Sidebar Tabs
-      ['1. 廠房與產線範本', '1. Plant & Templates'],
-      ['2. 自動化設備庫', '2. Equipment Library'],
-      ['3. 排線與安全設定', '3. Layout & Safety'],
-      // Tab 1
-      ['整廠自動化產線範本 (一鍵佈局)', 'Turnkey Production Line Templates'],
-      ['載入產線', 'Load Line'],
-      ['CNC 工具母機 + 第七軸機械手上下料加工島', 'CNC Machine Tools + 7th-Axis Robot Tending Cell'],
-      ['專用機 (圓盤/壓入/AOI) + SCARA 自動組裝線', 'SPM (Rotary/Press/AOI) + SCARA Assembly Line'],
-      ['龍門桁架機械手 + 多台五軸/車銑複合 FMS 產線', 'Gantry Loader + 5-Axis / Lathe FMS Line'],
-      ['綜合智慧工廠 (加工島 + 專用機線 + AGV物流倉儲)', 'Full Smart Factory (CNC Cell + SPM Line + AGV & Racks)'],
-      ['廠房空間與鋼構參數 (公尺 m)', 'Plant Building & Steel Structure (m)'],
-      ['1格 = 1m × 1m', '1 Grid = 1m × 1m'],
-      ['廠房長 L (m)', 'Length L (m)'],
-      ['廠房寬 W (m)', 'Width W (m)'],
-      ['樑下高 H (m)', 'Clear Height H (m)'],
-      ['鋼柱跨距 (m)', 'Column Span (m)'],
-      ['安全主通道寬 (m)', 'Main Aisle Width (m)'],
-      ['廠房總面積：', 'Total Floor Area:'],
-      ['設備佔地面積：', 'Equipment Footprint:'],
-      ['建議契約電力容量：', 'Est. Power Capacity:'],
-      ['廠房地坪塗裝與結構顯示', 'Floor Coating & Structure Visibility'],
-      ['環氧樹脂綠', 'Epoxy Green'],
-      ['耐磨金剛砂灰', 'Hardener Gray'],
-      ['無塵抗靜電藍', 'ESD Clean Blue'],
-      ['顯示 H 型鋼柱與天車軌道樑', 'Show H-Beam Columns & Crane Girders'],
-      ['顯示 AGV/安全黃線通道標線', 'Show AGV / Yellow Safety Walkway'],
-      ['顯示機械手作業半徑包絡圈', 'Show Robot Reach Envelope Zones'],
-      // Tab 2
-      ['工業自動化設備模型庫 (20款)', 'Automation Equipment Library (20 Models)'],
-      ['點擊即擺入廠房', 'Click to Place'],
-      ['全部 (20)', 'All (20)'],
-      ['機械手臂', 'Robots'],
-      ['工具母機', 'CNC Machines'],
-      ['專用機(SPM)', 'SPM Stations'],
-      ['搬運/物流', 'Material Handling'],
-      ['廠務/安全', 'Facility/Safety'],
-      ['+ 配置', '+ Add'],
-      ['六軸關節機械手臂 (20kg)', '6-Axis Robot Arm (20kg)'],
-      ['1.2×1.2×1.8m · 半徑R1.8m · 4.5kW', '1.2×1.2×1.8m · Reach R1.8m · 4.5kW'],
-      ['重型六軸搬運機械手 (165kg)', 'Heavy 6-Axis Robot (165kg)'],
-      ['1.6×1.6×2.4m · 半徑R2.7m · 12kW', '1.6×1.6×2.4m · Reach R2.7m · 12kW'],
-      ['第七軸地軌行走機械手 (6m)', '7th-Axis Track Robot (6m)'],
-      ['6.0×1.4×2.0m · 多機連線上下料', '6.0×1.4×2.0m · Multi-Machine Tending'],
-      ['SCARA 四軸高速組裝機械手', 'SCARA 4-Axis High-Speed Robot'],
-      ['1.1×1.1×1.6m · 高速取放鎖附', '1.1×1.1×1.6m · Pick & Place / Fastening'],
-      ['協作型機器人工作站 (Cobot)', 'Cobot Workstation'],
-      ['1.4×1.0×1.7m · 免圍欄人機協作', '1.4×1.0×1.7m · Fenceless Human-Robot Collab'],
-      ['立式綜合加工中心 (VMC-850)', 'Vertical Machining Center (VMC-850)'],
-      ['2.8×2.3×2.6m · 三軸銑削 · 22kW', '2.8×2.3×2.6m · 3-Axis Milling · 22kW'],
-      ['CNC 斜床身車銑複合車床', 'CNC Slant-Bed Turning Center'],
-      ['3.2×1.9×2.1m · 含排屑機 · 18.5kW', '3.2×1.9×2.1m · w/ Chip Conveyor · 18.5kW'],
-      ['五軸聯動龍門加工中心', '5-Axis Gantry Machining Center'],
-      ['3.8×3.2×3.1m · 精密複雜曲面 · 35kW', '3.8×3.2×3.1m · Complex 5-Axis · 35kW'],
-      ['CNC 精密成型磨床', 'CNC Precision Profile Grinder'],
-      ['2.6×2.0×2.2m · 鏡面研磨 · 15kW', '2.6×2.0×2.2m · Mirror Grinding · 15kW'],
-      ['多工位圓盤組裝專用機 (Rotary SPM)', 'Rotary Index Table Assembly SPM'],
-      ['2.2×2.2×2.1m · 八工位自動分割', '2.2×2.2×2.1m · 8-Station Cam Indexer'],
-      ['伺服壓入與扭力鎖附專用機', 'Servo Press & Torque Tightening SPM'],
-      ['1.6×1.4×2.2m · 含安全光幕 · 5kW', '1.6×1.4×2.2m · w/ Light Curtain · 5kW'],
-      ['AOI 視覺檢測與雷射打標機', 'AOI Vision & Laser Marking SPM'],
-      ['1.8×1.3×2.0m · CCD瑕疵檢測 · 3.5kW', '1.8×1.3×2.0m · CCD Inspection · 3.5kW'],
-      ['多槽式超音波清洗烘乾專用機', 'Multi-Stage Ultrasonic Cleaning SPM'],
-      ['3.6×1.5×2.1m · 自動提籃移載 · 18kW', '3.6×1.5×2.1m · Auto Basket Transfer · 18kW'],
-      ['鋁擠型皮帶/滾筒輸送線 (4m)', 'Belt / Roller Conveyor Line (4m)'],
-      ['4.0×0.9×0.95m · 含動態工件流', '4.0×0.9×0.95m · Dynamic Part Flow'],
-      ['雙層倍速鏈組裝輸送線 (6m)', 'Double-Speed Chain Conveyor (6m)'],
-      ['6.0×1.2×2.0m · 含頂升治具盤與燈架', '6.0×1.2×2.0m · Pallet Lifter & Light Frame'],
-      ['AGV / AMR 無人搬運車', 'AGV / AMR Autonomous Mobile Robot'],
-      ['1.4×0.95×1.2m · 自動巡航物料配送', '1.4×0.95×1.2m · Autonomous Material Delivery'],
-      ['高架桁架式龍門機械手 (8m)', 'Overhead Gantry Truss Loader (8m)'],
-      ['8.0×1.6×3.4m · 跨母機自動移載', '8.0×1.6×3.4m · Overhead Machine Tending'],
-      ['重型多層物料棧板貨架 (4m)', 'Heavy-Duty Pallet Storage Rack (4m)'],
-      ['4.0×1.2×3.2m · 三層線邊倉儲架', '4.0×1.2×3.2m · 3-Tier Lineside Rack'],
-      ['工業安全防護圍欄 (3m)', 'Industrial Safety Fence (3m)'],
-      ['3.0×0.15×2.0m · 黃黑網格隔離護欄', '3.0×0.15×2.0m · Yellow/Black Mesh Guard'],
-      ['PLC 中央電控櫃與戰情看板', 'Central PLC Cabinet & Andon Board'],
-      ['1.6×0.8×2.1m · 雙門配電盤+HMI', '1.6×0.8×2.1m · Dual-Door Enclosure + HMI'],
-      // Custom Equipment Form
-      ['自訂特規專用機 / 設備尺寸輸入', 'Custom Special Machine / Equipment Input'],
-      ['設備名稱或工站編號', 'Equipment Name or Station ID'],
-      ['外觀模型類別', '3D Visual Archetype'],
-      ['專用機 (SPM 機台型)', 'Special Purpose Machine (SPM)'],
-      ['圓盤分割專用機型', 'Rotary Index Table SPM'],
-      ['CNC 加工母機型', 'CNC Machine Tool'],
-      ['六軸機械手臂型', '6-Axis Robot Arm'],
-      ['輸送設備型', 'Conveyor System'],
-      ['耗電功率 (kW)', 'Power Load (kW)'],
-      ['長 L (m)', 'Length L (m)'],
-      ['寬 W (m)', 'Width W (m)'],
-      ['高 H (m)', 'Height H (m)'],
-      ['+ 加入自訂設備至廠房', '+ Add Custom Equipment to Plant'],
-      // Tab 3
-      ['智慧產線排列與安全間距', 'Smart Line Arrangement & Clearance'],
-      ['IE 工業工程標準', 'IE Standard'],
-      ['自動依廠房跨距與安全通道寬度進行分區行列排布，預留設備保養維修空間。', 'Automatically arranges equipment into zoned rows respecting column span, aisle width, and maintenance clearance.'],
-      ['設備安全間距 (m)', 'Safety Clearance (m)'],
-      ['拖曳網格吸附', 'Drag Grid Snap'],
-      ['自由移動 (0.1m)', 'Free Move (0.1m)'],
-      ['0.5 m 網格', '0.5 m Grid'],
-      ['1.0 m 網格', '1.0 m Grid'],
-      ['⚡ 執行產線區塊自動整列', '⚡ Auto-Arrange Factory Zones'],
-      ['清空廠房內所有設備', 'Clear All Equipment in Plant'],
-      // Footer Tips
-      ['3D 廠房操作指南：', '3D Viewport Controls:'],
-      ['• 左鍵旋轉視角 · 右鍵平移廠房 · 滾輪縮放', '• Left-Click Orbit · Right-Click Pan · Scroll Zoom'],
-      ['• 點擊 3D 設備可直接拖曳移位、旋轉 90° 或複製工站', '• Click any 3D machine to drag, rotate 90°, or duplicate'],
-      // Camera & Top Viewport Bar
-      ['鳥瞰等角 (ISO)', 'Isometric (ISO)'],
-      ['2D 俯視 (Top)', 'Top View (2D)'],
-      ['正視 (Front)', 'Front View'],
-      ['巡檢視角 (Floor)', 'Floor Walk'],
-      ['物流動線', 'Material Flow'],
-      ['線框模式', 'Wireframe'],
-      // Floating Inspector
-      ['X 座標 (m)', 'X Pos (m)'],
-      ['Z 座標 (m)', 'Z Pos (m)'],
-      ['朝向角 (°)', 'Angle (°)'],
-      ['↻ 旋轉 90°', '↻ Rotate 90°'],
-      ['複製工站', 'Duplicate'],
-      ['刪除', 'Delete'],
-      // Bottom HUD
-      ['已配置設備總數：', 'Total Equipment:'],
-      ['廠房面積稼動率：', 'Floor Utilization:'],
-      ['全廠總用電負載：', 'Total Power Load:'],
-      ['機械手臂/母機比：', 'Robot / Machine Ratio:'],
-      ['📋 設備與電力清單', '📋 Equipment & Power BOM'],
-      // Right BOM Drawer
-      ['廠房設備配置與電力負載表 (BOM)', 'Equipment Schedule & Power Load (BOM)'],
-      ['工站座標、佔地尺寸、耗電量與安全距離', 'Coordinates, footprint, kW load & safety clearance'],
-      ['廠務工程與安全設計規範：', 'Plant Engineering & Safety Standards:'],
-      ['主物流/AGV雙向道：', 'Main AGV Two-Way Aisle:'],
-      ['≥ 2.5 m 淨寬', '≥ 2.5 m Clear'],
-      ['母機電控櫃維修距：', 'Cabinet Maint. Clearance:'],
-      ['≥ 0.8 m 安全距', '≥ 0.8 m Safe Gap']
-    ];
-
-    function applyLanguage(lang) {
-      state.lang = lang;
-      document.documentElement.lang = lang === 'en' ? 'en' : 'zh-TW';
-      document.title = lang === 'en'
-        ? 'Maxjimtech · 3D Smart Factory Automation & Plant Layout Planner v2.0'
-        : '肇祥企業社 Maxjimtech · 3D 智慧工廠自動化產線與廠房規劃系統 v2.0';
-
-      document.getElementById('langLabel').innerText = lang === 'en' ? '中文 / EN' : 'EN / 中文';
-
-      // Update Sim button text
-      document.getElementById('simLabel').innerText = state.simRunning
-        ? (lang === 'en' ? 'Simulation: Running' : '產線動態模擬：運轉中')
-        : (lang === 'en' ? 'Simulation: Paused' : '產線動態模擬：已暫停');
-
-      // Translate static DOM text nodes and options
-      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-      let node;
-      while ((node = walker.nextNode())) {
-        const val = node.nodeValue.trim();
-        if (!val) continue;
-        for (const [zh, en] of textPairs) {
-          if (lang === 'en' && val === zh) {
-            node.nodeValue = node.nodeValue.replace(zh, en);
-            break;
-          } else if (lang === 'zh' && val === en) {
-            node.nodeValue = node.nodeValue.replace(en, zh);
-            break;
-          }
-        }
+    function displayConflictReason(reason) {
+      const match = reason.match(/^與「(.*)」安全距離不足$/);
+      if (match) {
+        const other = state.equipments.find(eq => eq.name === match[1]);
+        return tr('與「{0}」安全距離不足').replace('{0}', () => other ? displayEquipmentName(other) : match[1]);
       }
-
-      // Translate custom input default value if untouched
-      const customNameInput = document.getElementById('inputCustomEqName');
-      if (customNameInput) {
-        if (lang === 'en' && customNameInput.value === 'OP-30 客製化自動組裝專用機') {
-          customNameInput.value = 'OP-30 Custom Automated Assembly SPM';
-        } else if (lang === 'zh' && customNameInput.value === 'OP-30 Custom Automated Assembly SPM') {
-          customNameInput.value = 'OP-30 客製化自動組裝專用機';
-        }
-      }
-
-      // Translate library button data-name attributes
-      document.querySelectorAll('.add-equip-btn').forEach(btn => {
-        const curName = btn.getAttribute('data-name');
-        btn.setAttribute('data-name', translateEqName(curName, lang));
-      });
-
-      // Translate active equipments in state
-      state.equipments.forEach(eq => {
-        eq.name = translateEqName(eq.name, lang);
-      });
-
-      // Update selected equipment inspector name if open
-      if (state.selectedEqId) {
-        const selEq = state.equipments.find(e => e.id === state.selectedEqId);
-        if (selEq) {
-          document.getElementById('inspectEqName').innerText = selEq.name;
-        }
-      }
-
-      renderFactoryEquipments();
+      return tr(reason);
     }
-
-    document.getElementById('btnToggleLang').addEventListener('click', () => {
-      const nextLang = state.lang === 'zh' ? 'en' : 'zh';
-      applyLanguage(nextLang);
-      showToast(nextLang === 'en' ? 'Switched to English Interface' : '已切換為繁體中文介面', '🌐');
-    });
+    function applyLanguage() {
+      const title = '肇祥企業社 Maxjimtech · 3D 智慧工廠自動化產線與廠房規劃系統 v2.0';
+      document.title = tr(title);
+      document.getElementById('simLabel').innerText = tr(state.simRunning ? '產線動態模擬：運轉中' : '產線動態模擬：已暫停');
+      const selected = state.equipments.find(eq => eq.id === state.selectedEqId);
+      if (selected) document.getElementById('inspectEqName').innerText = displayEquipmentName(selected);
+      updateMetricsAndBOM();
+      window.MaxjimI18n?.refresh();
+    }
+    window.addEventListener('maxjim:language', applyLanguage);
+    window.addEventListener('maxjim:i18n-ready', applyLanguage);
 
     // Initialize with Turnkey CNC + Robot Line
     loadTurnkeyTemplate('line_cnc_cell');
@@ -2601,3 +2403,4 @@ document.addEventListener('fullscreenchange', () => {
 })();
 </script></body>
 </html>
+

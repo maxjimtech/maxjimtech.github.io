@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>肇祥企業社 MaxJim Tech. | AeroVanguard 全球無人飛行載具設計與氣動力學即時 3D 模擬系統</title>
+  <script src="../shared/maxjim-i18n.js" data-mj-locales="./locales/ui.json"></script>
+  <script src="./locales/display.js"></script>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -3199,6 +3201,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
       const cSel = document.getElementById('CompareBenchmarkSelect');
       if (qSel) {
         qSel.innerHTML = GLOBAL_UAV_LIBRARY.map(m => `<option value="${m.id}">[${m.catBadge}] ${m.name}</option>`).join('');
+        for (const option of qSel.options) option.dataset.mjSourceLabel = option.text;
       }
       if (cSel) {
         cSel.innerHTML = GLOBAL_UAV_LIBRARY.map(m => `<option value="${m.id}">${m.name} (${m.origin})</option>`).join('');
@@ -3219,7 +3222,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
       // Quick Model Selector
       document.getElementById('QuickModelSelect')?.addEventListener('change', (e) => {
         loadModelIntoStudio(e.target.value, false);
-        showToast(`已切換載具模型：${e.target.options[e.target.selectedIndex].text}`);
+        showToast(`已切換載具模型：${(e.target.options[e.target.selectedIndex].dataset.mjSourceLabel || e.target.options[e.target.selectedIndex].text)}`);
       });
 
       // Geometry Sliders & Selects (trigger 3D rebuild)
@@ -3572,6 +3575,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
       }
 
       const photoModal = document.getElementById('PhotoExportModal');
+      // Redraw an open report in the selected language; no geometry rebuild or solver call.
+      const redrawLocalizedPhoto = () => {
+        if (photoModal && !photoModal.classList.contains('hidden')) renderWatermarkedPhotoCanvas(currentPhotoMode);
+      };
+      window.addEventListener('maxjim:language', redrawLocalizedPhoto);
+      window.addEventListener('maxjim:i18n-ready', redrawLocalizedPhoto);
       document.getElementById('BtnOpenPhotoModal')?.addEventListener('click', () => {
         updateAllCharts();
         photoModal?.classList.remove('hidden');
@@ -3703,3 +3712,4 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
   </script>
 <script>(()=>{const header=document.getElementById('appHeader'),viewport=document.getElementById('ThreeViewportContainer');let frame;const resize=()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>window.dispatchEvent(new Event('resize')));};new ResizeObserver(()=>{document.documentElement.style.setProperty('--header-height',header.getBoundingClientRect().height+'px');resize();}).observe(header);new ResizeObserver(resize).observe(viewport);const b=document.getElementById('FullscreenToggle');b.addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch(e){b.textContent='請使用瀏覽器全螢幕（F11）';}});document.addEventListener('fullscreenchange',()=>{b.textContent=document.fullscreenElement?'離開全螢幕':'全螢幕操作';resize();});})();</script></body>
 </html>
+

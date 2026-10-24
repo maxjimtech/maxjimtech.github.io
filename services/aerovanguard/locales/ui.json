@@ -1,0 +1,4280 @@
+{
+  "已載入「JOUAV CW-30E (雙尾桁四軸複合翼 VTOL)」至 3D 設計台": {
+    "en": "Loaded “JOUAV CW-30E (Twin-boom quadrotor hybrid VTOL)” into the 3D studio",
+    "ja": "「JOUAV CW-30E (双胴クアッド複合翼 VTOL)」を 3D 設計台に読み込みました",
+    "de": "„JOUAV CW-30E (Doppelrumpf-Quadrotor-Hybrid-VTOL)“ in den 3D-Arbeitsbereich geladen",
+    "fr": "« JOUAV CW-30E (VTOL hybride bipoutre à quatre rotors) » chargé dans l’atelier 3D"
+  },
+  "已載入「Wingcopter 198 (專利傾轉旋翼物流 VTOL)」至 3D 設計台": {
+    "en": "Loaded “Wingcopter 198 (Patented tilt-rotor logistics VTOL)” into the 3D studio",
+    "ja": "「Wingcopter 198 (特許ティルトローター物流 VTOL)」を 3D 設計台に読み込みました",
+    "de": "„Wingcopter 198 (Patentierter Logistik-Kipprotor-VTOL)“ in den 3D-Arbeitsbereich geladen",
+    "fr": "« Wingcopter 198 (VTOL logistique à rotors basculants brevetés) » chargé dans l’atelier 3D"
+  },
+  "已載入「DJI Matrice 350 RTK (旗艦工業巡檢四軸)」至 3D 設計台": {
+    "en": "Loaded “DJI Matrice 350 RTK (Flagship industrial inspection quadrotor)” into the 3D studio",
+    "ja": "「DJI Matrice 350 RTK (最上位産業点検クアッドローター)」を 3D 設計台に読み込みました",
+    "de": "„DJI Matrice 350 RTK (Industrie-Inspektionsquadrokopter der Spitzenklasse)“ in den 3D-Arbeitsbereich geladen",
+    "fr": "« DJI Matrice 350 RTK (Quadrirotor phare d’inspection industrielle) » chargé dans l’atelier 3D"
+  },
+  "已載入「DJI FlyCart 30 (重型物流共軸八槳 X8)」至 3D 設計台": {
+    "en": "Loaded “DJI FlyCart 30 (Heavy logistics coaxial octocopter X8)” into the 3D studio",
+    "ja": "「DJI FlyCart 30 (大型物流同軸 8 ローター X8)」を 3D 設計台に読み込みました",
+    "de": "„DJI FlyCart 30 (Schwerlast-Logistik-Koaxialoktokopter X8)“ in den 3D-Arbeitsbereich geladen",
+    "fr": "« DJI FlyCart 30 (Octocoptère coaxial de logistique lourde X8) » chargé dans l’atelier 3D"
+  },
+  "已載入「Freefly Alta X (重載專業航拍/光達四軸)」至 3D 設計台": {
+    "en": "Loaded “Freefly Alta X (Heavy-lift professional imaging / LiDAR quadrotor)” into the 3D studio",
+    "ja": "「Freefly Alta X (重量物用プロ空撮 / LiDAR クアッドローター)」を 3D 設計台に読み込みました",
+    "de": "„Freefly Alta X (Schwerlast-Quadrokopter für professionelle Luftbilder / LiDAR)“ in den 3D-Arbeitsbereich geladen",
+    "fr": "« Freefly Alta X (Quadrirotor lourd pour imagerie professionnelle / LiDAR) » chargé dans l’atelier 3D"
+  },
+  "已載入「Airbus Zephyr S (平流層太陽能偽衛星 HAPS)」至 3D 設計台": {
+    "en": "Loaded “Airbus Zephyr S (Stratospheric solar pseudo-satellite HAPS)” into the 3D studio",
+    "ja": "「Airbus Zephyr S (成層圏太陽光擬似衛星 HAPS)」を 3D 設計台に読み込みました",
+    "de": "„Airbus Zephyr S (Stratosphärischer Solar-Pseudosatellit HAPS)“ in den 3D-Arbeitsbereich geladen",
+    "fr": "« Airbus Zephyr S (Pseudo-satellite solaire stratosphérique HAPS) » chargé dans l’atelier 3D"
+  },
+  "⚠️ 原生構型極限瓶頸：平飛巡航時四具停止旋轉的垂直升力槳與支撐桿產生額外 18%~22% 寄生阻力，且死重降低有效酬載。": {
+    "en": "⚠️ Baseline configuration limitation: During cruise, four stopped lift rotors and supports add 18%~22% parasitic drag, while dead weight reduces useful payload.",
+    "ja": "⚠️ 基準構成の限界：巡航中は停止した揚力ローター 4 基と支柱が寄生抗力を 18%~22% 増加させ、死重が有効搭載量を減らす。",
+    "de": "⚠️ Grenze der Ausgangskonfiguration: Im Reiseflug verursachen vier stillstehende Hubrotoren und Streben 18%~22% zusätzlichen parasitären Widerstand; Totgewicht senkt die Nutzlast.",
+    "fr": "⚠️ Limite de la configuration de base : En croisière, les quatre rotors arrêtés et leurs supports ajoutent 18%~22% de traînée parasite ; le poids mort réduit la charge utile."
+  },
+  "⚠️ 原生構型極限瓶頸：傾轉過渡段 (Transition Corridor 12~22 m/s) 機翼處於半失速與旋翼下洗流耦合區，俯仰力矩非線性變化劇烈。": {
+    "en": "⚠️ Baseline configuration limitation: In the transition corridor (12~22 m/s), partial wing stall couples with rotor downwash, causing strong nonlinear pitching-moment changes.",
+    "ja": "⚠️ 基準構成の限界：遷移領域 (12~22 m/s) では翼の部分失速とローター後流が連成し、ピッチモーメントが強く非線形変化。",
+    "de": "⚠️ Grenze der Ausgangskonfiguration: Im Übergangsbereich (12~22 m/s) koppeln partieller Strömungsabriss und Rotorabwind mit starken nichtlinearen Nickmomentänderungen.",
+    "fr": "⚠️ Limite de la configuration de base : Dans le corridor de transition (12~22 m/s), décrochage partiel et souffle des rotors se couplent, produisant de fortes variations non linéaires du moment de tangage."
+  },
+  "⚠️ 原生構型極限瓶頸：純多旋翼構型完全依賴旋翼動量變化產生升力，等效升阻比僅約 3.5~4.5，受電池能量密度限制滯空約 55 分鐘。": {
+    "en": "⚠️ Baseline configuration limitation: Pure multirotors generate lift entirely through rotor momentum; equivalent lift-to-drag is about 3.5~4.5, with battery-limited endurance around 55 minutes.",
+    "ja": "⚠️ 基準構成の限界：純マルチローターはローターの運動量変化のみで揚力を得る。等価揚抗比は約 3.5~4.5、電池密度に制限され滞空は約 55 分。",
+    "de": "⚠️ Grenze der Ausgangskonfiguration: Reine Multirotoren erzeugen Auftrieb durch Rotorimpuls; äquivalente Gleitzahl etwa 3.5~4.5, akkubegrenzte Flugdauer rund 55 Minuten.",
+    "fr": "⚠️ Limite de la configuration de base : Les multirotors purs tirent toute leur portance de la quantité de mouvement des rotors ; finesse équivalente 3.5~4.5, autonomie limitée par la batterie à environ 55 minutes."
+  },
+  "⚠️ 原生構型極限瓶頸：共軸上下槳之間存在約 12%~15% 誘導下洗流干擾損失，且滿載 30kg 貨物時機臂根部承受極大高頻交變彎矩。": {
+    "en": "⚠️ Baseline configuration limitation: Coaxial rotors lose about 12%~15% through downwash interference; with 30kg cargo, arm roots carry large high-frequency alternating bending moments.",
+    "ja": "⚠️ 基準構成の限界：同軸上下ローターの後流干渉損失は約 12%~15%。30kg 搭載時、アーム根元に大きな高周波交番曲げが作用。",
+    "de": "⚠️ Grenze der Ausgangskonfiguration: Koaxialrotoren verlieren etwa 12%~15% durch Abwindinterferenz; bei 30kg Fracht wirken große hochfrequente Wechselbiegemomente an den Armwurzeln.",
+    "fr": "⚠️ Limite de la configuration de base : Les rotors coaxiaux perdent environ 12%~15% par interférence de souffle ; avec 30kg de charge, les racines des bras subissent de forts moments alternés à haute fréquence."
+  },
+  "⚠️ 原生構型極限瓶頸：大直徑 33 吋旋翼在高速前飛與陣風下容易產生揮舞力矩與機臂結構共振。": {
+    "en": "⚠️ Baseline configuration limitation: Large 33-inch rotors are prone to flapping moments and arm resonance in fast forward flight and gusts.",
+    "ja": "⚠️ 基準構成の限界：大径 33 インチローターは高速前進・突風時にフラッピングモーメントとアーム共振が生じやすい。",
+    "de": "⚠️ Grenze der Ausgangskonfiguration: Große 33-Zoll-Rotoren neigen bei schnellem Vorwärtsflug und Böen zu Schlagmomenten und Armresonanzen.",
+    "fr": "⚠️ Limite de la configuration de base : Les grands rotors de 33 pouces favorisent les moments de battement et la résonance des bras en vol rapide et sous rafales."
+  },
+  "⚠️ 原生構型極限瓶頸：極低翼載荷 (2.8 kg/m²) 與超柔韌大展弦比機翼在穿越對流層亂流時極易遭受結構大撓度變形破壞。": {
+    "en": "⚠️ Baseline configuration limitation: Very low wing loading (2.8 kg/m²) and flexible high-aspect-ratio wings risk large-deflection structural damage in tropospheric turbulence.",
+    "ja": "⚠️ 基準構成の限界：極低翼面荷重 (2.8 kg/m²) と柔軟な高アスペクト比翼は、対流圏乱流通過時に大変形構造損傷を受けやすい。",
+    "de": "⚠️ Grenze der Ausgangskonfiguration: Sehr geringe Flächenbelastung (2.8 kg/m²) und flexible hochgestreckte Flügel bergen in troposphärischer Turbulenz große Verformungs- und Schadensrisiken.",
+    "fr": "⚠️ Limite de la configuration de base : La très faible charge alaire (2.8 kg/m²) et les ailes souples à grand allongement risquent des dommages par grandes déformations dans la turbulence troposphérique."
+  },
+  "✦ 專屬工程補強建議：加裝「順槳鎖定整流罩與鯊魚鰭小翼」，並將垂直起降電池升級為「420Wh/kg 固態鋰電池」，航時由 6.5h 大幅提升至 10.5h。": {
+    "en": "✦ Model-specific engineering recommendation: Add feather-lock fairings and sharklets, and upgrade the VTOL battery to 420Wh/kg solid-state lithium; endurance rises from 6.5h to 10.5h.",
+    "ja": "✦ 専用工学補強提案：フェザー固定フェアリングとシャークレットを追加し、VTOL 電池を 420Wh/kg 全固体リチウムに更新。滞空時間は 6.5h から 10.5h に増加。",
+    "de": "✦ Modellspezifische Verstärkungsempfehlung: Federstellungs-Verriegelungs-Verkleidungen und Sharklets ergänzen, VTOL-Akku auf 420Wh/kg Festkörper-Lithium aufrüsten; Flugdauer von 6.5h auf 10.5h.",
+    "fr": "✦ Recommandation de renforcement spécifique : Ajoutez carénages de verrouillage en drapeau et sharklets, et une batterie VTOL lithium solide 420Wh/kg ; autonomie de 6.5h à 10.5h."
+  },
+  "✦ 專屬工程補強建議：配置「前緣微渦流產生器 (VG)」穩定過渡段氣流，並將傾轉伺服機構升級為「鈦合金諧波減速器 + 固態電池」。": {
+    "en": "✦ Model-specific engineering recommendation: Fit leading-edge micro vortex generators (VG) for transition flow stability and upgrade tilt servos to titanium harmonic drives + solid-state batteries.",
+    "ja": "✦ 専用工学補強提案：前縁微小 VG で遷移流れを安定化し、ティルトサーボをチタン製ハーモニック減速機 + 全固体電池に更新。",
+    "de": "✦ Modellspezifische Verstärkungsempfehlung: Mikro-Wirbelgeneratoren (VG) an der Vorderkante stabilisieren die Übergangsströmung; Kippservos auf Titan-Harmonic-Drive + Festkörperakku aufrüsten.",
+    "fr": "✦ Recommandation de renforcement spécifique : Installez des microgénérateurs de tourbillons (VG) au bord d’attaque et modernisez les servos avec réducteurs harmoniques en titane + batteries solides."
+  },
+  "✦ 專屬工程補強建議：換裝「420Wh/kg 固態鋰電池組」與「T800 超輕量碳纖桁架 + 翼尖降噪小翼槳」，滯空時間可突破 90 分鐘。": {
+    "en": "✦ Model-specific engineering recommendation: Fit 420Wh/kg solid-state lithium batteries and T800 ultralight carbon trusses + quiet winglet propellers; endurance can exceed 90 minutes.",
+    "ja": "✦ 専用工学補強提案：420Wh/kg 全固体リチウム電池と T800 超軽量炭素トラス + 低騒音翼端小翼プロペラに交換し、滞空 90 分超を目指す。",
+    "de": "✦ Modellspezifische Verstärkungsempfehlung: 420Wh/kg Festkörper-Lithiumakku und ultraleichte T800-Kohlefaserträger + leise Winglet-Propeller einsetzen; über 90 Minuten Flugdauer möglich.",
+    "fr": "✦ Recommandation de renforcement spécifique : Installez batteries lithium solides 420Wh/kg et treillis carbone T800 ultraléger + hélices à ailettes silencieuses ; autonomie pouvant dépasser 90 minutes."
+  },
+  "✦ 專屬工程補強建議：升級「T1000 碳纖機臂 + 鈦合金折疊鎖扣補強」，並優化上下槳差動螺距與固態電池系統。": {
+    "en": "✦ Model-specific engineering recommendation: Upgrade to T1000 carbon arms + reinforced titanium folding latches, and optimize differential rotor pitch and solid-state batteries.",
+    "ja": "✦ 専用工学補強提案：T1000 炭素アーム + チタン折畳みラッチ補強に更新し、上下ローター差動ピッチと全固体電池を最適化。",
+    "de": "✦ Modellspezifische Verstärkungsempfehlung: Auf T1000-Kohlefaserarme + verstärkte Titan-Klappverschlüsse aufrüsten; differentiellen Rotorpitch und Festkörperakkus optimieren.",
+    "fr": "✦ Recommandation de renforcement spécifique : Passez aux bras carbone T1000 + verrous pliants renforcés en titane et optimisez le pas différentiel et les batteries solides."
+  },
+  "✦ 專屬工程補強建議：導入「T800 碳纖 + Nomex 阻尼夾芯機臂」抑制模態共振，並升級固態高倍率電池。": {
+    "en": "✦ Model-specific engineering recommendation: Use T800 carbon + Nomex damping-sandwich arms to suppress modal resonance, and upgrade to high-rate solid-state batteries.",
+    "ja": "✦ 専用工学補強提案：T800 炭素 + Nomex 減衰サンドイッチアームでモード共振を抑制し、高レート全固体電池に更新。",
+    "de": "✦ Modellspezifische Verstärkungsempfehlung: T800-Kohlefaserarme mit Nomex-Dämpfungskern gegen Modalresonanzen und hochstromfähige Festkörperakkus einsetzen.",
+    "fr": "✦ Recommandation de renforcement spécifique : Utilisez des bras sandwich amortissants carbone T800 + Nomex et des batteries solides à fort courant pour réduire les résonances modales."
+  },
+  "✦ 專屬工程補強建議：採用「T1000 超高模量碳纖薄殼主樑」搭配「鈣鈦礦太陽能薄膜 + 420Wh/kg 固態鋰硫電池」與陣風減載主動副翼控制。": {
+    "en": "✦ Model-specific engineering recommendation: Use T1000 ultra-high-modulus thin-shell carbon spars, perovskite solar film + 420Wh/kg solid-state lithium-sulfur batteries, and active gust-alleviation ailerons.",
+    "ja": "✦ 専用工学補強提案：T1000 超高弾性炭素薄殻主桁、ペロブスカイト太陽電池薄膜 + 420Wh/kg 全固体リチウム硫黄電池、突風荷重軽減用能動補助翼を採用。",
+    "de": "✦ Modellspezifische Verstärkungsempfehlung: T1000-Dünnschalenholme aus Ultrahochmodul-Kohlefaser, Perowskit-Solarfolie + 420Wh/kg Festkörper-Lithium-Schwefel-Akkus und aktive Böenlastminderungs-Querruder einsetzen.",
+    "fr": "✦ Recommandation de renforcement spécifique : Utilisez des longerons minces T1000 à très haut module, un film solaire pérovskite + batteries lithium-soufre solides 420Wh/kg et des ailerons actifs d’allègement des rafales."
+  },
+  "已切換至 3D 工作台：JOUAV CW-30E (雙尾桁四軸複合翼 VTOL)": {
+    "en": "Switched to 3D studio: JOUAV CW-30E (Twin-boom quadrotor hybrid VTOL)",
+    "ja": "3D 作業台へ切り替えました：JOUAV CW-30E (双胴クアッド複合翼 VTOL)",
+    "de": "Zum 3D-Arbeitsbereich gewechselt: JOUAV CW-30E (Doppelrumpf-Quadrotor-Hybrid-VTOL)",
+    "fr": "Passage à l’atelier 3D : JOUAV CW-30E (VTOL hybride bipoutre à quatre rotors)"
+  },
+  "已切換至 3D 工作台：Wingcopter 198 (專利傾轉旋翼物流 VTOL)": {
+    "en": "Switched to 3D studio: Wingcopter 198 (Patented tilt-rotor logistics VTOL)",
+    "ja": "3D 作業台へ切り替えました：Wingcopter 198 (特許ティルトローター物流 VTOL)",
+    "de": "Zum 3D-Arbeitsbereich gewechselt: Wingcopter 198 (Patentierter Logistik-Kipprotor-VTOL)",
+    "fr": "Passage à l’atelier 3D : Wingcopter 198 (VTOL logistique à rotors basculants brevetés)"
+  },
+  "已切換至 3D 工作台：DJI Matrice 350 RTK (旗艦工業巡檢四軸)": {
+    "en": "Switched to 3D studio: DJI Matrice 350 RTK (Flagship industrial inspection quadrotor)",
+    "ja": "3D 作業台へ切り替えました：DJI Matrice 350 RTK (最上位産業点検クアッドローター)",
+    "de": "Zum 3D-Arbeitsbereich gewechselt: DJI Matrice 350 RTK (Industrie-Inspektionsquadrokopter der Spitzenklasse)",
+    "fr": "Passage à l’atelier 3D : DJI Matrice 350 RTK (Quadrirotor phare d’inspection industrielle)"
+  },
+  "已切換至 3D 工作台：DJI FlyCart 30 (重型物流共軸八槳 X8)": {
+    "en": "Switched to 3D studio: DJI FlyCart 30 (Heavy logistics coaxial octocopter X8)",
+    "ja": "3D 作業台へ切り替えました：DJI FlyCart 30 (大型物流同軸 8 ローター X8)",
+    "de": "Zum 3D-Arbeitsbereich gewechselt: DJI FlyCart 30 (Schwerlast-Logistik-Koaxialoktokopter X8)",
+    "fr": "Passage à l’atelier 3D : DJI FlyCart 30 (Octocoptère coaxial de logistique lourde X8)"
+  },
+  "已切換至 3D 工作台：Freefly Alta X (重載專業航拍/光達四軸)": {
+    "en": "Switched to 3D studio: Freefly Alta X (Heavy-lift professional imaging / LiDAR quadrotor)",
+    "ja": "3D 作業台へ切り替えました：Freefly Alta X (重量物用プロ空撮 / LiDAR クアッドローター)",
+    "de": "Zum 3D-Arbeitsbereich gewechselt: Freefly Alta X (Schwerlast-Quadrokopter für professionelle Luftbilder / LiDAR)",
+    "fr": "Passage à l’atelier 3D : Freefly Alta X (Quadrirotor lourd pour imagerie professionnelle / LiDAR)"
+  },
+  "已切換至 3D 工作台：Airbus Zephyr S (平流層太陽能偽衛星 HAPS)": {
+    "en": "Switched to 3D studio: Airbus Zephyr S (Stratospheric solar pseudo-satellite HAPS)",
+    "ja": "3D 作業台へ切り替えました：Airbus Zephyr S (成層圏太陽光擬似衛星 HAPS)",
+    "de": "Zum 3D-Arbeitsbereich gewechselt: Airbus Zephyr S (Stratosphärischer Solar-Pseudosatellit HAPS)",
+    "fr": "Passage à l’atelier 3D : Airbus Zephyr S (Pseudo-satellite solaire stratosphérique HAPS)"
+  },
+  "已套用「JOUAV CW-30E (雙尾桁四軸複合翼 VTOL)」最佳氣動與結構補強方案！": {
+    "en": "Applied optimal aerodynamic and structural augmentation for “JOUAV CW-30E (Twin-boom quadrotor hybrid VTOL)”!",
+    "ja": "「JOUAV CW-30E (双胴クアッド複合翼 VTOL)」の最適空力・構造補強を適用しました！",
+    "de": "Optimale Aerodynamik- und Strukturverstärkung für „JOUAV CW-30E (Doppelrumpf-Quadrotor-Hybrid-VTOL)“ angewendet!",
+    "fr": "Renforcement aérodynamique et structurel optimal appliqué à « JOUAV CW-30E (VTOL hybride bipoutre à quatre rotors) » !"
+  },
+  "已套用「Wingcopter 198 (專利傾轉旋翼物流 VTOL)」最佳氣動與結構補強方案！": {
+    "en": "Applied optimal aerodynamic and structural augmentation for “Wingcopter 198 (Patented tilt-rotor logistics VTOL)”!",
+    "ja": "「Wingcopter 198 (特許ティルトローター物流 VTOL)」の最適空力・構造補強を適用しました！",
+    "de": "Optimale Aerodynamik- und Strukturverstärkung für „Wingcopter 198 (Patentierter Logistik-Kipprotor-VTOL)“ angewendet!",
+    "fr": "Renforcement aérodynamique et structurel optimal appliqué à « Wingcopter 198 (VTOL logistique à rotors basculants brevetés) » !"
+  },
+  "已套用「DJI Matrice 350 RTK (旗艦工業巡檢四軸)」最佳氣動與結構補強方案！": {
+    "en": "Applied optimal aerodynamic and structural augmentation for “DJI Matrice 350 RTK (Flagship industrial inspection quadrotor)”!",
+    "ja": "「DJI Matrice 350 RTK (最上位産業点検クアッドローター)」の最適空力・構造補強を適用しました！",
+    "de": "Optimale Aerodynamik- und Strukturverstärkung für „DJI Matrice 350 RTK (Industrie-Inspektionsquadrokopter der Spitzenklasse)“ angewendet!",
+    "fr": "Renforcement aérodynamique et structurel optimal appliqué à « DJI Matrice 350 RTK (Quadrirotor phare d’inspection industrielle) » !"
+  },
+  "已套用「DJI FlyCart 30 (重型物流共軸八槳 X8)」最佳氣動與結構補強方案！": {
+    "en": "Applied optimal aerodynamic and structural augmentation for “DJI FlyCart 30 (Heavy logistics coaxial octocopter X8)”!",
+    "ja": "「DJI FlyCart 30 (大型物流同軸 8 ローター X8)」の最適空力・構造補強を適用しました！",
+    "de": "Optimale Aerodynamik- und Strukturverstärkung für „DJI FlyCart 30 (Schwerlast-Logistik-Koaxialoktokopter X8)“ angewendet!",
+    "fr": "Renforcement aérodynamique et structurel optimal appliqué à « DJI FlyCart 30 (Octocoptère coaxial de logistique lourde X8) » !"
+  },
+  "已套用「Freefly Alta X (重載專業航拍/光達四軸)」最佳氣動與結構補強方案！": {
+    "en": "Applied optimal aerodynamic and structural augmentation for “Freefly Alta X (Heavy-lift professional imaging / LiDAR quadrotor)”!",
+    "ja": "「Freefly Alta X (重量物用プロ空撮 / LiDAR クアッドローター)」の最適空力・構造補強を適用しました！",
+    "de": "Optimale Aerodynamik- und Strukturverstärkung für „Freefly Alta X (Schwerlast-Quadrokopter für professionelle Luftbilder / LiDAR)“ angewendet!",
+    "fr": "Renforcement aérodynamique et structurel optimal appliqué à « Freefly Alta X (Quadrirotor lourd pour imagerie professionnelle / LiDAR) » !"
+  },
+  "已套用「Airbus Zephyr S (平流層太陽能偽衛星 HAPS)」最佳氣動與結構補強方案！": {
+    "en": "Applied optimal aerodynamic and structural augmentation for “Airbus Zephyr S (Stratospheric solar pseudo-satellite HAPS)”!",
+    "ja": "「Airbus Zephyr S (成層圏太陽光擬似衛星 HAPS)」の最適空力・構造補強を適用しました！",
+    "de": "Optimale Aerodynamik- und Strukturverstärkung für „Airbus Zephyr S (Stratosphärischer Solar-Pseudosatellit HAPS)“ angewendet!",
+    "fr": "Renforcement aérodynamique et structurel optimal appliqué à « Airbus Zephyr S (Pseudo-satellite solaire stratosphérique HAPS) » !"
+  },
+  "已切換載具模型：[4+1 複合翼 VTOL] JOUAV CW-30E (雙尾桁四軸複合翼 VTOL)": {
+    "en": "Vehicle model switched: [4+1 hybrid wing VTOL] JOUAV CW-30E (Twin-boom quadrotor hybrid VTOL)",
+    "ja": "機体モデルを切り替えました：[4+1 複合翼 VTOL] JOUAV CW-30E (双胴クアッド複合翼 VTOL)",
+    "de": "Fahrzeugmodell gewechselt: [4+1-Hybridflügel VTOL] JOUAV CW-30E (Doppelrumpf-Quadrotor-Hybrid-VTOL)",
+    "fr": "Modèle de véhicule changé : [Voilure hybride 4+1 VTOL] JOUAV CW-30E (VTOL hybride bipoutre à quatre rotors)"
+  },
+  "已切換載具模型：[Tilt-Rotor 傾轉] Wingcopter 198 (專利傾轉旋翼物流 VTOL)": {
+    "en": "Vehicle model switched: [Tilt-Rotor] Wingcopter 198 (Patented tilt-rotor logistics VTOL)",
+    "ja": "機体モデルを切り替えました：[ティルトローター] Wingcopter 198 (特許ティルトローター物流 VTOL)",
+    "de": "Fahrzeugmodell gewechselt: [Kipprotor] Wingcopter 198 (Patentierter Logistik-Kipprotor-VTOL)",
+    "fr": "Modèle de véhicule changé : [Rotors basculants] Wingcopter 198 (VTOL logistique à rotors basculants brevetés)"
+  },
+  "已切換載具模型：[Industrial X4] DJI Matrice 350 RTK (旗艦工業巡檢四軸)": {
+    "en": "Vehicle model switched: [Industrial X4] DJI Matrice 350 RTK (Flagship industrial inspection quadrotor)",
+    "ja": "機体モデルを切り替えました：[産業用 X4] DJI Matrice 350 RTK (最上位産業点検クアッドローター)",
+    "de": "Fahrzeugmodell gewechselt: [Industrie-X4] DJI Matrice 350 RTK (Industrie-Inspektionsquadrokopter der Spitzenklasse)",
+    "fr": "Modèle de véhicule changé : [Industriel X4] DJI Matrice 350 RTK (Quadrirotor phare d’inspection industrielle)"
+  },
+  "已切換載具模型：[Heavy Cargo X8] DJI FlyCart 30 (重型物流共軸八槳 X8)": {
+    "en": "Vehicle model switched: [Heavy Cargo X8] DJI FlyCart 30 (Heavy logistics coaxial octocopter X8)",
+    "ja": "機体モデルを切り替えました：[重量貨物 X8] DJI FlyCart 30 (大型物流同軸 8 ローター X8)",
+    "de": "Fahrzeugmodell gewechselt: [Schwerlastfracht X8] DJI FlyCart 30 (Schwerlast-Logistik-Koaxialoktokopter X8)",
+    "fr": "Modèle de véhicule changé : [Fret lourd X8] DJI FlyCart 30 (Octocoptère coaxial de logistique lourde X8)"
+  },
+  "已切換載具模型：[Heavy Quad 33\"] Freefly Alta X (重載專業航拍/光達四軸)": {
+    "en": "Vehicle model switched: [Heavy Quad 33\"] Freefly Alta X (Heavy-lift professional imaging / LiDAR quadrotor)",
+    "ja": "機体モデルを切り替えました：[重量物用クアッド 33\"] Freefly Alta X (重量物用プロ空撮 / LiDAR クアッドローター)",
+    "de": "Fahrzeugmodell gewechselt: [Schwerlast-Quad 33\"] Freefly Alta X (Schwerlast-Quadrokopter für professionelle Luftbilder / LiDAR)",
+    "fr": "Modèle de véhicule changé : [Quadrirotor lourd 33\"] Freefly Alta X (Quadrirotor lourd pour imagerie professionnelle / LiDAR)"
+  },
+  "已切換載具模型：[Solar HALE 偽衛星] Airbus Zephyr S (平流層太陽能偽衛星 HAPS)": {
+    "en": "Vehicle model switched: [Solar HALE Pseudo-satellite] Airbus Zephyr S (Stratospheric solar pseudo-satellite HAPS)",
+    "ja": "機体モデルを切り替えました：[Solar HALE 擬似衛星] Airbus Zephyr S (成層圏太陽光擬似衛星 HAPS)",
+    "de": "Fahrzeugmodell gewechselt: [Solar HALE Pseudosatellit] Airbus Zephyr S (Stratosphärischer Solar-Pseudosatellit HAPS)",
+    "fr": "Modèle de véhicule changé : [Solar HALE Pseudo-satellite] Airbus Zephyr S (Pseudo-satellite solaire stratosphérique HAPS)"
+  },
+  "已成功將「JOUAV CW-30E (雙尾桁四軸複合翼 VTOL)」加入全球模型庫！": {
+    "en": "“JOUAV CW-30E (Twin-boom quadrotor hybrid VTOL)” added to the global model library!",
+    "ja": "「JOUAV CW-30E (双胴クアッド複合翼 VTOL)」を世界モデル集に追加しました！",
+    "de": "„JOUAV CW-30E (Doppelrumpf-Quadrotor-Hybrid-VTOL)“ zur globalen Modellbibliothek hinzugefügt!",
+    "fr": "« JOUAV CW-30E (VTOL hybride bipoutre à quatre rotors) » ajouté à la bibliothèque mondiale !"
+  },
+  "已成功將「Wingcopter 198 (專利傾轉旋翼物流 VTOL)」加入全球模型庫！": {
+    "en": "“Wingcopter 198 (Patented tilt-rotor logistics VTOL)” added to the global model library!",
+    "ja": "「Wingcopter 198 (特許ティルトローター物流 VTOL)」を世界モデル集に追加しました！",
+    "de": "„Wingcopter 198 (Patentierter Logistik-Kipprotor-VTOL)“ zur globalen Modellbibliothek hinzugefügt!",
+    "fr": "« Wingcopter 198 (VTOL logistique à rotors basculants brevetés) » ajouté à la bibliothèque mondiale !"
+  },
+  "已成功將「DJI Matrice 350 RTK (旗艦工業巡檢四軸)」加入全球模型庫！": {
+    "en": "“DJI Matrice 350 RTK (Flagship industrial inspection quadrotor)” added to the global model library!",
+    "ja": "「DJI Matrice 350 RTK (最上位産業点検クアッドローター)」を世界モデル集に追加しました！",
+    "de": "„DJI Matrice 350 RTK (Industrie-Inspektionsquadrokopter der Spitzenklasse)“ zur globalen Modellbibliothek hinzugefügt!",
+    "fr": "« DJI Matrice 350 RTK (Quadrirotor phare d’inspection industrielle) » ajouté à la bibliothèque mondiale !"
+  },
+  "已成功將「DJI FlyCart 30 (重型物流共軸八槳 X8)」加入全球模型庫！": {
+    "en": "“DJI FlyCart 30 (Heavy logistics coaxial octocopter X8)” added to the global model library!",
+    "ja": "「DJI FlyCart 30 (大型物流同軸 8 ローター X8)」を世界モデル集に追加しました！",
+    "de": "„DJI FlyCart 30 (Schwerlast-Logistik-Koaxialoktokopter X8)“ zur globalen Modellbibliothek hinzugefügt!",
+    "fr": "« DJI FlyCart 30 (Octocoptère coaxial de logistique lourde X8) » ajouté à la bibliothèque mondiale !"
+  },
+  "已成功將「Freefly Alta X (重載專業航拍/光達四軸)」加入全球模型庫！": {
+    "en": "“Freefly Alta X (Heavy-lift professional imaging / LiDAR quadrotor)” added to the global model library!",
+    "ja": "「Freefly Alta X (重量物用プロ空撮 / LiDAR クアッドローター)」を世界モデル集に追加しました！",
+    "de": "„Freefly Alta X (Schwerlast-Quadrokopter für professionelle Luftbilder / LiDAR)“ zur globalen Modellbibliothek hinzugefügt!",
+    "fr": "« Freefly Alta X (Quadrirotor lourd pour imagerie professionnelle / LiDAR) » ajouté à la bibliothèque mondiale !"
+  },
+  "已成功將「Airbus Zephyr S (平流層太陽能偽衛星 HAPS)」加入全球模型庫！": {
+    "en": "“Airbus Zephyr S (Stratospheric solar pseudo-satellite HAPS)” added to the global model library!",
+    "ja": "「Airbus Zephyr S (成層圏太陽光擬似衛星 HAPS)」を世界モデル集に追加しました！",
+    "de": "„Airbus Zephyr S (Stratosphärischer Solar-Pseudosatellit HAPS)“ zur globalen Modellbibliothek hinzugefügt!",
+    "fr": "« Airbus Zephyr S (Pseudo-satellite solaire stratosphérique HAPS) » ajouté à la bibliothèque mondiale !"
+  },
+  "負責人：張哲肇 (Alex Chang) | 專線：0931-765001 | 官方網站：https://maxjimtech.com/ | 測試機型：JOUAV CW-30E (雙尾桁四軸複合翼 VTOL)": {
+    "en": "Contact：Alex Chang | Hotline：0931-765001 | Official website：https://maxjimtech.com/ | Test model：JOUAV CW-30E (Twin-boom quadrotor hybrid VTOL)",
+    "ja": "担当者：Alex Chang | 直通電話：0931-765001 | 公式サイト：https://maxjimtech.com/ | 試験機種：JOUAV CW-30E (双胴クアッド複合翼 VTOL)",
+    "de": "Ansprechpartner：Alex Chang | Hotline：0931-765001 | Offizielle Website：https://maxjimtech.com/ | Testmodell：JOUAV CW-30E (Doppelrumpf-Quadrotor-Hybrid-VTOL)",
+    "fr": "Responsable：Alex Chang | Ligne directe：0931-765001 | Site officiel：https://maxjimtech.com/ | Modèle testé：JOUAV CW-30E (VTOL hybride bipoutre à quatre rotors)"
+  },
+  "負責人：張哲肇 (Alex Chang) | 專線：0931-765001 | 官方網站：https://maxjimtech.com/ | 測試機型：Wingcopter 198 (專利傾轉旋翼物流 VTOL)": {
+    "en": "Contact：Alex Chang | Hotline：0931-765001 | Official website：https://maxjimtech.com/ | Test model：Wingcopter 198 (Patented tilt-rotor logistics VTOL)",
+    "ja": "担当者：Alex Chang | 直通電話：0931-765001 | 公式サイト：https://maxjimtech.com/ | 試験機種：Wingcopter 198 (特許ティルトローター物流 VTOL)",
+    "de": "Ansprechpartner：Alex Chang | Hotline：0931-765001 | Offizielle Website：https://maxjimtech.com/ | Testmodell：Wingcopter 198 (Patentierter Logistik-Kipprotor-VTOL)",
+    "fr": "Responsable：Alex Chang | Ligne directe：0931-765001 | Site officiel：https://maxjimtech.com/ | Modèle testé：Wingcopter 198 (VTOL logistique à rotors basculants brevetés)"
+  },
+  "負責人：張哲肇 (Alex Chang) | 專線：0931-765001 | 官方網站：https://maxjimtech.com/ | 測試機型：DJI Matrice 350 RTK (旗艦工業巡檢四軸)": {
+    "en": "Contact：Alex Chang | Hotline：0931-765001 | Official website：https://maxjimtech.com/ | Test model：DJI Matrice 350 RTK (Flagship industrial inspection quadrotor)",
+    "ja": "担当者：Alex Chang | 直通電話：0931-765001 | 公式サイト：https://maxjimtech.com/ | 試験機種：DJI Matrice 350 RTK (最上位産業点検クアッドローター)",
+    "de": "Ansprechpartner：Alex Chang | Hotline：0931-765001 | Offizielle Website：https://maxjimtech.com/ | Testmodell：DJI Matrice 350 RTK (Industrie-Inspektionsquadrokopter der Spitzenklasse)",
+    "fr": "Responsable：Alex Chang | Ligne directe：0931-765001 | Site officiel：https://maxjimtech.com/ | Modèle testé：DJI Matrice 350 RTK (Quadrirotor phare d’inspection industrielle)"
+  },
+  "負責人：張哲肇 (Alex Chang) | 專線：0931-765001 | 官方網站：https://maxjimtech.com/ | 測試機型：DJI FlyCart 30 (重型物流共軸八槳 X8)": {
+    "en": "Contact：Alex Chang | Hotline：0931-765001 | Official website：https://maxjimtech.com/ | Test model：DJI FlyCart 30 (Heavy logistics coaxial octocopter X8)",
+    "ja": "担当者：Alex Chang | 直通電話：0931-765001 | 公式サイト：https://maxjimtech.com/ | 試験機種：DJI FlyCart 30 (大型物流同軸 8 ローター X8)",
+    "de": "Ansprechpartner：Alex Chang | Hotline：0931-765001 | Offizielle Website：https://maxjimtech.com/ | Testmodell：DJI FlyCart 30 (Schwerlast-Logistik-Koaxialoktokopter X8)",
+    "fr": "Responsable：Alex Chang | Ligne directe：0931-765001 | Site officiel：https://maxjimtech.com/ | Modèle testé：DJI FlyCart 30 (Octocoptère coaxial de logistique lourde X8)"
+  },
+  "負責人：張哲肇 (Alex Chang) | 專線：0931-765001 | 官方網站：https://maxjimtech.com/ | 測試機型：Freefly Alta X (重載專業航拍/光達四軸)": {
+    "en": "Contact：Alex Chang | Hotline：0931-765001 | Official website：https://maxjimtech.com/ | Test model：Freefly Alta X (Heavy-lift professional imaging / LiDAR quadrotor)",
+    "ja": "担当者：Alex Chang | 直通電話：0931-765001 | 公式サイト：https://maxjimtech.com/ | 試験機種：Freefly Alta X (重量物用プロ空撮 / LiDAR クアッドローター)",
+    "de": "Ansprechpartner：Alex Chang | Hotline：0931-765001 | Offizielle Website：https://maxjimtech.com/ | Testmodell：Freefly Alta X (Schwerlast-Quadrokopter für professionelle Luftbilder / LiDAR)",
+    "fr": "Responsable：Alex Chang | Ligne directe：0931-765001 | Site officiel：https://maxjimtech.com/ | Modèle testé：Freefly Alta X (Quadrirotor lourd pour imagerie professionnelle / LiDAR)"
+  },
+  "負責人：張哲肇 (Alex Chang) | 專線：0931-765001 | 官方網站：https://maxjimtech.com/ | 測試機型：Airbus Zephyr S (平流層太陽能偽衛星 HAPS)": {
+    "en": "Contact：Alex Chang | Hotline：0931-765001 | Official website：https://maxjimtech.com/ | Test model：Airbus Zephyr S (Stratospheric solar pseudo-satellite HAPS)",
+    "ja": "担当者：Alex Chang | 直通電話：0931-765001 | 公式サイト：https://maxjimtech.com/ | 試験機種：Airbus Zephyr S (成層圏太陽光擬似衛星 HAPS)",
+    "de": "Ansprechpartner：Alex Chang | Hotline：0931-765001 | Offizielle Website：https://maxjimtech.com/ | Testmodell：Airbus Zephyr S (Stratosphärischer Solar-Pseudosatellit HAPS)",
+    "fr": "Responsable：Alex Chang | Ligne directe：0931-765001 | Site officiel：https://maxjimtech.com/ | Modèle testé：Airbus Zephyr S (Pseudo-satellite solaire stratosphérique HAPS)"
+  },
+  "執行中：AOA_SWEEP": {
+    "en": "Running：Angle-of-attack sweep",
+    "ja": "実行中：迎角掃引",
+    "de": "Läuft：Anstellwinkel-Sweep",
+    "fr": "En cours：Balayage d’incidence"
+  },
+  "執行中：GUST_PID": {
+    "en": "Running：Gust PID test",
+    "ja": "実行中：突風 PID 試験",
+    "de": "Läuft：Böen-PID-Test",
+    "fr": "En cours：Essai PID sous rafales"
+  },
+  "執行中：VTOL_TRANS": {
+    "en": "Running：VTOL transition",
+    "ja": "実行中：VTOL 遷移",
+    "de": "Läuft：VTOL-Übergang",
+    "fr": "En cours：Transition VTOL"
+  },
+  "執行中：HIGH_G": {
+    "en": "Running：High-G test",
+    "ja": "実行中：高 G 試験",
+    "de": "Läuft：Hoch-G-Test",
+    "fr": "En cours：Essai à forte charge G"
+  },
+  "翼尖小翼補強: NACA 64-212 (層流低阻長航時翼型)": {
+    "en": "Winglet augmentation: NACA 64-212 (Low-drag laminar endurance airfoil)",
+    "ja": "翼端小翼補強: NACA 64-212 (低抗力層流長時間滞空翼型)",
+    "de": "Winglet-Verstärkung: NACA 64-212 (Widerstandsarmes Laminarprofil für lange Flugdauer)",
+    "fr": "Renforcement par ailettes marginales: NACA 64-212 (Profil laminaire à faible traînée et grande autonomie)"
+  },
+  "翼尖小翼補強: NACA 4415 (高升力厚翼型)": {
+    "en": "Winglet augmentation: NACA 4415 (High-lift thick airfoil)",
+    "ja": "翼端小翼補強: NACA 4415 (高揚力厚翼型)",
+    "de": "Winglet-Verstärkung: NACA 4415 (Dickes Hochauftriebsprofil)",
+    "fr": "Renforcement par ailettes marginales: NACA 4415 (Profil épais à forte portance)"
+  },
+  "翼尖小翼補強: NACA 4412 (經典高升力翼型)": {
+    "en": "Winglet augmentation: NACA 4412 (Classic high-lift airfoil)",
+    "ja": "翼端小翼補強: NACA 4412 (古典的高揚力翼型)",
+    "de": "Winglet-Verstärkung: NACA 4412 (Klassisches Hochauftriebsprofil)",
+    "fr": "Renforcement par ailettes marginales: NACA 4412 (Profil classique à forte portance)"
+  },
+  "翼尖小翼補強: NACA 2412 (通用穩定巡航翼型)": {
+    "en": "Winglet augmentation: NACA 2412 (General-purpose stable cruise airfoil)",
+    "ja": "翼端小翼補強: NACA 2412 (汎用安定巡航翼型)",
+    "de": "Winglet-Verstärkung: NACA 2412 (Universelles stabiles Reiseflugprofil)",
+    "fr": "Renforcement par ailettes marginales: NACA 2412 (Profil de croisière stable polyvalent)"
+  },
+  "翼尖小翼補強: NACA 0012 (對稱翼型 / 旋翼與高速載具)": {
+    "en": "Winglet augmentation: NACA 0012 (Symmetric airfoil / Rotors and high-speed vehicles)",
+    "ja": "翼端小翼補強: NACA 0012 (対称翼型 / ローター・高速機)",
+    "de": "Winglet-Verstärkung: NACA 0012 (Symmetrisches Profil / Rotoren und Hochgeschwindigkeitsfahrzeuge)",
+    "fr": "Renforcement par ailettes marginales: NACA 0012 (Profil symétrique / Rotors et véhicules rapides)"
+  },
+  "翼尖小翼補強: Selig S1223 (低雷諾數極高升力翼型)": {
+    "en": "Winglet augmentation: Selig S1223 (Very-high-lift low-Reynolds airfoil)",
+    "ja": "翼端小翼補強: Selig S1223 (低レイノルズ数・超高揚力翼型)",
+    "de": "Winglet-Verstärkung: Selig S1223 (Extremes Hochauftriebsprofil bei niedriger Reynolds-Zahl)",
+    "fr": "Renforcement par ailettes marginales: Selig S1223 (Profil à très forte portance à faible Reynolds)"
+  },
+  "翼尖小翼補強: Eppler 330 Reflex (無尾飛翼自配平反彎度翼型)": {
+    "en": "Winglet augmentation: Eppler 330 Reflex (Self-trimming reflex airfoil for flying wings)",
+    "ja": "翼端小翼補強: Eppler 330 Reflex (無尾翼用自動トリム反り上げ翼型)",
+    "de": "Winglet-Verstärkung: Eppler 330 Reflex (Selbsttrimmendes Reflexprofil für Nurflügler)",
+    "fr": "Renforcement par ailettes marginales: Eppler 330 Reflex (Profil reflex autoéquilibré pour aile volante)"
+  },
+  "翼尖小翼補強: MH 114 (VTOL 複合翼高效巡航翼型)": {
+    "en": "Winglet augmentation: MH 114 (Efficient cruise airfoil for hybrid-wing VTOL)",
+    "ja": "翼端小翼補強: MH 114 (複合翼 VTOL 用高効率巡航翼型)",
+    "de": "Winglet-Verstärkung: MH 114 (Effizientes Reiseflugprofil für Hybrid-VTOL)",
+    "fr": "Renforcement par ailettes marginales: MH 114 (Profil de croisière efficace pour VTOL hybride)"
+  },
+  "翼尖小翼補強: NASA SC(2)-0610 (超臨界高亞音速翼型)": {
+    "en": "Winglet augmentation: NASA SC(2)-0610 (Supercritical high-subsonic airfoil)",
+    "ja": "翼端小翼補強: NASA SC(2)-0610 (超臨界高亜音速翼型)",
+    "de": "Winglet-Verstärkung: NASA SC(2)-0610 (Überkritisches Profil für hohen Unterschall)",
+    "fr": "Renforcement par ailettes marginales: NASA SC(2)-0610 (Profil supercritique haut subsonique)"
+  },
+  "翼尖小翼補強: 標準平直翼尖": {
+    "en": "Winglet augmentation: Standard plain wingtip",
+    "ja": "翼端小翼補強: 標準直線翼端",
+    "de": "Winglet-Verstärkung: Standard-Flügelspitze",
+    "fr": "Renforcement par ailettes marginales: Extrémité d’aile droite standard"
+  },
+  "翼尖小翼補強: 融合式上揚小翼 (Blended)": {
+    "en": "Winglet augmentation: Blended upward winglet (Blended)",
+    "ja": "翼端小翼補強: ブレンデッド・ウィングレット (融合型)",
+    "de": "Winglet-Verstärkung: Gebogenes Blended-Winglet (Gebogen)",
+    "fr": "Renforcement par ailettes marginales: Ailette marginale relevée raccordée (Raccordé)"
+  },
+  "翼尖小翼補強: 鯊魚鰭斜削小翼 (Sharklet)": {
+    "en": "Winglet augmentation: Swept sharklet (Sharklet)",
+    "ja": "翼端小翼補強: シャークレット (シャークレット)",
+    "de": "Winglet-Verstärkung: Pfeilförmiges Sharklet (Haifischflossen-Winglet)",
+    "fr": "Renforcement par ailettes marginales: Ailette marginale en aileron de requin (Ailette en aileron de requin)"
+  },
+  "翼尖小翼補強: 分叉雙彎刀小翼 (Split Scimitar)": {
+    "en": "Winglet augmentation: Split scimitar winglet (Split Scimitar)",
+    "ja": "翼端小翼補強: 分岐シミター・ウィングレット (分岐シミター)",
+    "de": "Winglet-Verstärkung: Geteiltes Scimitar-Winglet (Geteiltes Scimitar-Winglet)",
+    "fr": "Renforcement par ailettes marginales: Ailette marginale double en cimeterre (Double cimeterre)"
+  },
+  "翼尖小翼補強: 端板/翼尖垂尾 (Endplate)": {
+    "en": "Winglet augmentation: Endplate / Wingtip fin (Endplate)",
+    "ja": "翼端小翼補強: 端板 / 翼端垂直尾翼 (端板)",
+    "de": "Winglet-Verstärkung: Endplatte / Wingtip-Seitenleitwerk (Endplatte)",
+    "fr": "Renforcement par ailettes marginales: Plaque d’extrémité / Dérive marginale (Plaque d’extrémité)"
+  },
+  "翼尖小翼補強: 標準後緣襟翼": {
+    "en": "Winglet augmentation: Standard trailing-edge flap",
+    "ja": "翼端小翼補強: 標準後縁フラップ",
+    "de": "Winglet-Verstärkung: Standard-Hinterkantenklappe",
+    "fr": "Renforcement par ailettes marginales: Volet de bord de fuite standard"
+  },
+  "翼尖小翼補強: 單開縫富勒襟翼 (Fowler)": {
+    "en": "Winglet augmentation: Single-slotted Fowler flap (Fowler)",
+    "ja": "翼端小翼補強: 単隙間ファウラーフラップ (Fowler)",
+    "de": "Winglet-Verstärkung: Einspalt-Fowlerklappe (Fowler)",
+    "fr": "Renforcement par ailettes marginales: Volet Fowler à simple fente (Fowler)"
+  },
+  "翼尖小翼補強: 前緣縫翼 + 富勒襟翼": {
+    "en": "Winglet augmentation: Leading-edge slat + Fowler flap",
+    "ja": "翼端小翼補強: 前縁スラット + ファウラーフラップ",
+    "de": "Winglet-Verstärkung: Vorflügel + Fowlerklappe",
+    "fr": "Renforcement par ailettes marginales: Bec de bord d’attaque + volet Fowler"
+  },
+  "翼尖小翼補強: 微渦流產生器陣列 (VG)": {
+    "en": "Winglet augmentation: Micro vortex-generator array (VG)",
+    "ja": "翼端小翼補強: 微小ボルテックスジェネレーター列 (VG)",
+    "de": "Winglet-Verstärkung: Mikro-Wirbelgeneratorfeld (VG)",
+    "fr": "Renforcement par ailettes marginales: Réseau de microgénérateurs de tourbillons (VG)"
+  },
+  "翼尖小翼補強: 7075-T6 航太鋁合金": {
+    "en": "Winglet augmentation: 7075-T6 Aerospace aluminum alloy",
+    "ja": "翼端小翼補強: 7075-T6 航空用アルミ合金",
+    "de": "Winglet-Verstärkung: 7075-T6 Luftfahrt-Aluminiumlegierung",
+    "fr": "Renforcement par ailettes marginales: 7075-T6 Alliage d’aluminium aéronautique"
+  },
+  "翼尖小翼補強: Toray T700 碳纖複合雙大樑": {
+    "en": "Winglet augmentation: Toray T700 Carbon-composite twin spars",
+    "ja": "翼端小翼補強: Toray T700 炭素繊維複合二重主桁",
+    "de": "Winglet-Verstärkung: Toray T700 Doppelholm aus Kohlefaserverbund",
+    "fr": "Renforcement par ailettes marginales: Toray T700 Double longeron en composite carbone"
+  },
+  "翼尖小翼補強: T800 高模量碳纖 + Nomex 蜂巢": {
+    "en": "Winglet augmentation: T800 High-modulus carbon fiber + Nomex Honeycomb",
+    "ja": "翼端小翼補強: T800 高弾性炭素繊維 + Nomex ハニカム",
+    "de": "Winglet-Verstärkung: T800 Hochmodul-Kohlefaser + Nomex Wabe",
+    "fr": "Renforcement par ailettes marginales: T800 Fibre de carbone à haut module + Nomex Nid d’abeilles"
+  },
+  "翼尖小翼補強: T1000 碳纖主樑 + 鈦合金翼根補強": {
+    "en": "Winglet augmentation: T1000 Carbon-fiber spar + Titanium wing-root reinforcement",
+    "ja": "翼端小翼補強: T1000 炭素繊維主桁 + チタン翼根補強",
+    "de": "Winglet-Verstärkung: T1000 Kohlefaserholm + Titan-Flügelwurzelverstärkung",
+    "fr": "Renforcement par ailettes marginales: T1000 Longeron en fibre de carbone + Renfort d’emplanture en titane"
+  },
+  "翼尖小翼補強: 標準燃油 / LiPo (220Wh/kg)": {
+    "en": "Winglet augmentation: Standard fuel / LiPo (220Wh/kg)",
+    "ja": "翼端小翼補強: 標準燃料 / LiPo (220Wh/kg)",
+    "de": "Winglet-Verstärkung: Standardkraftstoff / LiPo (220Wh/kg)",
+    "fr": "Renforcement par ailettes marginales: Carburant standard / LiPo (220Wh/kg)"
+  },
+  "翼尖小翼補強: 高能量密度固態鋰電池 (420Wh/kg)": {
+    "en": "Winglet augmentation: High-energy-density solid-state lithium battery (420Wh/kg)",
+    "ja": "翼端小翼補強: 高エネルギー密度全固体リチウム電池 (420Wh/kg)",
+    "de": "Winglet-Verstärkung: Festkörper-Lithiumakku mit hoher Energiedichte (420Wh/kg)",
+    "fr": "Renforcement par ailettes marginales: Batterie lithium à l’état solide à haute densité énergétique (420Wh/kg)"
+  },
+  "翼尖小翼補強: 鈣鈦礦太陽能薄膜機翼 + 固態電池": {
+    "en": "Winglet augmentation: Perovskite solar-film wing + solid-state battery",
+    "ja": "翼端小翼補強: ペロブスカイト太陽電池薄膜翼 + 全固体電池",
+    "de": "Winglet-Verstärkung: Perowskit-Solarfolienflügel + Festkörperakku",
+    "fr": "Renforcement par ailettes marginales: Aile à film solaire pérovskite + batterie à l’état solide"
+  },
+  "翼尖小翼補強: 液態氫燃料電池長航時系統": {
+    "en": "Winglet augmentation: Liquid-hydrogen long-endurance fuel-cell system",
+    "ja": "翼端小翼補強: 液体水素燃料電池長時間滞空システム",
+    "de": "Winglet-Verstärkung: Flüssigwasserstoff-Brennstoffzellensystem für lange Flugdauer",
+    "fr": "Renforcement par ailettes marginales: Système à pile à combustible à hydrogène liquide de grande autonomie"
+  },
+  "翼尖小翼補強: 渦輪增壓重油引擎 + 彎刀靜音槳": {
+    "en": "Winglet augmentation: Turbocharged heavy-fuel engine + quiet scimitar propeller",
+    "ja": "翼端小翼補強: 過給重油エンジン + 静音シミタープロペラ",
+    "de": "Winglet-Verstärkung: Aufgeladener Schwerölmotor + leiser Scimitar-Propeller",
+    "fr": "Renforcement par ailettes marginales: Moteur turbo à carburant lourd + hélice silencieuse en cimeterre"
+  },
+  "翼尖小翼補強: JOUAV CW-30E (雙尾桁四軸複合翼 VTOL)": {
+    "en": "Winglet augmentation: JOUAV CW-30E (Twin-boom quadrotor hybrid VTOL)",
+    "ja": "翼端小翼補強: JOUAV CW-30E (双胴クアッド複合翼 VTOL)",
+    "de": "Winglet-Verstärkung: JOUAV CW-30E (Doppelrumpf-Quadrotor-Hybrid-VTOL)",
+    "fr": "Renforcement par ailettes marginales: JOUAV CW-30E (VTOL hybride bipoutre à quatre rotors)"
+  },
+  "翼尖小翼補強: Wingcopter 198 (專利傾轉旋翼物流 VTOL)": {
+    "en": "Winglet augmentation: Wingcopter 198 (Patented tilt-rotor logistics VTOL)",
+    "ja": "翼端小翼補強: Wingcopter 198 (特許ティルトローター物流 VTOL)",
+    "de": "Winglet-Verstärkung: Wingcopter 198 (Patentierter Logistik-Kipprotor-VTOL)",
+    "fr": "Renforcement par ailettes marginales: Wingcopter 198 (VTOL logistique à rotors basculants brevetés)"
+  },
+  "翼尖小翼補強: DJI Matrice 350 RTK (旗艦工業巡檢四軸)": {
+    "en": "Winglet augmentation: DJI Matrice 350 RTK (Flagship industrial inspection quadrotor)",
+    "ja": "翼端小翼補強: DJI Matrice 350 RTK (最上位産業点検クアッドローター)",
+    "de": "Winglet-Verstärkung: DJI Matrice 350 RTK (Industrie-Inspektionsquadrokopter der Spitzenklasse)",
+    "fr": "Renforcement par ailettes marginales: DJI Matrice 350 RTK (Quadrirotor phare d’inspection industrielle)"
+  },
+  "翼尖小翼補強: DJI FlyCart 30 (重型物流共軸八槳 X8)": {
+    "en": "Winglet augmentation: DJI FlyCart 30 (Heavy logistics coaxial octocopter X8)",
+    "ja": "翼端小翼補強: DJI FlyCart 30 (大型物流同軸 8 ローター X8)",
+    "de": "Winglet-Verstärkung: DJI FlyCart 30 (Schwerlast-Logistik-Koaxialoktokopter X8)",
+    "fr": "Renforcement par ailettes marginales: DJI FlyCart 30 (Octocoptère coaxial de logistique lourde X8)"
+  },
+  "翼尖小翼補強: Freefly Alta X (重載專業航拍/光達四軸)": {
+    "en": "Winglet augmentation: Freefly Alta X (Heavy-lift professional imaging / LiDAR quadrotor)",
+    "ja": "翼端小翼補強: Freefly Alta X (重量物用プロ空撮 / LiDAR クアッドローター)",
+    "de": "Winglet-Verstärkung: Freefly Alta X (Schwerlast-Quadrokopter für professionelle Luftbilder / LiDAR)",
+    "fr": "Renforcement par ailettes marginales: Freefly Alta X (Quadrirotor lourd pour imagerie professionnelle / LiDAR)"
+  },
+  "翼尖小翼補強: Airbus Zephyr S (平流層太陽能偽衛星 HAPS)": {
+    "en": "Winglet augmentation: Airbus Zephyr S (Stratospheric solar pseudo-satellite HAPS)",
+    "ja": "翼端小翼補強: Airbus Zephyr S (成層圏太陽光擬似衛星 HAPS)",
+    "de": "Winglet-Verstärkung: Airbus Zephyr S (Stratosphärischer Solar-Pseudosatellit HAPS)",
+    "fr": "Renforcement par ailettes marginales: Airbus Zephyr S (Pseudo-satellite solaire stratosphérique HAPS)"
+  },
+  "翼尖小翼補強: 主翼結構與前後主樑 (Wing & Spars)": {
+    "en": "Winglet augmentation: Wing structure and front/rear spars (Wing & Spars)",
+    "ja": "翼端小翼補強: 主翼構造・前後主桁 (翼・主桁)",
+    "de": "Winglet-Verstärkung: Flügelstruktur und Vorder-/Hinterholme (Flügel und Holme)",
+    "fr": "Renforcement par ailettes marginales: Structure de l’aile et longerons avant/arrière (Aile et longerons)"
+  },
+  "翼尖小翼補強: 機身單體殼與尾翼組 (Fuselage & Tail)": {
+    "en": "Winglet augmentation: Monocoque fuselage and tail assembly (Fuselage & Tail)",
+    "ja": "翼端小翼補強: モノコック胴体・尾翼組立 (胴体・尾翼)",
+    "de": "Winglet-Verstärkung: Monocoque-Rumpf und Leitwerk (Rumpf und Leitwerk)",
+    "fr": "Renforcement par ailettes marginales: Fuselage monocoque et empennage (Fuselage et empennage)"
+  },
+  "翼尖小翼補強: 推進動力與螺旋槳模組 (Propulsion)": {
+    "en": "Winglet augmentation: Powerplant and propeller module (Propulsion)",
+    "ja": "翼端小翼補強: 動力・プロペラモジュール (推進)",
+    "de": "Winglet-Verstärkung: Triebwerks- und Propellermodul (Antrieb)",
+    "fr": "Renforcement par ailettes marginales: Module moteur et hélice (Propulsion)"
+  },
+  "翼尖小翼補強: 能源儲能系統 (Fuel / Battery Pack)": {
+    "en": "Winglet augmentation: Energy storage system (Fuel / Battery Pack)",
+    "ja": "翼端小翼補強: エネルギー貯蔵系 (燃料 / 電池パック)",
+    "de": "Winglet-Verstärkung: Energiespeichersystem (Kraftstoff / Akkupaket)",
+    "fr": "Renforcement par ailettes marginales: Système de stockage d’énergie (Carburant / Batterie)"
+  },
+  "翼尖小翼補強: 飛控航電與衛通資料鏈 (Avionics & SATCOM)": {
+    "en": "Winglet augmentation: Flight avionics and satellite data link (Avionics & SATCOM)",
+    "ja": "翼端小翼補強: 飛行制御電子機器・衛星通信データリンク (電子機器・衛星通信)",
+    "de": "Winglet-Verstärkung: Flugavionik und Satellitendatenlink (Avionik und Satellitenkommunikation)",
+    "fr": "Renforcement par ailettes marginales: Avionique et liaison de données satellitaire (Avionique et communications satellitaires)"
+  },
+  "翼尖小翼補強: 光電紅外線吊艙與任務酬載 (EO/IR Payload)": {
+    "en": "Winglet augmentation: EO/IR gimbal and mission payload (EO/IR Payload)",
+    "ja": "翼端小翼補強: 光学赤外線ジンバル・ミッション搭載物 (EO/IR 搭載物)",
+    "de": "Winglet-Verstärkung: EO/IR-Gondel und Missionsnutzlast (EO/IR-Nutzlast)",
+    "fr": "Renforcement par ailettes marginales: Nacelle EO/IR et charge utile de mission (Charge utile EO/IR)"
+  },
+  "複合材料: NACA 64-212 (層流低阻長航時翼型)": {
+    "en": "Composite material: NACA 64-212 (Low-drag laminar endurance airfoil)",
+    "ja": "複合材料: NACA 64-212 (低抗力層流長時間滞空翼型)",
+    "de": "Verbundwerkstoff: NACA 64-212 (Widerstandsarmes Laminarprofil für lange Flugdauer)",
+    "fr": "Matériau composite: NACA 64-212 (Profil laminaire à faible traînée et grande autonomie)"
+  },
+  "複合材料: NACA 4415 (高升力厚翼型)": {
+    "en": "Composite material: NACA 4415 (High-lift thick airfoil)",
+    "ja": "複合材料: NACA 4415 (高揚力厚翼型)",
+    "de": "Verbundwerkstoff: NACA 4415 (Dickes Hochauftriebsprofil)",
+    "fr": "Matériau composite: NACA 4415 (Profil épais à forte portance)"
+  },
+  "複合材料: NACA 4412 (經典高升力翼型)": {
+    "en": "Composite material: NACA 4412 (Classic high-lift airfoil)",
+    "ja": "複合材料: NACA 4412 (古典的高揚力翼型)",
+    "de": "Verbundwerkstoff: NACA 4412 (Klassisches Hochauftriebsprofil)",
+    "fr": "Matériau composite: NACA 4412 (Profil classique à forte portance)"
+  },
+  "複合材料: NACA 2412 (通用穩定巡航翼型)": {
+    "en": "Composite material: NACA 2412 (General-purpose stable cruise airfoil)",
+    "ja": "複合材料: NACA 2412 (汎用安定巡航翼型)",
+    "de": "Verbundwerkstoff: NACA 2412 (Universelles stabiles Reiseflugprofil)",
+    "fr": "Matériau composite: NACA 2412 (Profil de croisière stable polyvalent)"
+  },
+  "複合材料: NACA 0012 (對稱翼型 / 旋翼與高速載具)": {
+    "en": "Composite material: NACA 0012 (Symmetric airfoil / Rotors and high-speed vehicles)",
+    "ja": "複合材料: NACA 0012 (対称翼型 / ローター・高速機)",
+    "de": "Verbundwerkstoff: NACA 0012 (Symmetrisches Profil / Rotoren und Hochgeschwindigkeitsfahrzeuge)",
+    "fr": "Matériau composite: NACA 0012 (Profil symétrique / Rotors et véhicules rapides)"
+  },
+  "複合材料: Selig S1223 (低雷諾數極高升力翼型)": {
+    "en": "Composite material: Selig S1223 (Very-high-lift low-Reynolds airfoil)",
+    "ja": "複合材料: Selig S1223 (低レイノルズ数・超高揚力翼型)",
+    "de": "Verbundwerkstoff: Selig S1223 (Extremes Hochauftriebsprofil bei niedriger Reynolds-Zahl)",
+    "fr": "Matériau composite: Selig S1223 (Profil à très forte portance à faible Reynolds)"
+  },
+  "複合材料: Eppler 330 Reflex (無尾飛翼自配平反彎度翼型)": {
+    "en": "Composite material: Eppler 330 Reflex (Self-trimming reflex airfoil for flying wings)",
+    "ja": "複合材料: Eppler 330 Reflex (無尾翼用自動トリム反り上げ翼型)",
+    "de": "Verbundwerkstoff: Eppler 330 Reflex (Selbsttrimmendes Reflexprofil für Nurflügler)",
+    "fr": "Matériau composite: Eppler 330 Reflex (Profil reflex autoéquilibré pour aile volante)"
+  },
+  "複合材料: MH 114 (VTOL 複合翼高效巡航翼型)": {
+    "en": "Composite material: MH 114 (Efficient cruise airfoil for hybrid-wing VTOL)",
+    "ja": "複合材料: MH 114 (複合翼 VTOL 用高効率巡航翼型)",
+    "de": "Verbundwerkstoff: MH 114 (Effizientes Reiseflugprofil für Hybrid-VTOL)",
+    "fr": "Matériau composite: MH 114 (Profil de croisière efficace pour VTOL hybride)"
+  },
+  "複合材料: NASA SC(2)-0610 (超臨界高亞音速翼型)": {
+    "en": "Composite material: NASA SC(2)-0610 (Supercritical high-subsonic airfoil)",
+    "ja": "複合材料: NASA SC(2)-0610 (超臨界高亜音速翼型)",
+    "de": "Verbundwerkstoff: NASA SC(2)-0610 (Überkritisches Profil für hohen Unterschall)",
+    "fr": "Matériau composite: NASA SC(2)-0610 (Profil supercritique haut subsonique)"
+  },
+  "複合材料: 標準平直翼尖": {
+    "en": "Composite material: Standard plain wingtip",
+    "ja": "複合材料: 標準直線翼端",
+    "de": "Verbundwerkstoff: Standard-Flügelspitze",
+    "fr": "Matériau composite: Extrémité d’aile droite standard"
+  },
+  "複合材料: 融合式上揚小翼 (Blended)": {
+    "en": "Composite material: Blended upward winglet (Blended)",
+    "ja": "複合材料: ブレンデッド・ウィングレット (融合型)",
+    "de": "Verbundwerkstoff: Gebogenes Blended-Winglet (Gebogen)",
+    "fr": "Matériau composite: Ailette marginale relevée raccordée (Raccordé)"
+  },
+  "複合材料: 鯊魚鰭斜削小翼 (Sharklet)": {
+    "en": "Composite material: Swept sharklet (Sharklet)",
+    "ja": "複合材料: シャークレット (シャークレット)",
+    "de": "Verbundwerkstoff: Pfeilförmiges Sharklet (Haifischflossen-Winglet)",
+    "fr": "Matériau composite: Ailette marginale en aileron de requin (Ailette en aileron de requin)"
+  },
+  "複合材料: 分叉雙彎刀小翼 (Split Scimitar)": {
+    "en": "Composite material: Split scimitar winglet (Split Scimitar)",
+    "ja": "複合材料: 分岐シミター・ウィングレット (分岐シミター)",
+    "de": "Verbundwerkstoff: Geteiltes Scimitar-Winglet (Geteiltes Scimitar-Winglet)",
+    "fr": "Matériau composite: Ailette marginale double en cimeterre (Double cimeterre)"
+  },
+  "複合材料: 端板/翼尖垂尾 (Endplate)": {
+    "en": "Composite material: Endplate / Wingtip fin (Endplate)",
+    "ja": "複合材料: 端板 / 翼端垂直尾翼 (端板)",
+    "de": "Verbundwerkstoff: Endplatte / Wingtip-Seitenleitwerk (Endplatte)",
+    "fr": "Matériau composite: Plaque d’extrémité / Dérive marginale (Plaque d’extrémité)"
+  },
+  "複合材料: 標準後緣襟翼": {
+    "en": "Composite material: Standard trailing-edge flap",
+    "ja": "複合材料: 標準後縁フラップ",
+    "de": "Verbundwerkstoff: Standard-Hinterkantenklappe",
+    "fr": "Matériau composite: Volet de bord de fuite standard"
+  },
+  "複合材料: 單開縫富勒襟翼 (Fowler)": {
+    "en": "Composite material: Single-slotted Fowler flap (Fowler)",
+    "ja": "複合材料: 単隙間ファウラーフラップ (Fowler)",
+    "de": "Verbundwerkstoff: Einspalt-Fowlerklappe (Fowler)",
+    "fr": "Matériau composite: Volet Fowler à simple fente (Fowler)"
+  },
+  "複合材料: 前緣縫翼 + 富勒襟翼": {
+    "en": "Composite material: Leading-edge slat + Fowler flap",
+    "ja": "複合材料: 前縁スラット + ファウラーフラップ",
+    "de": "Verbundwerkstoff: Vorflügel + Fowlerklappe",
+    "fr": "Matériau composite: Bec de bord d’attaque + volet Fowler"
+  },
+  "複合材料: 微渦流產生器陣列 (VG)": {
+    "en": "Composite material: Micro vortex-generator array (VG)",
+    "ja": "複合材料: 微小ボルテックスジェネレーター列 (VG)",
+    "de": "Verbundwerkstoff: Mikro-Wirbelgeneratorfeld (VG)",
+    "fr": "Matériau composite: Réseau de microgénérateurs de tourbillons (VG)"
+  },
+  "複合材料: 7075-T6 航太鋁合金": {
+    "en": "Composite material: 7075-T6 Aerospace aluminum alloy",
+    "ja": "複合材料: 7075-T6 航空用アルミ合金",
+    "de": "Verbundwerkstoff: 7075-T6 Luftfahrt-Aluminiumlegierung",
+    "fr": "Matériau composite: 7075-T6 Alliage d’aluminium aéronautique"
+  },
+  "複合材料: Toray T700 碳纖複合雙大樑": {
+    "en": "Composite material: Toray T700 Carbon-composite twin spars",
+    "ja": "複合材料: Toray T700 炭素繊維複合二重主桁",
+    "de": "Verbundwerkstoff: Toray T700 Doppelholm aus Kohlefaserverbund",
+    "fr": "Matériau composite: Toray T700 Double longeron en composite carbone"
+  },
+  "複合材料: T800 高模量碳纖 + Nomex 蜂巢": {
+    "en": "Composite material: T800 High-modulus carbon fiber + Nomex Honeycomb",
+    "ja": "複合材料: T800 高弾性炭素繊維 + Nomex ハニカム",
+    "de": "Verbundwerkstoff: T800 Hochmodul-Kohlefaser + Nomex Wabe",
+    "fr": "Matériau composite: T800 Fibre de carbone à haut module + Nomex Nid d’abeilles"
+  },
+  "複合材料: T1000 碳纖主樑 + 鈦合金翼根補強": {
+    "en": "Composite material: T1000 Carbon-fiber spar + Titanium wing-root reinforcement",
+    "ja": "複合材料: T1000 炭素繊維主桁 + チタン翼根補強",
+    "de": "Verbundwerkstoff: T1000 Kohlefaserholm + Titan-Flügelwurzelverstärkung",
+    "fr": "Matériau composite: T1000 Longeron en fibre de carbone + Renfort d’emplanture en titane"
+  },
+  "複合材料: 標準燃油 / LiPo (220Wh/kg)": {
+    "en": "Composite material: Standard fuel / LiPo (220Wh/kg)",
+    "ja": "複合材料: 標準燃料 / LiPo (220Wh/kg)",
+    "de": "Verbundwerkstoff: Standardkraftstoff / LiPo (220Wh/kg)",
+    "fr": "Matériau composite: Carburant standard / LiPo (220Wh/kg)"
+  },
+  "複合材料: 高能量密度固態鋰電池 (420Wh/kg)": {
+    "en": "Composite material: High-energy-density solid-state lithium battery (420Wh/kg)",
+    "ja": "複合材料: 高エネルギー密度全固体リチウム電池 (420Wh/kg)",
+    "de": "Verbundwerkstoff: Festkörper-Lithiumakku mit hoher Energiedichte (420Wh/kg)",
+    "fr": "Matériau composite: Batterie lithium à l’état solide à haute densité énergétique (420Wh/kg)"
+  },
+  "複合材料: 鈣鈦礦太陽能薄膜機翼 + 固態電池": {
+    "en": "Composite material: Perovskite solar-film wing + solid-state battery",
+    "ja": "複合材料: ペロブスカイト太陽電池薄膜翼 + 全固体電池",
+    "de": "Verbundwerkstoff: Perowskit-Solarfolienflügel + Festkörperakku",
+    "fr": "Matériau composite: Aile à film solaire pérovskite + batterie à l’état solide"
+  },
+  "複合材料: 液態氫燃料電池長航時系統": {
+    "en": "Composite material: Liquid-hydrogen long-endurance fuel-cell system",
+    "ja": "複合材料: 液体水素燃料電池長時間滞空システム",
+    "de": "Verbundwerkstoff: Flüssigwasserstoff-Brennstoffzellensystem für lange Flugdauer",
+    "fr": "Matériau composite: Système à pile à combustible à hydrogène liquide de grande autonomie"
+  },
+  "複合材料: 渦輪增壓重油引擎 + 彎刀靜音槳": {
+    "en": "Composite material: Turbocharged heavy-fuel engine + quiet scimitar propeller",
+    "ja": "複合材料: 過給重油エンジン + 静音シミタープロペラ",
+    "de": "Verbundwerkstoff: Aufgeladener Schwerölmotor + leiser Scimitar-Propeller",
+    "fr": "Matériau composite: Moteur turbo à carburant lourd + hélice silencieuse en cimeterre"
+  },
+  "複合材料: JOUAV CW-30E (雙尾桁四軸複合翼 VTOL)": {
+    "en": "Composite material: JOUAV CW-30E (Twin-boom quadrotor hybrid VTOL)",
+    "ja": "複合材料: JOUAV CW-30E (双胴クアッド複合翼 VTOL)",
+    "de": "Verbundwerkstoff: JOUAV CW-30E (Doppelrumpf-Quadrotor-Hybrid-VTOL)",
+    "fr": "Matériau composite: JOUAV CW-30E (VTOL hybride bipoutre à quatre rotors)"
+  },
+  "複合材料: Wingcopter 198 (專利傾轉旋翼物流 VTOL)": {
+    "en": "Composite material: Wingcopter 198 (Patented tilt-rotor logistics VTOL)",
+    "ja": "複合材料: Wingcopter 198 (特許ティルトローター物流 VTOL)",
+    "de": "Verbundwerkstoff: Wingcopter 198 (Patentierter Logistik-Kipprotor-VTOL)",
+    "fr": "Matériau composite: Wingcopter 198 (VTOL logistique à rotors basculants brevetés)"
+  },
+  "複合材料: DJI Matrice 350 RTK (旗艦工業巡檢四軸)": {
+    "en": "Composite material: DJI Matrice 350 RTK (Flagship industrial inspection quadrotor)",
+    "ja": "複合材料: DJI Matrice 350 RTK (最上位産業点検クアッドローター)",
+    "de": "Verbundwerkstoff: DJI Matrice 350 RTK (Industrie-Inspektionsquadrokopter der Spitzenklasse)",
+    "fr": "Matériau composite: DJI Matrice 350 RTK (Quadrirotor phare d’inspection industrielle)"
+  },
+  "複合材料: DJI FlyCart 30 (重型物流共軸八槳 X8)": {
+    "en": "Composite material: DJI FlyCart 30 (Heavy logistics coaxial octocopter X8)",
+    "ja": "複合材料: DJI FlyCart 30 (大型物流同軸 8 ローター X8)",
+    "de": "Verbundwerkstoff: DJI FlyCart 30 (Schwerlast-Logistik-Koaxialoktokopter X8)",
+    "fr": "Matériau composite: DJI FlyCart 30 (Octocoptère coaxial de logistique lourde X8)"
+  },
+  "複合材料: Freefly Alta X (重載專業航拍/光達四軸)": {
+    "en": "Composite material: Freefly Alta X (Heavy-lift professional imaging / LiDAR quadrotor)",
+    "ja": "複合材料: Freefly Alta X (重量物用プロ空撮 / LiDAR クアッドローター)",
+    "de": "Verbundwerkstoff: Freefly Alta X (Schwerlast-Quadrokopter für professionelle Luftbilder / LiDAR)",
+    "fr": "Matériau composite: Freefly Alta X (Quadrirotor lourd pour imagerie professionnelle / LiDAR)"
+  },
+  "複合材料: Airbus Zephyr S (平流層太陽能偽衛星 HAPS)": {
+    "en": "Composite material: Airbus Zephyr S (Stratospheric solar pseudo-satellite HAPS)",
+    "ja": "複合材料: Airbus Zephyr S (成層圏太陽光擬似衛星 HAPS)",
+    "de": "Verbundwerkstoff: Airbus Zephyr S (Stratosphärischer Solar-Pseudosatellit HAPS)",
+    "fr": "Matériau composite: Airbus Zephyr S (Pseudo-satellite solaire stratosphérique HAPS)"
+  },
+  "複合材料: 主翼結構與前後主樑 (Wing & Spars)": {
+    "en": "Composite material: Wing structure and front/rear spars (Wing & Spars)",
+    "ja": "複合材料: 主翼構造・前後主桁 (翼・主桁)",
+    "de": "Verbundwerkstoff: Flügelstruktur und Vorder-/Hinterholme (Flügel und Holme)",
+    "fr": "Matériau composite: Structure de l’aile et longerons avant/arrière (Aile et longerons)"
+  },
+  "複合材料: 機身單體殼與尾翼組 (Fuselage & Tail)": {
+    "en": "Composite material: Monocoque fuselage and tail assembly (Fuselage & Tail)",
+    "ja": "複合材料: モノコック胴体・尾翼組立 (胴体・尾翼)",
+    "de": "Verbundwerkstoff: Monocoque-Rumpf und Leitwerk (Rumpf und Leitwerk)",
+    "fr": "Matériau composite: Fuselage monocoque et empennage (Fuselage et empennage)"
+  },
+  "複合材料: 推進動力與螺旋槳模組 (Propulsion)": {
+    "en": "Composite material: Powerplant and propeller module (Propulsion)",
+    "ja": "複合材料: 動力・プロペラモジュール (推進)",
+    "de": "Verbundwerkstoff: Triebwerks- und Propellermodul (Antrieb)",
+    "fr": "Matériau composite: Module moteur et hélice (Propulsion)"
+  },
+  "複合材料: 能源儲能系統 (Fuel / Battery Pack)": {
+    "en": "Composite material: Energy storage system (Fuel / Battery Pack)",
+    "ja": "複合材料: エネルギー貯蔵系 (燃料 / 電池パック)",
+    "de": "Verbundwerkstoff: Energiespeichersystem (Kraftstoff / Akkupaket)",
+    "fr": "Matériau composite: Système de stockage d’énergie (Carburant / Batterie)"
+  },
+  "複合材料: 飛控航電與衛通資料鏈 (Avionics & SATCOM)": {
+    "en": "Composite material: Flight avionics and satellite data link (Avionics & SATCOM)",
+    "ja": "複合材料: 飛行制御電子機器・衛星通信データリンク (電子機器・衛星通信)",
+    "de": "Verbundwerkstoff: Flugavionik und Satellitendatenlink (Avionik und Satellitenkommunikation)",
+    "fr": "Matériau composite: Avionique et liaison de données satellitaire (Avionique et communications satellitaires)"
+  },
+  "複合材料: 光電紅外線吊艙與任務酬載 (EO/IR Payload)": {
+    "en": "Composite material: EO/IR gimbal and mission payload (EO/IR Payload)",
+    "ja": "複合材料: 光学赤外線ジンバル・ミッション搭載物 (EO/IR 搭載物)",
+    "de": "Verbundwerkstoff: EO/IR-Gondel und Missionsnutzlast (EO/IR-Nutzlast)",
+    "fr": "Matériau composite: Nacelle EO/IR et charge utile de mission (Charge utile EO/IR)"
+  },
+  "肇祥企業社 MaxJim Tech. | AeroVanguard 全球無人飛行載具設計與氣動力學即時 3D 模擬系統": {
+    "en": "MaxJim Tech. | AeroVanguard Global UAV design and real-time 3D aerodynamics simulator",
+    "ja": "MaxJim Tech. | AeroVanguard 世界の UAV 設計とリアルタイム 3D 空力シミュレーター",
+    "de": "MaxJim Tech. | AeroVanguard Globale UAV-Konstruktion und aerodynamische 3D-Echtzeitsimulation",
+    "fr": "MaxJim Tech. | AeroVanguard Conception mondiale de drones et simulation aérodynamique 3D en temps réel"
+  },
+  "肇祥企業社 MaxJim Tech.": {
+    "en": "MaxJim Tech.",
+    "ja": "MaxJim Tech.",
+    "de": "MaxJim Tech.",
+    "fr": "MaxJim Tech."
+  },
+  "無人飛行載具機構設計・治具開發・氣動與結構 CAE 工程系統": {
+    "en": "UAV mechanical design, tooling, aerodynamic and structural CAE",
+    "ja": "UAV 機構設計・治具開発・空力および構造 CAE",
+    "de": "UAV-Mechanik, Vorrichtungsentwicklung sowie aerodynamische und strukturelle CAE",
+    "fr": "Conception mécanique de drones, outillage, CAE aérodynamique et structurelle"
+  },
+  "負責人：張哲肇 (Alex Chang)": {
+    "en": "Contact：Alex Chang",
+    "ja": "担当者：Alex Chang",
+    "de": "Ansprechpartner：Alex Chang",
+    "fr": "Responsable：Alex Chang"
+  },
+  "行動專線：0931-765001": {
+    "en": "Mobile hotline：0931-765001",
+    "ja": "携帯電話：0931-765001",
+    "de": "Mobiltelefon：0931-765001",
+    "fr": "Téléphone mobile：0931-765001"
+  },
+  "AeroVanguard v4.8 民用版": {
+    "en": "AeroVanguard v4.8 Civilian edition",
+    "ja": "AeroVanguard v4.8 民生版",
+    "de": "AeroVanguard v4.8 Zivile Version",
+    "fr": "AeroVanguard v4.8 Version civile"
+  },
+  "全球無人飛行載具設計・模型補強・即時 3D 氣動模擬系統 (MaxJim Tech. Watermarked)": {
+    "en": "Global UAV design, model augmentation and real-time 3D aerodynamics (MaxJim Tech. Watermarked)",
+    "ja": "世界の UAV 設計・モデル補強・リアルタイム 3D 空力シミュレーション (MaxJim Tech. 透かし付き)",
+    "de": "Globale UAV-Konstruktion, Modellverstärkung und aerodynamische 3D-Echtzeitsimulation (MaxJim-Tech.-Wasserzeichen)",
+    "fr": "Conception mondiale de drones, renforcement des modèles et aérodynamique 3D en temps réel (Filigrane MaxJim Tech.)"
+  },
+  "當前載具:": {
+    "en": "Current vehicle:",
+    "ja": "現在の機体:",
+    "de": "Aktuelles Fahrzeug:",
+    "fr": "Véhicule actuel:"
+  },
+  "MALE": {
+    "en": "MALE",
+    "ja": "中高度長時間滞空 MALE",
+    "de": "Mittlere Flughöhe, lange Flugdauer MALE",
+    "fr": "Moyenne altitude, grande autonomie MALE"
+  },
+  "1. 3D 氣動與 CAD 設計台": {
+    "en": "1. 3D aerodynamics and CAD studio",
+    "ja": "1. 3D 空力・CAD 設計台",
+    "de": "1. 3D-Aerodynamik- und CAD-Arbeitsbereich",
+    "fr": "1. Atelier CAO et aérodynamique 3D"
+  },
+  "2. 全球模型庫與補強 (": {
+    "en": "2. Global model library and augmentation (",
+    "ja": "2. 世界のモデル集と補強 (",
+    "de": "2. Globale Modellbibliothek und Verstärkung (",
+    "fr": "2. Bibliothèque mondiale et renforcement ("
+  },
+  "3. 翼型與極曲線實驗室": {
+    "en": "3. Airfoil and polar laboratory",
+    "ja": "3. 翼型・極曲線実験室",
+    "de": "3. Profil- und Polarenlabor",
+    "fr": "3. Laboratoire des profils et polaires"
+  },
+  "4. 6-DOF 飛行模擬測試": {
+    "en": "4. 6-DOF flight simulation tests",
+    "ja": "4. 6-DOF 飛行シミュレーション試験",
+    "de": "4. 6-DOF-Flugsimulationstests",
+    "fr": "4. Essais de simulation de vol 6-DOF"
+  },
+  "5. 結構力學・配重與 BOM": {
+    "en": "5. Structural mechanics, mass balance and BOM",
+    "ja": "5. 構造力学・質量配分・BOM",
+    "de": "5. Strukturmechanik, Massenverteilung und Stückliste",
+    "fr": "5. Mécanique des structures, équilibrage et nomenclature"
+  },
+  "6. 跨機型對比與匯出": {
+    "en": "6. Cross-model comparison and export",
+    "ja": "6. 機種間比較と出力",
+    "de": "6. Modellvergleich und Export",
+    "fr": "6. Comparaison des modèles et exportation"
+  },
+  "一鍵智能補強": {
+    "en": "Smart augmentation",
+    "ja": "スマート補強",
+    "de": "Intelligente Verstärkung",
+    "fr": "Renforcement intelligent"
+  },
+  "輸出數據照片(浮水印)": {
+    "en": "Export data image (watermarked)",
+    "ja": "データ画像を出力（透かし付き）",
+    "de": "Datenbild exportieren (mit Wasserzeichen)",
+    "fr": "Exporter une image des données (avec filigrane)"
+  },
+  "新增機型": {
+    "en": "Add model",
+    "ja": "機種を追加",
+    "de": "Modell hinzufügen",
+    "fr": "Ajouter un modèle"
+  },
+  "匯出規格": {
+    "en": "Export specifications",
+    "ja": "仕様を出力",
+    "de": "Spezifikationen exportieren",
+    "fr": "Exporter les spécifications"
+  },
+  "全螢幕操作": {
+    "en": "Full screen",
+    "ja": "全画面表示",
+    "de": "Vollbild",
+    "fr": "Plein écran"
+  },
+  "返回官網工具區": {
+    "en": "Back to official tools",
+    "ja": "公式ツールページへ",
+    "de": "Zurück zu den offiziellen Werkzeugen",
+    "fr": "Retour aux outils officiels"
+  },
+  "UGV 無人車": {
+    "en": "UGV Uncrewed ground vehicle",
+    "ja": "UGV 無人地上車両",
+    "de": "UGV Unbemanntes Bodenfahrzeug",
+    "fr": "UGV Véhicule terrestre sans pilote"
+  },
+  "USV 無人船": {
+    "en": "USV Uncrewed surface vessel",
+    "ja": "USV 無人水上艇",
+    "de": "USV Unbemanntes Wasserfahrzeug",
+    "fr": "USV Navire de surface sans pilote"
+  },
+  "民用研究版 · 模擬數據為估算": {
+    "en": "Civilian research edition · Simulation estimates",
+    "ja": "民生研究版 · シミュレーション値は推定です",
+    "de": "Zivile Forschungsversion · Simulationsergebnisse sind Schätzwerte",
+    "fr": "Édition de recherche civile · Résultats simulés estimatifs"
+  },
+  "完整版本 請洽 肇祥企業社 MaxJim Tech Inc.": {
+    "en": "For the full version, contact MaxJim Tech Inc.",
+    "ja": "完全版は MaxJim Tech Inc. までお問い合わせください",
+    "de": "Für die Vollversion wenden Sie sich an MaxJim Tech Inc.",
+    "fr": "Pour la version complète, contactez MaxJim Tech Inc."
+  },
+  "雷諾數 Re:": {
+    "en": "Reynolds number Re:",
+    "ja": "レイノルズ数 Re:",
+    "de": "Reynolds-Zahl Re:",
+    "fr": "Nombre de Reynolds Re:"
+  },
+  "馬赫數 Ma:": {
+    "en": "Mach number Ma:",
+    "ja": "マッハ数 Ma:",
+    "de": "Mach-Zahl Ma:",
+    "fr": "Nombre de Mach Ma:"
+  },
+  "升力係數 CL:": {
+    "en": "Lift coefficient CL:",
+    "ja": "揚力係数 CL:",
+    "de": "Auftriebsbeiwert CL:",
+    "fr": "Coefficient de portance CL:"
+  },
+  "阻力係數 CD:": {
+    "en": "Drag coefficient CD:",
+    "ja": "抗力係数 CD:",
+    "de": "Widerstandsbeiwert CD:",
+    "fr": "Coefficient de traînée CD:"
+  },
+  "升阻比 L/D:": {
+    "en": "Lift-to-drag ratio L/D:",
+    "ja": "揚抗比 L/D:",
+    "de": "Gleitzahl L/D:",
+    "fr": "Finesse L/D:"
+  },
+  "靜穩定裕度 SM:": {
+    "en": "Static stability margin SM:",
+    "ja": "静安定余裕 SM:",
+    "de": "Statische Stabilitätsreserve SM:",
+    "fr": "Marge de stabilité statique SM:"
+  },
+  "推重比 T/W:": {
+    "en": "Thrust-to-weight ratio T/W:",
+    "ja": "推力重量比 T/W:",
+    "de": "Schub-Gewichts-Verhältnis T/W:",
+    "fr": "Rapport poussée/poids T/W:"
+  },
+  "預估滯空/航程:": {
+    "en": "Estimated endurance / range:",
+    "ja": "推定滞空時間 / 航続距離:",
+    "de": "Geschätzte Flugdauer / Reichweite:",
+    "fr": "Autonomie / portée estimées:"
+  },
+  "機體幾何與構型參數 (CAD)": {
+    "en": "Airframe geometry and configuration (CAD)",
+    "ja": "機体形状・構成パラメーター (CAD)",
+    "de": "Zellengeometrie und Konfiguration (CAD)",
+    "fr": "Géométrie et configuration de la cellule (CAD)"
+  },
+  "重置原廠": {
+    "en": "Reset to baseline",
+    "ja": "初期仕様に戻す",
+    "de": "Ausgangszustand wiederherstellen",
+    "fr": "Rétablir la configuration initiale"
+  },
+  "氣動佈局構型": {
+    "en": "Aerodynamic configuration",
+    "ja": "空力配置",
+    "de": "Aerodynamische Konfiguration",
+    "fr": "Configuration aérodynamique"
+  },
+  "長滯空固定翼 (MALE/HALE)": {
+    "en": "Long-endurance fixed wing (MALE/HALE)",
+    "ja": "長時間滞空固定翼 (中高度長時間滞空 MALE/HALE)",
+    "de": "Langstrecken-Starrflügler (Mittlere Flughöhe, lange Flugdauer MALE/HALE)",
+    "fr": "Voilure fixe à grande autonomie (Moyenne altitude, grande autonomie MALE/HALE)"
+  },
+  "雙尾桁推進式 (Twin-Boom)": {
+    "en": "Twin-boom pusher (Twin-Boom)",
+    "ja": "双胴推進式 (双胴)",
+    "de": "Doppelrumpf mit Druckpropeller (Doppelrumpf)",
+    "fr": "Bipoutre à hélice propulsive (Bipoutre)"
+  },
+  "無尾飛翼/翼身融合 (BWB)": {
+    "en": "Tailless flying wing / Blended wing body (BWB)",
+    "ja": "無尾翼 / 翼胴融合 (BWB)",
+    "de": "Nurflügler / Flügel-Rumpf-Integration (BWB)",
+    "fr": "Aile volante sans empennage / Aile-fuselage intégrée (BWB)"
+  },
+  "複合翼垂直起降 (4+1 VTOL)": {
+    "en": "Hybrid fixed-wing VTOL (4+1 VTOL)",
+    "ja": "複合翼垂直離着陸 (4+1 VTOL)",
+    "de": "Hybrid-Starrflügler mit Senkrechtstart (4+1 VTOL)",
+    "fr": "VTOL à voilure hybride (4+1 VTOL)"
+  },
+  "傾轉旋翼載具 (Tilt-Rotor)": {
+    "en": "Tilt-rotor vehicle (Tilt-Rotor)",
+    "ja": "ティルトローター機 (ティルトローター)",
+    "de": "Kipprotorflugzeug (Kipprotor)",
+    "fr": "Aéronef à rotors basculants (Rotors basculants)"
+  },
+  "多旋翼重載平台 (Multi-Rotor)": {
+    "en": "Heavy-lift multirotor platform (Multi-Rotor)",
+    "ja": "重量物用マルチローター (マルチローター)",
+    "de": "Schwerlast-Multirotorplattform (Multirotor)",
+    "fr": "Plateforme multirotor de transport lourd (Multirotor)"
+  },
+  "無人直升機/共軸雙槳": {
+    "en": "Uncrewed helicopter / Coaxial twin rotor",
+    "ja": "無人ヘリコプター / 同軸二重ローター",
+    "de": "Unbemannter Hubschrauber / Koaxialrotor",
+    "fr": "Hélicoptère sans pilote / Birotor coaxial"
+  },
+  "涵道風扇垂直起降 (Ducted)": {
+    "en": "Ducted-fan VTOL (Ducted)",
+    "ja": "ダクテッドファン垂直離着陸 (ダクト型)",
+    "de": "Senkrechtstarter mit Mantelpropeller (Ummantelt)",
+    "fr": "VTOL à soufflante carénée (Caréné)"
+  },
+  "主翼剖面翼型 (Airfoil)": {
+    "en": "Main-wing airfoil (Airfoil)",
+    "ja": "主翼翼型 (翼型)",
+    "de": "Hauptflügelprofil (Tragflügelprofil)",
+    "fr": "Profil de l’aile principale (Profil aérodynamique)"
+  },
+  "NACA 64-212 (層流低阻)": {
+    "en": "NACA 64-212 (Low-drag laminar flow)",
+    "ja": "NACA 64-212 (低抗力層流)",
+    "de": "NACA 64-212 (Widerstandsarme Laminarströmung)",
+    "fr": "NACA 64-212 (Écoulement laminaire à faible traînée)"
+  },
+  "NACA 4415 (高升力長航時)": {
+    "en": "NACA 4415 (High lift, long endurance)",
+    "ja": "NACA 4415 (高揚力・長時間滞空)",
+    "de": "NACA 4415 (Hoher Auftrieb, lange Flugdauer)",
+    "fr": "NACA 4415 (Forte portance, grande autonomie)"
+  },
+  "NACA 4412 (通用型)": {
+    "en": "NACA 4412 (General purpose)",
+    "ja": "NACA 4412 (汎用)",
+    "de": "NACA 4412 (Universell)",
+    "fr": "NACA 4412 (Polyvalent)"
+  },
+  "NACA 2412 (標準巡航翼)": {
+    "en": "NACA 2412 (Standard cruise wing)",
+    "ja": "NACA 2412 (標準巡航翼)",
+    "de": "NACA 2412 (Standard-Reiseflugprofil)",
+    "fr": "NACA 2412 (Aile de croisière standard)"
+  },
+  "NACA 0012 (對稱高速/旋翼)": {
+    "en": "NACA 0012 (Symmetric high-speed / Rotor)",
+    "ja": "NACA 0012 (対称高速 / ローター)",
+    "de": "NACA 0012 (Symmetrisch für hohe Geschwindigkeit / Rotor)",
+    "fr": "NACA 0012 (Symétrique haute vitesse / Rotor)"
+  },
+  "Selig S1223 (低雷諾數超高升力)": {
+    "en": "Selig S1223 (Ultra-high lift at low Reynolds numbers)",
+    "ja": "Selig S1223 (低レイノルズ数・超高揚力)",
+    "de": "Selig S1223 (Sehr hoher Auftrieb bei niedriger Reynolds-Zahl)",
+    "fr": "Selig S1223 (Très forte portance à faible nombre de Reynolds)"
+  },
+  "Eppler 330 (飛翼反彎度配平)": {
+    "en": "Eppler 330 (Reflex trim for flying wings)",
+    "ja": "Eppler 330 (無尾翼の反り上げトリム)",
+    "de": "Eppler 330 (Reflextrimmung für Nurflügler)",
+    "fr": "Eppler 330 (Équilibrage par profil reflex pour aile volante)"
+  },
+  "MH 114 (VTOL 複合翼高效)": {
+    "en": "MH 114 (Efficient hybrid-wing VTOL)",
+    "ja": "MH 114 (高効率複合翼 VTOL)",
+    "de": "MH 114 (Effizienter Hybridflügel-VTOL)",
+    "fr": "MH 114 (VTOL hybride à haut rendement)"
+  },
+  "SC(2)-0610 (超臨界跨音速)": {
+    "en": "SC(2)-0610 (Supercritical transonic)",
+    "ja": "SC(2)-0610 (超臨界遷音速)",
+    "de": "SC(2)-0610 (Überkritisch transsonisch)",
+    "fr": "SC(2)-0610 (Supercritique transsonique)"
+  },
+  "翼展 / 旋翼直徑 (Span b)": {
+    "en": "Span / Rotor diameter (Span b)",
+    "ja": "翼幅 / ローター直径 (翼幅 b)",
+    "de": "Spannweite / Rotordurchmesser (Spannweite b)",
+    "fr": "Envergure / Diamètre du rotor (Envergure b)"
+  },
+  "翼根弦長 (Root Chord c_r)": {
+    "en": "Root chord (Root Chord c_r)",
+    "ja": "翼根翼弦長 (翼根翼弦 c_r)",
+    "de": "Wurzeltiefe (Wurzeltiefe c_r)",
+    "fr": "Corde à l’emplanture (Corde à l’emplanture c_r)"
+  },
+  "尖根比 λ": {
+    "en": "Taper ratio λ",
+    "ja": "テーパー比 λ",
+    "de": "Zuspitzung λ",
+    "fr": "Effilement λ"
+  },
+  "前緣後掠角 Λ": {
+    "en": "Leading-edge sweep Λ",
+    "ja": "前縁後退角 Λ",
+    "de": "Vorderkantenpfeilung Λ",
+    "fr": "Flèche du bord d’attaque Λ"
+  },
+  "上反角 Γ": {
+    "en": "Dihedral Γ",
+    "ja": "上反角 Γ",
+    "de": "V-Stellung Γ",
+    "fr": "Dièdre Γ"
+  },
+  "機翼扭轉 (Washout)": {
+    "en": "Wing twist (Washout)",
+    "ja": "翼ねじり (ねじり下げ)",
+    "de": "Flügelschränkung (Schränkung)",
+    "fr": "Vrillage de l’aile (Vrillage négatif)"
+  },
+  "機身長度 L_f": {
+    "en": "Fuselage length L_f",
+    "ja": "胴体長 L_f",
+    "de": "Rumpflänge L_f",
+    "fr": "Longueur du fuselage L_f"
+  },
+  "最大起飛重量 MTOW": {
+    "en": "Maximum takeoff mass MTOW",
+    "ja": "最大離陸重量 MTOW",
+    "de": "Maximale Startmasse MTOW",
+    "fr": "Masse maximale au décollage MTOW"
+  },
+  "尾翼配置型式": {
+    "en": "Tail configuration",
+    "ja": "尾翼形式",
+    "de": "Leitwerkskonfiguration",
+    "fr": "Configuration de l’empennage"
+  },
+  "Y型/正V尾翼 (V-Tail)": {
+    "en": "Y / Upright V-tail (V-Tail)",
+    "ja": "Y 型 / 正 V 型尾翼 (V 型尾翼)",
+    "de": "Y- / V-Leitwerk (V-Leitwerk)",
+    "fr": "Empennage en Y / en V droit (Empennage en V)"
+  },
+  "雙桁倒V尾 (Inverted V)": {
+    "en": "Twin-boom inverted V-tail (Inverted V)",
+    "ja": "双胴逆 V 型尾翼 (逆 V 型)",
+    "de": "Doppelrumpf mit umgekehrtem V-Leitwerk (Umgekehrtes V)",
+    "fr": "Empennage en V inversé bipoutre (V inversé)"
+  },
+  "高置 T 型尾翼 (T-Tail)": {
+    "en": "High-mounted T-tail (T-Tail)",
+    "ja": "高位置 T 型尾翼 (T 型尾翼)",
+    "de": "Hochgesetztes T-Leitwerk (T-Leitwerk)",
+    "fr": "Empennage en T haut (Empennage en T)"
+  },
+  "傳統十字尾翼 (Conventional)": {
+    "en": "Conventional cruciform tail (Conventional)",
+    "ja": "従来型十字尾翼 (従来型)",
+    "de": "Konventionelles Kreuzleitwerk (Konventionell)",
+    "fr": "Empennage cruciforme classique (Classique)"
+  },
+  "無尾翼/翼尖垂尾 (Tailless)": {
+    "en": "Tailless / Wingtip fins (Tailless)",
+    "ja": "無尾翼 / 翼端垂直尾翼 (無尾翼)",
+    "de": "Ohne Leitwerk / Wingtip-Seitenleitwerke (Leitwerkslos)",
+    "fr": "Sans empennage / Dérives marginales (Sans empennage)"
+  },
+  "旋翼/螺旋槳數量": {
+    "en": "Rotor / Propeller count",
+    "ja": "ローター / プロペラ数",
+    "de": "Rotor- / Propelleranzahl",
+    "fr": "Nombre de rotors / hélices"
+  },
+  "單具主推進槳 (1P)": {
+    "en": "Single main propeller (1P)",
+    "ja": "単一主推進プロペラ (1P)",
+    "de": "Einzelner Hauptpropeller (1P)",
+    "fr": "Hélice principale unique (1P)"
+  },
+  "雙發/共軸雙槳 (2P)": {
+    "en": "Twin engine / Coaxial propellers (2P)",
+    "ja": "双発 / 同軸二重プロペラ (2P)",
+    "de": "Zweimotorig / Koaxialpropeller (2P)",
+    "fr": "Bimoteur / Hélices coaxiales (2P)"
+  },
+  "四旋翼構型 (Quad X4)": {
+    "en": "Quadrotor configuration (Quad X4)",
+    "ja": "クアッドローター構成 (クアッド X4)",
+    "de": "Quadrokopterkonfiguration (Quadrokopter X4)",
+    "fr": "Configuration quadrirotor (Quadrirotor X4)"
+  },
+  "4+1 複合翼 (QuadPlane)": {
+    "en": "4+1 hybrid wing (QuadPlane)",
+    "ja": "4+1 複合翼 (QuadPlane)",
+    "de": "4+1-Hybridflügel (QuadPlane)",
+    "fr": "Voilure hybride 4+1 (QuadPlane)"
+  },
+  "六傾轉旋翼 (Hex Tilt 6P)": {
+    "en": "Six tilt rotors (Hex Tilt 6P)",
+    "ja": "6 基ティルトローター (6 基ティルト 6P)",
+    "de": "Sechs Kipprotoren (Sechs Kipprotoren 6P)",
+    "fr": "Six rotors basculants (Six rotors basculants 6P)"
+  },
+  "八槳共軸重載 (Octo X8)": {
+    "en": "Heavy-lift coaxial octocopter (Octo X8)",
+    "ja": "重量物用同軸 8 ローター (オクト X8)",
+    "de": "Schwerlast-Koaxialoktokopter (Oktokopter X8)",
+    "fr": "Octocoptère coaxial de transport lourd (Octocoptère X8)"
+  },
+  "氣動與機構補強套件 (Augmentation)": {
+    "en": "Aerodynamic and mechanical augmentation (Augmentation)",
+    "ja": "空力・機構補強キット (補強)",
+    "de": "Aerodynamisches und mechanisches Verstärkungspaket (Verstärkung)",
+    "fr": "Kit de renforcement aérodynamique et mécanique (Renforcement)"
+  },
+  "已啟用 1 項": {
+    "en": "Enabled 1 items",
+    "ja": "有効 1 件",
+    "de": "Aktiviert 1 Elemente",
+    "fr": "Activé 1 éléments"
+  },
+  "1. 翼尖渦流抑制補強 (Wingtip Device)": {
+    "en": "1. Wingtip vortex suppression (Wingtip Device)",
+    "ja": "1. 翼端渦抑制補強 (翼端装置)",
+    "de": "1. Randwirbelunterdrückung (Flügelspitzenvorrichtung)",
+    "fr": "1. Réduction des tourbillons marginaux (Dispositif marginal)"
+  },
+  "標準平直翼尖 (Plain Tip - 基準)": {
+    "en": "Standard plain wingtip (Plain Tip - Baseline)",
+    "ja": "標準直線翼端 (Plain Tip - 基準)",
+    "de": "Standard-Flügelspitze (Plain Tip - Referenz)",
+    "fr": "Extrémité d’aile droite standard (Plain Tip - Référence)"
+  },
+  "融合式上揚小翼 (Blended Winglet, e+11%)": {
+    "en": "Blended upward winglet (Blended Winglet, e+11%)",
+    "ja": "ブレンデッド・ウィングレット (ブレンデッド翼端小翼, e+11%)",
+    "de": "Gebogenes Blended-Winglet (Gebogenes Winglet, e+11%)",
+    "fr": "Ailette marginale relevée raccordée (Ailette marginale raccordée, e+11%)"
+  },
+  "鯊魚鰭斜削小翼 (Sharklet, e+14%)": {
+    "en": "Swept sharklet (Sharklet, e+14%)",
+    "ja": "シャークレット (シャークレット, e+14%)",
+    "de": "Pfeilförmiges Sharklet (Haifischflossen-Winglet, e+14%)",
+    "fr": "Ailette marginale en aileron de requin (Ailette en aileron de requin, e+14%)"
+  },
+  "分叉式雙彎刀小翼 (Split Scimitar, e+17%)": {
+    "en": "Split scimitar winglet (Split Scimitar, e+17%)",
+    "ja": "分岐シミター・ウィングレット (分岐シミター, e+17%)",
+    "de": "Geteiltes Scimitar-Winglet (Geteiltes Scimitar-Winglet, e+17%)",
+    "fr": "Ailette marginale double en cimeterre (Double cimeterre, e+17%)"
+  },
+  "端板/翼尖垂尾 (Wingtip Endplate, e+9%)": {
+    "en": "Endplate / Wingtip fin (Wingtip Endplate, e+9%)",
+    "ja": "端板 / 翼端垂直尾翼 (翼端板, e+9%)",
+    "de": "Endplatte / Wingtip-Seitenleitwerk (Flügelendplatte, e+9%)",
+    "fr": "Plaque d’extrémité / Dérive marginale (Plaque marginale, e+9%)"
+  },
+  "2. 邊界層與增升裝置補強 (High-Lift & BL)": {
+    "en": "2. Boundary-layer and high-lift augmentation (High-Lift & BL)",
+    "ja": "2. 境界層・高揚力装置補強 (高揚力・境界層)",
+    "de": "2. Grenzschicht- und Hochauftriebsverstärkung (Hochauftrieb und Grenzschicht)",
+    "fr": "2. Amélioration de la couche limite et de l’hypersustentation (Hypersustentation et couche limite)"
+  },
+  "標準後緣襟翼 (Plain Trailing Flap)": {
+    "en": "Standard trailing-edge flap (Plain Trailing Flap)",
+    "ja": "標準後縁フラップ (単純後縁フラップ)",
+    "de": "Standard-Hinterkantenklappe (Einfache Hinterkantenklappe)",
+    "fr": "Volet de bord de fuite standard (Volet simple de bord de fuite)"
+  },
+  "單開縫富勒襟翼 (Fowler Flap, CLmax+0.45)": {
+    "en": "Single-slotted Fowler flap (Fowler Flap, CLmax+0.45)",
+    "ja": "単隙間ファウラーフラップ (ファウラーフラップ, CLmax+0.45)",
+    "de": "Einspalt-Fowlerklappe (Fowlerklappe, CLmax+0.45)",
+    "fr": "Volet Fowler à simple fente (Volet Fowler, CLmax+0.45)"
+  },
+  "前緣縫翼 + 富勒襟翼 (LE Slat + Fowler, 延遲失速+5°)": {
+    "en": "Leading-edge slat + Fowler flap (LE Slat + Fowler, Stall delay+5°)",
+    "ja": "前縁スラット + ファウラーフラップ (前縁スラット + ファウラー, 失速遅延+5°)",
+    "de": "Vorflügel + Fowlerklappe (Vorflügel + Fowler, Verzögerter Strömungsabriss+5°)",
+    "fr": "Bec de bord d’attaque + volet Fowler (Bec avant + Fowler, Retard du décrochage+5°)"
+  },
+  "微渦流產生器陣列 (Vortex Generators, 抑制分離)": {
+    "en": "Micro vortex-generator array (Vortex Generators, Suppress separation)",
+    "ja": "微小ボルテックスジェネレーター列 (渦発生装置, 剥離抑制)",
+    "de": "Mikro-Wirbelgeneratorfeld (Wirbelgeneratoren, Ablösung unterdrücken)",
+    "fr": "Réseau de microgénérateurs de tourbillons (Générateurs de tourbillons, Réduction du décollement)"
+  },
+  "3. 主樑與機體複合材料補強 (Structural Spec)": {
+    "en": "3. Spar and airframe composite reinforcement (Structural Spec)",
+    "ja": "3. 主桁・機体複合材料補強 (構造仕様)",
+    "de": "3. Verbundverstärkung von Holm und Zelle (Strukturspezifikation)",
+    "fr": "3. Renforcement composite du longeron et de la cellule (Spécification structurelle)"
+  },
+  "7075-T6 航太鋁合金半硬殼結構": {
+    "en": "7075-T6 Aerospace aluminum semi-monocoque",
+    "ja": "7075-T6 航空用アルミ合金セミモノコック",
+    "de": "7075-T6 Halbschale aus Luftfahrt-Aluminium",
+    "fr": "7075-T6 Structure semi-monocoque en aluminium aéronautique"
+  },
+  "Toray T700 碳纖維複合雙大樑": {
+    "en": "Toray T700 Carbon-composite twin spars",
+    "ja": "Toray T700 炭素繊維複合二重主桁",
+    "de": "Toray T700 Doppelholm aus Kohlefaserverbund",
+    "fr": "Toray T700 Double longeron en composite carbone"
+  },
+  "T800 高模量碳纖 + Nomex 蜂巢夾芯 (減重18%)": {
+    "en": "T800 High-modulus carbon fiber + Nomex Honeycomb sandwich core (Weight reduction18%)",
+    "ja": "T800 高弾性炭素繊維 + Nomex ハニカムサンドイッチコア (軽量化18%)",
+    "de": "T800 Hochmodul-Kohlefaser + Nomex Wabenkern (Gewichtsreduzierung18%)",
+    "fr": "T800 Fibre de carbone à haut module + Nomex Âme sandwich en nid d’abeilles (Réduction de masse18%)"
+  },
+  "T1000 碳纖主樑 + 鈦合金 Ti-6Al-4V 翼根接頭補強": {
+    "en": "T1000 Carbon-fiber spar + Ti-6Al-4V titanium wing-root joint reinforcement",
+    "ja": "T1000 炭素繊維主桁 + Ti-6Al-4V チタン翼根継手補強",
+    "de": "T1000 Kohlefaserholm + Flügelwurzelanschluss-Verstärkung aus Ti-6Al-4V",
+    "fr": "T1000 Longeron en fibre de carbone + Renfort de jonction d’emplanture en titane Ti-6Al-4V"
+  },
+  "4. 推進與能源系統補強 (Energy & Redundancy)": {
+    "en": "4. Propulsion and energy augmentation (Energy & Redundancy)",
+    "ja": "4. 推進・エネルギー系補強 (エネルギー・冗長性)",
+    "de": "4. Antriebs- und Energieverstärkung (Energie und Redundanz)",
+    "fr": "4. Amélioration de la propulsion et de l’énergie (Énergie et redondance)"
+  },
+  "標準航空燃油 / LiPo 220Wh/kg 電池": {
+    "en": "Standard aviation fuel / LiPo 220Wh/kg battery",
+    "ja": "標準航空燃料 / LiPo 220Wh/kg 電池",
+    "de": "Standard-Flugkraftstoff / LiPo-Akku 220Wh/kg",
+    "fr": "Carburant aéronautique standard / batterie LiPo 220Wh/kg"
+  },
+  "固態鋰金屬電池組 (420 Wh/kg, 航時+65%)": {
+    "en": "Solid-state lithium-metal battery pack (420 Wh/kg, Endurance+65%)",
+    "ja": "全固体リチウム金属電池パック (420 Wh/kg, 滞空時間+65%)",
+    "de": "Festkörper-Lithiummetall-Akkupaket (420 Wh/kg, Flugdauer+65%)",
+    "fr": "Batterie lithium-métal à l’état solide (420 Wh/kg, Autonomie+65%)"
+  },
+  "機翼表面鈣鈦礦太陽能薄膜 + 固態電池混動": {
+    "en": "Perovskite solar wing film + solid-state hybrid battery",
+    "ja": "翼面ペロブスカイト太陽電池薄膜 + 全固体ハイブリッド電池",
+    "de": "Perowskit-Solarfolie auf Flügeln + Festkörper-Hybridakku",
+    "fr": "Film solaire pérovskite sur les ailes + batterie hybride à l’état solide"
+  },
+  "液態氫燃料電池 + 高效推進螺旋槳升級": {
+    "en": "Liquid-hydrogen fuel cell + efficient propeller upgrade",
+    "ja": "液体水素燃料電池 + 高効率プロペラ更新",
+    "de": "Flüssigwasserstoff-Brennstoffzelle + effizienterer Propeller",
+    "fr": "Pile à combustible à hydrogène liquide + hélice à haut rendement"
+  },
+  "渦輪增壓重油引擎 + 低噪音彎刀槳補強": {
+    "en": "Turbocharged heavy-fuel engine + low-noise scimitar propeller",
+    "ja": "過給重油エンジン + 低騒音シミタープロペラ",
+    "de": "Aufgeladener Schwerölmotor + geräuscharmer Scimitar-Propeller",
+    "fr": "Moteur turbo à carburant lourd + hélice en cimeterre silencieuse"
+  },
+  "光電/紅外線吊艙": {
+    "en": "EO/IR gimbal",
+    "ja": "光学 / 赤外線ジンバル",
+    "de": "EO/IR-Sensorgondel",
+    "fr": "Nacelle optronique / infrarouge"
+  },
+  "收放式減阻起落架": {
+    "en": "Retractable low-drag landing gear",
+    "ja": "引込式低抗力降着装置",
+    "de": "Einziehbares widerstandsarmes Fahrwerk",
+    "fr": "Train rentrant à faible traînée"
+  },
+  "氣流流線": {
+    "en": "Airflow streamlines",
+    "ja": "気流線",
+    "de": "Luftstromlinien",
+    "fr": "Lignes de courant d’air"
+  },
+  "翼尖渦流": {
+    "en": "Wingtip vortices",
+    "ja": "翼端渦",
+    "de": "Randwirbel",
+    "fr": "Tourbillons marginaux"
+  },
+  "表面壓力 Cp": {
+    "en": "Surface pressure Cp",
+    "ja": "表面圧力 Cp",
+    "de": "Oberflächendruck Cp",
+    "fr": "Pression de surface Cp"
+  },
+  "氣動力向量": {
+    "en": "Aerodynamic force vectors",
+    "ja": "空気力ベクトル",
+    "de": "Aerodynamische Kraftvektoren",
+    "fr": "Vecteurs des forces aérodynamiques"
+  },
+  "CG / NP": {
+    "en": "CG / NP",
+    "ja": "重心 CG / 中立点 NP",
+    "de": "Schwerpunkt CG / Neutralpunkt NP",
+    "fr": "Centre de gravité CG / Point neutre NP"
+  },
+  "結構 X-Ray": {
+    "en": "Structure X-Ray",
+    "ja": "構造 X-Ray",
+    "de": "Struktur-Röntgenansicht",
+    "fr": "Structure en transparence"
+  },
+  "等角透視": {
+    "en": "Isometric perspective",
+    "ja": "等角透視",
+    "de": "Isometrische Perspektive",
+    "fr": "Perspective isométrique"
+  },
+  "正視": {
+    "en": "Front",
+    "ja": "正面",
+    "de": "Vorne",
+    "fr": "Face"
+  },
+  "側視": {
+    "en": "Side",
+    "ja": "側面",
+    "de": "Seite",
+    "fr": "Profil"
+  },
+  "俯視": {
+    "en": "Top",
+    "ja": "上面",
+    "de": "Oben",
+    "fr": "Dessus"
+  },
+  "追尾": {
+    "en": "Rear tracking",
+    "ja": "後方追従",
+    "de": "Nachführung von hinten",
+    "fr": "Suivi arrière"
+  },
+  "警告：超過臨界失速攻角 (STALL REGIME) — 氣流分離渦流生成中": {
+    "en": "Warning: critical stall angle exceeded (STALL REGIME) — separation vortices forming",
+    "ja": "警告：臨界失速迎角を超過 (STALL REGIME) — 剥離渦が発生中",
+    "de": "Warnung: kritischer Anstellwinkel überschritten (STALL REGIME) — Ablösewirbel entstehen",
+    "fr": "Alerte : incidence critique dépassée (STALL REGIME) — formation de tourbillons de décollement"
+  },
+  "PFD 姿態與飛行包絡線": {
+    "en": "PFD attitude and flight envelope",
+    "ja": "PFD 姿勢・飛行包絡線",
+    "de": "PFD-Fluglage und Flugbereich",
+    "fr": "Attitude PFD et domaine de vol"
+  },
+  "WIND TUNNEL": {
+    "en": "WIND TUNNEL",
+    "ja": "風洞",
+    "de": "WINDKANAL",
+    "fr": "SOUFFLERIE"
+  },
+  "物理向量與表面 Cp 圖例": {
+    "en": "Force vectors and surface Cp legend",
+    "ja": "物理ベクトル・表面 Cp 凡例",
+    "de": "Kraftvektoren und Oberflächen-Cp-Legende",
+    "fr": "Légende des vecteurs physiques et du Cp de surface"
+  },
+  "升力 L": {
+    "en": "Lift L",
+    "ja": "揚力 L",
+    "de": "Auftrieb L",
+    "fr": "Portance L"
+  },
+  "阻力 D": {
+    "en": "Drag D",
+    "ja": "抗力 D",
+    "de": "Widerstand D",
+    "fr": "Traînée D"
+  },
+  "推力 T": {
+    "en": "Thrust T",
+    "ja": "推力 T",
+    "de": "Schub T",
+    "fr": "Poussée T"
+  },
+  "重心 CG": {
+    "en": "Center of gravity CG",
+    "ja": "重心 CG",
+    "de": "Schwerpunkt CG",
+    "fr": "Centre de gravité CG"
+  },
+  "中性點 NP": {
+    "en": "Neutral point NP",
+    "ja": "中立点 NP",
+    "de": "Neutralpunkt NP",
+    "fr": "Point neutre NP"
+  },
+  "Cp -2.2 (低壓吸力區)": {
+    "en": "Cp -2.2 (Low-pressure suction region)",
+    "ja": "Cp -2.2 (低圧吸引域)",
+    "de": "Cp -2.2 (Unterdruck-Saugzone)",
+    "fr": "Cp -2.2 (Zone d’aspiration à basse pression)"
+  },
+  "+1.0 (駐點高壓)": {
+    "en": "+1.0 (High stagnation pressure)",
+    "ja": "+1.0 (よどみ点高圧)",
+    "de": "+1.0 (Hoher Staupunktdruck)",
+    "fr": "+1.0 (Haute pression au point d’arrêt)"
+  },
+  "即時風洞飛行條件與舵面控制 (Flight Condition & Controls)": {
+    "en": "Live wind-tunnel conditions and control surfaces (Flight Condition & Controls)",
+    "ja": "リアルタイム風洞条件・舵面制御 (飛行条件・操縦)",
+    "de": "Echtzeit-Windkanalbedingungen und Rudersteuerung (Flugbedingungen und Steuerung)",
+    "fr": "Conditions de soufflerie et commandes des gouvernes en temps réel (Conditions de vol et commandes)"
+  },
+  "自動攻角掃描 (-8°~+22°)": {
+    "en": "Automatic angle-of-attack sweep (-8°~+22°)",
+    "ja": "迎角自動掃引 (-8°~+22°)",
+    "de": "Automatischer Anstellwinkel-Sweep (-8°~+22°)",
+    "fr": "Balayage automatique de l’incidence (-8°~+22°)"
+  },
+  "自動平飛配平 (L=W)": {
+    "en": "Automatic level-flight trim (L=W)",
+    "ja": "水平飛行自動トリム (L=W)",
+    "de": "Automatische Horizontalflugtrimmung (L=W)",
+    "fr": "Équilibrage automatique en vol horizontal (L=W)"
+  },
+  "真空速 V_∞": {
+    "en": "True airspeed V_∞",
+    "ja": "真対気速度 V_∞",
+    "de": "Wahre Fluggeschwindigkeit V_∞",
+    "fr": "Vitesse vraie V_∞"
+  },
+  "迎角 / 攻角 α (AoA)": {
+    "en": "Incidence / Angle of attack α (AoA)",
+    "ja": "迎角 / 攻撃角 α (AoA)",
+    "de": "Anstellwinkel α (AoA)",
+    "fr": "Incidence / Angle d’attaque α (AoA)"
+  },
+  "側滑角 β (Sideslip)": {
+    "en": "Sideslip angle β (Sideslip)",
+    "ja": "横滑り角 β (横滑り)",
+    "de": "Schiebewinkel β (Schiebewinkel)",
+    "fr": "Angle de dérapage β (Dérapage)"
+  },
+  "海拔高度 h (ISA)": {
+    "en": "Altitude h (ISA)",
+    "ja": "海抜高度 h (ISA)",
+    "de": "Flughöhe h (ISA)",
+    "fr": "Altitude h (ISA)"
+  },
+  "後緣襟翼偏角 δ_f": {
+    "en": "Trailing-edge flap deflection δ_f",
+    "ja": "後縁フラップ偏角 δ_f",
+    "de": "Hinterkantenklappenausschlag δ_f",
+    "fr": "Braquage du volet de bord de fuite δ_f"
+  },
+  "升降舵偏角 δ_e": {
+    "en": "Elevator deflection δ_e",
+    "ja": "昇降舵偏角 δ_e",
+    "de": "Höhenruderausschlag δ_e",
+    "fr": "Braquage de la gouverne de profondeur δ_e"
+  },
+  "副翼差動偏角 δ_a": {
+    "en": "Differential aileron deflection δ_a",
+    "ja": "補助翼差動偏角 δ_a",
+    "de": "Differenzieller Querruderausschlag δ_a",
+    "fr": "Braquage différentiel des ailerons δ_a"
+  },
+  "推進油門 / 傾轉角": {
+    "en": "Throttle / Tilt angle",
+    "ja": "スロットル / ティルト角",
+    "de": "Schubhebel / Kippwinkel",
+    "fr": "Gaz / Angle de basculement"
+  },
+  "即時氣動力學與穩定度解算": {
+    "en": "Live aerodynamics and stability solver",
+    "ja": "空力・安定性リアルタイム解析",
+    "de": "Echtzeitberechnung von Aerodynamik und Stabilität",
+    "fr": "Calcul aérodynamique et de stabilité en temps réel"
+  },
+  "亞音速穩定附著流": {
+    "en": "Stable attached subsonic flow",
+    "ja": "安定した亜音速付着流",
+    "de": "Stabile anliegende Unterschallströmung",
+    "fr": "Écoulement subsonique attaché stable"
+  },
+  "總升力 (Total Lift L)": {
+    "en": "Total lift (Total Lift L)",
+    "ja": "総揚力 (総揚力 L)",
+    "de": "Gesamtauftrieb (Gesamtauftrieb L)",
+    "fr": "Portance totale (Portance totale L)"
+  },
+  "4,905 kgf (過載 1.03G)": {
+    "en": "4,905 kgf (Load factor 1.03G)",
+    "ja": "4,905 kgf (荷重倍数 1.03G)",
+    "de": "4,905 kgf (Lastvielfaches 1.03G)",
+    "fr": "4,905 kgf (Facteur de charge 1.03G)"
+  },
+  "總阻力 (Total Drag D)": {
+    "en": "Total drag (Total Drag D)",
+    "ja": "総抗力 (総抗力 D)",
+    "de": "Gesamtwiderstand (Gesamtwiderstand D)",
+    "fr": "Traînée totale (Traînée totale D)"
+  },
+  "主翼幾何展弦比 AR / 有效 AR_eff": {
+    "en": "Wing geometric aspect ratio AR / Effective AR_eff",
+    "ja": "主翼幾何アスペクト比 AR / 有効 AR_eff",
+    "de": "Geometrische Flügelstreckung AR / Effektive AR_eff",
+    "fr": "Allongement géométrique AR / Effectif AR_eff"
+  },
+  "翼面積 S: 20.6 m² | e: 0.89": {
+    "en": "Wing area S: 20.6 m² | e: 0.89",
+    "ja": "翼面積 S: 20.6 m² | e: 0.89",
+    "de": "Flügelfläche S: 20.6 m² | e: 0.89",
+    "fr": "Surface alaire S: 20.6 m² | e: 0.89"
+  },
+  "失速速度 V_stall / 巡航需用功率": {
+    "en": "Stall speed V_stall / CruiseRequired power",
+    "ja": "失速速度 V_stall / 巡航必要動力",
+    "de": "Überziehgeschwindigkeit V_stall / ReiseflugErforderliche Leistung",
+    "fr": "Vitesse de décrochage V_stall / CroisièrePuissance requise"
+  },
+  "需用功率: 134.8 kW": {
+    "en": "Required power: 134.8 kW",
+    "ja": "必要動力: 134.8 kW",
+    "de": "Erforderliche Leistung: 134.8 kW",
+    "fr": "Puissance requise: 134.8 kW"
+  },
+  "動壓 q_∞ & 大氣密度 ρ:": {
+    "en": "Dynamic pressure q_∞ & Air density ρ:",
+    "ja": "動圧 q_∞ & 大気密度 ρ:",
+    "de": "Staudruck q_∞ & Luftdichte ρ:",
+    "fr": "Pression dynamique q_∞ & Masse volumique de l’air ρ:"
+  },
+  "俯仰力矩係數 C_m & 斜率 C_mα:": {
+    "en": "Pitching moment coefficient C_m & Slope C_mα:",
+    "ja": "縦揺れモーメント係数 C_m & 勾配 C_mα:",
+    "de": "Nickmomentenbeiwert C_m & Steigung C_mα:",
+    "fr": "Coefficient de moment de tangage C_m & Pente C_mα:"
+  },
+  "翼根彎矩 M_root & 安全係數:": {
+    "en": "Wing-root bending moment M_root & Safety factor:",
+    "ja": "翼根曲げモーメント M_root & 安全率:",
+    "de": "Flügelwurzel-Biegemoment M_root & Sicherheitsfaktor:",
+    "fr": "Moment fléchissant à l’emplanture M_root & Coefficient de sécurité:"
+  },
+  "翼載荷 W/S & 氣動中心 X_NP:": {
+    "en": "Wing loading W/S & Aerodynamic center X_NP:",
+    "ja": "翼面荷重 W/S & 空力中心 X_NP:",
+    "de": "Flächenbelastung W/S & Aerodynamisches Zentrum X_NP:",
+    "fr": "Charge alaire W/S & Centre aérodynamique X_NP:"
+  },
+  "2D 翼型剖面流場與壓力包絡": {
+    "en": "2D airfoil flow field and pressure envelope",
+    "ja": "2D 翼型流れ場・圧力包絡",
+    "de": "2D-Profilströmung und Druckhüllkurve",
+    "fr": "Champ d’écoulement du profil 2D et enveloppe de pression"
+  },
+  "即時升力與升阻比工作點": {
+    "en": "Live lift and lift-to-drag operating point",
+    "ja": "揚力・揚抗比の現在作動点",
+    "de": "Aktueller Betriebspunkt von Auftrieb und Gleitzahl",
+    "fr": "Point de fonctionnement de portance et de finesse en temps réel"
+  },
+  "紅點 = 當前攻角 α": {
+    "en": "Red dot = current angle of attack α",
+    "ja": "赤点 = 現在の迎角 α",
+    "de": "Roter Punkt = aktueller Anstellwinkel α",
+    "fr": "Point rouge = incidence actuelle α"
+  },
+  "全球無人飛行載具標準模型庫與氣動/機構補強中心 (Global UAV Database & Augmentation Hub)": {
+    "en": "Global UAV model library and aerodynamic/mechanical augmentation center (Global UAV Database & Augmentation Hub)",
+    "ja": "世界の UAV 標準モデル集・空力／機構補強センター (世界 UAV データベース・補強センター)",
+    "de": "Globale UAV-Modellbibliothek und aerodynamisches/mechanisches Verstärkungszentrum (Globale UAV-Datenbank und Verstärkungszentrum)",
+    "fr": "Bibliothèque mondiale de drones et centre de renforcement aérodynamique/mécanique (Base mondiale UAV et centre de renforcement)"
+  },
+  "收錄 6 款民用測繪、巡檢、物流與太陽能研究機型，可比較幾何參數與模擬結果。": {
+    "en": "Includes 6 civilian models for mapping, inspection, logistics and solar research; compare geometry and simulated results.",
+    "ja": "測量・点検・物流・太陽光研究用の民生 6 機種を収録し、形状パラメーターと解析結果を比較できます。",
+    "de": "Enthält 6 zivile Modelle für Vermessung, Inspektion, Logistik und Solarforschung; Geometrie und Simulationsergebnisse vergleichen.",
+    "fr": "Comprend 6 modèles civils de cartographie, inspection, logistique et recherche solaire ; comparez la géométrie et les résultats simulés."
+  },
+  "所有民用構型分類": {
+    "en": "All civilian configurations",
+    "ja": "すべての民生構成",
+    "de": "Alle zivilen Konfigurationen",
+    "fr": "Toutes les configurations civiles"
+  },
+  "中高空長滯空固定翼 (MALE/HALE)": {
+    "en": "Medium/high-altitude long-endurance fixed wing (MALE/HALE)",
+    "ja": "中高高度長時間滞空固定翼 (中高度長時間滞空 MALE/HALE)",
+    "de": "Starrflügler für lange Flugdauer in mittlerer/großer Höhe (Mittlere Flughöhe, lange Flugdauer MALE/HALE)",
+    "fr": "Voilure fixe de moyenne/haute altitude à grande autonomie (Moyenne altitude, grande autonomie MALE/HALE)"
+  },
+  "飛翼與翼身融合 (BWB/Delta)": {
+    "en": "Flying wing and blended wing body (BWB/Delta)",
+    "ja": "無尾翼・翼胴融合 (BWB / デルタ)",
+    "de": "Nurflügler und Flügel-Rumpf-Integration (BWB/Deltaflügel)",
+    "fr": "Aile volante et aile-fuselage intégrée (BWB/Aile delta)"
+  },
+  "複合翼與傾轉旋翼 (QuadPlane/Tilt-Rotor)": {
+    "en": "Hybrid wing and tilt rotor (QuadPlane/Tilt-Rotor)",
+    "ja": "複合翼・ティルトローター (QuadPlane/ティルトローター)",
+    "de": "Hybridflügel und Kipprotor (QuadPlane/Kipprotor)",
+    "fr": "Voilure hybride et rotors basculants (QuadPlane/Rotors basculants)"
+  },
+  "工業多旋翼 (Multi-Rotor/FPV)": {
+    "en": "Industrial multirotor (Multi-Rotor/FPV)",
+    "ja": "産業用マルチローター (マルチローター/FPV)",
+    "de": "Industrie-Multirotor (Multirotor/FPV)",
+    "fr": "Multirotor industriel (Multirotor/FPV)"
+  },
+  "無人直升機與共軸雙槳 (Heli/Coaxial)": {
+    "en": "Uncrewed helicopter and coaxial twin rotor (Heli/Coaxial)",
+    "ja": "無人ヘリコプター・同軸二重ローター (ヘリ / 同軸)",
+    "de": "Unbemannte Hubschrauber und Koaxialrotoren (Hubschrauber/Koaxial)",
+    "fr": "Hélicoptère sans pilote et birotor coaxial (Hélicoptère/Coaxial)"
+  },
+  "前瞻太陽能/eVTOL/涵道風扇": {
+    "en": "Advanced solar / eVTOL / ducted fan",
+    "ja": "先進太陽光 / eVTOL / ダクテッドファン",
+    "de": "Zukunftskonzepte: Solar / eVTOL / Mantelpropeller",
+    "fr": "Concepts avancés solaires / eVTOL / soufflante carénée"
+  },
+  "USA / General Atomics": {
+    "en": "USA / General Atomics",
+    "ja": "米国 / General Atomics",
+    "de": "USA / General Atomics",
+    "fr": "États-Unis / General Atomics"
+  },
+  "MQ-9 Reaper (死神)": {
+    "en": "MQ-9 Reaper (Reaper)",
+    "ja": "MQ-9 Reaper (リーパー)",
+    "de": "MQ-9 Reaper (Reaper)",
+    "fr": "MQ-9 Reaper (Reaper)"
+  },
+  "載入 3D 工作台": {
+    "en": "Load into 3D studio",
+    "ja": "3D 作業台に読み込む",
+    "de": "In 3D-Arbeitsbereich laden",
+    "fr": "Charger dans l’atelier 3D"
+  },
+  "原生構型極限診斷與工程補強方案 (Model Augmentation)": {
+    "en": "Baseline configuration limits and engineering augmentation (Model Augmentation)",
+    "ja": "基準構成の限界診断・工学的補強案 (モデル補強)",
+    "de": "Grenzdiagnose der Ausgangskonfiguration und technische Verstärkung (Modellverstärkung)",
+    "fr": "Diagnostic des limites de base et renforcement technique (Renforcement de modèle)"
+  },
+  "套用專屬補強方案並載入 3D 模擬": {
+    "en": "Apply model-specific augmentation and load 3D simulation",
+    "ja": "専用補強案を適用して 3D 解析を読み込む",
+    "de": "Modellspezifische Verstärkung anwenden und 3D-Simulation laden",
+    "fr": "Appliquer le renforcement spécifique et charger la simulation 3D"
+  },
+  "2D 翼型剖面流場與表面壓力係數 C_p(x/c) 分析儀": {
+    "en": "2D airfoil flow and surface-pressure coefficient C_p(x/c) analyzer",
+    "ja": "2D 翼型流れ場・表面圧力係数 C_p(x/c) 解析器",
+    "de": "2D-Profilströmungs- und Oberflächendruckanalyse C_p(x/c)",
+    "fr": "Analyseur d’écoulement du profil 2D et du coefficient de pression C_p(x/c)"
+  },
+  "即時解算翼型上下表面速度分佈、駐點位移、中弧線彎度與邊界層轉捩點": {
+    "en": "Live solution of upper/lower surface velocities, stagnation-point movement, mean camber and boundary-layer transition",
+    "ja": "翼型上下表面の速度分布、よどみ点移動、平均キャンバー、境界層遷移点をリアルタイム計算",
+    "de": "Echtzeitberechnung der Ober-/Unterseitengeschwindigkeit, Staupunktbewegung, Wölbung und Grenzschichttransition",
+    "fr": "Calcul en temps réel des vitesses d’extrados/intrados, du point d’arrêt, de la cambrure et de la transition de couche limite"
+  },
+  "最大相對厚度 t/c": {
+    "en": "Maximum relative thickness t/c",
+    "ja": "最大相対厚さ t/c",
+    "de": "Maximale relative Dicke t/c",
+    "fr": "Épaisseur relative maximale t/c"
+  },
+  "最大相對彎度 f/c": {
+    "en": "Maximum relative camber f/c",
+    "ja": "最大相対キャンバー f/c",
+    "de": "Maximale relative Wölbung f/c",
+    "fr": "Cambrure relative maximale f/c"
+  },
+  "零升攻角 α_L=0 / α_stall": {
+    "en": "Zero-lift angle α_L=0 / α_stall",
+    "ja": "ゼロ揚力迎角 α_L=0 / α_stall",
+    "de": "Nullauftriebswinkel α_L=0 / α_stall",
+    "fr": "Incidence de portance nulle α_L=0 / α_stall"
+  },
+  "展向環量與局部升力分佈 C_l(y) (Prandtl 升力線 vs 理想橢圓)": {
+    "en": "Spanwise circulation and local lift C_l(y) (Prandtl lifting line vs ideal ellipse)",
+    "ja": "翼幅方向循環・局所揚力 C_l(y)（Prandtl 揚力線と理想楕円の比較）",
+    "de": "Spannweitige Zirkulation und lokaler Auftrieb C_l(y) (Prandtl-Traglinie vs. ideale Ellipse)",
+    "fr": "Circulation et portance locale C_l(y) le long de l’envergure (ligne portante de Prandtl / ellipse idéale)"
+  },
+  "半翼展 2y/b in [0, 1]": {
+    "en": "Half span 2y/b in [0, 1]",
+    "ja": "半翼幅 2y/b in [0, 1]",
+    "de": "Halbspannweite 2y/b in [0, 1]",
+    "fr": "Demi-envergure 2y/b in [0, 1]"
+  },
+  "1. 升力曲線 C_L - α (原生基準 vs 補強後)": {
+    "en": "1. Lift curve C_L - α (Original baseline vs Augmented)",
+    "ja": "1. 揚力曲線 C_L - α (元の基準 vs 補強後)",
+    "de": "1. Auftriebskurve C_L - α (Ursprüngliche Referenz vs Verstärkt)",
+    "fr": "1. Courbe de portance C_L - α (Référence d’origine vs Renforcé)"
+  },
+  "含失速後非線性分離模型": {
+    "en": "Includes nonlinear post-stall separation model",
+    "ja": "失速後の非線形剥離モデルを含む",
+    "de": "Mit nichtlinearem Ablösemodell nach dem Strömungsabriss",
+    "fr": "Inclut un modèle de décollement non linéaire après décrochage"
+  },
+  "2. 升阻比特性曲線 L/D - α (滑翔與巡航效率)": {
+    "en": "2. Lift-to-drag characteristic curve L/D - α (Glide and cruise efficiency)",
+    "ja": "2. 揚抗比特性曲線 L/D - α (滑空・巡航効率)",
+    "de": "2. Gleitzahlkennlinie L/D - α (Gleit- und Reiseflugeffizienz)",
+    "fr": "2. Courbe caractéristique de finesse L/D - α (Rendement en plané et en croisière)"
+  },
+  "3. 阻力極曲線 Drag Polar (C_L vs C_D)": {
+    "en": "3. Drag polar Drag Polar (C_L vs C_D)",
+    "ja": "3. 抗力極曲線 Drag Polar (C_L vs C_D)",
+    "de": "3. Widerstandspolare Drag Polar (C_L vs C_D)",
+    "fr": "3. Polaire de traînée Drag Polar (C_L vs C_D)"
+  },
+  "4. 俯仰力矩與縱向靜穩定度 C_m - α": {
+    "en": "4. Pitching moment and longitudinal static stability C_m - α",
+    "ja": "4. 縦揺れモーメント・縦静安定性 C_m - α",
+    "de": "4. Nickmoment und statische Längsstabilität C_m - α",
+    "fr": "4. Moment de tangage et stabilité statique longitudinale C_m - α"
+  },
+  "配平攻角 α_trim = 3.8°": {
+    "en": "Trim angle of attack α_trim = 3.8°",
+    "ja": "トリム迎角 α_trim = 3.8°",
+    "de": "Trimm-Anstellwinkel α_trim = 3.8°",
+    "fr": "Incidence d’équilibrage α_trim = 3.8°"
+  },
+  "6-DOF 動態飛行模擬測試與極限包絡線驗證中心 (Automated Flight Test & Telemetry Recorder)": {
+    "en": "6-DOF dynamic flight tests and envelope verification (Automated Flight Test & Telemetry Recorder)",
+    "ja": "6-DOF 動的飛行試験・限界包絡線検証センター (自動飛行試験・テレメトリー記録)",
+    "de": "6-DOF-Flugdynamiktests und Flugbereichsprüfung (Automatischer Flugtest und Telemetrieschreiber)",
+    "fr": "Essais de vol dynamique 6-DOF et vérification du domaine de vol (Essai de vol automatique et enregistreur télémétrique)"
+  },
+  "選擇下方自動化工程測試課目，系統將即時驅動 6-DOF 姿態動力學方程並繪製時域飛航黑盒子響應曲線。": {
+    "en": "Select an automated test below to run the 6-DOF attitude dynamics equations live and plot flight-recorder time responses.",
+    "ja": "下記の自動試験を選ぶと、6-DOF 姿勢運動方程式をリアルタイム計算し、フライトレコーダーの時系列応答を描画します。",
+    "de": "Einen automatisierten Test wählen, um die 6-DOF-Fluglagendynamik in Echtzeit zu berechnen und Zeitantworten aufzuzeichnen.",
+    "fr": "Sélectionnez un essai automatique pour résoudre la dynamique d’attitude 6-DOF et tracer les réponses temporelles de l’enregistreur de vol."
+  },
+  "課目 A：失速攻角掃描": {
+    "en": "Test A: stall angle sweep",
+    "ja": "試験 A：失速迎角掃引",
+    "de": "Test A: Überziehwinkel-Sweep",
+    "fr": "Essai A : balayage de l’incidence de décrochage"
+  },
+  "課目 B：15m/s 強陣風 PID 穩定收斂": {
+    "en": "Test B: PID convergence in 15m/s gusts",
+    "ja": "試験 B：15m/s 突風時の PID 安定収束",
+    "de": "Test B: PID-Konvergenz bei 15m/s Böen",
+    "fr": "Essai B : convergence PID sous rafales de 15m/s"
+  },
+  "課目 C：VTOL 垂直起降轉平飛過渡": {
+    "en": "Test C: VTOL to level-flight transition",
+    "ja": "試験 C：VTOL から水平飛行への遷移",
+    "de": "Test C: VTOL-Übergang zum Horizontalflug",
+    "fr": "Essai C : transition VTOL vers le vol horizontal"
+  },
+  "課目 D：4.5G 急拉結構過載極限測試": {
+    "en": "Test D: 4.5G pull-up structural load limit",
+    "ja": "試験 D：4.5G 急上昇時の構造荷重限界",
+    "de": "Test D: Strukturgrenzlast bei 4.5G-Abfangmanöver",
+    "fr": "Essai D : limite de charge structurelle en ressource à 4.5G"
+  },
+  "停止/重置紀錄": {
+    "en": "Stop / Reset recording",
+    "ja": "停止 / 記録をリセット",
+    "de": "Aufzeichnung stoppen / zurücksetzen",
+    "fr": "Arrêter / Réinitialiser l’enregistrement"
+  },
+  "飛控律 PID 增益與陣風擾動設定": {
+    "en": "Flight-control PID gains and gust disturbances",
+    "ja": "飛行制御 PID ゲイン・突風外乱設定",
+    "de": "Flugregelungs-PID-Verstärkung und Böenstörungen",
+    "fr": "Gains PID de commande de vol et perturbations de rafales"
+  },
+  "待命 / 即時解算中": {
+    "en": "Standby / Solving live",
+    "ja": "待機 / リアルタイム計算中",
+    "de": "Bereit / Echtzeitberechnung",
+    "fr": "En attente / Calcul en temps réel"
+  },
+  "俯仰阻尼增益 K_q": {
+    "en": "Pitch damping gain K_q",
+    "ja": "ピッチ減衰ゲイン K_q",
+    "de": "Nickdämpfungsverstärkung K_q",
+    "fr": "Gain d’amortissement en tangage K_q"
+  },
+  "滾轉阻尼增益 K_p": {
+    "en": "Roll damping gain K_p",
+    "ja": "ロール減衰ゲイン K_p",
+    "de": "Rolldämpfungsverstärkung K_p",
+    "fr": "Gain d’amortissement en roulis K_p"
+  },
+  "大氣亂流強度 (Dryden)": {
+    "en": "Atmospheric turbulence intensity (Dryden)",
+    "ja": "大気乱流強度 (Dryden)",
+    "de": "Atmosphärische Turbulenzintensität (Dryden)",
+    "fr": "Intensité de turbulence atmosphérique (Dryden)"
+  },
+  "VTOL 傾轉過渡進度": {
+    "en": "VTOL Tilt transition progress",
+    "ja": "VTOL ティルト遷移進捗",
+    "de": "VTOL Fortschritt des Kippübergangs",
+    "fr": "VTOL Progression de la transition par basculement"
+  },
+  "90° (巡航)": {
+    "en": "90° (Cruise)",
+    "ja": "90° (巡航)",
+    "de": "90° (Reiseflug)",
+    "fr": "90° (Croisière)"
+  },
+  "飛行品質與 MIL-STD-1797 穩定度評級": {
+    "en": "Flying qualities and MIL-STD-1797 stability rating",
+    "ja": "飛行品質・MIL-STD-1797 安定性評価",
+    "de": "Flugeigenschaften und Stabilitätsbewertung nach MIL-STD-1797",
+    "fr": "Qualités de vol et évaluation de stabilité MIL-STD-1797"
+  },
+  "Level 1 優良": {
+    "en": "Level 1 Excellent",
+    "ja": "Level 1 良好",
+    "de": "Level 1 Sehr gut",
+    "fr": "Level 1 Excellent"
+  },
+  "短週期自然頻率 omega_sp:": {
+    "en": "Short-period natural frequency omega_sp:",
+    "ja": "短周期固有振動数 omega_sp:",
+    "de": "Eigenfrequenz der Kurzperiodenschwingung omega_sp:",
+    "fr": "Fréquence propre du mode rapide omega_sp:"
+  },
+  "短週期阻尼比 zeta_sp:": {
+    "en": "Short-period damping ratio zeta_sp:",
+    "ja": "短周期減衰比 zeta_sp:",
+    "de": "Dämpfungsgrad der Kurzperiodenschwingung zeta_sp:",
+    "fr": "Taux d’amortissement du mode rapide zeta_sp:"
+  },
+  "長週期 (Phugoid) 週期:": {
+    "en": "Phugoid period:",
+    "ja": "長周期（フゴイド）周期:",
+    "de": "Phygoidenperiode:",
+    "fr": "Période du mode phugoïde:"
+  },
+  "荷蘭滾 (Dutch Roll) zeta_d:": {
+    "en": "Dutch roll (Dutch Roll) zeta_d:",
+    "ja": "ダッチロール (Dutch Roll) zeta_d:",
+    "de": "Taumelschwingung (Dutch Roll) zeta_d:",
+    "fr": "Roulis hollandais (Dutch Roll) zeta_d:"
+  },
+  "最大瞬態過載 n_z,max:": {
+    "en": "Maximum transient load factor n_z,max:",
+    "ja": "最大過渡荷重倍数 n_z,max:",
+    "de": "Maximales transientes Lastvielfaches n_z,max:",
+    "fr": "Facteur de charge transitoire maximal n_z,max:"
+  },
+  "姿態收斂時間 T_settle:": {
+    "en": "Attitude settling time T_settle:",
+    "ja": "姿勢整定時間 T_settle:",
+    "de": "Ausregelzeit der Fluglage T_settle:",
+    "fr": "Temps d’établissement de l’attitude T_settle:"
+  },
+  "6-DOF 飛航黑盒子即時波形紀錄儀 (Pitch / AoA / G-Load / L/D Time-Series)": {
+    "en": "6-DOF real-time flight-recorder traces (Pitch / AoA / G-Load / L/D Time-Series)",
+    "ja": "6-DOF 飛行記録リアルタイム波形 (ピッチ / 迎角 / G 荷重 / L/D 時系列)",
+    "de": "6-DOF-Echtzeit-Flugschreiber (Nickwinkel / Anstellwinkel / G-Last / L/D-Zeitverlauf)",
+    "fr": "Traces de l’enregistreur de vol 6-DOF en temps réel (Série temporelle tangage / incidence / charge G / L/D)"
+  },
+  "取樣率: 20 Hz | 動態閉迴路響應": {
+    "en": "Sampling rate: 20 Hz | Dynamic closed-loop response",
+    "ja": "サンプリング周波数: 20 Hz | 動的閉ループ応答",
+    "de": "Abtastrate: 20 Hz | Dynamische Regelkreisantwort",
+    "fr": "Fréquence d’échantillonnage: 20 Hz | Réponse dynamique en boucle fermée"
+  },
+  "機翼主樑彎矩分佈、Von Mises 應力與氣動彈性顫振分析": {
+    "en": "Wing-spar bending, Von Mises stress and aeroelastic flutter analysis",
+    "ja": "主翼主桁曲げ分布・Von Mises 応力・空力弾性フラッター解析",
+    "de": "Flügelholmbiegung, Von-Mises-Spannung und aeroelastische Flatteranalyse",
+    "fr": "Analyse de flexion du longeron, contrainte de Von Mises et flottement aéroélastique"
+  },
+  "依據翼根彎矩 M(y)、主樑慣性矩與所選複合材料計算結構安全裕度": {
+    "en": "Structural margins from root bending M(y), spar inertia and selected composites",
+    "ja": "翼根曲げ M(y)、主桁断面二次モーメント、選択複合材料から構造安全余裕を計算",
+    "de": "Strukturreserven aus Wurzelbiegung M(y), Holmträgheit und gewähltem Verbundwerkstoff",
+    "fr": "Marges structurelles calculées à partir de M(y), de l’inertie du longeron et du composite choisi"
+  },
+  "SF = 2.45 (安全)": {
+    "en": "SF = 2.45 (Safe)",
+    "ja": "SF = 2.45 (安全)",
+    "de": "SF = 2.45 (Sicher)",
+    "fr": "SF = 2.45 (Sûr)"
+  },
+  "翼根最大彎矩 M_root": {
+    "en": "Maximum root bending moment M_root",
+    "ja": "翼根最大曲げモーメント M_root",
+    "de": "Maximales Wurzelbiegemoment M_root",
+    "fr": "Moment fléchissant maximal à l’emplanture M_root"
+  },
+  "主樑最大應力 σ_max": {
+    "en": "Maximum spar stress σ_max",
+    "ja": "主桁最大応力 σ_max",
+    "de": "Maximale Holmspannung σ_max",
+    "fr": "Contrainte maximale du longeron σ_max"
+  },
+  "翼尖撓度 δ_tip / 顫振裕度": {
+    "en": "Wingtip deflection δ_tip / Flutter margin",
+    "ja": "翼端たわみ δ_tip / フラッター余裕",
+    "de": "Flügelspitzendurchbiegung δ_tip / Flatterreserve",
+    "fr": "Flèche en bout d’aile δ_tip / Marge de flottement"
+  },
+  "全機子系統配重、重心 (X_CG) 與工程物料清單 (BOM)": {
+    "en": "Aircraft subsystem mass balance, CG (X_CG) and engineering BOM",
+    "ja": "全機サブシステム質量配分・重心 (X_CG)・設計 BOM",
+    "de": "Subsystem-Massenverteilung, Schwerpunkt (X_CG) und Konstruktionsstückliste",
+    "fr": "Répartition des masses des sous-systèmes, centrage (X_CG) et nomenclature technique"
+  },
+  "自動核算空機重量、酬載比例、三軸轉動慣量 (I_xx, I_yy, I_zz) 與預估硬體成本": {
+    "en": "Automatically estimates empty mass, payload fraction, inertia (I_xx, I_yy, I_zz) and hardware cost",
+    "ja": "空虚重量、搭載比率、3 軸慣性 (I_xx, I_yy, I_zz)、推定機器費を自動計算",
+    "de": "Automatische Schätzung von Leermasse, Nutzlastanteil, Trägheit (I_xx, I_yy, I_zz) und Hardwarekosten",
+    "fr": "Estimation automatique de la masse à vide, du taux de charge utile, des inerties (I_xx, I_yy, I_zz) et du coût matériel"
+  },
+  "預估 BOM: $148,500": {
+    "en": "Estimated BOM: $148,500",
+    "ja": "推定 BOM: $148,500",
+    "de": "Geschätzte Stückliste: $148,500",
+    "fr": "Nomenclature estimée: $148,500"
+  },
+  "子系統模組 (Subsystem)": {
+    "en": "Subsystem module (Subsystem)",
+    "ja": "サブシステムモジュール (サブシステム)",
+    "de": "Subsystemmodul (Subsystem)",
+    "fr": "Module de sous-système (Sous-système)"
+  },
+  "選用規格 / 補強配置": {
+    "en": "Selected specification / Augmentation",
+    "ja": "選択仕様 / 補強構成",
+    "de": "Gewählte Spezifikation / Verstärkung",
+    "fr": "Spécification choisie / Renforcement"
+  },
+  "質量 (kg)": {
+    "en": "Mass (kg)",
+    "ja": "質量 (kg)",
+    "de": "Masse (kg)",
+    "fr": "Masse (kg)"
+  },
+  "占比": {
+    "en": "Share",
+    "ja": "割合",
+    "de": "Anteil",
+    "fr": "Proportion"
+  },
+  "力臂 X_cg (m)": {
+    "en": "Moment arm X_cg (m)",
+    "ja": "モーメントアーム X_cg (m)",
+    "de": "Hebelarm X_cg (m)",
+    "fr": "Bras de levier X_cg (m)"
+  },
+  "滾轉慣量 I_xx": {
+    "en": "Roll inertia I_xx",
+    "ja": "ロール慣性 I_xx",
+    "de": "Rollträgheit I_xx",
+    "fr": "Inertie en roulis I_xx"
+  },
+  "俯仰慣量 I_yy": {
+    "en": "Pitch inertia I_yy",
+    "ja": "ピッチ慣性 I_yy",
+    "de": "Nickträgheit I_yy",
+    "fr": "Inertie en tangage I_yy"
+  },
+  "偏航慣量 I_zz": {
+    "en": "Yaw inertia I_zz",
+    "ja": "ヨー慣性 I_zz",
+    "de": "Gierträgheit I_zz",
+    "fr": "Inertie en lacet I_zz"
+  },
+  "多維度性能雷達圖 (當前補強設計 vs 全球標竿機型)": {
+    "en": "Performance radar (current augmented design vs global reference)",
+    "ja": "性能レーダー（現在の補強設計と世界の基準機種）",
+    "de": "Leistungsradar (aktueller verstärkter Entwurf vs. globale Referenz)",
+    "fr": "Radar de performances (conception renforcée / référence mondiale)"
+  },
+  "全球指標性 UAV 規格與氣動效率橫向對比矩陣": {
+    "en": "Global UAV specification and aerodynamic efficiency comparison",
+    "ja": "世界の代表 UAV 仕様・空力効率比較表",
+    "de": "Vergleich globaler UAV-Spezifikationen und Aerodynamikeffizienz",
+    "fr": "Comparatif des spécifications et du rendement aérodynamique des drones mondiaux"
+  },
+  "匯出 CSV 氣動極曲線數據": {
+    "en": "Export aerodynamic polar CSV",
+    "ja": "空力極曲線 CSV を出力",
+    "de": "Aerodynamische Polaren als CSV exportieren",
+    "fr": "Exporter les polaires aérodynamiques en CSV"
+  },
+  "機型名稱": {
+    "en": "Model name",
+    "ja": "機種名",
+    "de": "Modellname",
+    "fr": "Nom du modèle"
+  },
+  "構型分類": {
+    "en": "Configuration class",
+    "ja": "構成分類",
+    "de": "Konfigurationsklasse",
+    "fr": "Classe de configuration"
+  },
+  "翼展 (m)": {
+    "en": "Span (m)",
+    "ja": "翼幅 (m)",
+    "de": "Spannweite (m)",
+    "fr": "Envergure (m)"
+  },
+  "MTOW (kg)": {
+    "en": "MTOW (kg)",
+    "ja": "最大離陸重量 MTOW (kg)",
+    "de": "Maximale Startmasse MTOW (kg)",
+    "fr": "Masse maximale au décollage MTOW (kg)"
+  },
+  "基準翼型": {
+    "en": "BaselineAirfoil",
+    "ja": "基準翼型",
+    "de": "ReferenzProfil",
+    "fr": "RéférenceProfil aérodynamique"
+  },
+  "最大 L/D": {
+    "en": "Maximum L/D",
+    "ja": "最大 L/D",
+    "de": "Maximum L/D",
+    "fr": "Maximum L/D"
+  },
+  "滯空 (hr)": {
+    "en": "Endurance (hr)",
+    "ja": "滞空時間 (hr)",
+    "de": "Flugdauer (hr)",
+    "fr": "Autonomie (hr)"
+  },
+  "操作": {
+    "en": "Action",
+    "ja": "操作",
+    "de": "Aktion",
+    "fr": "Action"
+  },
+  "新增自訂研發無人機至全球模型庫": {
+    "en": "Add a custom UAV to the global library",
+    "ja": "独自開発 UAV を世界モデル集に追加",
+    "de": "Eigenes UAV zur globalen Bibliothek hinzufügen",
+    "fr": "Ajouter un drone personnalisé à la bibliothèque mondiale"
+  },
+  "機型代號與名稱 (Model Name)": {
+    "en": "Model identifier and name (Model Name)",
+    "ja": "機種識別子と名称 (モデル名)",
+    "de": "Modellkennung und Name (Modellname)",
+    "fr": "Identifiant et nom du modèle (Nom du modèle)"
+  },
+  "研發機構 / 國家": {
+    "en": "Developer / Country",
+    "ja": "開発機関 / 国",
+    "de": "Entwickler / Land",
+    "fr": "Organisme de développement / Pays"
+  },
+  "分類標籤": {
+    "en": "Category tag",
+    "ja": "分類タグ",
+    "de": "Kategorienbezeichnung",
+    "fr": "Étiquette de catégorie"
+  },
+  "複合翼與傾轉旋翼 (VTOL)": {
+    "en": "Hybrid wing and tilt rotor (VTOL)",
+    "ja": "複合翼・ティルトローター (VTOL)",
+    "de": "Hybridflügel und Kipprotor (VTOL)",
+    "fr": "Voilure hybride et rotors basculants (VTOL)"
+  },
+  "中高空長滯空固定翼 (MALE)": {
+    "en": "Medium/high-altitude long-endurance fixed wing (MALE)",
+    "ja": "中高高度長時間滞空固定翼 (中高度長時間滞空 MALE)",
+    "de": "Starrflügler für lange Flugdauer in mittlerer/großer Höhe (Mittlere Flughöhe, lange Flugdauer MALE)",
+    "fr": "Voilure fixe de moyenne/haute altitude à grande autonomie (Moyenne altitude, grande autonomie MALE)"
+  },
+  "飛翼與三角翼 (BWB/Delta)": {
+    "en": "Flying wing and delta wing (BWB/Delta)",
+    "ja": "無尾翼・デルタ翼 (BWB / デルタ)",
+    "de": "Nurflügel und Deltaflügel (BWB/Deltaflügel)",
+    "fr": "Aile volante et aile delta (BWB/Aile delta)"
+  },
+  "工業多旋翼": {
+    "en": "Industrial multirotor",
+    "ja": "産業用マルチローター",
+    "de": "Industrie-Multirotor",
+    "fr": "Multirotor industriel"
+  },
+  "設計定位與結構補強備註": {
+    "en": "Design purpose and structural augmentation notes",
+    "ja": "設計目的・構造補強メモ",
+    "de": "Entwurfsziel und Hinweise zur Strukturverstärkung",
+    "fr": "Objectif de conception et notes de renforcement structurel"
+  },
+  "採用當前 3D 工作台調校之幾何參數、翼型與複合材料補強配置，直接儲存為標準可重複調用模型。": {
+    "en": "Save the current 3D studio geometry, airfoil and composite augmentation as a reusable standard model.",
+    "ja": "現在の 3D 作業台の形状、翼型、複合材料補強構成を再利用可能な標準モデルとして保存します。",
+    "de": "Aktuelle 3D-Geometrie, Profil und Verbundverstärkung als wiederverwendbares Standardmodell speichern.",
+    "fr": "Enregistrez la géométrie 3D, le profil et le renforcement composite actuels comme modèle standard réutilisable."
+  },
+  "取消": {
+    "en": "Cancel",
+    "ja": "キャンセル",
+    "de": "Abbrechen",
+    "fr": "Annuler"
+  },
+  "將當前工作台配置存入模型庫": {
+    "en": "Save studio configuration to library",
+    "ja": "現在の作業台構成をモデル集に保存",
+    "de": "Arbeitskonfiguration in Bibliothek speichern",
+    "fr": "Enregistrer la configuration dans la bibliothèque"
+  },
+  "無人飛行載具完整工程設計參數與氣動分析報告 (JSON / 技術規格書)": {
+    "en": "Full UAV engineering parameters and aerodynamic report (JSON / Technical specification)",
+    "ja": "UAV 全設計パラメーター・空力解析報告 (JSON / 技術仕様書)",
+    "de": "Vollständige UAV-Konstruktionsparameter und Aerodynamikbericht (JSON / Technische Spezifikation)",
+    "fr": "Paramètres complets du drone et rapport aérodynamique (JSON / Spécification technique)"
+  },
+  "可直接匯入 CAD 參數腳本、XFLR5 / OpenVSP 轉換器或留存工程 BOM 檔案": {
+    "en": "Import into CAD parameter scripts or XFLR5 / OpenVSP converters, or retain as an engineering BOM file",
+    "ja": "CAD パラメータースクリプトや XFLR5 / OpenVSP 変換器に読み込むか、設計 BOM として保存できます",
+    "de": "In CAD-Parameterskripte oder XFLR5-/OpenVSP-Konverter importieren oder als Konstruktionsstückliste aufbewahren",
+    "fr": "Importez dans des scripts CAO ou convertisseurs XFLR5 / OpenVSP, ou conservez le fichier de nomenclature"
+  },
+  "複製內容": {
+    "en": "Copy content",
+    "ja": "内容をコピー",
+    "de": "Inhalt kopieren",
+    "fr": "Copier le contenu"
+  },
+  "下載 .JSON 工程檔": {
+    "en": "Download .JSON engineering file",
+    "ja": ".JSON 設計ファイルをダウンロード",
+    "de": ".JSON-Konstruktionsdatei herunterladen",
+    "fr": "Télécharger le fichier d’ingénierie .JSON"
+  },
+  "肇祥企業社 MaxJim Tech. — 工程模擬數據照片與浮水印輸出中心": {
+    "en": "MaxJim Tech. — Engineering simulation images and watermarked export",
+    "ja": "MaxJim Tech. — 工学シミュレーション画像・透かし出力センター",
+    "de": "MaxJim Tech. — Simulationsbilder und Wasserzeichenexport",
+    "fr": "MaxJim Tech. — Images de simulation technique et export avec filigrane"
+  },
+  "所有輸出之 3D 模擬圖、2D 翼型圖、氣動極曲線與工程數據報告照片均自動烙印「肇祥企業社 MaxJim Tech.」防偽浮水印與正式抬頭。": {
+    "en": "All exported 3D simulations, 2D airfoils, aerodynamic polars and report images include the MaxJim Tech. watermark and official letterhead.",
+    "ja": "出力する 3D 解析図、2D 翼型図、空力極曲線、報告画像には MaxJim Tech. の透かしと正式ヘッダーが自動付与されます。",
+    "de": "Alle exportierten 3D-Simulationen, 2D-Profile, Polaren und Berichtsbilder erhalten MaxJim-Tech.-Wasserzeichen und offiziellen Briefkopf.",
+    "fr": "Toutes les images 3D, profils 2D, polaires et rapports exportés portent le filigrane et l’en-tête officiel MaxJim Tech."
+  },
+  "1. 綜合工程數據總表照片 (3D+翼型+極曲線+KPI)": {
+    "en": "1. Combined engineering data image (3D+Airfoil+Polar+KPI)",
+    "ja": "1. 総合設計データ画像 (3D+翼型+極曲線+KPI)",
+    "de": "1. Gesamtbild der Konstruktionsdaten (3D+Profil+Polare+KPI)",
+    "fr": "1. Image récapitulative des données techniques (3D+Profil aérodynamique+Polaire+KPI)"
+  },
+  "2. 3D 氣動模擬高解析特寫照片": {
+    "en": "2. High-resolution 3D aerodynamic close-up",
+    "ja": "2. 高解像度 3D 空力解析クローズアップ",
+    "de": "2. Hochauflösende 3D-Aerodynamik-Nahaufnahme",
+    "fr": "2. Gros plan aérodynamique 3D haute résolution"
+  },
+  "3. 氣動極曲線與結構力學四合一數據圖表照片": {
+    "en": "3. Four-panel aerodynamic and structural chart image",
+    "ja": "3. 空力極曲線・構造力学 4 分割グラフ画像",
+    "de": "3. Vierfachdiagramm für Polaren und Strukturmechanik",
+    "fr": "3. Image de quatre graphiques aérodynamiques et structurels"
+  },
+  "下載 PNG 浮水印數據照片": {
+    "en": "Download watermarked PNG data image",
+    "ja": "透かし付き PNG データ画像をダウンロード",
+    "de": "PNG-Datenbild mit Wasserzeichen herunterladen",
+    "fr": "Télécharger l’image PNG des données avec filigrane"
+  },
+  "自動診斷氣動與結構弱點並套用最佳補強方案": {
+    "en": "Diagnose aerodynamic and structural weaknesses and apply optimal augmentation",
+    "ja": "空力・構造の弱点を自動診断し最適な補強を適用",
+    "de": "Aerodynamische und strukturelle Schwächen erkennen und optimale Verstärkung anwenden",
+    "fr": "Diagnostiquer les faiblesses aérodynamiques et structurelles et appliquer le renforcement optimal"
+  },
+  "輸出帶有 MaxJim Tech 浮水印與肇祥企業社抬頭之高解析度工程數據照片": {
+    "en": "Export high-resolution engineering images with MaxJim Tech watermark and letterhead",
+    "ja": "MaxJim Tech の透かしとヘッダー付き高解像度設計データ画像を出力",
+    "de": "Hochauflösende Konstruktionsbilder mit MaxJim-Tech-Wasserzeichen und Briefkopf exportieren",
+    "fr": "Exporter des images techniques haute résolution avec filigrane et en-tête MaxJim Tech"
+  },
+  "網站工具導覽": {
+    "en": "Online tools navigation",
+    "ja": "オンラインツール一覧",
+    "de": "Navigation der Online-Werkzeuge",
+    "fr": "Navigation des outils en ligne"
+  },
+  "搜尋機型、國家、翼型或構型...": {
+    "en": "Search model, country, airfoil or configuration...",
+    "ja": "機種、国、翼型、構成を検索...",
+    "de": "Modell, Land, Profil oder Konfiguration suchen...",
+    "fr": "Rechercher modèle, pays, profil ou configuration..."
+  },
+  "關閉新增機型視窗": {
+    "en": "Close add-model window",
+    "ja": "機種追加画面を閉じる",
+    "de": "Modellfenster schließen",
+    "fr": "Fermer l’ajout de modèle"
+  },
+  "關閉匯出規格視窗": {
+    "en": "Close specification export window",
+    "ja": "仕様出力画面を閉じる",
+    "de": "Spezifikationsexport schließen",
+    "fr": "Fermer l’export des spécifications"
+  },
+  "關閉數據照片視窗": {
+    "en": "Close data-image window",
+    "ja": "データ画像画面を閉じる",
+    "de": "Datenbildfenster schließen",
+    "fr": "Fermer l’image des données"
+  },
+  "NACA 64-212 (層流低阻長航時翼型)": {
+    "en": "NACA 64-212 (Low-drag laminar endurance airfoil)",
+    "ja": "NACA 64-212 (低抗力層流長時間滞空翼型)",
+    "de": "NACA 64-212 (Widerstandsarmes Laminarprofil für lange Flugdauer)",
+    "fr": "NACA 64-212 (Profil laminaire à faible traînée et grande autonomie)"
+  },
+  "6系列層流翼型，前40%弦長維持順壓梯度層流邊界層，摩擦阻力極低，廣泛用於 MQ-9 等長滯空無人機。": {
+    "en": "6-series laminar airfoil; favorable pressure gradient over the first 40% chord gives very low skin friction. Widely used on endurance UAVs such as MQ-9.",
+    "ja": "6 系層流翼型。前方 40% 翼弦で順圧力勾配の層流境界層を維持し、摩擦抗力が極めて低い。MQ-9 などの長時間滞空 UAV に広く使用。",
+    "de": "Laminarprofil der 6er-Reihe mit günstigem Druckgradienten über die ersten 40% der Tiefe und sehr geringer Reibung; verbreitet bei Langzeit-UAVs wie MQ-9.",
+    "fr": "Profil laminaire série 6 : gradient favorable sur les premiers 40% de corde, très faible frottement, utilisé sur des drones à grande autonomie comme le MQ-9."
+  },
+  "NACA 4415 (高升力厚翼型)": {
+    "en": "NACA 4415 (High-lift thick airfoil)",
+    "ja": "NACA 4415 (高揚力厚翼型)",
+    "de": "NACA 4415 (Dickes Hochauftriebsprofil)",
+    "fr": "NACA 4415 (Profil épais à forte portance)"
+  },
+  "4%高彎度、15%相對厚度，提供充裕的主樑結構高度與溫和失速特性，適用中大型戰術雙尾桁無人機。": {
+    "en": "4% camber and 15% thickness provide ample spar depth and gentle stall characteristics for medium/large tactical twin-boom UAVs.",
+    "ja": "キャンバー 4%、相対厚さ 15% で主桁高さと穏やかな失速特性を確保。中大型戦術双胴 UAV に適する。",
+    "de": "4% Wölbung und 15% relative Dicke bieten viel Holmhöhe und sanftes Überziehen für mittlere/große taktische Doppelrumpf-UAVs.",
+    "fr": "Cambrure de 4% et épaisseur relative de 15% offrant une bonne hauteur de longeron et un décrochage progressif pour drones tactiques bipoutres moyens ou grands."
+  },
+  "NACA 4412 (經典高升力翼型)": {
+    "en": "NACA 4412 (Classic high-lift airfoil)",
+    "ja": "NACA 4412 (古典的高揚力翼型)",
+    "de": "NACA 4412 (Klassisches Hochauftriebsprofil)",
+    "fr": "NACA 4412 (Profil classique à forte portance)"
+  },
+  "高升阻比與高巡航效率兼具的經典戰術無人機翼型，短場起降性能優異。": {
+    "en": "Classic tactical UAV airfoil with high lift-to-drag ratio, efficient cruise and excellent short-field performance.",
+    "ja": "高揚抗比と高巡航効率を備え、短距離離着陸に優れる古典的戦術 UAV 翼型。",
+    "de": "Klassisches taktisches UAV-Profil mit hoher Gleitzahl, effizientem Reiseflug und guten Kurzstarteigenschaften.",
+    "fr": "Profil classique de drone tactique alliant finesse élevée, croisière efficace et bonnes performances sur terrain court."
+  },
+  "NACA 2412 (通用穩定巡航翼型)": {
+    "en": "NACA 2412 (General-purpose stable cruise airfoil)",
+    "ja": "NACA 2412 (汎用安定巡航翼型)",
+    "de": "NACA 2412 (Universelles stabiles Reiseflugprofil)",
+    "fr": "NACA 2412 (Profil de croisière stable polyvalent)"
+  },
+  "2%中等彎度，俯仰力矩小，尾翼配平阻力低，適合中小型偵察固定翼。": {
+    "en": "Moderate 2% camber, low pitching moment and low tail trim drag; suitable for small/medium reconnaissance fixed-wing UAVs.",
+    "ja": "中程度の 2% キャンバー、低い縦揺れモーメントと尾翼トリム抗力。中小型偵察固定翼機向け。",
+    "de": "Mäßige 2% Wölbung, kleines Nickmoment und geringer Trimmwiderstand; für kleine/mittlere Aufklärungs-Starrflügler.",
+    "fr": "Cambrure modérée de 2%, faible moment de tangage et faible traînée d’équilibrage ; pour petits et moyens drones de reconnaissance à voilure fixe."
+  },
+  "NACA 0012 (對稱翼型 / 旋翼與高速載具)": {
+    "en": "NACA 0012 (Symmetric airfoil / Rotors and high-speed vehicles)",
+    "ja": "NACA 0012 (対称翼型 / ローター・高速機)",
+    "de": "NACA 0012 (Symmetrisches Profil / Rotoren und Hochgeschwindigkeitsfahrzeuge)",
+    "fr": "NACA 0012 (Profil symétrique / Rotors et véhicules rapides)"
+  },
+  "零彎度對稱剖面，壓力中心幾乎不隨攻角移動，廣泛用於無人直升機主旋翼、研究載具與全動尾翼。": {
+    "en": "Zero-camber symmetric section with an almost fixed pressure center across incidence; used for uncrewed helicopter rotors, research vehicles and all-moving tails.",
+    "ja": "キャンバーゼロの対称断面で、迎角変化時の圧力中心移動が小さい。無人ヘリ主ローター、研究機、全遊動尾翼に使用。",
+    "de": "Symmetrisches Profil ohne Wölbung mit nahezu festem Druckpunkt; für unbemannte Hubschrauberrotoren, Forschungsflugzeuge und Pendelleitwerke.",
+    "fr": "Profil symétrique sans cambrure, à centre de pression presque fixe ; utilisé pour rotors d’hélicoptères sans pilote, véhicules de recherche et empennages monoblocs."
+  },
+  "Selig S1223 (低雷諾數極高升力翼型)": {
+    "en": "Selig S1223 (Very-high-lift low-Reynolds airfoil)",
+    "ja": "Selig S1223 (低レイノルズ数・超高揚力翼型)",
+    "de": "Selig S1223 (Extremes Hochauftriebsprofil bei niedriger Reynolds-Zahl)",
+    "fr": "Selig S1223 (Profil à très forte portance à faible Reynolds)"
+  },
+  "專為低雷諾數 (Re < 5×10⁵) 重載無人機與太陽能機設計，具備凹入式後緣增升結構，CLmax 可突破 2.1。": {
+    "en": "Designed for low-Reynolds (Re < 5×10⁵) heavy-lift and solar UAVs; a concave high-lift trailing edge can exceed CLmax 2.1.",
+    "ja": "低レイノルズ数 (Re < 5×10⁵) の重量物用・太陽光 UAV 向け。凹型後縁の高揚力構造で CLmax は 2.1 を超え得る。",
+    "de": "Für Schwerlast- und Solar-UAVs bei Re < 5×10⁵; konkave Hochauftriebshinterkante ermöglicht CLmax über 2.1.",
+    "fr": "Conçu pour drones lourds et solaires à faible Reynolds (Re < 5×10⁵) ; le bord de fuite concave peut porter CLmax au-delà de 2.1."
+  },
+  "Eppler 330 Reflex (無尾飛翼自配平反彎度翼型)": {
+    "en": "Eppler 330 Reflex (Self-trimming reflex airfoil for flying wings)",
+    "ja": "Eppler 330 Reflex (無尾翼用自動トリム反り上げ翼型)",
+    "de": "Eppler 330 Reflex (Selbsttrimmendes Reflexprofil für Nurflügler)",
+    "fr": "Eppler 330 Reflex (Profil reflex autoéquilibré pour aile volante)"
+  },
+  "後緣具正反彎度 (Reflex Camber)，產生正零升俯仰力矩 (+Cm0)，使無尾飛翼無需水平尾翼即可達成縱向靜穩定配平。": {
+    "en": "Reflex trailing edge generates positive zero-lift pitching moment (+Cm0), allowing longitudinal static trim of flying wings without a horizontal tail.",
+    "ja": "後縁の反り上げ (Reflex Camber) が正のゼロ揚力ピッチモーメント (+Cm0) を生み、水平尾翼なしで無尾翼の縦静安定トリムを実現。",
+    "de": "Reflexhinterkante erzeugt ein positives Nullauftriebs-Nickmoment (+Cm0) und ermöglicht statische Längstrimmung ohne Höhenleitwerk.",
+    "fr": "Le bord de fuite reflex produit un moment à portance nulle positif (+Cm0), permettant l’équilibrage longitudinal statique d’une aile volante sans empennage horizontal."
+  },
+  "MH 114 (VTOL 複合翼高效巡航翼型)": {
+    "en": "MH 114 (Efficient cruise airfoil for hybrid-wing VTOL)",
+    "ja": "MH 114 (複合翼 VTOL 用高効率巡航翼型)",
+    "de": "MH 114 (Effizientes Reiseflugprofil für Hybrid-VTOL)",
+    "fr": "MH 114 (Profil de croisière efficace pour VTOL hybride)"
+  },
+  "專為電動垂直起降複合翼 (QuadPlane) 開發，降低過渡段失速速度並最大化平飛巡航升阻比。": {
+    "en": "Developed for electric hybrid VTOL (QuadPlane), reducing transition stall speed and maximizing level-cruise lift-to-drag ratio.",
+    "ja": "電動複合翼 VTOL (QuadPlane) 用に開発。遷移時の失速速度を低減し、水平巡航の揚抗比を最大化。",
+    "de": "Für elektrische Hybrid-VTOL (QuadPlane); verringert die Überziehgeschwindigkeit im Übergang und maximiert die Reiseflug-Gleitzahl.",
+    "fr": "Développé pour VTOL électrique hybride (QuadPlane), réduisant la vitesse de décrochage en transition et maximisant la finesse en croisière horizontale."
+  },
+  "NASA SC(2)-0610 (超臨界高亞音速翼型)": {
+    "en": "NASA SC(2)-0610 (Supercritical high-subsonic airfoil)",
+    "ja": "NASA SC(2)-0610 (超臨界高亜音速翼型)",
+    "de": "NASA SC(2)-0610 (Überkritisches Profil für hohen Unterschall)",
+    "fr": "NASA SC(2)-0610 (Profil supercritique haut subsonique)"
+  },
+  "平坦上表面延遲激波生成，提高臨界馬赫數 (M_crit > 0.78)，適用於 X-47B 與高空高速噴射無人機。": {
+    "en": "A flat upper surface delays shock formation and raises critical Mach (M_crit > 0.78); suited to X-47B and high-altitude, high-speed jet UAVs.",
+    "ja": "平坦な上面が衝撃波発生を遅らせ、臨界マッハ数 (M_crit > 0.78) を向上。X-47B や高高度高速ジェット UAV 向け。",
+    "de": "Flache Oberseite verzögert Stoßwellen und erhöht die kritische Mach-Zahl (M_crit > 0.78); für X-47B und schnelle Höhen-Jet-UAVs.",
+    "fr": "L’extrados plat retarde les chocs et augmente le Mach critique (M_crit > 0.78) ; adapté au X-47B et aux drones à réaction rapides de haute altitude."
+  },
+  "標準平直翼尖": {
+    "en": "Standard plain wingtip",
+    "ja": "標準直線翼端",
+    "de": "Standard-Flügelspitze",
+    "fr": "Extrémité d’aile droite standard"
+  },
+  "融合式上揚小翼 (Blended)": {
+    "en": "Blended upward winglet (Blended)",
+    "ja": "ブレンデッド・ウィングレット (融合型)",
+    "de": "Gebogenes Blended-Winglet (Gebogen)",
+    "fr": "Ailette marginale relevée raccordée (Raccordé)"
+  },
+  "鯊魚鰭斜削小翼 (Sharklet)": {
+    "en": "Swept sharklet (Sharklet)",
+    "ja": "シャークレット (シャークレット)",
+    "de": "Pfeilförmiges Sharklet (Haifischflossen-Winglet)",
+    "fr": "Ailette marginale en aileron de requin (Ailette en aileron de requin)"
+  },
+  "分叉雙彎刀小翼 (Split Scimitar)": {
+    "en": "Split scimitar winglet (Split Scimitar)",
+    "ja": "分岐シミター・ウィングレット (分岐シミター)",
+    "de": "Geteiltes Scimitar-Winglet (Geteiltes Scimitar-Winglet)",
+    "fr": "Ailette marginale double en cimeterre (Double cimeterre)"
+  },
+  "端板/翼尖垂尾 (Endplate)": {
+    "en": "Endplate / Wingtip fin (Endplate)",
+    "ja": "端板 / 翼端垂直尾翼 (端板)",
+    "de": "Endplatte / Wingtip-Seitenleitwerk (Endplatte)",
+    "fr": "Plaque d’extrémité / Dérive marginale (Plaque d’extrémité)"
+  },
+  "標準後緣襟翼": {
+    "en": "Standard trailing-edge flap",
+    "ja": "標準後縁フラップ",
+    "de": "Standard-Hinterkantenklappe",
+    "fr": "Volet de bord de fuite standard"
+  },
+  "單開縫富勒襟翼 (Fowler)": {
+    "en": "Single-slotted Fowler flap (Fowler)",
+    "ja": "単隙間ファウラーフラップ (Fowler)",
+    "de": "Einspalt-Fowlerklappe (Fowler)",
+    "fr": "Volet Fowler à simple fente (Fowler)"
+  },
+  "前緣縫翼 + 富勒襟翼": {
+    "en": "Leading-edge slat + Fowler flap",
+    "ja": "前縁スラット + ファウラーフラップ",
+    "de": "Vorflügel + Fowlerklappe",
+    "fr": "Bec de bord d’attaque + volet Fowler"
+  },
+  "微渦流產生器陣列 (VG)": {
+    "en": "Micro vortex-generator array (VG)",
+    "ja": "微小ボルテックスジェネレーター列 (VG)",
+    "de": "Mikro-Wirbelgeneratorfeld (VG)",
+    "fr": "Réseau de microgénérateurs de tourbillons (VG)"
+  },
+  "7075-T6 航太鋁合金": {
+    "en": "7075-T6 Aerospace aluminum alloy",
+    "ja": "7075-T6 航空用アルミ合金",
+    "de": "7075-T6 Luftfahrt-Aluminiumlegierung",
+    "fr": "7075-T6 Alliage d’aluminium aéronautique"
+  },
+  "Toray T700 碳纖複合雙大樑": {
+    "en": "Toray T700 Carbon-composite twin spars",
+    "ja": "Toray T700 炭素繊維複合二重主桁",
+    "de": "Toray T700 Doppelholm aus Kohlefaserverbund",
+    "fr": "Toray T700 Double longeron en composite carbone"
+  },
+  "T800 高模量碳纖 + Nomex 蜂巢": {
+    "en": "T800 High-modulus carbon fiber + Nomex Honeycomb",
+    "ja": "T800 高弾性炭素繊維 + Nomex ハニカム",
+    "de": "T800 Hochmodul-Kohlefaser + Nomex Wabe",
+    "fr": "T800 Fibre de carbone à haut module + Nomex Nid d’abeilles"
+  },
+  "T1000 碳纖主樑 + 鈦合金翼根補強": {
+    "en": "T1000 Carbon-fiber spar + Titanium wing-root reinforcement",
+    "ja": "T1000 炭素繊維主桁 + チタン翼根補強",
+    "de": "T1000 Kohlefaserholm + Titan-Flügelwurzelverstärkung",
+    "fr": "T1000 Longeron en fibre de carbone + Renfort d’emplanture en titane"
+  },
+  "標準燃油 / LiPo (220Wh/kg)": {
+    "en": "Standard fuel / LiPo (220Wh/kg)",
+    "ja": "標準燃料 / LiPo (220Wh/kg)",
+    "de": "Standardkraftstoff / LiPo (220Wh/kg)",
+    "fr": "Carburant standard / LiPo (220Wh/kg)"
+  },
+  "高能量密度固態鋰電池 (420Wh/kg)": {
+    "en": "High-energy-density solid-state lithium battery (420Wh/kg)",
+    "ja": "高エネルギー密度全固体リチウム電池 (420Wh/kg)",
+    "de": "Festkörper-Lithiumakku mit hoher Energiedichte (420Wh/kg)",
+    "fr": "Batterie lithium à l’état solide à haute densité énergétique (420Wh/kg)"
+  },
+  "鈣鈦礦太陽能薄膜機翼 + 固態電池": {
+    "en": "Perovskite solar-film wing + solid-state battery",
+    "ja": "ペロブスカイト太陽電池薄膜翼 + 全固体電池",
+    "de": "Perowskit-Solarfolienflügel + Festkörperakku",
+    "fr": "Aile à film solaire pérovskite + batterie à l’état solide"
+  },
+  "液態氫燃料電池長航時系統": {
+    "en": "Liquid-hydrogen long-endurance fuel-cell system",
+    "ja": "液体水素燃料電池長時間滞空システム",
+    "de": "Flüssigwasserstoff-Brennstoffzellensystem für lange Flugdauer",
+    "fr": "Système à pile à combustible à hydrogène liquide de grande autonomie"
+  },
+  "渦輪增壓重油引擎 + 彎刀靜音槳": {
+    "en": "Turbocharged heavy-fuel engine + quiet scimitar propeller",
+    "ja": "過給重油エンジン + 静音シミタープロペラ",
+    "de": "Aufgeladener Schwerölmotor + leiser Scimitar-Propeller",
+    "fr": "Moteur turbo à carburant lourd + hélice silencieuse en cimeterre"
+  },
+  "JOUAV CW-30E (雙尾桁四軸複合翼 VTOL)": {
+    "en": "JOUAV CW-30E (Twin-boom quadrotor hybrid VTOL)",
+    "ja": "JOUAV CW-30E (双胴クアッド複合翼 VTOL)",
+    "de": "JOUAV CW-30E (Doppelrumpf-Quadrotor-Hybrid-VTOL)",
+    "fr": "JOUAV CW-30E (VTOL hybride bipoutre à quatre rotors)"
+  },
+  "Industrial / JOUAV": {
+    "en": "Industrial / JOUAV",
+    "ja": "産業用 / JOUAV",
+    "de": "Industrie / JOUAV",
+    "fr": "Industrie / JOUAV"
+  },
+  "4+1 複合翼 VTOL": {
+    "en": "4+1 hybrid wing VTOL",
+    "ja": "4+1 複合翼 VTOL",
+    "de": "4+1-Hybridflügel VTOL",
+    "fr": "Voilure hybride 4+1 VTOL"
+  },
+  "工業級 4+1 複合翼垂直起降無人機（四具垂直升力旋翼 + 一具後推巡航槳），兼具多旋翼免跑道垂直起降與固定翼長距離測繪巡航優勢。": {
+    "en": "Industrial 4+1 hybrid VTOL (four lift rotors + one cruise pusher), combining runway-free vertical flight with long-range fixed-wing mapping.",
+    "ja": "産業用 4+1 複合翼 VTOL（垂直揚力ローター 4 基 + 巡航推進プロペラ 1 基）。滑走路不要の垂直飛行と固定翼の長距離測量を両立。",
+    "de": "Industrieller 4+1-Hybrid-VTOL (vier Hubrotoren + ein Reiseflug-Druckpropeller), verbindet senkrechten Start ohne Piste mit Langstreckenvermessung.",
+    "fr": "VTOL industriel hybride 4+1 (quatre rotors de sustentation + une hélice propulsive), combinant décollage sans piste et cartographie longue distance à voilure fixe."
+  },
+  "平飛巡航時四具停止旋轉的垂直升力槳與支撐桿產生額外 18%~22% 寄生阻力，且死重降低有效酬載。": {
+    "en": "During cruise, four stopped lift rotors and supports add 18%~22% parasitic drag, while dead weight reduces useful payload.",
+    "ja": "巡航中は停止した揚力ローター 4 基と支柱が寄生抗力を 18%~22% 増加させ、死重が有効搭載量を減らす。",
+    "de": "Im Reiseflug verursachen vier stillstehende Hubrotoren und Streben 18%~22% zusätzlichen parasitären Widerstand; Totgewicht senkt die Nutzlast.",
+    "fr": "En croisière, les quatre rotors arrêtés et leurs supports ajoutent 18%~22% de traînée parasite ; le poids mort réduit la charge utile."
+  },
+  "加裝「順槳鎖定整流罩與鯊魚鰭小翼」，並將垂直起降電池升級為「420Wh/kg 固態鋰電池」，航時由 6.5h 大幅提升至 10.5h。": {
+    "en": "Add feather-lock fairings and sharklets, and upgrade the VTOL battery to 420Wh/kg solid-state lithium; endurance rises from 6.5h to 10.5h.",
+    "ja": "フェザー固定フェアリングとシャークレットを追加し、VTOL 電池を 420Wh/kg 全固体リチウムに更新。滞空時間は 6.5h から 10.5h に増加。",
+    "de": "Federstellungs-Verriegelungs-Verkleidungen und Sharklets ergänzen, VTOL-Akku auf 420Wh/kg Festkörper-Lithium aufrüsten; Flugdauer von 6.5h auf 10.5h.",
+    "fr": "Ajoutez carénages de verrouillage en drapeau et sharklets, et une batterie VTOL lithium solide 420Wh/kg ; autonomie de 6.5h à 10.5h."
+  },
+  "Wingcopter 198 (專利傾轉旋翼物流 VTOL)": {
+    "en": "Wingcopter 198 (Patented tilt-rotor logistics VTOL)",
+    "ja": "Wingcopter 198 (特許ティルトローター物流 VTOL)",
+    "de": "Wingcopter 198 (Patentierter Logistik-Kipprotor-VTOL)",
+    "fr": "Wingcopter 198 (VTOL logistique à rotors basculants brevetés)"
+  },
+  "Germany / Wingcopter": {
+    "en": "Germany / Wingcopter",
+    "ja": "ドイツ / Wingcopter",
+    "de": "Deutschland / Wingcopter",
+    "fr": "Allemagne / Wingcopter"
+  },
+  "Tilt-Rotor 傾轉": {
+    "en": "Tilt-Rotor",
+    "ja": "ティルトローター",
+    "de": "Kipprotor",
+    "fr": "Rotors basculants"
+  },
+  "採用前掠主翼與多傾轉旋翼機構，垂直起飛後旋翼傾轉 90° 轉為高效前拉螺旋槳，消除了傳統複合翼的死重與巡航廢阻。": {
+    "en": "Forward-swept wings and multiple tilting rotors rotate 90° after vertical takeoff to efficient tractor propulsion, avoiding conventional hybrid-wing dead weight and cruise drag.",
+    "ja": "前進翼と複数ティルトローターを採用。垂直離陸後に 90° 傾転し、高効率牽引推進に移行して従来複合翼の死重と巡航抗力を解消。",
+    "de": "Vorwärts gepfeilte Flügel und mehrere Kipprotoren schwenken nach dem Senkrechtstart um 90° in effizienten Zugpropellerbetrieb und vermeiden Totgewicht sowie Reiseflugwiderstand klassischer Hybridflügel.",
+    "fr": "Aile en flèche inversée et rotors multiples basculant de 90° après décollage vertical en hélices tractrices efficaces, évitant le poids mort et la traînée des hybrides classiques."
+  },
+  "傾轉過渡段 (Transition Corridor 12~22 m/s) 機翼處於半失速與旋翼下洗流耦合區，俯仰力矩非線性變化劇烈。": {
+    "en": "In the transition corridor (12~22 m/s), partial wing stall couples with rotor downwash, causing strong nonlinear pitching-moment changes.",
+    "ja": "遷移領域 (12~22 m/s) では翼の部分失速とローター後流が連成し、ピッチモーメントが強く非線形変化。",
+    "de": "Im Übergangsbereich (12~22 m/s) koppeln partieller Strömungsabriss und Rotorabwind mit starken nichtlinearen Nickmomentänderungen.",
+    "fr": "Dans le corridor de transition (12~22 m/s), décrochage partiel et souffle des rotors se couplent, produisant de fortes variations non linéaires du moment de tangage."
+  },
+  "配置「前緣微渦流產生器 (VG)」穩定過渡段氣流，並將傾轉伺服機構升級為「鈦合金諧波減速器 + 固態電池」。": {
+    "en": "Fit leading-edge micro vortex generators (VG) for transition flow stability and upgrade tilt servos to titanium harmonic drives + solid-state batteries.",
+    "ja": "前縁微小 VG で遷移流れを安定化し、ティルトサーボをチタン製ハーモニック減速機 + 全固体電池に更新。",
+    "de": "Mikro-Wirbelgeneratoren (VG) an der Vorderkante stabilisieren die Übergangsströmung; Kippservos auf Titan-Harmonic-Drive + Festkörperakku aufrüsten.",
+    "fr": "Installez des microgénérateurs de tourbillons (VG) au bord d’attaque et modernisez les servos avec réducteurs harmoniques en titane + batteries solides."
+  },
+  "DJI Matrice 350 RTK (旗艦工業巡檢四軸)": {
+    "en": "DJI Matrice 350 RTK (Flagship industrial inspection quadrotor)",
+    "ja": "DJI Matrice 350 RTK (最上位産業点検クアッドローター)",
+    "de": "DJI Matrice 350 RTK (Industrie-Inspektionsquadrokopter der Spitzenklasse)",
+    "fr": "DJI Matrice 350 RTK (Quadrirotor phare d’inspection industrielle)"
+  },
+  "Global Commercial / DJI": {
+    "en": "Global Commercial / DJI",
+    "ja": "世界の商用 / DJI",
+    "de": "Global kommerziell / DJI",
+    "fr": "Commercial mondial / DJI"
+  },
+  "Industrial X4": {
+    "en": "Industrial X4",
+    "ja": "産業用 X4",
+    "de": "Industrie-X4",
+    "fr": "Industriel X4"
+  },
+  "全球普及率最高之工業級全天候巡檢四旋翼無人機，採用下置折疊機臂與 5° 內傾馬達座設計以提升抗風滾轉穩定度。": {
+    "en": "Widely deployed industrial all-weather inspection quadrotor, with low folding arms and 5° inward-canted motor mounts for roll stability in wind.",
+    "ja": "世界的に普及する全天候産業点検クアッド機。下置折畳みアームと 5° 内傾モーター座で耐風ロール安定性を向上。",
+    "de": "Weit verbreiteter Allwetter-Industriequadrokopter mit tiefen Klapparmen und um 5° nach innen geneigten Motorhalterungen für Rollstabilität bei Wind.",
+    "fr": "Quadrirotor industriel d’inspection tous temps largement répandu, à bras repliables bas et supports moteurs inclinés de 5° vers l’intérieur pour la stabilité au vent."
+  },
+  "純多旋翼構型完全依賴旋翼動量變化產生升力，等效升阻比僅約 3.5~4.5，受電池能量密度限制滯空約 55 分鐘。": {
+    "en": "Pure multirotors generate lift entirely through rotor momentum; equivalent lift-to-drag is about 3.5~4.5, with battery-limited endurance around 55 minutes.",
+    "ja": "純マルチローターはローターの運動量変化のみで揚力を得る。等価揚抗比は約 3.5~4.5、電池密度に制限され滞空は約 55 分。",
+    "de": "Reine Multirotoren erzeugen Auftrieb durch Rotorimpuls; äquivalente Gleitzahl etwa 3.5~4.5, akkubegrenzte Flugdauer rund 55 Minuten.",
+    "fr": "Les multirotors purs tirent toute leur portance de la quantité de mouvement des rotors ; finesse équivalente 3.5~4.5, autonomie limitée par la batterie à environ 55 minutes."
+  },
+  "換裝「420Wh/kg 固態鋰電池組」與「T800 超輕量碳纖桁架 + 翼尖降噪小翼槳」，滯空時間可突破 90 分鐘。": {
+    "en": "Fit 420Wh/kg solid-state lithium batteries and T800 ultralight carbon trusses + quiet winglet propellers; endurance can exceed 90 minutes.",
+    "ja": "420Wh/kg 全固体リチウム電池と T800 超軽量炭素トラス + 低騒音翼端小翼プロペラに交換し、滞空 90 分超を目指す。",
+    "de": "420Wh/kg Festkörper-Lithiumakku und ultraleichte T800-Kohlefaserträger + leise Winglet-Propeller einsetzen; über 90 Minuten Flugdauer möglich.",
+    "fr": "Installez batteries lithium solides 420Wh/kg et treillis carbone T800 ultraléger + hélices à ailettes silencieuses ; autonomie pouvant dépasser 90 minutes."
+  },
+  "DJI FlyCart 30 (重型物流共軸八槳 X8)": {
+    "en": "DJI FlyCart 30 (Heavy logistics coaxial octocopter X8)",
+    "ja": "DJI FlyCart 30 (大型物流同軸 8 ローター X8)",
+    "de": "DJI FlyCart 30 (Schwerlast-Logistik-Koaxialoktokopter X8)",
+    "fr": "DJI FlyCart 30 (Octocoptère coaxial de logistique lourde X8)"
+  },
+  "Heavy Cargo X8": {
+    "en": "Heavy Cargo X8",
+    "ja": "重量貨物 X8",
+    "de": "Schwerlastfracht X8",
+    "fr": "Fret lourd X8"
+  },
+  "四軸八槳共軸構型 (Coaxial Octocopter) 重載山地物流無人機，最大起飛重量達 95kg，具備單軸動力失效保護與降落傘系統。": {
+    "en": "Four-axis coaxial octocopter for heavy mountain logistics, MTOW 95kg, with single-axis propulsion-failure protection and parachute.",
+    "ja": "4 軸同軸 8 ローターの山岳重量物流機。最大離陸重量 95kg、単軸動力故障保護とパラシュートを装備。",
+    "de": "Vierachsiger Koaxialoktokopter für schwere Berglogistik, maximale Startmasse 95kg, mit Einachs-Antriebsausfallschutz und Fallschirm.",
+    "fr": "Octocoptère coaxial à quatre axes de logistique lourde en montagne, masse au décollage 95kg, protection contre panne d’un axe et parachute."
+  },
+  "共軸上下槳之間存在約 12%~15% 誘導下洗流干擾損失，且滿載 30kg 貨物時機臂根部承受極大高頻交變彎矩。": {
+    "en": "Coaxial rotors lose about 12%~15% through downwash interference; with 30kg cargo, arm roots carry large high-frequency alternating bending moments.",
+    "ja": "同軸上下ローターの後流干渉損失は約 12%~15%。30kg 搭載時、アーム根元に大きな高周波交番曲げが作用。",
+    "de": "Koaxialrotoren verlieren etwa 12%~15% durch Abwindinterferenz; bei 30kg Fracht wirken große hochfrequente Wechselbiegemomente an den Armwurzeln.",
+    "fr": "Les rotors coaxiaux perdent environ 12%~15% par interférence de souffle ; avec 30kg de charge, les racines des bras subissent de forts moments alternés à haute fréquence."
+  },
+  "升級「T1000 碳纖機臂 + 鈦合金折疊鎖扣補強」，並優化上下槳差動螺距與固態電池系統。": {
+    "en": "Upgrade to T1000 carbon arms + reinforced titanium folding latches, and optimize differential rotor pitch and solid-state batteries.",
+    "ja": "T1000 炭素アーム + チタン折畳みラッチ補強に更新し、上下ローター差動ピッチと全固体電池を最適化。",
+    "de": "Auf T1000-Kohlefaserarme + verstärkte Titan-Klappverschlüsse aufrüsten; differentiellen Rotorpitch und Festkörperakkus optimieren.",
+    "fr": "Passez aux bras carbone T1000 + verrous pliants renforcés en titane et optimisez le pas différentiel et les batteries solides."
+  },
+  "Freefly Alta X (重載專業航拍/光達四軸)": {
+    "en": "Freefly Alta X (Heavy-lift professional imaging / LiDAR quadrotor)",
+    "ja": "Freefly Alta X (重量物用プロ空撮 / LiDAR クアッドローター)",
+    "de": "Freefly Alta X (Schwerlast-Quadrokopter für professionelle Luftbilder / LiDAR)",
+    "fr": "Freefly Alta X (Quadrirotor lourd pour imagerie professionnelle / LiDAR)"
+  },
+  "USA / Freefly Systems": {
+    "en": "USA / Freefly Systems",
+    "ja": "米国 / Freefly Systems",
+    "de": "USA / Freefly Systems",
+    "fr": "États-Unis / Freefly Systems"
+  },
+  "Heavy Quad 33\"": {
+    "en": "Heavy Quad 33\"",
+    "ja": "重量物用クアッド 33\"",
+    "de": "Schwerlast-Quad 33\"",
+    "fr": "Quadrirotor lourd 33\""
+  },
+  "搭載 33 吋超大折疊碳纖槳與主動抗振機臂 (ActiveBlade) 之重載四軸平台，降低了槳盤載荷以提升懸停效率。": {
+    "en": "Heavy-lift quadrotor with 33-inch folding carbon propellers and ActiveBlade vibration-control arms; lower disk loading improves hover efficiency.",
+    "ja": "33 インチ折畳み炭素プロペラと ActiveBlade 防振アームを備える重量物用クアッド。円板荷重低減でホバリング効率を向上。",
+    "de": "Schwerlast-Quadrokopter mit 33-Zoll-Kohlefaser-Klapppropellern und ActiveBlade-Schwingungsarmen; geringere Kreisflächenbelastung verbessert die Schwebeeffizienz.",
+    "fr": "Quadrirotor lourd avec hélices carbone repliables de 33 pouces et bras antivibratoires ActiveBlade ; charge du disque réduite pour un meilleur vol stationnaire."
+  },
+  "大直徑 33 吋旋翼在高速前飛與陣風下容易產生揮舞力矩與機臂結構共振。": {
+    "en": "Large 33-inch rotors are prone to flapping moments and arm resonance in fast forward flight and gusts.",
+    "ja": "大径 33 インチローターは高速前進・突風時にフラッピングモーメントとアーム共振が生じやすい。",
+    "de": "Große 33-Zoll-Rotoren neigen bei schnellem Vorwärtsflug und Böen zu Schlagmomenten und Armresonanzen.",
+    "fr": "Les grands rotors de 33 pouces favorisent les moments de battement et la résonance des bras en vol rapide et sous rafales."
+  },
+  "導入「T800 碳纖 + Nomex 阻尼夾芯機臂」抑制模態共振，並升級固態高倍率電池。": {
+    "en": "Use T800 carbon + Nomex damping-sandwich arms to suppress modal resonance, and upgrade to high-rate solid-state batteries.",
+    "ja": "T800 炭素 + Nomex 減衰サンドイッチアームでモード共振を抑制し、高レート全固体電池に更新。",
+    "de": "T800-Kohlefaserarme mit Nomex-Dämpfungskern gegen Modalresonanzen und hochstromfähige Festkörperakkus einsetzen.",
+    "fr": "Utilisez des bras sandwich amortissants carbone T800 + Nomex et des batteries solides à fort courant pour réduire les résonances modales."
+  },
+  "Airbus Zephyr S (平流層太陽能偽衛星 HAPS)": {
+    "en": "Airbus Zephyr S (Stratospheric solar pseudo-satellite HAPS)",
+    "ja": "Airbus Zephyr S (成層圏太陽光擬似衛星 HAPS)",
+    "de": "Airbus Zephyr S (Stratosphärischer Solar-Pseudosatellit HAPS)",
+    "fr": "Airbus Zephyr S (Pseudo-satellite solaire stratosphérique HAPS)"
+  },
+  "Europe / Airbus Defence": {
+    "en": "Europe / Airbus Defence",
+    "ja": "欧州 / Airbus Defence",
+    "de": "Europa / Airbus Defence",
+    "fr": "Europe / Airbus Defence"
+  },
+  "Solar HALE 偽衛星": {
+    "en": "Solar HALE Pseudo-satellite",
+    "ja": "Solar HALE 擬似衛星",
+    "de": "Solar HALE Pseudosatellit",
+    "fr": "Solar HALE Pseudo-satellite"
+  },
+  "超輕量化平流層太陽能無人機 (MTOW 僅 75kg、翼展 25m)，日間以太陽能薄膜充電並爬升至 21km，夜間依靠高比能電池滑翔巡航數週。": {
+    "en": "Ultralight stratospheric solar UAV (MTOW 75kg, span 25m); solar films charge batteries and support a daytime climb to 21km, with battery-powered night glide/cruise for weeks.",
+    "ja": "超軽量成層圏太陽光 UAV（MTOW 75kg、翼幅 25m）。昼間は薄膜太陽電池で充電し 21km へ上昇、夜間は高比エネルギー電池で滑空巡航し数週間飛行。",
+    "de": "Ultraleichtes stratosphärisches Solar-UAV (MTOW 75kg, Spannweite 25m); tagsüber Solarladung und Aufstieg auf 21km, nachts batteriegestützter Gleit-/Reiseflug über Wochen.",
+    "fr": "Drone solaire stratosphérique ultraléger (MTOW 75kg, envergure 25m) ; recharge et montée diurnes à 21km, puis plané/croisière nocturne sur batteries à haute énergie spécifique pendant des semaines."
+  },
+  "極低翼載荷 (2.8 kg/m²) 與超柔韌大展弦比機翼在穿越對流層亂流時極易遭受結構大撓度變形破壞。": {
+    "en": "Very low wing loading (2.8 kg/m²) and flexible high-aspect-ratio wings risk large-deflection structural damage in tropospheric turbulence.",
+    "ja": "極低翼面荷重 (2.8 kg/m²) と柔軟な高アスペクト比翼は、対流圏乱流通過時に大変形構造損傷を受けやすい。",
+    "de": "Sehr geringe Flächenbelastung (2.8 kg/m²) und flexible hochgestreckte Flügel bergen in troposphärischer Turbulenz große Verformungs- und Schadensrisiken.",
+    "fr": "La très faible charge alaire (2.8 kg/m²) et les ailes souples à grand allongement risquent des dommages par grandes déformations dans la turbulence troposphérique."
+  },
+  "採用「T1000 超高模量碳纖薄殼主樑」搭配「鈣鈦礦太陽能薄膜 + 420Wh/kg 固態鋰硫電池」與陣風減載主動副翼控制。": {
+    "en": "Use T1000 ultra-high-modulus thin-shell carbon spars, perovskite solar film + 420Wh/kg solid-state lithium-sulfur batteries, and active gust-alleviation ailerons.",
+    "ja": "T1000 超高弾性炭素薄殻主桁、ペロブスカイト太陽電池薄膜 + 420Wh/kg 全固体リチウム硫黄電池、突風荷重軽減用能動補助翼を採用。",
+    "de": "T1000-Dünnschalenholme aus Ultrahochmodul-Kohlefaser, Perowskit-Solarfolie + 420Wh/kg Festkörper-Lithium-Schwefel-Akkus und aktive Böenlastminderungs-Querruder einsetzen.",
+    "fr": "Utilisez des longerons minces T1000 à très haut module, un film solaire pérovskite + batteries lithium-soufre solides 420Wh/kg et des ailerons actifs d’allègement des rafales."
+  },
+  "綠色虛線: 中弧線 (Mean Camber) | 藍區: 上表面低壓吸力包絡 Cp(x/c) | 黃點: 1/4弦氣動中心": {
+    "en": "Green dashed: mean camber | Blue: upper-surface suction envelope Cp(x/c) | Yellow: 1/4-chord aerodynamic center",
+    "ja": "緑破線：平均キャンバー | 青：上面低圧吸引包絡 Cp(x/c) | 黄点：1/4 翼弦空力中心",
+    "de": "Grün gestrichelt: Wölbungslinie | Blau: Oberseiten-Saughülle Cp(x/c) | Gelb: aerodynamisches Zentrum bei 1/4 der Tiefe",
+    "fr": "Tirets verts : ligne moyenne | Bleu : aspiration d’extrados Cp(x/c) | Jaune : foyer à 1/4 de corde"
+  },
+  "MaxJim Tech • 肇祥企業社": {
+    "en": "MaxJim Tech • MaxJim Tech Inc.",
+    "ja": "MaxJim Tech • MaxJim Tech Inc.",
+    "de": "MaxJim Tech • MaxJim Tech Inc.",
+    "fr": "MaxJim Tech • MaxJim Tech Inc."
+  },
+  "攻角 α (°)": {
+    "en": "Angle of attack α (°)",
+    "ja": "迎角 α (°)",
+    "de": "Anstellwinkel α (°)",
+    "fr": "Incidence α (°)"
+  },
+  "展向無因次座標 2y/b": {
+    "en": "Dimensionless span coordinate 2y/b",
+    "ja": "無次元翼幅座標 2y/b",
+    "de": "Dimensionslose Spannweitenkoordinate 2y/b",
+    "fr": "Coordonnée d’envergure adimensionnelle 2y/b"
+  },
+  "局部升力係數 Cl(y)": {
+    "en": "Local lift coefficient Cl(y)",
+    "ja": "局所揚力係数 Cl(y)",
+    "de": "Lokaler Auftriebsbeiwert Cl(y)",
+    "fr": "Coefficient de portance local Cl(y)"
+  },
+  "升力係數 CL": {
+    "en": "Lift coefficient CL",
+    "ja": "揚力係数 CL",
+    "de": "Auftriebsbeiwert CL",
+    "fr": "Coefficient de portance CL"
+  },
+  "升阻比 L/D": {
+    "en": "Lift-to-drag ratio L/D",
+    "ja": "揚抗比 L/D",
+    "de": "Gleitzahl L/D",
+    "fr": "Finesse L/D"
+  },
+  "阻力係數 CD": {
+    "en": "Drag coefficient CD",
+    "ja": "抗力係数 CD",
+    "de": "Widerstandsbeiwert CD",
+    "fr": "Coefficient de traînée CD"
+  },
+  "俯仰力矩係數 Cm": {
+    "en": "Pitching moment coefficient Cm",
+    "ja": "縦揺れモーメント係数 Cm",
+    "de": "Nickmomentenbeiwert Cm",
+    "fr": "Coefficient de moment de tangage Cm"
+  },
+  "俯仰角 θ (°)": {
+    "en": "Pitch angle θ (°)",
+    "ja": "ピッチ角 θ (°)",
+    "de": "Nickwinkel θ (°)",
+    "fr": "Angle de tangage θ (°)"
+  },
+  "過載 G 值 (×5)": {
+    "en": "G load factor (×5)",
+    "ja": "G 荷重倍数 (×5)",
+    "de": "G-Lastvielfaches (×5)",
+    "fr": "Facteur de charge G (×5)"
+  },
+  "模擬時間 Time (s)": {
+    "en": "Simulation time Time (s)",
+    "ja": "解析時間 Time (s)",
+    "de": "Simulationszeit Time (s)",
+    "fr": "Temps de simulation Time (s)"
+  },
+  "物理量響應幅值": {
+    "en": "Physical response amplitude",
+    "ja": "物理量応答振幅",
+    "de": "Amplitude der physikalischen Antwort",
+    "fr": "Amplitude de réponse physique"
+  },
+  "展向位置 2y/b (翼根 0 → 翼尖 1)": {
+    "en": "Span position 2y/b (root 0 → tip 1)",
+    "ja": "翼幅位置 2y/b（翼根 0 → 翼端 1）",
+    "de": "Spannweitenposition 2y/b (Wurzel 0 → Spitze 1)",
+    "fr": "Position en envergure 2y/b (emplanture 0 → extrémité 1)"
+  },
+  "彎矩 M(y) [kN·m] / 應力比": {
+    "en": "Bending moment M(y) [kN·m] / Stress ratio",
+    "ja": "曲げモーメント M(y) [kN·m] / 応力比",
+    "de": "Biegemoment M(y) [kN·m] / Spannungsverhältnis",
+    "fr": "Moment fléchissant M(y) [kN·m] / Rapport de contrainte"
+  },
+  "最大升阻比 (L/D)": {
+    "en": "MaximumLift-to-drag ratio (L/D)",
+    "ja": "最大揚抗比 (L/D)",
+    "de": "MaximumGleitzahl (L/D)",
+    "fr": "MaximumFinesse (L/D)"
+  },
+  "長滯空能力": {
+    "en": "Endurance capability",
+    "ja": "長時間滞空能力",
+    "de": "Langzeitflugfähigkeit",
+    "fr": "Capacité de grande autonomie"
+  },
+  "推重比機動性": {
+    "en": "Thrust-to-weight maneuverability",
+    "ja": "推力重量比機動性",
+    "de": "Manövrierfähigkeit nach Schub-Gewichts-Verhältnis",
+    "fr": "Manœuvrabilité selon le rapport poussée/poids"
+  },
+  "結構安全裕度": {
+    "en": "Structural safety margin",
+    "ja": "構造安全余裕",
+    "de": "Strukturelle Sicherheitsreserve",
+    "fr": "Marge de sécurité structurelle"
+  },
+  "低速防失速裕度": {
+    "en": "Low-speed stall margin",
+    "ja": "低速失速余裕",
+    "de": "Langsamflug-Überziehreserve",
+    "fr": "Marge de décrochage à basse vitesse"
+  },
+  "酬載重量效率": {
+    "en": "Payload mass efficiency",
+    "ja": "搭載質量効率",
+    "de": "Nutzlast-Masseneffizienz",
+    "fr": "Efficacité de masse utile"
+  },
+  "配平攻角 α_trim ≈ {0}°": {
+    "en": "Trim angle of attack α_trim ≈ {0}°",
+    "ja": "トリム迎角 α_trim ≈ {0}°",
+    "de": "Trimm-Anstellwinkel α_trim ≈ {0}°",
+    "fr": "Incidence d’équilibrage α_trim ≈ {0}°"
+  },
+  "升力係數 CL (補強後)": {
+    "en": "Lift coefficient CL (Augmented)",
+    "ja": "揚力係数 CL (補強後)",
+    "de": "Auftriebsbeiwert CL (Verstärkt)",
+    "fr": "Coefficient de portance CL (Renforcé)"
+  },
+  "升阻比 L/D ÷ 20": {
+    "en": "Lift-to-drag ratio L/D ÷ 20",
+    "ja": "揚抗比 L/D ÷ 20",
+    "de": "Gleitzahl L/D ÷ 20",
+    "fr": "Finesse L/D ÷ 20"
+  },
+  "當前機翼展向 Cl(y) (含小翼補強)": {
+    "en": "Current wing spanwise Cl(y) (Including winglet augmentation)",
+    "ja": "現在の主翼翼幅方向 Cl(y) (ウィングレット補強込み)",
+    "de": "Aktuell spannweitig am Flügel Cl(y) (Mit Winglet-Verstärkung)",
+    "fr": "Aile actuelle selon l’envergure Cl(y) (Avec renforcement par ailettes)"
+  },
+  "理想橢圓升力分佈 (Prandtl 基準)": {
+    "en": "Ideal elliptical lift distribution (Prandtl Baseline)",
+    "ja": "理想楕円揚力分布 (Prandtl 基準)",
+    "de": "Ideale elliptische Auftriebsverteilung (Prandtl Referenz)",
+    "fr": "Distribution elliptique idéale de portance (Prandtl Référence)"
+  },
+  "補強後 CL(α)": {
+    "en": "Augmented CL(α)",
+    "ja": "補強後 CL(α)",
+    "de": "Verstärkt CL(α)",
+    "fr": "Renforcé CL(α)"
+  },
+  "原生基準 CL(α)": {
+    "en": "Original baseline CL(α)",
+    "ja": "元の基準 CL(α)",
+    "de": "Ursprüngliche Referenz CL(α)",
+    "fr": "Référence d’origine CL(α)"
+  },
+  "補強後升阻比 L/D": {
+    "en": "AugmentedLift-to-drag ratio L/D",
+    "ja": "補強後揚抗比 L/D",
+    "de": "VerstärktGleitzahl L/D",
+    "fr": "RenforcéFinesse L/D"
+  },
+  "原生基準 L/D": {
+    "en": "Original baseline L/D",
+    "ja": "元の基準 L/D",
+    "de": "Ursprüngliche Referenz L/D",
+    "fr": "Référence d’origine L/D"
+  },
+  "極曲線 CL vs CD": {
+    "en": "Polar CL vs CD",
+    "ja": "極曲線 CL vs CD",
+    "de": "Polare CL vs CD",
+    "fr": "Polaire CL vs CD"
+  },
+  "俯仰力矩 Cm(α) (斜率 < 0 為靜穩定)": {
+    "en": "Pitching moment Cm(α) (Slope < 0 indicates static stability)",
+    "ja": "ピッチモーメント Cm(α) (勾配 < 0 は静安定)",
+    "de": "Nickmoment Cm(α) (Steigung < 0 bedeutet statisch stabil)",
+    "fr": "Moment de tangage Cm(α) (Pente < 0 indique une stabilité statique)"
+  },
+  "截面彎矩 M(y) [kN·m]": {
+    "en": "Section bending moment M(y) [kN·m]",
+    "ja": "断面曲げモーメント M(y) [kN·m]",
+    "de": "Querschnittsbiegemoment M(y) [kN·m]",
+    "fr": "Moment fléchissant de section M(y) [kN·m]"
+  },
+  "主樑應力 σ(y) [×10 MPa]": {
+    "en": "Spar stress σ(y) [×10 MPa]",
+    "ja": "主桁応力 σ(y) [×10 MPa]",
+    "de": "Holmspannung σ(y) [×10 MPa]",
+    "fr": "Contrainte du longeron σ(y) [×10 MPa]"
+  },
+  "當前工作台機型 (含補強)": {
+    "en": "Current studio model (augmented)",
+    "ja": "現在の作業台機種（補強込み）",
+    "de": "Aktuelles Arbeitsmodell (verstärkt)",
+    "fr": "Modèle actuel de l’atelier (renforcé)"
+  },
+  "對照標竿：{0}": {
+    "en": "Reference benchmark：{0}",
+    "ja": "比較基準：{0}",
+    "de": "Vergleichsreferenz：{0}",
+    "fr": "Référence de comparaison：{0}"
+  },
+  "(垂直懸停)": {
+    "en": "(Vertical hover)",
+    "ja": "(垂直ホバリング)",
+    "de": "(Vertikaler Schwebeflug)",
+    "fr": "(Vol stationnaire vertical)"
+  },
+  "(傾轉過渡)": {
+    "en": "(Tilt transition)",
+    "ja": "(ティルト遷移)",
+    "de": "(Kippübergang)",
+    "fr": "(Transition par basculement)"
+  },
+  "(巡航)": {
+    "en": "(Cruise)",
+    "ja": "(巡航)",
+    "de": "(Reiseflug)",
+    "fr": "(Croisière)"
+  },
+  "CUSTOM": {
+    "en": "CUSTOM",
+    "ja": "カスタム",
+    "de": "BENUTZERDEFINIERT",
+    "fr": "PERSONNALISÉ"
+  },
+  "已啟用 {0} 項補強": {
+    "en": "Enabled {0} augmentations",
+    "ja": "有効 {0} 件の補強",
+    "de": "Aktiviert {0} Verstärkungen",
+    "fr": "Activé {0} renforcements"
+  },
+  "失速氣流分離警告 (STALL)": {
+    "en": "Stall separation warning (STALL)",
+    "ja": "失速・剥離警告 (失速)",
+    "de": "Warnung vor Strömungsabriss (STRÖMUNGSABRISS)",
+    "fr": "Alerte de décrochage et de décollement (DÉCROCHAGE)"
+  },
+  "高亞音速壓縮流區": {
+    "en": "High-subsonic compressible flow",
+    "ja": "高亜音速圧縮性流れ",
+    "de": "Hochsubsonische kompressible Strömung",
+    "fr": "Écoulement compressible haut subsonique"
+  },
+  "{0} kgf (過載 {1}G)": {
+    "en": "{0} kgf (Load factor {1}G)",
+    "ja": "{0} kgf (荷重倍数 {1}G)",
+    "de": "{0} kgf (Lastvielfaches {1}G)",
+    "fr": "{0} kgf (Facteur de charge {1}G)"
+  },
+  "翼面積 S: {0} m² | e: {1}": {
+    "en": "Wing area S: {0} m² | e: {1}",
+    "ja": "翼面積 S: {0} m² | e: {1}",
+    "de": "Flügelfläche S: {0} m² | e: {1}",
+    "fr": "Surface alaire S: {0} m² | e: {1}"
+  },
+  "需用功率: {0} kW": {
+    "en": "Required power: {0} kW",
+    "ja": "必要動力: {0} kW",
+    "de": "Erforderliche Leistung: {0} kW",
+    "fr": "Puissance requise: {0} kW"
+  },
+  "結構安全": {
+    "en": "Structurally safe",
+    "ja": "構造安全",
+    "de": "Strukturell sicher",
+    "fr": "Structure sûre"
+  },
+  "需補強警告": {
+    "en": "Augmentation required",
+    "ja": "補強が必要",
+    "de": "Verstärkung erforderlich",
+    "fr": "Renforcement nécessaire"
+  },
+  "主翼結構與前後主樑 (Wing & Spars)": {
+    "en": "Wing structure and front/rear spars (Wing & Spars)",
+    "ja": "主翼構造・前後主桁 (翼・主桁)",
+    "de": "Flügelstruktur und Vorder-/Hinterholme (Flügel und Holme)",
+    "fr": "Structure de l’aile et longerons avant/arrière (Aile et longerons)"
+  },
+  "機身單體殼與尾翼組 (Fuselage & Tail)": {
+    "en": "Monocoque fuselage and tail assembly (Fuselage & Tail)",
+    "ja": "モノコック胴体・尾翼組立 (胴体・尾翼)",
+    "de": "Monocoque-Rumpf und Leitwerk (Rumpf und Leitwerk)",
+    "fr": "Fuselage monocoque et empennage (Fuselage et empennage)"
+  },
+  "推進動力與螺旋槳模組 (Propulsion)": {
+    "en": "Powerplant and propeller module (Propulsion)",
+    "ja": "動力・プロペラモジュール (推進)",
+    "de": "Triebwerks- und Propellermodul (Antrieb)",
+    "fr": "Module moteur et hélice (Propulsion)"
+  },
+  "{0}具動力單元 (推力 {1}N)": {
+    "en": "{0}power units (Thrust {1}N)",
+    "ja": "{0}基の動力ユニット (推力 {1}N)",
+    "de": "{0}Antriebseinheiten (Schub {1}N)",
+    "fr": "{0}groupes moteurs (Poussée {1}N)"
+  },
+  "能源儲能系統 (Fuel / Battery Pack)": {
+    "en": "Energy storage system (Fuel / Battery Pack)",
+    "ja": "エネルギー貯蔵系 (燃料 / 電池パック)",
+    "de": "Energiespeichersystem (Kraftstoff / Akkupaket)",
+    "fr": "Système de stockage d’énergie (Carburant / Batterie)"
+  },
+  "飛控航電與衛通資料鏈 (Avionics & SATCOM)": {
+    "en": "Flight avionics and satellite data link (Avionics & SATCOM)",
+    "ja": "飛行制御電子機器・衛星通信データリンク (電子機器・衛星通信)",
+    "de": "Flugavionik und Satellitendatenlink (Avionik und Satellitenkommunikation)",
+    "fr": "Avionique et liaison de données satellitaire (Avionique et communications satellitaires)"
+  },
+  "三餘度飛控 + RTK + 抗干擾資料鏈": {
+    "en": "Triple-redundant flight control + RTK + interference-resistant data link",
+    "ja": "三重冗長飛行制御 + RTK + 耐干渉データリンク",
+    "de": "Dreifach redundante Flugsteuerung + RTK + störfester Datenlink",
+    "fr": "Commande de vol triple redondante + RTK + liaison résistante aux interférences"
+  },
+  "光電紅外線吊艙與任務酬載 (EO/IR Payload)": {
+    "en": "EO/IR gimbal and mission payload (EO/IR Payload)",
+    "ja": "光学赤外線ジンバル・ミッション搭載物 (EO/IR 搭載物)",
+    "de": "EO/IR-Gondel und Missionsnutzlast (EO/IR-Nutzlast)",
+    "fr": "Nacelle EO/IR et charge utile de mission (Charge utile EO/IR)"
+  },
+  "多光譜 EO/IR 陀螺穩定吊艙 + 任務掛載": {
+    "en": "Multispectral gyro-stabilized EO/IR gimbal + mission payload",
+    "ja": "マルチスペクトル EO/IR ジャイロ安定ジンバル + ミッション搭載物",
+    "de": "Multispektrale kreiselstabilisierte EO/IR-Gondel + Missionsnutzlast",
+    "fr": "Nacelle EO/IR multispectrale gyrostabilisée + charge de mission"
+  },
+  "標準內部偵蒐酬載": {
+    "en": "Standard internal sensing payload",
+    "ja": "標準内蔵観測搭載物",
+    "de": "Standardmäßige interne Sensornutzlast",
+    "fr": "Charge interne de détection standard"
+  },
+  "總質量: {0} kg | 預估 BOM: ${1}": {
+    "en": "Total mass: {0} kg | Estimated BOM: ${1}",
+    "ja": "総質量: {0} kg | 推定 BOM: ${1}",
+    "de": "Gesamtmasse: {0} kg | Geschätzte Stückliste: ${1}",
+    "fr": "Masse totale: {0} kg | Nomenclature estimée: ${1}"
+  },
+  "翼展/軸距": {
+    "en": "Span / Wheelbase",
+    "ja": "翼幅 / 軸距",
+    "de": "Spannweite / Radstand",
+    "fr": "Envergure / Empattement"
+  },
+  "起飛重": {
+    "en": "Takeoff mass",
+    "ja": "離陸重量",
+    "de": "Startmasse",
+    "fr": "Masse au décollage"
+  },
+  "滯空": {
+    "en": "Endurance",
+    "ja": "滞空時間",
+    "de": "Flugdauer",
+    "fr": "Autonomie"
+  },
+  "已載入「{0}」至 3D 設計台": {
+    "en": "Loaded “{0}” into the 3D studio",
+    "ja": "「{0}」を 3D 設計台に読み込みました",
+    "de": "„{0}“ in den 3D-Arbeitsbereich geladen",
+    "fr": "« {0} » chargé dans l’atelier 3D"
+  },
+  "⚠️ 原生構型極限瓶頸：{0}": {
+    "en": "⚠️ Baseline configuration limitation: {0}",
+    "ja": "⚠️ 基準構成の限界：{0}",
+    "de": "⚠️ Grenze der Ausgangskonfiguration: {0}",
+    "fr": "⚠️ Limite de la configuration de base : {0}"
+  },
+  "✦ 專屬工程補強建議：{0}": {
+    "en": "✦ Model-specific engineering recommendation: {0}",
+    "ja": "✦ 専用工学補強提案：{0}",
+    "de": "✦ Modellspezifische Verstärkungsempfehlung: {0}",
+    "fr": "✦ Recommandation de renforcement spécifique : {0}"
+  },
+  "翼展 Span": {
+    "en": "Span Span",
+    "ja": "翼幅 Span",
+    "de": "Spannweite Span",
+    "fr": "Envergure Span"
+  },
+  "MTOW 重量": {
+    "en": "MTOW Weight",
+    "ja": "MTOW 重量",
+    "de": "MTOW Gewicht",
+    "fr": "MTOW Poids"
+  },
+  "巡航速度": {
+    "en": "Cruise speed",
+    "ja": "巡航速度",
+    "de": "Reisegeschwindigkeit",
+    "fr": "Vitesse de croisière"
+  },
+  "標準滯空": {
+    "en": "Baseline endurance",
+    "ja": "標準滞空時間",
+    "de": "Referenzflugdauer",
+    "fr": "Autonomie de base"
+  },
+  "最大推力": {
+    "en": "MaximumThrust",
+    "ja": "最大推力",
+    "de": "MaximumSchub",
+    "fr": "MaximumPoussée"
+  },
+  "已切換至 3D 工作台：{0}": {
+    "en": "Switched to 3D studio: {0}",
+    "ja": "3D 作業台へ切り替えました：{0}",
+    "de": "Zum 3D-Arbeitsbereich gewechselt: {0}",
+    "fr": "Passage à l’atelier 3D : {0}"
+  },
+  "已套用「{0}」最佳氣動與結構補強方案！": {
+    "en": "Applied optimal aerodynamic and structural augmentation for “{0}”!",
+    "ja": "「{0}」の最適空力・構造補強を適用しました！",
+    "de": "Optimale Aerodynamik- und Strukturverstärkung für „{0}“ angewendet!",
+    "fr": "Renforcement aérodynamique et structurel optimal appliqué à « {0} » !"
+  },
+  "載入": {
+    "en": "Load",
+    "ja": "読み込む",
+    "de": "Laden",
+    "fr": "Charger"
+  },
+  "已載入並套用補強配置至 3D 工作台": {
+    "en": "Loaded and applied augmentation in the 3D studio",
+    "ja": "3D 作業台に読み込み、補強構成を適用しました",
+    "de": "Verstärkung geladen und im 3D-Arbeitsbereich angewendet",
+    "fr": "Configuration renforcée chargée et appliquée dans l’atelier 3D"
+  },
+  "執行中：{0}": {
+    "en": "Running：{0}",
+    "ja": "実行中：{0}",
+    "de": "Läuft：{0}",
+    "fr": "En cours：{0}"
+  },
+  "自動模擬測試課目完成！數據已記錄至波形圖": {
+    "en": "Automated simulation complete! Data recorded in the waveform chart",
+    "ja": "自動解析試験完了！データを波形図に記録しました",
+    "de": "Automatisierter Simulationstest abgeschlossen! Daten im Zeitdiagramm aufgezeichnet",
+    "fr": "Simulation automatique terminée ! Données enregistrées dans le graphique temporel"
+  },
+  "已切換載具模型：{0}": {
+    "en": "Vehicle model switched: {0}",
+    "ja": "機体モデルを切り替えました：{0}",
+    "de": "Fahrzeugmodell gewechselt: {0}",
+    "fr": "Modèle de véhicule changé : {0}"
+  },
+  "已套用 AI 氣動與結構最佳化補強套件！(誘導阻力下降、結構安全裕度與航時全面提升)": {
+    "en": "AI aerodynamic/structural augmentation applied! (Reduced induced drag, improved structural margins and endurance)",
+    "ja": "AI 空力・構造最適化補強を適用！（誘導抗力低減、構造余裕・滞空時間向上）",
+    "de": "KI-Aerodynamik-/Strukturverstärkung angewendet! (Weniger induzierter Widerstand, höhere Strukturreserve und Flugdauer)",
+    "fr": "Renforcement aérodynamique/structurel IA appliqué ! (Traînée induite réduite, marges et autonomie accrues)"
+  },
+  "已重置為該機型原廠基準幾何參數": {
+    "en": "Reset to this model’s original baseline geometry",
+    "ja": "この機種の初期基準形状に戻しました",
+    "de": "Auf ursprüngliche Modellgeometrie zurückgesetzt",
+    "fr": "Géométrie de base du modèle rétablie"
+  },
+  "開始執行風洞攻角自動掃描 (-8° 至 +22°)": {
+    "en": "Starting automatic wind-tunnel incidence sweep (-8° to +22°)",
+    "ja": "風洞迎角自動掃引を開始（-8° ～ +22°）",
+    "de": "Automatischer Windkanal-Anstellwinkel-Sweep startet (-8° bis +22°)",
+    "fr": "Démarrage du balayage d’incidence en soufflerie (-8° à +22°)"
+  },
+  "已完成水平巡航配平：α_trim = {0}°, 過載 = {1}G": {
+    "en": "Level-cruise trim complete: α_trim = {0}°, load factor = {1}G",
+    "ja": "水平巡航トリム完了：α_trim = {0}°、荷重倍数 = {1}G",
+    "de": "Horizontalflugtrimmung abgeschlossen: α_trim = {0}°, Lastvielfaches = {1}G",
+    "fr": "Équilibrage en croisière horizontale terminé : α_trim = {0}°, facteur de charge = {1}G"
+  },
+  "已停止模擬測試": {
+    "en": "Simulation test stopped",
+    "ja": "解析試験を停止しました",
+    "de": "Simulationstest gestoppt",
+    "fr": "Essai de simulation arrêté"
+  },
+  "自訂研發無人飛行載具": {
+    "en": "Custom research UAV",
+    "ja": "独自開発無人航空機",
+    "de": "Eigenes Forschungs-UAV",
+    "fr": "Drone de recherche personnalisé"
+  },
+  "自訂研發": {
+    "en": "Custom development",
+    "ja": "独自開発",
+    "de": "Eigene Entwicklung",
+    "fr": "Développement personnalisé"
+  },
+  "自訂構型基準已建立，可持續透過風洞攻角掃描檢驗極限失速特性。": {
+    "en": "Custom baseline created; use wind-tunnel angle sweeps to investigate stall limits.",
+    "ja": "独自構成基準を作成しました。風洞迎角掃引で失速限界を継続検討できます。",
+    "de": "Eigene Referenz erstellt; Überziehgrenzen lassen sich mit Windkanal-Sweeps untersuchen.",
+    "fr": "Configuration de base personnalisée créée ; étudiez les limites de décrochage par balayage d’incidence en soufflerie."
+  },
+  "已綁定當前工作台之翼尖小翼、高升力裝置與複合材料補強參數。": {
+    "en": "Current winglet, high-lift device and composite augmentation parameters are linked.",
+    "ja": "現在のウィングレット、高揚力装置、複合材料補強パラメーターを関連付けました。",
+    "de": "Aktuelle Winglet-, Hochauftriebs- und Verbundverstärkungsparameter sind verknüpft.",
+    "fr": "Les paramètres actuels d’ailettes, d’hypersustentation et de renforcement composite sont liés."
+  },
+  "已成功將「{0}」加入全球模型庫！": {
+    "en": "“{0}” added to the global model library!",
+    "ja": "「{0}」を世界モデル集に追加しました！",
+    "de": "„{0}“ zur globalen Modellbibliothek hinzugefügt!",
+    "fr": "« {0} » ajouté à la bibliothèque mondiale !"
+  },
+  "肇祥企業社 MaxJim Tech. — 無人飛行載具氣動與結構工程測試報告": {
+    "en": "MaxJim Tech. — UAV aerodynamic and structural engineering test report",
+    "ja": "MaxJim Tech. — UAV 空力・構造工学試験報告",
+    "de": "MaxJim Tech. — UAV-Aerodynamik- und Strukturprüfbericht",
+    "fr": "MaxJim Tech. — Rapport d’essai aérodynamique et structurel du drone"
+  },
+  "負責人：張哲肇 (Alex Chang) | 專線：0931-765001 | 官方網站：https://maxjimtech.com/ | 測試機型：{0}": {
+    "en": "Contact：Alex Chang | Hotline：0931-765001 | Official website：https://maxjimtech.com/ | Test model：{0}",
+    "ja": "担当者：Alex Chang | 直通電話：0931-765001 | 公式サイト：https://maxjimtech.com/ | 試験機種：{0}",
+    "de": "Ansprechpartner：Alex Chang | Hotline：0931-765001 | Offizielle Website：https://maxjimtech.com/ | Testmodell：{0}",
+    "fr": "Responsable：Alex Chang | Ligne directe：0931-765001 | Site officiel：https://maxjimtech.com/ | Modèle testé：{0}"
+  },
+  "1. 升力曲線 CL vs α (含補強對比)": {
+    "en": "1. Lift curve CL vs α (Including augmentation comparison)",
+    "ja": "1. 揚力曲線 CL vs α (補強比較を含む)",
+    "de": "1. Auftriebskurve CL vs α (Mit Verstärkungsvergleich)",
+    "fr": "1. Courbe de portance CL vs α (Avec comparaison du renforcement)"
+  },
+  "2. 升阻比曲線 L/D vs α": {
+    "en": "2. Lift-to-drag ratioCurve L/D vs α",
+    "ja": "2. 揚抗比曲線 L/D vs α",
+    "de": "2. GleitzahlKurve L/D vs α",
+    "fr": "2. FinesseCourbe L/D vs α"
+  },
+  "3. 阻力極曲線 Drag Polar": {
+    "en": "3. Drag polar Drag Polar",
+    "ja": "3. 抗力極曲線 Drag Polar",
+    "de": "3. Widerstandspolare Drag Polar",
+    "fr": "3. Polaire de traînée Drag Polar"
+  },
+  "4. 主樑彎矩與應力分佈 M(y)": {
+    "en": "4. Spar bending and stress distribution M(y)",
+    "ja": "4. 主桁曲げ・応力分布 M(y)",
+    "de": "4. Holmbiegung und Spannungsverteilung M(y)",
+    "fr": "4. Répartition de flexion et contrainte du longeron M(y)"
+  },
+  "關鍵氣動力學與結構工程測試數據 (Aerodynamic & Structural Telemetry)": {
+    "en": "Key aerodynamic and structural test data (Aerodynamic & Structural Telemetry)",
+    "ja": "主要空力・構造試験データ (空力・構造テレメトリー)",
+    "de": "Zentrale Aerodynamik- und Strukturprüfdaten (Aerodynamik- und Strukturtelemetrie)",
+    "fr": "Données principales d’essais aérodynamiques et structurels (Télémétrie aérodynamique et structurelle)"
+  },
+  "翼展 / 根弦長: {0} m / {1} m": {
+    "en": "Span / Root chord: {0} m / {1} m",
+    "ja": "翼幅 / 翼根翼弦長: {0} m / {1} m",
+    "de": "Spannweite / Wurzeltiefe: {0} m / {1} m",
+    "fr": "Envergure / Corde à l’emplanture: {0} m / {1} m"
+  },
+  "主翼剖面翼型: {0}": {
+    "en": "Main-wing airfoil: {0}",
+    "ja": "主翼翼型: {0}",
+    "de": "Hauptflügelprofil: {0}",
+    "fr": "Profil de l’aile principale: {0}"
+  },
+  "最大起飛重量: {0} kg": {
+    "en": "Maximum takeoff mass: {0} kg",
+    "ja": "最大離陸重量: {0} kg",
+    "de": "Maximale Startmasse: {0} kg",
+    "fr": "Masse maximale au décollage: {0} kg"
+  },
+  "真空速 / 攻角: {0} m/s / α = {1}°": {
+    "en": "True airspeed / Angle of attack: {0} m/s / α = {1}°",
+    "ja": "真対気速度 / 迎角: {0} m/s / α = {1}°",
+    "de": "Wahre Fluggeschwindigkeit / Anstellwinkel: {0} m/s / α = {1}°",
+    "fr": "Vitesse vraie / Incidence: {0} m/s / α = {1}°"
+  },
+  "雷諾數 Re: {0}×10⁶": {
+    "en": "Reynolds number Re: {0}×10⁶",
+    "ja": "レイノルズ数 Re: {0}×10⁶",
+    "de": "Reynolds-Zahl Re: {0}×10⁶",
+    "fr": "Nombre de Reynolds Re: {0}×10⁶"
+  },
+  "馬赫數 Mach: {0}": {
+    "en": "Mach number Mach: {0}",
+    "ja": "マッハ数 Mach: {0}",
+    "de": "Mach-Zahl Mach: {0}",
+    "fr": "Nombre de Mach Mach: {0}"
+  },
+  "升力係數 CL: {0}": {
+    "en": "Lift coefficient CL: {0}",
+    "ja": "揚力係数 CL: {0}",
+    "de": "Auftriebsbeiwert CL: {0}",
+    "fr": "Coefficient de portance CL: {0}"
+  },
+  "阻力係數 CD: {0}": {
+    "en": "Drag coefficient CD: {0}",
+    "ja": "抗力係数 CD: {0}",
+    "de": "Widerstandsbeiwert CD: {0}",
+    "fr": "Coefficient de traînée CD: {0}"
+  },
+  "升阻比 L/D: {0}": {
+    "en": "Lift-to-drag ratio L/D: {0}",
+    "ja": "揚抗比 L/D: {0}",
+    "de": "Gleitzahl L/D: {0}",
+    "fr": "Finesse L/D: {0}"
+  },
+  "總升力 L: {0} N ({1}G)": {
+    "en": "Total lift L: {0} N ({1}G)",
+    "ja": "総揚力 L: {0} N ({1}G)",
+    "de": "Gesamtauftrieb L: {0} N ({1}G)",
+    "fr": "Portance totale L: {0} N ({1}G)"
+  },
+  "總阻力 D: {0} N": {
+    "en": "Total drag D: {0} N",
+    "ja": "総抗力 D: {0} N",
+    "de": "Gesamtwiderstand D: {0} N",
+    "fr": "Traînée totale D: {0} N"
+  },
+  "失速速度 Vstall: {0} m/s": {
+    "en": "Stall speed Vstall: {0} m/s",
+    "ja": "失速速度 Vstall: {0} m/s",
+    "de": "Überziehgeschwindigkeit Vstall: {0} m/s",
+    "fr": "Vitesse de décrochage Vstall: {0} m/s"
+  },
+  "翼根最大彎矩: {0} kN·m": {
+    "en": "Maximum root bending moment: {0} kN·m",
+    "ja": "翼根最大曲げモーメント: {0} kN·m",
+    "de": "Maximales Wurzelbiegemoment: {0} kN·m",
+    "fr": "Moment fléchissant maximal à l’emplanture: {0} kN·m"
+  },
+  "主樑最大應力: {0} MPa": {
+    "en": "Maximum spar stress: {0} MPa",
+    "ja": "主桁最大応力: {0} MPa",
+    "de": "Maximale Holmspannung: {0} MPa",
+    "fr": "Contrainte maximale du longeron: {0} MPa"
+  },
+  "結構安全係數 SF: {0}": {
+    "en": "Structural safety factor SF: {0}",
+    "ja": "構造安全率 SF: {0}",
+    "de": "Struktursicherheitsfaktor SF: {0}",
+    "fr": "Coefficient de sécurité structurelle SF: {0}"
+  },
+  "翼尖小翼補強: {0}": {
+    "en": "Winglet augmentation: {0}",
+    "ja": "翼端小翼補強: {0}",
+    "de": "Winglet-Verstärkung: {0}",
+    "fr": "Renforcement par ailettes marginales: {0}"
+  },
+  "複合材料: {0}": {
+    "en": "Composite material: {0}",
+    "ja": "複合材料: {0}",
+    "de": "Verbundwerkstoff: {0}",
+    "fr": "Matériau composite: {0}"
+  },
+  "預估滯空/航程: {0}h / {1}km": {
+    "en": "Estimated endurance / range: {0}h / {1}km",
+    "ja": "推定滞空時間 / 航続距離: {0}h / {1}km",
+    "de": "Geschätzte Flugdauer / Reichweite: {0}h / {1}km",
+    "fr": "Autonomie / portée estimées: {0}h / {1}km"
+  },
+  "肇祥企業社 MaxJim Tech. • 0931-765001": {
+    "en": "MaxJim Tech. • 0931-765001",
+    "ja": "MaxJim Tech. • 0931-765001",
+    "de": "MaxJim Tech. • 0931-765001",
+    "fr": "MaxJim Tech. • 0931-765001"
+  },
+  "© 肇祥企業社 MaxJim Tech. (https://maxjimtech.com/) | 機構設計・治具開發・無人載具 CAE 模擬估算 | 匯出時間：{0}": {
+    "en": "© MaxJim Tech. (https://maxjimtech.com/) | Mechanical design, tooling and uncrewed-vehicle CAE estimates | Export time：{0}",
+    "ja": "© MaxJim Tech. (https://maxjimtech.com/) | 機構設計・治具開発・無人機 CAE 推定 | 出力日時：{0}",
+    "de": "© MaxJim Tech. (https://maxjimtech.com/) | Mechanik, Vorrichtungsentwicklung und CAE-Schätzungen für unbemannte Fahrzeuge | Exportzeit：{0}",
+    "fr": "© MaxJim Tech. (https://maxjimtech.com/) | Conception mécanique, outillage et estimations CAE de véhicules sans pilote | Date d’export：{0}"
+  },
+  "已下載「肇祥企業社 MaxJim Tech.」浮水印工程數據照片 (.PNG)！": {
+    "en": "Downloaded MaxJim Tech. watermarked engineering image (.PNG)!",
+    "ja": "MaxJim Tech. 透かし付き設計データ画像 (.PNG) をダウンロードしました！",
+    "de": "Konstruktionsbild mit MaxJim-Tech.-Wasserzeichen heruntergeladen (.PNG)!",
+    "fr": "Image technique avec filigrane MaxJim Tech. téléchargée (.PNG) !"
+  },
+  "肇祥企業社 MaxJim Tech. (https://maxjimtech.com/)": {
+    "en": "MaxJim Tech. (https://maxjimtech.com/)",
+    "ja": "MaxJim Tech. (https://maxjimtech.com/)",
+    "de": "MaxJim Tech. (https://maxjimtech.com/)",
+    "fr": "MaxJim Tech. (https://maxjimtech.com/)"
+  },
+  "張哲肇 (Alex Chang) | 0931-765001": {
+    "en": "Alex Chang | 0931-765001",
+    "ja": "Alex Chang | 0931-765001",
+    "de": "Alex Chang | 0931-765001",
+    "fr": "Alex Chang | 0931-765001"
+  },
+  "肇祥企業社 MaxJim Tech. — AeroVanguard CAD/CAE Studio Pro v4.8": {
+    "en": "MaxJim Tech. — AeroVanguard CAD/CAE Studio Pro v4.8",
+    "ja": "MaxJim Tech. — AeroVanguard CAD/CAE Studio Pro v4.8",
+    "de": "MaxJim Tech. — AeroVanguard CAD/CAE Studio Pro v4.8",
+    "fr": "MaxJim Tech. — AeroVanguard CAD/CAE Studio Pro v4.8"
+  },
+  "工程規格 JSON 已複製到剪貼簿！": {
+    "en": "Engineering specification JSON copied to clipboard!",
+    "ja": "設計仕様 JSON をクリップボードにコピーしました！",
+    "de": "Konstruktions-JSON in die Zwischenablage kopiert!",
+    "fr": "Spécifications techniques JSON copiées dans le presse-papiers !"
+  },
+  "已下載 .JSON 工程設計參數檔": {
+    "en": "Engineering parameter .JSON file downloaded",
+    "ja": "設計パラメーター .JSON ファイルをダウンロードしました",
+    "de": "Konstruktionsparameter als .JSON heruntergeladen",
+    "fr": "Fichier .JSON des paramètres techniques téléchargé"
+  },
+  "# 肇祥企業社 MaxJim Tech. — 無人飛行載具氣動極曲線工程數據表 (MaxJim Tech Watermarked Data)": {
+    "en": "# MaxJim Tech. — UAV aerodynamic polar engineering data (MaxJim Tech Watermarked Data)",
+    "ja": "# MaxJim Tech. — UAV 空力極曲線設計データ表 (MaxJim Tech 透かし付きデータ)",
+    "de": "# MaxJim Tech. — UAV-Polaren-Konstruktionsdaten (Daten mit MaxJim-Tech-Wasserzeichen)",
+    "fr": "# MaxJim Tech. — Données techniques des polaires aérodynamiques du drone (Données avec filigrane MaxJim Tech)"
+  },
+  "# 負責人：張哲肇 (Alex Chang) | 聯絡專線：0931-765001 | 官方網站：https://maxjimtech.com/": {
+    "en": "# Contact：Alex Chang | Contact hotline：0931-765001 | Official website：https://maxjimtech.com/",
+    "ja": "# 担当者：Alex Chang | 問い合わせ電話：0931-765001 | 公式サイト：https://maxjimtech.com/",
+    "de": "# Ansprechpartner：Alex Chang | Kontakttelefon：0931-765001 | Offizielle Website：https://maxjimtech.com/",
+    "fr": "# Responsable：Alex Chang | Téléphone de contact：0931-765001 | Site officiel：https://maxjimtech.com/"
+  },
+  "# 載具模型：{0} | 翼型：{1} | 匯出時間：{2}": {
+    "en": "# Vehicle model：{0} | Airfoil：{1} | Export time：{2}",
+    "ja": "# 機体モデル：{0} | 翼型：{1} | 出力日時：{2}",
+    "de": "# Fahrzeugmodell：{0} | Profil：{1} | Exportzeit：{2}",
+    "fr": "# Modèle de véhicule：{0} | Profil aérodynamique：{1} | Date d’export：{2}"
+  },
+  "已匯出 CSV 氣動極曲線數據表！": {
+    "en": "Aerodynamic polar CSV exported!",
+    "ja": "空力極曲線 CSV を出力しました！",
+    "de": "Aerodynamische Polaren als CSV exportiert!",
+    "fr": "Polaires aérodynamiques exportées en CSV !"
+  },
+  "請使用瀏覽器全螢幕（F11）": {
+    "en": "Use browser full screen (F11)",
+    "ja": "ブラウザーの全画面表示（F11）を使用してください",
+    "de": "Browser-Vollbild verwenden (F11)",
+    "fr": "Utilisez le plein écran du navigateur (F11)"
+  },
+  "離開全螢幕": {
+    "en": "Exit full screen",
+    "ja": "全画面表示を終了",
+    "de": "Vollbild verlassen",
+    "fr": "Quitter le plein écran"
+  },
+  "SONAR & BATHYMETRY HUD": {
+    "en": "SONAR & BATHYMETRY HUD",
+    "ja": "ソナー・海底地形 HUD",
+    "de": "SONAR- UND BATHYMETRIE-HUD",
+    "fr": "HUD SONAR ET BATHYMÉTRIE"
+  },
+  "DEEP FLUME": {
+    "en": "DEEP FLUME",
+    "ja": "深海水槽",
+    "de": "TIEFSEE-STRÖMUNGSKANAL",
+    "fr": "CANAL PROFOND"
+  },
+  "XLUUV": {
+    "en": "XLUUV",
+    "ja": "超大型水中無人機 XLUUV",
+    "de": "Extra großes UUV (XLUUV)",
+    "fr": "UUV de très grande taille (XLUUV)"
+  },
+  "CUSTOM UUV": {
+    "en": "CUSTOM UUV",
+    "ja": "カスタム UUV",
+    "de": "BENUTZERDEFINIERTES UUV",
+    "fr": "UUV PERSONNALISÉ"
+  },
+  "Dual-Mode LDUUV": {
+    "en": "Dual-Mode LDUUV",
+    "ja": "双モード LDUUV",
+    "de": "Zweimodus-LDUUV",
+    "fr": "LDUUV à deux modes"
+  },
+  "USA": {
+    "en": "USA",
+    "ja": "米国",
+    "de": "USA",
+    "fr": "États-Unis"
+  },
+  "Norway": {
+    "en": "Norway",
+    "ja": "ノルウェー",
+    "de": "Norwegen",
+    "fr": "Norvège"
+  },
+  "France": {
+    "en": "France",
+    "ja": "フランス",
+    "de": "Frankreich",
+    "fr": "France"
+  },
+  "Sweden & UK": {
+    "en": "Sweden & UK",
+    "ja": "スウェーデン・英国",
+    "de": "Schweden und Vereinigtes Königreich",
+    "fr": "Suède et Royaume-Uni"
+  },
+  "Sweden": {
+    "en": "Sweden",
+    "ja": "スウェーデン",
+    "de": "Schweden",
+    "fr": "Suède"
+  },
+  "Iceland & USA": {
+    "en": "Iceland & USA",
+    "ja": "アイスランド・米国",
+    "de": "Island und USA",
+    "fr": "Islande et États-Unis"
+  },
+  "Taiwan": {
+    "en": "Taiwan",
+    "ja": "台湾",
+    "de": "Taiwan",
+    "fr": "Taïwan"
+  },
+  "SPD {0}m/s": {
+    "en": "SPD {0}m/s",
+    "ja": "速度 {0}m/s",
+    "de": "GESCHW {0}m/s",
+    "fr": "VIT {0}m/s"
+  },
+  "ALT {0}m": {
+    "en": "ALT {0}m",
+    "ja": "高度 {0}m",
+    "de": "HÖHE {0}m",
+    "fr": "ALT {0}m"
+  },
+  "SPD {0}kt": {
+    "en": "SPD {0}kt",
+    "ja": "速度 {0}kt",
+    "de": "GESCHW {0}kt",
+    "fr": "VIT {0}kt"
+  },
+  "DEP {0}m": {
+    "en": "DEP {0}m",
+    "ja": "深度 {0}m",
+    "de": "TIEFE {0}m",
+    "fr": "PROF {0}m"
+  },
+  "SIMULATION ESTIMATES": {
+    "en": "SIMULATION ESTIMATES",
+    "ja": "シミュレーション推定値",
+    "de": "SIMULATIONSSCHÄTZWERTE",
+    "fr": "ESTIMATIONS DE SIMULATION"
+  },
+  "SUBSEA SIMULATION ESTIMATES": {
+    "en": "SUBSEA SIMULATION ESTIMATES",
+    "ja": "水中シミュレーション推定値",
+    "de": "UNTERWASSER-SIMULATIONSSCHÄTZWERTE",
+    "fr": "ESTIMATIONS DE SIMULATION SOUS-MARINE"
+  },
+  "AOA_SWEEP": {
+    "en": "Angle-of-attack sweep",
+    "ja": "迎角掃引",
+    "de": "Anstellwinkel-Sweep",
+    "fr": "Balayage d’incidence"
+  },
+  "GUST_PID": {
+    "en": "Gust PID test",
+    "ja": "突風 PID 試験",
+    "de": "Böen-PID-Test",
+    "fr": "Essai PID sous rafales"
+  },
+  "VTOL_TRANS": {
+    "en": "VTOL transition",
+    "ja": "VTOL 遷移",
+    "de": "VTOL-Übergang",
+    "fr": "Transition VTOL"
+  },
+  "HIGH_G": {
+    "en": "High-G test",
+    "ja": "高 G 試験",
+    "de": "Hoch-G-Test",
+    "fr": "Essai à forte charge G"
+  },
+  "MaxJim Tech. Watermarked": {
+    "en": "MaxJim Tech. Watermarked",
+    "ja": "MaxJim Tech. 透かし付き",
+    "de": "MaxJim-Tech.-Wasserzeichen",
+    "fr": "Filigrane MaxJim Tech."
+  },
+  "Twin-Boom": {
+    "en": "Twin-Boom",
+    "ja": "双胴",
+    "de": "Doppelrumpf",
+    "fr": "Bipoutre"
+  },
+  "Tilt-Rotor": {
+    "en": "Tilt-Rotor",
+    "ja": "ティルトローター",
+    "de": "Kipprotor",
+    "fr": "Rotors basculants"
+  },
+  "Multi-Rotor": {
+    "en": "Multi-Rotor",
+    "ja": "マルチローター",
+    "de": "Multirotor",
+    "fr": "Multirotor"
+  },
+  "Ducted": {
+    "en": "Ducted",
+    "ja": "ダクト型",
+    "de": "Ummantelt",
+    "fr": "Caréné"
+  },
+  "Airfoil": {
+    "en": "Airfoil",
+    "ja": "翼型",
+    "de": "Tragflügelprofil",
+    "fr": "Profil aérodynamique"
+  },
+  "Span b": {
+    "en": "Span b",
+    "ja": "翼幅 b",
+    "de": "Spannweite b",
+    "fr": "Envergure b"
+  },
+  "Root Chord c_r": {
+    "en": "Root Chord c_r",
+    "ja": "翼根翼弦 c_r",
+    "de": "Wurzeltiefe c_r",
+    "fr": "Corde à l’emplanture c_r"
+  },
+  "Washout": {
+    "en": "Washout",
+    "ja": "ねじり下げ",
+    "de": "Schränkung",
+    "fr": "Vrillage négatif"
+  },
+  "V-Tail": {
+    "en": "V-Tail",
+    "ja": "V 型尾翼",
+    "de": "V-Leitwerk",
+    "fr": "Empennage en V"
+  },
+  "Inverted V": {
+    "en": "Inverted V",
+    "ja": "逆 V 型",
+    "de": "Umgekehrtes V",
+    "fr": "V inversé"
+  },
+  "T-Tail": {
+    "en": "T-Tail",
+    "ja": "T 型尾翼",
+    "de": "T-Leitwerk",
+    "fr": "Empennage en T"
+  },
+  "Conventional": {
+    "en": "Conventional",
+    "ja": "従来型",
+    "de": "Konventionell",
+    "fr": "Classique"
+  },
+  "Tailless": {
+    "en": "Tailless",
+    "ja": "無尾翼",
+    "de": "Leitwerkslos",
+    "fr": "Sans empennage"
+  },
+  "Augmentation": {
+    "en": "Augmentation",
+    "ja": "補強",
+    "de": "Verstärkung",
+    "fr": "Renforcement"
+  },
+  "Wingtip Device": {
+    "en": "Wingtip Device",
+    "ja": "翼端装置",
+    "de": "Flügelspitzenvorrichtung",
+    "fr": "Dispositif marginal"
+  },
+  "Blended Winglet": {
+    "en": "Blended Winglet",
+    "ja": "ブレンデッド翼端小翼",
+    "de": "Gebogenes Winglet",
+    "fr": "Ailette marginale raccordée"
+  },
+  "Sharklet": {
+    "en": "Sharklet",
+    "ja": "シャークレット",
+    "de": "Haifischflossen-Winglet",
+    "fr": "Ailette en aileron de requin"
+  },
+  "Split Scimitar": {
+    "en": "Split Scimitar",
+    "ja": "分岐シミター",
+    "de": "Geteiltes Scimitar-Winglet",
+    "fr": "Double cimeterre"
+  },
+  "Wingtip Endplate": {
+    "en": "Wingtip Endplate",
+    "ja": "翼端板",
+    "de": "Flügelendplatte",
+    "fr": "Plaque marginale"
+  },
+  "High-Lift & BL": {
+    "en": "High-Lift & BL",
+    "ja": "高揚力・境界層",
+    "de": "Hochauftrieb und Grenzschicht",
+    "fr": "Hypersustentation et couche limite"
+  },
+  "Plain Trailing Flap": {
+    "en": "Plain Trailing Flap",
+    "ja": "単純後縁フラップ",
+    "de": "Einfache Hinterkantenklappe",
+    "fr": "Volet simple de bord de fuite"
+  },
+  "Fowler Flap": {
+    "en": "Fowler Flap",
+    "ja": "ファウラーフラップ",
+    "de": "Fowlerklappe",
+    "fr": "Volet Fowler"
+  },
+  "LE Slat + Fowler": {
+    "en": "LE Slat + Fowler",
+    "ja": "前縁スラット + ファウラー",
+    "de": "Vorflügel + Fowler",
+    "fr": "Bec avant + Fowler"
+  },
+  "Vortex Generators": {
+    "en": "Vortex Generators",
+    "ja": "渦発生装置",
+    "de": "Wirbelgeneratoren",
+    "fr": "Générateurs de tourbillons"
+  },
+  "Structural Spec": {
+    "en": "Structural Spec",
+    "ja": "構造仕様",
+    "de": "Strukturspezifikation",
+    "fr": "Spécification structurelle"
+  },
+  "Energy & Redundancy": {
+    "en": "Energy & Redundancy",
+    "ja": "エネルギー・冗長性",
+    "de": "Energie und Redundanz",
+    "fr": "Énergie et redondance"
+  },
+  "Flight Condition & Controls": {
+    "en": "Flight Condition & Controls",
+    "ja": "飛行条件・操縦",
+    "de": "Flugbedingungen und Steuerung",
+    "fr": "Conditions de vol et commandes"
+  },
+  "Sideslip": {
+    "en": "Sideslip",
+    "ja": "横滑り",
+    "de": "Schiebewinkel",
+    "fr": "Dérapage"
+  },
+  "Total Lift L": {
+    "en": "Total Lift L",
+    "ja": "総揚力 L",
+    "de": "Gesamtauftrieb L",
+    "fr": "Portance totale L"
+  },
+  "Total Drag D": {
+    "en": "Total Drag D",
+    "ja": "総抗力 D",
+    "de": "Gesamtwiderstand D",
+    "fr": "Traînée totale D"
+  },
+  "Global UAV Database & Augmentation Hub": {
+    "en": "Global UAV Database & Augmentation Hub",
+    "ja": "世界 UAV データベース・補強センター",
+    "de": "Globale UAV-Datenbank und Verstärkungszentrum",
+    "fr": "Base mondiale UAV et centre de renforcement"
+  },
+  "Model Augmentation": {
+    "en": "Model Augmentation",
+    "ja": "モデル補強",
+    "de": "Modellverstärkung",
+    "fr": "Renforcement de modèle"
+  },
+  "Automated Flight Test & Telemetry Recorder": {
+    "en": "Automated Flight Test & Telemetry Recorder",
+    "ja": "自動飛行試験・テレメトリー記録",
+    "de": "Automatischer Flugtest und Telemetrieschreiber",
+    "fr": "Essai de vol automatique et enregistreur télémétrique"
+  },
+  "Pitch / AoA / G-Load / L/D Time-Series": {
+    "en": "Pitch / AoA / G-Load / L/D Time-Series",
+    "ja": "ピッチ / 迎角 / G 荷重 / L/D 時系列",
+    "de": "Nickwinkel / Anstellwinkel / G-Last / L/D-Zeitverlauf",
+    "fr": "Série temporelle tangage / incidence / charge G / L/D"
+  },
+  "Subsystem": {
+    "en": "Subsystem",
+    "ja": "サブシステム",
+    "de": "Subsystem",
+    "fr": "Sous-système"
+  },
+  "Model Name": {
+    "en": "Model Name",
+    "ja": "モデル名",
+    "de": "Modellname",
+    "fr": "Nom du modèle"
+  },
+  "Reflex Camber": {
+    "en": "Reflex Camber",
+    "ja": "反り上げキャンバー",
+    "de": "Reflexwölbung",
+    "fr": "Cambrure reflex"
+  },
+  "Transition Corridor": {
+    "en": "Transition Corridor",
+    "ja": "遷移領域",
+    "de": "Übergangsbereich",
+    "fr": "Corridor de transition"
+  },
+  "Coaxial Octocopter": {
+    "en": "Coaxial Octocopter",
+    "ja": "同軸 8 ローター",
+    "de": "Koaxialoktokopter",
+    "fr": "Octocoptère coaxial"
+  },
+  "Mean Camber": {
+    "en": "Mean Camber",
+    "ja": "平均キャンバー",
+    "de": "Wölbungslinie",
+    "fr": "Cambrure moyenne"
+  },
+  "Wing & Spars": {
+    "en": "Wing & Spars",
+    "ja": "翼・主桁",
+    "de": "Flügel und Holme",
+    "fr": "Aile et longerons"
+  },
+  "Fuselage & Tail": {
+    "en": "Fuselage & Tail",
+    "ja": "胴体・尾翼",
+    "de": "Rumpf und Leitwerk",
+    "fr": "Fuselage et empennage"
+  },
+  "Propulsion": {
+    "en": "Propulsion",
+    "ja": "推進",
+    "de": "Antrieb",
+    "fr": "Propulsion"
+  },
+  "Fuel / Battery Pack": {
+    "en": "Fuel / Battery Pack",
+    "ja": "燃料 / 電池パック",
+    "de": "Kraftstoff / Akkupaket",
+    "fr": "Carburant / Batterie"
+  },
+  "Avionics & SATCOM": {
+    "en": "Avionics & SATCOM",
+    "ja": "電子機器・衛星通信",
+    "de": "Avionik und Satellitenkommunikation",
+    "fr": "Avionique et communications satellitaires"
+  },
+  "EO/IR Payload": {
+    "en": "EO/IR Payload",
+    "ja": "EO/IR 搭載物",
+    "de": "EO/IR-Nutzlast",
+    "fr": "Charge utile EO/IR"
+  },
+  "Aerodynamic & Structural Telemetry": {
+    "en": "Aerodynamic & Structural Telemetry",
+    "ja": "空力・構造テレメトリー",
+    "de": "Aerodynamik- und Strukturtelemetrie",
+    "fr": "Télémétrie aérodynamique et structurelle"
+  },
+  "MaxJim Tech Watermarked Data": {
+    "en": "MaxJim Tech Watermarked Data",
+    "ja": "MaxJim Tech 透かし付きデータ",
+    "de": "Daten mit MaxJim-Tech-Wasserzeichen",
+    "fr": "Données avec filigrane MaxJim Tech"
+  },
+  "Torpedo AUV": {
+    "en": "Torpedo AUV",
+    "ja": "魚雷型 AUV",
+    "de": "Torpedo-AUV",
+    "fr": "AUV torpille"
+  },
+  "Glider": {
+    "en": "Glider",
+    "ja": "グライダー",
+    "de": "Gleiter",
+    "fr": "Planeur"
+  },
+  "Work ROV": {
+    "en": "Work ROV",
+    "ja": "作業 ROV",
+    "de": "Arbeits-ROV",
+    "fr": "ROV de travail"
+  },
+  "Hull Length L": {
+    "en": "Hull Length L",
+    "ja": "船体長 L",
+    "de": "Rumpflänge L",
+    "fr": "Longueur de coque L"
+  },
+  "Diameter D": {
+    "en": "Diameter D",
+    "ja": "直径 D",
+    "de": "Durchmesser D",
+    "fr": "Diamètre D"
+  },
+  "X-Form": {
+    "en": "X-Form",
+    "ja": "X 型",
+    "de": "X-Form",
+    "fr": "Forme en X"
+  },
+  "Cruciform": {
+    "en": "Cruciform",
+    "ja": "十字型",
+    "de": "Kreuzform",
+    "fr": "Cruciforme"
+  },
+  "Ring Shroud": {
+    "en": "Ring Shroud",
+    "ja": "環状シュラウド",
+    "de": "Ringmantel",
+    "fr": "Carénage annulaire"
+  },
+  "Vectored": {
+    "en": "Vectored",
+    "ja": "ベクトル型",
+    "de": "Vektorgesteuert",
+    "fr": "Vectoriel"
+  },
+  "Propulsor": {
+    "en": "Propulsor",
+    "ja": "推進器",
+    "de": "Propulsor",
+    "fr": "Propulseur"
+  },
+  "Open Skewed": {
+    "en": "Open Skewed",
+    "ja": "開放高スキュー",
+    "de": "Offen, stark geneigt",
+    "fr": "Hélice ouverte inclinée"
+  },
+  "Skin & Acoustic": {
+    "en": "Skin & Acoustic",
+    "ja": "外皮・音響",
+    "de": "Außenhaut und Akustik",
+    "fr": "Revêtement et acoustique"
+  },
+  "Standard Epoxy": {
+    "en": "Standard Epoxy",
+    "ja": "標準エポキシ",
+    "de": "Standard-Epoxid",
+    "fr": "Époxy standard"
+  },
+  "Pressure Hull": {
+    "en": "Pressure Hull",
+    "ja": "耐圧殻",
+    "de": "Druckkörper",
+    "fr": "Coque résistante"
+  },
+  "Subsea Energy": {
+    "en": "Subsea Energy",
+    "ja": "水中エネルギー",
+    "de": "Unterwasserenergie",
+    "fr": "Énergie sous-marine"
+  },
+  "Subsea Environment & Controls": {
+    "en": "Subsea Environment & Controls",
+    "ja": "水中環境・制御",
+    "de": "Unterwasserumgebung und Steuerung",
+    "fr": "Environnement sous-marin et commandes"
+  },
+  "Depth": {
+    "en": "Depth",
+    "ja": "深度",
+    "de": "Tiefe",
+    "fr": "Profondeur"
+  },
+  "Pitch AoA": {
+    "en": "Pitch AoA",
+    "ja": "ピッチ迎角",
+    "de": "Nick-Anstellwinkel",
+    "fr": "Incidence de tangage"
+  },
+  "Drift": {
+    "en": "Drift",
+    "ja": "漂流",
+    "de": "Drift",
+    "fr": "Dérive"
+  },
+  "Total Drag R_T": {
+    "en": "Total Drag R_T",
+    "ja": "総抗力 R_T",
+    "de": "Gesamtwiderstand R_T",
+    "fr": "Traînée totale R_T"
+  },
+  "Global UUV / AUV / ROV Database & Augmentation Hub": {
+    "en": "Global UUV / AUV / ROV Database & Augmentation Hub",
+    "ja": "世界 UUV / AUV / ROV データベース・補強センター",
+    "de": "Globale UUV-/AUV-/ROV-Datenbank und Verstärkungszentrum",
+    "fr": "Base mondiale UUV / AUV / ROV et centre de renforcement"
+  },
+  "Subsea Augmentation": {
+    "en": "Subsea Augmentation",
+    "ja": "水中補強",
+    "de": "Unterwasserverstärkung",
+    "fr": "Renforcement sous-marin"
+  },
+  "Myring Equation": {
+    "en": "Myring Equation",
+    "ja": "Myring 方程式",
+    "de": "Myring-Gleichung",
+    "fr": "Équation de Myring"
+  },
+  "Fossen 6-DOF Subsea Dynamics Simulator": {
+    "en": "Fossen 6-DOF Subsea Dynamics Simulator",
+    "ja": "Fossen 6-DOF 水中運動解析",
+    "de": "Fossen-6-DOF-Unterwasserdynamiksimulator",
+    "fr": "Simulateur de dynamique sous-marine Fossen 6-DOF"
+  },
+  "Added Mass": {
+    "en": "Added Mass",
+    "ja": "付加質量",
+    "de": "Zusatzmasse",
+    "fr": "Masse ajoutée"
+  },
+  "Depth÷100 / Pitch θ / Hull Stress Ratio Time-Series": {
+    "en": "Depth÷100 / Pitch θ / Hull Stress Ratio Time-Series",
+    "ja": "深度÷100 / ピッチ θ / 殻応力比の時系列",
+    "de": "Tiefe÷100 / Nickwinkel θ / Rumpfspannungsverhältnis im Zeitverlauf",
+    "fr": "Série temporelle profondeur÷100 / tangage θ / rapport de contrainte"
+  },
+  "Subsea BOM": {
+    "en": "Subsea BOM",
+    "ja": "水中 BOM",
+    "de": "Unterwasser-Stückliste",
+    "fr": "Nomenclature sous-marine"
+  },
+  "Free-Flooded Architecture": {
+    "en": "Free-Flooded Architecture",
+    "ja": "自由浸水構造",
+    "de": "Frei durchflutete Architektur",
+    "fr": "Architecture inondable"
+  },
+  "Inter-frame Shell Buckling": {
+    "en": "Inter-frame Shell Buckling",
+    "ja": "肋骨間殻座屈",
+    "de": "Schalenbeulen zwischen Spanten",
+    "fr": "Flambement entre renforts"
+  },
+  "Hybrid Glider": {
+    "en": "Hybrid Glider",
+    "ja": "複合グライダー",
+    "de": "Hybridgleiter",
+    "fr": "Planeur hybride"
+  },
+  "Biofouling": {
+    "en": "Biofouling",
+    "ja": "生物付着",
+    "de": "Biologischer Bewuchs",
+    "fr": "Encrassement biologique"
+  },
+  "Taiwan Navy Salvage ROV": {
+    "en": "Taiwan Navy Salvage ROV",
+    "ja": "台湾海軍救難 ROV",
+    "de": "Bergungs-ROV der taiwanischen Marine",
+    "fr": "ROV de sauvetage de la marine taïwanaise"
+  },
+  "Implosion": {
+    "en": "Implosion",
+    "ja": "内破",
+    "de": "Implosion",
+    "fr": "Implosion"
+  },
+  "Thunniform Swimming": {
+    "en": "Thunniform Swimming",
+    "ja": "マグロ型遊泳",
+    "de": "Thunfischartiges Schwimmen",
+    "fr": "Nage thunniforme"
+  },
+  "Yaw Recoil": {
+    "en": "Yaw Recoil",
+    "ja": "ヨー反動",
+    "de": "Gier-Rückstoß",
+    "fr": "Recul en lacet"
+  },
+  "Pressure Hull & Rings": {
+    "en": "Pressure Hull & Rings",
+    "ja": "耐圧殻・環肋",
+    "de": "Druckkörper und Ringspanten",
+    "fr": "Coque résistante et renforts annulaires"
+  },
+  "Syntactic Foam": {
+    "en": "Syntactic Foam",
+    "ja": "シンタクチックフォーム",
+    "de": "Syntaktischer Schaum",
+    "fr": "Mousse syntactique"
+  },
+  "Propulsor & Shroud": {
+    "en": "Propulsor & Shroud",
+    "ja": "推進器・シュラウド",
+    "de": "Propulsor und Mantel",
+    "fr": "Propulseur et carénage"
+  },
+  "Subsea Energy Pack": {
+    "en": "Subsea Energy Pack",
+    "ja": "水中電源パック",
+    "de": "Unterwasser-Energiepaket",
+    "fr": "Bloc d’énergie sous-marin"
+  },
+  "SAS & Manipulator": {
+    "en": "SAS & Manipulator",
+    "ja": "SAS・マニピュレーター",
+    "de": "SAS und Manipulator",
+    "fr": "SAS et manipulateur"
+  },
+  "Subsea Hydro & Hull Telemetry": {
+    "en": "Subsea Hydro & Hull Telemetry",
+    "ja": "水中流体・船体テレメトリー",
+    "de": "Unterwasser-Hydrodynamik- und Rumpftelemetrie",
+    "fr": "Télémétrie hydrodynamique et de coque"
+  },
+  "Blended": {
+    "en": "Blended",
+    "ja": "融合型",
+    "de": "Gebogen",
+    "fr": "Raccordé"
+  },
+  "Endplate": {
+    "en": "Endplate",
+    "ja": "端板",
+    "de": "Endplatte",
+    "fr": "Plaque d’extrémité"
+  },
+  "STALL REGIME": {
+    "en": "STALL REGIME",
+    "ja": "失速領域",
+    "de": "ÜBERZIEHBEREICH",
+    "fr": "RÉGIME DE DÉCROCHAGE"
+  },
+  "STALL": {
+    "en": "STALL",
+    "ja": "失速",
+    "de": "STRÖMUNGSABRISS",
+    "fr": "DÉCROCHAGE"
+  },
+  "CAVITATION": {
+    "en": "CAVITATION",
+    "ja": "キャビテーション",
+    "de": "KAVITATION",
+    "fr": "CAVITATION"
+  },
+  "COLLAPSE RISK": {
+    "en": "COLLAPSE RISK",
+    "ja": "圧壊危険",
+    "de": "KOLLAPSRISIKO",
+    "fr": "RISQUE D’EFFONDREMENT"
+  },
+  "Quad X4": {
+    "en": "Quad X4",
+    "ja": "クアッド X4",
+    "de": "Quadrokopter X4",
+    "fr": "Quadrirotor X4"
+  },
+  "Hex Tilt 6P": {
+    "en": "Hex Tilt 6P",
+    "ja": "6 基ティルト 6P",
+    "de": "Sechs Kipprotoren 6P",
+    "fr": "Six rotors basculants 6P"
+  },
+  "Octo X8": {
+    "en": "Octo X8",
+    "ja": "オクト X8",
+    "de": "Oktokopter X8",
+    "fr": "Octocoptère X8"
+  },
+  "Heli/Coaxial": {
+    "en": "Heli/Coaxial",
+    "ja": "ヘリ / 同軸",
+    "de": "Hubschrauber/Koaxial",
+    "fr": "Hélicoptère/Coaxial"
+  },
+  "BWB/Delta": {
+    "en": "BWB/Delta",
+    "ja": "BWB / デルタ",
+    "de": "BWB/Deltaflügel",
+    "fr": "BWB/Aile delta"
+  },
+  "Manta/Bio": {
+    "en": "Manta/Bio",
+    "ja": "マンタ / 生物模倣",
+    "de": "Manta/Biomimetisch",
+    "fr": "Manta/Biomimétique"
+  },
+  "Hadal/Hybrid": {
+    "en": "Hadal/Hybrid",
+    "ja": "超深海 / 複合",
+    "de": "Hadal/Hybrid",
+    "fr": "Hadal/Hybride"
+  },
+  "Hybrid ARV": {
+    "en": "Hybrid ARV",
+    "ja": "複合 ARV",
+    "de": "Hybrid-ARV",
+    "fr": "ARV hybride"
+  },
+  "2T Coax": {
+    "en": "2T Coax",
+    "ja": "2T 同軸",
+    "de": "2T Koaxial",
+    "fr": "2T coaxial"
+  },
+  "8T Work": {
+    "en": "8T Work",
+    "ja": "8T 作業",
+    "de": "8T Arbeit",
+    "fr": "8T travail"
+  }
+}

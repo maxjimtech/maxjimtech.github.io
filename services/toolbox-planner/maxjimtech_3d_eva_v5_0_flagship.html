@@ -65,7 +65,7 @@ button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{mi
     <!-- Top Quick Action Bar -->
     <div class="flex items-center gap-1.5 flex-wrap">
       <!-- Language Switch -->
-      <button id="btnToggleLang" class="px-2.5 py-1.5 text-xs font-semibold rounded-md bg-blue-950/90 hover:bg-blue-900 text-blue-300 border border-blue-700/60 flex items-center gap-1 transition shadow-sm" title="切換中英文 / Switch Language">
+      <button hidden style="display:none" aria-hidden="true" tabindex="-1" id="btnToggleLang" class="px-2.5 py-1.5 text-xs font-semibold rounded-md bg-blue-950/90 hover:bg-blue-900 text-blue-300 border border-blue-700/60 flex items-center gap-1 transition shadow-sm" title="切換中英文 / Switch Language">
         <span>🌐</span>
         <span id="langBtnText">EN / 中文</span>
       </button>
@@ -528,7 +528,7 @@ button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{mi
         <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
           <div class="flex items-center gap-1.5 truncate">
             <span class="w-2.5 h-2.5 rounded-full bg-blue-400 shrink-0"></span>
-            <span id="inspectToolName" class="text-xs font-bold text-white truncate">選取工具名稱</span>
+            <span data-mj-no-translate id="inspectToolName" class="text-xs font-bold text-white truncate">選取工具名稱</span>
           </div>
           <div class="flex items-center gap-1">
             <button id="btnLockTool" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-slate-300" title="鎖定位置 (L)">🔓 未鎖定</button>
@@ -659,12 +659,13 @@ button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{mi
   <!-- Custom Toast Notification -->
   <div id="toast" class="fixed top-16 right-6 bg-slate-900 border border-blue-500/80 text-white px-4 py-2.5 rounded-lg shadow-2xl text-xs z-50 transform transition-all duration-300 translate-y-2 opacity-0 pointer-events-none flex items-center gap-2">
     <span id="toastIcon" class="text-blue-400">✓</span>
-    <span id="toastMsg">通知內容</span>
+    <span id="toastMsg" data-mj-no-translate>通知內容</span>
   </div>
 
   <!-- Hidden File Input for JSON Import -->
   <input type="file" id="jsonFileInput" accept=".json" class="hidden">
 
+  <script src="../shared/maxjim-i18n.js" data-mj-locales="./locales/ui.json"></script>
   <!-- Flagship Core Application Script -->
   <script>
     // -------------------------------------------------------------
@@ -858,9 +859,31 @@ button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{mi
       }
     }
 
+    // Translation is for presentation only; catalog/state/export names remain source data.
+    const mjT = source => window.MaxjimI18n ? window.MaxjimI18n.t(source) : source;
+    const mjFormat = (source, ...values) => mjT(source).replace(/\{(\d+)\}/g,
+      (token, index) => values[index] === undefined ? token : String(values[index]));
+    const mjEscape = value => String(value).replace(/[&<>"']/g, char =>
+      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    function mjToolName(tool) {
+      const standard = TOOL_CATALOG.find(item => item.code === tool.code && item.name === tool.name);
+      return standard ? mjT(standard.name) : tool.name;
+    }
+    function mjConflictDisplay(reason) {
+      const near = reason.match(/^與「(.*)」間距過近 \(<(.*)mm\)$/);
+      if (near) {
+        const peers = state.tools.filter(tool => tool.name === near[1]);
+        // If a user name coincides with a catalog label, preserve the user spelling.
+        const peer = peers.find(tool => !TOOL_CATALOG.some(item => item.code === tool.code && item.name === tool.name)) || peers[0];
+        return mjFormat('與「{0}」間距過近 (<{1}mm)', peer ? mjToolName(peer) : near[1], near[2]);
+      }
+      return mjT(reason);
+    }
+    let mjToastRenderer = null;
     function showToast(msg, icon = '✓', isError = false) {
       const toast = document.getElementById('toast');
-      document.getElementById('toastMsg').innerText = msg;
+      mjToastRenderer = typeof msg === 'function' ? msg : () => mjT(msg);
+      document.getElementById('toastMsg').innerText = mjToastRenderer();
       document.getElementById('toastIcon').innerText = icon;
       toast.className = `fixed top-16 right-6 ${isError ? 'bg-rose-950 border-rose-500 text-rose-200' : 'bg-slate-900 border-blue-500 text-white'} border px-4 py-2.5 rounded-lg shadow-2xl text-xs z-50 transform transition-all duration-300 translate-y-0 opacity-100 flex items-center gap-2`;
       setTimeout(() => {
@@ -1872,6 +1895,7 @@ button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{mi
         if (!q) return true;
         return item.name.toLowerCase().includes(q) ||
                item.nameEn.toLowerCase().includes(q) ||
+               mjT(item.name).toLowerCase().includes(q) ||
                item.code.toLowerCase().includes(q) ||
                item.std.toLowerCase().includes(q);
       });
@@ -1884,13 +1908,13 @@ button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{mi
       filtered.forEach(item => {
         const btn = document.createElement('button');
         btn.className = 'w-full p-2 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700/70 text-left flex items-center justify-between transition group';
-        const title = state.lang === 'en' ? item.nameEn : item.name;
+        const title = mjT(item.name);
         btn.innerHTML = `
           <div class="flex items-center gap-2 min-w-0 pr-2">
             <span class="w-2 h-7 rounded-full shrink-0" style="background:${item.color}"></span>
             <div class="min-w-0">
               <div class="flex items-center gap-1.5">
-                <span class="text-xs font-medium text-slate-100 truncate">${title}</span>
+                <span data-mj-no-translate class="text-xs font-medium text-slate-100 truncate">${mjEscape(title)}</span>
                 <span class="text-[9px] px-1 py-0.2 rounded bg-slate-800 text-cyan-300 font-mono shrink-0">${item.std}</span>
               </div>
               <div class="text-[10px] text-slate-400 font-mono">${item.length}×${item.width}×${item.height}mm · ${item.weight}g · NT$${item.cost}</div>
@@ -1907,7 +1931,7 @@ button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{mi
           }
           executeAutoLayout(true);
           if (lastAdded) selectTool(lastAdded.id);
-          showToast(state.lang === 'en' ? `Added ${qty}x "${item.nameEn}"` : `已置入 ${qty} 件「${item.name}」`, '➕');
+          showToast(() => mjFormat('已置入 {0} 件「{1}」', qty, mjToolName(item)), '➕');
         });
         listEl.appendChild(btn);
       });
@@ -1981,7 +2005,7 @@ button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{mi
       state.tools.forEach((tool, idx) => {
         const itemDiv = document.createElement('div');
         const isSelected = tool.id === state.selectedToolId;
-        const dispName = state.lang === 'en' ? (tool.nameEn || tool.name) : tool.name;
+        const dispName = mjToolName(tool);
         itemDiv.className = `p-2 rounded-lg border text-xs transition cursor-pointer ${
           tool.hasConflict ? 'bg-rose-950/35 border-rose-700 text-rose-200' :
           isSelected ? 'bg-blue-900/45 border-blue-500 text-white shadow-lg' :
@@ -1992,7 +2016,7 @@ button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{mi
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-1.5 font-medium truncate">
               <span class="w-4 h-4 rounded-full bg-slate-700 text-[10px] flex items-center justify-center text-slate-300 shrink-0">${idx + 1}</span>
-              <span class="truncate">${tool.locked ? '🔒 ' : ''}${dispName}</span>
+              <span data-mj-no-translate class="truncate">${tool.locked ? '🔒 ' : ''}${mjEscape(dispName)}</span>
             </div>
             <div class="flex items-center gap-1 shrink-0">
               <button data-action="lock" data-id="${tool.id}" class="p-1 rounded hover:bg-slate-700 text-slate-400 hover:text-amber-300 text-[10px]" title="鎖定位置">${tool.locked ? '🔒' : '🔓'}</button>
@@ -2005,7 +2029,7 @@ button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{mi
             <span>(${tool.x}, ${tool.y})</span>
             <span class="text-amber-300">NT$${tool.cost || 120}</span>
           </div>
-          ${tool.hasConflict ? `<div class="mt-1 text-[10px] text-rose-400">⚠️ ${tool.conflictReason}</div>` : ''}
+          ${tool.hasConflict ? `<div data-mj-no-translate class="mt-1 text-[10px] text-rose-400">⚠️ ${mjEscape(mjConflictDisplay(tool.conflictReason))}</div>` : ''}
         `;
 
         itemDiv.addEventListener('click', (e) => {
@@ -2044,7 +2068,7 @@ button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{mi
       const inspector = document.getElementById('toolInspector');
 
       if (tool) {
-        document.getElementById('inspectToolName').innerText = state.lang === 'en' ? (tool.nameEn || tool.name) : tool.name;
+        document.getElementById('inspectToolName').innerText = mjToolName(tool);
         document.getElementById('inspectX').value = tool.x;
         document.getElementById('inspectY').value = tool.y;
         document.getElementById('inspectRot').value = tool.rotation || 0;
@@ -2318,7 +2342,7 @@ button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{mi
       state.tools.push(newTool);
       executeAutoLayout(true);
       selectTool(newTool.id);
-      showToast(state.lang === 'en' ? `Added custom tool "${name}"` : `已加入自訂工具「${name}」`, '✅');
+      showToast(() => mjFormat('已加入自訂工具「{0}」', name), '✅');
     });
 
     // EVA & Appearance Settings
@@ -2456,7 +2480,7 @@ button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{mi
         state.tools.push(copy);
         pushHistory();
         selectTool(copy.id);
-        showToast(state.lang === 'en' ? 'Duplicated tool' : `已複製「${copy.name}」`, '📋');
+        showToast(() => mjFormat('已複製「{0}」', mjToolName(copy)), '📋');
       }
     });
     document.getElementById('btnDeleteSelectedTool').addEventListener('click', () => {
@@ -2742,30 +2766,21 @@ button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{mi
       ['座標、開槽深度、DIN標準、單重與報價預估', 'Coordinates, pocket depth, DIN std, weight & cost']
     ];
 
-    document.getElementById('btnToggleLang').addEventListener('click', () => {
-      state.lang = state.lang === 'zh' ? 'en' : 'zh';
-      const lang = state.lang;
-      document.getElementById('langBtnText').innerText = lang === 'en' ? '中文 / EN' : 'EN / 中文';
-      searchInput.placeholder = lang === 'en'
-        ? '🔍 Search 60 tools by name, size, DIN std (e.g. 1/2, ratchet, 14mm, pliers)...'
-        : '🔍 搜尋工具名稱、規格、DIN標準 (例: 1/2, 棘輪, 14mm, 鉗, PH2)...';
-
-      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-      let node;
-      while ((node = walker.nextNode())) {
-        const val = node.nodeValue.trim();
-        if (!val) continue;
-        for (const [zh, en] of uiPairs) {
-          if (lang === 'en' && val === zh) { node.nodeValue = node.nodeValue.replace(zh, en); break; }
-          else if (lang === 'zh' && val === en) { node.nodeValue = node.nodeValue.replace(en, zh); break; }
-        }
-      }
-
+    // Common localization refreshes display only. No history, solver or geometry call here.
+    const mjOptgroupSources = new Map(Array.from(document.querySelectorAll('optgroup[label]'),
+      element => [element, element.label]));
+    const mjDocumentTitle = document.title;
+    function refreshLocalizedDisplay() {
+      document.title = mjT(mjDocumentTitle);
+      mjOptgroupSources.forEach((label, element) => { element.label = mjT(label); });
       renderCatalogUI();
-      if (state.selectedToolId) selectTool(state.selectedToolId);
-      else renderAllTools3D();
-      showToast(lang === 'en' ? 'Switched to English Interface' : '已切換為繁體中文介面', '🌐');
-    });
+      updateBOMAndMetrics();
+      const selected = state.tools.find(tool => tool.id === state.selectedToolId);
+      document.getElementById('inspectToolName').innerText = selected ? mjToolName(selected) : mjT('選取工具名稱');
+      if (mjToastRenderer) document.getElementById('toastMsg').innerText = mjToastRenderer();
+    }
+    window.addEventListener('maxjim:language', refreshLocalizedDisplay);
+    window.addEventListener('maxjim:i18n-ready', refreshLocalizedDisplay);
 
     window.addEventListener('resize', () => {
       camera.aspect = container.clientWidth / container.clientHeight;

@@ -1,0 +1,2780 @@
+{
+  "Maxjimtech · 3D Smart Factory Automation & Plant Layout Planner": {
+    "en": "Maxjimtech · 3D Smart Factory Automation & Plant Layout Planner",
+    "ja": "Maxjimtech · 3Dスマート工場自動化・工場レイアウト計画",
+    "de": "Maxjimtech · 3D-Planer für Fabrikautomation und Hallenlayout",
+    "fr": "Maxjimtech · Planificateur 3D d’automatisation et d’implantation d’usine"
+  },
+  "Robotics · CNC Machine Tools · Special Purpose Machines (SPM) · AGV/Conveyors · Plant & Power Planning": {
+    "en": "Robotics · CNC Machine Tools · Special Purpose Machines (SPM) · AGV/Conveyors · Plant & Power Planning",
+    "ja": "ロボット · CNC工作機械 · 専用機(SPM) · AGV/搬送 · 動線・電力計画",
+    "de": "Roboter · CNC-Werkzeugmaschinen · Sondermaschinen(SPM) · AGV/Fördertechnik · Wege- und Energieplanung",
+    "fr": "Robots · Machines-outils CNC · Machines spéciales(SPM) · AGV/Convoyeurs · Circulation et puissance"
+  },
+  "3D Snapshot": {
+    "en": "3D Snapshot",
+    "ja": "3D画像を保存",
+    "de": "3D-Aufnahme",
+    "fr": "Capture 3D"
+  },
+  "2D CAD Plan (SVG)": {
+    "en": "2D CAD Plan (SVG)",
+    "ja": "2D工場CAD図 (SVG)",
+    "de": "2D-Hallenplan (SVG)",
+    "fr": "Plan CAO 2D (SVG)"
+  },
+  "Export BOM (CSV)": {
+    "en": "Export BOM (CSV)",
+    "ja": "設備一覧を出力 (CSV)",
+    "de": "Anlagenliste exportieren (CSV)",
+    "fr": "Exporter la liste des équipements (CSV)"
+  },
+  "Save JSON": {
+    "en": "Save JSON",
+    "ja": "プロジェクトを保存",
+    "de": "Projekt speichern",
+    "fr": "Enregistrer le projet"
+  },
+  "Load JSON": {
+    "en": "Load JSON",
+    "ja": "プロジェクトを開く",
+    "de": "Projekt laden",
+    "fr": "Charger le projet"
+  },
+  "Reset Plant": {
+    "en": "Reset Plant",
+    "ja": "工場をリセット",
+    "de": "Halle zurücksetzen",
+    "fr": "Réinitialiser l’usine"
+  },
+  "1. Plant & Templates": {
+    "en": "1. Plant & Templates",
+    "ja": "1. 工場とテンプレート",
+    "de": "1. Halle und Vorlagen",
+    "fr": "1. Usine et modèles"
+  },
+  "2. Equipment Library": {
+    "en": "2. Equipment Library",
+    "ja": "2. 自動化設備ライブラリ",
+    "de": "2. Anlagenbibliothek",
+    "fr": "2. Bibliothèque d’équipements"
+  },
+  "3. Layout & Safety": {
+    "en": "3. Layout & Safety",
+    "ja": "3. 配置と安全設定",
+    "de": "3. Layout und Sicherheit",
+    "fr": "3. Implantation et sécurité"
+  },
+  "Turnkey Production Line Templates": {
+    "en": "Turnkey Production Line Templates",
+    "ja": "工場自動化ラインのテンプレート（ワンクリック配置）",
+    "de": "Vorlagen für komplette Produktionslinien (Ein-Klick-Layout)",
+    "fr": "Modèles de lignes automatisées complètes (implantation en un clic)"
+  },
+  "Load Line": {
+    "en": "Load Line",
+    "ja": "ラインを読み込む",
+    "de": "Linie laden",
+    "fr": "Charger la ligne"
+  },
+  "CNC Machine Tools + 7th-Axis Robot Tending Cell": {
+    "en": "CNC Machine Tools + 7th-Axis Robot Tending Cell",
+    "ja": "CNC工作機械 + 第7軸ロボット加工セル",
+    "de": "CNC-Werkzeugmaschinen + Roboterzelle mit 7. Achse",
+    "fr": "Machines-outils CNC + cellule robotisée à 7e axe"
+  },
+  "SPM (Rotary/Press/AOI) + SCARA Assembly Line": {
+    "en": "SPM (Rotary/Press/AOI) + SCARA Assembly Line",
+    "ja": "専用機（回転/圧入/AOI）+ SCARA組立ライン",
+    "de": "Sondermaschinen (Rundtakt/Presse/AOI) + SCARA-Montagelinie",
+    "fr": "Machines spéciales (rotative/presse/AOI) + ligne SCARA"
+  },
+  "Gantry Loader + 5-Axis / Lathe FMS Line": {
+    "en": "Gantry Loader + 5-Axis / Lathe FMS Line",
+    "ja": "ガントリーローダー + 5軸/複合旋盤FMSライン",
+    "de": "Portallader + FMS-Linie mit 5-Achs-/Drehfräsmaschinen",
+    "fr": "Portique + ligne FMS à machines 5 axes et tournage-fraisage"
+  },
+  "Full Smart Factory (CNC Cell + SPM Line + AGV & Racks)": {
+    "en": "Full Smart Factory (CNC Cell + SPM Line + AGV & Racks)",
+    "ja": "総合スマート工場（加工セル + 専用機 + AGV物流倉庫）",
+    "de": "Komplette Smart Factory (Bearbeitungszelle + Sondermaschinen + AGV/Lager)",
+    "fr": "Usine intelligente complète (usinage + machines spéciales + AGV/stockage)"
+  },
+  "Plant Building & Steel Structure (m)": {
+    "en": "Plant Building & Steel Structure (m)",
+    "ja": "工場空間・鉄骨構造の設定 (m)",
+    "de": "Hallenraum und Stahlbauparameter (m)",
+    "fr": "Espace d’usine et structure métallique (m)"
+  },
+  "1 Grid = 1m × 1m": {
+    "en": "1 Grid = 1m × 1m",
+    "ja": "1マス = 1m × 1m",
+    "de": "1 Raster = 1m × 1m",
+    "fr": "1 case = 1m × 1m"
+  },
+  "Length L (m)": {
+    "en": "Length L (m)",
+    "ja": "長さ L (m)",
+    "de": "Länge L (m)",
+    "fr": "Longueur L (m)"
+  },
+  "Width W (m)": {
+    "en": "Width W (m)",
+    "ja": "幅 W (m)",
+    "de": "Breite W (m)",
+    "fr": "Largeur W (m)"
+  },
+  "Clear Height H (m)": {
+    "en": "Clear Height H (m)",
+    "ja": "梁下有効高さ H (m)",
+    "de": "Lichte Höhe H (m)",
+    "fr": "Hauteur libre H (m)"
+  },
+  "Column Span (m)": {
+    "en": "Column Span (m)",
+    "ja": "柱間隔 (m)",
+    "de": "Stützenabstand (m)",
+    "fr": "Entraxe des poteaux (m)"
+  },
+  "Main Aisle Width (m)": {
+    "en": "Main Aisle Width (m)",
+    "ja": "主安全通路幅 (m)",
+    "de": "Hauptgangbreite (m)",
+    "fr": "Largeur de l’allée principale (m)"
+  },
+  "Total Floor Area:": {
+    "en": "Total Floor Area:",
+    "ja": "工場総面積：",
+    "de": "Gesamtfläche:",
+    "fr": "Surface totale :"
+  },
+  "Equipment Footprint:": {
+    "en": "Equipment Footprint:",
+    "ja": "設備設置面積：",
+    "de": "Anlagenstellfläche:",
+    "fr": "Emprise des équipements :"
+  },
+  "Est. Power Capacity:": {
+    "en": "Est. Power Capacity:",
+    "ja": "推奨契約電力容量：",
+    "de": "Empfohlene Anschlussleistung:",
+    "fr": "Puissance souscrite conseillée :"
+  },
+  "Floor Coating & Structure Visibility": {
+    "en": "Floor Coating & Structure Visibility",
+    "ja": "床塗装と構造の表示",
+    "de": "Bodenbeschichtung und Strukturanzeige",
+    "fr": "Revêtement de sol et affichage de la structure"
+  },
+  "Epoxy Green": {
+    "en": "Epoxy Green",
+    "ja": "エポキシ緑",
+    "de": "Epoxidgrün",
+    "fr": "Vert époxy"
+  },
+  "Hardener Gray": {
+    "en": "Hardener Gray",
+    "ja": "耐摩耗硬質グレー",
+    "de": "Verschleißfestes Hartstoffgrau",
+    "fr": "Gris durci résistant à l’usure"
+  },
+  "ESD Clean Blue": {
+    "en": "ESD Clean Blue",
+    "ja": "帯電防止クリーンブルー",
+    "de": "Antistatisches Reinraumblau",
+    "fr": "Bleu propre antistatique"
+  },
+  "Show H-Beam Columns & Crane Girders": {
+    "en": "Show H-Beam Columns & Crane Girders",
+    "ja": "H形鋼柱とクレーン走行梁を表示",
+    "de": "H-Stahlstützen und Kranbahnträger anzeigen",
+    "fr": "Afficher les poteaux en H et les poutres de pont roulant"
+  },
+  "Show AGV / Yellow Safety Walkway": {
+    "en": "Show AGV / Yellow Safety Walkway",
+    "ja": "AGV/黄色の安全通路線を表示",
+    "de": "AGV-/gelbe Sicherheitswegmarkierungen anzeigen",
+    "fr": "Afficher le marquage AGV et les allées jaunes"
+  },
+  "Show Robot Reach Envelope Zones": {
+    "en": "Show Robot Reach Envelope Zones",
+    "ja": "ロボット作業半径の包絡域を表示",
+    "de": "Roboterreichweiten anzeigen",
+    "fr": "Afficher les enveloppes de portée des robots"
+  },
+  "Automation Equipment Library (20 Models)": {
+    "en": "Automation Equipment Library (20 Models)",
+    "ja": "産業自動化設備ライブラリ (20機種)",
+    "de": "Bibliothek für Automationsanlagen (20 Modelle)",
+    "fr": "Bibliothèque d’équipements automatisés (20 modèles)"
+  },
+  "Click to Place": {
+    "en": "Click to Place",
+    "ja": "クリックして配置",
+    "de": "Zum Platzieren anklicken",
+    "fr": "Cliquer pour placer"
+  },
+  "All (20)": {
+    "en": "All (20)",
+    "ja": "すべて (20)",
+    "de": "Alle (20)",
+    "fr": "Tous (20)"
+  },
+  "Robots": {
+    "en": "Robots",
+    "ja": "ロボットアーム",
+    "de": "Roboterarme",
+    "fr": "Bras robotisés"
+  },
+  "CNC Machines": {
+    "en": "CNC Machines",
+    "ja": "工作機械",
+    "de": "Werkzeugmaschinen",
+    "fr": "Machines-outils"
+  },
+  "SPM Stations": {
+    "en": "SPM Stations",
+    "ja": "専用機(SPM)",
+    "de": "Sondermaschinen(SPM)",
+    "fr": "Machines spéciales(SPM)"
+  },
+  "Material Handling": {
+    "en": "Material Handling",
+    "ja": "搬送/物流",
+    "de": "Transport/Logistik",
+    "fr": "Manutention/Logistique"
+  },
+  "Facility/Safety": {
+    "en": "Facility/Safety",
+    "ja": "工場設備/安全",
+    "de": "Betriebstechnik/Sicherheit",
+    "fr": "Installations/Sécurité"
+  },
+  "+ Add": {
+    "en": "+ Add",
+    "ja": "+ 配置",
+    "de": "+ Platzieren",
+    "fr": "+ Placer"
+  },
+  "6-Axis Robot Arm (20kg)": {
+    "en": "6-Axis Robot Arm (20kg)",
+    "ja": "6軸多関節ロボット (20kg)",
+    "de": "6-Achs-Gelenkroboter (20kg)",
+    "fr": "Robot articulé 6 axes (20kg)"
+  },
+  "1.2×1.2×1.8m · Reach R1.8m · 4.5kW": {
+    "en": "1.2×1.2×1.8m · Reach R1.8m · 4.5kW",
+    "ja": "1.2×1.2×1.8m · 半径R1.8m · 4.5kW",
+    "de": "1.2×1.2×1.8m · Reichweite R1.8m · 4.5kW",
+    "fr": "1.2×1.2×1.8m · Portée R1.8m · 4.5kW"
+  },
+  "Heavy-Duty 6-Axis Robot Arm (165kg)": {
+    "en": "Heavy-Duty 6-Axis Robot Arm (165kg)",
+    "ja": "重量物用6軸搬送ロボット (165kg)",
+    "de": "Schwerlast-6-Achs-Transportroboter (165kg)",
+    "fr": "Robot de manutention lourd 6 axes (165kg)"
+  },
+  "1.6×1.6×2.4m · Reach R2.7m · 12kW": {
+    "en": "1.6×1.6×2.4m · Reach R2.7m · 12kW",
+    "ja": "1.6×1.6×2.4m · 半径R2.7m · 12kW",
+    "de": "1.6×1.6×2.4m · Reichweite R2.7m · 12kW",
+    "fr": "1.6×1.6×2.4m · Portée R2.7m · 12kW"
+  },
+  "7th-Axis Track Robot (6m)": {
+    "en": "7th-Axis Track Robot (6m)",
+    "ja": "第7軸走行レールロボット (6m)",
+    "de": "Roboter auf 7. Linearachse (6m)",
+    "fr": "Robot sur rail à 7e axe (6m)"
+  },
+  "6.0×1.4×2.0m · Multi-Machine Tending": {
+    "en": "6.0×1.4×2.0m · Multi-Machine Tending",
+    "ja": "6.0×1.4×2.0m · 複数機への自動供給・排出",
+    "de": "6.0×1.4×2.0m · Mehrmaschinenbeschickung",
+    "fr": "6.0×1.4×2.0m · Chargement de plusieurs machines"
+  },
+  "SCARA 4-Axis High-Speed Assembly Robot": {
+    "en": "SCARA 4-Axis High-Speed Assembly Robot",
+    "ja": "SCARA 4軸高速組立ロボット",
+    "de": "SCARA-4-Achs-Hochgeschwindigkeits-Montageroboter",
+    "fr": "Robot SCARA 4 axes d’assemblage rapide"
+  },
+  "1.1×1.1×1.6m · Pick & Place / Fastening": {
+    "en": "1.1×1.1×1.6m · Pick & Place / Fastening",
+    "ja": "1.1×1.1×1.6m · 高速取出し・配置・締付け",
+    "de": "1.1×1.1×1.6m · Schnelles Greifen/Ablegen/Verschrauben",
+    "fr": "1.1×1.1×1.6m · Prise, dépose et vissage rapides"
+  },
+  "Collaborative Robot Workstation (Cobot)": {
+    "en": "Collaborative Robot Workstation (Cobot)",
+    "ja": "協働ロボットステーション (Cobot)",
+    "de": "Kollaborative Roboterstation (Cobot)",
+    "fr": "Poste robotique collaboratif (Cobot)"
+  },
+  "1.4×1.0×1.7m · Fenceless Human-Robot Collab": {
+    "en": "1.4×1.0×1.7m · Fenceless Human-Robot Collab",
+    "ja": "1.4×1.0×1.7m · 柵なし人・ロボット協働",
+    "de": "1.4×1.0×1.7m · Mensch-Roboter-Kollaboration ohne Zaun",
+    "fr": "1.4×1.0×1.7m · Collaboration sans clôture"
+  },
+  "Vertical Machining Center (VMC-850)": {
+    "en": "Vertical Machining Center (VMC-850)",
+    "ja": "立形マシニングセンタ (VMC-850)",
+    "de": "Vertikales Bearbeitungszentrum (VMC-850)",
+    "fr": "Centre d’usinage vertical (VMC-850)"
+  },
+  "2.8×2.3×2.6m · 3-Axis Milling · 22kW": {
+    "en": "2.8×2.3×2.6m · 3-Axis Milling · 22kW",
+    "ja": "2.8×2.3×2.6m · 3軸フライス加工 · 22kW",
+    "de": "2.8×2.3×2.6m · 3-Achs-Fräsen · 22kW",
+    "fr": "2.8×2.3×2.6m · Fraisage 3 axes · 22kW"
+  },
+  "CNC Slant-Bed Turning & Milling Center": {
+    "en": "CNC Slant-Bed Turning & Milling Center",
+    "ja": "CNC傾斜ベッド複合旋盤",
+    "de": "CNC-Schrägbett-Drehfräszentrum",
+    "fr": "Centre CNC de tournage-fraisage à banc incliné"
+  },
+  "3.2×1.9×2.1m · w/ Chip Conveyor · 18.5kW": {
+    "en": "3.2×1.9×2.1m · w/ Chip Conveyor · 18.5kW",
+    "ja": "3.2×1.9×2.1m · チップコンベヤ付き · 18.5kW",
+    "de": "3.2×1.9×2.1m · Mit Späneförderer · 18.5kW",
+    "fr": "3.2×1.9×2.1m · Avec convoyeur à copeaux · 18.5kW"
+  },
+  "5-Axis Gantry Machining Center": {
+    "en": "5-Axis Gantry Machining Center",
+    "ja": "5軸同時制御門形マシニングセンタ",
+    "de": "5-Achs-Portalbearbeitungszentrum",
+    "fr": "Centre d’usinage à portique 5 axes simultanés"
+  },
+  "3.8×3.2×3.1m · Complex 5-Axis · 35kW": {
+    "en": "3.8×3.2×3.1m · Complex 5-Axis · 35kW",
+    "ja": "3.8×3.2×3.1m · 精密複雑曲面加工 · 35kW",
+    "de": "3.8×3.2×3.1m · Präzise Freiformflächen · 35kW",
+    "fr": "3.8×3.2×3.1m · Surfaces complexes de précision · 35kW"
+  },
+  "CNC Precision Surface & Profile Grinder": {
+    "en": "CNC Precision Surface & Profile Grinder",
+    "ja": "CNC精密成形研削盤",
+    "de": "CNC-Präzisionsprofilschleifmaschine",
+    "fr": "Rectifieuse CNC de profil de précision"
+  },
+  "2.6×2.0×2.2m · Mirror Grinding · 15kW": {
+    "en": "2.6×2.0×2.2m · Mirror Grinding · 15kW",
+    "ja": "2.6×2.0×2.2m · 鏡面研削 · 15kW",
+    "de": "2.6×2.0×2.2m · Spiegelschleifen · 15kW",
+    "fr": "2.6×2.0×2.2m · Rectification miroir · 15kW"
+  },
+  "Rotary Index Table Assembly SPM": {
+    "en": "Rotary Index Table Assembly SPM",
+    "ja": "多工程ロータリーテーブル組立専用機 (Rotary SPM)",
+    "de": "Rundtakt-Montagesondermaschine (Rotary SPM)",
+    "fr": "Machine spéciale d’assemblage à plateau rotatif (Rotary SPM)"
+  },
+  "2.2×2.2×2.1m · 8-Station Cam Indexer": {
+    "en": "2.2×2.2×2.1m · 8-Station Cam Indexer",
+    "ja": "2.2×2.2×2.1m · 8工程自動割出し",
+    "de": "2.2×2.2×2.1m · Automatische 8-Stationen-Teilung",
+    "fr": "2.2×2.2×2.1m · Indexage automatique à 8 postes"
+  },
+  "Servo Press & Torque Tightening SPM": {
+    "en": "Servo Press & Torque Tightening SPM",
+    "ja": "サーボ圧入・トルク締付け専用機 (Servo Press)",
+    "de": "Sondermaschine für Servopressen und Drehmomentverschrauben (Servo Press)",
+    "fr": "Machine spéciale de pressage servo et serrage au couple (Servo Press)"
+  },
+  "1.6×1.4×2.2m · w/ Light Curtain · 5kW": {
+    "en": "1.6×1.4×2.2m · w/ Light Curtain · 5kW",
+    "ja": "1.6×1.4×2.2m · 安全ライトカーテン付き · 5kW",
+    "de": "1.6×1.4×2.2m · Mit Sicherheitslichtvorhang · 5kW",
+    "fr": "1.6×1.4×2.2m · Avec rideau lumineux de sécurité · 5kW"
+  },
+  "AOI Vision & Laser Marking SPM": {
+    "en": "AOI Vision & Laser Marking SPM",
+    "ja": "AOI画像検査・レーザーマーキング装置",
+    "de": "AOI-Prüf- und Lasermarkiermaschine",
+    "fr": "Machine d’inspection AOI et de marquage laser"
+  },
+  "1.8×1.3×2.0m · CCD Inspection · 3.5kW": {
+    "en": "1.8×1.3×2.0m · CCD Inspection · 3.5kW",
+    "ja": "1.8×1.3×2.0m · CCD欠陥検査 · 3.5kW",
+    "de": "1.8×1.3×2.0m · CCD-Fehlerprüfung · 3.5kW",
+    "fr": "1.8×1.3×2.0m · Détection de défauts CCD · 3.5kW"
+  },
+  "Multi-Stage Ultrasonic Cleaning & Drying SPM": {
+    "en": "Multi-Stage Ultrasonic Cleaning & Drying SPM",
+    "ja": "多槽式超音波洗浄・乾燥専用機",
+    "de": "Mehrstufige Ultraschall-Reinigungs- und Trocknungsmaschine",
+    "fr": "Machine de nettoyage ultrasonique et séchage multibacs"
+  },
+  "3.6×1.5×2.1m · Auto Basket Transfer · 18kW": {
+    "en": "3.6×1.5×2.1m · Auto Basket Transfer · 18kW",
+    "ja": "3.6×1.5×2.1m · 自動バスケット移載 · 18kW",
+    "de": "3.6×1.5×2.1m · Automatischer Korbtransfer · 18kW",
+    "fr": "3.6×1.5×2.1m · Transfert automatique de paniers · 18kW"
+  },
+  "Aluminum Belt / Roller Conveyor (4m)": {
+    "en": "Aluminum Belt / Roller Conveyor (4m)",
+    "ja": "アルミフレームベルト/ローラーコンベヤ (4m)",
+    "de": "Aluminium-Band-/Rollenförderer (4m)",
+    "fr": "Convoyeur à bande/rouleaux en aluminium (4m)"
+  },
+  "4.0×0.9×0.95m · Dynamic Part Flow": {
+    "en": "4.0×0.9×0.95m · Dynamic Part Flow",
+    "ja": "4.0×0.9×0.95m · 動的ワーク搬送",
+    "de": "4.0×0.9×0.95m · Dynamischer Werkstückfluss",
+    "fr": "4.0×0.9×0.95m · Flux animé de pièces"
+  },
+  "Double-Speed Chain Conveyor (6m)": {
+    "en": "Double-Speed Chain Conveyor (6m)",
+    "ja": "2段式倍速チェーン組立コンベヤ (6m)",
+    "de": "Zweistöckiger Doppelgeschwindigkeits-Kettenförderer (6m)",
+    "fr": "Convoyeur d’assemblage à chaîne double vitesse à 2 niveaux (6m)"
+  },
+  "6.0×1.2×2.0m · Pallet Lifter & Light Frame": {
+    "en": "6.0×1.2×2.0m · Pallet Lifter & Light Frame",
+    "ja": "6.0×1.2×2.0m · 治具パレット昇降・照明フレーム付き",
+    "de": "6.0×1.2×2.0m · Mit Palettenheber und Leuchtenrahmen",
+    "fr": "6.0×1.2×2.0m · Avec lève-palettes et support d’éclairage"
+  },
+  "AGV / AMR Autonomous Mobile Robot": {
+    "en": "AGV / AMR Autonomous Mobile Robot",
+    "ja": "AGV / AMR 自律搬送車",
+    "de": "AGV / AMR Autonomes Transportfahrzeug",
+    "fr": "AGV / AMR Robot mobile autonome"
+  },
+  "1.4×0.95×1.2m · Autonomous Material Delivery": {
+    "en": "1.4×0.95×1.2m · Autonomous Material Delivery",
+    "ja": "1.4×0.95×1.2m · 自律走行による資材配送",
+    "de": "1.4×0.95×1.2m · Autonome Materialversorgung",
+    "fr": "1.4×0.95×1.2m · Livraison autonome de matériaux"
+  },
+  "Overhead Gantry Truss Loader (8m)": {
+    "en": "Overhead Gantry Truss Loader (8m)",
+    "ja": "高架ガントリーローダー (8m)",
+    "de": "Überkopf-Portallader (8m)",
+    "fr": "Portique de chargement aérien (8m)"
+  },
+  "8.0×1.6×3.4m · Overhead Machine Tending": {
+    "en": "8.0×1.6×3.4m · Overhead Machine Tending",
+    "ja": "8.0×1.6×3.4m · 工作機械間の自動移載",
+    "de": "8.0×1.6×3.4m · Automatischer Transfer über Maschinen",
+    "fr": "8.0×1.6×3.4m · Transfert automatique entre machines"
+  },
+  "Heavy-Duty Multi-Tier Pallet Rack (4m)": {
+    "en": "Heavy-Duty Multi-Tier Pallet Rack (4m)",
+    "ja": "重量物用多段パレットラック (4m)",
+    "de": "Schwerlast-Mehretagen-Palettenregal (4m)",
+    "fr": "Rayonnage lourd à palettes multiniveaux (4m)"
+  },
+  "4.0×1.2×3.2m · 3-Tier Lineside Rack": {
+    "en": "4.0×1.2×3.2m · 3-Tier Lineside Rack",
+    "ja": "4.0×1.2×3.2m · ライン脇3段保管ラック",
+    "de": "4.0×1.2×3.2m · 3-Etagen-Regal an der Linie",
+    "fr": "4.0×1.2×3.2m · Rayonnage de bord de ligne à 3 niveaux"
+  },
+  "Industrial Safety Fence (3m)": {
+    "en": "Industrial Safety Fence (3m)",
+    "ja": "産業用安全防護柵 (3m)",
+    "de": "Industrieller Schutzzaun (3m)",
+    "fr": "Clôture de sécurité industrielle (3m)"
+  },
+  "3.0×0.15×2.0m · Yellow/Black Mesh Guard": {
+    "en": "3.0×0.15×2.0m · Yellow/Black Mesh Guard",
+    "ja": "3.0×0.15×2.0m · 黄黒メッシュ防護柵",
+    "de": "3.0×0.15×2.0m · Gelb-schwarzer Gitterschutz",
+    "fr": "3.0×0.15×2.0m · Protection grillagée jaune et noire"
+  },
+  "Central PLC Cabinet & Andon Board": {
+    "en": "Central PLC Cabinet & Andon Board",
+    "ja": "PLC中央制御盤・稼働表示板",
+    "de": "Zentraler PLC-Schaltschrank und Andon-Tafel",
+    "fr": "Armoire PLC centrale et tableau Andon"
+  },
+  "1.6×0.8×2.1m · Dual-Door Enclosure + HMI": {
+    "en": "1.6×0.8×2.1m · Dual-Door Enclosure + HMI",
+    "ja": "1.6×0.8×2.1m · 両開き配電盤+HMI",
+    "de": "1.6×0.8×2.1m · Doppeltür-Schaltschrank+HMI",
+    "fr": "1.6×0.8×2.1m · Armoire à deux portes+HMI"
+  },
+  "Custom Special Machine / Equipment Input": {
+    "en": "Custom Special Machine / Equipment Input",
+    "ja": "特注専用機 / 設備寸法の入力",
+    "de": "Benutzerdefinierte Sondermaschine / Anlagenmaße",
+    "fr": "Machine spéciale personnalisée / Dimensions"
+  },
+  "Equipment Name or Station ID": {
+    "en": "Equipment Name or Station ID",
+    "ja": "設備名またはステーション番号",
+    "de": "Anlagenname oder Stationsnummer",
+    "fr": "Nom de l’équipement ou numéro de poste"
+  },
+  "3D Visual Archetype": {
+    "en": "3D Visual Archetype",
+    "ja": "外観モデルの種類",
+    "de": "3D-Modelltyp",
+    "fr": "Type de modèle visuel 3D"
+  },
+  "Special Purpose Machine (SPM)": {
+    "en": "Special Purpose Machine (SPM)",
+    "ja": "専用機 (SPM)",
+    "de": "Sondermaschine (SPM)",
+    "fr": "Machine spéciale (SPM)"
+  },
+  "Rotary Index Table SPM": {
+    "en": "Rotary Index Table SPM",
+    "ja": "ロータリーテーブル専用機型",
+    "de": "Rundtakt-Sondermaschine",
+    "fr": "Machine spéciale à plateau rotatif"
+  },
+  "CNC Machine Tool": {
+    "en": "CNC Machine Tool",
+    "ja": "CNC工作機械型",
+    "de": "CNC-Werkzeugmaschine",
+    "fr": "Machine-outil CNC"
+  },
+  "6-Axis Robot Arm": {
+    "en": "6-Axis Robot Arm",
+    "ja": "6軸ロボットアーム型",
+    "de": "6-Achs-Roboterarm",
+    "fr": "Bras robotisé 6 axes"
+  },
+  "Conveyor System": {
+    "en": "Conveyor System",
+    "ja": "搬送装置型",
+    "de": "Fördersystem",
+    "fr": "Système de convoyage"
+  },
+  "Power Load (kW)": {
+    "en": "Power Load (kW)",
+    "ja": "消費電力 (kW)",
+    "de": "Leistungsaufnahme (kW)",
+    "fr": "Puissance absorbée (kW)"
+  },
+  "Height H (m)": {
+    "en": "Height H (m)",
+    "ja": "高さ H (m)",
+    "de": "Höhe H (m)",
+    "fr": "Hauteur H (m)"
+  },
+  "+ Add Custom Equipment to Plant": {
+    "en": "+ Add Custom Equipment to Plant",
+    "ja": "+ 特注設備を工場に追加",
+    "de": "+ Benutzerdefinierte Anlage hinzufügen",
+    "fr": "+ Ajouter l’équipement personnalisé"
+  },
+  "Smart Line Arrangement & Clearance": {
+    "en": "Smart Line Arrangement & Clearance",
+    "ja": "スマートライン配置と安全間隔",
+    "de": "Intelligente Linienanordnung und Sicherheitsabstände",
+    "fr": "Disposition intelligente et dégagement de sécurité"
+  },
+  "IE Standard": {
+    "en": "IE Standard",
+    "ja": "IE生産工学基準",
+    "de": "IE-Industrieengineering-Standard",
+    "fr": "Norme IE de génie industriel"
+  },
+  "Automatically arranges equipment into zoned rows respecting column span, aisle width, and maintenance clearance.": {
+    "en": "Automatically arranges equipment into zoned rows respecting column span, aisle width, and maintenance clearance.",
+    "ja": "柱間隔と安全通路幅に合わせて設備を区画・行列に配置し、保守空間を確保します。",
+    "de": "Ordnet Anlagen in Zonen und Reihen nach Stützenabstand und Gangbreite an und reserviert Wartungsraum.",
+    "fr": "Dispose les équipements par zones et rangées selon l’entraxe des poteaux et la largeur des allées, en réservant l’espace de maintenance."
+  },
+  "Safety Clearance (m)": {
+    "en": "Safety Clearance (m)",
+    "ja": "設備安全間隔 (m)",
+    "de": "Anlagensicherheitsabstand (m)",
+    "fr": "Dégagement de sécurité des équipements (m)"
+  },
+  "Drag Grid Snap": {
+    "en": "Drag Grid Snap",
+    "ja": "ドラッグ時のグリッド吸着",
+    "de": "Rasterfang beim Ziehen",
+    "fr": "Alignement sur la grille au déplacement"
+  },
+  "Free Move (0.1m)": {
+    "en": "Free Move (0.1m)",
+    "ja": "自由移動 (0.1m)",
+    "de": "Freies Bewegen (0.1m)",
+    "fr": "Déplacement libre (0.1m)"
+  },
+  "0.5 m Grid": {
+    "en": "0.5 m Grid",
+    "ja": "0.5 m グリッド",
+    "de": "0.5 m Raster",
+    "fr": "Grille de 0.5 m"
+  },
+  "1.0 m Grid": {
+    "en": "1.0 m Grid",
+    "ja": "1.0 m グリッド",
+    "de": "1.0 m Raster",
+    "fr": "Grille de 1.0 m"
+  },
+  "⚡ Auto-Arrange Factory Zones": {
+    "en": "⚡ Auto-Arrange Factory Zones",
+    "ja": "⚡ ライン区画を自動整列",
+    "de": "⚡ Produktionszonen automatisch anordnen",
+    "fr": "⚡ Réorganiser automatiquement les zones"
+  },
+  "Clear All Equipment in Plant": {
+    "en": "Clear All Equipment in Plant",
+    "ja": "工場内の全設備を削除",
+    "de": "Alle Anlagen aus der Halle entfernen",
+    "fr": "Retirer tous les équipements de l’usine"
+  },
+  "3D Viewport Controls:": {
+    "en": "3D Viewport Controls:",
+    "ja": "3D工場の操作方法：",
+    "de": "3D-Hallensteuerung:",
+    "fr": "Commandes de la vue 3D :"
+  },
+  "• Left-Click Orbit · Right-Click Pan · Scroll Zoom": {
+    "en": "• Left-Click Orbit · Right-Click Pan · Scroll Zoom",
+    "ja": "• 左ボタンで回転 · 右ボタンで移動 · ホイールで拡大縮小",
+    "de": "• Linksklick: Drehen · Rechtsklick: Verschieben · Mausrad: Zoom",
+    "fr": "• Clic gauche : orbite · Clic droit : déplacement · Molette : zoom"
+  },
+  "• Click any 3D machine to drag, rotate 90°, or duplicate": {
+    "en": "• Click any 3D machine to drag, rotate 90°, or duplicate",
+    "ja": "• 3D設備をクリックしてドラッグ移動、90°回転、複製",
+    "de": "• 3D-Anlage anklicken: ziehen, um 90° drehen oder duplizieren",
+    "fr": "• Cliquer sur une machine 3D pour la déplacer, la tourner de 90° ou la dupliquer"
+  },
+  "Isometric (ISO)": {
+    "en": "Isometric (ISO)",
+    "ja": "等角俯瞰 (ISO)",
+    "de": "Isometrie (ISO)",
+    "fr": "Vue isométrique (ISO)"
+  },
+  "Top View (2D)": {
+    "en": "Top View (2D)",
+    "ja": "2D上面図 (Top)",
+    "de": "Draufsicht (2D)",
+    "fr": "Vue de dessus (2D)"
+  },
+  "Front View": {
+    "en": "Front View",
+    "ja": "正面図 (Front)",
+    "de": "Vorderansicht",
+    "fr": "Vue de face"
+  },
+  "Floor Walk": {
+    "en": "Floor Walk",
+    "ja": "フロア巡回 (Floor)",
+    "de": "Hallenrundgang",
+    "fr": "Visite au sol"
+  },
+  "Material Flow": {
+    "en": "Material Flow",
+    "ja": "物流動線",
+    "de": "Materialfluss",
+    "fr": "Flux logistique"
+  },
+  "Wireframe": {
+    "en": "Wireframe",
+    "ja": "ワイヤーフレーム",
+    "de": "Drahtmodell",
+    "fr": "Mode filaire"
+  },
+  "X Pos (m)": {
+    "en": "X Pos (m)",
+    "ja": "X座標 (m)",
+    "de": "X-Position (m)",
+    "fr": "Position X (m)"
+  },
+  "Z Pos (m)": {
+    "en": "Z Pos (m)",
+    "ja": "Z座標 (m)",
+    "de": "Z-Position (m)",
+    "fr": "Position Z (m)"
+  },
+  "Angle (°)": {
+    "en": "Angle (°)",
+    "ja": "向き (°)",
+    "de": "Ausrichtung (°)",
+    "fr": "Orientation (°)"
+  },
+  "↻ Rotate 90°": {
+    "en": "↻ Rotate 90°",
+    "ja": "↻ 90°回転",
+    "de": "↻ Um 90° drehen",
+    "fr": "↻ Tourner de 90°"
+  },
+  "Duplicate": {
+    "en": "Duplicate",
+    "ja": "ステーションを複製",
+    "de": "Station duplizieren",
+    "fr": "Dupliquer le poste"
+  },
+  "Delete": {
+    "en": "Delete",
+    "ja": "削除",
+    "de": "Löschen",
+    "fr": "Supprimer"
+  },
+  "Total Equipment:": {
+    "en": "Total Equipment:",
+    "ja": "配置済み設備総数：",
+    "de": "Anzahl platzierter Anlagen:",
+    "fr": "Nombre d’équipements placés :"
+  },
+  "Floor Utilization:": {
+    "en": "Floor Utilization:",
+    "ja": "工場床面利用率：",
+    "de": "Flächenauslastung:",
+    "fr": "Taux d’occupation au sol :"
+  },
+  "Total Power Load:": {
+    "en": "Total Power Load:",
+    "ja": "工場総電力負荷：",
+    "de": "Gesamte Leistungsaufnahme:",
+    "fr": "Puissance totale de l’usine :"
+  },
+  "Robot / Machine Ratio:": {
+    "en": "Robot / Machine Ratio:",
+    "ja": "ロボット/工作機械比：",
+    "de": "Roboter-/Maschinenverhältnis:",
+    "fr": "Rapport robots/machines :"
+  },
+  "📋 Equipment & Power BOM": {
+    "en": "📋 Equipment & Power BOM",
+    "ja": "📋 設備・電力一覧",
+    "de": "📋 Anlagen- und Leistungsliste",
+    "fr": "📋 Liste des équipements et puissances"
+  },
+  "Equipment Schedule & Power Load (BOM)": {
+    "en": "Equipment Schedule & Power Load (BOM)",
+    "ja": "工場設備配置・電力負荷表 (BOM)",
+    "de": "Anlagenaufstellung und Leistungsbedarf (BOM)",
+    "fr": "Nomenclature des équipements et puissances (BOM)"
+  },
+  "Coordinates, footprint, kW load & safety clearance": {
+    "en": "Coordinates, footprint, kW load & safety clearance",
+    "ja": "座標、設置寸法、消費電力と安全間隔",
+    "de": "Koordinaten, Stellfläche, Leistungsaufnahme und Sicherheitsabstände",
+    "fr": "Coordonnées, emprise, puissance et dégagement de sécurité"
+  },
+  "Plant Engineering & Safety Standards:": {
+    "en": "Plant Engineering & Safety Standards:",
+    "ja": "工場設備・安全設計基準：",
+    "de": "Hallenbau- und Sicherheitsvorgaben:",
+    "fr": "Règles de conception et de sécurité de l’usine :"
+  },
+  "Main AGV Two-Way Aisle:": {
+    "en": "Main AGV Two-Way Aisle:",
+    "ja": "物流/AGV双方向主通路：",
+    "de": "Hauptgang für AGV-Gegenverkehr:",
+    "fr": "Allée principale AGV à double sens :"
+  },
+  "≥ 2.5 m Clear": {
+    "en": "≥ 2.5 m Clear",
+    "ja": "有効幅 ≥ 2.5 m",
+    "de": "≥ 2.5 m lichte Breite",
+    "fr": "Largeur libre ≥ 2.5 m"
+  },
+  "Cabinet Maint. Clearance:": {
+    "en": "Cabinet Maint. Clearance:",
+    "ja": "工作機械制御盤の保守間隔：",
+    "de": "Wartungsabstand am Maschinenschaltschrank:",
+    "fr": "Dégagement de maintenance de l’armoire :"
+  },
+  "≥ 0.8 m Safe Gap": {
+    "en": "≥ 0.8 m Safe Gap",
+    "ja": "安全間隔 ≥ 0.8 m",
+    "de": "≥ 0.8 m Sicherheitsabstand",
+    "fr": "Dégagement de sécurité ≥ 0.8 m"
+  },
+  "OP-10 Vertical Machining Center VMC-850 #1": {
+    "en": "OP-10 Vertical Machining Center VMC-850 #1",
+    "ja": "OP-10 立形マシニングセンタ VMC-850 #1",
+    "de": "OP-10 Vertikales Bearbeitungszentrum VMC-850 #1",
+    "fr": "OP-10 Centre d’usinage vertical VMC-850 #1"
+  },
+  "OP-20 Vertical Machining Center VMC-850 #2": {
+    "en": "OP-20 Vertical Machining Center VMC-850 #2",
+    "ja": "OP-20 立形マシニングセンタ VMC-850 #2",
+    "de": "OP-20 Vertikales Bearbeitungszentrum VMC-850 #2",
+    "fr": "OP-20 Centre d’usinage vertical VMC-850 #2"
+  },
+  "OP-30 CNC Slant-Bed Turn-Mill Center": {
+    "en": "OP-30 CNC Slant-Bed Turn-Mill Center",
+    "ja": "OP-30 CNC傾斜ベッド複合旋盤",
+    "de": "OP-30 CNC-Schrägbett-Drehfräszentrum",
+    "fr": "OP-30 Centre CNC de tournage-fraisage à banc incliné"
+  },
+  "7th-Axis Linear Track Robot (6m Auto Tending)": {
+    "en": "7th-Axis Linear Track Robot (6m Auto Tending)",
+    "ja": "第7軸走行ロボット (6m 自動供給・排出)",
+    "de": "Roboter auf 7. Linearachse (6m automatische Beschickung)",
+    "fr": "Robot sur rail à 7e axe (6m chargement automatique)"
+  },
+  "In/Out Aluminum Belt Conveyor (4m)": {
+    "en": "In/Out Aluminum Belt Conveyor (4m)",
+    "ja": "供給・排出アルミベルトコンベヤ (4m)",
+    "de": "Aluminium-Bandförderer für Zu-/Abfuhr (4m)",
+    "fr": "Convoyeur à bande en aluminium d’entrée/sortie (4m)"
+  },
+  "OP-40 AOI Vision & Laser Marking SPM": {
+    "en": "OP-40 AOI Vision & Laser Marking SPM",
+    "ja": "OP-40 AOI画像検査・レーザーマーキング専用機",
+    "de": "OP-40 AOI-Prüf- und Lasermarkier-Sondermaschine",
+    "fr": "OP-40 Machine spéciale AOI et marquage laser"
+  },
+  "6-Axis Unloading & Packing Robot (20kg)": {
+    "en": "6-Axis Unloading & Packing Robot (20kg)",
+    "ja": "6軸取出し・箱詰めロボット (20kg)",
+    "de": "6-Achs-Entlade- und Verpackungsroboter (20kg)",
+    "fr": "Robot 6 axes de déchargement et mise en carton (20kg)"
+  },
+  "AGV Autonomous Mobile Robot #1": {
+    "en": "AGV Autonomous Mobile Robot #1",
+    "ja": "AGV自律搬送車 #1",
+    "de": "AGV Autonomes Transportfahrzeug #1",
+    "fr": "AGV Robot mobile autonome #1"
+  },
+  "Lineside Heavy-Duty Pallet Rack #1": {
+    "en": "Lineside Heavy-Duty Pallet Rack #1",
+    "ja": "ライン脇重量物用パレットラック #1",
+    "de": "Schwerlast-Palettenregal an der Linie #1",
+    "fr": "Rayonnage lourd à palettes de bord de ligne #1"
+  },
+  "Lineside Heavy-Duty Pallet Rack #2": {
+    "en": "Lineside Heavy-Duty Pallet Rack #2",
+    "ja": "ライン脇重量物用パレットラック #2",
+    "de": "Schwerlast-Palettenregal an der Linie #2",
+    "fr": "Rayonnage lourd à palettes de bord de ligne #2"
+  },
+  "ST-01 Rotary Index Table Assembly SPM #1": {
+    "en": "ST-01 Rotary Index Table Assembly SPM #1",
+    "ja": "ST-01 多工程カム割出しロータリー専用機 #1",
+    "de": "ST-01 Rundtakt-Sondermaschine mit Kurvenindexierung #1",
+    "fr": "ST-01 Machine spéciale rotative à indexage par came #1"
+  },
+  "ST-02 6-Axis Loading Robot Arm": {
+    "en": "ST-02 6-Axis Loading Robot Arm",
+    "ja": "ST-02 6軸供給ロボット",
+    "de": "ST-02 6-Achs-Beschickungsroboter",
+    "fr": "ST-02 Robot 6 axes de chargement"
+  },
+  "ST-03 Double-Speed Chain Assembly Line (6m)": {
+    "en": "ST-03 Double-Speed Chain Assembly Line (6m)",
+    "ja": "ST-03 2段式倍速チェーン組立コンベヤ (6m)",
+    "de": "ST-03 Zweistöckige Doppelgeschwindigkeits-Kettenmontagelinie (6m)",
+    "fr": "ST-03 Convoyeur d’assemblage à chaîne double vitesse à 2 niveaux (6m)"
+  },
+  "ST-04 SCARA 4-Axis High-Speed Robot #1": {
+    "en": "ST-04 SCARA 4-Axis High-Speed Robot #1",
+    "ja": "ST-04 SCARA 4軸高速挿入ロボット #1",
+    "de": "ST-04 SCARA-4-Achs-Hochgeschwindigkeits-Einsetzroboter #1",
+    "fr": "ST-04 Robot SCARA 4 axes d’insertion rapide #1"
+  },
+  "ST-05 SCARA 4-Axis Screw-Driving Robot #2": {
+    "en": "ST-05 SCARA 4-Axis Screw-Driving Robot #2",
+    "ja": "ST-05 SCARA 4軸高速締付けロボット #2",
+    "de": "ST-05 SCARA-4-Achs-Hochgeschwindigkeits-Schraubroboter #2",
+    "fr": "ST-05 Robot SCARA 4 axes de vissage rapide #2"
+  },
+  "ST-06 Servo Press & Torque Test SPM": {
+    "en": "ST-06 Servo Press & Torque Test SPM",
+    "ja": "ST-06 サーボ圧入・トルク試験専用機",
+    "de": "ST-06 Sondermaschine für Servopressen und Drehmomentprüfung",
+    "fr": "ST-06 Machine spéciale de pressage servo et essai de couple"
+  },
+  "ST-07 AOI Vision & Laser Marking SPM": {
+    "en": "ST-07 AOI Vision & Laser Marking SPM",
+    "ja": "ST-07 AOI画像検査・レーザーマーキング専用機",
+    "de": "ST-07 AOI-Prüf- und Lasermarkier-Sondermaschine",
+    "fr": "ST-07 Machine spéciale AOI et marquage laser"
+  },
+  "ST-08 Cobot Collaborative Packing Station": {
+    "en": "ST-08 Cobot Collaborative Packing Station",
+    "ja": "ST-08 協働ロボット包装ステーション (Cobot)",
+    "de": "ST-08 Kollaborative Roboter-Verpackungsstation (Cobot)",
+    "fr": "ST-08 Poste d’emballage robotisé collaboratif (Cobot)"
+  },
+  "AGV Mobile Robot (Finished Goods Transfer)": {
+    "en": "AGV Mobile Robot (Finished Goods Transfer)",
+    "ja": "AGV無人搬送車（完成品移載）",
+    "de": "AGV-Transportfahrzeug (Fertigwarentransfer)",
+    "fr": "AGV Robot mobile (transfert de produits finis)"
+  },
+  "5-Axis Gantry Machining Center #1": {
+    "en": "5-Axis Gantry Machining Center #1",
+    "ja": "5軸同時制御門形マシニングセンタ #1",
+    "de": "5-Achs-Portalbearbeitungszentrum #1",
+    "fr": "Centre d’usinage à portique 5 axes simultanés #1"
+  },
+  "5-Axis Gantry Machining Center #2": {
+    "en": "5-Axis Gantry Machining Center #2",
+    "ja": "5軸同時制御門形マシニングセンタ #2",
+    "de": "5-Achs-Portalbearbeitungszentrum #2",
+    "fr": "Centre d’usinage à portique 5 axes simultanés #2"
+  },
+  "CNC Precision Profile Grinder #3": {
+    "en": "CNC Precision Profile Grinder #3",
+    "ja": "CNC精密成形研削盤 #3",
+    "de": "CNC-Präzisionsprofilschleifmaschine #3",
+    "fr": "Rectifieuse CNC de profil de précision #3"
+  },
+  "Overhead Gantry Truss Loader (12m FMS Line)": {
+    "en": "Overhead Gantry Truss Loader (12m FMS Line)",
+    "ja": "高架ガントリーローダー (12m 工作機械自動ライン)",
+    "de": "Überkopf-Portallader (12m automatische Maschinenlinie)",
+    "fr": "Portique de chargement aérien (12m ligne automatisée)"
+  },
+  "Heavy-Duty 6-Axis Palletizing Robot (165kg)": {
+    "en": "Heavy-Duty 6-Axis Palletizing Robot (165kg)",
+    "ja": "重量物用6軸パレタイジングロボット (165kg)",
+    "de": "Schwerlast-6-Achs-Palettierroboter (165kg)",
+    "fr": "Robot de palettisation lourd 6 axes (165kg)"
+  },
+  "Heavy-Duty Multi-Tier Pallet Rack #1": {
+    "en": "Heavy-Duty Multi-Tier Pallet Rack #1",
+    "ja": "重量物用多段パレットラック #1",
+    "de": "Schwerlast-Mehretagen-Palettenregal #1",
+    "fr": "Rayonnage lourd à palettes multiniveaux #1"
+  },
+  "Heavy-Duty Multi-Tier Pallet Rack #2": {
+    "en": "Heavy-Duty Multi-Tier Pallet Rack #2",
+    "ja": "重量物用多段パレットラック #2",
+    "de": "Schwerlast-Mehretagen-Palettenregal #2",
+    "fr": "Rayonnage lourd à palettes multiniveaux #2"
+  },
+  "Zone A - 5-Axis Gantry Machining Center": {
+    "en": "Zone A - 5-Axis Gantry Machining Center",
+    "ja": "A区画-5軸同時制御門形マシニングセンタ",
+    "de": "Zone A - 5-Achs-Portalbearbeitungszentrum",
+    "fr": "Zone A - Centre d’usinage à portique 5 axes simultanés"
+  },
+  "Zone A - Vertical Machining Center VMC-850 #1": {
+    "en": "Zone A - Vertical Machining Center VMC-850 #1",
+    "ja": "A区画-立形マシニングセンタ VMC-850 #1",
+    "de": "Zone A - Vertikales Bearbeitungszentrum VMC-850 #1",
+    "fr": "Zone A - Centre d’usinage vertical VMC-850 #1"
+  },
+  "Zone A - CNC Slant-Bed Turn-Mill Lathe": {
+    "en": "Zone A - CNC Slant-Bed Turn-Mill Lathe",
+    "ja": "A区画-CNC傾斜ベッド複合旋盤",
+    "de": "Zone A - CNC-Schrägbett-Drehfräszentrum",
+    "fr": "Zone A - Centre CNC de tournage-fraisage à banc incliné"
+  },
+  "Zone A - 7th-Axis Linear Track Robot (8m)": {
+    "en": "Zone A - 7th-Axis Linear Track Robot (8m)",
+    "ja": "A区画-第7軸走行ロボット (8m)",
+    "de": "Zone A - Roboter auf 7. Linearachse (8m)",
+    "fr": "Zone A - Robot sur rail à 7e axe (8m)"
+  },
+  "Zone B - Rotary Index Table Assembly SPM": {
+    "en": "Zone B - Rotary Index Table Assembly SPM",
+    "ja": "B区画-多工程ロータリー組立専用機 (Rotary SPM)",
+    "de": "Zone B - Rundtakt-Montagesondermaschine (Rotary SPM)",
+    "fr": "Zone B - Machine spéciale d’assemblage rotatif (Rotary SPM)"
+  },
+  "Zone B - Servo Press & Fastening SPM": {
+    "en": "Zone B - Servo Press & Fastening SPM",
+    "ja": "B区画-サーボ圧入・締付け専用機",
+    "de": "Zone B - Sondermaschine für Servopressen und Verschrauben",
+    "fr": "Zone B - Machine spéciale de pressage servo et vissage"
+  },
+  "Zone B - AOI Vision & Laser Marking SPM": {
+    "en": "Zone B - AOI Vision & Laser Marking SPM",
+    "ja": "B区画-AOI画像検査・レーザーマーキング装置",
+    "de": "Zone B - AOI-Prüf- und Lasermarkiermaschine",
+    "fr": "Zone B - Machine AOI et marquage laser"
+  },
+  "Zone B - Double-Speed Chain Conveyor (6m)": {
+    "en": "Zone B - Double-Speed Chain Conveyor (6m)",
+    "ja": "B区画-2段式倍速チェーンコンベヤ (6m)",
+    "de": "Zone B - Zweistöckiger Doppelgeschwindigkeits-Kettenförderer (6m)",
+    "fr": "Zone B - Convoyeur à chaîne double vitesse à 2 niveaux (6m)"
+  },
+  "Zone C - Heavy-Duty 6-Axis Palletizing Robot (165kg)": {
+    "en": "Zone C - Heavy-Duty 6-Axis Palletizing Robot (165kg)",
+    "ja": "C区画-重量物用6軸パレタイジングロボット (165kg)",
+    "de": "Zone C - Schwerlast-6-Achs-Palettierroboter (165kg)",
+    "fr": "Zone C - Robot de palettisation lourd 6 axes (165kg)"
+  },
+  "AGV Autonomous Mobile Robot #2": {
+    "en": "AGV Autonomous Mobile Robot #2",
+    "ja": "AGV自律搬送車 #2",
+    "de": "AGV Autonomes Transportfahrzeug #2",
+    "fr": "AGV Robot mobile autonome #2"
+  },
+  "Zone D - Multi-Stage Ultrasonic Cleaning SPM": {
+    "en": "Zone D - Multi-Stage Ultrasonic Cleaning SPM",
+    "ja": "D区画-多槽式超音波洗浄専用機",
+    "de": "Zone D - Mehrstufige Ultraschallreinigungsmaschine",
+    "fr": "Zone D - Machine de nettoyage ultrasonique multibacs"
+  },
+  "Zone D - Heavy-Duty Storage Rack #1": {
+    "en": "Zone D - Heavy-Duty Storage Rack #1",
+    "ja": "D区画-重量物用立体ラック #1",
+    "de": "Zone D - Schwerlast-Lagerregal #1",
+    "fr": "Zone D - Rayonnage lourd de stockage #1"
+  },
+  "Zone D - Heavy-Duty Storage Rack #2": {
+    "en": "Zone D - Heavy-Duty Storage Rack #2",
+    "ja": "D区画-重量物用立体ラック #2",
+    "de": "Zone D - Schwerlast-Lagerregal #2",
+    "fr": "Zone D - Rayonnage lourd de stockage #2"
+  },
+  "Central PLC Control & SCADA Station": {
+    "en": "Central PLC Control & SCADA Station",
+    "ja": "PLC中央制御・監視センター",
+    "de": "Zentrale PLC-Steuerungs- und SCADA-Station",
+    "fr": "Centre de commande PLC et de supervision SCADA"
+  },
+  "6-Axis Industrial Robot Arm (20kg Tending)": {
+    "en": "6-Axis Industrial Robot Arm (20kg Tending)",
+    "ja": "6軸多関節ロボット (20kg 供給・排出)",
+    "de": "6-Achs-Gelenkroboter (20kg Beschickung)",
+    "fr": "Robot articulé 6 axes (20kg chargement)"
+  },
+  "7th-Axis Linear Track Robot (6m Rail)": {
+    "en": "7th-Axis Linear Track Robot (6m Rail)",
+    "ja": "第7軸走行ロボット (6mレール)",
+    "de": "Roboter auf 7. Linearachse (6m Schiene)",
+    "fr": "Robot sur rail à 7e axe (rail de 6m)"
+  },
+  "Rotary Index Table Assembly Machine (SPM)": {
+    "en": "Rotary Index Table Assembly Machine (SPM)",
+    "ja": "多工程カム割出しロータリー組立専用機 (Rotary SPM)",
+    "de": "Rundtakt-Montagesondermaschine mit Kurvenindexierung (Rotary SPM)",
+    "fr": "Machine spéciale d’assemblage rotatif à indexage par came (Rotary SPM)"
+  },
+  "AOI Vision Inspection & Laser Marking SPM": {
+    "en": "AOI Vision Inspection & Laser Marking SPM",
+    "ja": "AOI画像検査・レーザーマーキング専用機",
+    "de": "AOI-Prüf- und Lasermarkier-Sondermaschine",
+    "fr": "Machine spéciale d’inspection AOI et marquage laser"
+  },
+  "Double-Speed Chain Assembly Conveyor (6m)": {
+    "en": "Double-Speed Chain Assembly Conveyor (6m)",
+    "ja": "2段式倍速チェーン組立コンベヤ (6m)",
+    "de": "Zweistöckiger Doppelgeschwindigkeits-Kettenmontageförderer (6m)",
+    "fr": "Convoyeur d’assemblage à chaîne double vitesse à 2 niveaux (6m)"
+  },
+  "AGV / AMR LiDAR Autonomous Mobile Robot": {
+    "en": "AGV / AMR LiDAR Autonomous Mobile Robot",
+    "ja": "AGV / AMR レーザー誘導無人搬送車",
+    "de": "AGV / AMR Lasergeführtes Transportfahrzeug",
+    "fr": "AGV / AMR Robot mobile à guidage laser"
+  },
+  "Overhead Gantry Truss Loader (8m Span)": {
+    "en": "Overhead Gantry Truss Loader (8m Span)",
+    "ja": "高架ガントリーローダー (8mスパン)",
+    "de": "Überkopf-Portallader (8m Spannweite)",
+    "fr": "Portique de chargement aérien (portée de 8m)"
+  },
+  "Industrial Safety Guard Fence (3m Unit)": {
+    "en": "Industrial Safety Guard Fence (3m Unit)",
+    "ja": "産業用安全防護柵 (3mユニット)",
+    "de": "Industrieller Schutzzaun (3m Einheit)",
+    "fr": "Clôture de sécurité industrielle (module de 3m)"
+  },
+  "Central PLC Control Cabinet & HMI Station": {
+    "en": "Central PLC Control Cabinet & HMI Station",
+    "ja": "PLC中央制御盤・HMI監視ステーション",
+    "de": "Zentraler PLC-Schaltschrank und HMI-Station",
+    "fr": "Armoire de commande PLC centrale et poste HMI"
+  },
+  "OP-30 Custom Automated Assembly SPM": {
+    "en": "OP-30 Custom Automated Assembly SPM",
+    "ja": "OP-30 特注自動組立専用機",
+    "de": "OP-30 Kundenspezifische automatische Montagesondermaschine",
+    "fr": "OP-30 Machine spéciale d’assemblage automatique personnalisée"
+  },
+  "Toolbox planner": {
+    "en": "Toolbox planner",
+    "ja": "工具箱プランナー",
+    "de": "Werkzeugkastenplaner",
+    "fr": "Planificateur de boîte à outils"
+  },
+  "Company website": {
+    "en": "Company website",
+    "ja": "公式サイトに戻る",
+    "de": "Zur Firmenwebsite",
+    "fr": "Retour au site officiel"
+  },
+  "Download example": {
+    "en": "Download example",
+    "ja": "サンプルをダウンロード",
+    "de": "Beispiel herunterladen",
+    "fr": "Télécharger l’exemple"
+  },
+  "Digital Twin v2.0": {
+    "en": "Digital Twin v2.0",
+    "ja": "デジタルツイン v2.0",
+    "de": "Digitaler Zwilling v2.0",
+    "fr": "Jumeau numérique v2.0"
+  },
+  "Turnkey": {
+    "en": "Turnkey",
+    "ja": "ターンキー",
+    "de": "Schlüsselfertig",
+    "fr": "Clé en main"
+  },
+  "⛶ Fullscreen": {
+    "en": "⛶ Fullscreen",
+    "ja": "⛶ 全画面",
+    "de": "⛶ Vollbild",
+    "fr": "⛶ Plein écran"
+  },
+  "⤢ Exit fullscreen": {
+    "en": "⤢ Exit fullscreen",
+    "ja": "⤢ 全画面を終了",
+    "de": "⤢ Vollbild verlassen",
+    "fr": "⤢ Quitter le plein écran"
+  },
+  "Full window (F11)": {
+    "en": "Full window (F11)",
+    "ja": "全ウィンドウ (F11)",
+    "de": "Ganzes Fenster (F11)",
+    "fr": "Fenêtre entière (F11)"
+  },
+  "Press F11": {
+    "en": "Press F11",
+    "ja": "F11を押してください",
+    "de": "F11 drücken",
+    "fr": "Appuyez sur F11"
+  },
+  "Esc to exit": {
+    "en": "Esc to exit",
+    "ja": "Escで終了",
+    "de": "Esc zum Verlassen",
+    "fr": "Échap pour quitter"
+  },
+  "Switch language": {
+    "en": "Switch language",
+    "ja": "言語切替",
+    "de": "Sprache wechseln",
+    "fr": "Changer de langue"
+  },
+  "Selected equipment": {
+    "en": "Selected equipment",
+    "ja": "選択した設備",
+    "de": "Ausgewählte Anlage",
+    "fr": "Équipement sélectionné"
+  },
+  "Notification": {
+    "en": "Notification",
+    "ja": "通知",
+    "de": "Benachrichtigung",
+    "fr": "Notification"
+  },
+  "Close": {
+    "en": "Close",
+    "ja": "閉じる",
+    "de": "Schließen",
+    "fr": "Fermer"
+  },
+  "Rotate": {
+    "en": "Rotate",
+    "ja": "回転",
+    "de": "Drehen",
+    "fr": "Tourner"
+  },
+  "Pos": {
+    "en": "Pos",
+    "ja": "座標",
+    "de": "Position",
+    "fr": "Position"
+  },
+  "Simulation: Running": {
+    "en": "Simulation: Running",
+    "ja": "ライン動作シミュレーション：運転中",
+    "de": "Liniensimulation: läuft",
+    "fr": "Simulation de ligne : en marche"
+  },
+  "Simulation: Paused": {
+    "en": "Simulation: Paused",
+    "ja": "ライン動作シミュレーション：一時停止",
+    "de": "Liniensimulation: pausiert",
+    "fr": "Simulation de ligne : en pause"
+  },
+  "Safety Check: Clear": {
+    "en": "Safety Check: Clear",
+    "ja": "工場干渉チェック：衝突なし",
+    "de": "Kollisionsprüfung: frei",
+    "fr": "Contrôle d’interférences : aucune collision"
+  },
+  "Safety Check: Clear (Meets IE Standard)": {
+    "en": "Safety Check: Clear (Meets IE Standard)",
+    "ja": "工場干渉チェック：衝突なし（IE動線基準適合）",
+    "de": "Kollisionsprüfung: frei (entspricht IE-Wegevorgaben)",
+    "fr": "Contrôle d’interférences : aucune collision (conforme à la norme IE)"
+  },
+  "Warning: Collision or insufficient clearance!": {
+    "en": "Warning: Collision or insufficient clearance!",
+    "ja": "干渉警告：設備の衝突または安全間隔不足！",
+    "de": "Warnung: Kollision oder unzureichender Sicherheitsabstand!",
+    "fr": "Avertissement : collision ou dégagement insuffisant !"
+  },
+  "Exceeds plant wall boundary": {
+    "en": "Exceeds plant wall boundary",
+    "ja": "工場壁面の境界外",
+    "de": "Außerhalb der Hallenbegrenzung",
+    "fr": "Dépasse les limites de l’usine"
+  },
+  "Height ({0}m) exceeds clear height ({1}m)": {
+    "en": "Height ({0}m) exceeds clear height ({1}m)",
+    "ja": "設備高さ ({0}m) が梁下有効高さ ({1}m) を超過",
+    "de": "Anlagenhöhe ({0}m) überschreitet die lichte Höhe ({1}m)",
+    "fr": "La hauteur ({0}m) dépasse la hauteur libre ({1}m)"
+  },
+  "Insufficient clearance with \"{0}\"": {
+    "en": "Insufficient clearance with \"{0}\"",
+    "ja": "「{0}」との安全間隔が不足",
+    "de": "Unzureichender Sicherheitsabstand zu „{0}“",
+    "fr": "Dégagement insuffisant avec « {0} »"
+  },
+  "Loaded Turnkey Production Line Template!": {
+    "en": "Loaded Turnkey Production Line Template!",
+    "ja": "工場自動化ライン配置テンプレートを読み込みました！",
+    "de": "Vorlage für komplette Produktionslinie geladen!",
+    "fr": "Modèle de ligne automatisée complète chargé !"
+  },
+  "{0} m² (~{1} ping)": {
+    "en": "{0} m² (~{1} ping)",
+    "ja": "{0} m² (約 {1} 坪)",
+    "de": "{0} m² (ca. {1} Ping)",
+    "fr": "{0} m² (env. {1} ping)"
+  },
+  "{0} Units": {
+    "en": "{0} Units",
+    "ja": "{0} 台",
+    "de": "{0} Anlagen",
+    "fr": "{0} équipements"
+  },
+  "{0} Auto : {1} Machines": {
+    "en": "{0} Auto : {1} Machines",
+    "ja": "{0} 自動化 : {1} 工作機械",
+    "de": "{0} Automation : {1} Maschinen",
+    "fr": "{0} automatisés : {1} machines"
+  },
+  "No equipment placed yet. Click items in the Equipment Library to add.": {
+    "en": "No equipment placed yet. Click items in the Equipment Library to add.",
+    "ja": "設備がありません。左側の設備ライブラリから追加してください。",
+    "de": "Noch keine Anlagen platziert. Links in der Anlagenbibliothek hinzufügen.",
+    "fr": "Aucun équipement placé. Ajoutez-en depuis la bibliothèque à gauche."
+  },
+  "Removed selected equipment station": {
+    "en": "Removed selected equipment station",
+    "ja": "選択した設備ステーションを削除しました",
+    "de": "Ausgewählte Anlagenstation entfernt",
+    "fr": "Poste sélectionné retiré"
+  },
+  "Added \"{0}\" to plant": {
+    "en": "Added \"{0}\" to plant",
+    "ja": "「{0}」を工場に追加しました",
+    "de": "„{0}“ zur Halle hinzugefügt",
+    "fr": "« {0} » ajouté à l’usine"
+  },
+  "Custom special machine station": {
+    "en": "Custom special machine station",
+    "ja": "特注専用機ステーション",
+    "de": "Benutzerdefinierte Sondermaschinenstation",
+    "fr": "Poste de machine spéciale personnalisé"
+  },
+  "Added custom equipment \"{0}\"": {
+    "en": "Added custom equipment \"{0}\"",
+    "ja": "特注設備「{0}」を追加しました",
+    "de": "Benutzerdefinierte Anlage „{0}“ hinzugefügt",
+    "fr": "Équipement personnalisé « {0} » ajouté"
+  },
+  "Auto-arranged production line zones with safety clearance!": {
+    "en": "Auto-arranged production line zones with safety clearance!",
+    "ja": "安全間隔に従ってライン区画を自動整列しました！",
+    "de": "Produktionszonen mit Sicherheitsabstand automatisch angeordnet!",
+    "fr": "Zones de production réorganisées avec dégagement de sécurité !"
+  },
+  "Cleared all equipment from plant": {
+    "en": "Cleared all equipment from plant",
+    "ja": "工場内の全設備を削除しました",
+    "de": "Alle Anlagen aus der Halle entfernt",
+    "fr": "Tous les équipements de l’usine ont été retirés"
+  },
+  "Copy": {
+    "en": "Copy",
+    "ja": "コピー",
+    "de": "Kopie",
+    "fr": "Copie"
+  },
+  "Duplicated \"{0}\"": {
+    "en": "Duplicated \"{0}\"",
+    "ja": "「{0}」を複製しました",
+    "de": "„{0}“ dupliziert",
+    "fr": "« {0} » dupliqué"
+  },
+  "Exported 3D Smart Factory Snapshot (PNG)": {
+    "en": "Exported 3D Smart Factory Snapshot (PNG)",
+    "ja": "3Dスマート工場画像を出力しました (PNG)",
+    "de": "3D-Smart-Factory-Aufnahme exportiert (PNG)",
+    "fr": "Capture 3D de l’usine intelligente exportée (PNG)"
+  },
+  "Exported 2D Plant CAD Layout (SVG)": {
+    "en": "Exported 2D Plant CAD Layout (SVG)",
+    "ja": "2D工場CAD配置図を出力しました (SVG)",
+    "de": "2D-Hallen-CAD-Layout exportiert (SVG)",
+    "fr": "Plan CAO 2D de l’usine exporté (SVG)"
+  },
+  "Exported Equipment Schedule & Power BOM (CSV)": {
+    "en": "Exported Equipment Schedule & Power BOM (CSV)",
+    "ja": "設備一覧・電力負荷表を出力しました (CSV)",
+    "de": "Anlagenliste und Leistungsbedarf exportiert (CSV)",
+    "fr": "Liste des équipements et puissances exportée (CSV)"
+  },
+  "Saved 3D Factory Project (JSON)": {
+    "en": "Saved 3D Factory Project (JSON)",
+    "ja": "3D工場配置プロジェクトを保存しました (JSON)",
+    "de": "3D-Hallenprojekt gespeichert (JSON)",
+    "fr": "Projet d’usine 3D enregistré (JSON)"
+  },
+  "Successfully loaded 3D Factory Project!": {
+    "en": "Successfully loaded 3D Factory Project!",
+    "ja": "3D工場配置プロジェクトを読み込みました！",
+    "de": "3D-Hallenprojekt erfolgreich geladen!",
+    "fr": "Projet d’usine 3D chargé avec succès !"
+  },
+  "Invalid JSON project file format": {
+    "en": "Invalid JSON project file format",
+    "ja": "JSONプロジェクトファイルの形式が不正です",
+    "de": "Ungültiges JSON-Projektdateiformat",
+    "fr": "Format de fichier de projet JSON invalide"
+  },
+  "Reset to default plant layout": {
+    "en": "Reset to default plant layout",
+    "ja": "工場配置を初期状態に戻しました",
+    "de": "Standard-Hallenlayout wiederhergestellt",
+    "fr": "Implantation d’usine par défaut rétablie"
+  },
+  "Switched to English Interface": {
+    "en": "Switched to English Interface",
+    "ja": "日本語表示に切り替えました",
+    "de": "Zur deutschen Oberfläche gewechselt",
+    "fr": "Interface française activée"
+  },
+  "Maxjimtech · 3D Smart Factory Automation & Plant Layout Planner v2.0": {
+    "en": "Maxjimtech · 3D Smart Factory Automation & Plant Layout Planner v2.0",
+    "ja": "Maxjimtech · 3Dスマート工場自動化・工場レイアウト計画 v2.0",
+    "de": "Maxjimtech · 3D-Planer für Fabrikautomation und Hallenlayout v2.0",
+    "fr": "Maxjimtech · Planificateur 3D d’automatisation et d’implantation d’usine v2.0"
+  },
+  "Heavy 6-Axis Robot (165kg)": {
+    "en": "Heavy-Duty 6-Axis Robot Arm (165kg)",
+    "ja": "重量物用6軸搬送ロボット (165kg)",
+    "de": "Schwerlast-6-Achs-Transportroboter (165kg)",
+    "fr": "Robot de manutention lourd 6 axes (165kg)"
+  },
+  "SCARA 4-Axis High-Speed Robot": {
+    "en": "SCARA 4-Axis High-Speed Assembly Robot",
+    "ja": "SCARA 4軸高速組立ロボット",
+    "de": "SCARA-4-Achs-Hochgeschwindigkeits-Montageroboter",
+    "fr": "Robot SCARA 4 axes d’assemblage rapide"
+  },
+  "Cobot Workstation": {
+    "en": "Collaborative Robot Workstation (Cobot)",
+    "ja": "協働ロボットステーション (Cobot)",
+    "de": "Kollaborative Roboterstation (Cobot)",
+    "fr": "Poste robotique collaboratif (Cobot)"
+  },
+  "CNC Slant-Bed Turning Center": {
+    "en": "CNC Slant-Bed Turning & Milling Center",
+    "ja": "CNC傾斜ベッド複合旋盤",
+    "de": "CNC-Schrägbett-Drehfräszentrum",
+    "fr": "Centre CNC de tournage-fraisage à banc incliné"
+  },
+  "CNC Precision Profile Grinder": {
+    "en": "CNC Precision Surface & Profile Grinder",
+    "ja": "CNC精密成形研削盤",
+    "de": "CNC-Präzisionsprofilschleifmaschine",
+    "fr": "Rectifieuse CNC de profil de précision"
+  },
+  "Multi-Stage Ultrasonic Cleaning SPM": {
+    "en": "Multi-Stage Ultrasonic Cleaning & Drying SPM",
+    "ja": "多槽式超音波洗浄・乾燥専用機",
+    "de": "Mehrstufige Ultraschall-Reinigungs- und Trocknungsmaschine",
+    "fr": "Machine de nettoyage ultrasonique et séchage multibacs"
+  },
+  "Belt / Roller Conveyor Line (4m)": {
+    "en": "Aluminum Belt / Roller Conveyor (4m)",
+    "ja": "アルミフレームベルト/ローラーコンベヤ (4m)",
+    "de": "Aluminium-Band-/Rollenförderer (4m)",
+    "fr": "Convoyeur à bande/rouleaux en aluminium (4m)"
+  },
+  "Heavy-Duty Pallet Storage Rack (4m)": {
+    "en": "Heavy-Duty Multi-Tier Pallet Rack (4m)",
+    "ja": "重量物用多段パレットラック (4m)",
+    "de": "Schwerlast-Mehretagen-Palettenregal (4m)",
+    "fr": "Rayonnage lourd à palettes multiniveaux (4m)"
+  },
+  "肇祥企業社 Maxjimtech · 3D 智慧工廠自動化產線與廠房規劃系統": {
+    "en": "Maxjimtech · 3D Smart Factory Automation & Plant Layout Planner",
+    "ja": "Maxjimtech · 3Dスマート工場自動化・工場レイアウト計画",
+    "de": "Maxjimtech · 3D-Planer für Fabrikautomation und Hallenlayout",
+    "fr": "Maxjimtech · Planificateur 3D d’automatisation et d’implantation d’usine"
+  },
+  "機械手臂 · CNC工具母機 · 自動化專用機(SPM) · AGV/輸送搬運 · 廠房動線與電力評估": {
+    "en": "Robotics · CNC Machine Tools · Special Purpose Machines (SPM) · AGV/Conveyors · Plant & Power Planning",
+    "ja": "ロボット · CNC工作機械 · 専用機(SPM) · AGV/搬送 · 動線・電力計画",
+    "de": "Roboter · CNC-Werkzeugmaschinen · Sondermaschinen(SPM) · AGV/Fördertechnik · Wege- und Energieplanung",
+    "fr": "Robots · Machines-outils CNC · Machines spéciales(SPM) · AGV/Convoyeurs · Circulation et puissance"
+  },
+  "3D 截圖": {
+    "en": "3D Snapshot",
+    "ja": "3D画像を保存",
+    "de": "3D-Aufnahme",
+    "fr": "Capture 3D"
+  },
+  "2D 廠房CAD圖 (SVG)": {
+    "en": "2D CAD Plan (SVG)",
+    "ja": "2D工場CAD図 (SVG)",
+    "de": "2D-Hallenplan (SVG)",
+    "fr": "Plan CAO 2D (SVG)"
+  },
+  "匯出設備清單 (CSV)": {
+    "en": "Export BOM (CSV)",
+    "ja": "設備一覧を出力 (CSV)",
+    "de": "Anlagenliste exportieren (CSV)",
+    "fr": "Exporter la liste des équipements (CSV)"
+  },
+  "儲存專案": {
+    "en": "Save JSON",
+    "ja": "プロジェクトを保存",
+    "de": "Projekt speichern",
+    "fr": "Enregistrer le projet"
+  },
+  "載入專案": {
+    "en": "Load JSON",
+    "ja": "プロジェクトを開く",
+    "de": "Projekt laden",
+    "fr": "Charger le projet"
+  },
+  "重置廠房": {
+    "en": "Reset Plant",
+    "ja": "工場をリセット",
+    "de": "Halle zurücksetzen",
+    "fr": "Réinitialiser l’usine"
+  },
+  "1. 廠房與產線範本": {
+    "en": "1. Plant & Templates",
+    "ja": "1. 工場とテンプレート",
+    "de": "1. Halle und Vorlagen",
+    "fr": "1. Usine et modèles"
+  },
+  "2. 自動化設備庫": {
+    "en": "2. Equipment Library",
+    "ja": "2. 自動化設備ライブラリ",
+    "de": "2. Anlagenbibliothek",
+    "fr": "2. Bibliothèque d’équipements"
+  },
+  "3. 排線與安全設定": {
+    "en": "3. Layout & Safety",
+    "ja": "3. 配置と安全設定",
+    "de": "3. Layout und Sicherheit",
+    "fr": "3. Implantation et sécurité"
+  },
+  "整廠自動化產線範本 (一鍵佈局)": {
+    "en": "Turnkey Production Line Templates",
+    "ja": "工場自動化ラインのテンプレート（ワンクリック配置）",
+    "de": "Vorlagen für komplette Produktionslinien (Ein-Klick-Layout)",
+    "fr": "Modèles de lignes automatisées complètes (implantation en un clic)"
+  },
+  "載入產線": {
+    "en": "Load Line",
+    "ja": "ラインを読み込む",
+    "de": "Linie laden",
+    "fr": "Charger la ligne"
+  },
+  "CNC 工具母機 + 第七軸機械手上下料加工島": {
+    "en": "CNC Machine Tools + 7th-Axis Robot Tending Cell",
+    "ja": "CNC工作機械 + 第7軸ロボット加工セル",
+    "de": "CNC-Werkzeugmaschinen + Roboterzelle mit 7. Achse",
+    "fr": "Machines-outils CNC + cellule robotisée à 7e axe"
+  },
+  "專用機 (圓盤/壓入/AOI) + SCARA 自動組裝線": {
+    "en": "SPM (Rotary/Press/AOI) + SCARA Assembly Line",
+    "ja": "専用機（回転/圧入/AOI）+ SCARA組立ライン",
+    "de": "Sondermaschinen (Rundtakt/Presse/AOI) + SCARA-Montagelinie",
+    "fr": "Machines spéciales (rotative/presse/AOI) + ligne SCARA"
+  },
+  "龍門桁架機械手 + 多台五軸/車銑複合 FMS 產線": {
+    "en": "Gantry Loader + 5-Axis / Lathe FMS Line",
+    "ja": "ガントリーローダー + 5軸/複合旋盤FMSライン",
+    "de": "Portallader + FMS-Linie mit 5-Achs-/Drehfräsmaschinen",
+    "fr": "Portique + ligne FMS à machines 5 axes et tournage-fraisage"
+  },
+  "綜合智慧工廠 (加工島 + 專用機線 + AGV物流倉儲)": {
+    "en": "Full Smart Factory (CNC Cell + SPM Line + AGV & Racks)",
+    "ja": "総合スマート工場（加工セル + 専用機 + AGV物流倉庫）",
+    "de": "Komplette Smart Factory (Bearbeitungszelle + Sondermaschinen + AGV/Lager)",
+    "fr": "Usine intelligente complète (usinage + machines spéciales + AGV/stockage)"
+  },
+  "廠房空間與鋼構參數 (公尺 m)": {
+    "en": "Plant Building & Steel Structure (m)",
+    "ja": "工場空間・鉄骨構造の設定 (m)",
+    "de": "Hallenraum und Stahlbauparameter (m)",
+    "fr": "Espace d’usine et structure métallique (m)"
+  },
+  "1格 = 1m × 1m": {
+    "en": "1 Grid = 1m × 1m",
+    "ja": "1マス = 1m × 1m",
+    "de": "1 Raster = 1m × 1m",
+    "fr": "1 case = 1m × 1m"
+  },
+  "廠房長 L (m)": {
+    "en": "Length L (m)",
+    "ja": "工場長さ L (m)",
+    "de": "Hallenlänge L (m)",
+    "fr": "Longueur de l’usine L (m)"
+  },
+  "廠房寬 W (m)": {
+    "en": "Width W (m)",
+    "ja": "工場幅 W (m)",
+    "de": "Hallenbreite W (m)",
+    "fr": "Largeur de l’usine W (m)"
+  },
+  "樑下高 H (m)": {
+    "en": "Clear Height H (m)",
+    "ja": "梁下有効高さ H (m)",
+    "de": "Lichte Höhe H (m)",
+    "fr": "Hauteur libre H (m)"
+  },
+  "鋼柱跨距 (m)": {
+    "en": "Column Span (m)",
+    "ja": "柱間隔 (m)",
+    "de": "Stützenabstand (m)",
+    "fr": "Entraxe des poteaux (m)"
+  },
+  "安全主通道寬 (m)": {
+    "en": "Main Aisle Width (m)",
+    "ja": "主安全通路幅 (m)",
+    "de": "Hauptgangbreite (m)",
+    "fr": "Largeur de l’allée principale (m)"
+  },
+  "廠房總面積：": {
+    "en": "Total Floor Area:",
+    "ja": "工場総面積：",
+    "de": "Gesamtfläche:",
+    "fr": "Surface totale :"
+  },
+  "設備佔地面積：": {
+    "en": "Equipment Footprint:",
+    "ja": "設備設置面積：",
+    "de": "Anlagenstellfläche:",
+    "fr": "Emprise des équipements :"
+  },
+  "建議契約電力容量：": {
+    "en": "Est. Power Capacity:",
+    "ja": "推奨契約電力容量：",
+    "de": "Empfohlene Anschlussleistung:",
+    "fr": "Puissance souscrite conseillée :"
+  },
+  "廠房地坪塗裝與結構顯示": {
+    "en": "Floor Coating & Structure Visibility",
+    "ja": "床塗装と構造の表示",
+    "de": "Bodenbeschichtung und Strukturanzeige",
+    "fr": "Revêtement de sol et affichage de la structure"
+  },
+  "環氧樹脂綠": {
+    "en": "Epoxy Green",
+    "ja": "エポキシ緑",
+    "de": "Epoxidgrün",
+    "fr": "Vert époxy"
+  },
+  "耐磨金剛砂灰": {
+    "en": "Hardener Gray",
+    "ja": "耐摩耗硬質グレー",
+    "de": "Verschleißfestes Hartstoffgrau",
+    "fr": "Gris durci résistant à l’usure"
+  },
+  "無塵抗靜電藍": {
+    "en": "ESD Clean Blue",
+    "ja": "帯電防止クリーンブルー",
+    "de": "Antistatisches Reinraumblau",
+    "fr": "Bleu propre antistatique"
+  },
+  "顯示 H 型鋼柱與天車軌道樑": {
+    "en": "Show H-Beam Columns & Crane Girders",
+    "ja": "H形鋼柱とクレーン走行梁を表示",
+    "de": "H-Stahlstützen und Kranbahnträger anzeigen",
+    "fr": "Afficher les poteaux en H et les poutres de pont roulant"
+  },
+  "顯示 AGV/安全黃線通道標線": {
+    "en": "Show AGV / Yellow Safety Walkway",
+    "ja": "AGV/黄色の安全通路線を表示",
+    "de": "AGV-/gelbe Sicherheitswegmarkierungen anzeigen",
+    "fr": "Afficher le marquage AGV et les allées jaunes"
+  },
+  "顯示機械手作業半徑包絡圈": {
+    "en": "Show Robot Reach Envelope Zones",
+    "ja": "ロボット作業半径の包絡域を表示",
+    "de": "Roboterreichweiten anzeigen",
+    "fr": "Afficher les enveloppes de portée des robots"
+  },
+  "工業自動化設備模型庫 (20款)": {
+    "en": "Automation Equipment Library (20 Models)",
+    "ja": "産業自動化設備ライブラリ (20機種)",
+    "de": "Bibliothek für Automationsanlagen (20 Modelle)",
+    "fr": "Bibliothèque d’équipements automatisés (20 modèles)"
+  },
+  "點擊即擺入廠房": {
+    "en": "Click to Place",
+    "ja": "クリックして配置",
+    "de": "Zum Platzieren anklicken",
+    "fr": "Cliquer pour placer"
+  },
+  "全部 (20)": {
+    "en": "All (20)",
+    "ja": "すべて (20)",
+    "de": "Alle (20)",
+    "fr": "Tous (20)"
+  },
+  "機械手臂": {
+    "en": "Robots",
+    "ja": "ロボットアーム",
+    "de": "Roboterarme",
+    "fr": "Bras robotisés"
+  },
+  "工具母機": {
+    "en": "CNC Machines",
+    "ja": "工作機械",
+    "de": "Werkzeugmaschinen",
+    "fr": "Machines-outils"
+  },
+  "專用機(SPM)": {
+    "en": "SPM Stations",
+    "ja": "専用機(SPM)",
+    "de": "Sondermaschinen(SPM)",
+    "fr": "Machines spéciales(SPM)"
+  },
+  "搬運/物流": {
+    "en": "Material Handling",
+    "ja": "搬送/物流",
+    "de": "Transport/Logistik",
+    "fr": "Manutention/Logistique"
+  },
+  "廠務/安全": {
+    "en": "Facility/Safety",
+    "ja": "工場設備/安全",
+    "de": "Betriebstechnik/Sicherheit",
+    "fr": "Installations/Sécurité"
+  },
+  "+ 配置": {
+    "en": "+ Add",
+    "ja": "+ 配置",
+    "de": "+ Platzieren",
+    "fr": "+ Placer"
+  },
+  "六軸關節機械手臂 (20kg)": {
+    "en": "6-Axis Robot Arm (20kg)",
+    "ja": "6軸多関節ロボット (20kg)",
+    "de": "6-Achs-Gelenkroboter (20kg)",
+    "fr": "Robot articulé 6 axes (20kg)"
+  },
+  "1.2×1.2×1.8m · 半徑R1.8m · 4.5kW": {
+    "en": "1.2×1.2×1.8m · Reach R1.8m · 4.5kW",
+    "ja": "1.2×1.2×1.8m · 半径R1.8m · 4.5kW",
+    "de": "1.2×1.2×1.8m · Reichweite R1.8m · 4.5kW",
+    "fr": "1.2×1.2×1.8m · Portée R1.8m · 4.5kW"
+  },
+  "重型六軸搬運機械手 (165kg)": {
+    "en": "Heavy-Duty 6-Axis Robot Arm (165kg)",
+    "ja": "重量物用6軸搬送ロボット (165kg)",
+    "de": "Schwerlast-6-Achs-Transportroboter (165kg)",
+    "fr": "Robot de manutention lourd 6 axes (165kg)"
+  },
+  "1.6×1.6×2.4m · 半徑R2.7m · 12kW": {
+    "en": "1.6×1.6×2.4m · Reach R2.7m · 12kW",
+    "ja": "1.6×1.6×2.4m · 半径R2.7m · 12kW",
+    "de": "1.6×1.6×2.4m · Reichweite R2.7m · 12kW",
+    "fr": "1.6×1.6×2.4m · Portée R2.7m · 12kW"
+  },
+  "第七軸地軌行走機械手 (6m)": {
+    "en": "7th-Axis Track Robot (6m)",
+    "ja": "第7軸走行レールロボット (6m)",
+    "de": "Roboter auf 7. Linearachse (6m)",
+    "fr": "Robot sur rail à 7e axe (6m)"
+  },
+  "6.0×1.4×2.0m · 多機連線上下料": {
+    "en": "6.0×1.4×2.0m · Multi-Machine Tending",
+    "ja": "6.0×1.4×2.0m · 複数機への自動供給・排出",
+    "de": "6.0×1.4×2.0m · Mehrmaschinenbeschickung",
+    "fr": "6.0×1.4×2.0m · Chargement de plusieurs machines"
+  },
+  "SCARA 四軸高速組裝機械手": {
+    "en": "SCARA 4-Axis High-Speed Assembly Robot",
+    "ja": "SCARA 4軸高速組立ロボット",
+    "de": "SCARA-4-Achs-Hochgeschwindigkeits-Montageroboter",
+    "fr": "Robot SCARA 4 axes d’assemblage rapide"
+  },
+  "1.1×1.1×1.6m · 高速取放鎖附": {
+    "en": "1.1×1.1×1.6m · Pick & Place / Fastening",
+    "ja": "1.1×1.1×1.6m · 高速取出し・配置・締付け",
+    "de": "1.1×1.1×1.6m · Schnelles Greifen/Ablegen/Verschrauben",
+    "fr": "1.1×1.1×1.6m · Prise, dépose et vissage rapides"
+  },
+  "協作型機器人工作站 (Cobot)": {
+    "en": "Collaborative Robot Workstation (Cobot)",
+    "ja": "協働ロボットステーション (Cobot)",
+    "de": "Kollaborative Roboterstation (Cobot)",
+    "fr": "Poste robotique collaboratif (Cobot)"
+  },
+  "1.4×1.0×1.7m · 免圍欄人機協作": {
+    "en": "1.4×1.0×1.7m · Fenceless Human-Robot Collab",
+    "ja": "1.4×1.0×1.7m · 柵なし人・ロボット協働",
+    "de": "1.4×1.0×1.7m · Mensch-Roboter-Kollaboration ohne Zaun",
+    "fr": "1.4×1.0×1.7m · Collaboration sans clôture"
+  },
+  "立式綜合加工中心 (VMC-850)": {
+    "en": "Vertical Machining Center (VMC-850)",
+    "ja": "立形マシニングセンタ (VMC-850)",
+    "de": "Vertikales Bearbeitungszentrum (VMC-850)",
+    "fr": "Centre d’usinage vertical (VMC-850)"
+  },
+  "2.8×2.3×2.6m · 三軸銑削 · 22kW": {
+    "en": "2.8×2.3×2.6m · 3-Axis Milling · 22kW",
+    "ja": "2.8×2.3×2.6m · 3軸フライス加工 · 22kW",
+    "de": "2.8×2.3×2.6m · 3-Achs-Fräsen · 22kW",
+    "fr": "2.8×2.3×2.6m · Fraisage 3 axes · 22kW"
+  },
+  "CNC 斜床身車銑複合車床": {
+    "en": "CNC Slant-Bed Turning & Milling Center",
+    "ja": "CNC傾斜ベッド複合旋盤",
+    "de": "CNC-Schrägbett-Drehfräszentrum",
+    "fr": "Centre CNC de tournage-fraisage à banc incliné"
+  },
+  "3.2×1.9×2.1m · 含排屑機 · 18.5kW": {
+    "en": "3.2×1.9×2.1m · w/ Chip Conveyor · 18.5kW",
+    "ja": "3.2×1.9×2.1m · チップコンベヤ付き · 18.5kW",
+    "de": "3.2×1.9×2.1m · Mit Späneförderer · 18.5kW",
+    "fr": "3.2×1.9×2.1m · Avec convoyeur à copeaux · 18.5kW"
+  },
+  "五軸聯動龍門加工中心": {
+    "en": "5-Axis Gantry Machining Center",
+    "ja": "5軸同時制御門形マシニングセンタ",
+    "de": "5-Achs-Portalbearbeitungszentrum",
+    "fr": "Centre d’usinage à portique 5 axes simultanés"
+  },
+  "3.8×3.2×3.1m · 精密複雜曲面 · 35kW": {
+    "en": "3.8×3.2×3.1m · Complex 5-Axis · 35kW",
+    "ja": "3.8×3.2×3.1m · 精密複雑曲面加工 · 35kW",
+    "de": "3.8×3.2×3.1m · Präzise Freiformflächen · 35kW",
+    "fr": "3.8×3.2×3.1m · Surfaces complexes de précision · 35kW"
+  },
+  "CNC 精密成型磨床": {
+    "en": "CNC Precision Surface & Profile Grinder",
+    "ja": "CNC精密成形研削盤",
+    "de": "CNC-Präzisionsprofilschleifmaschine",
+    "fr": "Rectifieuse CNC de profil de précision"
+  },
+  "2.6×2.0×2.2m · 鏡面研磨 · 15kW": {
+    "en": "2.6×2.0×2.2m · Mirror Grinding · 15kW",
+    "ja": "2.6×2.0×2.2m · 鏡面研削 · 15kW",
+    "de": "2.6×2.0×2.2m · Spiegelschleifen · 15kW",
+    "fr": "2.6×2.0×2.2m · Rectification miroir · 15kW"
+  },
+  "多工位圓盤組裝專用機 (Rotary SPM)": {
+    "en": "Rotary Index Table Assembly SPM",
+    "ja": "多工程ロータリーテーブル組立専用機 (Rotary SPM)",
+    "de": "Rundtakt-Montagesondermaschine (Rotary SPM)",
+    "fr": "Machine spéciale d’assemblage à plateau rotatif (Rotary SPM)"
+  },
+  "2.2×2.2×2.1m · 八工位自動分割": {
+    "en": "2.2×2.2×2.1m · 8-Station Cam Indexer",
+    "ja": "2.2×2.2×2.1m · 8工程自動割出し",
+    "de": "2.2×2.2×2.1m · Automatische 8-Stationen-Teilung",
+    "fr": "2.2×2.2×2.1m · Indexage automatique à 8 postes"
+  },
+  "伺服壓入與扭力鎖附專用機": {
+    "en": "Servo Press & Torque Tightening SPM",
+    "ja": "サーボ圧入・トルク締付け専用機",
+    "de": "Sondermaschine für Servopressen und Drehmomentverschrauben",
+    "fr": "Machine spéciale de pressage servo et serrage au couple"
+  },
+  "1.6×1.4×2.2m · 含安全光幕 · 5kW": {
+    "en": "1.6×1.4×2.2m · w/ Light Curtain · 5kW",
+    "ja": "1.6×1.4×2.2m · 安全ライトカーテン付き · 5kW",
+    "de": "1.6×1.4×2.2m · Mit Sicherheitslichtvorhang · 5kW",
+    "fr": "1.6×1.4×2.2m · Avec rideau lumineux de sécurité · 5kW"
+  },
+  "AOI 視覺檢測與雷射打標機": {
+    "en": "AOI Vision & Laser Marking SPM",
+    "ja": "AOI画像検査・レーザーマーキング装置",
+    "de": "AOI-Prüf- und Lasermarkiermaschine",
+    "fr": "Machine d’inspection AOI et de marquage laser"
+  },
+  "1.8×1.3×2.0m · CCD瑕疵檢測 · 3.5kW": {
+    "en": "1.8×1.3×2.0m · CCD Inspection · 3.5kW",
+    "ja": "1.8×1.3×2.0m · CCD欠陥検査 · 3.5kW",
+    "de": "1.8×1.3×2.0m · CCD-Fehlerprüfung · 3.5kW",
+    "fr": "1.8×1.3×2.0m · Détection de défauts CCD · 3.5kW"
+  },
+  "多槽式超音波清洗烘乾專用機": {
+    "en": "Multi-Stage Ultrasonic Cleaning & Drying SPM",
+    "ja": "多槽式超音波洗浄・乾燥専用機",
+    "de": "Mehrstufige Ultraschall-Reinigungs- und Trocknungsmaschine",
+    "fr": "Machine de nettoyage ultrasonique et séchage multibacs"
+  },
+  "3.6×1.5×2.1m · 自動提籃移載 · 18kW": {
+    "en": "3.6×1.5×2.1m · Auto Basket Transfer · 18kW",
+    "ja": "3.6×1.5×2.1m · 自動バスケット移載 · 18kW",
+    "de": "3.6×1.5×2.1m · Automatischer Korbtransfer · 18kW",
+    "fr": "3.6×1.5×2.1m · Transfert automatique de paniers · 18kW"
+  },
+  "鋁擠型皮帶/滾筒輸送線 (4m)": {
+    "en": "Aluminum Belt / Roller Conveyor (4m)",
+    "ja": "アルミフレームベルト/ローラーコンベヤ (4m)",
+    "de": "Aluminium-Band-/Rollenförderer (4m)",
+    "fr": "Convoyeur à bande/rouleaux en aluminium (4m)"
+  },
+  "4.0×0.9×0.95m · 含動態工件流": {
+    "en": "4.0×0.9×0.95m · Dynamic Part Flow",
+    "ja": "4.0×0.9×0.95m · 動的ワーク搬送",
+    "de": "4.0×0.9×0.95m · Dynamischer Werkstückfluss",
+    "fr": "4.0×0.9×0.95m · Flux animé de pièces"
+  },
+  "雙層倍速鏈組裝輸送線 (6m)": {
+    "en": "Double-Speed Chain Conveyor (6m)",
+    "ja": "2段式倍速チェーン組立コンベヤ (6m)",
+    "de": "Zweistöckiger Doppelgeschwindigkeits-Kettenförderer (6m)",
+    "fr": "Convoyeur d’assemblage à chaîne double vitesse à 2 niveaux (6m)"
+  },
+  "6.0×1.2×2.0m · 含頂升治具盤與燈架": {
+    "en": "6.0×1.2×2.0m · Pallet Lifter & Light Frame",
+    "ja": "6.0×1.2×2.0m · 治具パレット昇降・照明フレーム付き",
+    "de": "6.0×1.2×2.0m · Mit Palettenheber und Leuchtenrahmen",
+    "fr": "6.0×1.2×2.0m · Avec lève-palettes et support d’éclairage"
+  },
+  "AGV / AMR 無人搬運車": {
+    "en": "AGV / AMR Autonomous Mobile Robot",
+    "ja": "AGV / AMR 自律搬送車",
+    "de": "AGV / AMR Autonomes Transportfahrzeug",
+    "fr": "AGV / AMR Robot mobile autonome"
+  },
+  "1.4×0.95×1.2m · 自動巡航物料配送": {
+    "en": "1.4×0.95×1.2m · Autonomous Material Delivery",
+    "ja": "1.4×0.95×1.2m · 自律走行による資材配送",
+    "de": "1.4×0.95×1.2m · Autonome Materialversorgung",
+    "fr": "1.4×0.95×1.2m · Livraison autonome de matériaux"
+  },
+  "高架桁架式龍門機械手 (8m)": {
+    "en": "Overhead Gantry Truss Loader (8m)",
+    "ja": "高架ガントリーローダー (8m)",
+    "de": "Überkopf-Portallader (8m)",
+    "fr": "Portique de chargement aérien (8m)"
+  },
+  "8.0×1.6×3.4m · 跨母機自動移載": {
+    "en": "8.0×1.6×3.4m · Overhead Machine Tending",
+    "ja": "8.0×1.6×3.4m · 工作機械間の自動移載",
+    "de": "8.0×1.6×3.4m · Automatischer Transfer über Maschinen",
+    "fr": "8.0×1.6×3.4m · Transfert automatique entre machines"
+  },
+  "重型多層物料棧板貨架 (4m)": {
+    "en": "Heavy-Duty Multi-Tier Pallet Rack (4m)",
+    "ja": "重量物用多段パレットラック (4m)",
+    "de": "Schwerlast-Mehretagen-Palettenregal (4m)",
+    "fr": "Rayonnage lourd à palettes multiniveaux (4m)"
+  },
+  "4.0×1.2×3.2m · 三層線邊倉儲架": {
+    "en": "4.0×1.2×3.2m · 3-Tier Lineside Rack",
+    "ja": "4.0×1.2×3.2m · ライン脇3段保管ラック",
+    "de": "4.0×1.2×3.2m · 3-Etagen-Regal an der Linie",
+    "fr": "4.0×1.2×3.2m · Rayonnage de bord de ligne à 3 niveaux"
+  },
+  "工業安全防護圍欄 (3m)": {
+    "en": "Industrial Safety Fence (3m)",
+    "ja": "産業用安全防護柵 (3m)",
+    "de": "Industrieller Schutzzaun (3m)",
+    "fr": "Clôture de sécurité industrielle (3m)"
+  },
+  "3.0×0.15×2.0m · 黃黑網格隔離護欄": {
+    "en": "3.0×0.15×2.0m · Yellow/Black Mesh Guard",
+    "ja": "3.0×0.15×2.0m · 黄黒メッシュ防護柵",
+    "de": "3.0×0.15×2.0m · Gelb-schwarzer Gitterschutz",
+    "fr": "3.0×0.15×2.0m · Protection grillagée jaune et noire"
+  },
+  "PLC 中央電控櫃與戰情看板": {
+    "en": "Central PLC Cabinet & Andon Board",
+    "ja": "PLC中央制御盤・稼働表示板",
+    "de": "Zentraler PLC-Schaltschrank und Andon-Tafel",
+    "fr": "Armoire PLC centrale et tableau Andon"
+  },
+  "1.6×0.8×2.1m · 雙門配電盤+HMI": {
+    "en": "1.6×0.8×2.1m · Dual-Door Enclosure + HMI",
+    "ja": "1.6×0.8×2.1m · 両開き配電盤+HMI",
+    "de": "1.6×0.8×2.1m · Doppeltür-Schaltschrank+HMI",
+    "fr": "1.6×0.8×2.1m · Armoire à deux portes+HMI"
+  },
+  "自訂特規專用機 / 設備尺寸輸入": {
+    "en": "Custom Special Machine / Equipment Input",
+    "ja": "特注専用機 / 設備寸法の入力",
+    "de": "Benutzerdefinierte Sondermaschine / Anlagenmaße",
+    "fr": "Machine spéciale personnalisée / Dimensions"
+  },
+  "設備名稱或工站編號": {
+    "en": "Equipment Name or Station ID",
+    "ja": "設備名またはステーション番号",
+    "de": "Anlagenname oder Stationsnummer",
+    "fr": "Nom de l’équipement ou numéro de poste"
+  },
+  "外觀模型類別": {
+    "en": "3D Visual Archetype",
+    "ja": "外観モデルの種類",
+    "de": "3D-Modelltyp",
+    "fr": "Type de modèle visuel 3D"
+  },
+  "專用機 (SPM 機台型)": {
+    "en": "Special Purpose Machine (SPM)",
+    "ja": "専用機 (SPM)",
+    "de": "Sondermaschine (SPM)",
+    "fr": "Machine spéciale (SPM)"
+  },
+  "圓盤分割專用機型": {
+    "en": "Rotary Index Table SPM",
+    "ja": "ロータリーテーブル専用機型",
+    "de": "Rundtakt-Sondermaschine",
+    "fr": "Machine spéciale à plateau rotatif"
+  },
+  "CNC 加工母機型": {
+    "en": "CNC Machine Tool",
+    "ja": "CNC工作機械型",
+    "de": "CNC-Werkzeugmaschine",
+    "fr": "Machine-outil CNC"
+  },
+  "六軸機械手臂型": {
+    "en": "6-Axis Robot Arm",
+    "ja": "6軸ロボットアーム型",
+    "de": "6-Achs-Roboterarm",
+    "fr": "Bras robotisé 6 axes"
+  },
+  "輸送設備型": {
+    "en": "Conveyor System",
+    "ja": "搬送装置型",
+    "de": "Fördersystem",
+    "fr": "Système de convoyage"
+  },
+  "耗電功率 (kW)": {
+    "en": "Power Load (kW)",
+    "ja": "消費電力 (kW)",
+    "de": "Leistungsaufnahme (kW)",
+    "fr": "Puissance absorbée (kW)"
+  },
+  "長 L (m)": {
+    "en": "Length L (m)",
+    "ja": "長さ L (m)",
+    "de": "Länge L (m)",
+    "fr": "Longueur L (m)"
+  },
+  "寬 W (m)": {
+    "en": "Width W (m)",
+    "ja": "幅 W (m)",
+    "de": "Breite W (m)",
+    "fr": "Largeur W (m)"
+  },
+  "高 H (m)": {
+    "en": "Height H (m)",
+    "ja": "高さ H (m)",
+    "de": "Höhe H (m)",
+    "fr": "Hauteur H (m)"
+  },
+  "+ 加入自訂設備至廠房": {
+    "en": "+ Add Custom Equipment to Plant",
+    "ja": "+ 特注設備を工場に追加",
+    "de": "+ Benutzerdefinierte Anlage hinzufügen",
+    "fr": "+ Ajouter l’équipement personnalisé"
+  },
+  "智慧產線排列與安全間距": {
+    "en": "Smart Line Arrangement & Clearance",
+    "ja": "スマートライン配置と安全間隔",
+    "de": "Intelligente Linienanordnung und Sicherheitsabstände",
+    "fr": "Disposition intelligente et dégagement de sécurité"
+  },
+  "IE 工業工程標準": {
+    "en": "IE Standard",
+    "ja": "IE生産工学基準",
+    "de": "IE-Industrieengineering-Standard",
+    "fr": "Norme IE de génie industriel"
+  },
+  "自動依廠房跨距與安全通道寬度進行分區行列排布，預留設備保養維修空間。": {
+    "en": "Automatically arranges equipment into zoned rows respecting column span, aisle width, and maintenance clearance.",
+    "ja": "柱間隔と安全通路幅に合わせて設備を区画・行列に配置し、保守空間を確保します。",
+    "de": "Ordnet Anlagen in Zonen und Reihen nach Stützenabstand und Gangbreite an und reserviert Wartungsraum.",
+    "fr": "Dispose les équipements par zones et rangées selon l’entraxe des poteaux et la largeur des allées, en réservant l’espace de maintenance."
+  },
+  "設備安全間距 (m)": {
+    "en": "Safety Clearance (m)",
+    "ja": "設備安全間隔 (m)",
+    "de": "Anlagensicherheitsabstand (m)",
+    "fr": "Dégagement de sécurité des équipements (m)"
+  },
+  "拖曳網格吸附": {
+    "en": "Drag Grid Snap",
+    "ja": "ドラッグ時のグリッド吸着",
+    "de": "Rasterfang beim Ziehen",
+    "fr": "Alignement sur la grille au déplacement"
+  },
+  "自由移動 (0.1m)": {
+    "en": "Free Move (0.1m)",
+    "ja": "自由移動 (0.1m)",
+    "de": "Freies Bewegen (0.1m)",
+    "fr": "Déplacement libre (0.1m)"
+  },
+  "0.5 m 網格": {
+    "en": "0.5 m Grid",
+    "ja": "0.5 m グリッド",
+    "de": "0.5 m Raster",
+    "fr": "Grille de 0.5 m"
+  },
+  "1.0 m 網格": {
+    "en": "1.0 m Grid",
+    "ja": "1.0 m グリッド",
+    "de": "1.0 m Raster",
+    "fr": "Grille de 1.0 m"
+  },
+  "⚡ 執行產線區塊自動整列": {
+    "en": "⚡ Auto-Arrange Factory Zones",
+    "ja": "⚡ ライン区画を自動整列",
+    "de": "⚡ Produktionszonen automatisch anordnen",
+    "fr": "⚡ Réorganiser automatiquement les zones"
+  },
+  "清空廠房內所有設備": {
+    "en": "Clear All Equipment in Plant",
+    "ja": "工場内の全設備を削除",
+    "de": "Alle Anlagen aus der Halle entfernen",
+    "fr": "Retirer tous les équipements de l’usine"
+  },
+  "3D 廠房操作指南：": {
+    "en": "3D Viewport Controls:",
+    "ja": "3D工場の操作方法：",
+    "de": "3D-Hallensteuerung:",
+    "fr": "Commandes de la vue 3D :"
+  },
+  "• 左鍵旋轉視角 · 右鍵平移廠房 · 滾輪縮放": {
+    "en": "• Left-Click Orbit · Right-Click Pan · Scroll Zoom",
+    "ja": "• 左ボタンで回転 · 右ボタンで移動 · ホイールで拡大縮小",
+    "de": "• Linksklick: Drehen · Rechtsklick: Verschieben · Mausrad: Zoom",
+    "fr": "• Clic gauche : orbite · Clic droit : déplacement · Molette : zoom"
+  },
+  "• 點擊 3D 設備可直接拖曳移位、旋轉 90° 或複製工站": {
+    "en": "• Click any 3D machine to drag, rotate 90°, or duplicate",
+    "ja": "• 3D設備をクリックしてドラッグ移動、90°回転、複製",
+    "de": "• 3D-Anlage anklicken: ziehen, um 90° drehen oder duplizieren",
+    "fr": "• Cliquer sur une machine 3D pour la déplacer, la tourner de 90° ou la dupliquer"
+  },
+  "鳥瞰等角 (ISO)": {
+    "en": "Isometric (ISO)",
+    "ja": "等角俯瞰 (ISO)",
+    "de": "Isometrie (ISO)",
+    "fr": "Vue isométrique (ISO)"
+  },
+  "2D 俯視 (Top)": {
+    "en": "Top View (2D)",
+    "ja": "2D上面図 (Top)",
+    "de": "Draufsicht (2D)",
+    "fr": "Vue de dessus (2D)"
+  },
+  "正視 (Front)": {
+    "en": "Front View",
+    "ja": "正面図 (Front)",
+    "de": "Vorderansicht",
+    "fr": "Vue de face"
+  },
+  "巡檢視角 (Floor)": {
+    "en": "Floor Walk",
+    "ja": "フロア巡回 (Floor)",
+    "de": "Hallenrundgang",
+    "fr": "Visite au sol"
+  },
+  "物流動線": {
+    "en": "Material Flow",
+    "ja": "物流動線",
+    "de": "Materialfluss",
+    "fr": "Flux logistique"
+  },
+  "線框模式": {
+    "en": "Wireframe",
+    "ja": "ワイヤーフレーム",
+    "de": "Drahtmodell",
+    "fr": "Mode filaire"
+  },
+  "X 座標 (m)": {
+    "en": "X Pos (m)",
+    "ja": "X座標 (m)",
+    "de": "X-Position (m)",
+    "fr": "Position X (m)"
+  },
+  "Z 座標 (m)": {
+    "en": "Z Pos (m)",
+    "ja": "Z座標 (m)",
+    "de": "Z-Position (m)",
+    "fr": "Position Z (m)"
+  },
+  "朝向角 (°)": {
+    "en": "Angle (°)",
+    "ja": "向き (°)",
+    "de": "Ausrichtung (°)",
+    "fr": "Orientation (°)"
+  },
+  "↻ 旋轉 90°": {
+    "en": "↻ Rotate 90°",
+    "ja": "↻ 90°回転",
+    "de": "↻ Um 90° drehen",
+    "fr": "↻ Tourner de 90°"
+  },
+  "複製工站": {
+    "en": "Duplicate",
+    "ja": "ステーションを複製",
+    "de": "Station duplizieren",
+    "fr": "Dupliquer le poste"
+  },
+  "刪除": {
+    "en": "Delete",
+    "ja": "削除",
+    "de": "Löschen",
+    "fr": "Supprimer"
+  },
+  "已配置設備總數：": {
+    "en": "Total Equipment:",
+    "ja": "配置済み設備総数：",
+    "de": "Anzahl platzierter Anlagen:",
+    "fr": "Nombre d’équipements placés :"
+  },
+  "廠房面積稼動率：": {
+    "en": "Floor Utilization:",
+    "ja": "工場床面利用率：",
+    "de": "Flächenauslastung:",
+    "fr": "Taux d’occupation au sol :"
+  },
+  "全廠總用電負載：": {
+    "en": "Total Power Load:",
+    "ja": "工場総電力負荷：",
+    "de": "Gesamte Leistungsaufnahme:",
+    "fr": "Puissance totale de l’usine :"
+  },
+  "機械手臂/母機比：": {
+    "en": "Robot / Machine Ratio:",
+    "ja": "ロボット/工作機械比：",
+    "de": "Roboter-/Maschinenverhältnis:",
+    "fr": "Rapport robots/machines :"
+  },
+  "📋 設備與電力清單": {
+    "en": "📋 Equipment & Power BOM",
+    "ja": "📋 設備・電力一覧",
+    "de": "📋 Anlagen- und Leistungsliste",
+    "fr": "📋 Liste des équipements et puissances"
+  },
+  "廠房設備配置與電力負載表 (BOM)": {
+    "en": "Equipment Schedule & Power Load (BOM)",
+    "ja": "工場設備配置・電力負荷表 (BOM)",
+    "de": "Anlagenaufstellung und Leistungsbedarf (BOM)",
+    "fr": "Nomenclature des équipements et puissances (BOM)"
+  },
+  "工站座標、佔地尺寸、耗電量與安全距離": {
+    "en": "Coordinates, footprint, kW load & safety clearance",
+    "ja": "座標、設置寸法、消費電力と安全間隔",
+    "de": "Koordinaten, Stellfläche, Leistungsaufnahme und Sicherheitsabstände",
+    "fr": "Coordonnées, emprise, puissance et dégagement de sécurité"
+  },
+  "廠務工程與安全設計規範：": {
+    "en": "Plant Engineering & Safety Standards:",
+    "ja": "工場設備・安全設計基準：",
+    "de": "Hallenbau- und Sicherheitsvorgaben:",
+    "fr": "Règles de conception et de sécurité de l’usine :"
+  },
+  "主物流/AGV雙向道：": {
+    "en": "Main AGV Two-Way Aisle:",
+    "ja": "物流/AGV双方向主通路：",
+    "de": "Hauptgang für AGV-Gegenverkehr:",
+    "fr": "Allée principale AGV à double sens :"
+  },
+  "≥ 2.5 m 淨寬": {
+    "en": "≥ 2.5 m Clear",
+    "ja": "有効幅 ≥ 2.5 m",
+    "de": "≥ 2.5 m lichte Breite",
+    "fr": "Largeur libre ≥ 2.5 m"
+  },
+  "母機電控櫃維修距：": {
+    "en": "Cabinet Maint. Clearance:",
+    "ja": "工作機械制御盤の保守間隔：",
+    "de": "Wartungsabstand am Maschinenschaltschrank:",
+    "fr": "Dégagement de maintenance de l’armoire :"
+  },
+  "≥ 0.8 m 安全距": {
+    "en": "≥ 0.8 m Safe Gap",
+    "ja": "安全間隔 ≥ 0.8 m",
+    "de": "≥ 0.8 m Sicherheitsabstand",
+    "fr": "Dégagement de sécurité ≥ 0.8 m"
+  },
+  "OP-10 立式綜合加工中心 VMC-850 #1": {
+    "en": "OP-10 Vertical Machining Center VMC-850 #1",
+    "ja": "OP-10 立形マシニングセンタ VMC-850 #1",
+    "de": "OP-10 Vertikales Bearbeitungszentrum VMC-850 #1",
+    "fr": "OP-10 Centre d’usinage vertical VMC-850 #1"
+  },
+  "OP-20 立式綜合加工中心 VMC-850 #2": {
+    "en": "OP-20 Vertical Machining Center VMC-850 #2",
+    "ja": "OP-20 立形マシニングセンタ VMC-850 #2",
+    "de": "OP-20 Vertikales Bearbeitungszentrum VMC-850 #2",
+    "fr": "OP-20 Centre d’usinage vertical VMC-850 #2"
+  },
+  "OP-30 CNC 斜床身車銑複合機": {
+    "en": "OP-30 CNC Slant-Bed Turn-Mill Center",
+    "ja": "OP-30 CNC傾斜ベッド複合旋盤",
+    "de": "OP-30 CNC-Schrägbett-Drehfräszentrum",
+    "fr": "OP-30 Centre CNC de tournage-fraisage à banc incliné"
+  },
+  "第七軸地軌行走機械手 (6m 自動上下料)": {
+    "en": "7th-Axis Linear Track Robot (6m Auto Tending)",
+    "ja": "第7軸走行ロボット (6m 自動供給・排出)",
+    "de": "Roboter auf 7. Linearachse (6m automatische Beschickung)",
+    "fr": "Robot sur rail à 7e axe (6m chargement automatique)"
+  },
+  "入出料鋁擠型皮帶輸送線 (4m)": {
+    "en": "In/Out Aluminum Belt Conveyor (4m)",
+    "ja": "供給・排出アルミベルトコンベヤ (4m)",
+    "de": "Aluminium-Bandförderer für Zu-/Abfuhr (4m)",
+    "fr": "Convoyeur à bande en aluminium d’entrée/sortie (4m)"
+  },
+  "OP-40 AOI 視覺檢測與雷射打標專用機": {
+    "en": "OP-40 AOI Vision & Laser Marking SPM",
+    "ja": "OP-40 AOI画像検査・レーザーマーキング専用機",
+    "de": "OP-40 AOI-Prüf- und Lasermarkier-Sondermaschine",
+    "fr": "OP-40 Machine spéciale AOI et marquage laser"
+  },
+  "六軸下料裝箱機械手臂 (20kg)": {
+    "en": "6-Axis Unloading & Packing Robot (20kg)",
+    "ja": "6軸取出し・箱詰めロボット (20kg)",
+    "de": "6-Achs-Entlade- und Verpackungsroboter (20kg)",
+    "fr": "Robot 6 axes de déchargement et mise en carton (20kg)"
+  },
+  "AGV 智慧無人搬運車 #1": {
+    "en": "AGV Autonomous Mobile Robot #1",
+    "ja": "AGV自律搬送車 #1",
+    "de": "AGV Autonomes Transportfahrzeug #1",
+    "fr": "AGV Robot mobile autonome #1"
+  },
+  "線邊重型物料棧板貨架 #1": {
+    "en": "Lineside Heavy-Duty Pallet Rack #1",
+    "ja": "ライン脇重量物用パレットラック #1",
+    "de": "Schwerlast-Palettenregal an der Linie #1",
+    "fr": "Rayonnage lourd à palettes de bord de ligne #1"
+  },
+  "線邊重型物料棧板貨架 #2": {
+    "en": "Lineside Heavy-Duty Pallet Rack #2",
+    "ja": "ライン脇重量物用パレットラック #2",
+    "de": "Schwerlast-Palettenregal an der Linie #2",
+    "fr": "Rayonnage lourd à palettes de bord de ligne #2"
+  },
+  "ST-01 多工位凸輪分割圓盤專用機 #1": {
+    "en": "ST-01 Rotary Index Table Assembly SPM #1",
+    "ja": "ST-01 多工程カム割出しロータリー専用機 #1",
+    "de": "ST-01 Rundtakt-Sondermaschine mit Kurvenindexierung #1",
+    "fr": "ST-01 Machine spéciale rotative à indexage par came #1"
+  },
+  "ST-02 六軸上料機械手臂": {
+    "en": "ST-02 6-Axis Loading Robot Arm",
+    "ja": "ST-02 6軸供給ロボット",
+    "de": "ST-02 6-Achs-Beschickungsroboter",
+    "fr": "ST-02 Robot 6 axes de chargement"
+  },
+  "ST-03 雙層倍速鏈自動組裝輸送線 (6m)": {
+    "en": "ST-03 Double-Speed Chain Assembly Line (6m)",
+    "ja": "ST-03 2段式倍速チェーン組立コンベヤ (6m)",
+    "de": "ST-03 Zweistöckige Doppelgeschwindigkeits-Kettenmontagelinie (6m)",
+    "fr": "ST-03 Convoyeur d’assemblage à chaîne double vitesse à 2 niveaux (6m)"
+  },
+  "ST-04 SCARA 四軸高速插件機械手 #1": {
+    "en": "ST-04 SCARA 4-Axis High-Speed Robot #1",
+    "ja": "ST-04 SCARA 4軸高速挿入ロボット #1",
+    "de": "ST-04 SCARA-4-Achs-Hochgeschwindigkeits-Einsetzroboter #1",
+    "fr": "ST-04 Robot SCARA 4 axes d’insertion rapide #1"
+  },
+  "ST-05 SCARA 四軸高速鎖附機械手 #2": {
+    "en": "ST-05 SCARA 4-Axis Screw-Driving Robot #2",
+    "ja": "ST-05 SCARA 4軸高速締付けロボット #2",
+    "de": "ST-05 SCARA-4-Achs-Hochgeschwindigkeits-Schraubroboter #2",
+    "fr": "ST-05 Robot SCARA 4 axes de vissage rapide #2"
+  },
+  "ST-06 伺服壓入與扭力測試專用機": {
+    "en": "ST-06 Servo Press & Torque Test SPM",
+    "ja": "ST-06 サーボ圧入・トルク試験専用機",
+    "de": "ST-06 Sondermaschine für Servopressen und Drehmomentprüfung",
+    "fr": "ST-06 Machine spéciale de pressage servo et essai de couple"
+  },
+  "ST-07 AOI 視覺檢測與雷射打標專用機": {
+    "en": "ST-07 AOI Vision & Laser Marking SPM",
+    "ja": "ST-07 AOI画像検査・レーザーマーキング専用機",
+    "de": "ST-07 AOI-Prüf- und Lasermarkier-Sondermaschine",
+    "fr": "ST-07 Machine spéciale AOI et marquage laser"
+  },
+  "ST-08 協作型機器人包裝站 (Cobot)": {
+    "en": "ST-08 Cobot Collaborative Packing Station",
+    "ja": "ST-08 協働ロボット包装ステーション (Cobot)",
+    "de": "ST-08 Kollaborative Roboter-Verpackungsstation (Cobot)",
+    "fr": "ST-08 Poste d’emballage robotisé collaboratif (Cobot)"
+  },
+  "AGV 無人搬運車 (成品移載)": {
+    "en": "AGV Mobile Robot (Finished Goods Transfer)",
+    "ja": "AGV無人搬送車（完成品移載）",
+    "de": "AGV-Transportfahrzeug (Fertigwarentransfer)",
+    "fr": "AGV Robot mobile (transfert de produits finis)"
+  },
+  "五軸聯動龍門加工中心 #1": {
+    "en": "5-Axis Gantry Machining Center #1",
+    "ja": "5軸同時制御門形マシニングセンタ #1",
+    "de": "5-Achs-Portalbearbeitungszentrum #1",
+    "fr": "Centre d’usinage à portique 5 axes simultanés #1"
+  },
+  "五軸聯動龍門加工中心 #2": {
+    "en": "5-Axis Gantry Machining Center #2",
+    "ja": "5軸同時制御門形マシニングセンタ #2",
+    "de": "5-Achs-Portalbearbeitungszentrum #2",
+    "fr": "Centre d’usinage à portique 5 axes simultanés #2"
+  },
+  "CNC 精密成型磨床 #3": {
+    "en": "CNC Precision Profile Grinder #3",
+    "ja": "CNC精密成形研削盤 #3",
+    "de": "CNC-Präzisionsprofilschleifmaschine #3",
+    "fr": "Rectifieuse CNC de profil de précision #3"
+  },
+  "高架桁架式龍門機械手 (12m 跨母機自動線)": {
+    "en": "Overhead Gantry Truss Loader (12m FMS Line)",
+    "ja": "高架ガントリーローダー (12m 工作機械自動ライン)",
+    "de": "Überkopf-Portallader (12m automatische Maschinenlinie)",
+    "fr": "Portique de chargement aérien (12m ligne automatisée)"
+  },
+  "重型六軸搬運機械手 (165kg 棧板疊桟)": {
+    "en": "Heavy-Duty 6-Axis Palletizing Robot (165kg)",
+    "ja": "重量物用6軸パレタイジングロボット (165kg)",
+    "de": "Schwerlast-6-Achs-Palettierroboter (165kg)",
+    "fr": "Robot de palettisation lourd 6 axes (165kg)"
+  },
+  "重型多層物料棧板貨架 #1": {
+    "en": "Heavy-Duty Multi-Tier Pallet Rack #1",
+    "ja": "重量物用多段パレットラック #1",
+    "de": "Schwerlast-Mehretagen-Palettenregal #1",
+    "fr": "Rayonnage lourd à palettes multiniveaux #1"
+  },
+  "重型多層物料棧板貨架 #2": {
+    "en": "Heavy-Duty Multi-Tier Pallet Rack #2",
+    "ja": "重量物用多段パレットラック #2",
+    "de": "Schwerlast-Mehretagen-Palettenregal #2",
+    "fr": "Rayonnage lourd à palettes multiniveaux #2"
+  },
+  "A區-五軸聯動龍門加工中心": {
+    "en": "Zone A - 5-Axis Gantry Machining Center",
+    "ja": "A区画-5軸同時制御門形マシニングセンタ",
+    "de": "Zone A - 5-Achs-Portalbearbeitungszentrum",
+    "fr": "Zone A - Centre d’usinage à portique 5 axes simultanés"
+  },
+  "A區-立式加工中心 VMC-850 #1": {
+    "en": "Zone A - Vertical Machining Center VMC-850 #1",
+    "ja": "A区画-立形マシニングセンタ VMC-850 #1",
+    "de": "Zone A - Vertikales Bearbeitungszentrum VMC-850 #1",
+    "fr": "Zone A - Centre d’usinage vertical VMC-850 #1"
+  },
+  "A區-CNC 斜床身車銑複合機": {
+    "en": "Zone A - CNC Slant-Bed Turn-Mill Lathe",
+    "ja": "A区画-CNC傾斜ベッド複合旋盤",
+    "de": "Zone A - CNC-Schrägbett-Drehfräszentrum",
+    "fr": "Zone A - Centre CNC de tournage-fraisage à banc incliné"
+  },
+  "A區-第七軸地軌行走機械手 (8m)": {
+    "en": "Zone A - 7th-Axis Linear Track Robot (8m)",
+    "ja": "A区画-第7軸走行ロボット (8m)",
+    "de": "Zone A - Roboter auf 7. Linearachse (8m)",
+    "fr": "Zone A - Robot sur rail à 7e axe (8m)"
+  },
+  "B區-多工位圓盤組裝專用機 (Rotary SPM)": {
+    "en": "Zone B - Rotary Index Table Assembly SPM",
+    "ja": "B区画-多工程ロータリー組立専用機 (Rotary SPM)",
+    "de": "Zone B - Rundtakt-Montagesondermaschine (Rotary SPM)",
+    "fr": "Zone B - Machine spéciale d’assemblage rotatif (Rotary SPM)"
+  },
+  "B區-伺服壓入鎖附專用機": {
+    "en": "Zone B - Servo Press & Fastening SPM",
+    "ja": "B区画-サーボ圧入・締付け専用機",
+    "de": "Zone B - Sondermaschine für Servopressen und Verschrauben",
+    "fr": "Zone B - Machine spéciale de pressage servo et vissage"
+  },
+  "B區-AOI 視覺檢測與雷射打標機": {
+    "en": "Zone B - AOI Vision & Laser Marking SPM",
+    "ja": "B区画-AOI画像検査・レーザーマーキング装置",
+    "de": "Zone B - AOI-Prüf- und Lasermarkiermaschine",
+    "fr": "Zone B - Machine AOI et marquage laser"
+  },
+  "B區-雙層倍速鏈自動輸送線 (6m)": {
+    "en": "Zone B - Double-Speed Chain Conveyor (6m)",
+    "ja": "B区画-2段式倍速チェーンコンベヤ (6m)",
+    "de": "Zone B - Zweistöckiger Doppelgeschwindigkeits-Kettenförderer (6m)",
+    "fr": "Zone B - Convoyeur à chaîne double vitesse à 2 niveaux (6m)"
+  },
+  "C區-重型六軸碼垛機械手 (165kg)": {
+    "en": "Zone C - Heavy-Duty 6-Axis Palletizing Robot (165kg)",
+    "ja": "C区画-重量物用6軸パレタイジングロボット (165kg)",
+    "de": "Zone C - Schwerlast-6-Achs-Palettierroboter (165kg)",
+    "fr": "Zone C - Robot de palettisation lourd 6 axes (165kg)"
+  },
+  "AGV 智慧無人搬運車 #2": {
+    "en": "AGV Autonomous Mobile Robot #2",
+    "ja": "AGV自律搬送車 #2",
+    "de": "AGV Autonomes Transportfahrzeug #2",
+    "fr": "AGV Robot mobile autonome #2"
+  },
+  "D區-多槽式超音波清洗專用機": {
+    "en": "Zone D - Multi-Stage Ultrasonic Cleaning SPM",
+    "ja": "D区画-多槽式超音波洗浄専用機",
+    "de": "Zone D - Mehrstufige Ultraschallreinigungsmaschine",
+    "fr": "Zone D - Machine de nettoyage ultrasonique multibacs"
+  },
+  "D區-重型物料立體貨架 #1": {
+    "en": "Zone D - Heavy-Duty Storage Rack #1",
+    "ja": "D区画-重量物用立体ラック #1",
+    "de": "Zone D - Schwerlast-Lagerregal #1",
+    "fr": "Zone D - Rayonnage lourd de stockage #1"
+  },
+  "D區-重型物料立體貨架 #2": {
+    "en": "Zone D - Heavy-Duty Storage Rack #2",
+    "ja": "D区画-重量物用立体ラック #2",
+    "de": "Zone D - Schwerlast-Lagerregal #2",
+    "fr": "Zone D - Rayonnage lourd de stockage #2"
+  },
+  "PLC 中央電控與戰情中心": {
+    "en": "Central PLC Control & SCADA Station",
+    "ja": "PLC中央制御・監視センター",
+    "de": "Zentrale PLC-Steuerungs- und SCADA-Station",
+    "fr": "Centre de commande PLC et de supervision SCADA"
+  },
+  "六軸關節機械手臂 (20kg 上下料)": {
+    "en": "6-Axis Industrial Robot Arm (20kg Tending)",
+    "ja": "6軸多関節ロボット (20kg 供給・排出)",
+    "de": "6-Achs-Gelenkroboter (20kg Beschickung)",
+    "fr": "Robot articulé 6 axes (20kg chargement)"
+  },
+  "第七軸地軌行走機械手 (6m軌道)": {
+    "en": "7th-Axis Linear Track Robot (6m Rail)",
+    "ja": "第7軸走行ロボット (6mレール)",
+    "de": "Roboter auf 7. Linearachse (6m Schiene)",
+    "fr": "Robot sur rail à 7e axe (rail de 6m)"
+  },
+  "多工位凸輪分割圓盤專用機 (Rotary SPM)": {
+    "en": "Rotary Index Table Assembly Machine (SPM)",
+    "ja": "多工程カム割出しロータリー組立専用機 (Rotary SPM)",
+    "de": "Rundtakt-Montagesondermaschine mit Kurvenindexierung (Rotary SPM)",
+    "fr": "Machine spéciale d’assemblage rotatif à indexage par came (Rotary SPM)"
+  },
+  "伺服壓入與扭力鎖附專用機 (Servo Press)": {
+    "en": "Servo Press & Torque Tightening SPM",
+    "ja": "サーボ圧入・トルク締付け専用機 (Servo Press)",
+    "de": "Sondermaschine für Servopressen und Drehmomentverschrauben (Servo Press)",
+    "fr": "Machine spéciale de pressage servo et serrage au couple (Servo Press)"
+  },
+  "AOI 視覺檢測與雷射打標專用機": {
+    "en": "AOI Vision Inspection & Laser Marking SPM",
+    "ja": "AOI画像検査・レーザーマーキング専用機",
+    "de": "AOI-Prüf- und Lasermarkier-Sondermaschine",
+    "fr": "Machine spéciale d’inspection AOI et marquage laser"
+  },
+  "雙層倍速鏈自動組裝輸送線 (6m)": {
+    "en": "Double-Speed Chain Assembly Conveyor (6m)",
+    "ja": "2段式倍速チェーン組立コンベヤ (6m)",
+    "de": "Zweistöckiger Doppelgeschwindigkeits-Kettenmontageförderer (6m)",
+    "fr": "Convoyeur d’assemblage à chaîne double vitesse à 2 niveaux (6m)"
+  },
+  "AGV / AMR 雷射導航無人搬運車": {
+    "en": "AGV / AMR LiDAR Autonomous Mobile Robot",
+    "ja": "AGV / AMR レーザー誘導無人搬送車",
+    "de": "AGV / AMR Lasergeführtes Transportfahrzeug",
+    "fr": "AGV / AMR Robot mobile à guidage laser"
+  },
+  "高架桁架式龍門機械手 (8m跨距)": {
+    "en": "Overhead Gantry Truss Loader (8m Span)",
+    "ja": "高架ガントリーローダー (8mスパン)",
+    "de": "Überkopf-Portallader (8m Spannweite)",
+    "fr": "Portique de chargement aérien (portée de 8m)"
+  },
+  "工業安全防護圍欄 (3m單元)": {
+    "en": "Industrial Safety Guard Fence (3m Unit)",
+    "ja": "産業用安全防護柵 (3mユニット)",
+    "de": "Industrieller Schutzzaun (3m Einheit)",
+    "fr": "Clôture de sécurité industrielle (module de 3m)"
+  },
+  "PLC 中央電控櫃與戰情看板站": {
+    "en": "Central PLC Control Cabinet & HMI Station",
+    "ja": "PLC中央制御盤・HMI監視ステーション",
+    "de": "Zentraler PLC-Schaltschrank und HMI-Station",
+    "fr": "Armoire de commande PLC centrale et poste HMI"
+  },
+  "OP-30 客製化自動組裝專用機": {
+    "en": "OP-30 Custom Automated Assembly SPM",
+    "ja": "OP-30 特注自動組立専用機",
+    "de": "OP-30 Kundenspezifische automatische Montagesondermaschine",
+    "fr": "OP-30 Machine spéciale d’assemblage automatique personnalisée"
+  },
+  "工具盒規劃器": {
+    "en": "Toolbox planner",
+    "ja": "工具箱プランナー",
+    "de": "Werkzeugkastenplaner",
+    "fr": "Planificateur de boîte à outils"
+  },
+  "返回官網": {
+    "en": "Company website",
+    "ja": "公式サイトに戻る",
+    "de": "Zur Firmenwebsite",
+    "fr": "Retour au site officiel"
+  },
+  "下載範例": {
+    "en": "Download example",
+    "ja": "サンプルをダウンロード",
+    "de": "Beispiel herunterladen",
+    "fr": "Télécharger l’exemple"
+  },
+  "⛶ 全螢幕 / Fullscreen": {
+    "en": "⛶ Fullscreen",
+    "ja": "⛶ 全画面",
+    "de": "⛶ Vollbild",
+    "fr": "⛶ Plein écran"
+  },
+  "⤢ 離開全螢幕 / Exit": {
+    "en": "⤢ Exit fullscreen",
+    "ja": "⤢ 全画面を終了",
+    "de": "⤢ Vollbild verlassen",
+    "fr": "⤢ Quitter le plein écran"
+  },
+  "全視窗 / Full window (F11)": {
+    "en": "Full window (F11)",
+    "ja": "全ウィンドウ (F11)",
+    "de": "Ganzes Fenster (F11)",
+    "fr": "Fenêtre entière (F11)"
+  },
+  "請按 F11 / Press F11": {
+    "en": "Press F11",
+    "ja": "F11を押してください",
+    "de": "F11 drücken",
+    "fr": "Appuyez sur F11"
+  },
+  "Esc 離開 / Esc to exit": {
+    "en": "Esc to exit",
+    "ja": "Escで終了",
+    "de": "Esc zum Verlassen",
+    "fr": "Échap pour quitter"
+  },
+  "切換語言 / Switch Language": {
+    "en": "Switch language",
+    "ja": "言語切替",
+    "de": "Sprache wechseln",
+    "fr": "Changer de langue"
+  },
+  "選取設備名稱": {
+    "en": "Selected equipment",
+    "ja": "選択した設備",
+    "de": "Ausgewählte Anlage",
+    "fr": "Équipement sélectionné"
+  },
+  "通知訊息": {
+    "en": "Notification",
+    "ja": "通知",
+    "de": "Benachrichtigung",
+    "fr": "Notification"
+  },
+  "關閉": {
+    "en": "Close",
+    "ja": "閉じる",
+    "de": "Schließen",
+    "fr": "Fermer"
+  },
+  "旋轉": {
+    "en": "Rotate",
+    "ja": "回転",
+    "de": "Drehen",
+    "fr": "Tourner"
+  },
+  "座標": {
+    "en": "Pos",
+    "ja": "座標",
+    "de": "Position",
+    "fr": "Position"
+  },
+  "產線動態模擬：運轉中": {
+    "en": "Simulation: Running",
+    "ja": "ライン動作シミュレーション：運転中",
+    "de": "Liniensimulation: läuft",
+    "fr": "Simulation de ligne : en marche"
+  },
+  "產線動態模擬：已暫停": {
+    "en": "Simulation: Paused",
+    "ja": "ライン動作シミュレーション：一時停止",
+    "de": "Liniensimulation: pausiert",
+    "fr": "Simulation de ligne : en pause"
+  },
+  "廠房干涉檢測：安全無碰撞": {
+    "en": "Safety Check: Clear",
+    "ja": "工場干渉チェック：衝突なし",
+    "de": "Kollisionsprüfung: frei",
+    "fr": "Contrôle d’interférences : aucune collision"
+  },
+  "廠房干涉檢測：安全無碰撞 (符合IE動線標準)": {
+    "en": "Safety Check: Clear (Meets IE Standard)",
+    "ja": "工場干渉チェック：衝突なし（IE動線基準適合）",
+    "de": "Kollisionsprüfung: frei (entspricht IE-Wegevorgaben)",
+    "fr": "Contrôle d’interférences : aucune collision (conforme à la norme IE)"
+  },
+  "干涉警示：存在設備碰撞或安全距離不足！": {
+    "en": "Warning: Collision or insufficient clearance!",
+    "ja": "干渉警告：設備の衝突または安全間隔不足！",
+    "de": "Warnung: Kollision oder unzureichender Sicherheitsabstand!",
+    "fr": "Avertissement : collision ou dégagement insuffisant !"
+  },
+  "超出廠房牆面邊界": {
+    "en": "Exceeds plant wall boundary",
+    "ja": "工場壁面の境界外",
+    "de": "Außerhalb der Hallenbegrenzung",
+    "fr": "Dépasse les limites de l’usine"
+  },
+  "設備高度 ({0}m) 超過廠房樑下高 ({1}m)": {
+    "en": "Height ({0}m) exceeds clear height ({1}m)",
+    "ja": "設備高さ ({0}m) が梁下有効高さ ({1}m) を超過",
+    "de": "Anlagenhöhe ({0}m) überschreitet die lichte Höhe ({1}m)",
+    "fr": "La hauteur ({0}m) dépasse la hauteur libre ({1}m)"
+  },
+  "與「{0}」安全距離不足": {
+    "en": "Insufficient clearance with \"{0}\"",
+    "ja": "「{0}」との安全間隔が不足",
+    "de": "Unzureichender Sicherheitsabstand zu „{0}“",
+    "fr": "Dégagement insuffisant avec « {0} »"
+  },
+  "已載入整廠自動化產線配置範本！": {
+    "en": "Loaded Turnkey Production Line Template!",
+    "ja": "工場自動化ライン配置テンプレートを読み込みました！",
+    "de": "Vorlage für komplette Produktionslinie geladen!",
+    "fr": "Modèle de ligne automatisée complète chargé !"
+  },
+  "{0} m² (約 {1} 坪)": {
+    "en": "{0} m² (~{1} ping)",
+    "ja": "{0} m² (約 {1} 坪)",
+    "de": "{0} m² (ca. {1} Ping)",
+    "fr": "{0} m² (env. {1} ping)"
+  },
+  "{0} 台": {
+    "en": "{0} Units",
+    "ja": "{0} 台",
+    "de": "{0} Anlagen",
+    "fr": "{0} équipements"
+  },
+  "{0} 自動化 : {1} 主機": {
+    "en": "{0} Auto : {1} Machines",
+    "ja": "{0} 自動化 : {1} 工作機械",
+    "de": "{0} Automation : {1} Maschinen",
+    "fr": "{0} automatisés : {1} machines"
+  },
+  "目前廠房無設備，請由左側設備庫加入": {
+    "en": "No equipment placed yet. Click items in the Equipment Library to add.",
+    "ja": "設備がありません。左側の設備ライブラリから追加してください。",
+    "de": "Noch keine Anlagen platziert. Links in der Anlagenbibliothek hinzufügen.",
+    "fr": "Aucun équipement placé. Ajoutez-en depuis la bibliothèque à gauche."
+  },
+  "已移除指定設備工站": {
+    "en": "Removed selected equipment station",
+    "ja": "選択した設備ステーションを削除しました",
+    "de": "Ausgewählte Anlagenstation entfernt",
+    "fr": "Poste sélectionné retiré"
+  },
+  "已新增「{0}」至廠房": {
+    "en": "Added \"{0}\" to plant",
+    "ja": "「{0}」を工場に追加しました",
+    "de": "„{0}“ zur Halle hinzugefügt",
+    "fr": "« {0} » ajouté à l’usine"
+  },
+  "自訂專用機工站": {
+    "en": "Custom special machine station",
+    "ja": "特注専用機ステーション",
+    "de": "Benutzerdefinierte Sondermaschinenstation",
+    "fr": "Poste de machine spéciale personnalisé"
+  },
+  "已加入自訂設備「{0}」": {
+    "en": "Added custom equipment \"{0}\"",
+    "ja": "特注設備「{0}」を追加しました",
+    "de": "Benutzerdefinierte Anlage „{0}“ hinzugefügt",
+    "fr": "Équipement personnalisé « {0} » ajouté"
+  },
+  "已依安全間距完成產線區塊自動整列！": {
+    "en": "Auto-arranged production line zones with safety clearance!",
+    "ja": "安全間隔に従ってライン区画を自動整列しました！",
+    "de": "Produktionszonen mit Sicherheitsabstand automatisch angeordnet!",
+    "fr": "Zones de production réorganisées avec dégagement de sécurité !"
+  },
+  "已清空廠房內所有設備": {
+    "en": "Cleared all equipment from plant",
+    "ja": "工場内の全設備を削除しました",
+    "de": "Alle Anlagen aus der Halle entfernt",
+    "fr": "Tous les équipements de l’usine ont été retirés"
+  },
+  "複本": {
+    "en": "Copy",
+    "ja": "コピー",
+    "de": "Kopie",
+    "fr": "Copie"
+  },
+  "已複製「{0}」": {
+    "en": "Duplicated \"{0}\"",
+    "ja": "「{0}」を複製しました",
+    "de": "„{0}“ dupliziert",
+    "fr": "« {0} » dupliqué"
+  },
+  "已匯出 3D 智慧工廠截圖 (PNG)": {
+    "en": "Exported 3D Smart Factory Snapshot (PNG)",
+    "ja": "3Dスマート工場画像を出力しました (PNG)",
+    "de": "3D-Smart-Factory-Aufnahme exportiert (PNG)",
+    "fr": "Capture 3D de l’usine intelligente exportée (PNG)"
+  },
+  "已匯出 2D 廠房 CAD 平面配置圖 (SVG)": {
+    "en": "Exported 2D Plant CAD Layout (SVG)",
+    "ja": "2D工場CAD配置図を出力しました (SVG)",
+    "de": "2D-Hallen-CAD-Layout exportiert (SVG)",
+    "fr": "Plan CAO 2D de l’usine exporté (SVG)"
+  },
+  "已匯出設備清單與電力負載表 (CSV)": {
+    "en": "Exported Equipment Schedule & Power BOM (CSV)",
+    "ja": "設備一覧・電力負荷表を出力しました (CSV)",
+    "de": "Anlagenliste und Leistungsbedarf exportiert (CSV)",
+    "fr": "Liste des équipements et puissances exportée (CSV)"
+  },
+  "已儲存 3D 工廠配置專案檔 (JSON)": {
+    "en": "Saved 3D Factory Project (JSON)",
+    "ja": "3D工場配置プロジェクトを保存しました (JSON)",
+    "de": "3D-Hallenprojekt gespeichert (JSON)",
+    "fr": "Projet d’usine 3D enregistré (JSON)"
+  },
+  "已成功載入 3D 工廠配置專案！": {
+    "en": "Successfully loaded 3D Factory Project!",
+    "ja": "3D工場配置プロジェクトを読み込みました！",
+    "de": "3D-Hallenprojekt erfolgreich geladen!",
+    "fr": "Projet d’usine 3D chargé avec succès !"
+  },
+  "JSON 專案檔格式錯誤": {
+    "en": "Invalid JSON project file format",
+    "ja": "JSONプロジェクトファイルの形式が不正です",
+    "de": "Ungültiges JSON-Projektdateiformat",
+    "fr": "Format de fichier de projet JSON invalide"
+  },
+  "已重置為初始廠房配置": {
+    "en": "Reset to default plant layout",
+    "ja": "工場配置を初期状態に戻しました",
+    "de": "Standard-Hallenlayout wiederhergestellt",
+    "fr": "Implantation d’usine par défaut rétablie"
+  },
+  "已切換為繁體中文介面": {
+    "en": "Switched to English Interface",
+    "ja": "日本語表示に切り替えました",
+    "de": "Zur deutschen Oberfläche gewechselt",
+    "fr": "Interface française activée"
+  },
+  "肇祥企業社 Maxjimtech · 3D 智慧工廠自動化產線與廠房規劃系統 v2.0": {
+    "en": "Maxjimtech · 3D Smart Factory Automation & Plant Layout Planner v2.0",
+    "ja": "Maxjimtech · 3Dスマート工場自動化・工場レイアウト計画 v2.0",
+    "de": "Maxjimtech · 3D-Planer für Fabrikautomation und Hallenlayout v2.0",
+    "fr": "Maxjimtech · Planificateur 3D d’automatisation et d’implantation d’usine v2.0"
+  }
+}

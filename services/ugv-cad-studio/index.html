@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>肇祥企業社 MaxjimTech Inc.｜UGV 無人車載具底盤智慧設計產生器 v3.5 | 機構干涉審視與參數化 CAD Studio</title>
+  <script src="../shared/maxjim-i18n.js" data-mj-locales="./locales/ui.json"></script>
+  <script src="./localization.js"></script>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -231,10 +233,10 @@ input,select,textarea{min-width:0;max-width:100%}
           <div class="bg-slate-800/60 border border-slate-700/70 rounded-lg p-3 space-y-1.5">
             <label for="sel-terrain" class="text-xs font-medium text-slate-200 block">主要作業地形環境 (Target Terrain)</label>
             <select id="sel-terrain" class="w-full bg-slate-900 border border-slate-700 rounded-md px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
-              <option value="mixed_offroad">戶外碎石/草地/泥土混合越野 (Mixed Off-Road)</option>
-              <option value="heavy_mud_rock">重度泥濘/陡坡/岩石極限越障 (Extreme Mud & Rock)</option>
-              <option value="indoor_smooth">室內無塵室/環氧樹脂平坦地面 (Indoor Smooth AGV)</option>
-              <option value="industrial_yard">廠區柏油/水泥與輕度減速帶 (Industrial Yard)</option>
+              <option value="mixed_offroad" data-mj-source-label="戶外碎石/草地/泥土混合越野 (Mixed Off-Road)">戶外碎石/草地/泥土混合越野 (Mixed Off-Road)</option>
+              <option value="heavy_mud_rock" data-mj-source-label="重度泥濘/陡坡/岩石極限越障 (Extreme Mud &amp; Rock)">重度泥濘/陡坡/岩石極限越障 (Extreme Mud & Rock)</option>
+              <option value="indoor_smooth" data-mj-source-label="室內無塵室/環氧樹脂平坦地面 (Indoor Smooth AGV)">室內無塵室/環氧樹脂平坦地面 (Indoor Smooth AGV)</option>
+              <option value="industrial_yard" data-mj-source-label="廠區柏油/水泥與輕度減速帶 (Industrial Yard)">廠區柏油/水泥與輕度減速帶 (Industrial Yard)</option>
             </select>
           </div>
 
@@ -356,11 +358,11 @@ input,select,textarea{min-width:0;max-width:100%}
             <div class="space-y-1">
               <label for="sel-wheel-type" class="text-xs font-medium text-slate-300">輪子 / 推進種類 (Wheel / Sprocket Type)</label>
               <select id="sel-wheel-type" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
-                <option value="offroad_tire">越野深齒充氣輪 (Off-Road Pneumatic Tire)</option>
-                <option value="solid_rubber">防刺穿實心橡膠輪 (Heavy-Duty Solid Tire)</option>
-                <option value="sprocket_track">鏈輪＋橡膠/金屬履帶系統 (Sprocket & Tracked)</option>
-                <option value="mecanum">麥克納姆全向輪 (45° Mecanum Omni Wheel)</option>
-                <option value="rocker_6w">六輪搖臂越障輪系 (6-Wheel Rocker-Bogie)</option>
+                <option value="offroad_tire" data-mj-source-label="越野深齒充氣輪 (Off-Road Pneumatic Tire)">越野深齒充氣輪 (Off-Road Pneumatic Tire)</option>
+                <option value="solid_rubber" data-mj-source-label="防刺穿實心橡膠輪 (Heavy-Duty Solid Tire)">防刺穿實心橡膠輪 (Heavy-Duty Solid Tire)</option>
+                <option value="sprocket_track" data-mj-source-label="鏈輪＋橡膠/金屬履帶系統 (Sprocket &amp; Tracked)">鏈輪＋橡膠/金屬履帶系統 (Sprocket & Tracked)</option>
+                <option value="mecanum" data-mj-source-label="麥克納姆全向輪 (45° Mecanum Omni Wheel)">麥克納姆全向輪 (45° Mecanum Omni Wheel)</option>
+                <option value="rocker_6w" data-mj-source-label="六輪搖臂越障輪系 (6-Wheel Rocker-Bogie)">六輪搖臂越障輪系 (6-Wheel Rocker-Bogie)</option>
               </select>
             </div>
 
@@ -396,12 +398,12 @@ input,select,textarea{min-width:0;max-width:100%}
             <div class="space-y-1">
               <label for="sel-drive-type" class="text-xs font-medium text-slate-300">傳動架構 (Drive Configuration)</label>
               <select id="sel-drive-type" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
-                <option value="ind_hub">四輪/多輪獨立輪轂馬達驅動 (Independent In-Wheel Hub)</option>
-                <option value="ind_inboard">獨立內置伺服馬達＋萬向半軸傳動 (Inboard Motor + CV Shaft)</option>
-                <option value="4wd_shaft">四輪傳動（前後差速器＋中央傳動軸 4WD Shaft）</option>
-                <option value="skid_chain">雙側獨立馬達＋鏈條/同步帶差速傳動 (Dual Chain/Belt Skid)</option>
-                <option value="rwd_diff">後輪驅動（後軸差速器 RWD Differential）</option>
-                <option value="fwd_diff">前輪驅動（前軸差速器 FWD Differential）</option>
+                <option value="ind_hub" data-mj-source-label="四輪/多輪獨立輪轂馬達驅動 (Independent In-Wheel Hub)">四輪/多輪獨立輪轂馬達驅動 (Independent In-Wheel Hub)</option>
+                <option value="ind_inboard" data-mj-source-label="獨立內置伺服馬達＋萬向半軸傳動 (Inboard Motor + CV Shaft)">獨立內置伺服馬達＋萬向半軸傳動 (Inboard Motor + CV Shaft)</option>
+                <option value="4wd_shaft" data-mj-source-label="四輪傳動（前後差速器＋中央傳動軸 4WD Shaft）">四輪傳動（前後差速器＋中央傳動軸 4WD Shaft）</option>
+                <option value="skid_chain" data-mj-source-label="雙側獨立馬達＋鏈條/同步帶差速傳動 (Dual Chain/Belt Skid)">雙側獨立馬達＋鏈條/同步帶差速傳動 (Dual Chain/Belt Skid)</option>
+                <option value="rwd_diff" data-mj-source-label="後輪驅動（後軸差速器 RWD Differential）">後輪驅動（後軸差速器 RWD Differential）</option>
+                <option value="fwd_diff" data-mj-source-label="前輪驅動（前軸差速器 FWD Differential）">前輪驅動（前軸差速器 FWD Differential）</option>
               </select>
             </div>
 
@@ -434,11 +436,11 @@ input,select,textarea{min-width:0;max-width:100%}
             <div class="space-y-1">
               <label for="sel-power-source" class="text-xs font-medium text-slate-300">動力來源 (Power Source)</label>
               <select id="sel-power-source" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
-                <option value="lifepo4_48v">48V 磷酸鐵鋰電池組 (LiFePO4 Pack - 高安全/長壽命)</option>
-                <option value="nmc_72v">72V 高能量密度三元鋰電池 (NMC Li-Ion - 高倍率放電)</option>
-                <option value="hybrid_gen">油電混合增程系統 (汽油發電機 + 緩衝電池組 Series Hybrid)</option>
-                <option value="fuelcell_h2">氫燃料電池動力系統 (PEMFC + 儲氫瓶 + 鋰電混動)</option>
-                <option value="tethered_ac">工業繫留供電系統 (AC/DC 高壓電纜捲盤持續供電)</option>
+                <option value="lifepo4_48v" data-mj-source-label="48V 磷酸鐵鋰電池組 (LiFePO4 Pack - 高安全/長壽命)">48V 磷酸鐵鋰電池組 (LiFePO4 Pack - 高安全/長壽命)</option>
+                <option value="nmc_72v" data-mj-source-label="72V 高能量密度三元鋰電池 (NMC Li-Ion - 高倍率放電)">72V 高能量密度三元鋰電池 (NMC Li-Ion - 高倍率放電)</option>
+                <option value="hybrid_gen" data-mj-source-label="油電混合增程系統 (汽油發電機 + 緩衝電池組 Series Hybrid)">油電混合增程系統 (汽油發電機 + 緩衝電池組 Series Hybrid)</option>
+                <option value="fuelcell_h2" data-mj-source-label="氫燃料電池動力系統 (PEMFC + 儲氫瓶 + 鋰電混動)">氫燃料電池動力系統 (PEMFC + 儲氫瓶 + 鋰電混動)</option>
+                <option value="tethered_ac" data-mj-source-label="工業繫留供電系統 (AC/DC 高壓電纜捲盤持續供電)">工業繫留供電系統 (AC/DC 高壓電纜捲盤持續供電)</option>
               </select>
             </div>
 
@@ -477,9 +479,9 @@ input,select,textarea{min-width:0;max-width:100%}
             <div class="space-y-1">
               <label for="sel-frame-mat" class="text-xs font-medium text-slate-300">主結構材質與工法 (Frame Material & Process)</label>
               <select id="sel-frame-mat" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
-                <option value="steel_tube">SS400 / SCM440 結構方管焊接骨架 (Welded Steel Tube)</option>
-                <option value="alu_extrusion">6061-T6 工業鋁擠型模組化骨架 (Aluminum Extrusion)</option>
-                <option value="sheet_monocoque">SUS304 / 5052 鈑金折彎防水密封船型殼體 (Sealed Hull)</option>
+                <option value="steel_tube" data-mj-source-label="SS400 / SCM440 結構方管焊接骨架 (Welded Steel Tube)">SS400 / SCM440 結構方管焊接骨架 (Welded Steel Tube)</option>
+                <option value="alu_extrusion" data-mj-source-label="6061-T6 工業鋁擠型模組化骨架 (Aluminum Extrusion)">6061-T6 工業鋁擠型模組化骨架 (Aluminum Extrusion)</option>
+                <option value="sheet_monocoque" data-mj-source-label="SUS304 / 5052 鈑金折彎防水密封船型殼體 (Sealed Hull)">SUS304 / 5052 鈑金折彎防水密封船型殼體 (Sealed Hull)</option>
               </select>
             </div>
 
@@ -512,12 +514,12 @@ input,select,textarea{min-width:0;max-width:100%}
             <div class="space-y-1">
               <label for="sel-suspension" class="text-xs font-medium text-slate-300">懸吊幾何機構 (Suspension Geometry)</label>
               <select id="sel-suspension" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
-                <option value="double_wishbone">雙A臂獨立氣壓/油壓避震 (Double Wishbone Coilover)</option>
-                <option value="trailing_arm">拖曳臂獨立懸吊系統 (Trailing Arm + Heavy Shock)</option>
-                <option value="rocker_bogie">搖臂轉向架連桿無彈簧懸吊 (Rocker-Bogie Linkage)</option>
-                <option value="christie_track">克里斯蒂扭力桿/避震惰輪懸吊 (Christie Track Suspension)</option>
-                <option value="portal_axle">門式高離地車橋＋多連桿懸吊 (Portal Axle Multi-Link)</option>
-                <option value="rigid">剛性直連底盤（無懸吊，適用室內高精準度 AGV）</option>
+                <option value="double_wishbone" data-mj-source-label="雙A臂獨立氣壓/油壓避震 (Double Wishbone Coilover)">雙A臂獨立氣壓/油壓避震 (Double Wishbone Coilover)</option>
+                <option value="trailing_arm" data-mj-source-label="拖曳臂獨立懸吊系統 (Trailing Arm + Heavy Shock)">拖曳臂獨立懸吊系統 (Trailing Arm + Heavy Shock)</option>
+                <option value="rocker_bogie" data-mj-source-label="搖臂轉向架連桿無彈簧懸吊 (Rocker-Bogie Linkage)">搖臂轉向架連桿無彈簧懸吊 (Rocker-Bogie Linkage)</option>
+                <option value="christie_track" data-mj-source-label="克里斯蒂扭力桿/避震惰輪懸吊 (Christie Track Suspension)">克里斯蒂扭力桿/避震惰輪懸吊 (Christie Track Suspension)</option>
+                <option value="portal_axle" data-mj-source-label="門式高離地車橋＋多連桿懸吊 (Portal Axle Multi-Link)">門式高離地車橋＋多連桿懸吊 (Portal Axle Multi-Link)</option>
+                <option value="rigid" data-mj-source-label="剛性直連底盤（無懸吊，適用室內高精準度 AGV）">剛性直連底盤（無懸吊，適用室內高精準度 AGV）</option>
               </select>
             </div>
 
@@ -558,12 +560,12 @@ input,select,textarea{min-width:0;max-width:100%}
             <div class="space-y-1">
               <label for="sel-steering" class="text-xs font-medium text-slate-300">轉向方式 (Steering Mode)</label>
               <select id="sel-steering" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
-                <option value="skid_steer">左右輪差速原地轉向 (Differential / Skid-Steer)</option>
-                <option value="ackermann_2ws">前輪阿克曼連桿轉向 (Front Ackermann Steering)</option>
-                <option value="4ws_counter">四輪獨立反向轉向 (4WS Counter-Phase Zero-Turn)</option>
-                <option value="4ws_crab">四輪同向蟹行轉向 (4WS In-Phase Crab Steer)</option>
-                <option value="omni_mecanum">全向平移合成轉向 (Omnidirectional Mecanum)</option>
-                <option value="articulated">中央雙液壓缸鉸接轉向 (Articulated Frame Steering)</option>
+                <option value="skid_steer" data-mj-source-label="左右輪差速原地轉向 (Differential / Skid-Steer)">左右輪差速原地轉向 (Differential / Skid-Steer)</option>
+                <option value="ackermann_2ws" data-mj-source-label="前輪阿克曼連桿轉向 (Front Ackermann Steering)">前輪阿克曼連桿轉向 (Front Ackermann Steering)</option>
+                <option value="4ws_counter" data-mj-source-label="四輪獨立反向轉向 (4WS Counter-Phase Zero-Turn)">四輪獨立反向轉向 (4WS Counter-Phase Zero-Turn)</option>
+                <option value="4ws_crab" data-mj-source-label="四輪同向蟹行轉向 (4WS In-Phase Crab Steer)">四輪同向蟹行轉向 (4WS In-Phase Crab Steer)</option>
+                <option value="omni_mecanum" data-mj-source-label="全向平移合成轉向 (Omnidirectional Mecanum)">全向平移合成轉向 (Omnidirectional Mecanum)</option>
+                <option value="articulated" data-mj-source-label="中央雙液壓缸鉸接轉向 (Articulated Frame Steering)">中央雙液壓缸鉸接轉向 (Articulated Frame Steering)</option>
               </select>
             </div>
 
@@ -596,10 +598,10 @@ input,select,textarea{min-width:0;max-width:100%}
             <div class="space-y-1">
               <label for="sel-brake" class="text-xs font-medium text-slate-300">煞車機構型式 (Braking Mechanism)</label>
               <select id="sel-brake" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500">
-                <option value="em_failsafe">電磁失電抱死煞車＋電能回充 (EM Fail-Safe + Regen)</option>
-                <option value="hydraulic_disc">雙迴路液壓通風碟煞系統 (Hydraulic Ventilated Disc)</option>
-                <option value="epb_caliper">電子機械卡鉗駐車＋再生煞車 (Electronic Caliper EPB)</option>
-                <option value="wet_multiplate">濕式多片油冷煞車（重載履帶/高粉塵泥濘環境）</option>
+                <option value="em_failsafe" data-mj-source-label="電磁失電抱死煞車＋電能回充 (EM Fail-Safe + Regen)">電磁失電抱死煞車＋電能回充 (EM Fail-Safe + Regen)</option>
+                <option value="hydraulic_disc" data-mj-source-label="雙迴路液壓通風碟煞系統 (Hydraulic Ventilated Disc)">雙迴路液壓通風碟煞系統 (Hydraulic Ventilated Disc)</option>
+                <option value="epb_caliper" data-mj-source-label="電子機械卡鉗駐車＋再生煞車 (Electronic Caliper EPB)">電子機械卡鉗駐車＋再生煞車 (Electronic Caliper EPB)</option>
+                <option value="wet_multiplate" data-mj-source-label="濕式多片油冷煞車（重載履帶/高粉塵泥濘環境）">濕式多片油冷煞車（重載履帶/高粉塵泥濘環境）</option>
               </select>
             </div>
 
@@ -634,8 +636,8 @@ input,select,textarea{min-width:0;max-width:100%}
               一鍵修正配置
             </button>
           </div>
-          <div id="action-feedback-banner" class="hidden rounded bg-sky-500/20 border border-sky-400/50 px-2.5 py-1.5 text-[11px] font-mono text-sky-200"></div>
-          <ul id="alert-list" class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
+          <div id="action-feedback-banner" data-mj-no-translate class="hidden rounded bg-sky-500/20 border border-sky-400/50 px-2.5 py-1.5 text-[11px] font-mono text-sky-200"></div>
+          <ul id="alert-list" data-mj-no-translate class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
             <li>輪徑、離地高與懸吊行程無機構干涉。</li>
           </ul>
         </div>
@@ -657,7 +659,7 @@ input,select,textarea{min-width:0;max-width:100%}
           <div class="bg-slate-900/90 backdrop-blur-md border border-slate-700/80 rounded-lg p-3 shadow-lg pointer-events-auto">
             <div class="flex items-center justify-between gap-3 border-b border-slate-800 pb-1.5 mb-2">
               <span class="text-[11px] font-mono uppercase tracking-wider text-sky-400 font-semibold">3D 機構運動與間隙監控</span>
-              <span id="hud-config-badge" class="text-[10px] font-mono bg-slate-800 text-slate-200 px-1.5 py-0.5 rounded border border-slate-700">4WD / 雙A臂</span>
+              <span id="hud-config-badge" data-mj-no-translate class="text-[10px] font-mono bg-slate-800 text-slate-200 px-1.5 py-0.5 rounded border border-slate-700">4WD / 雙A臂</span>
             </div>
             <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] font-mono">
               <div class="text-slate-400">包絡尺寸:</div>
@@ -790,7 +792,7 @@ input,select,textarea{min-width:0;max-width:100%}
             </div>
           </div>
 
-          <div id="audit-matrix-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2.5">
+          <div id="audit-matrix-grid" data-mj-no-translate class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2.5">
             <!-- Dynamically populated 12 audit cards -->
           </div>
         </div>
@@ -826,7 +828,7 @@ input,select,textarea{min-width:0;max-width:100%}
                   <button id="jump-sus" class="text-[10px] px-1.5 py-0.5 rounded bg-slate-700 hover:bg-amber-500 hover:text-slate-950 text-amber-300 transition">微調參數 ✎</button>
                 </div>
               </div>
-              <p id="desc-suspension" class="text-xs text-slate-300 leading-relaxed"></p>
+              <p id="desc-suspension" data-mj-no-translate class="text-xs text-slate-300 leading-relaxed"></p>
             </div>
 
             <!-- Card 3: Steering -->
@@ -838,7 +840,7 @@ input,select,textarea{min-width:0;max-width:100%}
                   <button id="jump-steer" class="text-[10px] px-1.5 py-0.5 rounded bg-slate-700 hover:bg-sky-500 hover:text-slate-950 text-sky-300 transition">微調參數 ✎</button>
                 </div>
               </div>
-              <p id="desc-steering" class="text-xs text-slate-300 leading-relaxed"></p>
+              <p id="desc-steering" data-mj-no-translate class="text-xs text-slate-300 leading-relaxed"></p>
             </div>
 
             <!-- Card 4: Braking -->
@@ -850,7 +852,7 @@ input,select,textarea{min-width:0;max-width:100%}
                   <button id="jump-brake" class="text-[10px] px-1.5 py-0.5 rounded bg-slate-700 hover:bg-rose-500 hover:text-slate-950 text-rose-300 transition">微調參數 ✎</button>
                 </div>
               </div>
-              <p id="desc-braking" class="text-xs text-slate-300 leading-relaxed"></p>
+              <p id="desc-braking" data-mj-no-translate class="text-xs text-slate-300 leading-relaxed"></p>
             </div>
 
             <!-- Card 5: Drivetrain -->
@@ -862,7 +864,7 @@ input,select,textarea{min-width:0;max-width:100%}
                   <button id="jump-drive" class="text-[10px] px-1.5 py-0.5 rounded bg-slate-700 hover:bg-sky-500 hover:text-slate-950 text-sky-300 transition">微調參數 ✎</button>
                 </div>
               </div>
-              <p id="desc-drivetrain" class="text-xs text-slate-300 leading-relaxed"></p>
+              <p id="desc-drivetrain" data-mj-no-translate class="text-xs text-slate-300 leading-relaxed"></p>
             </div>
 
             <!-- Card 6: Power System -->
@@ -874,7 +876,7 @@ input,select,textarea{min-width:0;max-width:100%}
                   <button id="jump-power" class="text-[10px] px-1.5 py-0.5 rounded bg-slate-700 hover:bg-emerald-500 hover:text-slate-950 text-emerald-300 transition">微調參數 ✎</button>
                 </div>
               </div>
-              <p id="desc-power" class="text-xs text-slate-300 leading-relaxed"></p>
+              <p id="desc-power" data-mj-no-translate class="text-xs text-slate-300 leading-relaxed"></p>
             </div>
           </div>
         </div>
@@ -906,7 +908,7 @@ input,select,textarea{min-width:0;max-width:100%}
                 <th class="py-2.5 px-3">機構設計 / 選型備註</th>
               </tr>
             </thead>
-            <tbody id="bom-table-body" class="divide-y divide-slate-800 text-slate-200 font-mono">
+            <tbody id="bom-table-body" data-mj-no-translate class="divide-y divide-slate-800 text-slate-200 font-mono">
             </tbody>
           </table>
         </div>
@@ -1916,23 +1918,23 @@ input,select,textarea{min-width:0;max-width:100%}
 
       document.getElementById('spec-sus-summary').textContent = `K=${s.springK} N/mm ‧ 臂長 ${c.effArmLengthMm}mm`;
       document.getElementById('desc-suspension').textContent =
-        `選用「${document.getElementById('sel-suspension').selectedOptions[0].text.split(' ')[0]}」，連桿有效長度 ${c.effArmLengthMm}mm（最大擺角 ${c.maxSwingDeg}°），避震傾角 ${s.susAngle}°，全壓縮車底餘裕 ${s.clearance - s.susTravel}mm。`;
+        `選用「${document.getElementById('sel-suspension').selectedOptions[0].getAttribute('data-mj-source-label').split(' ')[0]}」，連桿有效長度 ${c.effArmLengthMm}mm（最大擺角 ${c.maxSwingDeg}°），避震傾角 ${s.susAngle}°，全壓縮車底餘裕 ${s.clearance - s.susTravel}mm。`;
 
       document.getElementById('spec-steer-summary').textContent = `最大轉角 ${s.maxSteerAngle}° ‧ 餘裕 +${c.tireToFrameClearanceMm}mm`;
       document.getElementById('desc-steering').textContent =
-        `採用「${document.getElementById('sel-steering').selectedOptions[0].text.split(' ')[0]}」，配置 C 型轉向節羊角與阿克曼連桿，滿舵時輪胎距車架 ${c.tireToFrameClearanceMm}mm，最小迴轉半徑 ${c.turnRadiusM.toFixed(2)}m。`;
+        `採用「${document.getElementById('sel-steering').selectedOptions[0].getAttribute('data-mj-source-label').split(' ')[0]}」，配置 C 型轉向節羊角與阿克曼連桿，滿舵時輪胎距車架 ${c.tireToFrameClearanceMm}mm，最小迴轉半徑 ${c.turnRadiusM.toFixed(2)}m。`;
 
       document.getElementById('spec-brake-force').textContent = `Ø${s.brakeDiscDia}mm ‧ 輪圈餘 +${c.rimToBrakeRadialClearanceMm}mm`;
       document.getElementById('desc-braking').textContent =
-        `配置「${document.getElementById('sel-brake').selectedOptions[0].text.split(' ')[0]}」，碟盤 Ø${s.brakeDiscDia}mm 與輪圈內壁保持 ${c.rimToBrakeRadialClearanceMm}mm 徑向淨間隙，提供 ${s.brakeTorque} N·m 駐坡制動力。`;
+        `配置「${document.getElementById('sel-brake').selectedOptions[0].getAttribute('data-mj-source-label').split(' ')[0]}」，碟盤 Ø${s.brakeDiscDia}mm 與輪圈內壁保持 ${c.rimToBrakeRadialClearanceMm}mm 徑向淨間隙，提供 ${s.brakeTorque} N·m 駐坡制動力。`;
 
       document.getElementById('spec-gear-ratio').textContent = `i = 1:${s.gearRatio} ‧ ${s.motorPowerW}W×${c.drivenWheels}`;
       document.getElementById('desc-drivetrain').textContent =
-        `採用「${document.getElementById('sel-drive-type').selectedOptions[0].text.split(' ')[0]}」，馬達固定於車架內並以等速萬向半軸 (CV Joint) 連接轉向節，避免轉向時馬達隨輪擺動穿模。`;
+        `採用「${document.getElementById('sel-drive-type').selectedOptions[0].getAttribute('data-mj-source-label').split(' ')[0]}」，馬達固定於車架內並以等速萬向半軸 (CV Joint) 連接轉向節，避免轉向時馬達隨輪擺動穿模。`;
 
       document.getElementById('spec-power-summary').textContent = `${c.sysVolt}V ${s.batteryAh}Ah (${c.energyKWh.toFixed(1)}kWh)`;
       document.getElementById('desc-power').textContent =
-        `採用「${document.getElementById('sel-power-source').selectedOptions[0].text.split(' ')[0]}」，配置於中央獨立電池艙（前後偏移 ${s.powerOffsetMm}mm），與前後軸內置馬達保持安全隔離。`;
+        `採用「${document.getElementById('sel-power-source').selectedOptions[0].getAttribute('data-mj-source-label').split(' ')[0]}」，配置於中央獨立電池艙（前後偏移 ${s.powerOffsetMm}mm），與前後軸內置馬達保持安全隔離。`;
 
       // Update Left Sidebar Alert Box
       const alertBox = document.getElementById('alert-box');
@@ -2932,13 +2934,13 @@ input,select,textarea{min-width:0;max-width:100%}
       const s = state;
       const c = s.computed;
 
-      const wheelName = document.getElementById('sel-wheel-type').selectedOptions[0].text;
-      const driveName = document.getElementById('sel-drive-type').selectedOptions[0].text;
-      const powerName = document.getElementById('sel-power-source').selectedOptions[0].text;
-      const susName = document.getElementById('sel-suspension').selectedOptions[0].text;
-      const brakeName = document.getElementById('sel-brake').selectedOptions[0].text;
-      const steerName = document.getElementById('sel-steering').selectedOptions[0].text;
-      const frameName = document.getElementById('sel-frame-mat').selectedOptions[0].text;
+      const wheelName = document.getElementById('sel-wheel-type').selectedOptions[0].getAttribute('data-mj-source-label');
+      const driveName = document.getElementById('sel-drive-type').selectedOptions[0].getAttribute('data-mj-source-label');
+      const powerName = document.getElementById('sel-power-source').selectedOptions[0].getAttribute('data-mj-source-label');
+      const susName = document.getElementById('sel-suspension').selectedOptions[0].getAttribute('data-mj-source-label');
+      const brakeName = document.getElementById('sel-brake').selectedOptions[0].getAttribute('data-mj-source-label');
+      const steerName = document.getElementById('sel-steering').selectedOptions[0].getAttribute('data-mj-source-label');
+      const frameName = document.getElementById('sel-frame-mat').selectedOptions[0].getAttribute('data-mj-source-label');
 
       const wheelQty = s.wheelType === 'rocker_6w' ? 6 : (s.wheelType === 'sprocket_track' ? 2 : 4);
 
@@ -3246,13 +3248,13 @@ input,select,textarea{min-width:0;max-width:100%}
       if (s.height !== snap.height) changes.push(`載台高 ${snap.height}→${s.height}mm`);
       if (s.wheelDia !== snap.wheelDia) changes.push(`輪徑 Ø${snap.wheelDia}→Ø${s.wheelDia}mm`);
       if (s.wheelWidth !== snap.wheelWidth) changes.push(`輪寬 ${snap.wheelWidth}→${s.wheelWidth}mm`);
-      if (s.suspension !== snap.suspension) changes.push(`懸吊→${document.getElementById('sel-suspension').selectedOptions[0].text.split(' ')[0]}`);
+      if (s.suspension !== snap.suspension) changes.push(`懸吊→${document.getElementById('sel-suspension').selectedOptions[0].getAttribute('data-mj-source-label').split(' ')[0]}`);
       if (s.susTravel !== snap.susTravel) changes.push(`懸吊行程 ${snap.susTravel}→${s.susTravel}mm`);
       if (s.susAngle !== snap.susAngle) changes.push(`避震傾角 ${snap.susAngle}°→${s.susAngle}°`);
-      if (s.steering !== snap.steering) changes.push(`轉向→${document.getElementById('sel-steering').selectedOptions[0].text.split(' ')[0]}`);
+      if (s.steering !== snap.steering) changes.push(`轉向→${document.getElementById('sel-steering').selectedOptions[0].getAttribute('data-mj-source-label').split(' ')[0]}`);
       if (s.maxSteerAngle !== snap.maxSteerAngle) changes.push(`最大轉角 ${snap.maxSteerAngle}°→${s.maxSteerAngle}°`);
-      if (s.driveType !== snap.driveType) changes.push(`傳動→${document.getElementById('sel-drive-type').selectedOptions[0].text.split(' ')[0]}`);
-      if (s.brake !== snap.brake) changes.push(`煞車→${document.getElementById('sel-brake').selectedOptions[0].text.split(' ')[0]}`);
+      if (s.driveType !== snap.driveType) changes.push(`傳動→${document.getElementById('sel-drive-type').selectedOptions[0].getAttribute('data-mj-source-label').split(' ')[0]}`);
+      if (s.brake !== snap.brake) changes.push(`煞車→${document.getElementById('sel-brake').selectedOptions[0].getAttribute('data-mj-source-label').split(' ')[0]}`);
       if (s.brakeDiscDia !== snap.brakeDiscDia) changes.push(`碟盤 Ø${snap.brakeDiscDia}→Ø${s.brakeDiscDia}mm`);
       if (s.brakeTorque !== snap.brakeTorque) changes.push(`制動扭力 ${snap.brakeTorque}→${s.brakeTorque}N·m`);
       if (s.powerOffsetMm !== snap.powerOffsetMm) changes.push(`重心偏移 ${snap.powerOffsetMm}→${s.powerOffsetMm}mm`);
@@ -3322,9 +3324,9 @@ input,select,textarea{min-width:0;max-width:100%}
         autoSynthesizeSubsystems(true);
         executeComprehensiveAutoFix('⚡ 已依任務需求自動設計六大機構系統 (12/12 檢核通過)');
         const synthSummary = [
-          `骨架:${document.getElementById('sel-frame-mat').selectedOptions[0].text.split(' ')[0]}(${state.frameTubeSize}mm×${state.frameCrossCount}支)`,
-          `懸吊:${document.getElementById('sel-suspension').selectedOptions[0].text.split(' ')[0]}(行程${state.susTravel}mm)`,
-          `轉向:${document.getElementById('sel-steering').selectedOptions[0].text.split(' ')[0]}(${state.maxSteerAngle}°)`,
+          `骨架:${document.getElementById('sel-frame-mat').selectedOptions[0].getAttribute('data-mj-source-label').split(' ')[0]}(${state.frameTubeSize}mm×${state.frameCrossCount}支)`,
+          `懸吊:${document.getElementById('sel-suspension').selectedOptions[0].getAttribute('data-mj-source-label').split(' ')[0]}(行程${state.susTravel}mm)`,
+          `轉向:${document.getElementById('sel-steering').selectedOptions[0].getAttribute('data-mj-source-label').split(' ')[0]}(${state.maxSteerAngle}°)`,
           `煞車:Ø${state.brakeDiscDia}mm(${state.brakeTorque}N·m)`,
           `傳動:${state.motorPowerW}W×${state.computed.drivenWheels}(1:${state.gearRatio})`,
           `動力:${state.computed.sysVolt}V/${state.batteryAh}Ah`
@@ -3688,3 +3690,4 @@ input,select,textarea{min-width:0;max-width:100%}
  measure();
 })();</script></body>
 </html>
+

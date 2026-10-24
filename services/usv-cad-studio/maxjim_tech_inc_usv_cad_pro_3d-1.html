@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>肇祥企業社 MaxJim Tech Inc. | USV-CAD Pro 無人船 3D 參數化機構與系統設計器</title>
+  <script src="../shared/maxjim-i18n.js" data-mj-locales="./locales/ui.json"></script>
+  <script src="./localization.js"></script>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -394,10 +396,10 @@ button svg{flex-shrink:0}
               <div>
                 <label for="selectHullMaterial" class="block text-[11px] text-slate-400 mb-1">船殼結構材質</label>
                 <select id="selectHullMaterial" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-xs text-slate-100 focus:border-sky-400 outline-none">
-                  <option value="al_5083">5083-H116 航太船用鋁合金</option>
-                  <option value="cfrp_3k" selected>3K 碳纖維真空灌注複合材</option>
-                  <option value="frp_marine">海事級 GFRP 玻纖複合材</option>
-                  <option value="hdpe_rotomold">HDPE 高密度耐衝擊聚乙烯</option>
+                  <option value="al_5083" data-mj-source-label="5083-H116 航太船用鋁合金">5083-H116 航太船用鋁合金</option>
+                  <option value="cfrp_3k" selected data-mj-source-label="3K 碳纖維真空灌注複合材">3K 碳纖維真空灌注複合材</option>
+                  <option value="frp_marine" data-mj-source-label="海事級 GFRP 玻纖複合材">海事級 GFRP 玻纖複合材</option>
+                  <option value="hdpe_rotomold" data-mj-source-label="HDPE 高密度耐衝擊聚乙烯">HDPE 高密度耐衝擊聚乙烯</option>
                 </select>
               </div>
               <div>
@@ -410,18 +412,18 @@ button svg{flex-shrink:0}
               <div>
                 <label for="selectSuperstructure" class="block text-[11px] text-slate-400 mb-1">上層建築艙罩構型</label>
                 <select id="selectSuperstructure" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-xs text-slate-100 focus:border-sky-400 outline-none">
-                  <option value="stealth_faceted" selected>匿蹤多切面戰術儀器艙</option>
-                  <option value="streamlined_aero">流線型低風阻水滴艙罩</option>
-                  <option value="modular_utility">模組化開放式鋁擠型載台</option>
+                  <option value="stealth_faceted" selected data-mj-source-label="匿蹤多切面戰術儀器艙">匿蹤多切面戰術儀器艙</option>
+                  <option value="streamlined_aero" data-mj-source-label="流線型低風阻水滴艙罩">流線型低風阻水滴艙罩</option>
+                  <option value="modular_utility" data-mj-source-label="模組化開放式鋁擠型載台">模組化開放式鋁擠型載台</option>
                 </select>
               </div>
               <div>
                 <label for="selectLivery" class="block text-[11px] text-slate-400 mb-1">船體塗裝配色</label>
                 <select id="selectLivery" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-xs text-slate-100 focus:border-sky-400 outline-none">
-                  <option value="tactical_grey" selected>海軍戰術低視度灰 (Naval Grey)</option>
-                  <option value="survey_orange">水文測繪高視認橘白 (Survey Orange)</option>
-                  <option value="stealth_carbon">消光暗夜碳纖黑 (Stealth Black)</option>
-                  <option value="coastguard_blue">海巡深海藍白 (Maritime Blue)</option>
+                  <option value="tactical_grey" selected data-mj-source-label="海軍戰術低視度灰 (Naval Grey)">海軍戰術低視度灰 (Naval Grey)</option>
+                  <option value="survey_orange" data-mj-source-label="水文測繪高視認橘白 (Survey Orange)">水文測繪高視認橘白 (Survey Orange)</option>
+                  <option value="stealth_carbon" data-mj-source-label="消光暗夜碳纖黑 (Stealth Black)">消光暗夜碳纖黑 (Stealth Black)</option>
+                  <option value="coastguard_blue" data-mj-source-label="海巡深海藍白 (Maritime Blue)">海巡深海藍白 (Maritime Blue)</option>
                 </select>
               </div>
             </div>
@@ -508,9 +510,9 @@ button svg{flex-shrink:0}
                 <span id="valSystemVoltage" class="font-mono-tech text-sky-400 font-semibold">96 V DC</span>
               </div>
               <select id="paramSystemVoltage" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-xs text-slate-100">
-                <option value="48">48V DC (輕型低壓安全架構)</option>
-                <option value="96" selected>96V DC (中型標準高效率架構)</option>
-                <option value="400">400V DC (大型高速高功率高壓架構)</option>
+                <option value="48" data-mj-source-label="48V DC (輕型低壓安全架構)">48V DC (輕型低壓安全架構)</option>
+                <option value="96" selected data-mj-source-label="96V DC (中型標準高效率架構)">96V DC (中型標準高效率架構)</option>
+                <option value="400" data-mj-source-label="400V DC (大型高速高功率高壓架構)">400V DC (大型高速高功率高壓架構)</option>
               </select>
             </div>
 
@@ -612,37 +614,37 @@ button svg{flex-shrink:0}
             <div>
               <label for="selectGnss" class="block text-xs font-medium text-slate-300 mb-1">衛星定位與慣性導航系統 (GNSS / INS)</label>
               <select id="selectGnss" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-100">
-                <option value="dual_rtk_ins" selected>雙天線 RTK-GNSS 定向基線 + 光纖慣導 (FOG INS, 航向精度 0.05°)</option>
-                <option value="triple_gnss_crpa">抗干擾 CRPA 陣列衛星導航 + 戰術級慣導 (抗電子干擾)</option>
-                <option value="single_gnss_ahrs">單天線多星系 GNSS + MEMS AHRS 姿態航向參考系統</option>
+                <option value="dual_rtk_ins" selected data-mj-source-label="雙天線 RTK-GNSS 定向基線 + 光纖慣導 (FOG INS, 航向精度 0.05°)">雙天線 RTK-GNSS 定向基線 + 光纖慣導 (FOG INS, 航向精度 0.05°)</option>
+                <option value="triple_gnss_crpa" data-mj-source-label="抗干擾 CRPA 陣列衛星導航 + 戰術級慣導 (抗電子干擾)">抗干擾 CRPA 陣列衛星導航 + 戰術級慣導 (抗電子干擾)</option>
+                <option value="single_gnss_ahrs" data-mj-source-label="單天線多星系 GNSS + MEMS AHRS 姿態航向參考系統">單天線多星系 GNSS + MEMS AHRS 姿態航向參考系統</option>
               </select>
             </div>
 
             <div>
               <label for="selectEoir" class="block text-xs font-medium text-slate-300 mb-1">光電/紅外線陀螺穩定雲台 (EO/IR Stabilized Gimbal)</label>
               <select id="selectEoir" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-100">
-                <option value="dual_eoir_lrf" selected>三軸陀螺穩定四合一球型雲台 (30x光學 + 640熱成像 + 雷射測距)</option>
-                <option value="compact_eoir">輕量化雙軸雙光光電球 (HD夜視 + 384熱像儀)</option>
-                <option value="none">不搭載光電雲台</option>
+                <option value="dual_eoir_lrf" selected data-mj-source-label="三軸陀螺穩定四合一球型雲台 (30x光學 + 640熱成像 + 雷射測距)">三軸陀螺穩定四合一球型雲台 (30x光學 + 640熱成像 + 雷射測距)</option>
+                <option value="compact_eoir" data-mj-source-label="輕量化雙軸雙光光電球 (HD夜視 + 384熱像儀)">輕量化雙軸雙光光電球 (HD夜視 + 384熱像儀)</option>
+                <option value="none" data-mj-source-label="不搭載光電雲台">不搭載光電雲台</option>
               </select>
             </div>
 
             <div>
               <label for="selectLidar" class="block text-xs font-medium text-slate-300 mb-1">3D 雷射雷達近場建模系統 (Marine 3D LiDAR)</label>
               <select id="selectLidar" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-100">
-                <option value="lidar_128" selected>海事級 128 線長距旋轉/固態 LiDAR (含疏水光學防護罩, 250m)</option>
-                <option value="lidar_dual32">左右雙側傾斜 32 線廣角避障 LiDAR (自動靠泊專用)</option>
-                <option value="none">不搭載 3D LiDAR</option>
+                <option value="lidar_128" selected data-mj-source-label="海事級 128 線長距旋轉/固態 LiDAR (含疏水光學防護罩, 250m)">海事級 128 線長距旋轉/固態 LiDAR (含疏水光學防護罩, 250m)</option>
+                <option value="lidar_dual32" data-mj-source-label="左右雙側傾斜 32 線廣角避障 LiDAR (自動靠泊專用)">左右雙側傾斜 32 線廣角避障 LiDAR (自動靠泊專用)</option>
+                <option value="none" data-mj-source-label="不搭載 3D LiDAR">不搭載 3D LiDAR</option>
               </select>
             </div>
 
             <div>
               <label for="selectSonar" class="block text-xs font-medium text-slate-300 mb-1">水下聲納與海床測繪系統 (Underwater Sonar Suite)</label>
               <select id="selectSonar" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-100">
-                <option value="multibeam_gondola" selected>船底聲納導流罩 (Gondola) + 多波束測深儀 (Multibeam Echo Sounder)</option>
-                <option value="sidescan_dual">船底雙頻側掃聲納陣列 (Dual-Frequency Side-Scan Sonar)</option>
-                <option value="fls_bow">船艏前視三維避障聲納 (Forward-Looking Obstacle Avoidance Sonar)</option>
-                <option value="none">無水下聲納系統</option>
+                <option value="multibeam_gondola" selected data-mj-source-label="船底聲納導流罩 (Gondola) + 多波束測深儀 (Multibeam Echo Sounder)">船底聲納導流罩 (Gondola) + 多波束測深儀 (Multibeam Echo Sounder)</option>
+                <option value="sidescan_dual" data-mj-source-label="船底雙頻側掃聲納陣列 (Dual-Frequency Side-Scan Sonar)">船底雙頻側掃聲納陣列 (Dual-Frequency Side-Scan Sonar)</option>
+                <option value="fls_bow" data-mj-source-label="船艏前視三維避障聲納 (Forward-Looking Obstacle Avoidance Sonar)">船艏前視三維避障聲納 (Forward-Looking Obstacle Avoidance Sonar)</option>
+                <option value="none" data-mj-source-label="無水下聲納系統">無水下聲納系統</option>
               </select>
             </div>
 
@@ -951,8 +953,8 @@ button svg{flex-shrink:0}
           <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800">
             <label for="stepPrecisionSelect" class="block text-xs text-slate-400 mb-1">船體曲面離散密度 (Loft Resolution)</label>
             <select id="stepPrecisionSelect" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-white">
-              <option value="standard" selected>標準工程精度 (機構組裝快速載入)</option>
-              <option value="high">高密流體曲面精度 (精細站位 Loft B-Rep)</option>
+              <option value="standard" selected data-mj-source-label="標準工程精度 (機構組裝快速載入)">標準工程精度 (機構組裝快速載入)</option>
+              <option value="high" data-mj-source-label="高密流體曲面精度 (精細站位 Loft B-Rep)">高密流體曲面精度 (精細站位 Loft B-Rep)</option>
             </select>
           </div>
 
@@ -1035,7 +1037,7 @@ button svg{flex-shrink:0}
                 <th class="py-2.5 px-3 text-right">平均功耗 (W)</th>
               </tr>
             </thead>
-            <tbody id="bomTableBody" class="divide-y divide-slate-800/70 font-mono-tech text-[11px]"></tbody>
+            <tbody id="bomTableBody" data-mj-no-translate class="divide-y divide-slate-800/70 font-mono-tech text-[11px]"></tbody>
           </table>
         </div>
       </div>
@@ -3418,3 +3420,4 @@ button svg{flex-shrink:0}
  document.addEventListener('fullscreenchange',()=>{button.textContent=document.fullscreenElement?'⛶ 離開全螢幕':'⛶ 全螢幕操作';resize();});
 })();</script></body>
 </html>
+

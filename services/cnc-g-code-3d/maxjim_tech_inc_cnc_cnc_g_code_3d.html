@@ -1,9 +1,106 @@
 <!DOCTYPE html>
-<html lang="zh-TW" class="dark">
+<html lang="zh-TW" class="dark mj-cnc-tool">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>肇祥企業社 MaxJim Tech Inc. | CAM-STUDIO Pro v6.1 多軸 CNC G-Code 產生與 3D 即時切削模擬系統</title>
+  <script src="../shared/maxjim-i18n.js" data-mj-locales="./locales/ui.json"></script>
+  <script id="mjCncDisplayAdapter">
+/* Display-only CNC adapter: labels, document title and nested template fields.
+   No model state, operation data, input values or NC text is written here. */
+(() => {
+  'use strict';
+  const sourceTitle = document.title;
+  const skip = 'script,style,input,textarea,pre,code,[contenteditable],[data-mj-no-translate],#mjLanguageBar';
+  const tracked = new Map();
+  let patterns = [], reverse = [], queued = false, observer;
+  const escapeRegex = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const normalize = s => String(s).replace(/\s+/g, ' ').trim();
+  function compile(key, values) {
+    const tokens = [];
+    const pattern = key.split(/(\{\d+\})/g).map(part => /^\{\d+\}$/.test(part) ? (tokens.push(part), '(.+?)') : escapeRegex(part)).join('');
+    return {key, values, tokens, regex:new RegExp('^' + pattern + '$')};
+  }
+  function prepare() {
+    const dictionary = window.MaxjimI18n?.getDictionary?.() || {};
+    patterns = Object.entries(dictionary).filter(([key]) => /\{\d+\}/.test(key) && /[\u3400-\u9fff]/.test(key)).map(([key,values]) => compile(key,values));
+    reverse = patterns.flatMap(entry => Object.values(entry.values).map(value => ({...compile(value,{}), source:entry.key})));
+  }
+  function canonicalTemplate(text) {
+    const normalized = normalize(text);
+    if(patterns.some(entry => entry.regex.test(normalized)))return text;
+    for(const entry of reverse) {
+      const match=normalized.match(entry.regex);
+      if(!match)continue;
+      let source=entry.source;
+      entry.tokens.forEach((token,i)=>{source=source.split(token).join(match[i+1]);});
+      return text.replace(text.trim(),source);
+    }
+    return text;
+  }
+  function deep(text, depth=0) {
+    const api=window.MaxjimI18n;
+    if(!api || depth>4)return text;
+    const normalized=normalize(text);
+    if(api.getDictionary?.()[normalized])return text.replace(text.trim(),api.t(normalized));
+    for(const entry of patterns) {
+      const match=normalized.match(entry.regex);
+      if(!match)continue;
+      const language=api.getLanguage();
+      let output=language==='zh'?entry.key:entry.values[language]||entry.key;
+      // Tokens must be replaced simultaneously: captured filenames may themselves contain braces.
+      const fields=Object.fromEntries(entry.tokens.map((token,i)=>[token,deep(match[i+1],depth+1)]));
+      output=output.replace(/\{\d+\}/g,token=>fields[token]??token);
+      return text.replace(text.trim(),output);
+    }
+    // Operation IDs are semantic identifiers; translate their description independently.
+    const prefix=normalized.match(/^(OP\d+\s*-\s*|OP\d+\s+|\[[^\]]+\]\s*)/);
+    if(prefix)return text.replace(text.trim(),api.t(prefix[0])+deep(normalized.slice(prefix[0].length),depth+1));
+    return text.replace(text.trim(),api.t(normalized));
+  }
+  function scan() {
+    queued=false;
+    if(!document.body || !patterns.length)return;
+    const api=window.MaxjimI18n;
+    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+    let node;
+    while((node=walker.nextNode())) {
+      if(!node.parentElement || node.parentElement.closest(skip) || !node.nodeValue.trim())continue;
+      const old=tracked.get(node), current=node.nodeValue;
+      const optionSource=node.parentElement.tagName==='OPTION' ? node.parentElement.getAttribute('data-mj-source-label') : null;
+      const source=optionSource??(old&&(current===old.rendered||current===api.t(old.source)) ? old.source : canonicalTemplate(current));
+      const output=deep(source);
+      if(old || output!==api.t(source)) {
+        tracked.set(node,{source,rendered:output});
+        if(output!==current)node.nodeValue=output;
+      }
+    }
+    for(const node of tracked.keys())if(!node.isConnected)tracked.delete(node);
+    document.title=api.t(sourceTitle);
+    document.querySelectorAll('optgroup[label]').forEach(group=>{
+      if(!group.dataset.mjSourceGroup)group.dataset.mjSourceGroup=group.label;
+      group.label=api.t(group.dataset.mjSourceGroup);
+    });
+  }
+  function schedule(){if(!queued){queued=true;requestAnimationFrame(scan);}}
+  window.mjOriginalOptionLabel = select => {
+    const option=select?.selectedOptions?.[0];
+    return option?.getAttribute('data-mj-source-label')??option?.text??'';
+  };
+  window.addEventListener('maxjim:language',()=>{
+    // Restore canonical originals before the shared runtime's language pass.
+    for(const [node,record]of tracked)if(node.isConnected)node.nodeValue=record.source;
+    document.title=window.MaxjimI18n.t(sourceTitle);
+    schedule();
+  });
+  window.addEventListener('maxjim:i18n-ready',()=>{
+    prepare();
+    observer=new MutationObserver(schedule);
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+    schedule();
+  });
+})();
+  </script>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,6 +157,38 @@
       background-repeat: repeat;
     }
   </style>
+
+  <style id="mjCncResponsive">
+    /* Scoped to this CAM page; NC program text keeps its own horizontal scrollbar. */
+    html.mj-cnc-tool body { min-width: 0; max-width: 100%; }
+    .mj-cnc-tool header, .mj-cnc-tool main, .mj-cnc-tool main > section,
+    .mj-cnc-tool header :is(.flex,.inline-flex,.grid),
+    .mj-cnc-tool header :is(.flex,.grid) > *,
+    .mj-cnc-tool main :is(.flex,.grid) > * { min-width: 0; max-width: 100%; }
+    .mj-cnc-tool select { box-sizing: border-box; min-width: 0; max-width: 100%; }
+    .mj-cnc-tool #selectAutoTuneProfile,
+    .mj-cnc-tool #selectHeaderFinishPasses,
+    .mj-cnc-tool #selectGcodeFilterOp { flex: 1 1 0%; width: 0; }
+    .mj-cnc-tool #selectOrientPathSync { width: 100%; }
+    .mj-cnc-tool #txtAutoTuneSummary { display: block; white-space: normal; overflow-wrap: anywhere; }
+    .mj-cnc-tool #gcodeScrollContainer { min-width: 0; max-width: 100%; overflow-x: auto; }
+    .mj-cnc-tool #gcodeScrollContainer .gcode-line { min-width: max-content; max-width: none; }
+    .mj-cnc-tool #txtActiveGcodeBlock { min-width: 0; max-width: 100%; overflow-x: auto; white-space: pre; text-overflow: clip; }
+    @media (max-width: 767px) {
+      .mj-cnc-tool header .flex { flex-wrap: wrap; }
+      .mj-cnc-tool header > .flex, .mj-cnc-tool header .flex > .flex { width: 100%; }
+      .mj-cnc-tool header :is(button,span) { white-space: normal; overflow-wrap: anywhere; }
+      .mj-cnc-tool header :is(svg,.shrink-0) { flex-shrink: 0; }
+      .mj-cnc-tool header .truncate { white-space: normal; overflow: visible; text-overflow: clip; }
+      .mj-cnc-tool #selectAutoTuneProfile,
+      .mj-cnc-tool #selectHeaderFinishPasses,
+      .mj-cnc-tool #selectGcodeFilterOp { flex-basis: 100%; width: 100%; }
+      .mj-cnc-tool #selectGcodeFilterOp { display: block; }
+      .mj-cnc-tool main > section:has(#selectGcodeFilterOp) > .flex { flex-wrap: wrap; }
+      .mj-cnc-tool #inputSearchGcode { flex: 1 1 100%; width: 100%; min-width: 0; max-width: 100%; }
+      .mj-cnc-tool main :is(label,p,h2,h3) { overflow-wrap: anywhere; }
+    }
+  </style>
 </head>
 <body class="min-h-screen flex flex-col bg-slate-950 text-slate-100 select-none">
 
@@ -113,10 +242,10 @@
         <div class="flex items-center gap-1.5 bg-slate-950 border border-slate-800 rounded-lg px-2 py-1">
           <span id="lblControllerTag" class="text-[11px] text-slate-400">控制器:</span>
           <select id="selectController" class="bg-transparent text-xs font-mono font-semibold text-sky-400 focus:outline-none cursor-pointer">
-            <option value="FANUC" class="bg-slate-900 text-slate-100">FANUC 31i-B5</option>
-            <option value="SYNTEC" class="bg-slate-900 text-slate-100">SYNTEC 22MA</option>
-            <option value="MITSUBISHI" class="bg-slate-900 text-slate-100">MITSUBISHI M800</option>
-            <option value="SIEMENS" class="bg-slate-900 text-slate-100">SIEMENS 840D sl</option>
+            <option value="FANUC" class="bg-slate-900 text-slate-100" data-mj-source-label="FANUC 31i-B5">FANUC 31i-B5</option>
+            <option value="SYNTEC" class="bg-slate-900 text-slate-100" data-mj-source-label="SYNTEC 22MA">SYNTEC 22MA</option>
+            <option value="MITSUBISHI" class="bg-slate-900 text-slate-100" data-mj-source-label="MITSUBISHI M800">MITSUBISHI M800</option>
+            <option value="SIEMENS" class="bg-slate-900 text-slate-100" data-mj-source-label="SIEMENS 840D sl">SIEMENS 840D sl</option>
           </select>
         </div>
 
@@ -133,11 +262,11 @@
         <div class="flex items-center gap-1 bg-slate-950 border border-emerald-500/40 rounded-lg px-2 py-1" title="設定精加工刀路重複精修與零餘量光刀次數 (1~5次)">
           <span id="lblHeaderFinishPasses" class="text-[11px] text-emerald-300 font-semibold">精加工次數:</span>
           <select id="selectHeaderFinishPasses" class="bg-transparent text-xs font-mono font-bold text-emerald-400 focus:outline-none cursor-pointer">
-            <option value="1" class="bg-slate-900 text-slate-100">1 次 (單道精修)</option>
-            <option value="2" selected class="bg-slate-900 text-slate-100">2 次 (預精修+最終精修)</option>
-            <option value="3" class="bg-slate-900 text-slate-100">3 次 (含零餘量光刀)</option>
-            <option value="4" class="bg-slate-900 text-slate-100">4 次 (超精密四道精修)</option>
-            <option value="5" class="bg-slate-900 text-slate-100">5 次 (鏡面五道極致精修)</option>
+            <option value="1" class="bg-slate-900 text-slate-100" data-mj-source-label="1 次 (單道精修)">1 次 (單道精修)</option>
+            <option value="2" selected class="bg-slate-900 text-slate-100" data-mj-source-label="2 次 (預精修+最終精修)">2 次 (預精修+最終精修)</option>
+            <option value="3" class="bg-slate-900 text-slate-100" data-mj-source-label="3 次 (含零餘量光刀)">3 次 (含零餘量光刀)</option>
+            <option value="4" class="bg-slate-900 text-slate-100" data-mj-source-label="4 次 (超精密四道精修)">4 次 (超精密四道精修)</option>
+            <option value="5" class="bg-slate-900 text-slate-100" data-mj-source-label="5 次 (鏡面五道極致精修)">5 次 (鏡面五道極致精修)</option>
           </select>
         </div>
 
@@ -150,10 +279,10 @@
         <!-- One-Click Auto-Tune Profile & Trigger (Vendor-Neutral Pure Engineering Terminology) -->
         <div class="flex items-center bg-slate-950 border border-amber-500/40 rounded-lg p-0.5 gap-1">
           <select id="selectAutoTuneProfile" class="bg-transparent text-[11px] font-medium text-amber-300 px-1.5 py-1 focus:outline-none cursor-pointer" title="選擇一鍵調校目標模式">
-            <option id="optTuneBalanced" value="MASTER_BALANCED" class="bg-slate-900 text-slate-100">統合均衡調校 (切屑補償+RTCP光順+轉角優化)</option>
-            <option id="optTunePrecision" value="ULTRA_PRECISION" class="bg-slate-900 text-slate-100">超精密鏡面調校 (±0.001mm / Ra≤0.4µm)</option>
-            <option id="optTuneHighMrr" value="DYNAMIC_HIGH_MRR" class="bg-slate-900 text-slate-100">高效擺線開粗調校 (恆定接觸角+CTF補償)</option>
-            <option id="optTuneThinWall" value="THINWALL_SAFE" class="bg-slate-900 text-slate-100">薄壁防振安全調校 (低阻抗+防變形夾持)</option>
+            <option id="optTuneBalanced" value="MASTER_BALANCED" class="bg-slate-900 text-slate-100" data-mj-source-label="統合均衡調校 (切屑補償+RTCP光順+轉角優化)">統合均衡調校 (切屑補償+RTCP光順+轉角優化)</option>
+            <option id="optTunePrecision" value="ULTRA_PRECISION" class="bg-slate-900 text-slate-100" data-mj-source-label="超精密鏡面調校 (±0.001mm / Ra≤0.4µm)">超精密鏡面調校 (±0.001mm / Ra≤0.4µm)</option>
+            <option id="optTuneHighMrr" value="DYNAMIC_HIGH_MRR" class="bg-slate-900 text-slate-100" data-mj-source-label="高效擺線開粗調校 (恆定接觸角+CTF補償)">高效擺線開粗調校 (恆定接觸角+CTF補償)</option>
+            <option id="optTuneThinWall" value="THINWALL_SAFE" class="bg-slate-900 text-slate-100" data-mj-source-label="薄壁防振安全調校 (低阻抗+防變形夾持)">薄壁防振安全調校 (低阻抗+防變形夾持)</option>
           </select>
           <button id="btnOneClickAutoTune" type="button" class="px-2.5 py-1 rounded-md text-xs font-bold bg-gradient-to-r from-amber-500 via-orange-500 to-emerald-500 hover:from-amber-400 hover:to-emerald-400 text-slate-950 shadow-md shadow-amber-500/20 transition flex items-center gap-1">
             <span id="txtBtnAutoTune">⚡ 一鍵智慧調校</span>
@@ -170,7 +299,7 @@
         </button>
 
         <!-- Bilingual Toggle Button (繁中 / EN) -->
-        <button id="btnToggleLang" type="button" class="px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 transition flex items-center gap-1" title="切換中英文介面 (Switch Language ZH/EN)">
+        <button hidden style="display:none!important" data-mj-no-translate="" id="btnToggleLang" type="button" class="px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 transition flex items-center gap-1" title="切換中英文介面 (Switch Language ZH/EN)">
           <span>🌐</span>
           <span id="lblCurrentLang">繁中 / EN</span>
         </button>
@@ -268,10 +397,10 @@
               <span id="badgeStepSchema" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">AP214 / AP203</span>
             </div>
             <select id="selectStepPreset" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-100 focus:outline-none focus:border-sky-500">
-              <option value="impeller_5x">MJ-5X-IMP01.step — 五軸航太渦輪葉輪座 (5-Axis Impeller Hub)</option>
-              <option value="millturn_shaft">MJ-MT-CAM02.step — 車銑複合偏心六角法蘭軸 (Mill-Turn Eccentric Shaft)</option>
-              <option value="lathe_spindle">MJ-LT-SHF03.step — 精密多階梯外螺紋傳動軸 (CNC Lathe Threaded Spindle)</option>
-              <option value="housing_4x">MJ-4X-JIG04.step — 多面體精密治具座含深腔孔系 (4-Axis Manifold Block)</option>
+              <option value="impeller_5x" data-mj-source-label="MJ-5X-IMP01.step — 五軸航太渦輪葉輪座 (5-Axis Impeller Hub)">MJ-5X-IMP01.step — 五軸航太渦輪葉輪座 (5-Axis Impeller Hub)</option>
+              <option value="millturn_shaft" data-mj-source-label="MJ-MT-CAM02.step — 車銑複合偏心六角法蘭軸 (Mill-Turn Eccentric Shaft)">MJ-MT-CAM02.step — 車銑複合偏心六角法蘭軸 (Mill-Turn Eccentric Shaft)</option>
+              <option value="lathe_spindle" data-mj-source-label="MJ-LT-SHF03.step — 精密多階梯外螺紋傳動軸 (CNC Lathe Threaded Spindle)">MJ-LT-SHF03.step — 精密多階梯外螺紋傳動軸 (CNC Lathe Threaded Spindle)</option>
+              <option value="housing_4x" data-mj-source-label="MJ-4X-JIG04.step — 多面體精密治具座含深腔孔系 (4-Axis Manifold Block)">MJ-4X-JIG04.step — 多面體精密治具座含深腔孔系 (4-Axis Manifold Block)</option>
             </select>
             <!-- STEP Parsed Feature Summary -->
             <div class="grid grid-cols-3 gap-1.5 pt-1 text-center">
@@ -305,16 +434,16 @@
               <div>
                 <label for="selectStockShape" class="block text-[11px] text-slate-400 mb-1">毛坯型態 (Stock Type)</label>
                 <select id="selectStockShape" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-slate-100">
-                  <option value="cylinder">圓棒/圓管毛坯 (ØD × L)</option>
-                  <option value="block">方形六面體毛坯 (L × W × H)</option>
+                  <option value="cylinder" data-mj-source-label="圓棒/圓管毛坯 (ØD × L)">圓棒/圓管毛坯 (ØD × L)</option>
+                  <option value="block" data-mj-source-label="方形六面體毛坯 (L × W × H)">方形六面體毛坯 (L × W × H)</option>
                 </select>
               </div>
               <div>
                 <label for="selectWCS" class="block text-[11px] text-slate-400 mb-1">程式原點座標系 (WCS)</label>
                 <select id="selectWCS" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs font-mono text-slate-100">
-                  <option value="G54">G54 (頂面中心 / 端面中心)</option>
-                  <option value="G55">G55 (底面虎鉗基準面)</option>
-                  <option value="G56">G56 (第四軸/卡盤迴轉中心)</option>
+                  <option value="G54" data-mj-source-label="G54 (頂面中心 / 端面中心)">G54 (頂面中心 / 端面中心)</option>
+                  <option value="G55" data-mj-source-label="G55 (底面虎鉗基準面)">G55 (底面虎鉗基準面)</option>
+                  <option value="G56" data-mj-source-label="G56 (第四軸/卡盤迴轉中心)">G56 (第四軸/卡盤迴轉中心)</option>
                 </select>
               </div>
             </div>
@@ -374,19 +503,19 @@
               <div>
                 <label for="selectProgramAxisCount" class="block text-[11px] text-sky-300 font-bold mb-1">🎯 產生程式可用軸數 (3 / 4 / 5 軸選擇)</label>
                 <select id="selectProgramAxisCount" class="w-full bg-slate-950 border border-sky-500/50 rounded-lg px-2 py-1.5 text-xs font-mono font-semibold text-white focus:border-sky-400 focus:outline-none">
-                  <option value="3">3 軸加工程式 (XYZ 三軸同動・無旋轉軸字元)</option>
-                  <option value="4">4 軸加工程式 (XYZA 四軸分度/螺旋同動)</option>
-                  <option value="5" selected>5 軸加工程式 (XYZAC 五軸 RTCP 全同動)</option>
+                  <option value="3" data-mj-source-label="3 軸加工程式 (XYZ 三軸同動・無旋轉軸字元)">3 軸加工程式 (XYZ 三軸同動・無旋轉軸字元)</option>
+                  <option value="4" data-mj-source-label="4 軸加工程式 (XYZA 四軸分度/螺旋同動)">4 軸加工程式 (XYZA 四軸分度/螺旋同動)</option>
+                  <option value="5" selected data-mj-source-label="5 軸加工程式 (XYZAC 五軸 RTCP 全同動)">5 軸加工程式 (XYZAC 五軸 RTCP 全同動)</option>
                 </select>
               </div>
               <div>
                 <label for="selectFinishPasses" class="block text-[11px] text-emerald-300 font-bold mb-1">✨ 精加工次數設定 (Finishing Passes)</label>
                 <select id="selectFinishPasses" class="w-full bg-slate-950 border border-emerald-500/50 rounded-lg px-2 py-1.5 text-xs font-mono font-semibold text-emerald-300 focus:border-emerald-400 focus:outline-none">
-                  <option value="1">1 次 — 標準單道到位精修 (+0.000mm)</option>
-                  <option value="2" selected>2 次 — 預精修 (+0.06mm) + 最終尺寸精修 (+0.00mm)</option>
-                  <option value="3">3 次 — 雙道遞進精修 + 第3道零餘量消除讓刀光刀</option>
-                  <option value="4">4 次 — 三道微米遞進精修 + 第4道鏡面零餘量光刀</option>
-                  <option value="5">5 次 — 四道超精密遞進精修 + 第5道極致鏡面光刀</option>
+                  <option value="1" data-mj-source-label="1 次 — 標準單道到位精修 (+0.000mm)">1 次 — 標準單道到位精修 (+0.000mm)</option>
+                  <option value="2" selected data-mj-source-label="2 次 — 預精修 (+0.06mm) + 最終尺寸精修 (+0.00mm)">2 次 — 預精修 (+0.06mm) + 最終尺寸精修 (+0.00mm)</option>
+                  <option value="3" data-mj-source-label="3 次 — 雙道遞進精修 + 第3道零餘量消除讓刀光刀">3 次 — 雙道遞進精修 + 第3道零餘量消除讓刀光刀</option>
+                  <option value="4" data-mj-source-label="4 次 — 三道微米遞進精修 + 第4道鏡面零餘量光刀">4 次 — 三道微米遞進精修 + 第4道鏡面零餘量光刀</option>
+                  <option value="5" data-mj-source-label="5 次 — 四道超精密遞進精修 + 第5道極致鏡面光刀">5 次 — 四道超精密遞進精修 + 第5道極致鏡面光刀</option>
                 </select>
               </div>
             </div>
@@ -395,23 +524,23 @@
               <div>
                 <label for="selectNcAxisMode" class="block text-[11px] text-sky-300 font-semibold mb-1">3/4/5軸 NC 加工架構細項 (Kinematics Sub-Mode)</label>
                 <select id="selectNcAxisMode" class="w-full bg-slate-900 border border-sky-500/40 rounded-lg px-2 py-1.5 text-xs text-white focus:border-sky-400 focus:outline-none">
-                  <option value="5X_TRUNNION_RTCP" selected>5軸搖籃同動 RTCP (Table-Table A/C + G43.4/TRAORI)</option>
-                  <option value="5X_SWARF_BARREL">5軸側刃切線/錐度桶刀同動 (Swarf & Barrel Tangent Milling)</option>
-                  <option value="3PLUS2_TILTED_G682">3+2軸 定軸向五面體加工 (G68.2 / CYCLE800 傾斜座標系)</option>
-                  <option value="4X_INDEX_TOMBSTONE">4軸 A軸分度/墓碑多面加工 (0°/90°/180°/270° + M10鎖緊)</option>
-                  <option value="4X_CONTINUOUS_WRAP">4軸 A軸連續螺旋包絡同動 (G07.1 圓柱插補凸輪槽)</option>
-                  <option value="3X_HSM_NANO">3軸 高速高精微米模具加工 (G05.1 Q1 / CYCLE832 奈米平滑)</option>
-                  <option value="MILLTURN_CYB_9X">車銑複合 B軸擺頭+C/Y軸極座標 (G112 + G68.2 B軸斜向)</option>
-                  <option value="LATHE_SUB_SYNC">雙主軸車床正背面同步車削 (G71/G70/G76 + 副主軸對接)</option>
+                  <option value="5X_TRUNNION_RTCP" selected data-mj-source-label="5軸搖籃同動 RTCP (Table-Table A/C + G43.4/TRAORI)">5軸搖籃同動 RTCP (Table-Table A/C + G43.4/TRAORI)</option>
+                  <option value="5X_SWARF_BARREL" data-mj-source-label="5軸側刃切線/錐度桶刀同動 (Swarf & Barrel Tangent Milling)">5軸側刃切線/錐度桶刀同動 (Swarf & Barrel Tangent Milling)</option>
+                  <option value="3PLUS2_TILTED_G682" data-mj-source-label="3+2軸 定軸向五面體加工 (G68.2 / CYCLE800 傾斜座標系)">3+2軸 定軸向五面體加工 (G68.2 / CYCLE800 傾斜座標系)</option>
+                  <option value="4X_INDEX_TOMBSTONE" data-mj-source-label="4軸 A軸分度/墓碑多面加工 (0°/90°/180°/270° + M10鎖緊)">4軸 A軸分度/墓碑多面加工 (0°/90°/180°/270° + M10鎖緊)</option>
+                  <option value="4X_CONTINUOUS_WRAP" data-mj-source-label="4軸 A軸連續螺旋包絡同動 (G07.1 圓柱插補凸輪槽)">4軸 A軸連續螺旋包絡同動 (G07.1 圓柱插補凸輪槽)</option>
+                  <option value="3X_HSM_NANO" data-mj-source-label="3軸 高速高精微米模具加工 (G05.1 Q1 / CYCLE832 奈米平滑)">3軸 高速高精微米模具加工 (G05.1 Q1 / CYCLE832 奈米平滑)</option>
+                  <option value="MILLTURN_CYB_9X" data-mj-source-label="車銑複合 B軸擺頭+C/Y軸極座標 (G112 + G68.2 B軸斜向)">車銑複合 B軸擺頭+C/Y軸極座標 (G112 + G68.2 B軸斜向)</option>
+                  <option value="LATHE_SUB_SYNC" data-mj-source-label="雙主軸車床正背面同步車削 (G71/G70/G76 + 副主軸對接)">雙主軸車床正背面同步車削 (G71/G70/G76 + 副主軸對接)</option>
                 </select>
               </div>
               <div>
                 <label for="selectPrecisionKernel" class="block text-[11px] text-emerald-300 font-semibold mb-1">全球最高精度刀路核心 (CC→CL Precision Kernel)</label>
                 <select id="selectPrecisionKernel" class="w-full bg-slate-900 border border-emerald-500/40 rounded-lg px-2 py-1.5 text-xs text-white focus:border-emerald-400 focus:outline-none">
-                  <option value="CC_CL_EXACT_NURBS" selected>微米級 CC→CL 曲面真法向偏置 + 等波峰高 (Lead 12°/Tilt 16°)</option>
-                  <option value="SUBMICRON_NANO_0005">超鏡面 0.0005mm 弦高插補 + G05.1 Q1 / COMPCAD 奈米前瞻</option>
-                  <option value="TROCHOIDAL_CONST_TEA">恆定接觸角 (Constant TEA) 動態擺線 + 切屑變薄 CTF 補償</option>
-                  <option value="SWARF_RULED_FLANK">直紋曲面側刃線接觸 (Ruled Surface Flank Swarf) 零階差</option>
+                  <option value="CC_CL_EXACT_NURBS" selected data-mj-source-label="微米級 CC→CL 曲面真法向偏置 + 等波峰高 (Lead 12°/Tilt 16°)">微米級 CC→CL 曲面真法向偏置 + 等波峰高 (Lead 12°/Tilt 16°)</option>
+                  <option value="SUBMICRON_NANO_0005" data-mj-source-label="超鏡面 0.0005mm 弦高插補 + G05.1 Q1 / COMPCAD 奈米前瞻">超鏡面 0.0005mm 弦高插補 + G05.1 Q1 / COMPCAD 奈米前瞻</option>
+                  <option value="TROCHOIDAL_CONST_TEA" data-mj-source-label="恆定接觸角 (Constant TEA) 動態擺線 + 切屑變薄 CTF 補償">恆定接觸角 (Constant TEA) 動態擺線 + 切屑變薄 CTF 補償</option>
+                  <option value="SWARF_RULED_FLANK" data-mj-source-label="直紋曲面側刃線接觸 (Ruled Surface Flank Swarf) 零階差">直紋曲面側刃線接觸 (Ruled Surface Flank Swarf) 零階差</option>
                 </select>
               </div>
             </div>
@@ -420,33 +549,33 @@
               <div>
                 <label for="selectClampOrient" class="block text-[11px] text-slate-400 mb-1">工件擺放模式 (12種姿態 / Setup Placement)</label>
                 <select id="selectClampOrient" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white focus:border-amber-400 focus:outline-none">
-                  <option value="TOP_Z_POS">① 正面朝上標準擺放 (+Z 朝主軸 / OP1 頂面與五面加工)</option>
-                  <option value="BOT_Z_NEG">② 180° 翻面/調頭擺放 (-Z 朝主軸 / OP2 背面去夾持殘料)</option>
-                  <option value="SIDE_X_POS">③ 右側立放 90° 擺放 (+X 側面朝主軸 / 深側腔垂直加工)</option>
-                  <option value="SIDE_X_NEG">④ 左側立放 90° 擺放 (-X 側面朝主軸 / 對稱側孔系加工)</option>
-                  <option value="FRONT_Y_POS">⑤ 前側立放 90° 擺放 (+Y 前面朝主軸 / 前法蘭端面加工)</option>
-                  <option value="BACK_Y_NEG">⑥ 後側立放 90° 擺放 (-Y 後面朝主軸 / 後端面深孔加工)</option>
-                  <option value="TILT_45_X">⑦ 45° 斜置金字塔擺放 (Rx=+45° / 最佳化五軸刀長與剛性)</option>
-                  <option value="TILT_COMPOUND_30_45">⑧ 複合斜角避奇異點擺放 (Rx=+30°, Rz=+45° / 避開C軸極點)</option>
-                  <option value="DIAGONAL_45_Z">⑨ 水平對角 45° 斜夾擺放 (Rz=+45° / 最大化X-Y行程包絡)</option>
-                  <option value="ECCENTRIC_OFFSET">⑩ 偏心迴轉補償擺放 (Rz=+30°, ΔZ=+6mm / 偏心凸輪加工)</option>
-                  <option value="TOMBSTONE_MULTI_4">⑪ 四軸墓碑四面陣列擺放 (0°/90°/180°/270° 多件連切)</option>
-                  <option value="PYRAMID_TRI_3">⑫ 五軸金字塔三工位 120° 擺放 (Rx=+35° 三面高稼動率)</option>
+                  <option value="TOP_Z_POS" data-mj-source-label="① 正面朝上標準擺放 (+Z 朝主軸 / OP1 頂面與五面加工)">① 正面朝上標準擺放 (+Z 朝主軸 / OP1 頂面與五面加工)</option>
+                  <option value="BOT_Z_NEG" data-mj-source-label="② 180° 翻面/調頭擺放 (-Z 朝主軸 / OP2 背面去夾持殘料)">② 180° 翻面/調頭擺放 (-Z 朝主軸 / OP2 背面去夾持殘料)</option>
+                  <option value="SIDE_X_POS" data-mj-source-label="③ 右側立放 90° 擺放 (+X 側面朝主軸 / 深側腔垂直加工)">③ 右側立放 90° 擺放 (+X 側面朝主軸 / 深側腔垂直加工)</option>
+                  <option value="SIDE_X_NEG" data-mj-source-label="④ 左側立放 90° 擺放 (-X 側面朝主軸 / 對稱側孔系加工)">④ 左側立放 90° 擺放 (-X 側面朝主軸 / 對稱側孔系加工)</option>
+                  <option value="FRONT_Y_POS" data-mj-source-label="⑤ 前側立放 90° 擺放 (+Y 前面朝主軸 / 前法蘭端面加工)">⑤ 前側立放 90° 擺放 (+Y 前面朝主軸 / 前法蘭端面加工)</option>
+                  <option value="BACK_Y_NEG" data-mj-source-label="⑥ 後側立放 90° 擺放 (-Y 後面朝主軸 / 後端面深孔加工)">⑥ 後側立放 90° 擺放 (-Y 後面朝主軸 / 後端面深孔加工)</option>
+                  <option value="TILT_45_X" data-mj-source-label="⑦ 45° 斜置金字塔擺放 (Rx=+45° / 最佳化五軸刀長與剛性)">⑦ 45° 斜置金字塔擺放 (Rx=+45° / 最佳化五軸刀長與剛性)</option>
+                  <option value="TILT_COMPOUND_30_45" data-mj-source-label="⑧ 複合斜角避奇異點擺放 (Rx=+30°, Rz=+45° / 避開C軸極點)">⑧ 複合斜角避奇異點擺放 (Rx=+30°, Rz=+45° / 避開C軸極點)</option>
+                  <option value="DIAGONAL_45_Z" data-mj-source-label="⑨ 水平對角 45° 斜夾擺放 (Rz=+45° / 最大化X-Y行程包絡)">⑨ 水平對角 45° 斜夾擺放 (Rz=+45° / 最大化X-Y行程包絡)</option>
+                  <option value="ECCENTRIC_OFFSET" data-mj-source-label="⑩ 偏心迴轉補償擺放 (Rz=+30°, ΔZ=+6mm / 偏心凸輪加工)">⑩ 偏心迴轉補償擺放 (Rz=+30°, ΔZ=+6mm / 偏心凸輪加工)</option>
+                  <option value="TOMBSTONE_MULTI_4" data-mj-source-label="⑪ 四軸墓碑四面陣列擺放 (0°/90°/180°/270° 多件連切)">⑪ 四軸墓碑四面陣列擺放 (0°/90°/180°/270° 多件連切)</option>
+                  <option value="PYRAMID_TRI_3" data-mj-source-label="⑫ 五軸金字塔三工位 120° 擺放 (Rx=+35° 三面高稼動率)">⑫ 五軸金字塔三工位 120° 擺放 (Rx=+35° 三面高稼動率)</option>
                 </select>
               </div>
               <div>
                 <label for="selectJawDirection" class="block text-[11px] text-slate-400 mb-1">夾持施力與顎口模式 (10種夾持選項)</label>
                 <select id="selectJawDirection" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white focus:border-amber-400 focus:outline-none">
-                  <option value="CLAMP_X">① 虎鉗 X 軸向對稱夾持 (左右顎口 ±X 自定心)</option>
-                  <option value="CLAMP_Y">② 虎鉗 Y 軸向對稱夾持 (前後顎口 ±Y・轉90°)</option>
-                  <option value="CLAMP_DOVETAIL_45">③ 45° 燕尾槽微深度鎖固 (僅咬合底緣 3.5mm・五面全開)</option>
-                  <option value="CLAMP_ID_MANDREL">④ 內孔液壓膨脹心軸撐緊 (由內向外徑向張緊・外周零遮擋)</option>
-                  <option value="CLAMP_3JAW">⑤ 三爪圓盤 120° 徑向定心包覆夾持 (圓棒/法蘭件)</option>
-                  <option value="CLAMP_6JAW">⑥ 六爪薄壁均壓 60° 徑向夾持 (抑制薄壁件多邊形變形)</option>
-                  <option value="CLAMP_VAC_MAG_BOT">⑦ 底面真空微孔/電永磁均佈吸附 (-Z 全底面無夾爪干涉)</option>
-                  <option value="CLAMP_4X_ROTARY_TAIL">⑧ 第四軸左卡盤 + 右側活頂針尾座雙端支撐 (±X 軸向)</option>
-                  <option value="CHUCK_LEFT">⑨ 車床/旋切 左主軸三爪油壓夾持 (Left Spindle -Z)</option>
-                  <option value="CHUCK_RIGHT_SUB">⑩ 車床/旋切 右副主軸同步接料夾持 (Sub-Spindle +Z OP2)</option>
+                  <option value="CLAMP_X" data-mj-source-label="① 虎鉗 X 軸向對稱夾持 (左右顎口 ±X 自定心)">① 虎鉗 X 軸向對稱夾持 (左右顎口 ±X 自定心)</option>
+                  <option value="CLAMP_Y" data-mj-source-label="② 虎鉗 Y 軸向對稱夾持 (前後顎口 ±Y・轉90°)">② 虎鉗 Y 軸向對稱夾持 (前後顎口 ±Y・轉90°)</option>
+                  <option value="CLAMP_DOVETAIL_45" data-mj-source-label="③ 45° 燕尾槽微深度鎖固 (僅咬合底緣 3.5mm・五面全開)">③ 45° 燕尾槽微深度鎖固 (僅咬合底緣 3.5mm・五面全開)</option>
+                  <option value="CLAMP_ID_MANDREL" data-mj-source-label="④ 內孔液壓膨脹心軸撐緊 (由內向外徑向張緊・外周零遮擋)">④ 內孔液壓膨脹心軸撐緊 (由內向外徑向張緊・外周零遮擋)</option>
+                  <option value="CLAMP_3JAW" data-mj-source-label="⑤ 三爪圓盤 120° 徑向定心包覆夾持 (圓棒/法蘭件)">⑤ 三爪圓盤 120° 徑向定心包覆夾持 (圓棒/法蘭件)</option>
+                  <option value="CLAMP_6JAW" data-mj-source-label="⑥ 六爪薄壁均壓 60° 徑向夾持 (抑制薄壁件多邊形變形)">⑥ 六爪薄壁均壓 60° 徑向夾持 (抑制薄壁件多邊形變形)</option>
+                  <option value="CLAMP_VAC_MAG_BOT" data-mj-source-label="⑦ 底面真空微孔/電永磁均佈吸附 (-Z 全底面無夾爪干涉)">⑦ 底面真空微孔/電永磁均佈吸附 (-Z 全底面無夾爪干涉)</option>
+                  <option value="CLAMP_4X_ROTARY_TAIL" data-mj-source-label="⑧ 第四軸左卡盤 + 右側活頂針尾座雙端支撐 (±X 軸向)">⑧ 第四軸左卡盤 + 右側活頂針尾座雙端支撐 (±X 軸向)</option>
+                  <option value="CHUCK_LEFT" data-mj-source-label="⑨ 車床/旋切 左主軸三爪油壓夾持 (Left Spindle -Z)">⑨ 車床/旋切 左主軸三爪油壓夾持 (Left Spindle -Z)</option>
+                  <option value="CHUCK_RIGHT_SUB" data-mj-source-label="⑩ 車床/旋切 右副主軸同步接料夾持 (Sub-Spindle +Z OP2)">⑩ 車床/旋切 右副主軸同步接料夾持 (Sub-Spindle +Z OP2)</option>
                 </select>
               </div>
             </div>
@@ -482,9 +611,9 @@
             <div class="flex items-center justify-between gap-2 pt-1 text-[11px]">
               <span class="text-slate-400">擺放旋轉刀路同步模式：</span>
               <select id="selectOrientPathSync" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-[11px] font-mono text-sky-300 focus:border-sky-400 focus:outline-none flex-1">
-                <option value="AUTO_3D_SYNC" selected>🎯 智慧 3D 特徵跟隨 (斜置時刀軸隨模型3D旋轉；90°/180°時加工朝上面)</option>
-                <option value="STRICT_3D_LOCK">🔒 強制五軸 3D 特徵鎖定 (刀路與刀軸 100% 隨模型 Rx/Ry/Rz 剛體旋轉)</option>
-                <option value="TOP_FACE_OP2">⬇️ 朝上端面基準加工 (固定由 +Z 主軸方向加工旋轉後之頂部包絡面)</option>
+                <option value="AUTO_3D_SYNC" selected data-mj-source-label="🎯 智慧 3D 特徵跟隨 (斜置時刀軸隨模型3D旋轉；90°/180°時加工朝上面)">🎯 智慧 3D 特徵跟隨 (斜置時刀軸隨模型3D旋轉；90°/180°時加工朝上面)</option>
+                <option value="STRICT_3D_LOCK" data-mj-source-label="🔒 強制五軸 3D 特徵鎖定 (刀路與刀軸 100% 隨模型 Rx/Ry/Rz 剛體旋轉)">🔒 強制五軸 3D 特徵鎖定 (刀路與刀軸 100% 隨模型 Rx/Ry/Rz 剛體旋轉)</option>
+                <option value="TOP_FACE_OP2" data-mj-source-label="⬇️ 朝上端面基準加工 (固定由 +Z 主軸方向加工旋轉後之頂部包絡面)">⬇️ 朝上端面基準加工 (固定由 +Z 主軸方向加工旋轉後之頂部包絡面)</option>
               </select>
             </div>
 
@@ -521,25 +650,25 @@
               <label for="selectMaterialGrade" class="block text-[11px] text-slate-400 mb-1">工程材料與材質牌號 (JIS / AISI)</label>
               <select id="selectMaterialGrade" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-white focus:border-sky-500 focus:outline-none">
                 <optgroup label="鋁合金 (Aluminum Alloys)">
-                  <option value="AL6061" selected>AL6061-T6 航太結構鋁合金 (HB 95)</option>
-                  <option value="AL7075">AL7075-T651 高強度超硬鋁 (HB 150)</option>
-                  <option value="AL5052">AL5052-H32 耐蝕鋁鎂合金 (HB 60)</option>
+                  <option value="AL6061" selected data-mj-source-label="AL6061-T6 航太結構鋁合金 (HB 95)">AL6061-T6 航太結構鋁合金 (HB 95)</option>
+                  <option value="AL7075" data-mj-source-label="AL7075-T651 高強度超硬鋁 (HB 150)">AL7075-T651 高強度超硬鋁 (HB 150)</option>
+                  <option value="AL5052" data-mj-source-label="AL5052-H32 耐蝕鋁鎂合金 (HB 60)">AL5052-H32 耐蝕鋁鎂合金 (HB 60)</option>
                 </optgroup>
                 <optgroup label="不鏽鋼 (Stainless Steels)">
-                  <option value="SUS304">SUS304 沃斯田鐵不鏽鋼 (HB 187)</option>
-                  <option value="SUS316L">SUS316L 醫療/耐酸鹼不鏽鋼 (HB 180)</option>
-                  <option value="SUS420J2">SUS420J2 馬氏體高硬不鏽鋼 (HRC 32)</option>
-                  <option value="SUS630">SUS630 (17-4PH) 析出硬化不鏽鋼 (HRC 36)</option>
+                  <option value="SUS304" data-mj-source-label="SUS304 沃斯田鐵不鏽鋼 (HB 187)">SUS304 沃斯田鐵不鏽鋼 (HB 187)</option>
+                  <option value="SUS316L" data-mj-source-label="SUS316L 醫療/耐酸鹼不鏽鋼 (HB 180)">SUS316L 醫療/耐酸鹼不鏽鋼 (HB 180)</option>
+                  <option value="SUS420J2" data-mj-source-label="SUS420J2 馬氏體高硬不鏽鋼 (HRC 32)">SUS420J2 馬氏體高硬不鏽鋼 (HRC 32)</option>
+                  <option value="SUS630" data-mj-source-label="SUS630 (17-4PH) 析出硬化不鏽鋼 (HRC 36)">SUS630 (17-4PH) 析出硬化不鏽鋼 (HRC 36)</option>
                 </optgroup>
                 <optgroup label="結構鋼 / 合金鋼 / 模具鋼 (Steels)">
-                  <option value="S45C">S45C 機械結構用中碳鋼 (HB 200)</option>
-                  <option value="SCM440">SCM440 鉻鉬調質合金鋼 (HRC 30)</option>
-                  <option value="SKD11">SKD11 高碳高鉻冷作模具鋼 (HRC 42)</option>
+                  <option value="S45C" data-mj-source-label="S45C 機械結構用中碳鋼 (HB 200)">S45C 機械結構用中碳鋼 (HB 200)</option>
+                  <option value="SCM440" data-mj-source-label="SCM440 鉻鉬調質合金鋼 (HRC 30)">SCM440 鉻鉬調質合金鋼 (HRC 30)</option>
+                  <option value="SKD11" data-mj-source-label="SKD11 高碳高鉻冷作模具鋼 (HRC 42)">SKD11 高碳高鉻冷作模具鋼 (HRC 42)</option>
                 </optgroup>
                 <optgroup label="鈦合金 / 銅合金 / 工程塑膠">
-                  <option value="TI6AL4V">Ti-6Al-4V (Grade 5) 航太鈦合金 (HRC 34)</option>
-                  <option value="C3604">C3604 快削黃銅 (HB 100)</option>
-                  <option value="PEEK">PEEK 特種耐高溫工程塑膠 (Shore D 85)</option>
+                  <option value="TI6AL4V" data-mj-source-label="Ti-6Al-4V (Grade 5) 航太鈦合金 (HRC 34)">Ti-6Al-4V (Grade 5) 航太鈦合金 (HRC 34)</option>
+                  <option value="C3604" data-mj-source-label="C3604 快削黃銅 (HB 100)">C3604 快削黃銅 (HB 100)</option>
+                  <option value="PEEK" data-mj-source-label="PEEK 特種耐高溫工程塑膠 (Shore D 85)">PEEK 特種耐高溫工程塑膠 (Shore D 85)</option>
                 </optgroup>
               </select>
             </div>
@@ -577,10 +706,10 @@
               <div>
                 <label for="selectCoolant" class="block text-[11px] text-slate-400 mb-1">冷卻液模式 (Coolant M-Code)</label>
                 <select id="selectCoolant" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs font-mono text-white">
-                  <option value="M08">M08 切削水冷卻 (Flood)</option>
-                  <option value="M50">M50 主軸中心高壓出水 (CTS)</option>
-                  <option value="M07">M07 油霧微量潤滑 (MQL)</option>
-                  <option value="M09">M09 氣冷吹屑 (Air Blast)</option>
+                  <option value="M08" data-mj-source-label="M08 切削水冷卻 (Flood)">M08 切削水冷卻 (Flood)</option>
+                  <option value="M50" data-mj-source-label="M50 主軸中心高壓出水 (CTS)">M50 主軸中心高壓出水 (CTS)</option>
+                  <option value="M07" data-mj-source-label="M07 油霧微量潤滑 (MQL)">M07 油霧微量潤滑 (MQL)</option>
+                  <option value="M09" data-mj-source-label="M09 氣冷吹屑 (Air Blast)">M09 氣冷吹屑 (Air Blast)</option>
                 </select>
               </div>
             </div>
@@ -608,22 +737,22 @@
               <label for="selectFixtureType" class="block text-[11px] text-slate-400 mb-1">夾具與治具配置型式 (同步更新 3D 模型)</label>
               <select id="selectFixtureType" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-white focus:border-sky-500 focus:outline-none">
                 <optgroup label="五軸 / 3+2軸 高開闊度治具系統 (5-Axis & 3+2 Workholding)">
-                  <option value="trunnion_vise">① 五軸搖籃轉台 + 自定心精密虎鉗 (5-Axis Self-Centering Vise)</option>
-                  <option value="dovetail_5x">② 五軸 45° 燕尾槽微夾持治具 (Dovetail Fixture・僅3.5mm咬合深)</option>
-                  <option value="zero_softjaw">③ 52/96mm 零點快換盤 + 客製化仿形軟爪 (Zero-Point + Soft Jaws)</option>
-                  <option value="pyramid_3face">④ 五軸三面 45° 金字塔多工位治具座 (3-Sided Pyramid Riser)</option>
-                  <option value="lang_serrated_riser">⑤ 高架增高座 + 壓印咬合齒精密虎鉗 (Elevated Serrated-Grip Vise)</option>
-                  <option value="expanding_mandrel">⑥ 精密液壓膨脹心軸內孔定位治具 (Expanding ID Mandrel・外廓全開放)</option>
+                  <option value="trunnion_vise" data-mj-source-label="① 五軸搖籃轉台 + 自定心精密虎鉗 (5-Axis Self-Centering Vise)">① 五軸搖籃轉台 + 自定心精密虎鉗 (5-Axis Self-Centering Vise)</option>
+                  <option value="dovetail_5x" data-mj-source-label="② 五軸 45° 燕尾槽微夾持治具 (Dovetail Fixture・僅3.5mm咬合深)">② 五軸 45° 燕尾槽微夾持治具 (Dovetail Fixture・僅3.5mm咬合深)</option>
+                  <option value="zero_softjaw" data-mj-source-label="③ 52/96mm 零點快換盤 + 客製化仿形軟爪 (Zero-Point + Soft Jaws)">③ 52/96mm 零點快換盤 + 客製化仿形軟爪 (Zero-Point + Soft Jaws)</option>
+                  <option value="pyramid_3face" data-mj-source-label="④ 五軸三面 45° 金字塔多工位治具座 (3-Sided Pyramid Riser)">④ 五軸三面 45° 金字塔多工位治具座 (3-Sided Pyramid Riser)</option>
+                  <option value="lang_serrated_riser" data-mj-source-label="⑤ 高架增高座 + 壓印咬合齒精密虎鉗 (Elevated Serrated-Grip Vise)">⑤ 高架增高座 + 壓印咬合齒精密虎鉗 (Elevated Serrated-Grip Vise)</option>
+                  <option value="expanding_mandrel" data-mj-source-label="⑥ 精密液壓膨脹心軸內孔定位治具 (Expanding ID Mandrel・外廓全開放)">⑥ 精密液壓膨脹心軸內孔定位治具 (Expanding ID Mandrel・外廓全開放)</option>
                 </optgroup>
                 <optgroup label="四軸分度 / 三軸量產與無夾爪治具 (4-Axis & 3-Axis Workholding)">
-                  <option value="tombstone_4x">⑦ 四軸四面墓碑方柱治具 (4-Axis Tombstone Multi-Station Column)</option>
-                  <option value="rotary_4x_tail">⑧ 第四軸分度三爪卡盤 + 氣動活頂針尾座 (4th-Axis Chuck + Tailstock)</option>
-                  <option value="vacuum_microporous">⑨ 微孔陶瓷真空吸附治具盤 (Microporous Vacuum Chuck・薄板零變形)</option>
-                  <option value="magnetic_electro">⑩ 電永磁矩陣磁力吸盤 (Electro-Permanent Magnetic Chuck・五面直通)</option>
+                  <option value="tombstone_4x" data-mj-source-label="⑦ 四軸四面墓碑方柱治具 (4-Axis Tombstone Multi-Station Column)">⑦ 四軸四面墓碑方柱治具 (4-Axis Tombstone Multi-Station Column)</option>
+                  <option value="rotary_4x_tail" data-mj-source-label="⑧ 第四軸分度三爪卡盤 + 氣動活頂針尾座 (4th-Axis Chuck + Tailstock)">⑧ 第四軸分度三爪卡盤 + 氣動活頂針尾座 (4th-Axis Chuck + Tailstock)</option>
+                  <option value="vacuum_microporous" data-mj-source-label="⑨ 微孔陶瓷真空吸附治具盤 (Microporous Vacuum Chuck・薄板零變形)">⑨ 微孔陶瓷真空吸附治具盤 (Microporous Vacuum Chuck・薄板零變形)</option>
+                  <option value="magnetic_electro" data-mj-source-label="⑩ 電永磁矩陣磁力吸盤 (Electro-Permanent Magnetic Chuck・五面直通)">⑩ 電永磁矩陣磁力吸盤 (Electro-Permanent Magnetic Chuck・五面直通)</option>
                 </optgroup>
                 <optgroup label="車銑複合旋切中心 / CNC車床夾持系統 (Mill-Turn & Lathe)">
-                  <option value="hydraulic_3jaw">⑪ 中空油壓三爪/六爪包覆卡盤 (Hydraulic 3-Jaw / 6-Jaw Chuck)</option>
-                  <option value="collet_subspindle">⑫ 精密彈性筒夾主軸 + 副主軸同步接料 + 中心架 (Collet + Sub-Spindle)</option>
+                  <option value="hydraulic_3jaw" data-mj-source-label="⑪ 中空油壓三爪/六爪包覆卡盤 (Hydraulic 3-Jaw / 6-Jaw Chuck)">⑪ 中空油壓三爪/六爪包覆卡盤 (Hydraulic 3-Jaw / 6-Jaw Chuck)</option>
+                  <option value="collet_subspindle" data-mj-source-label="⑫ 精密彈性筒夾主軸 + 副主軸同步接料 + 中心架 (Collet + Sub-Spindle)">⑫ 精密彈性筒夾主軸 + 副主軸同步接料 + 中心架 (Collet + Sub-Spindle)</option>
                 </optgroup>
               </select>
             </div>
@@ -696,9 +825,9 @@
               <div class="flex flex-wrap items-center gap-1.5">
                 <span class="text-sky-300 font-semibold">程式軸數:</span>
                 <select id="selectTab4AxisCount" class="bg-slate-900 border border-sky-500/40 rounded px-1.5 py-0.5 font-mono text-sky-300 text-[11px]">
-                  <option value="3">3軸 (XYZ)</option>
-                  <option value="4">4軸 (XYZA)</option>
-                  <option value="5" selected>5軸 (XYZAC)</option>
+                  <option value="3" data-mj-source-label="3軸 (XYZ)">3軸 (XYZ)</option>
+                  <option value="4" data-mj-source-label="4軸 (XYZA)">4軸 (XYZA)</option>
+                  <option value="5" selected data-mj-source-label="5軸 (XYZAC)">5軸 (XYZAC)</option>
                 </select>
                 <span class="text-emerald-300 font-semibold ml-1">精加工次數:</span>
                 <input id="inputTab4FinishPasses" type="number" step="1" min="1" max="5" value="2" class="w-11 bg-slate-900 border border-emerald-500/40 rounded px-1 py-0.5 text-center font-mono font-bold text-emerald-300" title="精加工重複精修與光刀次數 (1~5次)" />
@@ -736,19 +865,19 @@
             </div>
             <div class="grid grid-cols-2 gap-1.5">
               <select id="newOpStrategyMode" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-sky-300">
-                <option value="5X_SIMULTANEOUS">5軸 RTCP 曲面同動精修 (G43.4)</option>
-                <option value="3PLUS2_POCKET">3+2軸 / 4軸 定向傾斜腔槽 (G68.2)</option>
-                <option value="3X_ROUGH">3軸 動態擺線分層開粗 (G17)</option>
-                <option value="DRILL_CYCLE">G83 加長內冷深孔啄鑽循環</option>
-                <option value="LATHE_OD_FINISH">車床 G70 外徑精密仿形精車</option>
-                <option value="MILLTURN_C_POLAR">旋切 G112 極座標六角銑削</option>
+                <option value="5X_SIMULTANEOUS" data-mj-source-label="5軸 RTCP 曲面同動精修 (G43.4)">5軸 RTCP 曲面同動精修 (G43.4)</option>
+                <option value="3PLUS2_POCKET" data-mj-source-label="3+2軸 / 4軸 定向傾斜腔槽 (G68.2)">3+2軸 / 4軸 定向傾斜腔槽 (G68.2)</option>
+                <option value="3X_ROUGH" data-mj-source-label="3軸 動態擺線分層開粗 (G17)">3軸 動態擺線分層開粗 (G17)</option>
+                <option value="DRILL_CYCLE" data-mj-source-label="G83 加長內冷深孔啄鑽循環">G83 加長內冷深孔啄鑽循環</option>
+                <option value="LATHE_OD_FINISH" data-mj-source-label="車床 G70 外徑精密仿形精車">車床 G70 外徑精密仿形精車</option>
+                <option value="MILLTURN_C_POLAR" data-mj-source-label="旋切 G112 極座標六角銑削">旋切 G112 極座標六角銑削</option>
               </select>
               <select id="newOpToolKind" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-amber-300">
-                <option value="ballmill">球頭/錐度球刀 (Ball Nose)</option>
-                <option value="bullnose">圓鼻/牛鼻立銑刀 (Bull Nose)</option>
-                <option value="endmill">平底立銑刀 (Flat Endmill)</option>
-                <option value="drill">內冷麻花鑽頭 (Carbide Drill)</option>
-                <option value="lathe_od">外徑車刀 (Turning Insert)</option>
+                <option value="ballmill" data-mj-source-label="球頭/錐度球刀 (Ball Nose)">球頭/錐度球刀 (Ball Nose)</option>
+                <option value="bullnose" data-mj-source-label="圓鼻/牛鼻立銑刀 (Bull Nose)">圓鼻/牛鼻立銑刀 (Bull Nose)</option>
+                <option value="endmill" data-mj-source-label="平底立銑刀 (Flat Endmill)">平底立銑刀 (Flat Endmill)</option>
+                <option value="drill" data-mj-source-label="內冷麻花鑽頭 (Carbide Drill)">內冷麻花鑽頭 (Carbide Drill)</option>
+                <option value="lathe_od" data-mj-source-label="外徑車刀 (Turning Insert)">外徑車刀 (Turning Insert)</option>
               </select>
             </div>
             <div class="grid grid-cols-6 gap-1">
@@ -974,11 +1103,11 @@
           <div class="ml-auto flex items-center gap-1.5">
             <span class="text-[11px] text-slate-400">倍速:</span>
             <select id="selectSimSpeed" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs font-mono text-sky-400">
-              <option value="0.25">0.25x 慢速檢視</option>
-              <option value="0.5">0.5x</option>
-              <option value="1" selected>1.0x 標準</option>
-              <option value="2.5">2.5x 快速</option>
-              <option value="5">5.0x 極速</option>
+              <option value="0.25" data-mj-source-label="0.25x 慢速檢視">0.25x 慢速檢視</option>
+              <option value="0.5" data-mj-source-label="0.5x">0.5x</option>
+              <option value="1" selected data-mj-source-label="1.0x 標準">1.0x 標準</option>
+              <option value="2.5" data-mj-source-label="2.5x 快速">2.5x 快速</option>
+              <option value="5" data-mj-source-label="5.0x 極速">5.0x 極速</option>
             </select>
           </div>
         </div>
@@ -1016,13 +1145,13 @@
       <!-- Filter by Operation & Search -->
       <div class="bg-slate-950/60 border-b border-slate-800 px-3 py-2 flex items-center gap-2">
         <select id="selectGcodeFilterOp" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-200 flex-1">
-          <option value="ALL">顯示全部工序 (All Operations)</option>
+          <option value="ALL" data-mj-source-label="顯示全部工序 (All Operations)">顯示全部工序 (All Operations)</option>
         </select>
         <input id="inputSearchGcode" type="text" placeholder="搜尋 G43.4 / G71 / Z..." class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs font-mono text-white w-36 focus:outline-none focus:border-sky-500" />
       </div>
 
       <!-- Scrollable G-Code Container -->
-      <div id="gcodeScrollContainer" class="flex-1 overflow-y-auto custom-scroll bg-slate-950/90 p-2 font-mono text-xs space-y-0.5">
+      <div data-mj-no-translate="" id="gcodeScrollContainer" class="flex-1 overflow-y-auto custom-scroll bg-slate-950/90 p-2 font-mono text-xs space-y-0.5">
         <!-- Populated dynamically -->
       </div>
 
@@ -1044,7 +1173,7 @@
         </div>
         <div>
           <div class="text-slate-400 text-[10px] mb-0.5">目前執行單節與五軸刀軸向量 (Active Block & Vector):</div>
-          <div id="txtActiveGcodeBlock" class="text-amber-300 font-semibold truncate">N0010 G90 G54 G17 G40 G80</div>
+          <div data-mj-no-translate="" id="txtActiveGcodeBlock" class="text-amber-300 font-semibold truncate">N0010 G90 G54 G17 G40 G80</div>
         </div>
       </div>
     </section>
@@ -3215,6 +3344,7 @@ END-ISO-10303-21;
         stockStr = `${rawL} × ${rawW} × ${rawH} mm (${weightKg} kg)`;
       }
       document.getElementById('txtComputedStockSize').textContent = stockStr;
+      document.getElementById('txtComputedStockSize').dataset.mjCanonicalText = stockStr;
 
       // Material UI badges
       document.getElementById('matPropHardness').textContent = mat.hardness;
@@ -6404,7 +6534,7 @@ END-ISO-10303-21;
       const filterSelect = document.getElementById('selectGcodeFilterOp');
 
       let html = '';
-      let filterHtml = '<option value="ALL">顯示全部工序 (All Operations)</option>';
+      let filterHtml = '<option value="ALL" data-mj-source-label="顯示全部工序 (All Operations)">顯示全部工序 (All Operations)</option>';
 
       const rule = getMaterialToolingRule(state.materialKey);
       const orientInfo = getOrientedPartInfo();
@@ -6436,7 +6566,7 @@ END-ISO-10303-21;
       ];
 
       state.operations.forEach((op, idx) => {
-        filterHtml += `<option value="${escapeHtml(op.id)}" ${state.filterOpId === op.id ? 'selected' : ''}>${escapeHtml(op.id)} - ${escapeHtml(op.name)}</option>`;
+        filterHtml += `<option value="${escapeHtml(op.id)}" data-mj-source-label="${escapeHtml(op.id + ' - ' + op.name)}" ${state.filterOpId === op.id ? 'selected' : ''}>${escapeHtml(op.id)} - ${escapeHtml(op.name)}</option>`;
         const curKind = op.toolKind || (op.axisMode === '5X_SIMULTANEOUS' ? 'ballmill' : (op.axisMode && op.axisMode.includes('DRILL') ? 'drill' : 'bullnose'));
         const curReach = op.reachLen || Math.max(48, Math.round(orientInfo.effH * 1.15));
         const curFlutes = op.flutes || 3;
@@ -6598,7 +6728,7 @@ END-ISO-10303-21;
           </div>
           <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1.5">
             <div class="text-xs font-bold text-amber-400">二、建議夾具與治具設定規範</div>
-            <p class="text-slate-300">選用夾具型式：<strong>${escapeHtml(document.getElementById('selectFixtureType').selectedOptions[0].text)}</strong></p>
+            <p class="text-slate-300">選用夾具型式：<strong>${escapeHtml(mjOriginalOptionLabel(document.getElementById('selectFixtureType')))}</strong></p>
             <p class="text-slate-300">最大主切削力：<span class="font-mono">${document.getElementById('fixCutForce').textContent}</span></p>
             <p class="text-slate-300">建議夾持力/油壓：<span class="font-mono text-emerald-400">${document.getElementById('fixClampForce').textContent}</span></p>
             <p class="text-slate-300">最小咬合深度：<span class="font-mono">${document.getElementById('fixGripDepth').textContent}</span></p>
@@ -7133,7 +7263,7 @@ END-ISO-10303-21;
           }
           buildDefaultOperations();
           recalculateAll();
-          showToast(`已切換 NC 多軸運動學架構為：${e.target.selectedOptions[0].text}`, 'sky');
+          showToast(`已切換 NC 多軸運動學架構為：${mjOriginalOptionLabel(e.target)}`, 'sky');
         });
       }
 
@@ -7157,7 +7287,7 @@ END-ISO-10303-21;
             state.toleranceMm = 0.0020;
           }
           recalculateAll();
-          showToast(`已切換全球最高精度刀路核心：${e.target.selectedOptions[0].text} (公差 ±${state.toleranceMm.toFixed(4)}mm)`, 'emerald');
+          showToast(`已切換全球最高精度刀路核心：${mjOriginalOptionLabel(e.target)} (公差 ±${state.toleranceMm.toFixed(4)}mm)`, 'emerald');
         });
       }
 
@@ -7195,7 +7325,7 @@ END-ISO-10303-21;
         orientSyncSel.addEventListener('change', (e) => {
           state.orientPathSync = e.target.value;
           recalculateAll();
-          showToast(`已切換擺放旋轉刀路同步模式：${e.target.selectedOptions[0].text}`, 'sky');
+          showToast(`已切換擺放旋轉刀路同步模式：${mjOriginalOptionLabel(e.target)}`, 'sky');
         });
       }
 
@@ -7708,7 +7838,7 @@ END-ISO-10303-21;
           ['[WATERMARK 防偽浮水印] 肇祥企業社 MaxJim Tech Inc. 專屬工程文件 - 未經授權禁止複製轉載'],
           ['公司名稱', '肇祥企業社 (MaxJim Tech Inc.)', '負責人/機構工程師', '張哲肇 (Alex Chang)', '行動電話', '0931-765001', '官方網站', 'https://maxjimtech.com/'],
           ['機台型式', state.machineType, '控制器', state.controller, 'STEP檔案', state.stepFileName],
-          ['材料材質', state.materialKey, '毛坯尺寸', document.getElementById('txtComputedStockSize').textContent],
+          ['材料材質', state.materialKey, '毛坯尺寸', document.getElementById('txtComputedStockSize').dataset.mjCanonicalText || document.getElementById('txtComputedStockSize').textContent],
           ['建議夾具', document.getElementById('selectFixtureType').value, '建議夾持力', document.getElementById('fixClampForce').textContent],
           [],
           ['工序代號', '工序名稱', '多軸策略', '刀具規格', '刀徑(mm)', '轉速(RPM)', '進給(mm/min)']
@@ -7982,62 +8112,7 @@ END-ISO-10303-21;
     };
 
     function applyLanguage(lang) {
-      state.lang = lang === 'en' ? 'en' : 'zh';
-      const dict = I18N_DICT[state.lang];
-      Object.keys(dict).forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          if (id === 'btnRegenerateAll') {
-            const span = el.querySelector('span');
-            if (span) span.textContent = dict[id];
-          } else {
-            el.textContent = dict[id];
-          }
-        }
-      });
-
-      // Translate Left 4 Tabs
-      const tabMap = state.lang === 'en'
-        ? [
-            ['tabBtnStep', '1. STEP & Stock', 'Auto/Manual Blank'],
-            ['tabBtnMaterial', '2. Material', 'Cutting Database'],
-            ['tabBtnFixture', '3. Fixture', 'Clamping & Jaws'],
-            ['tabBtnTooling', '4. Tooling', 'Multi-Axis Ops']
-          ]
-        : [
-            ['tabBtnStep', '1. STEP 與尺寸', '自動/手動毛坯'],
-            ['tabBtnMaterial', '2. 材料與材質', '切削參數庫'],
-            ['tabBtnFixture', '3. 建議夾具', '夾持力與治具'],
-            ['tabBtnTooling', '4. 建議刀具', '多軸工序設定']
-          ];
-      tabMap.forEach(([id, t1, t2]) => {
-        const btn = document.getElementById(id);
-        if (btn) {
-          const spans = btn.querySelectorAll('span');
-          if (spans[0]) spans[0].textContent = t1;
-          if (spans[1]) spans[1].textContent = t2;
-        }
-      });
-
-      // Update play/pause button label
-      const playIcon = document.getElementById('iconSimPlay');
-      if (playIcon) {
-        playIcon.textContent = state.simPlaying
-          ? (state.lang === 'en' ? '⏸ Pause Sim' : '⏸ 暫停模擬')
-          : (state.lang === 'en' ? '▶ Play Sim' : '▶ 播放模擬');
-      }
-
-      // Update Auto-Tune default summary if not tuned yet
-      if (state.tuneCount === 0) {
-        const sumEl = document.getElementById('txtAutoTuneSummary');
-        if (sumEl) {
-          sumEl.textContent = state.lang === 'en'
-            ? 'Click "⚡ 1-Click Auto-Tune" above to optimize precision & MRR'
-            : '點擊上方「⚡ 一鍵智慧調校」自動最佳化精度與效率';
-        }
-      }
-
-      recalculateAll();
+      window.MaxjimI18n?.setLanguage(lang);
     }
 
     // --- INITIALIZE ON LOAD ---

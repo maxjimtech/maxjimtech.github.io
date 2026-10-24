@@ -1,0 +1,2396 @@
+{
+  "肇祥企業社 MaxjimTech Inc.｜UGV 無人車載具底盤智慧設計產生器 v3.5 | 機構干涉審視與參數化 CAD Studio": {
+    "en": "MaxjimTech Inc.｜UGV chassis smart design generator v3.5 / Interference audit and parametric CAD Studio",
+    "ja": "MaxjimTech Inc.｜UGVシャーシ自動設計 v3.5 / 干渉検証・パラメトリックCAD",
+    "de": "MaxjimTech Inc.｜UGV-Fahrwerkentwurf v3.5 / Kollisionsprüfung und parametrisches CAD",
+    "fr": "MaxjimTech Inc.｜Conception de châssis UGV v3.5 / Contrôle des interférences et CAO paramétrique"
+  },
+  "肇祥企業社 MaxjimTech Inc.": {
+    "en": "MaxjimTech Inc.",
+    "ja": "MaxjimTech Inc.",
+    "de": "MaxjimTech Inc.",
+    "fr": "MaxjimTech Inc."
+  },
+  "無人車載具底盤智慧設計產生器": {
+    "en": "UGV chassis smart design generator",
+    "ja": "UGVシャーシ自動設計ツール",
+    "de": "Intelligenter UGV-Fahrwerkentwurf",
+    "fr": "Générateur intelligent de châssis UGV"
+  },
+  "Kinematic & Interference Audit v3.5": {
+    "en": "Kinematic & Interference Audit v3.5",
+    "ja": "運動学・干渉検証 v3.5",
+    "de": "Kinematik- und Kollisionsprüfung v3.5",
+    "fr": "Contrôle cinématique et des interférences v3.5"
+  },
+  "12項輪系與機構干涉即時審視 ‧ 真實轉向節/萬向半軸/A臂運動學建模 ‧ 六大系統自動設計與微調": {
+    "en": "12 real-time wheel and mechanism checks · Steering knuckle/CV shaft/A-arm kinematics · Automatic design and tuning of six systems",
+    "ja": "車輪・機構の12項目リアルタイム検証 ‧ ナックル/CV軸/Aアーム運動学 ‧ 6系統の自動設計・調整",
+    "de": "12 laufende Rad- und Mechanikprüfungen · Achsschenkel/CV-Welle/Querlenker-Kinematik · Sechs Systeme automatisch entwerfen und abstimmen",
+    "fr": "12 contrôles en temps réel · Cinématique porte-fusée/arbre homocinétique/triangle · Conception et réglage automatiques de six systèmes"
+  },
+  "⛶ 全螢幕操作": {
+    "en": "⛶ Full screen",
+    "ja": "⛶ 全画面表示",
+    "de": "⛶ Vollbild",
+    "fr": "⛶ Plein écran"
+  },
+  "返回官網": {
+    "en": "Company website",
+    "ja": "公式サイトへ",
+    "de": "Firmenwebsite",
+    "fr": "Site de l’entreprise"
+  },
+  "工具盒規劃器": {
+    "en": "Toolbox planner",
+    "ja": "工具箱プランナー",
+    "de": "Werkzeugkofferplaner",
+    "fr": "Planificateur de boîte à outils"
+  },
+  "智慧工廠": {
+    "en": "Smart factory",
+    "ja": "スマート工場",
+    "de": "Intelligente Fabrik",
+    "fr": "Usine intelligente"
+  },
+  "快速載入無干涉工程範本：": {
+    "en": "Load a collision-free engineering preset:",
+    "ja": "干渉のない設計プリセット：",
+    "de": "Kollisionsfreie Vorlage laden:",
+    "fr": "Charger un modèle sans interférence :"
+  },
+  "🚙 四輪越野巡檢車": {
+    "en": "🚙 4-wheel off-road inspection UGV",
+    "ja": "🚙 四輪オフロード点検車",
+    "de": "🚙 Vierrad-Geländeinspektionsfahrzeug",
+    "fr": "🚙 Véhicule d’inspection tout-terrain à 4 roues"
+  },
+  "🚜 重載履帶工程車": {
+    "en": "🚜 Heavy-duty tracked UGV",
+    "ja": "🚜 重積載クローラー車",
+    "de": "🚜 Schweres Kettenfahrzeug",
+    "fr": "🚜 Véhicule lourd à chenilles"
+  },
+  "📦 廠內全向 AGV": {
+    "en": "📦 Indoor omnidirectional AGV",
+    "ja": "📦 工場内全方向AGV",
+    "de": "📦 Omnidirektionales Hallen-AGV",
+    "fr": "📦 AGV omnidirectionnel d’usine"
+  },
+  "🛰️ 六輪搖臂探測車": {
+    "en": "🛰️ 6-wheel rocker-bogie rover",
+    "ja": "🛰️ 六輪ロッカーボギー探査車",
+    "de": "🛰️ Sechsrad-Rocker-Bogie-Rover",
+    "fr": "🛰️ Rover à 6 roues et bogies articulés"
+  },
+  "📋 匯出規格與 BOM": {
+    "en": "📋 Export specifications & BOM",
+    "ja": "📋 仕様・BOM出力",
+    "de": "📋 Spezifikation und Stückliste exportieren",
+    "fr": "📋 Exporter les spécifications et la nomenclature"
+  },
+  "智慧機構自動設計引擎 (Auto-Synthesis)": {
+    "en": "Smart mechanism auto-design engine (Auto-Synthesis)",
+    "ja": "機構自動設計エンジン (Auto-Synthesis)",
+    "de": "Automatische Mechaniksynthese (Auto-Synthesis)",
+    "fr": "Moteur de conception mécanique automatique (Auto-Synthesis)"
+  },
+  "改需求時自動重設機構": {
+    "en": "Redesign mechanisms when requirements change",
+    "ja": "要求変更時に機構を自動再設計",
+    "de": "Bei geänderten Anforderungen neu auslegen",
+    "fr": "Reconcevoir lors d’un changement des exigences"
+  },
+  "🗂️ 切換分頁模式": {
+    "en": "🗂️ Switch to tabbed mode",
+    "ja": "🗂️ タブ表示へ",
+    "de": "🗂️ Zur Registeransicht",
+    "fr": "🗂️ Passer aux onglets"
+  },
+  "⚡ 依輸入需求一鍵自動設計六大機構系統": {
+    "en": "⚡ Auto-design all six systems from requirements",
+    "ja": "⚡ 入力要求から6系統を一括自動設計",
+    "de": "⚡ Sechs Systeme aus Anforderungen automatisch auslegen",
+    "fr": "⚡ Concevoir les six systèmes selon les exigences"
+  },
+  "🔓 解除手動鎖定": {
+    "en": "🔓 Release manual locks",
+    "ja": "🔓 手動ロック解除",
+    "de": "🔓 Manuelle Sperren lösen",
+    "fr": "🔓 Libérer les verrouillages manuels"
+  },
+  "1. 尺寸與負重": {
+    "en": "1. Dimensions & payload",
+    "ja": "1. 寸法・積載量",
+    "de": "1. Abmessungen und Nutzlast",
+    "fr": "1. Dimensions et charge utile"
+  },
+  "2. 輪系與傳動": {
+    "en": "2. Wheels & drivetrain",
+    "ja": "2. 車輪・駆動系",
+    "de": "2. Räder und Antrieb",
+    "fr": "2. Roues et transmission"
+  },
+  "3. 懸吊/煞車/轉向": {
+    "en": "3. Suspension/brakes/steering",
+    "ja": "3. 懸架・ブレーキ・操舵",
+    "de": "3. Federung/Bremsen/Lenkung",
+    "fr": "3. Suspension/freinage/direction"
+  },
+  "STEP 1：輸入任務負重、地形與越野高度": {
+    "en": "STEP 1: Enter payload, terrain and ground clearance",
+    "ja": "STEP 1：積載量・地形・最低地上高を入力",
+    "de": "STEP 1: Nutzlast, Gelände und Bodenfreiheit eingeben",
+    "fr": "STEP 1 : saisir charge utile, terrain et garde au sol"
+  },
+  "需求輸入端": {
+    "en": "Requirements input",
+    "ja": "要求入力",
+    "de": "Anforderungseingabe",
+    "fr": "Saisie des exigences"
+  },
+  "主要作業地形環境 (Target Terrain)": {
+    "en": "Target operating terrain",
+    "ja": "主な走行地形",
+    "de": "Einsatzgelände",
+    "fr": "Terrain d’utilisation"
+  },
+  "戶外碎石/草地/泥土混合越野 (Mixed Off-Road)": {
+    "en": "Mixed outdoor gravel/grass/soil off-road",
+    "ja": "屋外の砂利・草地・土の混合路面",
+    "de": "Gemischtes Gelände: Schotter/Gras/Erde",
+    "fr": "Tout-terrain mixte : gravier/herbe/terre"
+  },
+  "重度泥濘/陡坡/岩石極限越障 (Extreme Mud & Rock)": {
+    "en": "Extreme mud/steep slopes/rock obstacles",
+    "ja": "深い泥・急斜面・岩場の極限走行",
+    "de": "Extremes Gelände: Schlamm/Steilhänge/Felsen",
+    "fr": "Terrain extrême : boue/pentes fortes/rochers"
+  },
+  "室內無塵室/環氧樹脂平坦地面 (Indoor Smooth AGV)": {
+    "en": "Indoor cleanroom/flat epoxy floor AGV",
+    "ja": "屋内クリーンルーム・平坦エポキシ床AGV",
+    "de": "Hallen-AGV: Reinraum/ebener Epoxidboden",
+    "fr": "AGV intérieur : salle propre/sol époxy plat"
+  },
+  "廠區柏油/水泥與輕度減速帶 (Industrial Yard)": {
+    "en": "Industrial asphalt/concrete and small speed bumps",
+    "ja": "工場内の舗装・コンクリート・小さな段差",
+    "de": "Werksgelände: Asphalt/Beton/kleine Bodenschwellen",
+    "fr": "Site industriel : asphalte/béton/petits ralentisseurs"
+  },
+  "額定負重需求 (Payload Capacity)": {
+    "en": "Rated payload requirement",
+    "ja": "要求定格積載量",
+    "de": "Geforderte Nennnutzlast",
+    "fr": "Charge utile nominale requise"
+  },
+  "輕型 10kg": {
+    "en": "Light 10kg",
+    "ja": "軽積載 10kg",
+    "de": "Leicht 10kg",
+    "fr": "Légère 10kg"
+  },
+  "中載 300kg": {
+    "en": "Medium 300kg",
+    "ja": "中積載 300kg",
+    "de": "Mittel 300kg",
+    "fr": "Moyenne 300kg"
+  },
+  "重載 1500kg": {
+    "en": "Heavy 1500kg",
+    "ja": "重積載 1500kg",
+    "de": "Schwer 1500kg",
+    "fr": "Lourde 1500kg"
+  },
+  "越野最小離地高 (Ground Clearance)": {
+    "en": "Minimum off-road ground clearance",
+    "ja": "オフロード最低地上高",
+    "de": "Minimale Geländebodenfreiheit",
+    "fr": "Garde au sol minimale tout-terrain"
+  },
+  "室內平坦 30mm": {
+    "en": "Flat indoor floor 30mm",
+    "ja": "屋内平坦床 30mm",
+    "de": "Ebener Hallenboden 30mm",
+    "fr": "Sol intérieur plat 30mm"
+  },
+  "一般越野 180mm": {
+    "en": "General off-road 180mm",
+    "ja": "一般オフロード 180mm",
+    "de": "Normales Gelände 180mm",
+    "fr": "Tout-terrain courant 180mm"
+  },
+  "高越障 450mm": {
+    "en": "High obstacles 450mm",
+    "ja": "高段差走破 450mm",
+    "de": "Hohe Hindernisse 450mm",
+    "fr": "Obstacles élevés 450mm"
+  },
+  "爬坡度": {
+    "en": "Gradeability",
+    "ja": "登坂角度",
+    "de": "Steigfähigkeit",
+    "fr": "Pente franchissable"
+  },
+  "最高車速": {
+    "en": "Maximum speed",
+    "ja": "最高速度",
+    "de": "Höchstgeschwindigkeit",
+    "fr": "Vitesse maximale"
+  },
+  "目標續航": {
+    "en": "Target endurance",
+    "ja": "目標稼働時間",
+    "de": "Zielbetriebsdauer",
+    "fr": "Autonomie visée"
+  },
+  "外型包絡尺寸限制 (Envelope Limits)": {
+    "en": "Outer envelope limits",
+    "ja": "外形寸法制限",
+    "de": "Grenzen der Außenabmessungen",
+    "fr": "Limites d’encombrement"
+  },
+  "最大車長限制 (Max Length)": {
+    "en": "Maximum length",
+    "ja": "最大全長",
+    "de": "Maximale Länge",
+    "fr": "Longueur maximale"
+  },
+  "最大車寬限制 (Max Width)": {
+    "en": "Maximum width",
+    "ja": "最大全幅",
+    "de": "Maximale Breite",
+    "fr": "Largeur maximale"
+  },
+  "車體載台高度 (Deck Height)": {
+    "en": "Deck height",
+    "ja": "載台高さ",
+    "de": "Plattformhöhe",
+    "fr": "Hauteur du plateau"
+  },
+  "輪系與推進機構 (可修改)": {
+    "en": "Wheels & propulsion (editable)",
+    "ja": "車輪・推進機構（変更可）",
+    "de": "Räder und Vortrieb (änderbar)",
+    "fr": "Roues et propulsion (modifiables)"
+  },
+  "🤖 自動設計": {
+    "en": "🤖 Auto-design",
+    "ja": "🤖 自動設計",
+    "de": "🤖 Automatisch auslegen",
+    "fr": "🤖 Conception automatique"
+  },
+  "輪子 / 推進種類 (Wheel / Sprocket Type)": {
+    "en": "Wheel / sprocket type",
+    "ja": "車輪・スプロケット形式",
+    "de": "Rad-/Kettenradtyp",
+    "fr": "Type de roue/pignon"
+  },
+  "越野深齒充氣輪 (Off-Road Pneumatic Tire)": {
+    "en": "Deep-tread off-road pneumatic tire",
+    "ja": "深溝オフロード空気入りタイヤ",
+    "de": "Geländeluftreifen mit tiefem Profil",
+    "fr": "Pneu tout-terrain à sculptures profondes"
+  },
+  "防刺穿實心橡膠輪 (Heavy-Duty Solid Tire)": {
+    "en": "Puncture-resistant solid rubber tire",
+    "ja": "耐パンクソリッドゴムタイヤ",
+    "de": "Pannensicherer Vollgummireifen",
+    "fr": "Roue en caoutchouc plein increvable"
+  },
+  "鏈輪＋橡膠/金屬履帶系統 (Sprocket & Tracked)": {
+    "en": "Sprocket + rubber/metal track system",
+    "ja": "スプロケット＋ゴム/金属クローラー",
+    "de": "Kettenrad mit Gummi-/Metallkette",
+    "fr": "Pignon + chenille en caoutchouc/métal"
+  },
+  "麥克納姆全向輪 (45° Mecanum Omni Wheel)": {
+    "en": "45° Mecanum omnidirectional wheel",
+    "ja": "45°メカナム全方向車輪",
+    "de": "45°-Mecanum-Allseitenrad",
+    "fr": "Roue omnidirectionnelle Mecanum à 45°"
+  },
+  "六輪搖臂越障輪系 (6-Wheel Rocker-Bogie)": {
+    "en": "6-wheel rocker-bogie obstacle system",
+    "ja": "6輪ロッカーボギー走破機構",
+    "de": "6-Rad-Rocker-Bogie-Fahrwerk",
+    "fr": "Train à 6 roues et bogies articulés"
+  },
+  "輪/鏈輪直徑": {
+    "en": "Wheel/sprocket diameter",
+    "ja": "車輪/スプロケット径",
+    "de": "Rad-/Kettenraddurchmesser",
+    "fr": "Diamètre de roue/pignon"
+  },
+  "輪/履帶寬度": {
+    "en": "Wheel/track width",
+    "ja": "車輪/クローラー幅",
+    "de": "Rad-/Kettenbreite",
+    "fr": "Largeur de roue/chenille"
+  },
+  "傳動模式設計 (Drivetrain - 可修改)": {
+    "en": "Drivetrain design (editable)",
+    "ja": "駆動系設計（変更可）",
+    "de": "Antriebsauslegung (änderbar)",
+    "fr": "Conception de transmission (modifiable)"
+  },
+  "傳動架構 (Drive Configuration)": {
+    "en": "Drive configuration",
+    "ja": "駆動構成",
+    "de": "Antriebskonfiguration",
+    "fr": "Configuration de transmission"
+  },
+  "四輪/多輪獨立輪轂馬達驅動 (Independent In-Wheel Hub)": {
+    "en": "Independent 4-wheel/multi-wheel hub motors",
+    "ja": "四輪/多輪独立ハブモーター駆動",
+    "de": "Unabhängige Vier-/Mehrrad-Nabenmotoren",
+    "fr": "Moteurs-roues indépendants à 4 roues ou plus"
+  },
+  "獨立內置伺服馬達＋萬向半軸傳動 (Inboard Motor + CV Shaft)": {
+    "en": "Independent inboard servo motors + CV shafts",
+    "ja": "独立車体内サーボモーター＋CV軸",
+    "de": "Unabhängige innenliegende Servomotoren mit CV-Wellen",
+    "fr": "Servomoteurs internes indépendants + arbres homocinétiques"
+  },
+  "四輪傳動（前後差速器＋中央傳動軸 4WD Shaft）": {
+    "en": "4WD: front/rear differentials + central shaft",
+    "ja": "4WD：前後差動装置＋中央伝動軸",
+    "de": "4WD: Vorder-/Hinterachsdifferenziale und Zentralwelle",
+    "fr": "4WD : différentiels avant/arrière + arbre central"
+  },
+  "雙側獨立馬達＋鏈條/同步帶差速傳動 (Dual Chain/Belt Skid)": {
+    "en": "Dual independent motors + chain/belt skid drive",
+    "ja": "左右独立モーター＋チェーン/ベルト差動駆動",
+    "de": "Zwei unabhängige Motoren mit Ketten-/Riemen-Differenziallenkung",
+    "fr": "Deux moteurs indépendants + chaînes/courroies à direction différentielle"
+  },
+  "後輪驅動（後軸差速器 RWD Differential）": {
+    "en": "Rear-wheel drive with rear differential",
+    "ja": "後輪駆動（後軸差動装置）",
+    "de": "Hinterradantrieb mit Hinterachsdifferenzial",
+    "fr": "Propulsion arrière avec différentiel arrière"
+  },
+  "前輪驅動（前軸差速器 FWD Differential）": {
+    "en": "Front-wheel drive with front differential",
+    "ja": "前輪駆動（前軸差動装置）",
+    "de": "Vorderradantrieb mit Vorderachsdifferenzial",
+    "fr": "Traction avant avec différentiel avant"
+  },
+  "減速機減速比 i": {
+    "en": "Gear reduction ratio i",
+    "ja": "減速比 i",
+    "de": "Untersetzungsverhältnis i",
+    "fr": "Rapport de réduction i"
+  },
+  "單馬達額定功率": {
+    "en": "Rated power per motor",
+    "ja": "モーター1基の定格出力",
+    "de": "Nennleistung je Motor",
+    "fr": "Puissance nominale par moteur"
+  },
+  "動力與儲能系統設計 (Power - 可修改)": {
+    "en": "Power & energy storage design (editable)",
+    "ja": "動力・蓄電系設計（変更可）",
+    "de": "Energie- und Speicherauslegung (änderbar)",
+    "fr": "Conception d’énergie et stockage (modifiable)"
+  },
+  "動力來源 (Power Source)": {
+    "en": "Power source",
+    "ja": "動力源",
+    "de": "Energiequelle",
+    "fr": "Source d’énergie"
+  },
+  "48V 磷酸鐵鋰電池組 (LiFePO4 Pack - 高安全/長壽命)": {
+    "en": "48V LiFePO4 pack (high safety/long life)",
+    "ja": "48V LiFePO4電池（高安全・長寿命）",
+    "de": "48V LiFePO4-Akku (hohe Sicherheit/lange Lebensdauer)",
+    "fr": "Batterie LiFePO4 48V (sécurité/longévité)"
+  },
+  "72V 高能量密度三元鋰電池 (NMC Li-Ion - 高倍率放電)": {
+    "en": "72V high-energy NMC lithium-ion pack (high discharge rate)",
+    "ja": "72V高密度NMCリチウムイオン電池（高放電率）",
+    "de": "72V NMC-Lithium-Ionen-Akku (hohe Energiedichte/Entladerate)",
+    "fr": "Batterie lithium-ion NMC 72V (haute densité/décharge élevée)"
+  },
+  "油電混合增程系統 (汽油發電機 + 緩衝電池組 Series Hybrid)": {
+    "en": "Series hybrid range extender (petrol generator + buffer battery)",
+    "ja": "シリーズハイブリッド（ガソリン発電機＋バッファ電池）",
+    "de": "Serieller Hybrid (Benzingenerator und Pufferakku)",
+    "fr": "Hybride série (générateur essence + batterie tampon)"
+  },
+  "氫燃料電池動力系統 (PEMFC + 儲氫瓶 + 鋰電混動)": {
+    "en": "Hydrogen fuel cell (PEMFC + H2 cylinder + lithium hybrid)",
+    "ja": "水素燃料電池（PEMFC＋水素容器＋リチウム電池）",
+    "de": "Wasserstoff-Brennstoffzelle (PEMFC/H2-Tank/Lithiumhybrid)",
+    "fr": "Pile à hydrogène (PEMFC + réservoir H2 + hybride lithium)"
+  },
+  "工業繫留供電系統 (AC/DC 高壓電纜捲盤持續供電)": {
+    "en": "Industrial tethered supply (continuous AC/DC cable reel)",
+    "ja": "産業用有線給電（AC/DC高圧ケーブルリール連続給電）",
+    "de": "Industrielle Kabelversorgung (AC/DC-Hochspannungskabeltrommel)",
+    "fr": "Alimentation filaire industrielle (enrouleur AC/DC haute tension)"
+  },
+  "電池組額定容量": {
+    "en": "Rated battery capacity",
+    "ja": "電池定格容量",
+    "de": "Akku-Nennkapazität",
+    "fr": "Capacité nominale de batterie"
+  },
+  "動力艙重心偏移": {
+    "en": "Power bay CG offset",
+    "ja": "動力室重心オフセット",
+    "de": "Schwerpunktversatz des Energiefachs",
+    "fr": "Décalage du centre de gravité du compartiment énergie"
+  },
+  "底盤骨架結構設計 (Frame - 可修改)": {
+    "en": "Chassis frame design (editable)",
+    "ja": "シャーシフレーム設計（変更可）",
+    "de": "Fahrgestellrahmen (änderbar)",
+    "fr": "Conception du châssis (modifiable)"
+  },
+  "主結構材質與工法 (Frame Material & Process)": {
+    "en": "Frame material & manufacturing process",
+    "ja": "主構造材・製法",
+    "de": "Rahmenwerkstoff und Fertigung",
+    "fr": "Matériau et fabrication du châssis"
+  },
+  "SS400 / SCM440 結構方管焊接骨架 (Welded Steel Tube)": {
+    "en": "SS400 / SCM440 welded square-tube frame",
+    "ja": "SS400 / SCM440角管溶接フレーム",
+    "de": "Geschweißter Vierkantrohrrahmen SS400 / SCM440",
+    "fr": "Châssis soudé en tubes carrés SS400 / SCM440"
+  },
+  "6061-T6 工業鋁擠型模組化骨架 (Aluminum Extrusion)": {
+    "en": "6061-T6 modular aluminum extrusion frame",
+    "ja": "6061-T6アルミ押出材モジュラーフレーム",
+    "de": "Modularer Aluminiumprofilrahmen 6061-T6",
+    "fr": "Châssis modulaire en profilés aluminium 6061-T6"
+  },
+  "SUS304 / 5052 鈑金折彎防水密封船型殼體 (Sealed Hull)": {
+    "en": "SUS304 / 5052 bent-sheet sealed waterproof hull",
+    "ja": "SUS304 / 5052曲げ板金防水密閉船型フレーム",
+    "de": "Wasserdichte Blechwanne SUS304 / 5052",
+    "fr": "Coque étanche en tôle pliée SUS304 / 5052"
+  },
+  "主樑截面寬度": {
+    "en": "Main beam section width",
+    "ja": "主梁断面幅",
+    "de": "Hauptträgerquerschnittsbreite",
+    "fr": "Largeur de section du longeron"
+  },
+  "橫樑補強支數": {
+    "en": "Reinforcing crossmember count",
+    "ja": "補強横梁本数",
+    "de": "Anzahl verstärkender Querträger",
+    "fr": "Nombre de traverses de renfort"
+  },
+  "4 支": {
+    "en": "4 members",
+    "ja": "4 本",
+    "de": "4 Träger",
+    "fr": "4 traverses"
+  },
+  "懸吊避震系統設計 (Suspension - 可修改)": {
+    "en": "Suspension design (editable)",
+    "ja": "懸架・緩衝系設計（変更可）",
+    "de": "Federungsauslegung (änderbar)",
+    "fr": "Conception de suspension (modifiable)"
+  },
+  "懸吊幾何機構 (Suspension Geometry)": {
+    "en": "Suspension geometry",
+    "ja": "懸架機構",
+    "de": "Federungsgeometrie",
+    "fr": "Géométrie de suspension"
+  },
+  "雙A臂獨立氣壓/油壓避震 (Double Wishbone Coilover)": {
+    "en": "Independent double wishbone with air/hydraulic coilover",
+    "ja": "ダブルウィッシュボーン独立空圧/油圧サスペンション",
+    "de": "Doppelquerlenker-Einzelradaufhängung mit Luft-/Hydraulikdämpfern",
+    "fr": "Double triangulation indépendante à amortisseurs pneumatiques/hydrauliques"
+  },
+  "拖曳臂獨立懸吊系統 (Trailing Arm + Heavy Shock)": {
+    "en": "Independent trailing arm + heavy-duty shock",
+    "ja": "トレーリングアーム独立懸架＋高荷重ダンパー",
+    "de": "Einzellängslenker mit Schwerlastdämpfer",
+    "fr": "Bras tirés indépendants + amortisseurs renforcés"
+  },
+  "搖臂轉向架連桿無彈簧懸吊 (Rocker-Bogie Linkage)": {
+    "en": "Springless rocker-bogie linkage suspension",
+    "ja": "ばねなしロッカーボギーリンク懸架",
+    "de": "Federlose Rocker-Bogie-Gelenkaufhängung",
+    "fr": "Suspension articulée à bogies sans ressort"
+  },
+  "克里斯蒂扭力桿/避震惰輪懸吊 (Christie Track Suspension)": {
+    "en": "Christie torsion-bar/idler suspension",
+    "ja": "クリスティー式トーションバー/アイドラ懸架",
+    "de": "Christie-Drehstab-/Leitradfederung",
+    "fr": "Suspension Christie à barres de torsion/galets"
+  },
+  "門式高離地車橋＋多連桿懸吊 (Portal Axle Multi-Link)": {
+    "en": "High-clearance portal axle + multi-link suspension",
+    "ja": "高地上高ポータルアクスル＋マルチリンク",
+    "de": "Portalachse mit hoher Bodenfreiheit und Mehrlenkern",
+    "fr": "Pont portique à grande garde au sol + multibras"
+  },
+  "剛性直連底盤（無懸吊，適用室內高精準度 AGV）": {
+    "en": "Rigid direct chassis (no suspension; precision indoor AGV)",
+    "ja": "剛性直結（懸架なし・屋内高精度AGV向け）",
+    "de": "Starres Direktfahrwerk (ungefedert; präzises Hallen-AGV)",
+    "fr": "Châssis rigide sans suspension (AGV intérieur de précision)"
+  },
+  "行程": {
+    "en": "Travel",
+    "ja": "ストローク",
+    "de": "Federweg",
+    "fr": "Débattement"
+  },
+  "彈簧剛性": {
+    "en": "Spring stiffness",
+    "ja": "ばね剛性",
+    "de": "Federrate",
+    "fr": "Raideur du ressort"
+  },
+  "避震傾角": {
+    "en": "Shock inclination",
+    "ja": "ダンパー傾斜角",
+    "de": "Dämpferneigung",
+    "fr": "Inclinaison d’amortisseur"
+  },
+  "轉向機構設計 (Steering - 可修改)": {
+    "en": "Steering design (editable)",
+    "ja": "操舵機構設計（変更可）",
+    "de": "Lenkungsauslegung (änderbar)",
+    "fr": "Conception de direction (modifiable)"
+  },
+  "轉向方式 (Steering Mode)": {
+    "en": "Steering mode",
+    "ja": "操舵方式",
+    "de": "Lenkungsart",
+    "fr": "Mode de direction"
+  },
+  "左右輪差速原地轉向 (Differential / Skid-Steer)": {
+    "en": "Left/right differential zero-turn skid steering",
+    "ja": "左右差動・その場旋回",
+    "de": "Differenzial-/Panzerlenkung auf der Stelle",
+    "fr": "Direction différentielle avec rotation sur place"
+  },
+  "前輪阿克曼連桿轉向 (Front Ackermann Steering)": {
+    "en": "Front Ackermann linkage steering",
+    "ja": "前輪アッカーマンリンク操舵",
+    "de": "Vordere Ackermann-Gelenklenkung",
+    "fr": "Direction avant à tringlerie Ackermann"
+  },
+  "四輪獨立反向轉向 (4WS Counter-Phase Zero-Turn)": {
+    "en": "4-wheel independent counter-phase steering",
+    "ja": "4WS独立逆位相操舵",
+    "de": "Unabhängige gegenphasige 4WS-Lenkung",
+    "fr": "Direction indépendante à 4 roues en opposition"
+  },
+  "四輪同向蟹行轉向 (4WS In-Phase Crab Steer)": {
+    "en": "4-wheel in-phase crab steering",
+    "ja": "4WS同位相クラブ操舵",
+    "de": "Gleichphasige 4WS-Krebslenkung",
+    "fr": "Direction à 4 roues en crabe"
+  },
+  "全向平移合成轉向 (Omnidirectional Mecanum)": {
+    "en": "Omnidirectional Mecanum steering",
+    "ja": "メカナム全方向操舵",
+    "de": "Omnidirektionale Mecanum-Lenkung",
+    "fr": "Direction omnidirectionnelle Mecanum"
+  },
+  "中央雙液壓缸鉸接轉向 (Articulated Frame Steering)": {
+    "en": "Articulated frame with twin hydraulic cylinders",
+    "ja": "中央二連油圧シリンダー屈折操舵",
+    "de": "Knicklenkung mit zwei Hydraulikzylindern",
+    "fr": "Direction articulée à deux vérins hydrauliques"
+  },
+  "最大機構轉向角": {
+    "en": "Maximum mechanical steering angle",
+    "ja": "最大機構操舵角",
+    "de": "Maximaler mechanischer Lenkwinkel",
+    "fr": "Angle mécanique maximal de direction"
+  },
+  "轉向機構推力/扭力": {
+    "en": "Steering force/torque",
+    "ja": "操舵推力/トルク",
+    "de": "Lenkkraft/-moment",
+    "fr": "Force/couple de direction"
+  },
+  "煞車制動系統設計 (Braking - 可修改)": {
+    "en": "Braking design (editable)",
+    "ja": "制動系設計（変更可）",
+    "de": "Bremsenauslegung (änderbar)",
+    "fr": "Conception du freinage (modifiable)"
+  },
+  "煞車機構型式 (Braking Mechanism)": {
+    "en": "Braking mechanism",
+    "ja": "ブレーキ形式",
+    "de": "Bremsenart",
+    "fr": "Mécanisme de freinage"
+  },
+  "電磁失電抱死煞車＋電能回充 (EM Fail-Safe + Regen)": {
+    "en": "Electromagnetic fail-safe brake + regeneration",
+    "ja": "無励磁作動電磁ブレーキ＋回生",
+    "de": "Stromlos schließende Magnetbremse mit Rekuperation",
+    "fr": "Frein électromagnétique à manque de courant + régénération"
+  },
+  "雙迴路液壓通風碟煞系統 (Hydraulic Ventilated Disc)": {
+    "en": "Dual-circuit hydraulic ventilated disc brakes",
+    "ja": "二系統油圧ベンチレーテッドディスク",
+    "de": "Zweikreis-Hydraulikbremse mit belüfteten Scheiben",
+    "fr": "Freins à disques ventilés hydrauliques à double circuit"
+  },
+  "電子機械卡鉗駐車＋再生煞車 (Electronic Caliper EPB)": {
+    "en": "Electromechanical parking caliper + regenerative braking",
+    "ja": "電動キャリパー駐車ブレーキ＋回生",
+    "de": "Elektromechanischer Parkbremssattel mit Rekuperation",
+    "fr": "Étrier de stationnement électromécanique + freinage régénératif"
+  },
+  "濕式多片油冷煞車（重載履帶/高粉塵泥濘環境）": {
+    "en": "Wet oil-cooled multi-disc brake (heavy tracks/dust/mud)",
+    "ja": "湿式多板油冷ブレーキ（重積載クローラー・粉塵・泥）",
+    "de": "Ölgekühlte Nasslamellenbremse (schwere Ketten/Staub/Schlamm)",
+    "fr": "Frein multidisque humide refroidi par huile (chenilles lourdes/poussière/boue)"
+  },
+  "煞車碟盤/鼓直徑": {
+    "en": "Brake disc/drum diameter",
+    "ja": "ディスク/ドラム径",
+    "de": "Bremsscheiben-/Trommeldurchmesser",
+    "fr": "Diamètre du disque/tambour"
+  },
+  "總制動保持扭力": {
+    "en": "Total brake holding torque",
+    "ja": "総保持制動トルク",
+    "de": "Gesamtes Brems-Haltemoment",
+    "fr": "Couple total de maintien du frein"
+  },
+  "● 12項機構干涉與合理性檢核通過": {
+    "en": "● All 12 interference and plausibility checks passed",
+    "ja": "● 機構干渉・妥当性12項目合格",
+    "de": "● Alle 12 Kollisions- und Plausibilitätsprüfungen bestanden",
+    "fr": "● 12 contrôles d’interférence et de cohérence réussis"
+  },
+  "一鍵修正配置": {
+    "en": "Fix configuration",
+    "ja": "構成を一括修正",
+    "de": "Konfiguration korrigieren",
+    "fr": "Corriger la configuration"
+  },
+  "輪徑、離地高與懸吊行程無機構干涉。": {
+    "en": "No interference between wheel diameter, clearance and suspension travel.",
+    "ja": "車輪径・地上高・懸架ストロークの干渉なし。",
+    "de": "Raddurchmesser, Bodenfreiheit und Federweg kollisionsfrei.",
+    "fr": "Aucune interférence entre diamètre des roues, garde au sol et débattement."
+  },
+  "3D 機構運動與間隙監控": {
+    "en": "3D mechanism motion & clearance monitoring",
+    "ja": "3D機構運動・隙間監視",
+    "de": "3D-Bewegungs- und Freiraumüberwachung",
+    "fr": "Surveillance 3D des mouvements et jeux"
+  },
+  "4WD / 雙A臂": {
+    "en": "4WD / double wishbone",
+    "ja": "4WD / ダブルウィッシュボーン",
+    "de": "4WD / Doppelquerlenker",
+    "fr": "4WD / double triangulation"
+  },
+  "包絡尺寸:": {
+    "en": "Envelope:",
+    "ja": "外形寸法：",
+    "de": "Außenmaße:",
+    "fr": "Encombrement :"
+  },
+  "軸距 / 輪距:": {
+    "en": "Wheelbase / track:",
+    "ja": "軸距 / 輪距：",
+    "de": "Radstand / Spurweite:",
+    "fr": "Empattement / voie :"
+  },
+  "動態離地高:": {
+    "en": "Dynamic ground clearance:",
+    "ja": "動的地上高：",
+    "de": "Dynamische Bodenfreiheit:",
+    "fr": "Garde au sol dynamique :"
+  },
+  "轉向輪-車架間隙:": {
+    "en": "Steered tire–frame clearance:",
+    "ja": "操舵輪–フレーム隙間：",
+    "de": "Lenkrad–Rahmen-Abstand:",
+    "fr": "Jeu pneu braqué–châssis :"
+  },
+  "輪圈-卡鉗間隙:": {
+    "en": "Rim–caliper clearance:",
+    "ja": "リム–キャリパー隙間：",
+    "de": "Felgen–Bremssattel-Abstand:",
+    "fr": "Jeu jante–étrier :"
+  },
+  "跨障高度極限:": {
+    "en": "Maximum obstacle height:",
+    "ja": "最大障害物高さ：",
+    "de": "Maximale Hindernishöhe:",
+    "fr": "Hauteur maximale d’obstacle :"
+  },
+  "等角 3D": {
+    "en": "Isometric 3D",
+    "ja": "等角 3D",
+    "de": "Isometrie 3D",
+    "fr": "Isométrique 3D"
+  },
+  "前視": {
+    "en": "Front",
+    "ja": "正面",
+    "de": "Vorne",
+    "fr": "Face"
+  },
+  "側視": {
+    "en": "Side",
+    "ja": "側面",
+    "de": "Seite",
+    "fr": "Côté"
+  },
+  "上視": {
+    "en": "Top",
+    "ja": "上面",
+    "de": "Oben",
+    "fr": "Dessus"
+  },
+  "🚨 干涉紅標": {
+    "en": "🚨 Highlight collisions",
+    "ja": "🚨 干渉を赤表示",
+    "de": "🚨 Kollisionen markieren",
+    "fr": "🚨 Signaler les collisions"
+  },
+  "📏 尺寸界線": {
+    "en": "📏 Dimension bounds",
+    "ja": "📏 寸法境界",
+    "de": "📏 Maßgrenzen",
+    "fr": "📏 Limites dimensionnelles"
+  },
+  "📦 顯示負重塊": {
+    "en": "📦 Show payload block",
+    "ja": "📦 積載ブロック表示",
+    "de": "📦 Nutzlastblock anzeigen",
+    "fr": "📦 Afficher le bloc de charge"
+  },
+  "🕸️ 線框模式": {
+    "en": "🕸️ Wireframe mode",
+    "ja": "🕸️ ワイヤーフレーム",
+    "de": "🕸️ Drahtgitter",
+    "fr": "🕸️ Mode filaire"
+  },
+  "▶️ 動態運轉模擬": {
+    "en": "▶️ Animate operation",
+    "ja": "▶️ 動作シミュレーション",
+    "de": "▶️ Betrieb animieren",
+    "fr": "▶️ Animer le fonctionnement"
+  },
+  "轉向角測試:": {
+    "en": "Steering angle test:",
+    "ja": "操舵角テスト：",
+    "de": "Lenkwinkeltest:",
+    "fr": "Test d’angle de direction :"
+  },
+  "歸零": {
+    "en": "Zero",
+    "ja": "ゼロに戻す",
+    "de": "Nullstellen",
+    "fr": "Remettre à zéro"
+  },
+  "懸吊壓縮測試:": {
+    "en": "Suspension compression test:",
+    "ja": "懸架圧縮テスト：",
+    "de": "Einfederungstest:",
+    "fr": "Test de compression de suspension :"
+  },
+  "機構爆炸分解:": {
+    "en": "Mechanism explosion:",
+    "ja": "機構分解表示：",
+    "de": "Explosionsdarstellung:",
+    "fr": "Éclaté mécanique :"
+  },
+  "預估總重 (GVW)": {
+    "en": "Estimated gross weight (GVW)",
+    "ja": "推定総重量 (GVW)",
+    "de": "Geschätztes Gesamtgewicht (GVW)",
+    "fr": "Masse totale estimée (GVW)"
+  },
+  "空車重: 95 kg": {
+    "en": "Curb weight: 95 kg",
+    "ja": "空車重量: 95 kg",
+    "de": "Leergewicht: 95 kg",
+    "fr": "Masse à vide : 95 kg"
+  },
+  "越障/爬坡總峰值扭力": {
+    "en": "Total peak torque for obstacles/slopes",
+    "ja": "走破・登坂総ピークトルク",
+    "de": "Gesamtspitzenmoment für Hindernisse/Steigungen",
+    "fr": "Couple de pointe total pour obstacles/pentes"
+  },
+  "單輪需求: 78 N·m": {
+    "en": "Per-wheel demand: 78 N·m",
+    "ja": "1輪の要求値: 78 N·m",
+    "de": "Bedarf je Rad: 78 N·m",
+    "fr": "Besoin par roue : 78 N·m"
+  },
+  "驅動總功率配置": {
+    "en": "Total installed drive power",
+    "ja": "総駆動出力",
+    "de": "Installierte Gesamtantriebsleistung",
+    "fr": "Puissance totale de transmission"
+  },
+  "額定輪轉速: 112 RPM": {
+    "en": "Rated wheel speed: 112 RPM",
+    "ja": "定格車輪回転数: 112 RPM",
+    "de": "Nenndrehzahl am Rad: 112 RPM",
+    "fr": "Régime nominal des roues : 112 RPM"
+  },
+  "儲能容量配置": {
+    "en": "Energy storage capacity",
+    "ja": "蓄電容量",
+    "de": "Speicherkapazität",
+    "fr": "Capacité de stockage d’énergie"
+  },
+  "最小迴轉半徑": {
+    "en": "Minimum turning radius",
+    "ja": "最小旋回半径",
+    "de": "Minimaler Wenderadius",
+    "fr": "Rayon minimal de braquage"
+  },
+  "原地差速迴轉": {
+    "en": "Differential zero-turn",
+    "ja": "差動その場旋回",
+    "de": "Differenzialwenden auf der Stelle",
+    "fr": "Rotation différentielle sur place"
+  },
+  "側傾穩定極限角": {
+    "en": "Lateral tipping limit angle",
+    "ja": "横転限界角",
+    "de": "Seitlicher Kippgrenzwinkel",
+    "fr": "Angle limite de basculement latéral"
+  },
+  "合成重心高: 365 mm": {
+    "en": "Combined CG height: 365 mm",
+    "ja": "合成重心高: 365 mm",
+    "de": "Gesamtschwerpunkthöhe: 365 mm",
+    "fr": "Hauteur du centre de gravité global : 365 mm"
+  },
+  "🔍 輪系與零件機構干涉／運動學合理性 12 項深度審視矩陣": {
+    "en": "🔍 12-point wheel/mechanism interference and kinematics audit matrix",
+    "ja": "🔍 車輪・部品の干渉/運動学12項目詳細検証表",
+    "de": "🔍 12-Punkte-Prüfmatrix für Rad-/Bauteilkollisionen und Kinematik",
+    "fr": "🔍 Matrice de 12 contrôles d’interférences et de cinématique"
+  },
+  "12 / 12 通過": {
+    "en": "12 / 12 passed",
+    "ja": "12 / 12 合格",
+    "de": "12 / 12 bestanden",
+    "fr": "12 / 12 réussis"
+  },
+  "即時計算三維包絡淨間隙 (mm) 與機構自由度相容性": {
+    "en": "Real-time 3D envelope clearances (mm) and mechanism DOF compatibility",
+    "ja": "3D包絡隙間 (mm)・機構自由度の適合性を即時計算",
+    "de": "3D-Hüllabstände (mm) und Freiheitsgradverträglichkeit in Echtzeit",
+    "fr": "Calcul instantané des jeux d’enveloppe 3D (mm) et compatibilité des degrés de liberté"
+  },
+  "🛠️ 自動消除所有干涉與不合理配置": {
+    "en": "🛠️ Resolve all collisions and invalid configurations",
+    "ja": "🛠️ 全干渉・不適切構成を自動修正",
+    "de": "🛠️ Alle Kollisionen und ungültigen Konfigurationen beheben",
+    "fr": "🛠️ Corriger toutes les interférences et incohérences"
+  },
+  "🛠️ 六大機構系統自動設計結果與即時規格總覽": {
+    "en": "🛠️ Six-system auto-design results and live specification overview",
+    "ja": "🛠️ 6系統自動設計結果・リアルタイム仕様一覧",
+    "de": "🛠️ Ergebnisse und aktuelle Spezifikation der sechs Systeme",
+    "fr": "🛠️ Résultats de conception et spécifications des six systèmes"
+  },
+  "（點擊任一系統卡片右側「微調參數」可跳轉至對應設定區修改）": {
+    "en": "(Click “Tune parameters” on a system card to edit its settings)",
+    "ja": "(各系統カードの「パラメータ調整」で設定へ移動)",
+    "de": "(Über „Parameter abstimmen“ zur jeweiligen Einstellung wechseln)",
+    "fr": "(Cliquer sur « Régler les paramètres » d’une carte pour modifier ses réglages)"
+  },
+  "1. 底盤骨架系統 (Frame)": {
+    "en": "1. Chassis frame (Frame)",
+    "ja": "1. シャーシフレーム (Frame)",
+    "de": "1. Fahrgestellrahmen (Frame)",
+    "fr": "1. Châssis (Frame)"
+  },
+  "估重: 42 kg": {
+    "en": "Estimated weight: 42 kg",
+    "ja": "推定重量: 42 kg",
+    "de": "Geschätztes Gewicht: 42 kg",
+    "fr": "Masse estimée : 42 kg"
+  },
+  "微調參數 ✎": {
+    "en": "Tune parameters ✎",
+    "ja": "パラメータ調整 ✎",
+    "de": "Parameter abstimmen ✎",
+    "fr": "Régler les paramètres ✎"
+  },
+  "2. 懸吊避震系統 (Suspension)": {
+    "en": "2. Suspension (Suspension)",
+    "ja": "2. 懸架・緩衝系 (Suspension)",
+    "de": "2. Federung (Suspension)",
+    "fr": "2. Suspension (Suspension)"
+  },
+  "3. 轉向機構系統 (Steering)": {
+    "en": "3. Steering (Steering)",
+    "ja": "3. 操舵機構 (Steering)",
+    "de": "3. Lenkung (Steering)",
+    "fr": "3. Direction (Steering)"
+  },
+  "最大轉角 28°": {
+    "en": "Maximum angle 28°",
+    "ja": "最大操舵角 28°",
+    "de": "Maximalwinkel 28°",
+    "fr": "Angle maximal 28°"
+  },
+  "4. 煞車制動系統 (Braking)": {
+    "en": "4. Braking (Braking)",
+    "ja": "4. 制動機構 (Braking)",
+    "de": "4. Bremsen (Braking)",
+    "fr": "4. Freinage (Braking)"
+  },
+  "制動 ≥ 380 N·m": {
+    "en": "Braking ≥ 380 N·m",
+    "ja": "制動 ≥ 380 N·m",
+    "de": "Bremsmoment ≥ 380 N·m",
+    "fr": "Freinage ≥ 380 N·m"
+  },
+  "5. 傳動與減速系統 (Drivetrain)": {
+    "en": "5. Drivetrain & reduction (Drivetrain)",
+    "ja": "5. 駆動・減速系 (Drivetrain)",
+    "de": "5. Antrieb und Untersetzung (Drivetrain)",
+    "fr": "5. Transmission et réduction (Drivetrain)"
+  },
+  "6. 動力與儲能系統 (Power)": {
+    "en": "6. Power & storage (Power)",
+    "ja": "6. 動力・蓄電系 (Power)",
+    "de": "6. Energie und Speicher (Power)",
+    "fr": "6. Énergie et stockage (Power)"
+  },
+  "無人車底盤六大系統設計規格書 & 初步 BOM 表": {
+    "en": "UGV six-system specifications & preliminary BOM",
+    "ja": "UGV 6系統設計仕様書・初期BOM",
+    "de": "UGV-Spezifikation der sechs Systeme und vorläufige Stückliste",
+    "fr": "Spécifications des six systèmes UGV et nomenclature préliminaire"
+  },
+  "涵蓋骨架、懸吊、轉向、煞車、傳動、動力與 12 項機構間隙檢核報告，可匯出 CSV / JSON": {
+    "en": "Frame, suspension, steering, brakes, drivetrain, power and 12 clearance checks; export CSV / JSON",
+    "ja": "フレーム・懸架・操舵・制動・駆動・動力と12項目隙間検証。CSV / JSON出力可",
+    "de": "Rahmen, Federung, Lenkung, Bremsen, Antrieb, Energie und 12 Freiraumprüfungen; CSV / JSON-Export",
+    "fr": "Châssis, suspension, direction, freinage, transmission, énergie et 12 contrôles de jeu ; export CSV / JSON"
+  },
+  "✕ 關閉": {
+    "en": "✕ Close",
+    "ja": "✕ 閉じる",
+    "de": "✕ Schließen",
+    "fr": "✕ Fermer"
+  },
+  "模組分類": {
+    "en": "Module category",
+    "ja": "モジュール分類",
+    "de": "Modulkategorie",
+    "fr": "Catégorie de module"
+  },
+  "零組件名稱與規格描述": {
+    "en": "Component name and specification",
+    "ja": "部品名・仕様",
+    "de": "Bauteilname und Spezifikation",
+    "fr": "Nom et spécification du composant"
+  },
+  "數量": {
+    "en": "Quantity",
+    "ja": "数量",
+    "de": "Menge",
+    "fr": "Quantité"
+  },
+  "預估單重 (kg)": {
+    "en": "Estimated unit weight (kg)",
+    "ja": "推定単品重量 (kg)",
+    "de": "Geschätztes Stückgewicht (kg)",
+    "fr": "Masse unitaire estimée (kg)"
+  },
+  "機構設計 / 選型備註": {
+    "en": "Design / selection notes",
+    "ja": "設計・選定注記",
+    "de": "Konstruktions-/Auswahlhinweise",
+    "fr": "Notes de conception/sélection"
+  },
+  "工程規格書與機構間隙檢核摘要 (Markdown 格式)：": {
+    "en": "Engineering specification and clearance audit summary (Markdown):",
+    "ja": "設計仕様・隙間検証概要（Markdown形式）：",
+    "de": "Spezifikation und Freiraumprüfung (Markdown):",
+    "fr": "Spécifications et résumé du contrôle des jeux (Markdown) :"
+  },
+  "✓ 已複製到剪貼簿！": {
+    "en": "✓ Copied to clipboard!",
+    "ja": "✓ クリップボードにコピーしました！",
+    "de": "✓ In die Zwischenablage kopiert!",
+    "fr": "✓ Copié dans le presse-papiers !"
+  },
+  "📄 複製規格書文字": {
+    "en": "📄 Copy specification text",
+    "ja": "📄 仕様書テキストをコピー",
+    "de": "📄 Spezifikation kopieren",
+    "fr": "📄 Copier les spécifications"
+  },
+  "📊 下載 BOM (.CSV)": {
+    "en": "📊 Download BOM (.CSV)",
+    "ja": "📊 BOMダウンロード (.CSV)",
+    "de": "📊 Stückliste herunterladen (.CSV)",
+    "fr": "📊 Télécharger la nomenclature (.CSV)"
+  },
+  "💾 下載參數檔 (.JSON)": {
+    "en": "💾 Download parameters (.JSON)",
+    "ja": "💾 パラメータダウンロード (.JSON)",
+    "de": "💾 Parameter herunterladen (.JSON)",
+    "fr": "💾 Télécharger les paramètres (.JSON)"
+  },
+  "展開或分頁顯示所有參數": {
+    "en": "Expand all parameters or show tabs",
+    "ja": "全パラメータを展開/タブ表示",
+    "de": "Alle Parameter ausklappen oder Register anzeigen",
+    "fr": "Déployer tous les paramètres ou afficher les onglets"
+  },
+  "發生干涉時於3D模型以紅色高亮標示干涉件": {
+    "en": "Highlight colliding parts in red in the 3D model",
+    "ja": "干渉部品を3Dモデル上で赤く強調",
+    "de": "Kollidierende Bauteile im 3D-Modell rot markieren",
+    "fr": "Mettre les pièces en collision en rouge dans le modèle 3D"
+  },
+  "[干涉] 同側前後輪縱向淨間隙僅 {0}mm (<20mm)，轉向或折腰時前後輪發生擦撞！": {
+    "en": "[Collision] Same-side front/rear tire clearance only {0}mm (<20mm); tires rub during steering or articulation!",
+    "ja": "[干渉] 同側前後輪の縦隙間は{0}mm (<20mm)のみ。操舵・屈折時に接触！",
+    "de": "[Kollision] Gleichseitiger Reifenlängsabstand nur {0}mm (<20mm); Reifenkontakt beim Lenken oder Knicken!",
+    "fr": "[Collision] Jeu longitudinal des pneus du même côté de {0}mm seulement (<20mm) ; contact au braquage ou à l’articulation !"
+  },
+  "1. 前後輪縱向包絡間隙": {
+    "en": "1. Front/rear tire longitudinal envelope clearance",
+    "ja": "1. 前後輪の縦方向包絡隙間",
+    "de": "1. Längsabstand der vorderen/hinteren Radhüllen",
+    "fr": "1. Jeu longitudinal des enveloppes avant/arrière"
+  },
+  "軸距 {0}mm 下相鄰輪距過近（建議 ≥ 45mm），請加長車長或縮小輪徑。": {
+    "en": "Wheelbase {0}mm puts adjacent wheels too close (recommended ≥ 45mm). Increase length or reduce tire diameter.",
+    "ja": "軸距{0}mmでは隣接輪が近すぎます（推奨 ≥ 45mm）。車長を増すか輪径を小さくしてください。",
+    "de": "Radstand {0}mm: Räder zu nah (empfohlen ≥ 45mm). Länge erhöhen oder Raddurchmesser verkleinern.",
+    "fr": "Empattement {0}mm : roues trop proches (recommandé ≥ 45mm). Allonger le véhicule ou réduire le diamètre."
+  },
+  "間隙偏緊（建議 ≥ 45mm 以防泥塊卡死）。": {
+    "en": "Tight clearance (recommended ≥ 45mm to prevent mud jamming).",
+    "ja": "隙間が狭いです（泥詰まり防止に ≥ 45mmを推奨）。",
+    "de": "Enger Abstand (≥ 45mm gegen Schlammblockaden empfohlen).",
+    "fr": "Jeu réduit (≥ 45mm recommandé contre le blocage par la boue)."
+  },
+  "{0}軸配置下相鄰輪胎轉向/直行包絡無干涉。": {
+    "en": "No steering/straight-running tire envelope interference with {0} axles.",
+    "ja": "{0}軸構成の操舵・直進包絡に干渉なし。",
+    "de": "Keine Radkollision bei Lenkung/Geradeausfahrt mit {0} Achsen.",
+    "fr": "Aucune interférence des enveloppes en braquage/ligne droite avec {0} essieux."
+  },
+  "[干涉] 轉向 {0}° 時輪胎內側與車架縱樑間隙僅 {1}mm (<12mm)，輪胎磨擦車架！": {
+    "en": "[Collision] At {0}° steering, tire–frame clearance only {1}mm (<12mm); tire rubs frame!",
+    "ja": "[干渉] 操舵{0}°でタイヤ–フレーム隙間は{1}mm (<12mm)のみ。接触します！",
+    "de": "[Kollision] Bei {0}° nur {1}mm Reifen–Rahmen-Abstand (<12mm); Reifen schleift!",
+    "fr": "[Collision] À {0}°, jeu pneu–châssis de {1}mm seulement (<12mm) ; frottement !"
+  },
+  "2. 轉向輪 vs 車架縱樑間隙": {
+    "en": "2. Steered tire vs frame rail clearance",
+    "ja": "2. 操舵輪と主梁の隙間",
+    "de": "2. Lenkrad–Längsträger-Abstand",
+    "fr": "2. Jeu pneu braqué–longeron"
+  },
+  "最大轉角 {0}° 時輪胎掃掠侵入車架，請加寬車寬或調降最大轉向角。": {
+    "en": "At {0}° maximum steering, tire sweep enters frame. Widen vehicle or reduce maximum angle.",
+    "ja": "最大操舵{0}°でタイヤ包絡がフレームに侵入。車幅を増すか最大角を下げてください。",
+    "de": "Bei maximal {0}° ragt der Reifen in den Rahmen. Fahrzeug verbreitern oder Lenkwinkel reduzieren.",
+    "fr": "À {0}° maximal, le pneu pénètre dans le châssis. Élargir ou réduire l’angle maximal."
+  },
+  "轉向極限位置距車架較近（建議 ≥ 25mm）。": {
+    "en": "Frame clearance is tight at full lock (recommended ≥ 25mm).",
+    "ja": "最大操舵でフレーム隙間が狭いです（推奨 ≥ 25mm）。",
+    "de": "Rahmenabstand bei Volleinschlag knapp (empfohlen ≥ 25mm).",
+    "fr": "Jeu au châssis réduit en butée (recommandé ≥ 25mm)."
+  },
+  "滿舵 {0}° 時輪胎內側掃掠包絡與主車架保持安全裕度。": {
+    "en": "At full lock {0}°, the inner tire envelope keeps a safe frame clearance.",
+    "ja": "最大操舵{0}°でもタイヤ内側包絡と主フレームに安全余裕あり。",
+    "de": "Bei Volleinschlag {0}° bleibt ein sicherer Abstand zum Hauptrahmen.",
+    "fr": "À la butée {0}°, l’enveloppe intérieure du pneu garde une marge sûre au châssis."
+  },
+  "[干涉] 輪胎轉向內側與避震彈簧/懸吊連桿間隙僅 {0}mm (<10mm)！": {
+    "en": "[Collision] Inner steered tire–spring/link clearance only {0}mm (<10mm)!",
+    "ja": "[干渉] 操舵輪内側とばね/リンクの隙間は{0}mm (<10mm)のみ！",
+    "de": "[Kollision] Reifen–Feder/Lenker-Abstand nur {0}mm (<10mm)!",
+    "fr": "[Collision] Jeu intérieur pneu braqué–ressort/biellette de {0}mm seulement (<10mm) !"
+  },
+  "3. 轉向輪 vs 避震器/A臂間隙": {
+    "en": "3. Steered tire vs shock/A-arm clearance",
+    "ja": "3. 操舵輪とダンパー/Aアームの隙間",
+    "de": "3. Lenkrad–Dämpfer/Querlenker-Abstand",
+    "fr": "3. Jeu pneu braqué–amortisseur/triangle"
+  },
+  "大轉角下胎肩擦撞避震器彈簧，請縮小最大轉向角或加寬輪距。": {
+    "en": "Tire shoulder contacts spring at high steering angle. Reduce maximum angle or increase track.",
+    "ja": "大操舵角でタイヤ肩がばねに接触。最大角を下げるか輪距を増してください。",
+    "de": "Reifenschulter berührt Feder bei großem Lenkwinkel. Winkel reduzieren oder Spur verbreitern.",
+    "fr": "L’épaulement touche le ressort à fort braquage. Réduire l’angle ou élargir la voie."
+  },
+  "無懸吊干涉": {
+    "en": "No suspension interference",
+    "ja": "懸架干渉なし",
+    "de": "Keine Federungskollision",
+    "fr": "Aucune interférence de suspension"
+  },
+  "轉向節主銷與避震器傾角 ({0}°) 空間配置合理。": {
+    "en": "Kingpin and shock inclination ({0}°) fit the available space.",
+    "ja": "キングピンとダンパー傾斜 ({0}°) の空間配置は適切。",
+    "de": "Achsschenkelbolzen und Dämpferneigung ({0}°) räumlich verträglich.",
+    "fr": "Implantation cohérente du pivot et de l’amortisseur incliné ({0}°)."
+  },
+  "[干涉] 懸吊全壓縮行程 ({0}mm) 大於離地高安全裕度，滿載衝擊時車底觸地 (剩餘 {1}mm)！": {
+    "en": "[Collision] Full travel ({0}mm) exceeds safe ground clearance; chassis bottoms under loaded impact (remaining {1}mm)!",
+    "ja": "[干渉] 全ストローク({0}mm)が安全地上高を超え、積載衝撃時に底付き（残り{1}mm）！",
+    "de": "[Kollision] Voller Federweg ({0}mm) überschreitet Bodenreserve; Aufsetzen bei Laststoß (Rest {1}mm)!",
+    "fr": "[Collision] Débattement complet ({0}mm) supérieur à la marge au sol ; talonnage en charge (reste {1}mm) !"
+  },
+  "4. 懸吊全壓縮觸底與頂板間隙": {
+    "en": "4. Full-bump belly and deck clearance",
+    "ja": "4. 全圧縮時の底部・上板隙間",
+    "de": "4. Boden-/Deckabstand bei voller Einfederung",
+    "fr": "4. Jeux sous caisse et au plateau en compression complète"
+  },
+  "車底餘 {0} mm": {
+    "en": "Belly reserve {0} mm",
+    "ja": "底部余裕 {0} mm",
+    "de": "Bodenreserve {0} mm",
+    "fr": "Marge sous caisse {0} mm"
+  },
+  "懸吊全壓縮時車底將撞擊地面（需 ≥ 30mm），請減少懸吊行程或提高離地高。": {
+    "en": "Chassis hits ground at full bump (need ≥ 30mm). Reduce travel or increase clearance.",
+    "ja": "全圧縮で底部が接地（必要 ≥ 30mm）。ストロークを減らすか地上高を上げてください。",
+    "de": "Bei voller Einfederung Bodenkontakt (≥ 30mm nötig). Federweg senken oder Bodenfreiheit erhöhen.",
+    "fr": "La caisse touche au débattement maximal (≥ 30mm requis). Réduire le débattement ou relever la garde au sol."
+  },
+  "[干涉] 載台高度 ({0}mm) 過低，懸吊壓縮時輪胎頂部撞擊上載台板 (餘裕 {1}mm)！": {
+    "en": "[Collision] Deck ({0}mm) too low; tire hits upper deck at full bump (reserve {1}mm)!",
+    "ja": "[干渉] 載台({0}mm)が低く、圧縮時にタイヤが上板に接触（余裕{1}mm）！",
+    "de": "[Kollision] Plattform ({0}mm) zu niedrig; Reifen trifft Deck beim Einfedern (Reserve {1}mm)!",
+    "fr": "[Collision] Plateau ({0}mm) trop bas ; le pneu touche en compression (marge {1}mm) !"
+  },
+  "頂板餘 {0} mm": {
+    "en": "Deck reserve {0} mm",
+    "ja": "上板余裕 {0} mm",
+    "de": "Deckreserve {0} mm",
+    "fr": "Marge au plateau {0} mm"
+  },
+  "輪胎上跳時撞擊頂板（建議載台高 ≥ {0}mm）。": {
+    "en": "Tire hits deck in bump (recommended deck height ≥ {0}mm).",
+    "ja": "上跳ね時にタイヤが上板に接触（推奨載台高 ≥ {0}mm）。",
+    "de": "Reifen trifft Deck beim Einfedern (empfohlene Höhe ≥ {0}mm).",
+    "fr": "Le pneu touche le plateau en compression (hauteur recommandée ≥ {0}mm)."
+  },
+  "底+{0} / 頂+{1}mm": {
+    "en": "Belly+{0} / deck+{1}mm",
+    "ja": "底+{0} / 上板+{1}mm",
+    "de": "Boden+{0} / Deck+{1}mm",
+    "fr": "Caisse+{0} / plateau+{1}mm"
+  },
+  "懸吊壓縮到底時，車底與上載台板皆無觸底或頂胎干涉。": {
+    "en": "No ground contact or tire–deck interference at full bump.",
+    "ja": "全圧縮時も底付き・上板へのタイヤ接触なし。",
+    "de": "Kein Aufsetzen und kein Reifen–Deck-Kontakt bei voller Einfederung.",
+    "fr": "Aucun contact au sol ou pneu–plateau en compression complète."
+  },
+  "[機構不合理] 懸吊連桿有效長度 ({0}mm) 過短或行程過大，球頭最大擺角達 {1}° (>33° 易卡死)！": {
+    "en": "[Invalid mechanism] Link length ({0}mm) too short or travel too large; ball-joint angle reaches {1}° (>33° may bind)!",
+    "ja": "[機構不適切] リンク長({0}mm)不足または過大ストローク。球継手角{1}°（>33°で固着の恐れ）！",
+    "de": "[Ungültige Mechanik] Lenker ({0}mm) zu kurz oder Federweg zu groß; Kugelgelenkwinkel {1}° (>33° klemmgefährdet)!",
+    "fr": "[Mécanisme incohérent] Biellette ({0}mm) trop courte ou débattement excessif ; rotule à {1}° (>33° : risque de blocage) !"
+  },
+  "5. 懸吊連桿擺角與球頭極限": {
+    "en": "5. Suspension link swing and ball-joint limits",
+    "ja": "5. 懸架リンク揺動角・球継手限界",
+    "de": "5. Lenkerschwenkwinkel und Kugelgelenkgrenzen",
+    "fr": "5. Débattement angulaire des biellettes et limites des rotules"
+  },
+  "{0}° (臂長 {1}mm)": {
+    "en": "{0}° (arm {1}mm)",
+    "ja": "{0}° (アーム長 {1}mm)",
+    "de": "{0}° (Lenker {1}mm)",
+    "fr": "{0}° (bras {1}mm)"
+  },
+  "連桿擺角超過魚眼/球頭軸承 33° 極限，請加寬車寬或降低懸吊行程。": {
+    "en": "Link swing exceeds bearing/ball-joint limit 33°. Widen vehicle or reduce travel.",
+    "ja": "リンク角が球面軸受/球継手の33°限界を超過。車幅を増すかストロークを減らしてください。",
+    "de": "Lenker überschreitet Gelenkgrenze 33°. Fahrzeug verbreitern oder Federweg verkleinern.",
+    "fr": "Angle supérieur à la limite de rotule 33°. Élargir le véhicule ou réduire le débattement."
+  },
+  "上下支臂/連桿幾何擺角於安全工作區間 (≤ 33°) 內。": {
+    "en": "Upper/lower link swing stays in the safe range (≤ 33°).",
+    "ja": "上下アーム/リンク角は安全範囲内 (≤ 33°)。",
+    "de": "Schwenkwinkel der oberen/unteren Lenker im sicheren Bereich (≤ 33°).",
+    "fr": "Angles des bras/biellettes dans la plage sûre (≤ 33°)."
+  },
+  "[干涉] 煞車總成外徑 (碟盤 Ø{0}+卡鉗={1}mm) 超出輪圈內徑 (Ø{2}mm)，卡鉗撞擊輪圈！": {
+    "en": "[Collision] Brake OD (disc Ø{0}+caliper={1}mm) exceeds rim ID (Ø{2}mm); caliper hits rim!",
+    "ja": "[干渉] ブレーキ外径（ディスクØ{0}+キャリパー={1}mm）がリム内径(Ø{2}mm)を超過！",
+    "de": "[Kollision] Bremsenaußenmaß (Scheibe Ø{0}+Sattel={1}mm) über Felgeninnendurchmesser (Ø{2}mm)!",
+    "fr": "[Collision] Diamètre de frein (disque Ø{0}+étrier={1}mm) supérieur à l’alésage de jante (Ø{2}mm) !"
+  },
+  "6. 輪圈內徑 vs 煞車卡鉗包絡": {
+    "en": "6. Rim ID vs brake caliper envelope",
+    "ja": "6. リム内径とキャリパー包絡",
+    "de": "6. Felgeninnendurchmesser und Bremssattelhülle",
+    "fr": "6. Alésage de jante et enveloppe d’étrier"
+  },
+  "輪圈內徑 Ø{0}mm 容納不下 Ø{1}mm 碟盤與卡鉗，請縮小碟盤直徑。": {
+    "en": "Rim ID Ø{0}mm cannot fit disc Ø{1}mm and caliper. Reduce disc diameter.",
+    "ja": "リム内径Ø{0}mmにディスクØ{1}mmとキャリパーが入りません。ディスク径を減らしてください。",
+    "de": "Felgeninnendurchmesser Ø{0}mm reicht nicht für Scheibe Ø{1}mm und Sattel. Scheibe verkleinern.",
+    "fr": "Alésage Ø{0}mm insuffisant pour disque Ø{1}mm et étrier. Réduire le disque."
+  },
+  "卡鉗與輪圈內壁間隙略緊（建議 ≥ 10mm 以防石塊卡入）。": {
+    "en": "Caliper–rim clearance is tight (recommended ≥ 10mm against stone jamming).",
+    "ja": "キャリパー–リム隙間が狭いです（石詰まり防止に ≥ 10mm推奨）。",
+    "de": "Sattel–Felgen-Abstand knapp (≥ 10mm gegen Steinblockaden empfohlen).",
+    "fr": "Jeu étrier–jante réduit (≥ 10mm recommandé contre les cailloux)."
+  },
+  "輪圈內徑 Ø{0}mm 可順利容納碟盤與制動卡鉗。": {
+    "en": "Rim ID Ø{0}mm accommodates disc and caliper.",
+    "ja": "リム内径Ø{0}mmにディスクとキャリパーが収まります。",
+    "de": "Felgeninnendurchmesser Ø{0}mm nimmt Scheibe und Sattel auf.",
+    "fr": "L’alésage Ø{0}mm accueille le disque et l’étrier."
+  },
+  "履帶主動鏈輪不適合外轉子輪轂馬達直驅（易受衝擊且扭矩不足），應改用內置減速馬達或雙側鏈傳動。": {
+    "en": "Track sprockets are unsuitable for direct outer-rotor hub drive (impact/low torque). Use inboard geared motors or side chains.",
+    "ja": "クローラースプロケットに外転子ハブ直駆動は不適切（衝撃・トルク不足）。車体内減速モーターか左右チェーンへ変更してください。",
+    "de": "Kettenräder eignen sich nicht für direkte Außenläufer-Nabenmotoren (Stoß/zu wenig Moment). Innengetriebemotoren oder Seitenketten verwenden.",
+    "fr": "Les pignons de chenille ne conviennent pas aux moteurs-roues à rotor externe (chocs/couple insuffisant). Utiliser des motoréducteurs internes ou chaînes latérales."
+  },
+  "輪轂直驅馬達與門式車橋輪邊減速箱同處於輪轂中心，軸向空間重疊衝突，請改用內置馬達或四輪傳動軸。": {
+    "en": "Hub motor and portal reduction occupy the same hub axial space. Use inboard motors or a 4WD shaft.",
+    "ja": "ハブモーターとポータル減速機の軸方向空間が重複。車体内モーターか4WD軸に変更してください。",
+    "de": "Nabenmotor und Portalgetriebe belegen denselben Axialraum. Innenmotoren oder 4WD-Welle verwenden.",
+    "fr": "Moteur-roue et réducteur portique occupent le même espace axial. Utiliser des moteurs internes ou un arbre 4WD."
+  },
+  "輪寬 ({0}mm) 過窄，無法容納輪轂馬達定子與軸承軸向寬度 (需 ≥ 80mm)。": {
+    "en": "Wheel width ({0}mm) cannot fit hub stator and bearings (need ≥ 80mm).",
+    "ja": "輪幅({0}mm)ではハブ固定子と軸受が収まりません（必要 ≥ 80mm）。",
+    "de": "Radbreite ({0}mm) reicht nicht für Stator und Lager (≥ 80mm nötig).",
+    "fr": "Largeur ({0}mm) insuffisante pour stator et roulements (≥ 80mm requis)."
+  },
+  "[機構衝突] {0}": {
+    "en": "[Mechanism conflict] {0}",
+    "ja": "[機構競合] {0}",
+    "de": "[Mechanikkonflikt] {0}",
+    "fr": "[Conflit mécanique] {0}"
+  },
+  "7. 輪轂軸向空間與輪邊配置": {
+    "en": "7. Hub axial space and wheel-end packaging",
+    "ja": "7. ハブ軸方向・輪端配置",
+    "de": "7. Nabenaxialraum und Radendeneinbau",
+    "fr": "7. Espace axial du moyeu et implantation en roue"
+  },
+  "軸向空間衝突": {
+    "en": "Axial space conflict",
+    "ja": "軸方向空間競合",
+    "de": "Axialraumkonflikt",
+    "fr": "Conflit d’espace axial"
+  },
+  "輪寬 {0} mm 相容": {
+    "en": "Wheel width {0} mm compatible",
+    "ja": "輪幅 {0} mm 適合",
+    "de": "Radbreite {0} mm verträglich",
+    "fr": "Largeur de roue {0} mm compatible"
+  },
+  "輪轂軸承、轉向節羊角與驅動端軸向堆疊無干涉。": {
+    "en": "Hub bearings, knuckle and drive-end axial stack are collision-free.",
+    "ja": "ハブ軸受・ナックル・駆動端の軸方向積層に干渉なし。",
+    "de": "Axialer Aufbau von Nabenlagern, Achsschenkel und Antrieb kollisionsfrei.",
+    "fr": "Empilage axial des roulements, porte-fusée et entraînement sans interférence."
+  },
+  "[幾何不合理] 設定離地高 ({0}mm) 超過輪軸扣除差速器/軸管後之物理上限 ({1}mm)！": {
+    "en": "[Invalid geometry] Clearance ({0}mm) exceeds axle/differential physical limit ({1}mm)!",
+    "ja": "[形状不適切] 地上高({0}mm)が差動装置/軸管を除いた物理限界({1}mm)を超過！",
+    "de": "[Ungültige Geometrie] Bodenfreiheit ({0}mm) überschreitet Achs-/Differenzialgrenze ({1}mm)!",
+    "fr": "[Géométrie incohérente] Garde au sol ({0}mm) supérieure à la limite essieu/différentiel ({1}mm) !"
+  },
+  "8. 離地高 vs 輪軸中心幾何": {
+    "en": "8. Ground clearance vs axle center geometry",
+    "ja": "8. 地上高と車軸中心形状",
+    "de": "8. Bodenfreiheit und Achsmittelgeometrie",
+    "fr": "8. Garde au sol et géométrie du centre d’essieu"
+  },
+  "超限 +{0} mm": {
+    "en": "Over limit +{0} mm",
+    "ja": "超過 +{0} mm",
+    "de": "Überschreitung +{0} mm",
+    "fr": "Dépassement +{0} mm"
+  },
+  "直連車軸中心高僅 {0}mm，需改用「門式高離地車橋」或加大輪徑。": {
+    "en": "Direct axle center height only {0}mm. Use portal axles or larger wheels.",
+    "ja": "直結車軸中心高は{0}mmのみ。ポータルアクスルか大径輪に変更してください。",
+    "de": "Direkte Achsmitte nur {0}mm hoch. Portalachsen oder größere Räder verwenden.",
+    "fr": "Centre d’essieu direct à {0}mm seulement. Utiliser un pont portique ou des roues plus grandes."
+  },
+  "軸下淨高 OK": {
+    "en": "Under-axle clearance OK",
+    "ja": "車軸下隙間 OK",
+    "de": "Achsunterraum OK",
+    "fr": "Garde sous essieu OK"
+  },
+  "門式車橋輪邊降齒設計成功使車軸高於輪心。": {
+    "en": "Portal wheel reduction raises axle above wheel center.",
+    "ja": "ポータル輪端減速により車軸が輪心より上に配置されています。",
+    "de": "Portal-Raduntersetzung hebt die Achse über die Radmitte.",
+    "fr": "La réduction portique place l’essieu au-dessus du centre de roue."
+  },
+  "車底離地高 {0}mm 與輪心高度 ({1}mm) 幾何合理。": {
+    "en": "Ground clearance {0}mm is geometrically consistent with wheel center ({1}mm).",
+    "ja": "地上高{0}mmと輪心高({1}mm)の形状は整合。",
+    "de": "Bodenfreiheit {0}mm passt geometrisch zur Radmitte ({1}mm).",
+    "fr": "Garde au sol {0}mm cohérente avec le centre de roue ({1}mm)."
+  },
+  "雙側鏈條/同步帶傳動要求固定平行輪軸，無法搭配阿克曼或四輪獨立轉向節（轉向時鏈條將脫落干涉）！": {
+    "en": "Side chains/belts require fixed parallel axles and cannot use Ackermann/independent 4-wheel knuckles (chain derailment at steering)!",
+    "ja": "左右チェーン/ベルトには固定平行軸が必要。アッカーマン/四輪独立ナックルは操舵時に脱線・干渉します！",
+    "de": "Seitenketten/-riemen brauchen feste parallele Achsen; Ackermann-/Vierrad-Achsschenkel führen beim Lenken zum Abspringen!",
+    "fr": "Chaînes/courroies latérales : essieux parallèles fixes requis ; les porte-fusées Ackermann/4 roues provoquent un déraillement !"
+  },
+  "單節雙履帶底盤無法進行中央鉸接折腰轉向，請改用差速轉向 (Skid-Steer)。": {
+    "en": "A single-section twin-track chassis cannot use central articulation. Use skid steering.",
+    "ja": "単節二本クローラーに中央屈折操舵は使えません。差動操舵にしてください。",
+    "de": "Einteiliges Zweikettenfahrwerk kann nicht knicklenken. Differenziallenkung verwenden.",
+    "fr": "Un châssis monobloc à deux chenilles ne peut pas s’articuler au centre. Utiliser la direction différentielle."
+  },
+  "[機構干涉] {0}": {
+    "en": "[Mechanism interference] {0}",
+    "ja": "[機構干渉] {0}",
+    "de": "[Mechanikkollision] {0}",
+    "fr": "[Interférence mécanique] {0}"
+  },
+  "9. 轉向連桿 vs 傳動路徑檢核": {
+    "en": "9. Steering linkage vs drive path",
+    "ja": "9. 操舵リンクと駆動経路",
+    "de": "9. Lenkgestänge und Antriebsweg",
+    "fr": "9. Tringlerie de direction et transmission"
+  },
+  "傳動/轉向干涉": {
+    "en": "Drive/steering interference",
+    "ja": "駆動/操舵干渉",
+    "de": "Antriebs-/Lenkungskollision",
+    "fr": "Interférence transmission/direction"
+  },
+  "高低錯位無干涉": {
+    "en": "Vertically offset; no interference",
+    "ja": "上下分離・干渉なし",
+    "de": "Höhenversetzt, kollisionsfrei",
+    "fr": "Décalage vertical sans interférence"
+  },
+  "轉向橫拉桿/伺服推桿與萬向傳動半軸空間分離合理。": {
+    "en": "Tie rods/servo rods and CV shafts are spatially separated.",
+    "ja": "タイロッド/サーボロッドとCV軸は空間分離されています。",
+    "de": "Spur-/Servostangen und CV-Wellen räumlich getrennt.",
+    "fr": "Biellettes de direction/servo et arbres homocinétiques séparés."
+  },
+  "[內部干涉] 左右內置馬達+減速機總長 (2×{0}mm) 超過車架內寬 ({1}mm)，左右馬達於中央對撞！": {
+    "en": "[Internal collision] Paired motors+reducers (2×{0}mm) exceed inner frame width ({1}mm); motors collide centrally!",
+    "ja": "[内部干渉] 左右モーター＋減速機(2×{0}mm)がフレーム内幅({1}mm)を超え中央で衝突！",
+    "de": "[Innenkollision] Motoren+Getriebe (2×{0}mm) überschreiten Rahmeninnenbreite ({1}mm); mittige Kollision!",
+    "fr": "[Collision interne] Moteurs+réducteurs (2×{0}mm) dépassent la largeur interne ({1}mm) ; collision au centre !"
+  },
+  "10. 車架內置馬達與電池艙空間": {
+    "en": "10. Inboard motor and battery bay space",
+    "ja": "10. 車体内モーター・電池室空間",
+    "de": "10. Innenmotor- und Akkuraum",
+    "fr": "10. Espace moteurs internes et compartiment batterie"
+  },
+  "橫向干涉 {0}mm": {
+    "en": "Lateral interference {0}mm",
+    "ja": "横方向干渉 {0}mm",
+    "de": "Querkollision {0}mm",
+    "fr": "Interférence transversale {0}mm"
+  },
+  "左右內置馬達於車架中央穿模碰撞，請加寬車寬或改用輪轂馬達/中央傳動軸。": {
+    "en": "Left/right motors overlap centrally. Widen frame or use hub motors/central shaft.",
+    "ja": "左右モーターが中央で重なっています。車幅を増すかハブモーター/中央軸に変更してください。",
+    "de": "Motoren überlappen mittig. Rahmen verbreitern oder Nabenmotoren/Zentralwelle verwenden.",
+    "fr": "Les moteurs se chevauchent au centre. Élargir ou utiliser moteurs-roues/arbre central."
+  },
+  "[內部干涉] 動力艙重心偏移 ({0}mm) 過大，電池包撞擊前後軸轉向/傳動機構！": {
+    "en": "[Internal collision] Power bay offset ({0}mm) too large; battery hits axle steering/drive parts!",
+    "ja": "[内部干渉] 動力室オフセット({0}mm)が過大で電池が車軸の操舵/駆動部に衝突！",
+    "de": "[Innenkollision] Energiefachversatz ({0}mm) zu groß; Akku trifft Lenk-/Antriebsteile!",
+    "fr": "[Collision interne] Décalage énergie ({0}mm) excessif ; batterie contre direction/transmission des essieux !"
+  },
+  "縱向干涉 {0}mm": {
+    "en": "Longitudinal interference {0}mm",
+    "ja": "縦方向干渉 {0}mm",
+    "de": "Längskollision {0}mm",
+    "fr": "Interférence longitudinale {0}mm"
+  },
+  "動力電池艙超出前後軸安全艙間，請減小動力艙重心偏移量。": {
+    "en": "Battery bay exceeds safe space between axles. Reduce power bay CG offset.",
+    "ja": "電池室が前後車軸間の安全空間を超過。動力室重心オフセットを減らしてください。",
+    "de": "Akkufach überschreitet sicheren Achszwischenraum. Schwerpunktversatz reduzieren.",
+    "fr": "Batterie hors de l’espace sûr entre essieux. Réduire le décalage du centre de gravité."
+  },
+  "淨餘裕 +{0}mm": {
+    "en": "Net clearance +{0}mm",
+    "ja": "正味余裕 +{0}mm",
+    "de": "Nettofreiraum +{0}mm",
+    "fr": "Jeu net +{0}mm"
+  },
+  "車架內置馬達、減速機與中央電池艙佈局互不干涉。": {
+    "en": "Inboard motors, reducers and central battery bay do not interfere.",
+    "ja": "車体内モーター・減速機・中央電池室の相互干渉なし。",
+    "de": "Innenmotoren, Getriebe und mittiges Akkufach kollisionsfrei.",
+    "fr": "Moteurs internes, réducteurs et batterie centrale sans interférence."
+  },
+  "鏈輪履帶系統僅能使用「左右輪差速原地轉向 (Skid-Steer)」。": {
+    "en": "Tracked sprockets support only differential skid steering.",
+    "ja": "スプロケット式クローラーは左右差動操舵のみ対応。",
+    "de": "Kettenfahrwerke erlauben nur Differenziallenkung.",
+    "fr": "Les chenilles à pignons exigent une direction différentielle."
+  },
+  "麥克納姆輪固定於輪軸不作轉向節偏擺，必須使用「全向平移合成轉向」或「差速轉向」。": {
+    "en": "Mecanum wheels have fixed axles; use omnidirectional or differential steering.",
+    "ja": "メカナム輪は軸固定です。全方向操舵か差動操舵を使用してください。",
+    "de": "Mecanum-Räder haben feste Achsen; omnidirektionale oder Differenziallenkung verwenden.",
+    "fr": "Les roues Mecanum ont des axes fixes ; utiliser une direction omnidirectionnelle ou différentielle."
+  },
+  "麥克納姆輪全向移動必須具備「四輪獨立正反轉速控制」，不可使用差速器或雙側鏈條連動！": {
+    "en": "Mecanum motion requires independent forward/reverse speed control of all four wheels; no differential or coupled side chains!",
+    "ja": "メカナム移動には四輪独立正逆速度制御が必要。差動装置や左右チェーン連動は不可！",
+    "de": "Mecanum erfordert unabhängige Vor-/Rückwärtsregelung aller vier Räder; keine Differenziale oder Seitenkettenkopplung!",
+    "fr": "Mecanum exige une commande indépendante avant/arrière des quatre roues ; aucun différentiel ni couplage par chaînes !"
+  },
+  "非麥克納姆輪無法執行「全向平移合成轉向」，請切換輪種或改變轉向方式。": {
+    "en": "Non-Mecanum wheels cannot perform omnidirectional translation. Change wheels or steering mode.",
+    "ja": "非メカナム輪は全方向平行移動不可。車輪か操舵方式を変更してください。",
+    "de": "Ohne Mecanum keine omnidirektionale Translation. Räder oder Lenkung ändern.",
+    "fr": "Sans roues Mecanum, pas de translation omnidirectionnelle. Changer les roues ou la direction."
+  },
+  "差速原地轉向 (Skid-Steer) 需要左右輪獨立控速，開放式中央/前後軸差速器無法執行原地差速轉向！": {
+    "en": "Skid steering requires independent left/right wheel speed; open center/axle differentials cannot turn on the spot!",
+    "ja": "差動その場旋回には左右独立速度制御が必要。開放式中央/車軸差動装置では不可！",
+    "de": "Differenzialwenden braucht unabhängige Links-/Rechtsdrehzahlen; offene Zentral-/Achsdifferenziale ermöglichen kein Wenden auf der Stelle!",
+    "fr": "La rotation différentielle exige des vitesses gauche/droite indépendantes ; les différentiels ouverts ne permettent pas de tourner sur place !"
+  },
+  "六輪越障輪系需搭配「搖臂轉向架連桿懸吊 (Rocker-Bogie)」方能維持六輪接地平衡。": {
+    "en": "6-wheel obstacle rovers require rocker-bogie suspension to balance all six ground contacts.",
+    "ja": "六輪走破機構は全輪接地バランスのためロッカーボギー懸架が必要。",
+    "de": "Sechsrad-Geländefahrwerke brauchen Rocker-Bogie für ausgeglichenen Bodenkontakt.",
+    "fr": "Un rover à 6 roues exige des bogies articulés pour équilibrer les six contacts au sol."
+  },
+  "[運動學不相容] {0}": {
+    "en": "[Kinematics incompatible] {0}",
+    "ja": "[運動学不適合] {0}",
+    "de": "[Kinematik unverträglich] {0}",
+    "fr": "[Cinématique incompatible] {0}"
+  },
+  "11. 輪系-轉向-傳動拓撲相容性": {
+    "en": "11. Wheel–steering–drivetrain topology compatibility",
+    "ja": "11. 車輪・操舵・駆動トポロジー適合性",
+    "de": "11. Rad–Lenkung–Antrieb-Topologieverträglichkeit",
+    "fr": "11. Compatibilité de topologie roues–direction–transmission"
+  },
+  "拓撲不相容": {
+    "en": "Incompatible topology",
+    "ja": "トポロジー不適合",
+    "de": "Topologie unverträglich",
+    "fr": "Topologie incompatible"
+  },
+  "運動學完全相容": {
+    "en": "Fully compatible kinematics",
+    "ja": "運動学適合",
+    "de": "Kinematik vollständig verträglich",
+    "fr": "Cinématique entièrement compatible"
+  },
+  "推進輪系、傳動自由度與轉向幾何拓撲完全匹配。": {
+    "en": "Wheel system, drive DOF and steering topology match fully.",
+    "ja": "車輪系・駆動自由度・操舵トポロジーは完全適合。",
+    "de": "Radsystem, Antriebsfreiheitsgrade und Lenktopologie passen vollständig.",
+    "fr": "Roues, degrés de liberté et topologie de direction entièrement cohérents."
+  },
+  "[制動不足] 煞車總制動扭力 ({0} N·m) 低於 {1}° 滿載斜坡駐停需求 ({2} N·m)！": {
+    "en": "[Insufficient braking] Total torque ({0} N·m) below loaded {1}° slope holding demand ({2} N·m)!",
+    "ja": "[制動不足] 総トルク({0} N·m)が満載{1}°斜面保持要求({2} N·m)未満！",
+    "de": "[Bremsmoment zu klein] {0} N·m unter Haltebedarf bei voller Last und {1}° ({2} N·m)!",
+    "fr": "[Freinage insuffisant] {0} N·m sous le besoin de maintien en charge à {1}° ({2} N·m) !"
+  },
+  "12. 駐坡制動與側傾穩定係數": {
+    "en": "12. Slope holding and lateral stability factors",
+    "ja": "12. 斜面保持・横転安定係数",
+    "de": "12. Hanghalte- und Seitenstabilitätsfaktoren",
+    "fr": "12. Facteurs de maintien en pente et stabilité latérale"
+  },
+  "制動 SF={0} (<1.15)": {
+    "en": "Braking SF={0} (<1.15)",
+    "ja": "制動 SF={0} (<1.15)",
+    "de": "Brems-SF={0} (<1.15)",
+    "fr": "Freinage SF={0} (<1.15)"
+  },
+  "斜坡駐停需 ≥ {0} N·m，請調高制動扭力。": {
+    "en": "Slope holding needs ≥ {0} N·m. Increase brake torque.",
+    "ja": "斜面保持には ≥ {0} N·m必要。制動トルクを上げてください。",
+    "de": "Hanghalten braucht ≥ {0} N·m. Bremsmoment erhöhen.",
+    "fr": "Maintien en pente : ≥ {0} N·m requis. Augmenter le couple de freinage."
+  },
+  "[穩定性警告] 合成重心高 ({0}mm)，靜態側傾極限角僅 {1}° (<26°)。": {
+    "en": "[Stability warning] CG height ({0}mm); static lateral tipping angle only {1}° (<26°).",
+    "ja": "[安定性警告] 合成重心高({0}mm)、静的横転限界角は{1}° (<26°)のみ。",
+    "de": "[Stabilitätswarnung] Schwerpunkthöhe ({0}mm); statischer Kippwinkel nur {1}° (<26°).",
+    "fr": "[Alerte de stabilité] Centre de gravité ({0}mm) ; angle statique de basculement de {1}° seulement (<26°)."
+  },
+  "側傾 {0}° / SF={1}": {
+    "en": "Lateral tilt {0}° / SF={1}",
+    "ja": "横傾斜 {0}° / SF={1}",
+    "de": "Seitenneigung {0}° / SF={1}",
+    "fr": "Inclinaison latérale {0}° / SF={1}"
+  },
+  "重心偏高，建議加寬車體或降低載台高度。": {
+    "en": "CG is high. Widen vehicle or lower deck.",
+    "ja": "重心が高いです。車幅を増すか載台を下げてください。",
+    "de": "Schwerpunkt hoch. Fahrzeug verbreitern oder Plattform absenken.",
+    "fr": "Centre de gravité élevé. Élargir le véhicule ou abaisser le plateau."
+  },
+  "斜坡駐停制動安全係數與抗側翻穩定度均合乎工程規範。": {
+    "en": "Slope-holding safety factor and rollover stability meet engineering criteria.",
+    "ja": "斜面保持安全係数と横転安定度は設計基準に適合。",
+    "de": "Hanghalte-Sicherheitsfaktor und Kippstabilität erfüllen die Auslegungskriterien.",
+    "fr": "Facteur de maintien en pente et stabilité au renversement conformes aux critères de calcul."
+  },
+  "原地差速迴轉 (Zero-Turn)": {
+    "en": "Differential zero-turn (Zero-Turn)",
+    "ja": "差動その場旋回 (Zero-Turn)",
+    "de": "Differenzialwenden (Zero-Turn)",
+    "fr": "Rotation différentielle sur place (Zero-Turn)"
+  },
+  "前輪阿克曼 (最大 {0}°)": {
+    "en": "Front Ackermann (max {0}°)",
+    "ja": "前輪アッカーマン (最大 {0}°)",
+    "de": "Vorderes Ackermann (max. {0}°)",
+    "fr": "Ackermann avant (max. {0}°)"
+  },
+  "四輪反向小半徑 ({0}°)": {
+    "en": "4-wheel counter-phase tight turn ({0}°)",
+    "ja": "四輪逆位相小旋回 ({0}°)",
+    "de": "Gegenphasige Vierrad-Wende ({0}°)",
+    "fr": "Virage court à 4 roues opposées ({0}°)"
+  },
+  "四輪同向蟹行 ({0}°)": {
+    "en": "4-wheel in-phase crab ({0}°)",
+    "ja": "四輪同位相クラブ ({0}°)",
+    "de": "Gleichphasiger Vierrad-Krebsgang ({0}°)",
+    "fr": "Crabe à 4 roues en phase ({0}°)"
+  },
+  "中央鉸接折腰 ({0}°)": {
+    "en": "Central articulated steering ({0}°)",
+    "ja": "中央屈折操舵 ({0}°)",
+    "de": "Zentrale Knicklenkung ({0}°)",
+    "fr": "Direction articulée centrale ({0}°)"
+  },
+  "全向 360° 平移與自轉": {
+    "en": "360° omnidirectional translation and rotation",
+    "ja": "全方向360°平行移動・自転",
+    "de": "360°-Translation und Eigenrotation",
+    "fr": "Translation et rotation omnidirectionnelles à 360°"
+  },
+  "12 項輪系包絡、轉向掃掠、懸吊全壓縮、輪圈卡鉗、內部馬達電池艙與運動學拓撲全數通過檢核。": {
+    "en": "All 12 checks passed: wheel envelopes, steering sweep, full bump, rim/caliper, internal motors/battery and kinematic topology.",
+    "ja": "車輪包絡・操舵掃引・全圧縮・リム/キャリパー・モーター/電池・運動学の12項目すべて合格。",
+    "de": "Alle 12 Prüfungen bestanden: Radhüllen, Lenkhüllen, Einfederung, Felge/Sattel, Motoren/Akku und Kinematik.",
+    "fr": "12 contrôles réussis : enveloppes, braquage, compression, jante/étrier, moteurs/batterie et topologie cinématique."
+  },
+  "🛠️ 手動微調": {
+    "en": "🛠️ Manual tuning",
+    "ja": "🛠️ 手動調整",
+    "de": "🛠️ Manuelle Abstimmung",
+    "fr": "🛠️ Réglage manuel"
+  },
+  "{0} 支": {
+    "en": "{0} members",
+    "ja": "{0} 本",
+    "de": "{0} Träger",
+    "fr": "{0} traverses"
+  },
+  "越野輪": {
+    "en": "Off-road tire",
+    "ja": "オフロード輪",
+    "de": "Geländereifen",
+    "fr": "Pneu tout-terrain"
+  },
+  "實心輪": {
+    "en": "Solid tire",
+    "ja": "ソリッド輪",
+    "de": "Vollreifen",
+    "fr": "Roue pleine"
+  },
+  "履帶鏈輪": {
+    "en": "Track sprocket",
+    "ja": "クローラースプロケット",
+    "de": "Kettenrad",
+    "fr": "Pignon de chenille"
+  },
+  "麥克納姆輪": {
+    "en": "Mecanum wheel",
+    "ja": "メカナム輪",
+    "de": "Mecanum-Rad",
+    "fr": "Roue Mecanum"
+  },
+  "六輪搖臂": {
+    "en": "6-wheel rocker",
+    "ja": "六輪ロッカー",
+    "de": "Sechsrad-Rocker",
+    "fr": "Bogies à 6 roues"
+  },
+  "雙A臂": {
+    "en": "Double wishbone",
+    "ja": "ダブルウィッシュボーン",
+    "de": "Doppelquerlenker",
+    "fr": "Double triangulation"
+  },
+  "拖曳臂": {
+    "en": "Trailing arm",
+    "ja": "トレーリングアーム",
+    "de": "Längslenker",
+    "fr": "Bras tiré"
+  },
+  "搖臂連桿": {
+    "en": "Rocker linkage",
+    "ja": "ロッカーリンク",
+    "de": "Rocker-Gestänge",
+    "fr": "Biellettes de bogie"
+  },
+  "克里斯蒂": {
+    "en": "Christie",
+    "ja": "クリスティー",
+    "de": "Christie",
+    "fr": "Christie"
+  },
+  "門式橋": {
+    "en": "Portal axle",
+    "ja": "ポータルアクスル",
+    "de": "Portalachse",
+    "fr": "Pont portique"
+  },
+  "剛性直連": {
+    "en": "Rigid direct",
+    "ja": "剛性直結",
+    "de": "Starre Direktanbindung",
+    "fr": "Liaison rigide directe"
+  },
+  "空車重: {0} kg": {
+    "en": "Curb weight: {0} kg",
+    "ja": "空車重量: {0} kg",
+    "de": "Leergewicht: {0} kg",
+    "fr": "Masse à vide : {0} kg"
+  },
+  "單輪需求: {0} N·m (×{1})": {
+    "en": "Per-wheel demand: {0} N·m (×{1})",
+    "ja": "1輪の要求値: {0} N·m (×{1})",
+    "de": "Bedarf je Rad: {0} N·m (×{1})",
+    "fr": "Besoin par roue : {0} N·m (×{1})"
+  },
+  "額定輪轉速: {0} RPM": {
+    "en": "Rated wheel speed: {0} RPM",
+    "ja": "定格車輪回転数: {0} RPM",
+    "de": "Nenndrehzahl am Rad: {0} RPM",
+    "fr": "Régime nominal des roues : {0} RPM"
+  },
+  "合成重心高: {0} mm": {
+    "en": "Combined CG height: {0} mm",
+    "ja": "合成重心高: {0} mm",
+    "de": "Gesamtschwerpunkthöhe: {0} mm",
+    "fr": "Hauteur du centre de gravité global : {0} mm"
+  },
+  "✕ 干涉/異常": {
+    "en": "✕ Collision/fault",
+    "ja": "✕ 干渉/異常",
+    "de": "✕ Kollision/Fehler",
+    "fr": "✕ Interférence/anomalie"
+  },
+  "⚠ 臨界警告": {
+    "en": "⚠ Marginal warning",
+    "ja": "⚠ 限界警告",
+    "de": "⚠ Grenzwertwarnung",
+    "fr": "⚠ Avertissement de marge"
+  },
+  "✓ 合理通過": {
+    "en": "✓ Plausibility passed",
+    "ja": "✓ 妥当性合格",
+    "de": "✓ Plausibel",
+    "fr": "✓ Cohérence validée"
+  },
+  "{0} 項干涉衝突待修正": {
+    "en": "{0} interference conflicts to resolve",
+    "ja": "干渉競合 {0} 件を要修正",
+    "de": "{0} Kollisionskonflikte zu beheben",
+    "fr": "{0} conflits d’interférence à corriger"
+  },
+  "🛠️ 自動消除所有干涉與不合理配置 ({0}項衝突)": {
+    "en": "🛠️ Resolve all collisions and invalid configurations ({0} conflicts)",
+    "ja": "🛠️ 全干渉・不適切構成を修正 ({0}件)",
+    "de": "🛠️ Alle Kollisionen und ungültigen Konfigurationen beheben ({0} Konflikte)",
+    "fr": "🛠️ Corriger les interférences et incohérences ({0} conflits)"
+  },
+  "{0}/12 通過 ({1}項臨界警告)": {
+    "en": "{0}/12 passed ({1} marginal warnings)",
+    "ja": "{0}/12 合格（限界警告{1}件）",
+    "de": "{0}/12 bestanden ({1} Grenzwertwarnungen)",
+    "fr": "{0}/12 réussis ({1} avertissements de marge)"
+  },
+  "🛠️ 自動消除所有干涉與不合理配置 ({0}項最佳化)": {
+    "en": "🛠️ Resolve all collisions and invalid configurations ({0} optimizations)",
+    "ja": "🛠️ 全干渉・不適切構成を修正 ({0}件最適化)",
+    "de": "🛠️ Alle Kollisionen und ungültigen Konfigurationen beheben ({0} Optimierungen)",
+    "fr": "🛠️ Corriger les interférences et incohérences ({0} optimisations)"
+  },
+  "12 / 12 全數通過檢核": {
+    "en": "12 / 12 checks all passed",
+    "ja": "12 / 12 全項目合格",
+    "de": "12 / 12 Prüfungen bestanden",
+    "fr": "12 / 12 contrôles réussis"
+  },
+  "骨架估重: {0} kg": {
+    "en": "Estimated frame weight: {0} kg",
+    "ja": "フレーム推定重量: {0} kg",
+    "de": "Geschätztes Rahmengewicht: {0} kg",
+    "fr": "Masse estimée du châssis : {0} kg"
+  },
+  "車架淨寬 {0}mm（預留轉向輪包絡），採用 {1}×{2}×3.2t 結構方管焊接與 {3} 支橫樑，附上下支臂耳座。": {
+    "en": "Inner frame width {0}mm (steering envelope reserved); welded {1}×{2}×3.2t square tubes, {3} crossmembers and upper/lower arm mounts.",
+    "ja": "内幅{0}mm（操舵包絡を確保）、{1}×{2}×3.2t角管溶接、横梁{3}本、上下アーム取付耳付き。",
+    "de": "Rahmeninnenbreite {0}mm (Lenkhülle reserviert); geschweißte {1}×{2}×3.2t-Vierkantrohre, {3} Querträger und Lenkerlaschen.",
+    "fr": "Largeur interne {0}mm (braquage réservé) ; tubes carrés soudés {1}×{2}×3.2t, {3} traverses et supports de bras."
+  },
+  "車架淨寬 {0}mm，採用 {1}mm 工業鋁擠型與 {2} 支橫樑，附 CNC 懸吊轉接座。": {
+    "en": "Inner width {0}mm; {1}mm aluminum profiles, {2} crossmembers and CNC suspension adapters.",
+    "ja": "内幅{0}mm、{1}mmアルミ押出材、横梁{2}本、CNC懸架アダプター付き。",
+    "de": "Innenbreite {0}mm; {1}mm-Aluprofile, {2} Querträger und CNC-Federungsadapter.",
+    "fr": "Largeur interne {0}mm ; profilés aluminium {1}mm, {2} traverses et adaptateurs de suspension CNC."
+  },
+  "車架淨寬 {0}mm，採用 4.0mm 折彎鈑金滿焊防水船殼，內置 {1} 道結構肋板，預留外側懸吊行程空間。": {
+    "en": "Inner width {0}mm; fully welded 4.0mm bent-sheet waterproof hull with {1} ribs and outboard suspension clearance.",
+    "ja": "内幅{0}mm、4.0mm曲げ板金全溶接防水船殻、内部リブ{1}枚、外側懸架空間を確保。",
+    "de": "Innenbreite {0}mm; vollverschweißte wasserdichte 4.0mm-Blechwanne mit {1} Rippen und äußerem Federungsfreiraum.",
+    "fr": "Largeur interne {0}mm ; coque étanche en tôle pliée 4.0mm entièrement soudée, {1} nervures et espace extérieur de suspension."
+  },
+  "K={0} N/mm ‧ 臂長 {1}mm": {
+    "en": "K={0} N/mm · arm {1}mm",
+    "ja": "K={0} N/mm ‧ アーム長 {1}mm",
+    "de": "K={0} N/mm · Lenker {1}mm",
+    "fr": "K={0} N/mm · bras {1}mm"
+  },
+  "選用「{0}」，連桿有效長度 {1}mm（最大擺角 {2}°），避震傾角 {3}°，全壓縮車底餘裕 {4}mm。": {
+    "en": "Selected “{0}”: effective link {1}mm (max swing {2}°), shock inclination {3}°, belly reserve at full bump {4}mm.",
+    "ja": "「{0}」を選択。リンク有効長{1}mm（最大揺動{2}°）、ダンパー角{3}°、全圧縮底部余裕{4}mm。",
+    "de": "„{0}“: effektiver Lenker {1}mm (max. Schwenkung {2}°), Dämpferneigung {3}°, Bodenreserve {4}mm bei voller Einfederung.",
+    "fr": "« {0} » : biellette utile {1}mm (angle max. {2}°), amortisseur {3}°, marge sous caisse en compression {4}mm."
+  },
+  "最大轉角 {0}° ‧ 餘裕 +{1}mm": {
+    "en": "Max angle {0}° · reserve +{1}mm",
+    "ja": "最大操舵角 {0}° ‧ 余裕 +{1}mm",
+    "de": "Maximalwinkel {0}° · Reserve +{1}mm",
+    "fr": "Angle maximal {0}° · marge +{1}mm"
+  },
+  "採用「{0}」，配置 C 型轉向節羊角與阿克曼連桿，滿舵時輪胎距車架 {1}mm，最小迴轉半徑 {2}m。": {
+    "en": "Using “{0}” with C-knuckles and Ackermann links; full-lock tire–frame clearance {1}mm, minimum radius {2}m.",
+    "ja": "「{0}」、C型ナックルとアッカーマンリンクを配置。最大操舵隙間{1}mm、最小旋回半径{2}m。",
+    "de": "„{0}“ mit C-Achsschenkeln und Ackermann-Gestänge; Volleinschlagabstand {1}mm, Mindestradius {2}m.",
+    "fr": "« {0} » avec porte-fusées en C et tringlerie Ackermann ; jeu en butée {1}mm, rayon minimal {2}m."
+  },
+  "Ø{0}mm ‧ 輪圈餘 +{1}mm": {
+    "en": "Ø{0}mm · rim reserve +{1}mm",
+    "ja": "Ø{0}mm ‧ リム余裕 +{1}mm",
+    "de": "Ø{0}mm · Felgenreserve +{1}mm",
+    "fr": "Ø{0}mm · marge à la jante +{1}mm"
+  },
+  "配置「{0}」，碟盤 Ø{1}mm 與輪圈內壁保持 {2}mm 徑向淨間隙，提供 {3} N·m 駐坡制動力。": {
+    "en": "Using “{0}”: disc Ø{1}mm, rim radial clearance {2}mm, slope-holding torque {3} N·m.",
+    "ja": "「{0}」、ディスクØ{1}mm、リム径方向隙間{2}mm、斜面保持トルク{3} N·m。",
+    "de": "„{0}“: Scheibe Ø{1}mm, radialer Felgenabstand {2}mm, Hanghaltemoment {3} N·m.",
+    "fr": "« {0} » : disque Ø{1}mm, jeu radial {2}mm, couple de maintien en pente {3} N·m."
+  },
+  "採用「{0}」，馬達固定於車架內並以等速萬向半軸 (CV Joint) 連接轉向節，避免轉向時馬達隨輪擺動穿模。": {
+    "en": "Using “{0}”: inboard motors connect to knuckles through CV shafts, avoiding motor–wheel interference during steering.",
+    "ja": "「{0}」、モーターを車体内固定しCV軸でナックルに接続。操舵時のモーター干渉を防止。",
+    "de": "„{0}“: Innenmotoren über CV-Wellen an Achsschenkel angebunden; keine Motorkollision beim Lenken.",
+    "fr": "« {0} » : moteurs internes reliés aux porte-fusées par arbres homocinétiques, sans collision au braquage."
+  },
+  "採用「{0}」，配置於中央獨立電池艙（前後偏移 {1}mm），與前後軸內置馬達保持安全隔離。": {
+    "en": "Using “{0}” in a central isolated battery bay (longitudinal offset {1}mm), separated safely from axle motors.",
+    "ja": "「{0}」を中央独立電池室（前後オフセット{1}mm）に配置し車軸モーターから安全に隔離。",
+    "de": "„{0}“ im getrennten mittigen Akkufach (Längsversatz {1}mm), sicher von Achsmotoren getrennt.",
+    "fr": "« {0} » dans un compartiment central isolé (décalage longitudinal {1}mm), séparé des moteurs d’essieu."
+  },
+  "⚠️ 偵測到機構干涉或配置衝突 ({0} 項)": {
+    "en": "⚠️ Mechanism interference or configuration conflicts detected ({0})",
+    "ja": "⚠️ 機構干渉・構成競合を検出 ({0}件)",
+    "de": "⚠️ Kollisionen oder Konfigurationskonflikte erkannt ({0})",
+    "fr": "⚠️ Interférences ou conflits de configuration détectés ({0})"
+  },
+  "⚠️ 偵測到機構臨界警告 ({0} 項)": {
+    "en": "⚠️ Marginal mechanism warnings detected ({0})",
+    "ja": "⚠️ 機構限界警告を検出 ({0}件)",
+    "de": "⚠️ Mechanik-Grenzwertwarnungen erkannt ({0})",
+    "fr": "⚠️ Avertissements de marge mécanique détectés ({0})"
+  },
+  "1. 底盤骨架系統": {
+    "en": "1. Chassis frame system",
+    "ja": "1. シャーシフレーム系",
+    "de": "1. Fahrgestellrahmen",
+    "fr": "1. Système de châssis"
+  },
+  "{0} (車架淨寬 {1}mm / 主樑 {2}mm / 橫樑 {3}支)": {
+    "en": "{0} (inner width {1}mm / beam {2}mm / crossmembers {3})",
+    "ja": "{0} (内幅 {1}mm / 主梁 {2}mm / 横梁 {3}本)",
+    "de": "{0} (Innenbreite {1}mm / Träger {2}mm / Querträger {3})",
+    "fr": "{0} (largeur interne {1}mm / longeron {2}mm / traverses {3})"
+  },
+  "1 式": {
+    "en": "1 set",
+    "ja": "1 式",
+    "de": "1 Satz",
+    "fr": "1 ensemble"
+  },
+  "外包絡 {0}×{1}×{2}mm，軸距 {3}mm，輪距 {4}mm": {
+    "en": "Envelope {0}×{1}×{2}mm, wheelbase {3}mm, track {4}mm",
+    "ja": "外形 {0}×{1}×{2}mm、軸距 {3}mm、輪距 {4}mm",
+    "de": "Außenmaße {0}×{1}×{2}mm, Radstand {3}mm, Spur {4}mm",
+    "fr": "Encombrement {0}×{1}×{2}mm, empattement {3}mm, voie {4}mm"
+  },
+  "2. 懸吊避震系統": {
+    "en": "2. Suspension system",
+    "ja": "2. 懸架・緩衝系",
+    "de": "2. Federungssystem",
+    "fr": "2. Système de suspension"
+  },
+  "{0} (連桿長 {1}mm / 行程 {2}mm / K={3} N/mm)": {
+    "en": "{0} (link {1}mm / travel {2}mm / K={3} N/mm)",
+    "ja": "{0} (リンク長 {1}mm / ストローク {2}mm / K={3} N/mm)",
+    "de": "{0} (Lenker {1}mm / Federweg {2}mm / K={3} N/mm)",
+    "fr": "{0} (biellette {1}mm / débattement {2}mm / K={3} N/mm)"
+  },
+  "{0} 組": {
+    "en": "{0} assemblies",
+    "ja": "{0} 組",
+    "de": "{0} Baugruppen",
+    "fr": "{0} ensembles"
+  },
+  "最大擺角 {0}°，全壓縮車底餘裕 {1}mm": {
+    "en": "Max swing {0}°, belly reserve at full bump {1}mm",
+    "ja": "最大揺動 {0}°、全圧縮底部余裕 {1}mm",
+    "de": "Max. Schwenkung {0}°, Bodenreserve bei Volleinfederung {1}mm",
+    "fr": "Angle max. {0}°, marge sous caisse en compression {1}mm"
+  },
+  "3. 轉向機構系統": {
+    "en": "3. Steering system",
+    "ja": "3. 操舵機構系",
+    "de": "3. Lenksystem",
+    "fr": "3. Système de direction"
+  },
+  "{0} (C型轉向節羊角 + 最大轉角 {1}° / 推力 {2} N·m)": {
+    "en": "{0} (C-knuckle + max angle {1}° / torque {2} N·m)",
+    "ja": "{0} (C型ナックル＋最大角 {1}° / トルク {2} N·m)",
+    "de": "{0} (C-Achsschenkel + Maximalwinkel {1}° / Moment {2} N·m)",
+    "fr": "{0} (porte-fusée en C + angle max. {1}° / couple {2} N·m)"
+  },
+  "1 套": {
+    "en": "1 kit",
+    "ja": "1 セット",
+    "de": "1 Komplettsatz",
+    "fr": "1 jeu"
+  },
+  "滿舵輪胎與車架間隙 +{0}mm，迴轉半徑 {1}m": {
+    "en": "Full-lock tire–frame clearance +{0}mm, turning radius {1}m",
+    "ja": "最大操舵タイヤ–フレーム隙間 +{0}mm、旋回半径 {1}m",
+    "de": "Volleinschlag Reifen–Rahmen +{0}mm, Wenderadius {1}m",
+    "fr": "Jeu pneu–châssis en butée +{0}mm, rayon de braquage {1}m"
+  },
+  "4. 煞車制動系統": {
+    "en": "4. Braking system",
+    "ja": "4. 制動系",
+    "de": "4. Bremssystem",
+    "fr": "4. Système de freinage"
+  },
+  "{0} (碟盤 Ø{1}mm / 總制動保持扭力 {2} N·m)": {
+    "en": "{0} (disc Ø{1}mm / total holding torque {2} N·m)",
+    "ja": "{0} (ディスク Ø{1}mm / 総保持トルク {2} N·m)",
+    "de": "{0} (Scheibe Ø{1}mm / Gesamthaltemoment {2} N·m)",
+    "fr": "{0} (disque Ø{1}mm / couple total de maintien {2} N·m)"
+  },
+  "輪圈內壁與卡鉗徑向淨間隙 +{0}mm": {
+    "en": "Rim–caliper radial clearance +{0}mm",
+    "ja": "リム–キャリパー径方向隙間 +{0}mm",
+    "de": "Radialer Felgen–Sattel-Abstand +{0}mm",
+    "fr": "Jeu radial jante–étrier +{0}mm"
+  },
+  "5. 傳動與輪系模組": {
+    "en": "5. Drivetrain and wheel module",
+    "ja": "5. 駆動・車輪モジュール",
+    "de": "5. Antriebs- und Radmodul",
+    "fr": "5. Module transmission et roues"
+  },
+  "前後輪縱向間隙 +{0}mm，峰值總扭力 {1} N·m": {
+    "en": "Front/rear tire longitudinal clearance +{0}mm, total peak torque {1} N·m",
+    "ja": "前後輪縦隙間 +{0}mm、総ピークトルク {1} N·m",
+    "de": "Reifenlängsabstand +{0}mm, Gesamtspitzenmoment {1} N·m",
+    "fr": "Jeu longitudinal avant/arrière +{0}mm, couple de pointe total {1} N·m"
+  },
+  "6. 動力與儲能系統": {
+    "en": "6. Power and energy storage system",
+    "ja": "6. 動力・蓄電系",
+    "de": "6. Energie- und Speichersystem",
+    "fr": "6. Système d’énergie et stockage"
+  },
+  "{0} ({1}V {2}Ah / 總容量 {3} kWh + BMS)": {
+    "en": "{0} ({1}V {2}Ah / total capacity {3} kWh + BMS)",
+    "ja": "{0} ({1}V {2}Ah / 総容量 {3} kWh + BMS)",
+    "de": "{0} ({1}V {2}Ah / Gesamtkapazität {3} kWh + BMS)",
+    "fr": "{0} ({1}V {2}Ah / capacité totale {3} kWh + BMS)"
+  },
+  "重心偏移 {0}mm，支援連續運轉 {1} hr @ {2} km/h": {
+    "en": "CG offset {0}mm; continuous operation {1} hr @ {2} km/h",
+    "ja": "重心オフセット {0}mm、連続運転 {1} hr @ {2} km/h",
+    "de": "Schwerpunktversatz {0}mm; Dauerbetrieb {1} hr @ {2} km/h",
+    "fr": "Décalage du centre de gravité {0}mm ; fonctionnement continu {1} hr @ {2} km/h"
+  },
+  "調整項目：{1}": {
+    "en": "Adjustments: {1}",
+    "ja": "調整項目：{1}",
+    "de": "Anpassungen: {1}",
+    "fr": "Ajustements : {1}"
+  },
+  "目前全車 12 項幾何間隙與運動學拓撲均已處於最佳無干涉狀態 (12/12 PASS)。": {
+    "en": "All 12 vehicle clearance and kinematic topology checks are already optimal and collision-free (12/12 PASS).",
+    "ja": "全車の12項目隙間・運動学トポロジーは最適な無干渉状態です (12/12 PASS)。",
+    "de": "Alle 12 Freiraum- und Topologieprüfungen bereits optimal und kollisionsfrei (12/12 PASS).",
+    "fr": "Les 12 contrôles de jeu et de topologie sont déjà optimaux et sans interférence (12/12 PASS)."
+  },
+  "🛠️ 已自動消除機構干涉並最佳化配置": {
+    "en": "🛠️ Interference resolved and configuration optimized automatically",
+    "ja": "🛠️ 干渉を自動解消し構成を最適化",
+    "de": "🛠️ Kollisionen automatisch behoben und Konfiguration optimiert",
+    "fr": "🛠️ Interférences corrigées et configuration optimisée automatiquement"
+  },
+  "車長 {0}→{1}mm": {
+    "en": "Length {0}→{1}mm",
+    "ja": "車長 {0}→{1}mm",
+    "de": "Länge {0}→{1}mm",
+    "fr": "Longueur {0}→{1}mm"
+  },
+  "車寬 {0}→{1}mm": {
+    "en": "Width {0}→{1}mm",
+    "ja": "車幅 {0}→{1}mm",
+    "de": "Breite {0}→{1}mm",
+    "fr": "Largeur {0}→{1}mm"
+  },
+  "載台高 {0}→{1}mm": {
+    "en": "Deck height {0}→{1}mm",
+    "ja": "載台高 {0}→{1}mm",
+    "de": "Plattformhöhe {0}→{1}mm",
+    "fr": "Hauteur du plateau {0}→{1}mm"
+  },
+  "輪徑 Ø{0}→Ø{1}mm": {
+    "en": "Wheel Ø{0}→Ø{1}mm",
+    "ja": "輪径 Ø{0}→Ø{1}mm",
+    "de": "Rad Ø{0}→Ø{1}mm",
+    "fr": "Roue Ø{0}→Ø{1}mm"
+  },
+  "輪寬 {0}→{1}mm": {
+    "en": "Wheel width {0}→{1}mm",
+    "ja": "輪幅 {0}→{1}mm",
+    "de": "Radbreite {0}→{1}mm",
+    "fr": "Largeur de roue {0}→{1}mm"
+  },
+  "懸吊→{0}": {
+    "en": "Suspension→{0}",
+    "ja": "懸架→{0}",
+    "de": "Federung→{0}",
+    "fr": "Suspension→{0}"
+  },
+  "懸吊行程 {0}→{1}mm": {
+    "en": "Suspension travel {0}→{1}mm",
+    "ja": "懸架ストローク {0}→{1}mm",
+    "de": "Federweg {0}→{1}mm",
+    "fr": "Débattement {0}→{1}mm"
+  },
+  "避震傾角 {0}°→{1}°": {
+    "en": "Shock inclination {0}°→{1}°",
+    "ja": "ダンパー傾斜 {0}°→{1}°",
+    "de": "Dämpferneigung {0}°→{1}°",
+    "fr": "Inclinaison d’amortisseur {0}°→{1}°"
+  },
+  "轉向→{0}": {
+    "en": "Steering→{0}",
+    "ja": "操舵→{0}",
+    "de": "Lenkung→{0}",
+    "fr": "Direction→{0}"
+  },
+  "最大轉角 {0}°→{1}°": {
+    "en": "Max angle {0}°→{1}°",
+    "ja": "最大操舵角 {0}°→{1}°",
+    "de": "Maximalwinkel {0}°→{1}°",
+    "fr": "Angle maximal {0}°→{1}°"
+  },
+  "傳動→{0}": {
+    "en": "Drivetrain→{0}",
+    "ja": "駆動→{0}",
+    "de": "Antrieb→{0}",
+    "fr": "Transmission→{0}"
+  },
+  "煞車→{0}": {
+    "en": "Braking→{0}",
+    "ja": "制動→{0}",
+    "de": "Bremsen→{0}",
+    "fr": "Freinage→{0}"
+  },
+  "碟盤 Ø{0}→Ø{1}mm": {
+    "en": "Disc Ø{0}→Ø{1}mm",
+    "ja": "ディスク Ø{0}→Ø{1}mm",
+    "de": "Scheibe Ø{0}→Ø{1}mm",
+    "fr": "Disque Ø{0}→Ø{1}mm"
+  },
+  "制動扭力 {0}→{1}N·m": {
+    "en": "Brake torque {0}→{1}N·m",
+    "ja": "制動トルク {0}→{1}N·m",
+    "de": "Bremsmoment {0}→{1}N·m",
+    "fr": "Couple de freinage {0}→{1}N·m"
+  },
+  "重心偏移 {0}→{1}mm": {
+    "en": "CG offset {0}→{1}mm",
+    "ja": "重心オフセット {0}→{1}mm",
+    "de": "Schwerpunktversatz {0}→{1}mm",
+    "fr": "Décalage du centre de gravité {0}→{1}mm"
+  },
+  "🗂️ 分頁檢視": {
+    "en": "🗂️ Tabbed view",
+    "ja": "🗂️ タブ表示",
+    "de": "🗂️ Registeransicht",
+    "fr": "🗂️ Vue par onglets"
+  },
+  "⚡ 已依任務需求自動設計六大機構系統 (12/12 檢核通過)": {
+    "en": "⚡ Six systems auto-designed for the mission (12/12 passed)",
+    "ja": "⚡ 任務要求に合わせ6系統を自動設計 (12/12合格)",
+    "de": "⚡ Sechs Systeme aufgabengerecht ausgelegt (12/12 bestanden)",
+    "fr": "⚡ Six systèmes conçus selon la mission (12/12 réussis)"
+  },
+  "骨架:{0}({1}mm×{2}支)": {
+    "en": "Frame:{0}({1}mm×{2} members)",
+    "ja": "フレーム:{0}({1}mm×{2}本)",
+    "de": "Rahmen:{0}({1}mm×{2} Träger)",
+    "fr": "Châssis:{0}({1}mm×{2} traverses)"
+  },
+  "懸吊:{0}(行程{1}mm)": {
+    "en": "Suspension:{0}(travel {1}mm)",
+    "ja": "懸架:{0}(ストローク{1}mm)",
+    "de": "Federung:{0}(Federweg {1}mm)",
+    "fr": "Suspension:{0}(débattement {1}mm)"
+  },
+  "轉向:{0}({1}°)": {
+    "en": "Steering:{0}({1}°)",
+    "ja": "操舵:{0}({1}°)",
+    "de": "Lenkung:{0}({1}°)",
+    "fr": "Direction:{0}({1}°)"
+  },
+  "煞車:Ø{0}mm({1}N·m)": {
+    "en": "Braking:Ø{0}mm({1}N·m)",
+    "ja": "制動:Ø{0}mm({1}N·m)",
+    "de": "Bremsen:Ø{0}mm({1}N·m)",
+    "fr": "Freinage:Ø{0}mm({1}N·m)"
+  },
+  "傳動:{0}W×{1}(1:{2})": {
+    "en": "Drive:{0}W×{1}(1:{2})",
+    "ja": "駆動:{0}W×{1}(1:{2})",
+    "de": "Antrieb:{0}W×{1}(1:{2})",
+    "fr": "Transmission:{0}W×{1}(1:{2})"
+  },
+  "動力:{0}V/{1}Ah": {
+    "en": "Power:{0}V/{1}Ah",
+    "ja": "動力:{0}V/{1}Ah",
+    "de": "Energie:{0}V/{1}Ah",
+    "fr": "Énergie:{0}V/{1}Ah"
+  },
+  "⚡ 已依輸入需求完成六大機構系統自動設計 (12/12 檢核通過)": {
+    "en": "⚡ Six-system auto-design complete from input requirements (12/12 passed)",
+    "ja": "⚡ 入力要求に基づく6系統自動設計完了 (12/12合格)",
+    "de": "⚡ Sechs-System-Auslegung nach Eingaben abgeschlossen (12/12 bestanden)",
+    "fr": "⚡ Conception des six systèmes terminée selon les exigences (12/12 réussis)"
+  },
+  "🔓 已解除手動鎖定並重新自動最佳化全車機構": {
+    "en": "🔓 Manual locks released; all mechanisms re-optimized automatically",
+    "ja": "🔓 手動ロックを解除し全機構を再最適化",
+    "de": "🔓 Manuelle Sperren gelöst; Mechanik erneut optimiert",
+    "fr": "🔓 Verrouillages manuels libérés ; mécanismes réoptimisés"
+  },
+  "✓ 一鍵修正完成：已自動消除所有機構干涉與配置衝突": {
+    "en": "✓ Fix complete: all mechanism interference and configuration conflicts resolved automatically",
+    "ja": "✓ 一括修正完了：全機構干渉・構成競合を自動解消",
+    "de": "✓ Korrektur abgeschlossen: alle Mechanik- und Konfigurationskonflikte behoben",
+    "fr": "✓ Correction terminée : toutes les interférences et incohérences résolues"
+  },
+  "🛠️ 12項干涉矩陣自動修正完成：全車間隙與運動學已最佳化": {
+    "en": "🛠️ 12-point audit auto-fix complete: clearances and kinematics optimized",
+    "ja": "🛠️ 12項目自動修正完了：全車隙間・運動学を最適化",
+    "de": "🛠️ 12-Punkte-Korrektur abgeschlossen: Freiräume und Kinematik optimiert",
+    "fr": "🛠️ Correction des 12 contrôles terminée : jeux et cinématique optimisés"
+  },
+  "⏸️ 暫停運轉": {
+    "en": "⏸️ Pause operation",
+    "ja": "⏸️ 動作を一時停止",
+    "de": "⏸️ Betrieb pausieren",
+    "fr": "⏸️ Suspendre le fonctionnement"
+  },
+  "規格描述": {
+    "en": "Specification description",
+    "ja": "仕様説明",
+    "de": "Spezifikationsbeschreibung",
+    "fr": "Description des spécifications"
+  },
+  "預估單重(kg)": {
+    "en": "Estimated unit weight(kg)",
+    "ja": "推定単品重量(kg)",
+    "de": "Geschätztes Stückgewicht(kg)",
+    "fr": "Masse unitaire estimée(kg)"
+  },
+  "工程備註": {
+    "en": "Engineering notes",
+    "ja": "技術注記",
+    "de": "Technische Hinweise",
+    "fr": "Notes techniques"
+  },
+  "請使用瀏覽器全螢幕（F11）": {
+    "en": "Use browser full screen (F11)",
+    "ja": "ブラウザーの全画面表示を使用してください（F11）",
+    "de": "Browser-Vollbild verwenden (F11)",
+    "fr": "Utiliser le plein écran du navigateur (F11)"
+  },
+  "⛶ 離開全螢幕": {
+    "en": "⛶ Exit full screen",
+    "ja": "⛶ 全画面終了",
+    "de": "⛶ Vollbild verlassen",
+    "fr": "⛶ Quitter le plein écran"
+  },
+  "✓ 合理通過 ({0})": {
+    "en": "✓ Plausibility passed ({0})",
+    "ja": "✓ 妥当性合格 ({0})",
+    "de": "✓ Plausibel ({0})",
+    "fr": "✓ Cohérence validée ({0})"
+  },
+  "⚠ 臨界警告 ({0})": {
+    "en": "⚠ Marginal warning ({0})",
+    "ja": "⚠ 限界警告 ({0})",
+    "de": "⚠ Grenzwertwarnung ({0})",
+    "fr": "⚠ Avertissement de marge ({0})"
+  },
+  "✕ 干涉/異常 ({0})": {
+    "en": "✕ Collision/fault ({0})",
+    "ja": "✕ 干渉/異常 ({0})",
+    "de": "✕ Kollision/Fehler ({0})",
+    "fr": "✕ Interférence/anomalie ({0})"
+  },
+  "戶外碎石/草地/泥土混合越野": {
+    "en": "Mixed outdoor gravel/grass/soil off-road",
+    "ja": "屋外の砂利・草地・土の混合路面",
+    "de": "Gemischtes Gelände: Schotter/Gras/Erde",
+    "fr": "Tout-terrain mixte : gravier/herbe/terre"
+  },
+  "重度泥濘/陡坡/岩石極限越障": {
+    "en": "Extreme mud/steep slopes/rock obstacles",
+    "ja": "深い泥・急斜面・岩場の極限走行",
+    "de": "Extremes Gelände: Schlamm/Steilhänge/Felsen",
+    "fr": "Terrain extrême : boue/pentes fortes/rochers"
+  },
+  "室內無塵室/環氧樹脂平坦地面": {
+    "en": "Indoor cleanroom/flat epoxy floor AGV",
+    "ja": "屋内クリーンルーム・平坦エポキシ床AGV",
+    "de": "Hallen-AGV: Reinraum/ebener Epoxidboden",
+    "fr": "AGV intérieur : salle propre/sol époxy plat"
+  },
+  "廠區柏油/水泥與輕度減速帶": {
+    "en": "Industrial asphalt/concrete and small speed bumps",
+    "ja": "工場内の舗装・コンクリート・小さな段差",
+    "de": "Werksgelände: Asphalt/Beton/kleine Bodenschwellen",
+    "fr": "Site industriel : asphalte/béton/petits ralentisseurs"
+  },
+  "越野深齒充氣輪": {
+    "en": "Deep-tread off-road pneumatic tire",
+    "ja": "深溝オフロード空気入りタイヤ",
+    "de": "Geländeluftreifen mit tiefem Profil",
+    "fr": "Pneu tout-terrain à sculptures profondes"
+  },
+  "防刺穿實心橡膠輪": {
+    "en": "Puncture-resistant solid rubber tire",
+    "ja": "耐パンクソリッドゴムタイヤ",
+    "de": "Pannensicherer Vollgummireifen",
+    "fr": "Roue en caoutchouc plein increvable"
+  },
+  "鏈輪＋橡膠/金屬履帶系統": {
+    "en": "Sprocket + rubber/metal track system",
+    "ja": "スプロケット＋ゴム/金属クローラー",
+    "de": "Kettenrad mit Gummi-/Metallkette",
+    "fr": "Pignon + chenille en caoutchouc/métal"
+  },
+  "麥克納姆全向輪": {
+    "en": "45° Mecanum omnidirectional wheel",
+    "ja": "45°メカナム全方向車輪",
+    "de": "45°-Mecanum-Allseitenrad",
+    "fr": "Roue omnidirectionnelle Mecanum à 45°"
+  },
+  "六輪搖臂越障輪系": {
+    "en": "6-wheel rocker-bogie obstacle system",
+    "ja": "6輪ロッカーボギー走破機構",
+    "de": "6-Rad-Rocker-Bogie-Fahrwerk",
+    "fr": "Train à 6 roues et bogies articulés"
+  },
+  "四輪/多輪獨立輪轂馬達驅動": {
+    "en": "Independent 4-wheel/multi-wheel hub motors",
+    "ja": "四輪/多輪独立ハブモーター駆動",
+    "de": "Unabhängige Vier-/Mehrrad-Nabenmotoren",
+    "fr": "Moteurs-roues indépendants à 4 roues ou plus"
+  },
+  "獨立內置伺服馬達＋萬向半軸傳動": {
+    "en": "Independent inboard servo motors + CV shafts",
+    "ja": "独立車体内サーボモーター＋CV軸",
+    "de": "Unabhängige innenliegende Servomotoren mit CV-Wellen",
+    "fr": "Servomoteurs internes indépendants + arbres homocinétiques"
+  },
+  "四輪傳動（前後差速器＋中央傳動軸": {
+    "en": "4WD: front/rear differentials + central shaft",
+    "ja": "4WD：前後差動装置＋中央伝動軸",
+    "de": "4WD: Vorder-/Hinterachsdifferenziale und Zentralwelle",
+    "fr": "4WD : différentiels avant/arrière + arbre central"
+  },
+  "雙側獨立馬達＋鏈條/同步帶差速傳動": {
+    "en": "Dual independent motors + chain/belt skid drive",
+    "ja": "左右独立モーター＋チェーン/ベルト差動駆動",
+    "de": "Zwei unabhängige Motoren mit Ketten-/Riemen-Differenziallenkung",
+    "fr": "Deux moteurs indépendants + chaînes/courroies à direction différentielle"
+  },
+  "後輪驅動（後軸差速器": {
+    "en": "Rear-wheel drive with rear differential",
+    "ja": "後輪駆動（後軸差動装置）",
+    "de": "Hinterradantrieb mit Hinterachsdifferenzial",
+    "fr": "Propulsion arrière avec différentiel arrière"
+  },
+  "前輪驅動（前軸差速器": {
+    "en": "Front-wheel drive with front differential",
+    "ja": "前輪駆動（前軸差動装置）",
+    "de": "Vorderradantrieb mit Vorderachsdifferenzial",
+    "fr": "Traction avant avec différentiel avant"
+  },
+  "油電混合增程系統": {
+    "en": "Series hybrid range extender (petrol generator + buffer battery)",
+    "ja": "シリーズハイブリッド（ガソリン発電機＋バッファ電池）",
+    "de": "Serieller Hybrid (Benzingenerator und Pufferakku)",
+    "fr": "Hybride série (générateur essence + batterie tampon)"
+  },
+  "氫燃料電池動力系統": {
+    "en": "Hydrogen fuel cell (PEMFC + H2 cylinder + lithium hybrid)",
+    "ja": "水素燃料電池（PEMFC＋水素容器＋リチウム電池）",
+    "de": "Wasserstoff-Brennstoffzelle (PEMFC/H2-Tank/Lithiumhybrid)",
+    "fr": "Pile à hydrogène (PEMFC + réservoir H2 + hybride lithium)"
+  },
+  "工業繫留供電系統": {
+    "en": "Industrial tethered supply (continuous AC/DC cable reel)",
+    "ja": "産業用有線給電（AC/DC高圧ケーブルリール連続給電）",
+    "de": "Industrielle Kabelversorgung (AC/DC-Hochspannungskabeltrommel)",
+    "fr": "Alimentation filaire industrielle (enrouleur AC/DC haute tension)"
+  },
+  "雙A臂獨立氣壓/油壓避震": {
+    "en": "Independent double wishbone with air/hydraulic coilover",
+    "ja": "ダブルウィッシュボーン独立空圧/油圧サスペンション",
+    "de": "Doppelquerlenker-Einzelradaufhängung mit Luft-/Hydraulikdämpfern",
+    "fr": "Double triangulation indépendante à amortisseurs pneumatiques/hydrauliques"
+  },
+  "拖曳臂獨立懸吊系統": {
+    "en": "Independent trailing arm + heavy-duty shock",
+    "ja": "トレーリングアーム独立懸架＋高荷重ダンパー",
+    "de": "Einzellängslenker mit Schwerlastdämpfer",
+    "fr": "Bras tirés indépendants + amortisseurs renforcés"
+  },
+  "搖臂轉向架連桿無彈簧懸吊": {
+    "en": "Springless rocker-bogie linkage suspension",
+    "ja": "ばねなしロッカーボギーリンク懸架",
+    "de": "Federlose Rocker-Bogie-Gelenkaufhängung",
+    "fr": "Suspension articulée à bogies sans ressort"
+  },
+  "克里斯蒂扭力桿/避震惰輪懸吊": {
+    "en": "Christie torsion-bar/idler suspension",
+    "ja": "クリスティー式トーションバー/アイドラ懸架",
+    "de": "Christie-Drehstab-/Leitradfederung",
+    "fr": "Suspension Christie à barres de torsion/galets"
+  },
+  "門式高離地車橋＋多連桿懸吊": {
+    "en": "High-clearance portal axle + multi-link suspension",
+    "ja": "高地上高ポータルアクスル＋マルチリンク",
+    "de": "Portalachse mit hoher Bodenfreiheit und Mehrlenkern",
+    "fr": "Pont portique à grande garde au sol + multibras"
+  },
+  "剛性直連底盤（無懸吊，適用室內高精準度": {
+    "en": "Rigid direct chassis (no suspension; precision indoor AGV)",
+    "ja": "剛性直結（懸架なし・屋内高精度AGV向け）",
+    "de": "Starres Direktfahrwerk (ungefedert; präzises Hallen-AGV)",
+    "fr": "Châssis rigide sans suspension (AGV intérieur de précision)"
+  },
+  "左右輪差速原地轉向": {
+    "en": "Left/right differential zero-turn skid steering",
+    "ja": "左右差動・その場旋回",
+    "de": "Differenzial-/Panzerlenkung auf der Stelle",
+    "fr": "Direction différentielle avec rotation sur place"
+  },
+  "前輪阿克曼連桿轉向": {
+    "en": "Front Ackermann linkage steering",
+    "ja": "前輪アッカーマンリンク操舵",
+    "de": "Vordere Ackermann-Gelenklenkung",
+    "fr": "Direction avant à tringlerie Ackermann"
+  },
+  "四輪獨立反向轉向": {
+    "en": "4-wheel independent counter-phase steering",
+    "ja": "4WS独立逆位相操舵",
+    "de": "Unabhängige gegenphasige 4WS-Lenkung",
+    "fr": "Direction indépendante à 4 roues en opposition"
+  },
+  "四輪同向蟹行轉向": {
+    "en": "4-wheel in-phase crab steering",
+    "ja": "4WS同位相クラブ操舵",
+    "de": "Gleichphasige 4WS-Krebslenkung",
+    "fr": "Direction à 4 roues en crabe"
+  },
+  "全向平移合成轉向": {
+    "en": "Omnidirectional Mecanum steering",
+    "ja": "メカナム全方向操舵",
+    "de": "Omnidirektionale Mecanum-Lenkung",
+    "fr": "Direction omnidirectionnelle Mecanum"
+  },
+  "中央雙液壓缸鉸接轉向": {
+    "en": "Articulated frame with twin hydraulic cylinders",
+    "ja": "中央二連油圧シリンダー屈折操舵",
+    "de": "Knicklenkung mit zwei Hydraulikzylindern",
+    "fr": "Direction articulée à deux vérins hydrauliques"
+  },
+  "電磁失電抱死煞車＋電能回充": {
+    "en": "Electromagnetic fail-safe brake + regeneration",
+    "ja": "無励磁作動電磁ブレーキ＋回生",
+    "de": "Stromlos schließende Magnetbremse mit Rekuperation",
+    "fr": "Frein électromagnétique à manque de courant + régénération"
+  },
+  "雙迴路液壓通風碟煞系統": {
+    "en": "Dual-circuit hydraulic ventilated disc brakes",
+    "ja": "二系統油圧ベンチレーテッドディスク",
+    "de": "Zweikreis-Hydraulikbremse mit belüfteten Scheiben",
+    "fr": "Freins à disques ventilés hydrauliques à double circuit"
+  },
+  "電子機械卡鉗駐車＋再生煞車": {
+    "en": "Electromechanical parking caliper + regenerative braking",
+    "ja": "電動キャリパー駐車ブレーキ＋回生",
+    "de": "Elektromechanischer Parkbremssattel mit Rekuperation",
+    "fr": "Étrier de stationnement électromécanique + freinage régénératif"
+  }
+}

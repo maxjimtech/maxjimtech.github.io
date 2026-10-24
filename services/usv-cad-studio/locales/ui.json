@@ -1,0 +1,1724 @@
+{
+  "肇祥企業社 MaxJim Tech Inc. | USV-CAD Pro 無人船 3D 參數化機構與系統設計器": {
+    "en": "MaxJim Tech Inc. / USV-CAD Pro parametric 3D vessel mechanism and system designer",
+    "ja": "MaxJim Tech Inc. / USV-CAD Pro 無人艇3Dパラメトリック機構・系統設計",
+    "de": "MaxJim Tech Inc. / USV-CAD Pro parametrischer 3D-Schiffs- und Systementwurf",
+    "fr": "MaxJim Tech Inc. / USV-CAD Pro conception paramétrique 3D des mécanismes et systèmes navals"
+  },
+  "肇祥企業社 MaxJim Tech Inc.": {
+    "en": "MaxJim Tech Inc.",
+    "ja": "MaxJim Tech Inc.",
+    "de": "MaxJim Tech Inc.",
+    "fr": "MaxJim Tech Inc."
+  },
+  "即時參數化無人船機構設計・流體靜力學分析・感測與推進系統整合平台": {
+    "en": "Real-time parametric USV design · Hydrostatic analysis · Integrated sensors and propulsion",
+    "ja": "リアルタイム無人艇設計・静水力解析・センサー/推進系統合",
+    "de": "Parametrischer USV-Entwurf in Echtzeit · Hydrostatik · Sensor- und Antriebsintegration",
+    "fr": "Conception paramétrique USV en temps réel · Hydrostatique · Intégration des capteurs et de la propulsion"
+  },
+  "快速構型範本:": {
+    "en": "Quick configuration presets:",
+    "ja": "構成プリセット：",
+    "de": "Schnellvorlagen:",
+    "fr": "Modèles de configuration :"
+  },
+  "高速巡邏偵蒐艇 (4.8m 深V)": {
+    "en": "Fast patrol/reconnaissance boat (4.8m deep-V)",
+    "ja": "高速哨戒・偵察艇 (4.8m 深V)",
+    "de": "Schnelles Patrouillen-/Aufklärungsboot (4.8m Tief-V)",
+    "fr": "Vedette rapide de patrouille/reconnaissance (4.8m V profond)"
+  },
+  "水文多波束測繪船 (3.6m 雙體)": {
+    "en": "Multibeam hydrographic survey vessel (3.6m catamaran)",
+    "ja": "マルチビーム水路測量艇 (3.6m 双胴)",
+    "de": "Hydrografisches Mehrstrahl-Messboot (3.6m Katamaran)",
+    "fr": "Navire de levé hydrographique multifaisceau (3.6m catamaran)"
+  },
+  "遠洋長航時無人船 (7.5m 三體)": {
+    "en": "Long-endurance ocean USV (7.5m trimaran)",
+    "ja": "外洋長時間無人艇 (7.5m 三胴)",
+    "de": "Ozean-USV mit langer Ausdauer (7.5m Trimaran)",
+    "fr": "USV océanique de longue autonomie (7.5m trimaran)"
+  },
+  "抗浪科考平台 (6.2m SWATH)": {
+    "en": "Wave-resistant research platform (6.2m SWATH)",
+    "ja": "耐波研究プラットフォーム (6.2m SWATH)",
+    "de": "Seegangsfeste Forschungsplattform (6.2m SWATH)",
+    "fr": "Plateforme de recherche résistante aux vagues (6.2m SWATH)"
+  },
+  "⛶ 全螢幕操作": {
+    "en": "⛶ Full screen",
+    "ja": "⛶ 全画面表示",
+    "de": "⛶ Vollbild",
+    "fr": "⛶ Plein écran"
+  },
+  "返回官網": {
+    "en": "Company website",
+    "ja": "公式サイトへ",
+    "de": "Firmenwebsite",
+    "fr": "Site de l’entreprise"
+  },
+  "工具盒規劃器": {
+    "en": "Toolbox planner",
+    "ja": "工具箱プランナー",
+    "de": "Werkzeugkofferplaner",
+    "fr": "Planificateur de boîte à outils"
+  },
+  "智慧工廠": {
+    "en": "Smart factory",
+    "ja": "スマート工場",
+    "de": "Intelligente Fabrik",
+    "fr": "Usine intelligente"
+  },
+  "UGV 無人車": {
+    "en": "UGV ground vehicle",
+    "ja": "UGV無人車",
+    "de": "UGV-Bodenfahrzeug",
+    "fr": "Véhicule terrestre UGV"
+  },
+  "2D 船體線圖": {
+    "en": "2D hull lines",
+    "ja": "2D船体線図",
+    "de": "2D-Schiffslinien",
+    "fr": "Plan de formes 2D"
+  },
+  "工程 BOM 表": {
+    "en": "Engineering BOM",
+    "ja": "技術BOM",
+    "de": "Technische Stückliste",
+    "fr": "Nomenclature technique"
+  },
+  "匯出 STL": {
+    "en": "Export STL",
+    "ja": "STL出力",
+    "de": "STL exportieren",
+    "fr": "Exporter STL"
+  },
+  "輸出 3D STEP 檔 (.step)": {
+    "en": "Export 3D STEP (.step)",
+    "ja": "3D STEP出力 (.step)",
+    "de": "3D STEP exportieren (.step)",
+    "fr": "Exporter en STEP 3D (.step)"
+  },
+  "1.船體外型": {
+    "en": "1.Hull form",
+    "ja": "1.船型",
+    "de": "1.Rumpfform",
+    "fr": "1.Forme de coque"
+  },
+  "2.動力系統": {
+    "en": "2.Power system",
+    "ja": "2.動力系",
+    "de": "2.Energiesystem",
+    "fr": "2.Système d’énergie"
+  },
+  "3.推進方式": {
+    "en": "3.Propulsion",
+    "ja": "3.推進方式",
+    "de": "3.Antrieb",
+    "fr": "3.Propulsion"
+  },
+  "4.偵測導航": {
+    "en": "4.Sensing/navigation",
+    "ja": "4.検知・航法",
+    "de": "4.Sensorik/Navigation",
+    "fr": "4.Détection/navigation"
+  },
+  "5.無線天線": {
+    "en": "5.RF antennas",
+    "ja": "5.無線アンテナ",
+    "de": "5.Funkantennen",
+    "fr": "5.Antennes radio"
+  },
+  "6.雷達系統": {
+    "en": "6.Radar system",
+    "ja": "6.レーダー系",
+    "de": "6.Radarsystem",
+    "fr": "6.Système radar"
+  },
+  "船體構型選項 (Hull Architecture)": {
+    "en": "Hull architecture",
+    "ja": "船体構成",
+    "de": "Rumpfarchitektur",
+    "fr": "Architecture de coque"
+  },
+  "Deep-V Monohull": {
+    "en": "Deep-V monohull",
+    "ja": "深V単胴船",
+    "de": "Tief-V-Einrumpfboot",
+    "fr": "Monocoque en V profond"
+  },
+  "深V破浪單體船": {
+    "en": "Deep-V wave-cutting monohull",
+    "ja": "深V波切り単胴船",
+    "de": "Wellenbrechender Tief-V-Einrumpf",
+    "fr": "Monocoque perce-vagues en V profond"
+  },
+  "高速/抗浪": {
+    "en": "High speed/seakeeping",
+    "ja": "高速・耐波",
+    "de": "Schnell/seegängig",
+    "fr": "Vitesse/tenue à la mer"
+  },
+  "雙折角線 + 防濺壓浪條，適合高速巡邏與近岸戰術偵蒐。": {
+    "en": "Double chines and spray strakes for fast patrol and coastal tactical reconnaissance.",
+    "ja": "二重チャインとスプレーストレーキ。高速哨戒・沿岸戦術偵察向け。",
+    "de": "Doppelte Kimmkanten und Spritzleisten für schnelle Patrouillen und küstennahe Aufklärung.",
+    "fr": "Doubles bouchains et virures anti-embruns pour patrouille rapide et reconnaissance côtière."
+  },
+  "雙體穩定工作船": {
+    "en": "Stable catamaran workboat",
+    "ja": "高安定双胴作業艇",
+    "de": "Stabiles Katamaran-Arbeitsboot",
+    "fr": "Catamaran de travail stable"
+  },
+  "高穩度/測繪": {
+    "en": "High stability/survey",
+    "ja": "高安定・測量",
+    "de": "Hohe Stabilität/Vermessung",
+    "fr": "Stabilité/levés"
+  },
+  "雙片體跨橋甲板，極高橫向穩心高 GM，適合聲納水文測繪。": {
+    "en": "Twin hulls and bridge deck give high transverse GM for sonar hydrographic surveys.",
+    "ja": "双胴・架橋甲板により横GMが高く、ソナー水路測量に適合。",
+    "de": "Zwei Rümpfe mit Brückendeck bieten hohe Quer-GM für Sonarvermessung.",
+    "fr": "Deux coques et pont de liaison offrent un GM transversal élevé pour les levés sonar."
+  },
+  "三體穿浪長航船": {
+    "en": "Wave-piercing long-range trimaran",
+    "ja": "波浪貫通型長航続三胴艇",
+    "de": "Wellenpiercing-Langstreckentrimaran",
+    "fr": "Trimaran perce-vagues à grande autonomie"
+  },
+  "遠洋/低阻": {
+    "en": "Ocean/low resistance",
+    "ja": "外洋・低抵抗",
+    "de": "Ozean/geringer Widerstand",
+    "fr": "Océan/faible résistance"
+  },
+  "細長主船體配雙側穩定浮筒，大幅降低高速興波阻力。": {
+    "en": "Slender main hull with two stabilizing outriggers reduces high-speed wave resistance.",
+    "ja": "細長い主船体と左右安定浮体で高速造波抵抗を低減。",
+    "de": "Schlanker Hauptrumpf mit zwei Stützauslegern verringert den Wellenwiderstand bei hoher Fahrt.",
+    "fr": "Coque centrale élancée et deux flotteurs stabilisateurs réduisant la résistance de vague à haute vitesse."
+  },
+  "小水線面雙體船": {
+    "en": "Small-waterplane-area twin hull",
+    "ja": "小水線面積双胴船",
+    "de": "Doppelrumpf mit kleiner Wasserlinienfläche",
+    "fr": "Bicoque à faible surface de flottaison"
+  },
+  "SWATH/科考": {
+    "en": "SWATH/research",
+    "ja": "SWATH・研究",
+    "de": "SWATH/Forschung",
+    "fr": "SWATH/recherche"
+  },
+  "水下雙魚雷型潛體 + 流線支柱，高海況下具備極致抗搖晃性。": {
+    "en": "Twin submerged torpedo hulls and streamlined struts minimize motion in rough seas.",
+    "ja": "水中の二本の魚雷形浮体と流線支柱で荒天時の揺れを抑制。",
+    "de": "Zwei getauchte Torpedokörper und Stromlinienstützen minimieren Bewegungen bei schwerer See.",
+    "fr": "Deux corps immergés en torpille et montants profilés limitant les mouvements par forte mer."
+  },
+  "船體主尺度與流體幾何參數 (Parametric Hull Loft)": {
+    "en": "Principal dimensions and hydrodynamic geometry (Parametric Hull Loft)",
+    "ja": "主要寸法・流体形状 (Parametric Hull Loft)",
+    "de": "Hauptabmessungen und Strömungsgeometrie (Parametric Hull Loft)",
+    "fr": "Dimensions principales et géométrie hydrodynamique (Parametric Hull Loft)"
+  },
+  "單位: m / mm / deg": {
+    "en": "Units: m / mm / deg",
+    "ja": "単位: m / mm / deg",
+    "de": "Einheiten: m / mm / deg",
+    "fr": "Unités : m / mm / deg"
+  },
+  "總長 LOA (Length Overall)": {
+    "en": "Length overall LOA",
+    "ja": "全長 LOA",
+    "de": "Länge über alles LOA",
+    "fr": "Longueur hors tout LOA"
+  },
+  "船寬 BOA (Beam Overall)": {
+    "en": "Beam overall BOA",
+    "ja": "全幅 BOA",
+    "de": "Breite über alles BOA",
+    "fr": "Largeur hors tout BOA"
+  },
+  "型深 D (Molded Depth)": {
+    "en": "Molded depth D",
+    "ja": "型深さ D",
+    "de": "Seitenhöhe D",
+    "fr": "Creux D"
+  },
+  "船底斜度角 Deadrise Angle (β)": {
+    "en": "Bottom deadrise angle (β)",
+    "ja": "船底勾配角 (β)",
+    "de": "Aufkimmungswinkel (β)",
+    "fr": "Angle de relevé de fond (β)"
+  },
+  "船艏傾角 Stem Rake": {
+    "en": "Stem rake",
+    "ja": "船首傾斜角",
+    "de": "Stevenneigung",
+    "fr": "Inclinaison d’étrave"
+  },
+  "船艏外飄係數 Flare": {
+    "en": "Bow flare factor",
+    "ja": "船首フレア係数",
+    "de": "Bugausfallfaktor",
+    "fr": "Coefficient d’évasement d’étrave"
+  },
+  "折角線高度比 Chine": {
+    "en": "Chine height ratio",
+    "ja": "チャイン高さ比",
+    "de": "Kimmhöhenverhältnis",
+    "fr": "Rapport de hauteur de bouchain"
+  },
+  "多體片體間距比": {
+    "en": "Multihull spacing ratio",
+    "ja": "多胴間隔比",
+    "de": "Mehrrumpf-Abstandsverhältnis",
+    "fr": "Rapport d’espacement des coques"
+  },
+  "結構材質、上層建築與機構配置": {
+    "en": "Structure materials, superstructure and mechanism layout",
+    "ja": "構造材・上部構造・機構配置",
+    "de": "Werkstoffe, Aufbauten und Mechanikanordnung",
+    "fr": "Matériaux, superstructure et implantation mécanique"
+  },
+  "船殼結構材質": {
+    "en": "Hull structural material",
+    "ja": "船殻構造材",
+    "de": "Rumpfwerkstoff",
+    "fr": "Matériau structurel de coque"
+  },
+  "5083-H116 航太船用鋁合金": {
+    "en": "5083-H116 aerospace/marine aluminum alloy",
+    "ja": "5083-H116航空・船舶用アルミ合金",
+    "de": "Luft-/Schiffbau-Aluminiumlegierung 5083-H116",
+    "fr": "Alliage aluminium aéronautique/marin 5083-H116"
+  },
+  "3K 碳纖維真空灌注複合材": {
+    "en": "3K vacuum-infused carbon-fiber composite",
+    "ja": "3K炭素繊維真空注入複合材",
+    "de": "Vakuuminfundierter 3K-CFK-Verbund",
+    "fr": "Composite carbone 3K infusé sous vide"
+  },
+  "海事級 GFRP 玻纖複合材": {
+    "en": "Marine-grade GFRP glass-fiber composite",
+    "ja": "船舶用GFRPガラス繊維複合材",
+    "de": "Marine-GFK-Verbundwerkstoff",
+    "fr": "Composite verre GFRP de qualité marine"
+  },
+  "HDPE 高密度耐衝擊聚乙烯": {
+    "en": "Impact-resistant high-density polyethylene HDPE",
+    "ja": "高耐衝撃高密度ポリエチレンHDPE",
+    "de": "Schlagfestes hochdichtes Polyethylen HDPE",
+    "fr": "Polyéthylène haute densité HDPE résistant aux chocs"
+  },
+  "船殼板厚:": {
+    "en": "Hull shell thickness:",
+    "ja": "船殻板厚：",
+    "de": "Rumpfwanddicke:",
+    "fr": "Épaisseur de coque :"
+  },
+  "上層建築艙罩構型": {
+    "en": "Superstructure cover configuration",
+    "ja": "上部構造カバー形式",
+    "de": "Aufbauhaubenform",
+    "fr": "Configuration du capot de superstructure"
+  },
+  "匿蹤多切面戰術儀器艙": {
+    "en": "Faceted stealth tactical instrument cabin",
+    "ja": "ステルス多面体戦術機器室",
+    "de": "Facettierte Stealth-Instrumentenkabine",
+    "fr": "Cabine tactique instrumentée furtive à facettes"
+  },
+  "流線型低風阻水滴艙罩": {
+    "en": "Streamlined low-drag teardrop cover",
+    "ja": "流線形低抵抗ティアドロップカバー",
+    "de": "Stromlinienförmige widerstandsarme Tropfenhaube",
+    "fr": "Capot profilé en goutte à faible traînée"
+  },
+  "模組化開放式鋁擠型載台": {
+    "en": "Modular open aluminum-profile platform",
+    "ja": "アルミ押出材モジュール式開放デッキ",
+    "de": "Modulare offene Aluprofilplattform",
+    "fr": "Plateforme ouverte modulaire en profilés aluminium"
+  },
+  "船體塗裝配色": {
+    "en": "Hull paint scheme",
+    "ja": "船体配色",
+    "de": "Rumpflackierung",
+    "fr": "Couleurs de coque"
+  },
+  "海軍戰術低視度灰 (Naval Grey)": {
+    "en": "Low-visibility naval tactical grey",
+    "ja": "海軍低視認タクティカルグレー",
+    "de": "Taktisches Marinegrau mit geringer Sichtbarkeit",
+    "fr": "Gris naval tactique à faible visibilité"
+  },
+  "水文測繪高視認橘白 (Survey Orange)": {
+    "en": "High-visibility survey orange/white",
+    "ja": "測量用高視認オレンジ/白",
+    "de": "Gut sichtbares Vermessungsorange/Weiß",
+    "fr": "Orange/blanc de levé à haute visibilité"
+  },
+  "消光暗夜碳纖黑 (Stealth Black)": {
+    "en": "Matte night carbon black",
+    "ja": "つや消しナイトカーボンブラック",
+    "de": "Mattes Carbon-Nachtschwarz",
+    "fr": "Noir carbone nocturne mat"
+  },
+  "海巡深海藍白 (Maritime Blue)": {
+    "en": "Coastguard deep blue/white",
+    "ja": "海上保安ディープブルー/白",
+    "de": "Küstenwachen-Tiefblau/Weiß",
+    "fr": "Bleu profond/blanc de garde-côtes"
+  },
+  "船底壓浪條 (Spray Strakes)": {
+    "en": "Hull spray strakes",
+    "ja": "船底スプレーストレーキ",
+    "de": "Rumpf-Spritzleisten",
+    "fr": "Virures anti-embruns"
+  },
+  "D型防撞護舷條 (Fender)": {
+    "en": "D-section impact fender",
+    "ja": "D型防舷材",
+    "de": "D-Profil-Fender",
+    "fr": "Défense antichoc en D"
+  },
+  "動力系統架構 (Power & Energy System)": {
+    "en": "Power & energy architecture",
+    "ja": "動力・エネルギー構成",
+    "de": "Energie- und Speicherarchitektur",
+    "fr": "Architecture d’énergie et stockage"
+  },
+  "LiFePO4 Electric": {
+    "en": "LiFePO4 electric",
+    "ja": "LiFePO4電動",
+    "de": "LiFePO4-Elektroantrieb",
+    "fr": "Électrique LiFePO4"
+  },
+  "純電磷酸鐵鋰高壓動力電池組 (LiFePO4 96V/400V)": {
+    "en": "Pure-electric high-voltage LiFePO4 pack (96V/400V)",
+    "ja": "純電動高電圧LiFePO4電池 (96V/400V)",
+    "de": "Reinelektrischer LiFePO4-Hochvoltakku (96V/400V)",
+    "fr": "Batterie haute tension LiFePO4 tout électrique (96V/400V)"
+  },
+  "靜音/零排放": {
+    "en": "Silent/zero emissions",
+    "ja": "静音・無排出",
+    "de": "Leise/emissionsfrei",
+    "fr": "Silencieux/zéro émission"
+  },
+  "模組化水冷電池包低重心佈置於龍骨艙底，具備極低聲學與熱紅外線特徵。": {
+    "en": "Modular water-cooled packs mounted low in the bilge minimize acoustic and thermal signatures.",
+    "ja": "水冷電池モジュールをキール船底に低重心配置し、音響・熱特性を低減。",
+    "de": "Modulare wassergekühlte Akkus tief im Kielraum minimieren akustische und thermische Signaturen.",
+    "fr": "Batteries modulaires refroidies par eau placées bas dans la cale pour limiter les signatures acoustique et thermique."
+  },
+  "柴電串聯混合動力系統 (Marine Turbo-Diesel + LiFePO4)": {
+    "en": "Series diesel-electric hybrid (Marine Turbo-Diesel + LiFePO4)",
+    "ja": "シリーズ式ディーゼル電気ハイブリッド (Marine Turbo-Diesel + LiFePO4)",
+    "de": "Serieller Diesel-Elektro-Hybrid (Marine Turbo-Diesel + LiFePO4)",
+    "fr": "Hybride diesel-électrique série (Marine Turbo-Diesel + LiFePO4)"
+  },
+  "長航程/大功率": {
+    "en": "Long range/high power",
+    "ja": "長航続・大出力",
+    "de": "Große Reichweite/hohe Leistung",
+    "fr": "Grande autonomie/forte puissance"
+  },
+  "船用直流發電機組搭配緩衝電池與防晃油箱，兼顧港口靜音航行與遠洋高速衝刺。": {
+    "en": "Marine DC generator, buffer battery and baffled fuel tank combine quiet harbor running with fast ocean transit.",
+    "ja": "船舶用DC発電機・バッファ電池・防揺燃料タンクで港内静音と外洋高速航行を両立。",
+    "de": "Marine-DC-Generator, Pufferakku und Schwalltank verbinden leisen Hafenbetrieb mit schneller Hochseefahrt.",
+    "fr": "Générateur DC marin, batterie tampon et réservoir cloisonné pour silence au port et vitesse au large."
+  },
+  "氫燃料電池混合系統 (PEM Fuel Cell + 350bar 儲氫瓶)": {
+    "en": "Hydrogen fuel-cell hybrid (PEM Fuel Cell + 350bar H2 tanks)",
+    "ja": "水素燃料電池ハイブリッド (PEM Fuel Cell + 350bar水素容器)",
+    "de": "Wasserstoff-Brennstoffzellenhybrid (PEM Fuel Cell + 350bar H2-Tanks)",
+    "fr": "Hybride à pile à hydrogène (PEM Fuel Cell + réservoirs H2 350bar)"
+  },
+  "高能量密度": {
+    "en": "High energy density",
+    "ja": "高エネルギー密度",
+    "de": "Hohe Energiedichte",
+    "fr": "Haute densité énergétique"
+  },
+  "雙碳纖維纏繞 Type-IV 高壓儲氫氣瓶搭配質子交換膜電堆，適合長時低特徵巡航。": {
+    "en": "Twin carbon-wrapped Type-IV hydrogen cylinders and PEM stack support long low-signature patrols.",
+    "ja": "炭素繊維巻きType-IV水素容器2本とPEMスタックで長時間低シグネチャー巡航。",
+    "de": "Zwei carbonumwickelte Type-IV-H2-Tanks und PEM-Stack für lange signaturarme Patrouillen.",
+    "fr": "Deux réservoirs H2 Type-IV bobinés carbone et pile PEM pour patrouilles longues à faible signature."
+  },
+  "甲板太陽能陣列 + 儲能電池組 (Solar Array + LiFePO4)": {
+    "en": "Deck solar array + battery storage (Solar Array + LiFePO4)",
+    "ja": "甲板太陽電池＋蓄電池 (Solar Array + LiFePO4)",
+    "de": "Deck-Solaranlage mit Speicher (Solar Array + LiFePO4)",
+    "fr": "Panneaux solaires de pont + batteries (Solar Array + LiFePO4)"
+  },
+  "跨月駐留": {
+    "en": "Multi-month station keeping",
+    "ja": "数か月の定点観測",
+    "de": "Monatelanger Aufenthalt",
+    "fr": "Séjour de plusieurs mois"
+  },
+  "全甲板鋪設海事抗鹽霧單晶矽太陽能板，支援數週至數月海上自主水文氣象觀測。": {
+    "en": "Salt-resistant monocrystalline panels cover the deck for weeks to months of autonomous metocean monitoring.",
+    "ja": "耐塩害単結晶パネルを甲板全体に敷設し、数週〜数か月の自律海洋気象観測に対応。",
+    "de": "Salzbeständige monokristalline Deckmodule für wochen- bis monatelange autonome Meereswetterbeobachtung.",
+    "fr": "Panneaux monocristallins résistants au sel sur tout le pont pour des semaines à des mois d’observation météo-océanique autonome."
+  },
+  "儲能容量與機艙配重設定": {
+    "en": "Energy capacity and machinery-bay ballast",
+    "ja": "蓄電容量・機関室配重設定",
+    "de": "Energiekapazität und Maschinenraumballast",
+    "fr": "Capacité énergétique et lest du compartiment machines"
+  },
+  "動力電池組容量 (Battery Capacity)": {
+    "en": "Battery pack capacity",
+    "ja": "動力電池容量",
+    "de": "Antriebsakkukapazität",
+    "fr": "Capacité de batterie de propulsion"
+  },
+  "燃油/儲氫等效容量 (Fuel / H2 Tank)": {
+    "en": "Fuel/H2 equivalent tank capacity",
+    "ja": "燃料/H2換算容量",
+    "de": "Äquivalente Kraftstoff-/H2-Kapazität",
+    "fr": "Capacité équivalente carburant/H2"
+  },
+  "直流母線電壓架構 (DC Bus Voltage)": {
+    "en": "DC bus voltage architecture",
+    "ja": "DC母線電圧構成",
+    "de": "DC-Zwischenkreisspannung",
+    "fr": "Architecture de tension du bus DC"
+  },
+  "48V DC (輕型低壓安全架構)": {
+    "en": "48V DC (light low-voltage safety architecture)",
+    "ja": "48V DC（軽量低電圧安全構成）",
+    "de": "48V DC (leichte sichere Niedervoltarchitektur)",
+    "fr": "48V DC (architecture légère basse tension)"
+  },
+  "96V DC (中型標準高效率架構)": {
+    "en": "96V DC (medium standard high-efficiency architecture)",
+    "ja": "96V DC（中型標準高効率構成）",
+    "de": "96V DC (mittlere effiziente Standardarchitektur)",
+    "fr": "96V DC (architecture moyenne standard à haut rendement)"
+  },
+  "400V DC (大型高速高功率高壓架構)": {
+    "en": "400V DC (large high-speed high-power architecture)",
+    "ja": "400V DC（大型高速高出力構成）",
+    "de": "400V DC (große schnelle Hochleistungsarchitektur)",
+    "fr": "400V DC (architecture grande vitesse et forte puissance)"
+  },
+  "開啟船殼半透明透視 (檢視內部電池包、發電機與龍骨肋板)": {
+    "en": "Transparent hull view (battery packs, generator and keel frames)",
+    "ja": "船殻半透明表示（電池・発電機・キールリブを確認）",
+    "de": "Rumpf transparent (Akkus, Generator und Kielspanten)",
+    "fr": "Coque transparente (batteries, générateur et membrures de quille)"
+  },
+  "推進方式與舵機機構 (Propulsion & Steering)": {
+    "en": "Propulsion & steering mechanisms",
+    "ja": "推進・操舵機構",
+    "de": "Antriebs- und Rudermechanik",
+    "fr": "Mécanismes de propulsion et direction"
+  },
+  "Twin Waterjets": {
+    "en": "Twin waterjets",
+    "ja": "双ウォータージェット",
+    "de": "Zwei Wasserjets",
+    "fr": "Deux hydrojets"
+  },
+  "雙噴水推進器 (Twin Mixed-Flow Waterjets)": {
+    "en": "Twin mixed-flow waterjets",
+    "ja": "双斜流ウォータージェット",
+    "de": "Zwei Diagonalstrom-Wasserjets",
+    "fr": "Deux hydrojets à écoulement mixte"
+  },
+  "淺水防纏繞/高速": {
+    "en": "Shallow-water/anti-fouling/high speed",
+    "ja": "浅水・絡み防止・高速",
+    "de": "Flachwasser/verwicklungsarm/schnell",
+    "fr": "Faible tirant/anti-enchevêtrement/vitesse"
+  },
+  "含船底流線吸水口、軸流/混流泵室、向量轉向噴嘴與液壓倒車斗，無外露葉片。": {
+    "en": "Streamlined intakes, axial/mixed-flow pump chambers, vector nozzles and hydraulic reverse buckets; no exposed blades.",
+    "ja": "流線吸水口・軸流/斜流ポンプ室・偏向ノズル・油圧逆進バケット。露出翼なし。",
+    "de": "Stromlinieneinlässe, Axial-/Diagonalpumpen, Vektordüsen und hydraulische Umkehrklappen; keine offenen Blätter.",
+    "fr": "Entrées profilées, pompes axiales/mixtes, tuyères orientables et déflecteurs hydrauliques de marche arrière ; aucune pale exposée."
+  },
+  "雙導流罩全迴轉吊艙推進器 (Twin Azimuth Pods)": {
+    "en": "Twin ducted azimuth pods",
+    "ja": "双ダクト全旋回ポッド",
+    "de": "Zwei ummantelte Azimutpods",
+    "fr": "Deux pods azimutaux carénés"
+  },
+  "360°動態定位": {
+    "en": "360° dynamic positioning",
+    "ja": "360°動的位置保持",
+    "de": "360°-Positionierung",
+    "fr": "Positionnement dynamique à 360°"
+  },
+  "Kort 增推導流罩搭配 360° 伺服迴轉吊艙，具備原地橫移與精準航跡保持能力。": {
+    "en": "Kort ducts and 360° servo azimuth pods enable lateral motion and precise track keeping.",
+    "ja": "Kortノズルと360°サーボ旋回ポッドで横移動・精密航跡保持。",
+    "de": "Kort-Düsen und 360°-Servopods für Querfahrt und präzise Spurhaltung.",
+    "fr": "Tuyères Kort et pods servo-orientables à 360° pour déplacement latéral et tenue précise de trajectoire."
+  },
+  "雙軸五葉斜交螺旋槳 + 雙平衡舵 (Twin Shafts + Rudders)": {
+    "en": "Twin shafts, 5-blade skewed propellers + balanced rudders",
+    "ja": "双軸5翼スキュープロペラ＋双平衡舵",
+    "de": "Zwei Wellen mit 5-Blatt-Schrägpropellern und Balancerudern",
+    "fr": "Deux arbres à hélices à 5 pales inclinées + safrans compensés"
+  },
+  "高推進效率": {
+    "en": "High propulsive efficiency",
+    "ja": "高推進効率",
+    "de": "Hoher Vortriebswirkungsgrad",
+    "fr": "Haut rendement propulsif"
+  },
+  "不鏽鋼傳動軸、V型軸支架、五葉低噪音螺旋槳與雙流線平衡舵葉。": {
+    "en": "Stainless shafts, V-brackets, low-noise 5-blade propellers and streamlined balanced rudders.",
+    "ja": "ステンレス軸・V型軸受架・低騒音5翼プロペラ・流線平衡舵。",
+    "de": "Edelstahlwellen, V-Böcke, leise 5-Blatt-Propeller und stromlinienförmige Balanceruder.",
+    "fr": "Arbres inox, chaises en V, hélices silencieuses à 5 pales et safrans compensés profilés."
+  },
+  "半浸式表面穿刺推進槳 (Surface-Piercing Drives)": {
+    "en": "Surface-piercing propeller drives",
+    "ja": "半没式サーフェスドライブ",
+    "de": "Oberflächendurchstoßende Propellerantriebe",
+    "fr": "Propulsion à hélices semi-immergées"
+  },
+  "極速滑行艇": {
+    "en": "Ultra-fast planing boat",
+    "ja": "超高速滑走艇",
+    "de": "Hochgeschwindigkeits-Gleitboot",
+    "fr": "Bateau planant ultrarapide"
+  },
+  "船艉延伸關節式表面驅動軸與高速劈水槳，消除水下附體阻力與空蝕限制。": {
+    "en": "Articulated stern surface shafts and high-speed cleaving propellers reduce appendage drag and cavitation limits.",
+    "ja": "船尾延長の関節式表面駆動軸と高速プロペラで水中付加物抵抗・キャビテーション制約を低減。",
+    "de": "Gelenkige Heckoberflächenwellen und Hochgeschwindigkeitspropeller verringern Anhangwiderstand und Kavitationsgrenzen.",
+    "fr": "Arbres de surface articulés arrière et hélices rapides réduisant la traînée des appendices et les limites de cavitation."
+  },
+  "推進功率與輔助操控機構": {
+    "en": "Propulsion power and auxiliary controls",
+    "ja": "推進出力・補助操縦機構",
+    "de": "Antriebsleistung und Hilfssteuerung",
+    "fr": "Puissance de propulsion et commandes auxiliaires"
+  },
+  "總推進額定功率 (Total Propulsion Power)": {
+    "en": "Total rated propulsion power",
+    "ja": "総定格推進出力",
+    "de": "Gesamtnennantriebsleistung",
+    "fr": "Puissance nominale totale de propulsion"
+  },
+  "葉輪/噴口基準直徑 (Impeller / Prop Diameter)": {
+    "en": "Impeller/nozzle reference diameter",
+    "ja": "インペラー/ノズル基準径",
+    "de": "Laufrad-/Düsen-Bezugsdurchmesser",
+    "fr": "Diamètre de référence turbine/tuyère"
+  },
+  "加裝船首橫向涵道推進器 (Bow Tunnel Thruster - 自動靠泊輔助)": {
+    "en": "Add bow tunnel thruster (automatic docking assist)",
+    "ja": "船首トンネルスラスター追加（自動接岸補助）",
+    "de": "Bugtunnelstrahlruder ergänzen (automatische Anlegehilfe)",
+    "fr": "Ajouter un propulseur d’étrave en tunnel (aide à l’accostage automatique)"
+  },
+  "加裝船艉主動式壓浪板 (Active Interceptor Trim Tabs)": {
+    "en": "Add active stern interceptor trim tabs",
+    "ja": "船尾アクティブトリムタブ追加",
+    "de": "Aktive Heck-Trimmklappen ergänzen",
+    "fr": "Ajouter des correcteurs d’assiette actifs arrière"
+  },
+  "偵測導航與水下聲學系統 (GNSS / EO-IR / LiDAR / Sonar)": {
+    "en": "Sensing, navigation and underwater acoustics (GNSS / EO-IR / LiDAR / Sonar)",
+    "ja": "検知・航法・水中音響系 (GNSS / EO-IR / LiDAR / Sonar)",
+    "de": "Sensorik, Navigation und Unterwasserakustik (GNSS / EO-IR / LiDAR / Sonar)",
+    "fr": "Détection, navigation et acoustique sous-marine (GNSS / EO-IR / LiDAR / Sonar)"
+  },
+  "衛星定位與慣性導航系統 (GNSS / INS)": {
+    "en": "Satellite positioning and inertial navigation (GNSS / INS)",
+    "ja": "衛星測位・慣性航法 (GNSS / INS)",
+    "de": "Satellitenpositionierung und Trägheitsnavigation (GNSS / INS)",
+    "fr": "Positionnement satellite et navigation inertielle (GNSS / INS)"
+  },
+  "雙天線 RTK-GNSS 定向基線 + 光纖慣導 (FOG INS, 航向精度 0.05°)": {
+    "en": "Dual-antenna RTK-GNSS heading baseline + FOG INS (heading accuracy 0.05°)",
+    "ja": "二アンテナRTK-GNSS方位基線＋光ファイバ慣性航法（方位精度0.05°）",
+    "de": "Zweiantennen-RTK-GNSS-Richtungsbasis + FOG INS (Kursgenauigkeit 0.05°)",
+    "fr": "Base de cap RTK-GNSS à deux antennes + FOG INS (précision de cap 0.05°)"
+  },
+  "抗干擾 CRPA 陣列衛星導航 + 戰術級慣導 (抗電子干擾)": {
+    "en": "Anti-jam CRPA satellite array + tactical INS (electronic interference resistant)",
+    "ja": "耐妨害CRPA衛星配列＋戦術慣性航法（電子妨害対策）",
+    "de": "Störfeste CRPA-Satellitenanordnung + taktisches INS (gegen elektronische Störung)",
+    "fr": "Réseau satellite CRPA antibrouillage + INS tactique (résistant aux interférences)"
+  },
+  "單天線多星系 GNSS + MEMS AHRS 姿態航向參考系統": {
+    "en": "Single-antenna multi-constellation GNSS + MEMS AHRS attitude/heading reference",
+    "ja": "単アンテナ多衛星系GNSS＋MEMS AHRS姿勢方位基準",
+    "de": "Einantennen-Mehrsystem-GNSS + MEMS AHRS Lage-/Kursreferenz",
+    "fr": "GNSS multiconstellation mono-antenne + référence d’attitude/cap MEMS AHRS"
+  },
+  "光電/紅外線陀螺穩定雲台 (EO/IR Stabilized Gimbal)": {
+    "en": "Gyro-stabilized EO/IR gimbal",
+    "ja": "ジャイロ安定化EO/IRジンバル",
+    "de": "Kreiselstabilisierter EO/IR-Gimbal",
+    "fr": "Tourelle EO/IR gyrostabilisée"
+  },
+  "三軸陀螺穩定四合一球型雲台 (30x光學 + 640熱成像 + 雷射測距)": {
+    "en": "3-axis gyro-stabilized 4-in-1 turret (30x optical + 640 thermal + laser rangefinder)",
+    "ja": "三軸ジャイロ安定4機能球形ジンバル（30x光学＋640熱画像＋レーザー測距）",
+    "de": "3-Achsen-stabilisierte 4-in-1-Kugel (30x Optik + 640 Wärmebild + Laserentfernung)",
+    "fr": "Tourelle 4-en-1 gyrostabilisée sur 3 axes (optique 30x + thermique 640 + télémètre laser)"
+  },
+  "輕量化雙軸雙光光電球 (HD夜視 + 384熱像儀)": {
+    "en": "Lightweight 2-axis dual EO/IR turret (HD night vision + 384 thermal)",
+    "ja": "軽量二軸複合光学球（HD暗視＋384熱画像）",
+    "de": "Leichte 2-Achsen-Dual-EO/IR-Kugel (HD-Nachtsicht + 384 Wärmebild)",
+    "fr": "Tourelle EO/IR légère à 2 axes (vision nocturne HD + thermique 384)"
+  },
+  "不搭載光電雲台": {
+    "en": "No EO/IR gimbal",
+    "ja": "光学ジンバルなし",
+    "de": "Kein EO/IR-Gimbal",
+    "fr": "Sans tourelle EO/IR"
+  },
+  "3D 雷射雷達近場建模系統 (Marine 3D LiDAR)": {
+    "en": "Marine 3D LiDAR near-field modeling",
+    "ja": "船舶用3D LiDAR近距離モデリング",
+    "de": "Marine-3D-LiDAR-Nahbereichsmodellierung",
+    "fr": "Modélisation proche par LiDAR 3D marin"
+  },
+  "海事級 128 線長距旋轉/固態 LiDAR (含疏水光學防護罩, 250m)": {
+    "en": "Marine 128-line long-range rotating/solid-state LiDAR (hydrophobic cover, 250m)",
+    "ja": "船舶用128ライン長距離回転/固体LiDAR（撥水カバー、250m）",
+    "de": "Marine-128-Linien-Langstrecken-LiDAR (rotierend/Festkörper, hydrophobe Haube, 250m)",
+    "fr": "LiDAR marin longue portée à 128 lignes rotatif/solide (capot hydrophobe, 250m)"
+  },
+  "左右雙側傾斜 32 線廣角避障 LiDAR (自動靠泊專用)": {
+    "en": "Dual tilted 32-line wide-angle avoidance LiDAR (automatic docking)",
+    "ja": "左右傾斜32ライン広角障害物回避LiDAR（自動接岸用）",
+    "de": "Zwei geneigte 32-Linien-Weitwinkel-LiDARs (automatisches Anlegen)",
+    "fr": "Deux LiDAR inclinés à 32 lignes grand angle (accostage automatique)"
+  },
+  "不搭載 3D LiDAR": {
+    "en": "No 3D LiDAR",
+    "ja": "3D LiDARなし",
+    "de": "Kein 3D LiDAR",
+    "fr": "Sans LiDAR 3D"
+  },
+  "水下聲納與海床測繪系統 (Underwater Sonar Suite)": {
+    "en": "Underwater sonar and seabed survey suite",
+    "ja": "水中ソナー・海底測量系",
+    "de": "Unterwassersonar und Meeresbodenvermessung",
+    "fr": "Suite sonar sous-marine et levé des fonds"
+  },
+  "船底聲納導流罩 (Gondola) + 多波束測深儀 (Multibeam Echo Sounder)": {
+    "en": "Hull sonar gondola + multibeam echo sounder",
+    "ja": "船底ソナーゴンドラ＋マルチビーム測深機",
+    "de": "Rumpfsonargondel + Mehrstrahlecholot",
+    "fr": "Gondole sonar sous coque + sondeur multifaisceau"
+  },
+  "船底雙頻側掃聲納陣列 (Dual-Frequency Side-Scan Sonar)": {
+    "en": "Hull-mounted dual-frequency side-scan sonar array",
+    "ja": "船底二周波サイドスキャンソナー配列",
+    "de": "Rumpfmontiertes Zweifrequenz-Seitensichtsonar",
+    "fr": "Réseau sonar latéral bifréquence sous coque"
+  },
+  "船艏前視三維避障聲納 (Forward-Looking Obstacle Avoidance Sonar)": {
+    "en": "Bow forward-looking 3D obstacle avoidance sonar",
+    "ja": "船首前方視3D障害物回避ソナー",
+    "de": "Vorausschauendes 3D-Hindernissonar am Bug",
+    "fr": "Sonar frontal 3D d’évitement d’obstacles à l’étrave"
+  },
+  "無水下聲納系統": {
+    "en": "No underwater sonar",
+    "ja": "水中ソナーなし",
+    "de": "Kein Unterwassersonar",
+    "fr": "Sans sonar sous-marin"
+  },
+  "360° 四向立體視覺環景避障相機組 (4x AI Stereo Vision Pods)": {
+    "en": "360° four-direction stereo obstacle cameras (4x AI Stereo Vision Pods)",
+    "ja": "360°四方向ステレオ障害物カメラ（4x AI Stereo Vision Pods）",
+    "de": "360°-Vierseiten-Stereokameras (4x AI Stereo Vision Pods)",
+    "fr": "Caméras stéréo anticollision sur 4 faces à 360° (4x AI Stereo Vision Pods)"
+  },
+  "超音波風速風向氣象站 + 溫鹽深水質探頭 (Ultrasonic MetOcean)": {
+    "en": "Ultrasonic wind/weather station + conductivity/temperature/depth probe",
+    "ja": "超音波風向風速気象計＋塩分・温度・深度プローブ",
+    "de": "Ultraschall-Wind-/Wetterstation + Leitfähigkeits-/Temperatur-/Tiefensonde",
+    "fr": "Station météo à vent ultrasonique + sonde conductivité/température/profondeur"
+  },
+  "無線收發天線與數據鏈 (RF & Satcom Antennas)": {
+    "en": "RF antennas and data links",
+    "ja": "無線アンテナ・データリンク",
+    "de": "Funkantennen und Datenverbindungen",
+    "fr": "Antennes radio et liaisons de données"
+  },
+  "低軌衛星平板相控陣終端 (LEO Flat-Panel Maritime)": {
+    "en": "LEO maritime flat-panel phased-array terminal",
+    "ja": "低軌道海事平面フェーズドアレイ端末",
+    "de": "Maritimes LEO-Flachpanel-Phased-Array-Terminal",
+    "fr": "Terminal maritime LEO plat à réseau phasé"
+  },
+  "220 Mbps 低延遲": {
+    "en": "220 Mbps low latency",
+    "ja": "220 Mbps低遅延",
+    "de": "220 Mbps geringe Latenz",
+    "fr": "220 Mbps faible latence"
+  },
+  "傾斜式安裝於上層建築頂部，提供超視距 (BLOS) 全球高頻寬即時影像回傳。": {
+    "en": "Tilted on the superstructure roof for global high-bandwidth BLOS live video.",
+    "ja": "上部構造屋根に傾斜設置し、見通し外(BLOS)の世界規模高速映像伝送。",
+    "de": "Geneigt auf dem Aufbaudach für weltweite breitbandige BLOS-Livebilder.",
+    "fr": "Montage incliné sur le toit pour vidéo mondiale haut débit au-delà de l’horizon (BLOS)."
+  },
+  "高增益三軸追蹤衛通圓頂天線 (Ku/Ka-Band VSAT Dome)": {
+    "en": "High-gain 3-axis tracking Ku/Ka-band VSAT dome",
+    "ja": "高利得三軸追尾Ku/Ka帯VSATドーム",
+    "de": "Hochverstärkende 3-Achsen-Ku/Ka-VSAT-Kuppel",
+    "fr": "Dôme VSAT Ku/Ka à fort gain et suivi 3 axes"
+  },
+  "抗高海況追蹤": {
+    "en": "Rough-sea tracking",
+    "ja": "荒天追尾",
+    "de": "Seegangsfeste Nachführung",
+    "fr": "Suivi par forte mer"
+  },
+  "全密封球型衛通天線罩，支援同步軌道與中軌衛星加密專線通訊。": {
+    "en": "Sealed spherical radome supports encrypted dedicated GEO/MEO satellite links.",
+    "ja": "密閉球形レドームで静止/中軌道衛星の暗号化専用回線に対応。",
+    "de": "Dichte Kugelkuppel für verschlüsselte GEO-/MEO-Satelliten-Direktverbindungen.",
+    "fr": "Radôme sphérique étanche pour liaisons satellite GEO/MEO dédiées et chiffrées."
+  },
+  "戰術 MIMO COFDM 寬頻自組網陣列 (4x4 Mesh Array)": {
+    "en": "Tactical MIMO COFDM broadband mesh array (4x4)",
+    "ja": "戦術MIMO COFDM広帯域メッシュ配列 (4x4)",
+    "de": "Taktisches MIMO-COFDM-Breitband-Mesh (4x4)",
+    "fr": "Réseau maillé tactique large bande MIMO COFDM (4x4)"
+  },
+  "50km 視距跳頻": {
+    "en": "50km line-of-sight frequency hopping",
+    "ja": "50km見通し周波数ホッピング",
+    "de": "50km Sichtverbindung mit Frequenzsprung",
+    "fr": "50km à vue avec saut de fréquence"
+  },
+  "四支高增益全向柱狀天線陣列，支援多船蜂群中繼 (Swarm Mesh) 與岸基遙控。": {
+    "en": "Four high-gain omnidirectional antennas support swarm relays and shore control.",
+    "ja": "高利得全方向アンテナ4本で船群中継と陸上遠隔操縦に対応。",
+    "de": "Vier Rundstrahlantennen mit hohem Gewinn für Schwarmrelais und Landfernsteuerung.",
+    "fr": "Quatre antennes omnidirectionnelles à fort gain pour relais en essaim et commande depuis la côte."
+  },
+  "高頻/超短波天線尺寸與分集配置": {
+    "en": "HF/VHF antenna dimensions and diversity",
+    "ja": "HF/VHFアンテナ寸法・ダイバーシティ",
+    "de": "HF/UKW-Antennenmaße und Diversität",
+    "fr": "Dimensions et diversité des antennes HF/VHF"
+  },
+  "雙側海事鞭狀天線長度 (VHF/UHF Whip Length)": {
+    "en": "Port/starboard marine VHF/UHF whip length",
+    "ja": "左右舷VHF/UHFホイップアンテナ長",
+    "de": "Länge der beidseitigen VHF/UHF-Stabantennen",
+    "fr": "Longueur des fouets VHF/UHF bâbord/tribord"
+  },
+  "雙側玻璃鋼長鞭天線組 (VHF 海事頻道 + AIS Class-A + 900MHz 遙測)": {
+    "en": "Dual fiberglass whips (marine VHF + AIS Class-A + 900MHz telemetry)",
+    "ja": "左右FRPホイップ（船舶VHF＋AIS Class-A＋900MHzテレメトリ）",
+    "de": "Zwei GFK-Stäbe (Marine-VHF + AIS Class-A + 900MHz-Telemetrie)",
+    "fr": "Deux fouets en fibre de verre (VHF marine + AIS Class-A + télémétrie 900MHz)"
+  },
+  "5G/LTE 多電信聚合海事圓頂天線 (Multi-Carrier Maritime Dome)": {
+    "en": "5G/LTE multi-carrier maritime dome antenna",
+    "ja": "5G/LTE複数キャリア統合海事ドームアンテナ",
+    "de": "Maritime 5G/LTE-Mehrbetreiber-Kuppelantenne",
+    "fr": "Antenne marine en dôme 5G/LTE multi-opérateurs"
+  },
+  "加裝 C波段高增益定向微波數傳天線鼓 (Directional C-Band Link)": {
+    "en": "Add high-gain directional C-band microwave data antenna",
+    "ja": "C帯高利得指向性マイクロ波データアンテナ追加",
+    "de": "Richtfunk-Datenantenne mit hohem C-Band-Gewinn ergänzen",
+    "fr": "Ajouter une antenne directionnelle de données micro-ondes bande C à fort gain"
+  },
+  "雷達系統與桅杆機構 (Marine Radar & Mast)": {
+    "en": "Marine radar and mast mechanisms",
+    "ja": "海事レーダー・マスト機構",
+    "de": "Marineradar und Mastmechanik",
+    "fr": "Radar marin et mécanismes de mât"
+  },
+  "Solid-State Radome": {
+    "en": "Solid-state radome",
+    "ja": "固体式レドーム",
+    "de": "Festkörperradarkuppel",
+    "fr": "Radôme à semi-conducteurs"
+  },
+  "X波段固態脈衝壓縮雷達罩 (24\" Solid-State Doppler Radome)": {
+    "en": "X-band solid-state pulse-compression radar (24\" Doppler radome)",
+    "ja": "X帯固体パルス圧縮レーダー（24\"ドップラーレドーム）",
+    "de": "X-Band-Festkörper-Pulskompressionsradar (24\"-Dopplerkuppel)",
+    "fr": "Radar bande X à compression d’impulsions (radôme Doppler 24\")"
+  },
+  "36 NM / 低功耗": {
+    "en": "36 NM / low power",
+    "ja": "36 NM / 低消費電力",
+    "de": "36 NM / geringer Verbrauch",
+    "fr": "36 NM / faible consommation"
+  },
+  "封閉式耐候雷達罩，具備 ARPA 多目標追蹤與都卜勒真運動目標色彩辨識。": {
+    "en": "Weatherproof radome with ARPA multi-target tracking and Doppler true-motion color identification.",
+    "ja": "耐候レドーム、ARPA多目標追尾とドップラー真運動色識別。",
+    "de": "Wetterfeste Kuppel mit ARPA-Mehrzielverfolgung und Doppler-Farberkennung realer Bewegung.",
+    "fr": "Radôme résistant aux intempéries, suivi multici­ble ARPA et identification couleur Doppler des mouvements réels."
+  },
+  "開放式旋轉陣列搜索雷達 (4ft Open-Array X-Band Scanner)": {
+    "en": "Open-array rotating search radar (4ft X-band scanner)",
+    "ja": "開放回転アレイ捜索レーダー（4ft X帯）",
+    "de": "Offenes rotierendes Suchradar (4ft X-Band)",
+    "fr": "Radar de recherche rotatif ouvert (scanner bande X 4ft)"
+  },
+  "72 NM / 高角解析": {
+    "en": "72 NM / high angular resolution",
+    "ja": "72 NM / 高角度分解能",
+    "de": "72 NM / hohe Winkelauflösung",
+    "fr": "72 NM / haute résolution angulaire"
+  },
+  "窄水平波束角 (1.8°)，適合遠距離水面小型目標偵蒐與高精度航道監控。": {
+    "en": "Narrow horizontal beam (1.8°) for long-range small surface targets and precise channel monitoring.",
+    "ja": "狭い水平ビーム(1.8°)で遠距離小型水上目標・精密航路監視。",
+    "de": "Schmaler Horizontalstrahl (1.8°) für kleine Fernziele und präzise Fahrwasserüberwachung.",
+    "fr": "Faisceau horizontal étroit (1.8°) pour petites cibles de surface lointaines et surveillance précise des chenaux."
+  },
+  "四面固態相控陣戰術偵蒐雷達 (4-Face Active AESA Mast)": {
+    "en": "Four-face solid-state tactical AESA mast radar",
+    "ja": "四面固体AESA戦術捜索マストレーダー",
+    "de": "Taktisches Vierflächen-Festkörper-AESA-Mastradar",
+    "fr": "Radar tactique AESA à quatre faces sur mât"
+  },
+  "360°瞬時電掃": {
+    "en": "360° instantaneous electronic scan",
+    "ja": "360°瞬時電子走査",
+    "de": "360°-Sofort-Elektronikscan",
+    "fr": "Balayage électronique instantané à 360°"
+  },
+  "無機械旋轉部件，四面陣列同步追蹤水面與低空無人機目標。": {
+    "en": "No mechanical rotation; four arrays track surface and low-altitude UAV targets simultaneously.",
+    "ja": "機械回転なし。四面アレイで水上・低空UAVを同時追尾。",
+    "de": "Ohne mechanische Rotation; vier Flächen verfolgen gleichzeitig Seeziele und tiefe Drohnen.",
+    "fr": "Sans rotation mécanique ; quatre faces suivent simultanément cibles de surface et drones à basse altitude."
+  },
+  "77GHz 毫米波 4D 環視避障雷達陣列 (4x Corner mmWave)": {
+    "en": "77GHz 4D surround-view collision radar array (4x corner mmWave)",
+    "ja": "77GHz 4D全周障害物レーダー配列（4xコーナーミリ波）",
+    "de": "77GHz-4D-Rundum-Hindernisradar (4x Eck-mmWave)",
+    "fr": "Réseau radar anticollision 4D 77GHz (4x modules mmWave d’angle)"
+  },
+  "超近距點雲": {
+    "en": "Ultra-close point cloud",
+    "ja": "超近距離点群",
+    "de": "Ultra-Nahbereichspunktwolke",
+    "fr": "Nuage de points à très courte portée"
+  },
+  "四具轉角毫米波雷達模組加上主桅杆輕型雷達，消除盲區。": {
+    "en": "Four corner millimeter-wave modules and lightweight mast radar eliminate blind spots.",
+    "ja": "四隅ミリ波モジュールと軽量マストレーダーで死角を低減。",
+    "de": "Vier Eck-mmWave-Module und leichtes Mastradar beseitigen Blindbereiche.",
+    "fr": "Quatre modules millimétriques d’angle et radar léger de mât pour éliminer les angles morts."
+  },
+  "主桅杆機構高度與感測視場顯示": {
+    "en": "Mast height and sensor field-of-view display",
+    "ja": "マスト高さ・センサー視野表示",
+    "de": "Masthöhe und Sensorsichtfelder",
+    "fr": "Hauteur du mât et affichage des champs de vue"
+  },
+  "儀器主桅杆高度 (Mast Elevation)": {
+    "en": "Instrument mast elevation",
+    "ja": "機器マスト高さ",
+    "de": "Instrumentenmasthöhe",
+    "fr": "Hauteur du mât instrumenté"
+  },
+  "雷達掃描速率 (Scanner RPM)": {
+    "en": "Radar scanner rate (RPM)",
+    "ja": "レーダー走査回転数 (RPM)",
+    "de": "Radarabtastrate (RPM)",
+    "fr": "Vitesse de balayage radar (RPM)"
+  },
+  "顯示 3D 雷達波束、LiDAR 視場與多波束聲納掃描錐體 (FOV Cones)": {
+    "en": "Show 3D radar beam, LiDAR FOV and multibeam sonar cones",
+    "ja": "3Dレーダービーム・LiDAR視野・マルチビームソナー錐体を表示",
+    "de": "3D-Radarstrahl, LiDAR-Sichtfeld und Sonarkegel anzeigen",
+    "fr": "Afficher faisceau radar 3D, champ LiDAR et cônes sonar multifaisceaux"
+  },
+  "總網格面數:": {
+    "en": "Total mesh faces:",
+    "ja": "総メッシュ面数：",
+    "de": "Gesamtzahl Netzflächen:",
+    "fr": "Nombre total de faces :"
+  },
+  "STEP 實體分件:": {
+    "en": "STEP solid components:",
+    "ja": "STEPソリッド部品：",
+    "de": "STEP-Volumenkörper:",
+    "fr": "Composants solides STEP :"
+  },
+  "8 組": {
+    "en": "8 groups",
+    "ja": "8 組",
+    "de": "8 Gruppen",
+    "fr": "8 groupes"
+  },
+  "重置參數": {
+    "en": "Reset parameters",
+    "ja": "パラメータ初期化",
+    "de": "Parameter zurücksetzen",
+    "fr": "Réinitialiser les paramètres"
+  },
+  "等角透視": {
+    "en": "Isometric perspective",
+    "ja": "等角透視",
+    "de": "Isometrische Perspektive",
+    "fr": "Perspective isométrique"
+  },
+  "側視 (Starboard)": {
+    "en": "Side (starboard)",
+    "ja": "側面（右舷）",
+    "de": "Seite (Steuerbord)",
+    "fr": "Côté (tribord)"
+  },
+  "正視 (Bow)": {
+    "en": "Front (bow)",
+    "ja": "正面（船首）",
+    "de": "Vorne (Bug)",
+    "fr": "Face (étrave)"
+  },
+  "艉視 (Propulsion)": {
+    "en": "Stern (propulsion)",
+    "ja": "船尾（推進系）",
+    "de": "Heck (Antrieb)",
+    "fr": "Arrière (propulsion)"
+  },
+  "俯視 (Deck)": {
+    "en": "Top (deck)",
+    "ja": "上面（甲板）",
+    "de": "Oben (Deck)",
+    "fr": "Dessus (pont)"
+  },
+  "仰視 (龍骨/聲納)": {
+    "en": "Bottom (keel/sonar)",
+    "ja": "下面（キール/ソナー）",
+    "de": "Unten (Kiel/Sonar)",
+    "fr": "Dessous (quille/sonar)"
+  },
+  "CAD 線框": {
+    "en": "CAD wireframe",
+    "ja": "CADワイヤーフレーム",
+    "de": "CAD-Drahtgitter",
+    "fr": "Filaire CAO"
+  },
+  "內構透視": {
+    "en": "Internal X-ray",
+    "ja": "内部透視",
+    "de": "Innenansicht",
+    "fr": "Transparence interne"
+  },
+  "機構爆炸圖": {
+    "en": "Mechanism exploded view",
+    "ja": "機構分解図",
+    "de": "Mechanik-Explosionsansicht",
+    "fr": "Vue éclatée mécanique"
+  },
+  "水線海面": {
+    "en": "Waterline/sea surface",
+    "ja": "水線・海面",
+    "de": "Wasserlinie/Meer",
+    "fr": "Flottaison/surface de mer"
+  },
+  "CG/CB 標記": {
+    "en": "CG/CB markers",
+    "ja": "CG/CBマーカー",
+    "de": "CG/CB-Markierungen",
+    "fr": "Repères CG/CB"
+  },
+  "即時流體靜力學與性能解算": {
+    "en": "Real-time hydrostatic and performance solver",
+    "ja": "リアルタイム静水力・性能計算",
+    "de": "Hydrostatik- und Leistungsberechnung in Echtzeit",
+    "fr": "Calcul hydrostatique et de performances en temps réel"
+  },
+  "GM 穩度優良": {
+    "en": "GM stability good",
+    "ja": "GM復原性良好",
+    "de": "GM-Stabilität gut",
+    "fr": "Bonne stabilité GM"
+  },
+  "滿載排水量 (Displacement)": {
+    "en": "Fully loaded displacement",
+    "ja": "満載排水量",
+    "de": "Volllastverdrängung",
+    "fr": "Déplacement en charge"
+  },
+  "設計吃水 T: 0.34 m": {
+    "en": "Design draft T: 0.34 m",
+    "ja": "設計喫水 T: 0.34 m",
+    "de": "Entwurfstiefgang T: 0.34 m",
+    "fr": "Tirant d’eau de calcul T : 0.34 m"
+  },
+  "預估最高航速 / 巡航航速": {
+    "en": "Estimated maximum / cruise speed",
+    "ja": "推定最高/巡航速度",
+    "de": "Geschätzte Höchst-/Marschfahrt",
+    "fr": "Vitesse maximale/de croisière estimée"
+  },
+  "經濟巡航: 14.0 kts": {
+    "en": "Economical cruise: 14.0 kts",
+    "ja": "経済巡航: 14.0 kts",
+    "de": "Wirtschaftliche Marschfahrt: 14.0 kts",
+    "fr": "Croisière économique : 14.0 kts"
+  },
+  "巡航續航時間 / 最大航程": {
+    "en": "Cruise endurance / maximum range",
+    "ja": "巡航時間/最大航続距離",
+    "de": "Marschfahrtdauer/maximale Reichweite",
+    "fr": "Autonomie en croisière/portée maximale"
+  },
+  "最大航程: 259 NM": {
+    "en": "Maximum range: 259 NM",
+    "ja": "最大航続距離: 259 NM",
+    "de": "Maximale Reichweite: 259 NM",
+    "fr": "Portée maximale : 259 NM"
+  },
+  "橫向穩心高 GM_T / 方形係數": {
+    "en": "Transverse metacentric height GM_T / block coefficient",
+    "ja": "横メタセンタ高さGM_T / 方形係数",
+    "de": "Quer-Metazentrische Höhe GM_T / Blockkoeffizient",
+    "fr": "Hauteur métacentrique transversale GM_T / coefficient de bloc"
+  },
+  "重心座標 (LCG, VCG):": {
+    "en": "CG coordinates (LCG, VCG):",
+    "ja": "重心座標 (LCG, VCG)：",
+    "de": "Schwerpunktkoordinaten (LCG, VCG):",
+    "fr": "Coordonnées du centre de gravité (LCG, VCG) :"
+  },
+  "感測與通訊航電功耗:": {
+    "en": "Sensor and communication avionics power:",
+    "ja": "検知・通信機器消費電力：",
+    "de": "Leistung von Sensorik und Kommunikation:",
+    "fr": "Consommation des capteurs et communications :"
+  },
+  "推進比功率 (Power/Wt):": {
+    "en": "Propulsion power/weight:",
+    "ja": "推進比出力：",
+    "de": "Antriebsleistung/Gewicht:",
+    "fr": "Puissance propulsive/masse :"
+  },
+  "2D 船體肋骨橫剖面線圖 (Body Plan St.0~St.10) & 縱剖面": {
+    "en": "2D hull body sections (St.0~St.10) & longitudinal profile",
+    "ja": "2D船体横断面 (St.0~St.10)・縦断面",
+    "de": "2D-Spantenriss (St.0~St.10) und Längsriss",
+    "fr": "Couples 2D de coque (St.0~St.10) et profil longitudinal"
+  },
+  "收合": {
+    "en": "Collapse",
+    "ja": "折りたたむ",
+    "de": "Einklappen",
+    "fr": "Replier"
+  },
+  "橫剖面肋骨圖 (Body Plan)": {
+    "en": "Body plan sections",
+    "ja": "横断面肋骨線図",
+    "de": "Spantenriss",
+    "fr": "Plan des couples"
+  },
+  "艉 ← | → 艏": {
+    "en": "Stern ← / → Bow",
+    "ja": "船尾 ← / → 船首",
+    "de": "Heck ← / → Bug",
+    "fr": "Poupe ← / → Étrave"
+  },
+  "縱剖面與設計水線 (Profile Plan)": {
+    "en": "Longitudinal profile and design waterline",
+    "ja": "縦断面・設計水線",
+    "de": "Längsriss und Entwurfswasserlinie",
+    "fr": "Profil longitudinal et flottaison de calcul"
+  },
+  "DWL 水線": {
+    "en": "DWL waterline",
+    "ja": "DWL水線",
+    "de": "DWL-Wasserlinie",
+    "fr": "Flottaison DWL"
+  },
+  "運轉動畫 (雷達/推進器/海浪)": {
+    "en": "Operating animation (radar/propulsion/waves)",
+    "ja": "動作アニメーション（レーダー/推進器/波）",
+    "de": "Betriebsanimation (Radar/Antrieb/Wellen)",
+    "fr": "Animation (radar/propulsion/vagues)"
+  },
+  "左鍵拖曳旋轉 · 右鍵平移 · 滾輪縮放": {
+    "en": "Left drag: rotate · Right drag: pan · Wheel: zoom",
+    "ja": "左ドラッグ：回転 · 右ドラッグ：移動 · ホイール：拡大縮小",
+    "de": "Links ziehen: drehen · Rechts ziehen: verschieben · Mausrad: zoomen",
+    "fr": "Glisser gauche : pivoter · Glisser droit : déplacer · Molette : zoom"
+  },
+  "3D STEP 工程模型匯出器 (.step)": {
+    "en": "3D STEP engineering model exporter (.step)",
+    "ja": "3D STEP設計モデル出力 (.step)",
+    "de": "3D-STEP-Konstruktionsmodellexport (.step)",
+    "fr": "Exportateur de modèle technique STEP 3D (.step)"
+  },
+  "支援 SolidWorks、FreeCAD、Fusion 360、Rhino、Inventor 等主流機構 CAD 軟體直接開啟": {
+    "en": "Open directly in SolidWorks, FreeCAD, Fusion 360, Rhino, Inventor and other mainstream CAD software",
+    "ja": "SolidWorks、FreeCAD、Fusion 360、Rhino、Inventorなどの主要CADで直接開けます",
+    "de": "Direkt in SolidWorks, FreeCAD, Fusion 360, Rhino, Inventor und weiteren CAD-Systemen öffnen",
+    "fr": "Ouverture directe dans SolidWorks, FreeCAD, Fusion 360, Rhino, Inventor et autres logiciels CAO"
+  },
+  "船體曲面離散密度 (Loft Resolution)": {
+    "en": "Hull surface discretization density (Loft Resolution)",
+    "ja": "船体曲面離散密度 (Loft Resolution)",
+    "de": "Rumpfflächen-Diskretisierungsdichte (Loft Resolution)",
+    "fr": "Densité de discrétisation des surfaces (Loft Resolution)"
+  },
+  "標準工程精度 (機構組裝快速載入)": {
+    "en": "Standard engineering precision (fast assembly loading)",
+    "ja": "標準設計精度（組立を高速読込）",
+    "de": "Standardpräzision (schnelles Laden der Baugruppe)",
+    "fr": "Précision technique standard (chargement rapide de l’assemblage)"
+  },
+  "高密流體曲面精度 (精細站位 Loft B-Rep)": {
+    "en": "High-density fluid surface precision (fine-station Loft B-Rep)",
+    "ja": "高密度流体曲面精度（詳細断面Loft B-Rep）",
+    "de": "Hohe Strömungsflächenauflösung (feine Stationen, Loft B-Rep)",
+    "fr": "Haute précision des surfaces (stations fines Loft B-Rep)"
+  },
+  "匯出座標系與尺寸單位": {
+    "en": "Export coordinate system and units",
+    "ja": "出力座標系・単位",
+    "de": "Exportkoordinaten und Einheiten",
+    "fr": "Repère et unités d’export"
+  },
+  "毫米 (MILLIMETRE) · Z軸朝上": {
+    "en": "Millimeters (MILLIMETRE) · Z axis up",
+    "ja": "ミリメートル (MILLIMETRE) · Z軸上向き",
+    "de": "Millimeter (MILLIMETRE) · Z nach oben",
+    "fr": "Millimètres (MILLIMETRE) · Axe Z vers le haut"
+  },
+  "X: 船長向 | Y: 左右舷 | Z: 型深高程": {
+    "en": "X: length / Y: port-starboard / Z: depth elevation",
+    "ja": "X: 船長方向 / Y: 左右舷 / Z: 深さ高さ",
+    "de": "X: Schiffslänge / Y: Backbord-Steuerbord / Z: Höhe",
+    "fr": "X : longueur / Y : bâbord-tribord / Z : hauteur"
+  },
+  "STEP 檔案幾何統計": {
+    "en": "STEP file geometry statistics",
+    "ja": "STEP形状統計",
+    "de": "STEP-Geometriestatistik",
+    "fr": "Statistiques géométriques STEP"
+  },
+  "計算中...": {
+    "en": "Calculating...",
+    "ja": "計算中...",
+    "de": "Berechnung...",
+    "fr": "Calcul en cours..."
+  },
+  "包含之 STEP 獨立分件結構 (MANIFOLD_SOLID_BREP / CLOSED_SHELL):": {
+    "en": "Included independent STEP components (MANIFOLD_SOLID_BREP / CLOSED_SHELL):",
+    "ja": "含まれるSTEP独立部品 (MANIFOLD_SOLID_BREP / CLOSED_SHELL)：",
+    "de": "Enthaltene STEP-Einzelteile (MANIFOLD_SOLID_BREP / CLOSED_SHELL):",
+    "fr": "Composants STEP indépendants inclus (MANIFOLD_SOLID_BREP / CLOSED_SHELL) :"
+  },
+  "ISO 10303-21 STEP 檔案內容預覽 (Header & B-Rep Entities):": {
+    "en": "ISO 10303-21 STEP content preview (Header & B-Rep Entities):",
+    "ja": "ISO 10303-21 STEP内容プレビュー（ヘッダー・B-Rep要素）：",
+    "de": "ISO 10303-21 STEP-Inhaltsvorschau (Header und B-Rep-Elemente):",
+    "fr": "Aperçu du contenu STEP ISO 10303-21 (en-tête et entités B-Rep) :"
+  },
+  "複製前段內容": {
+    "en": "Copy opening section",
+    "ja": "冒頭をコピー",
+    "de": "Anfang kopieren",
+    "fr": "Copier le début"
+  },
+  "檔名:": {
+    "en": "Filename:",
+    "ja": "ファイル名：",
+    "de": "Dateiname:",
+    "fr": "Nom du fichier :"
+  },
+  "下載 3D OBJ (.obj)": {
+    "en": "Download 3D OBJ (.obj)",
+    "ja": "3D OBJダウンロード (.obj)",
+    "de": "3D OBJ herunterladen (.obj)",
+    "fr": "Télécharger OBJ 3D (.obj)"
+  },
+  "立即下載 .STEP 檔案": {
+    "en": "Download .STEP file now",
+    "ja": ".STEPファイルをダウンロード",
+    "de": ".STEP-Datei jetzt herunterladen",
+    "fr": "Télécharger le fichier .STEP"
+  },
+  "無人船系統工程物料清單 (BOM) 與重量重心 (Weight & CG) 報告": {
+    "en": "USV engineering BOM and weight/CG report",
+    "ja": "無人艇設計BOM・重量重心レポート",
+    "de": "USV-Stückliste und Gewichts-/Schwerpunktbericht",
+    "fr": "Nomenclature USV et rapport de masse/centre de gravité"
+  },
+  "自動依據當前船體幾何尺度、板厚與選配之動力/推進/導航/天線/雷達系統即時核算": {
+    "en": "Calculated live from current hull dimensions, thickness and selected power/propulsion/navigation/antenna/radar systems",
+    "ja": "現在の船体寸法・板厚・動力/推進/航法/アンテナ/レーダー選択から即時計算",
+    "de": "Laufend aus Rumpfmaßen, Wanddicke und gewählten Energie-/Antriebs-/Navigations-/Antennen-/Radarsystemen berechnet",
+    "fr": "Calcul instantané selon dimensions, épaisseur et systèmes d’énergie/propulsion/navigation/antennes/radar choisis"
+  },
+  "次系統分類": {
+    "en": "Subsystem category",
+    "ja": "サブシステム分類",
+    "de": "Teilsystemkategorie",
+    "fr": "Catégorie de sous-système"
+  },
+  "規格與機構描述": {
+    "en": "Specifications and mechanism description",
+    "ja": "仕様・機構説明",
+    "de": "Spezifikation und Mechanikbeschreibung",
+    "fr": "Spécifications et description mécanique"
+  },
+  "重量 (kg)": {
+    "en": "Weight (kg)",
+    "ja": "重量 (kg)",
+    "de": "Gewicht (kg)",
+    "fr": "Masse (kg)"
+  },
+  "縱向重心 LCG (m)": {
+    "en": "Longitudinal CG LCG (m)",
+    "ja": "縦方向重心 LCG (m)",
+    "de": "Längsschwerpunkt LCG (m)",
+    "fr": "Centre de gravité longitudinal LCG (m)"
+  },
+  "垂向重心 VCG (m)": {
+    "en": "Vertical CG VCG (m)",
+    "ja": "垂直重心 VCG (m)",
+    "de": "Vertikalschwerpunkt VCG (m)",
+    "fr": "Centre de gravité vertical VCG (m)"
+  },
+  "平均功耗 (W)": {
+    "en": "Average power (W)",
+    "ja": "平均消費電力 (W)",
+    "de": "Mittlere Leistung (W)",
+    "fr": "Puissance moyenne (W)"
+  },
+  "總重: -- kg": {
+    "en": "Total weight: -- kg",
+    "ja": "総重量: -- kg",
+    "de": "Gesamtgewicht: -- kg",
+    "fr": "Masse totale : -- kg"
+  },
+  "匯出 BOM 與規格表 (.csv)": {
+    "en": "Export BOM & specifications (.csv)",
+    "ja": "BOM・仕様出力 (.csv)",
+    "de": "Stückliste und Spezifikation exportieren (.csv)",
+    "fr": "Exporter nomenclature et spécifications (.csv)"
+  },
+  "已成功生成檔案": {
+    "en": "File generated successfully",
+    "ja": "ファイル生成完了",
+    "de": "Datei erfolgreich erzeugt",
+    "fr": "Fichier généré"
+  },
+  "工具網站導覽": {
+    "en": "Tool website navigation",
+    "ja": "ツールサイトナビゲーション",
+    "de": "Werkzeugwebsite-Navigation",
+    "fr": "Navigation des outils"
+  },
+  "切換 2D 船體肋骨線圖與三視圖": {
+    "en": "Toggle 2D hull body plan and orthographic views",
+    "ja": "2D船体線図・三面図を切替",
+    "de": "2D-Spantenriss und Ansichten umschalten",
+    "fr": "Basculer plans 2D des couples et vues orthogonales"
+  },
+  "檢視完整機構 BOM 與重量重心表": {
+    "en": "View full engineering BOM and weight/CG table",
+    "ja": "詳細BOM・重量重心表を表示",
+    "de": "Vollständige Stückliste und Gewichts-/Schwerpunkttabelle anzeigen",
+    "fr": "Afficher la nomenclature complète et le tableau masse/centre de gravité"
+  },
+  "匯出二進位/ASCII STL 網格供 3D 列印": {
+    "en": "Export binary/ASCII STL mesh for 3D printing",
+    "ja": "3D印刷用バイナリ/ASCII STL出力",
+    "de": "Binär-/ASCII-STL-Netz für 3D-Druck exportieren",
+    "fr": "Exporter un maillage STL binaire/ASCII pour impression 3D"
+  },
+  "設計模組切換": {
+    "en": "Switch design module",
+    "ja": "設計モジュール切替",
+    "de": "Entwurfsmodul wechseln",
+    "fr": "Changer de module de conception"
+  },
+  "切換 CAD 網格線框顯示": {
+    "en": "Toggle CAD wireframe display",
+    "ja": "CADワイヤーフレーム表示切替",
+    "de": "CAD-Drahtgitter umschalten",
+    "fr": "Basculer l’affichage filaire CAO"
+  },
+  "切換船殼半透明透視檢視內部機構": {
+    "en": "Toggle transparent hull to view internal mechanisms",
+    "ja": "船殻半透明で内部機構を確認",
+    "de": "Rumpftransparenz für Innenmechanik umschalten",
+    "fr": "Basculer la transparence de coque pour voir les mécanismes"
+  },
+  "展開機構爆炸視圖": {
+    "en": "Expand mechanism exploded view",
+    "ja": "機構分解図を展開",
+    "de": "Mechanik-Explosionsansicht aufklappen",
+    "fr": "Déployer la vue éclatée mécanique"
+  },
+  "切換吃水線與海面模擬": {
+    "en": "Toggle draft waterline and sea simulation",
+    "ja": "喫水線・海面シミュレーション切替",
+    "de": "Tiefgangslinie und Meeressimulation umschalten",
+    "fr": "Basculer flottaison et simulation de mer"
+  },
+  "顯示重心 CG 與浮心 CB 標記": {
+    "en": "Show CG center of gravity and CB center of buoyancy markers",
+    "ja": "重心CG・浮心CBマーカー表示",
+    "de": "Schwerpunkt-CG- und Auftriebsmittelpunkt-CB-Marken anzeigen",
+    "fr": "Afficher les repères du centre de gravité CG et de carène CB"
+  },
+  "關閉 STEP 匯出視窗": {
+    "en": "Close STEP export dialog",
+    "ja": "STEP出力画面を閉じる",
+    "de": "STEP-Export schließen",
+    "fr": "Fermer l’export STEP"
+  },
+  "關閉 BOM 視窗": {
+    "en": "Close BOM dialog",
+    "ja": "BOM画面を閉じる",
+    "de": "Stückliste schließen",
+    "fr": "Fermer la nomenclature"
+  },
+  "5083-H116 船用防蝕鋁合金": {
+    "en": "5083-H116 corrosion-resistant marine aluminum alloy",
+    "ja": "5083-H116船舶用耐食アルミ合金",
+    "de": "Korrosionsfeste Marine-Aluminiumlegierung 5083-H116",
+    "fr": "Alliage aluminium marin anticorrosion 5083-H116"
+  },
+  "面": {
+    "en": "faces",
+    "ja": "面",
+    "de": "Flächen",
+    "fr": "faces"
+  },
+  "01. 船體與肋骨結構": {
+    "en": "01. Hull and frame structure",
+    "ja": "01. 船体・肋骨構造",
+    "de": "01. Rumpf- und Spantenstruktur",
+    "fr": "01. Structure de coque et couples"
+  },
+  "{0} ({1}mm 板厚, LOA {2}m)": {
+    "en": "{0} ({1}mm shell thickness, LOA {2}m)",
+    "ja": "{0} (板厚{1}mm, LOA {2}m)",
+    "de": "{0} ({1}mm Wanddicke, LOA {2}m)",
+    "fr": "{0} (épaisseur {1}mm, LOA {2}m)"
+  },
+  "02. 上層建築與主桅杆": {
+    "en": "02. Superstructure and main mast",
+    "ja": "02. 上部構造・主マスト",
+    "de": "02. Aufbau und Hauptmast",
+    "fr": "02. Superstructure et mât principal"
+  },
+  "{0} 艙罩 + {1}m 儀器桅杆": {
+    "en": "{0} cover + {1}m instrument mast",
+    "ja": "{0} カバー＋{1}m機器マスト",
+    "de": "{0} Haube + {1}m Instrumentenmast",
+    "fr": "{0} capot + mât instrumenté {1}m"
+  },
+  "03. 動力與儲能系統": {
+    "en": "03. Power and energy storage",
+    "ja": "03. 動力・蓄電系",
+    "de": "03. Energie und Speicher",
+    "fr": "03. Énergie et stockage"
+  },
+  "04. 推進與轉向機構": {
+    "en": "04. Propulsion and steering",
+    "ja": "04. 推進・操舵機構",
+    "de": "04. Antrieb und Lenkung",
+    "fr": "04. Propulsion et direction"
+  },
+  "05. 偵測導航與聲納": {
+    "en": "05. Sensing, navigation and sonar",
+    "ja": "05. 検知・航法・ソナー",
+    "de": "05. Sensorik, Navigation und Sonar",
+    "fr": "05. Détection, navigation et sonar"
+  },
+  "06. 無線收發天線組": {
+    "en": "06. RF antenna group",
+    "ja": "06. 無線アンテナ群",
+    "de": "06. Funkantennengruppe",
+    "fr": "06. Groupe d’antennes radio"
+  },
+  "{0} + 雙側 {1}m 鞭狀天線": {
+    "en": "{0} + dual {1}m whip antennas",
+    "ja": "{0}＋左右{1}mホイップアンテナ",
+    "de": "{0} + zwei {1}m Stabantennen",
+    "fr": "{0} + deux antennes fouet {1}m"
+  },
+  "07. 海事雷達系統": {
+    "en": "07. Marine radar system",
+    "ja": "07. 海事レーダー系",
+    "de": "07. Marineradarsystem",
+    "fr": "07. Système radar marin"
+  },
+  "{0} ({1} RPM 掃描)": {
+    "en": "{0} ({1} RPM scanning)",
+    "ja": "{0} ({1} RPM走査)",
+    "de": "{0} ({1} RPM Abtastung)",
+    "fr": "{0} (balayage {1} RPM)"
+  },
+  "設計吃水 T: {0} m ({1} mm)": {
+    "en": "Design draft T: {0} m ({1} mm)",
+    "ja": "設計喫水 T: {0} m ({1} mm)",
+    "de": "Entwurfstiefgang T: {0} m ({1} mm)",
+    "fr": "Tirant d’eau de calcul T : {0} m ({1} mm)"
+  },
+  "經濟巡航: {0} kts": {
+    "en": "Economical cruise: {0} kts",
+    "ja": "経済巡航: {0} kts",
+    "de": "Wirtschaftliche Marschfahrt: {0} kts",
+    "fr": "Croisière économique : {0} kts"
+  },
+  "最大航程: {0} NM": {
+    "en": "Maximum range: {0} NM",
+    "ja": "最大航続距離: {0} NM",
+    "de": "Maximale Reichweite: {0} NM",
+    "fr": "Portée maximale : {0} NM"
+  },
+  "注意重心偏高": {
+    "en": "Caution: high CG",
+    "ja": "注意：重心が高い",
+    "de": "Achtung: hoher Schwerpunkt",
+    "fr": "Attention : centre de gravité élevé"
+  },
+  "滿載總排水量: {0} kg | 綜合 LCG: {1} m | 綜合 VCG: {2} m | 穩心高 GM_T: {3} m": {
+    "en": "Loaded displacement: {0} kg / overall LCG: {1} m / overall VCG: {2} m / metacentric height GM_T: {3} m",
+    "ja": "満載総排水量: {0} kg / 総合LCG: {1} m / 総合VCG: {2} m / メタセンタ高さGM_T: {3} m",
+    "de": "Volllastverdrängung: {0} kg / Gesamt-LCG: {1} m / Gesamt-VCG: {2} m / Metazentrische Höhe GM_T: {3} m",
+    "fr": "Déplacement en charge : {0} kg / LCG global : {1} m / VCG global : {2} m / hauteur métacentrique GM_T : {3} m"
+  },
+  "已匯出 3D STL 模型 ({0})": {
+    "en": "3D STL model exported ({0})",
+    "ja": "3D STLモデル出力完了 ({0})",
+    "de": "3D-STL-Modell exportiert ({0})",
+    "fr": "Modèle STL 3D exporté ({0})"
+  },
+  "已匯出 3D OBJ 模型 ({0})": {
+    "en": "3D OBJ model exported ({0})",
+    "ja": "3D OBJモデル出力完了 ({0})",
+    "de": "3D-OBJ-Modell exportiert ({0})",
+    "fr": "Modèle OBJ 3D exporté ({0})"
+  },
+  "規格描述": {
+    "en": "Specification description",
+    "ja": "仕様説明",
+    "de": "Spezifikationsbeschreibung",
+    "fr": "Description des spécifications"
+  },
+  "滿載總排水量 (kg)": {
+    "en": "Loaded displacement (kg)",
+    "ja": "満載総排水量 (kg)",
+    "de": "Volllastverdrängung (kg)",
+    "fr": "Déplacement en charge (kg)"
+  },
+  "設計吃水 T (m)": {
+    "en": "Design draft T (m)",
+    "ja": "設計喫水 T (m)",
+    "de": "Entwurfstiefgang T (m)",
+    "fr": "Tirant d’eau de calcul T (m)"
+  },
+  "橫向穩心高 GM_T (m)": {
+    "en": "Transverse metacentric height GM_T (m)",
+    "ja": "横メタセンタ高さ GM_T (m)",
+    "de": "Quer-Metazentrische Höhe GM_T (m)",
+    "fr": "Hauteur métacentrique transversale GM_T (m)"
+  },
+  "最高航速 (kts)": {
+    "en": "Maximum speed (kts)",
+    "ja": "最高速度 (kts)",
+    "de": "Höchstgeschwindigkeit (kts)",
+    "fr": "Vitesse maximale (kts)"
+  },
+  "經濟巡航航速 (kts)": {
+    "en": "Economical cruise speed (kts)",
+    "ja": "経済巡航速度 (kts)",
+    "de": "Wirtschaftliche Marschfahrt (kts)",
+    "fr": "Vitesse de croisière économique (kts)"
+  },
+  "巡航續航時間 (hrs)": {
+    "en": "Cruise endurance (hrs)",
+    "ja": "巡航時間 (hrs)",
+    "de": "Marschfahrtdauer (hrs)",
+    "fr": "Autonomie en croisière (hrs)"
+  },
+  "已匯出工程 BOM 規格表 ({0})": {
+    "en": "Engineering BOM exported ({0})",
+    "ja": "設計BOM仕様表出力完了 ({0})",
+    "de": "Technische Stückliste exportiert ({0})",
+    "fr": "Nomenclature technique exportée ({0})"
+  },
+  "已套用「高速巡邏偵蒐艇 (4.8m 深V單體)」構型範本": {
+    "en": "Applied fast patrol/reconnaissance preset (4.8m deep-V monohull)",
+    "ja": "高速哨戒偵察艇プリセットを適用（4.8m深V単胴）",
+    "de": "Vorlage für schnelles Patrouillen-/Aufklärungsboot angewendet (4.8m Tief-V)",
+    "fr": "Modèle de patrouille/reconnaissance appliqué (4.8m monocoque V profond)"
+  },
+  "已套用「水文多波束測繪船 (3.6m 雙體穩定型)」構型範本": {
+    "en": "Applied multibeam hydrographic survey preset (3.6m stable catamaran)",
+    "ja": "マルチビーム水路測量艇プリセットを適用（3.6m安定双胴）",
+    "de": "Hydrografische Mehrstrahlvorlage angewendet (3.6m stabiler Katamaran)",
+    "fr": "Modèle de levé multifaisceau appliqué (3.6m catamaran stable)"
+  },
+  "已套用「遠洋長航時無人船 (7.5m 三體穿浪型)」構型範本": {
+    "en": "Applied long-endurance ocean USV preset (7.5m wave-piercing trimaran)",
+    "ja": "外洋長時間無人艇プリセットを適用（7.5m波浪貫通三胴）",
+    "de": "Langzeit-Ozean-USV-Vorlage angewendet (7.5m Wellenpiercing-Trimaran)",
+    "fr": "Modèle USV océanique de longue autonomie appliqué (7.5m trimaran perce-vagues)"
+  },
+  "已套用「抗浪科考平台 (6.2m SWATH 小水線面雙體)」構型範本": {
+    "en": "Applied wave-resistant research preset (6.2m SWATH small-waterplane twin hull)",
+    "ja": "耐波研究艇プリセットを適用（6.2m SWATH小水線面双胴）",
+    "de": "Seegangsfeste Forschungsvorlage angewendet (6.2m SWATH)",
+    "fr": "Modèle de recherche résistant aux vagues appliqué (6.2m SWATH à faible surface de flottaison)"
+  },
+  "已重置所有船體與系統設計參數": {
+    "en": "All hull and system design parameters reset",
+    "ja": "船体・系統の全設計パラメータを初期化",
+    "de": "Alle Rumpf- und Systemparameter zurückgesetzt",
+    "fr": "Tous les paramètres de coque et systèmes réinitialisés"
+  },
+  "8 組實體 | {0} 個 B-Rep 面 | {1} 筆 STEP 實體": {
+    "en": "8 solid groups / {0} B-Rep faces / {1} STEP entities",
+    "ja": "8組のソリッド / {0} B-Rep面 / {1} STEP要素",
+    "de": "8 Körpergruppen / {0} B-Rep-Flächen / {1} STEP-Elemente",
+    "fr": "8 groupes solides / {0} faces B-Rep / {1} entités STEP"
+  },
+  "檔案大小: {0} KB (ISO 10303-21 ASCII)": {
+    "en": "File size: {0} KB (ISO 10303-21 ASCII)",
+    "ja": "ファイルサイズ: {0} KB (ISO 10303-21 ASCII)",
+    "de": "Dateigröße: {0} KB (ISO 10303-21 ASCII)",
+    "fr": "Taille du fichier : {0} KB (ISO 10303-21 ASCII)"
+  },
+  "已成功輸出 3D STEP 工程檔 ({0})": {
+    "en": "3D STEP engineering file exported ({0})",
+    "ja": "3D STEP設計ファイル出力完了 ({0})",
+    "de": "3D-STEP-Konstruktionsdatei exportiert ({0})",
+    "fr": "Fichier technique STEP 3D exporté ({0})"
+  },
+  "已複製 STEP 結構預覽片段至剪貼簿": {
+    "en": "STEP structure preview copied to clipboard",
+    "ja": "STEP構造プレビューをクリップボードにコピー",
+    "de": "STEP-Strukturvorschau in Zwischenablage kopiert",
+    "fr": "Aperçu de structure STEP copié dans le presse-papiers"
+  },
+  "請使用瀏覽器全螢幕（F11）": {
+    "en": "Use browser full screen (F11)",
+    "ja": "ブラウザーの全画面表示を使用してください（F11）",
+    "de": "Browser-Vollbild verwenden (F11)",
+    "fr": "Utiliser le plein écran du navigateur (F11)"
+  },
+  "⛶ 離開全螢幕": {
+    "en": "⛶ Exit full screen",
+    "ja": "⛶ 全画面終了",
+    "de": "⛶ Vollbild verlassen",
+    "fr": "⛶ Quitter le plein écran"
+  },
+  "雙體船": {
+    "en": "Twin-Hull Catamaran",
+    "ja": "双胴船",
+    "de": "Zweirumpf-Katamaran",
+    "fr": "Catamaran à deux coques"
+  },
+  "穿浪三體船": {
+    "en": "Wave-Piercing Trimaran",
+    "ja": "波浪貫通型三胴船",
+    "de": "Wellenpiercing-Trimaran",
+    "fr": "Trimaran perce-vagues"
+  },
+  "SWATH 平台": {
+    "en": "SWATH Platform",
+    "ja": "SWATHプラットフォーム",
+    "de": "SWATH-Plattform",
+    "fr": "Plateforme SWATH"
+  },
+  "柴電混合動力": {
+    "en": "Diesel-Electric Hybrid",
+    "ja": "ディーゼル電気ハイブリッド",
+    "de": "Diesel-Elektro-Hybrid",
+    "fr": "Hybride diesel-électrique"
+  },
+  "氫氣 PEM 燃料電池": {
+    "en": "H2 PEM Fuel Cell",
+    "ja": "水素PEM燃料電池",
+    "de": "H2-PEM-Brennstoffzelle",
+    "fr": "Pile à hydrogène PEM"
+  },
+  "太陽能陣列混合動力": {
+    "en": "Solar Array Hybrid",
+    "ja": "太陽電池ハイブリッド",
+    "de": "Solarhybrid",
+    "fr": "Hybride solaire"
+  },
+  "雙全迴轉吊艙": {
+    "en": "Twin Azimuth Pods",
+    "ja": "双全旋回ポッド",
+    "de": "Zwei Azimutpods",
+    "fr": "Deux pods azimutaux"
+  },
+  "雙軸與雙舵": {
+    "en": "Twin Shafts + Rudders",
+    "ja": "双軸＋双舵",
+    "de": "Zwei Wellen und Ruder",
+    "fr": "Deux arbres et safrans"
+  },
+  "半浸式推進器": {
+    "en": "Surface-Piercing Drives",
+    "ja": "半没式ドライブ",
+    "de": "Oberflächenpropellerantriebe",
+    "fr": "Propulsions semi-immergées"
+  },
+  "開放式 X 波段": {
+    "en": "Open-Array X-Band",
+    "ja": "開放型X帯アレイ",
+    "de": "Offenes X-Band-Array",
+    "fr": "Réseau ouvert bande X"
+  },
+  "四面相控陣": {
+    "en": "4-Face Phased Array",
+    "ja": "四面フェーズドアレイ",
+    "de": "Vierflächen-Phased-Array",
+    "fr": "Réseau phasé à 4 faces"
+  },
+  "77GHz 毫米波陣列": {
+    "en": "77GHz mmWave Array",
+    "ja": "77GHzミリ波アレイ",
+    "de": "77GHz-mmWave-Array",
+    "fr": "Réseau millimétrique 77GHz"
+  },
+  "{0} 面": {
+    "en": "{0} faces",
+    "ja": "{0} 面",
+    "de": "{0} Flächen",
+    "fr": "{0} faces"
+  },
+  "總重: {0} kg": {
+    "en": "Total weight: {0} kg",
+    "ja": "総重量: {0} kg",
+    "de": "Gesamtgewicht: {0} kg",
+    "fr": "Masse totale : {0} kg"
+  },
+  "設計吃水 T: {0} m": {
+    "en": "Design draft T: {0} m",
+    "ja": "設計喫水 T: {0} m",
+    "de": "Entwurfstiefgang T: {0} m",
+    "fr": "Tirant d’eau de calcul T : {0} m"
+  }
+}
