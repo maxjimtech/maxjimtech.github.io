@@ -1,0 +1,2788 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>肇祥企業社 Maxjimtech · 工具盒配套 3D 佈局規劃與 EVA 工程系統 v5.0 Flagship</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <style>
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #090d16; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    .canvas-container { position: relative; outline: none; }
+    .hud-chip { backdrop-filter: blur(10px); background: rgba(15, 23, 42, 0.86); }
+    input[type=range] { accent-color: #38bdf8; }
+    .kbd-key {
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: #1e293b;
+      border: 1px solid #475569;
+      font-family: monospace;
+      font-size: 10px;
+      color: #e2e8f0;
+    }
+  </style>
+<style>
+#evaApp{height:100dvh;min-height:0;overflow:hidden}
+#evaHeader{height:auto;min-height:56px;padding:10px 14px;gap:10px;flex-wrap:wrap}
+#evaHeader>div{min-width:0;flex-wrap:wrap}#evaHeader>div:first-child{flex:1 1 520px}#evaHeader>div:last-child{flex:1 1 620px}
+#evaHeader h1{overflow-wrap:anywhere}#evaHeader>div:first-child>div:last-child{min-width:0;flex:1}#evaHeader>div:first-child>div:last-child>div{flex-wrap:wrap}
+#evaSiteNav{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:7px 14px;background:#0f172a;border-bottom:1px solid #334155;flex-shrink:0;font-size:12px}
+#evaSiteNav button,#evaSiteNav a{padding:6px 10px;background:#1e293b;border:1px solid #475569;border-radius:6px;color:#cbd5e1;text-decoration:none}#evaSiteNav span{color:#94a3b8}
+#evaWorkspace{min-width:0;min-height:0}#evaSidebar{width:350px;min-width:0}#evaViewport{min-width:0;min-height:0}
+#evaCameraBar{position:static;inset:auto;padding:10px;gap:8px;flex:none;min-width:0}#evaCameraBar>div{flex-wrap:wrap;min-width:0;max-width:100%}
+#canvasContainer{min-height:260px;height:auto;min-width:0;overflow:hidden}#canvasContainer canvas{display:block;max-width:100%}
+#toolInspector{position:static;inset:auto;width:auto;max-width:100%;margin:8px;flex:none;min-width:0}#toolInspector.opacity-0{display:none}
+#toolInspector>div:last-child{flex-wrap:wrap}#toolInspector button{min-height:30px}
+#evaHud{height:auto;min-height:44px;padding:8px 12px;gap:10px;flex-wrap:wrap}#evaHud>div{flex-wrap:wrap;gap:8px 14px;min-width:0}
+#rightPanel{width:330px;max-width:100%;min-width:0}#rightPanel>div{min-height:0}
+#helpModal{padding:12px;overflow:auto}#helpModal>div{max-height:90dvh;overflow:auto}
+#toast{max-width:calc(100vw - 24px);right:12px;top:12px}
+button{min-height:30px;white-space:normal;overflow-wrap:anywhere}input,select{min-width:0;max-width:100%}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #38bdf8;outline-offset:2px}
+@media(max-width:1150px){#evaSidebar{width:310px}#rightPanel:not(.hidden){position:absolute;right:0;top:0;bottom:0;width:min(390px,100%);box-shadow:-10px 0 30px #0008}}
+@media(max-width:760px){#evaApp{height:auto;min-height:100dvh;overflow:auto}#evaHeader{padding:10px}#evaHeader>div:last-child{flex-basis:100%}#evaWorkspace{flex-direction:column;overflow:visible}#evaSidebar{width:100%;height:460px;border-right:0;border-bottom:1px solid #334155}#evaViewport{flex:none;min-height:620px;overflow:visible}#canvasContainer{height:420px;flex:none}#evaCameraBar>div:first-child{width:100%}#evaCameraBar button{flex:1 1 auto}#rightPanel:not(.hidden){position:static;width:100%;height:460px}#evaSiteNav{padding:8px 10px}#toolInspector .grid{gap:6px}#helpModal .grid{grid-template-columns:1fr}}
+</style></head>
+<body id="evaApp" class="h-full flex flex-col overflow-hidden font-sans select-none antialiased bg-slate-950 text-slate-100">
+
+  <!-- Top Navigation Header -->
+  <header id="evaHeader" class="h-14 border-b border-slate-800 bg-slate-900/95 backdrop-blur px-3.5 flex items-center justify-between shrink-0 z-30">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-700 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/30 text-sm tracking-wider">
+        MJ
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 id="appMainTitle" class="text-sm font-semibold tracking-wide text-white">肇祥企業社 Maxjimtech · 工具盒配套 3D 佈局規劃與 EVA 工程系統</h1>
+          <span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-900/70 text-blue-300 border border-blue-600/50 font-medium">Flagship v5.0</span>
+        </div>
+        <p id="appSubTitle" class="text-[11px] text-slate-400">60款國際標準手工具 · 16款盒體/抽屜盤 · 10大成套範本 · 3D爆炸分解 · 重心平衡分析 · 1:1 AutoCAD DXF/SVG 匯出</p>
+      </div>
+    </div>
+
+    <!-- Top Quick Action Bar -->
+    <div class="flex items-center gap-1.5 flex-wrap">
+      <!-- Language Switch -->
+      <button id="btnToggleLang" class="px-2.5 py-1.5 text-xs font-semibold rounded-md bg-blue-950/90 hover:bg-blue-900 text-blue-300 border border-blue-700/60 flex items-center gap-1 transition shadow-sm" title="切換中英文 / Switch Language">
+        <span>🌐</span>
+        <span id="langBtnText">EN / 中文</span>
+      </button>
+
+      <!-- Undo / Redo -->
+      <div class="flex items-center bg-slate-800/90 rounded-md border border-slate-700 p-0.5">
+        <button id="btnUndo" class="px-2 py-1 text-xs text-slate-300 hover:text-white hover:bg-slate-700 rounded disabled:opacity-35 transition" title="復原 Undo (Ctrl+Z)" disabled>↩ <span id="lblUndo">復原</span></button>
+        <div class="w-px h-3.5 bg-slate-700"></div>
+        <button id="btnRedo" class="px-2 py-1 text-xs text-slate-300 hover:text-white hover:bg-slate-700 rounded disabled:opacity-35 transition" title="重做 Redo (Ctrl+Y)" disabled>↪ <span id="lblRedo">重做</span></button>
+      </div>
+
+      <!-- Export DXF (AutoCAD) -->
+      <button id="btnExportDXF" class="px-2.5 py-1.5 text-xs font-semibold rounded-md bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/20 flex items-center gap-1 transition" title="匯出 1:1 AutoCAD DXF 工程圖">
+        <span>📐</span>
+        <span id="lblExportDXF">匯出 CAD (DXF)</span>
+      </button>
+
+      <!-- Export SVG -->
+      <button id="btnExportSVG" class="px-2.5 py-1.5 text-xs font-medium rounded-md bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 flex items-center gap-1 transition">
+        <span>🎯</span>
+        <span id="lblExportSVG">2D 雷切圖 (SVG)</span>
+      </button>
+
+      <!-- Export BOM CSV -->
+      <button id="btnExportCSV" class="px-2.5 py-1.5 text-xs font-medium rounded-md bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 flex items-center gap-1 transition">
+        <span>📊</span>
+        <span id="lblExportCSV">報價 BOM (CSV)</span>
+      </button>
+
+      <!-- Snapshot PNG -->
+      <button id="btnSnapshot" class="px-2.5 py-1.5 text-xs font-medium rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-1 transition">
+        <span>📸</span>
+        <span id="lblSnapshot">截圖</span>
+      </button>
+
+      <!-- Save / Load JSON -->
+      <button id="btnExportJSON" class="px-2 py-1.5 text-xs font-medium rounded-md bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 transition" title="儲存專案 JSON">💾 <span id="lblSave">存檔</span></button>
+      <button id="btnImportJSON" class="px-2 py-1.5 text-xs font-medium rounded-md bg-slate-800 hover:bg-slate-700 text-purple-300 border border-slate-700 transition" title="載入專案 JSON">📂 <span id="lblLoad">讀檔</span></button>
+
+      <!-- Shortcuts Help Modal Trigger -->
+      <button id="btnShowHelp" class="px-2 py-1.5 text-xs font-medium rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" title="快捷鍵與工程規範">⌨️</button>
+
+      <button id="btnResetAll" class="px-2 py-1.5 text-xs font-medium rounded-md bg-rose-950/50 hover:bg-rose-900/70 text-rose-300 border border-rose-800/50 transition" title="重置配置">🔄</button>
+    </div>
+  </header>
+
+  <nav id="evaSiteNav" aria-label="線上設計工具 Online Design Tools"><button id="evaFullscreen" type="button">全螢幕操作</button><a href="https://maxjimtech.com/線上設計工具" target="_top">線上設計工具｜Online Design Tools</a><span>工具盒與 EVA 規劃器 v5.0</span></nav><!-- Main Workspace -->
+  <div id="evaWorkspace" class="flex-1 flex overflow-hidden relative">
+
+    <!-- Left Control Sidebar (4 Comprehensive Tabs) -->
+    <aside id="evaSidebar" class="w-88 md:w-[410px] border-r border-slate-800 bg-slate-900/85 flex flex-col shrink-0 z-20 overflow-hidden">
+      <!-- 4 Sidebar Tabs -->
+      <div class="grid grid-cols-4 border-b border-slate-800 bg-slate-950/90 text-[11px]">
+        <button id="tabBtnKit" class="py-2.5 px-1 font-semibold border-b-2 border-blue-500 text-blue-400 bg-slate-800/50 flex flex-col items-center gap-0.5 transition">
+          <span>🧰 1.組套與盒體</span>
+        </button>
+        <button id="tabBtnTools" class="py-2.5 px-1 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex flex-col items-center gap-0.5 transition">
+          <span>🔧 2.工具庫(60)</span>
+        </button>
+        <button id="tabBtnEva" class="py-2.5 px-1 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex flex-col items-center gap-0.5 transition">
+          <span>🧽 3.EVA與構造</span>
+        </button>
+        <button id="tabBtnLayout" class="py-2.5 px-1 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex flex-col items-center gap-0.5 transition">
+          <span>⚡ 4.排樣與對齊</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: Turnkey Kits & 16 Box/Drawer Presets -->
+      <div id="panelKit" class="flex-1 overflow-y-auto p-3.5 space-y-3.5">
+        <!-- 10 Turnkey Kits -->
+        <div class="bg-blue-950/35 border border-blue-700/50 rounded-lg p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <label id="lblTurnkeyTitle" class="block text-xs font-semibold text-blue-300">國際手工具廠標準成套組套 (10大範本)</label>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-blue-900/80 text-blue-200 font-mono">Turnkey Kits</span>
+          </div>
+          <select id="kitTemplateSelect" class="w-full bg-slate-900 border border-slate-700 rounded-md py-1.5 px-2 text-xs text-slate-100 focus:outline-none focus:border-blue-500">
+            <option value="kit_24_socket" selected>1. 肇祥 Maxjimtech 24件 1/4" 精密套筒扳手鐵盒組</option>
+            <option value="kit_46_auto">2. 汽修大師 46件 1/2" & 1/4" 綜合扭力保修手提箱</option>
+            <option value="kit_drawer_1_socket">3. 歐規工具車 #1 抽屜：1/4"+3/8"+1/2" 全系列棘輪套筒盤</option>
+            <option value="kit_drawer_2_wrench">4. 歐規工具車 #2 抽屜：梅開扳手組 + 四大鉗類 + 起子盤</option>
+            <option value="kit_drawer_3_workshop">5. 歐規工具車 #3 抽屜：鉗工錘 + 游標卡尺 + 電表檢修盤</option>
+            <option value="kit_mod_1_3_pliers">6. 1/3 窄版抽屜模組盤 A：專業四件式鉗類收納盤</option>
+            <option value="kit_mod_1_3_driver">7. 1/3 窄版抽屜模組盤 B：雙色起子與球頭六角扳手盤</option>
+            <option value="kit_pneumatic_impact">8. 工業氣動保修箱：1/2" 氣動衝擊扳手 + 鉻鉬長套筒組</option>
+            <option value="kit_ev_inspection">9. 機電與新能源檢修氣密箱：數位扭力 + 電表 + 充電起子機</option>
+            <option value="kit_diy_household">10. 歐美外銷 82/105件 綜合機電 DIY 手提箱</option>
+          </select>
+          <div class="flex items-center justify-between pt-1">
+            <span id="kitDescText" class="text-[11px] text-slate-400">自動載入對應盒體規格與最佳化工具排樣</span>
+            <button id="btnLoadKitTemplate" class="px-3 py-1.5 rounded-md bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shrink-0 transition shadow">套用成套組套</button>
+          </div>
+        </div>
+
+        <!-- 16 Box / Drawer Specifications -->
+        <div class="bg-slate-800/45 border border-slate-700/60 rounded-lg p-3 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <label id="lblBoxPresetTitle" class="block text-xs font-semibold text-slate-200">單獨切換盒體 / 工具車抽屜規格 (16款)</label>
+            <span id="dispBoxTypeTag" class="text-[10px] px-1.5 py-0.5 rounded bg-slate-700 text-cyan-300">金屬鐵盒</span>
+          </div>
+          <select id="presetBoxSelect" class="w-full bg-slate-900 border border-slate-700 rounded-md py-1.5 px-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+            <optgroup label="── 五金沖壓鐵盒 (Metal Cases) ──">
+              <option value="metal_mini_195">1/4" 迷你隨身套筒鐵盒 (195 × 105 × 38 mm)</option>
+              <option value="sy_socket_24" selected>標準 24 件套筒鐵盒 (280 × 130 × 42 mm)</option>
+              <option value="metal_mid_360">3/8" 雙排套筒組鐵盒 (360 × 165 × 50 mm)</option>
+              <option value="metal_heavy_445">1/2" 重型雙扣金屬手提箱 (445 × 195 × 58 mm)</option>
+            </optgroup>
+            <optgroup label="── 吹氣箱 / 射出成型手提箱 (Blow/Injection Cases) ──">
+              <option value="sy_blow_medium">中型吹氣手提箱 (380 × 260 × 75 mm)</option>
+              <option value="sy_combo_46">46/61 件汽修綜合吹氣箱 (420 × 280 × 85 mm)</option>
+              <option value="sy_heavy_case">94/108 件外銷雙開重型箱 (480 × 340 × 110 mm)</option>
+              <option value="bmc_flagship_540">150 件旗艦重型工具箱 (540 × 380 × 120 mm)</option>
+            </optgroup>
+            <optgroup label="── 工具車標準抽屜 EVA 盤 (Tool Trolley Trays) ──">
+              <option value="tray_1_3_narrow">1/3 抽屜窄版 EVA 模組盤 (185 × 395 × 40 mm)</option>
+              <option value="tray_2_3_double">2/3 抽屜雙倍 EVA 模組盤 (370 × 395 × 40 mm)</option>
+              <option value="kt_eva_tray_3">標準工具車全抽屜 EVA 盤 #3 (554 × 260 × 45 mm)</option>
+              <option value="boxo_full_drawer">歐規寬體全抽屜 EVA 模組盤 (565 × 395 × 50 mm)</option>
+              <option value="us_deep_drawer">美規重型工具車深抽屜盤 (680 × 450 × 65 mm)</option>
+            </optgroup>
+            <optgroup label="── 防水軍規氣密箱 / 堆疊箱 (IP67 & Modular) ──">
+              <option value="ip67_rugged_430">IP67 軍規氣密防撞儀器箱 (430 × 320 × 135 mm)</option>
+              <option value="systainer_390">歐規 Systainer T-Loc 堆疊箱 (390 × 290 × 70 mm)</option>
+              <option value="alu_flight_520">精密檢具鋁框航空手提箱 (520 × 360 × 115 mm)</option>
+            </optgroup>
+            <option value="custom">✏️ 自訂盒體尺寸 (Custom Dimensions)</option>
+          </select>
+
+          <!-- Dimension Numeric Inputs -->
+          <div class="grid grid-cols-3 gap-2 text-xs pt-1">
+            <div>
+              <label id="lblOutL" class="block text-[10px] text-slate-400 mb-0.5">外長 L (mm)</label>
+              <input id="inputBoxL" type="number" min="100" max="1200" value="280" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-slate-100 font-mono text-center focus:border-blue-500 focus:outline-none">
+            </div>
+            <div>
+              <label id="lblOutW" class="block text-[10px] text-slate-400 mb-0.5">外寬 W (mm)</label>
+              <input id="inputBoxW" type="number" min="80" max="900" value="130" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-slate-100 font-mono text-center focus:border-blue-500 focus:outline-none">
+            </div>
+            <div>
+              <label id="lblOutH" class="block text-[10px] text-slate-400 mb-0.5">外高 H (mm)</label>
+              <input id="inputBoxH" type="number" min="25" max="400" value="42" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-slate-100 font-mono text-center focus:border-blue-500 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div>
+              <label id="lblWallT" class="block text-[10px] text-slate-400 mb-0.5">盒壁厚度 t (mm)</label>
+              <input id="inputWallT" type="number" min="1" max="15" value="3" step="0.5" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-slate-100 font-mono text-center">
+            </div>
+            <div>
+              <label id="lblEvaH" class="block text-[10px] text-slate-400 mb-0.5">底層 EVA 總厚 (mm)</label>
+              <input id="inputEvaH" type="number" min="5" max="100" value="18" step="1" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-slate-100 font-mono text-center">
+            </div>
+          </div>
+
+          <!-- Internal Engineering Readout -->
+          <div class="bg-slate-950/90 rounded-md p-2.5 text-[11px] text-slate-400 space-y-1 border border-slate-800">
+            <div class="flex justify-between">
+              <span id="lblInDim">可用內徑 (L×W×H)：</span>
+              <span id="dispInternalDim" class="text-slate-200 font-mono">274 × 124 × 36 mm</span>
+            </div>
+            <div class="flex justify-between">
+              <span id="lblInArea">EVA 有效面積 / 挖除率：</span>
+              <span id="dispInternalArea" class="text-cyan-300 font-mono">339.8 cm² (挖除 0%)</span>
+            </div>
+            <div class="flex justify-between">
+              <span id="lblCogStatus">手提重心平衡 (CoG)：</span>
+              <span id="dispCogBalance" class="text-emerald-400 font-mono">ΔX: 0mm, ΔY: 0mm (極佳)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lid Angle & 3D Exploded View Sliders -->
+        <div class="bg-slate-800/45 border border-slate-700/60 rounded-lg p-3 space-y-3">
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <h3 id="lblLidControl" class="text-xs font-semibold text-slate-200">上蓋開闔角度 (Lid Angle)</h3>
+              <span id="dispLidAngle" class="text-xs font-mono text-blue-400">95°</span>
+            </div>
+            <input id="rangeLidAngle" type="range" min="0" max="120" value="95" class="w-full">
+            <div class="flex gap-1.5 text-[11px] mt-1">
+              <button id="btnLidClose" class="flex-1 py-1 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700">蓋緊 (0°)</button>
+              <button id="btnLidHalf" class="flex-1 py-1 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700">半開 (45°)</button>
+              <button id="btnLidOpen" class="flex-1 py-1 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700">展示 (95°)</button>
+              <button id="btnLidFlat" class="flex-1 py-1 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700">無上蓋抽屜</button>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-700/60">
+            <div class="flex items-center justify-between mb-1">
+              <h3 id="lblExplodeTitle" class="text-xs font-semibold text-amber-300">💥 3D 結構爆炸分解圖 (Exploded View)</h3>
+              <span id="dispExplodeVal" class="text-xs font-mono text-amber-400">0% (組合)</span>
+            </div>
+            <input id="rangeExplode" type="range" min="0" max="100" value="0" class="w-full">
+            <p id="lblExplodeHint" class="text-[10px] text-slate-400 mt-0.5">拉動滑桿可分層展開：外盒底座 ➔ 底層警示EVA ➔ 頂層開槽EVA ➔ 手工具群 ➔ 上蓋泡棉與外蓋</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: 60+ Hand Tool Database with Search, Filter & Batch Add -->
+      <div id="panelTools" class="flex-1 overflow-y-auto p-3.5 space-y-3 hidden">
+        <div class="bg-slate-800/45 border border-slate-700/60 rounded-lg p-3 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <h3 id="lblToolDbTitle" class="text-xs font-semibold text-white">國際標準手工具模型庫 (60款)</h3>
+            <div class="flex items-center gap-1 text-[11px]">
+              <span id="lblBatchQty" class="text-slate-400">單次放入：</span>
+              <select id="batchAddQty" class="bg-slate-900 border border-slate-700 rounded px-1.5 py-0.5 text-xs text-blue-300 font-mono">
+                <option value="1">×1 件</option>
+                <option value="2">×2 件</option>
+                <option value="4">×4 件</option>
+                <option value="6">×6 件</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Instant Search Input -->
+          <div class="relative">
+            <input id="toolSearchInput" type="text" placeholder="🔍 搜尋工具名稱、規格、DIN標準 (例: 1/2, 棘輪, 14mm, 鉗, PH2)..." class="w-full bg-slate-950 border border-slate-700 rounded-md pl-2.5 pr-7 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:outline-none">
+            <button id="btnClearSearch" class="absolute right-2 top-1.5 text-slate-500 hover:text-slate-300 text-xs hidden">✕</button>
+          </div>
+
+          <!-- 9 Category Filter Pills -->
+          <div id="catFilterBar" class="flex flex-wrap gap-1 pt-0.5 pb-1.5 border-b border-slate-700/60">
+            <button type="button" data-cat="all" class="cat-filter-btn px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-600 text-white">全部 (60)</button>
+            <button type="button" data-cat="ratchet" class="cat-filter-btn px-2 py-0.5 rounded text-[10px] font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">棘輪/扭力</button>
+            <button type="button" data-cat="wrench" class="cat-filter-btn px-2 py-0.5 rounded text-[10px] font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">扳手/活動</button>
+            <button type="button" data-cat="socket" class="cat-filter-btn px-2 py-0.5 rounded text-[10px] font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">套筒/接桿</button>
+            <button type="button" data-cat="pliers" class="cat-filter-btn px-2 py-0.5 rounded text-[10px] font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">鉗類/夾持</button>
+            <button type="button" data-cat="driver" class="cat-filter-btn px-2 py-0.5 rounded text-[10px] font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">起子/六角</button>
+            <button type="button" data-cat="strike" class="cat-filter-btn px-2 py-0.5 rounded text-[10px] font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">敲擊/金工</button>
+            <button type="button" data-cat="measure" class="cat-filter-btn px-2 py-0.5 rounded text-[10px] font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">量測/電工</button>
+            <button type="button" data-cat="power" class="cat-filter-btn px-2 py-0.5 rounded text-[10px] font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">氣動/電動</button>
+          </div>
+
+          <!-- Dynamic 60-Tool Catalog List -->
+          <div id="toolCatalogList" class="space-y-1.5 max-h-[340px] overflow-y-auto pr-1"></div>
+        </div>
+
+        <!-- Custom Tool Creator -->
+        <div class="bg-slate-800/45 border border-slate-700/60 rounded-lg p-3 space-y-2">
+          <h3 id="lblCustomToolTitle" class="text-xs font-semibold text-slate-200">➕ 自訂特規手工具 / 治具檢具輸入</h3>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="col-span-2">
+              <input id="inputCustomName" type="text" value="客製化精密檢具 / 特規治具" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-slate-100 focus:border-blue-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-0.5">3D 幾何外型</label>
+              <select id="inputCustomShape" class="w-full bg-slate-950 border border-slate-700 rounded px-1.5 py-1 text-slate-200">
+                <option value="ratchet">棘輪扳手型</option>
+                <option value="torque_wrench">扭力扳手型</option>
+                <option value="combo_wrench">梅開扳手型</option>
+                <option value="socket_strip">套筒排組型</option>
+                <option value="pliers">雙柄鉗類</option>
+                <option value="screwdriver">手柄起子型</option>
+                <option value="caliper">卡尺量具型</option>
+                <option value="power_drill">電動/氣動槍型</option>
+                <option value="box">長方體模組</option>
+                <option value="cylinder_h">臥式圓柱體</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-0.5">單重(g) / 塗裝色</label>
+              <div class="flex gap-1">
+                <input id="inputCustomWeight" type="number" value="180" class="w-full bg-slate-950 border border-slate-700 rounded px-1.5 py-1 text-slate-200 font-mono text-center">
+                <input id="inputCustomColor" type="color" value="#38bdf8" class="w-8 h-7 bg-slate-950 border border-slate-700 rounded cursor-pointer p-0.5 shrink-0">
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-0.5">長 L (mm)</label>
+              <input id="inputCustomL" type="number" value="140" class="w-full bg-slate-950 border border-slate-700 rounded px-1.5 py-1 text-slate-200 font-mono text-center">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-0.5">寬 W (mm)</label>
+              <input id="inputCustomW" type="number" value="32" class="w-full bg-slate-950 border border-slate-700 rounded px-1.5 py-1 text-slate-200 font-mono text-center">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-0.5">高 H (mm)</label>
+              <input id="inputCustomH" type="number" value="24" class="w-full bg-slate-950 border border-slate-700 rounded px-1.5 py-1 text-slate-200 font-mono text-center">
+            </div>
+          </div>
+          <button id="btnAddCustomTool" class="w-full py-1.5 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow transition">+ 加入自訂工具至盒內</button>
+        </div>
+      </div>
+
+      <!-- TAB 3: EVA Foam Engineering, Appearance & Lid Foam -->
+      <div id="panelEva" class="flex-1 overflow-y-auto p-3.5 space-y-3.5 hidden">
+        <div class="bg-slate-800/45 border border-slate-700/60 rounded-lg p-3 space-y-3">
+          <h3 id="lblAppearanceTitle" class="text-xs font-semibold text-white">盒體塗裝與 5S 雙色 EVA 泡棉工程設定</h3>
+
+          <div>
+            <label id="lblCaseColor" class="block text-[11px] text-slate-400 mb-1.5">外盒塗裝色彩 (Case Finish)</label>
+            <div class="grid grid-cols-5 gap-1.5">
+              <button type="button" data-color="#1e3a8a" class="box-color-btn py-1.5 rounded border-2 border-blue-400 bg-blue-900 text-[10px] text-white font-medium">肇祥藍</button>
+              <button type="button" data-color="#0f172a" class="box-color-btn py-1.5 rounded border border-slate-700 bg-slate-900 text-[10px] text-slate-200">戰術黑</button>
+              <button type="button" data-color="#991b1b" class="box-color-btn py-1.5 rounded border border-slate-700 bg-red-800 text-[10px] text-white">工具紅</button>
+              <button type="button" data-color="#475569" class="box-color-btn py-1.5 rounded border border-slate-700 bg-slate-600 text-[10px] text-white">鈦灰銀</button>
+              <button type="button" data-color="#b45309" class="box-color-btn py-1.5 rounded border border-slate-700 bg-amber-700 text-[10px] text-white">工程黃</button>
+            </div>
+          </div>
+
+          <div>
+            <label id="lblEvaColorScheme" class="block text-[11px] text-slate-400 mb-1">EVA 雙色防缺件管理配色 (5S Shadow Board)</label>
+            <select id="evaColorSelect" class="w-full bg-slate-950 border border-slate-700 rounded py-1.5 px-2 text-xs text-slate-200">
+              <option value="dual_red" selected>頂層碳黑 / 底槽警示紅 (國際車間 5S 首選)</option>
+              <option value="dual_blue">頂層碳黑 / 底槽肇祥藍 (Maxjimtech 經典款)</option>
+              <option value="dual_yellow">頂層碳黑 / 底槽安全黃 (高對比航空級)</option>
+              <option value="dual_green">頂層碳黑 / 底槽翠綠 (新能源/VDE 認證風)</option>
+              <option value="carbon_fiber">3K 卡夢碳纖維紋理面 / 底槽紅</option>
+              <option value="all_black">全黑高密度雷雕專用 EVA</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div>
+              <label id="lblEvaHardness" class="block text-[11px] text-slate-400 mb-1">EVA 泡棉硬度等級</label>
+              <select id="evaDensitySelect" class="w-full bg-slate-950 border border-slate-700 rounded py-1 px-2 text-xs text-slate-200">
+                <option value="38">Shore A 38° (標準防震)</option>
+                <option value="55" selected>Shore A 55° (CNC精雕級)</option>
+                <option value="70">Shore A 70° (重型特硬XPE)</option>
+              </select>
+            </div>
+            <div>
+              <label id="lblNotchDia" class="block text-[11px] text-slate-400 mb-1">指槽直徑 (Finger Notch)</label>
+              <select id="notchRadiusSelect" class="w-full bg-slate-950 border border-slate-700 rounded py-1 px-2 text-xs text-slate-200">
+                <option value="9">Ø18 mm (小型精密工具)</option>
+                <option value="11" selected>Ø22 mm (人體工學標準)</option>
+                <option value="13">Ø26 mm (戴手套作業用)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="space-y-2 pt-2 border-t border-slate-700/60 text-xs">
+            <label class="flex items-center justify-between cursor-pointer">
+              <span id="lblShowPocket" class="text-slate-300">啟用真實 CNC 沉入開槽 (Pocket Cutout)</span>
+              <input id="togglePocketMode" type="checkbox" checked class="w-4 h-4 accent-blue-500 rounded">
+            </label>
+            <label class="flex items-center justify-between cursor-pointer">
+              <span id="lblShowNotch" class="text-slate-300">顯示雙側半圓手指拿取槽 (Finger Notches)</span>
+              <input id="toggleFingerNotch" type="checkbox" checked class="w-4 h-4 accent-blue-500 rounded">
+            </label>
+            <label class="flex items-center justify-between cursor-pointer">
+              <span id="lblShowLidFoam" class="text-slate-300">顯示上蓋內側防震波浪海綿 (Top Egg-Crate Foam)</span>
+              <input id="toggleLidFoam" type="checkbox" checked class="w-4 h-4 accent-blue-500 rounded">
+            </label>
+            <label class="flex items-center justify-between cursor-pointer">
+              <span id="lblShowLaserText" class="text-slate-300">EVA 表面雷射雕刻規格字樣 (Laser Labels)</span>
+              <input id="toggleLaserText" type="checkbox" checked class="w-4 h-4 accent-blue-500 rounded">
+            </label>
+            <label class="flex items-center justify-between cursor-pointer">
+              <span id="lblShowCogMarker" class="text-slate-300">顯示 3D 盒體重心平衡十字標記 (CoG Target)</span>
+              <input id="toggleCogMarker" type="checkbox" checked class="w-4 h-4 accent-blue-500 rounded">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: Smart Auto-Pack Strategies & CAD Alignment Tools -->
+      <div id="panelLayout" class="flex-1 overflow-y-auto p-3.5 space-y-3.5 hidden">
+        <div class="bg-slate-800/45 border border-slate-700/60 rounded-lg p-3 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 id="lblPackTitle" class="text-xs font-semibold text-emerald-300">⚡ 多策略智慧自動排樣演算法 (Auto-Pack)</h3>
+            <span class="text-[10px] text-slate-400">支援鎖定工具</span>
+          </div>
+
+          <div>
+            <label id="lblPackStrategy" class="block text-[11px] text-slate-400 mb-1">排樣演算法策略</label>
+            <select id="packStrategySelect" class="w-full bg-slate-950 border border-slate-700 rounded py-1.5 px-2 text-xs text-slate-200">
+              <option value="maxrects" selected>1. 緊湊面積最佳化 (自動評估 0°/90° 最大化裝載)</option>
+              <option value="category">2. 依工具功能分區排樣 (扳手/套筒/鉗類/起子分區)</option>
+              <option value="staircase">3. 依長度階梯整列排樣 (長短由左至右井然有序)</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div>
+              <label id="lblSafeGap" class="block text-[10px] text-slate-400 mb-0.5">EVA 最小肋壁間距 (mm)</label>
+              <input id="inputSafeMargin" type="number" min="2" max="30" value="6" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-slate-200 font-mono text-center">
+            </div>
+            <div>
+              <label id="lblOuterGap" class="block text-[10px] text-slate-400 mb-0.5">外圍靠壁保留距 (mm)</label>
+              <input id="inputOuterMargin" type="number" min="4" max="40" value="10" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-slate-200 font-mono text-center">
+            </div>
+          </div>
+
+          <button id="btnAutoLayout" class="w-full py-2 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs shadow-md shadow-emerald-600/20 transition flex items-center justify-center gap-1.5">
+            <span>⚡ 執行智慧自動排樣 (Auto-Pack Layout)</span>
+          </button>
+        </div>
+
+        <!-- CAD Alignment, Centering & Mirroring -->
+        <div class="bg-slate-800/45 border border-slate-700/60 rounded-lg p-3 space-y-2.5">
+          <h3 id="lblCadAlignTitle" class="text-xs font-semibold text-slate-200">📐 CAD 快速對齊、鏡像與網格吸附</h3>
+
+          <div class="grid grid-cols-2 gap-1.5 text-xs">
+            <button id="btnCenterAll" class="py-1.5 px-2 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 transition">🎯 整體置中對齊</button>
+            <button id="btnMirrorX" class="py-1.5 px-2 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 transition">↔️ 左右鏡像翻轉</button>
+            <button id="btnMirrorY" class="py-1.5 px-2 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 transition">↕️ 上下鏡像翻轉</button>
+            <button id="btnRotateAll90" class="py-1.5 px-2 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 transition">↻ 全部旋轉 90°</button>
+          </div>
+
+          <div class="flex items-center justify-between pt-2 border-t border-slate-700/60 text-xs">
+            <span id="lblGridSnap" class="text-slate-400">滑鼠拖曳網格吸附 (Snap)</span>
+            <select id="gridSnapSelect" class="bg-slate-950 border border-slate-700 rounded py-1 px-2 text-xs text-slate-200 font-mono">
+              <option value="1">1 mm (精密微調)</option>
+              <option value="2">2 mm 網格</option>
+              <option value="5" selected>5 mm 標準網格</option>
+              <option value="10">10 mm 快速網格</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="btnClearTools" class="w-full py-2 rounded bg-rose-950/35 hover:bg-rose-900/50 text-rose-300 border border-rose-800/50 text-xs font-medium transition">
+          🗑️ 清空盒內所有工具 (Clear All)
+        </button>
+      </div>
+
+      <!-- Bottom Quick Shortcut Hint -->
+      <div class="p-2.5 bg-slate-950/80 border-t border-slate-800/80 text-[11px] text-slate-400 flex items-center justify-between shrink-0">
+        <span>快捷鍵：<span class="kbd-key">R</span> 旋轉 · <span class="kbd-key">D</span> 複製 · <span class="kbd-key">Del</span> 刪除 · <span class="kbd-key">方向鍵</span> 微調</span>
+      </div>
+    </aside>
+
+    <!-- Center 3D Viewport -->
+    <main id="evaViewport" class="flex-1 relative flex flex-col overflow-hidden bg-slate-950">
+      <!-- Top Floating Camera & Display Toolbar -->
+      <div id="evaCameraBar" class="absolute top-3 left-3.5 right-3.5 flex items-center justify-between pointer-events-none z-10 flex-wrap gap-2">
+        <div class="flex items-center gap-1 bg-slate-900/90 backdrop-blur border border-slate-700/80 rounded-lg p-1 shadow-xl pointer-events-auto">
+          <button id="camIso" class="px-2.5 py-1 rounded text-xs font-medium bg-blue-600 text-white transition hover:bg-blue-500">3D 等角 (ISO)</button>
+          <button id="camTop" class="px-2.5 py-1 rounded text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">2D 俯視 (Top)</button>
+          <button id="camFront" class="px-2.5 py-1 rounded text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">正視 (Front)</button>
+          <button id="camSide" class="px-2.5 py-1 rounded text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">側視 (Side)</button>
+          <div class="w-px h-4 bg-slate-700 mx-0.5"></div>
+          <button id="btnQuickExplode" class="px-2 py-1 rounded text-xs text-amber-300 hover:bg-slate-800 transition flex items-center gap-1" title="切換 3D 爆炸分解圖">
+            <span>💥</span> <span id="lblBtnExplode">爆炸圖</span>
+          </button>
+          <button id="btnToggleDim" class="px-2 py-1 rounded text-xs text-slate-300 hover:bg-slate-800 transition flex items-center gap-1">
+            <span>📏</span> <span id="lblBtnDim">尺寸線</span>
+          </button>
+          <button id="btnToggleWire" class="px-2 py-1 rounded text-xs text-slate-300 hover:bg-slate-800 transition flex items-center gap-1">
+            <span>🧊</span> <span id="lblBtnWire">線框</span>
+          </button>
+        </div>
+
+        <!-- Real-time Interference & Clearance Status Badge -->
+        <div id="badgeInterference" class="hud-chip px-3 py-1.5 rounded-lg border border-emerald-500/50 shadow-xl flex items-center gap-2 pointer-events-auto">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span id="statusIndicatorDot" class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          </span>
+          <span id="statusInterferenceText" class="text-xs font-semibold text-emerald-400 font-mono tracking-wide">干涉檢測：合格無衝突</span>
+        </div>
+      </div>
+
+      <!-- Three.js Canvas Container -->
+      <div id="canvasContainer" class="flex-1 w-full h-full canvas-container cursor-grab active:cursor-grabbing"></div>
+
+      <!-- Selected Tool Floating Inspector (Enhanced with 15°/45°/90° rotation, depth, lock, align) -->
+      <div id="toolInspector" class="absolute bottom-14 left-3.5 bg-slate-900/95 backdrop-blur border border-blue-500 rounded-xl p-3 shadow-2xl space-y-2.5 z-20 w-80 transition-all opacity-0 pointer-events-none">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+          <div class="flex items-center gap-1.5 truncate">
+            <span class="w-2.5 h-2.5 rounded-full bg-blue-400 shrink-0"></span>
+            <span id="inspectToolName" class="text-xs font-bold text-white truncate">選取工具名稱</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <button id="btnLockTool" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-slate-300" title="鎖定位置 (L)">🔓 未鎖定</button>
+            <button id="btnCloseInspector" class="text-slate-400 hover:text-white text-xs px-1">✕</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-4 gap-1.5 text-xs">
+          <div>
+            <label class="block text-[10px] text-slate-400">X (mm)</label>
+            <input id="inspectX" type="number" step="1" class="w-full bg-slate-950 border border-slate-700 rounded px-1 py-0.5 text-slate-100 font-mono text-center">
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400">Y (mm)</label>
+            <input id="inspectY" type="number" step="1" class="w-full bg-slate-950 border border-slate-700 rounded px-1 py-0.5 text-slate-100 font-mono text-center">
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400">角度 (°)</label>
+            <input id="inspectRot" type="number" step="15" class="w-full bg-slate-950 border border-slate-700 rounded px-1 py-0.5 text-slate-100 font-mono text-center">
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400">挖深 (mm)</label>
+            <input id="inspectDepth" type="number" step="1" min="2" max="80" class="w-full bg-slate-950 border border-slate-700 rounded px-1 py-0.5 text-cyan-300 font-mono text-center">
+          </div>
+        </div>
+
+        <div class="flex gap-1 pt-0.5">
+          <button id="btnRot45" class="flex-1 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px]">↻ 45°</button>
+          <button id="btnRotateTool" class="flex-1 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-medium">↻ 90°</button>
+          <button id="btnCenterSelected" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px]" title="置中此工具">🎯 置中</button>
+          <button id="btnDuplicateTool" class="px-2.5 py-1 rounded bg-blue-950/70 hover:bg-blue-900 text-blue-300 text-[11px]">複製</button>
+          <button id="btnDeleteSelectedTool" class="px-2.5 py-1 rounded bg-rose-950/70 hover:bg-rose-900 text-rose-300 text-[11px]">刪除</button>
+        </div>
+      </div>
+
+      <!-- Bottom Engineering & Costing HUD Bar -->
+      <div id="evaHud" class="h-11 border-t border-slate-800 bg-slate-900/95 px-4 flex items-center justify-between shrink-0 text-xs text-slate-300 z-20">
+        <div class="flex items-center gap-5 flex-wrap">
+          <div class="flex items-center gap-1">
+            <span id="lblHudCount" class="text-slate-400">配置工具數：</span>
+            <span id="hudToolCount" class="font-mono font-bold text-white">0 件</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <span id="lblHudArea" class="text-slate-400">面積稼動率：</span>
+            <span id="hudAreaUsage" class="font-mono font-bold text-blue-400">0.0%</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <span id="lblHudWeight" class="text-slate-400">整盒總重：</span>
+            <span id="hudTotalWeight" class="font-mono font-bold text-emerald-400">0.65 kg</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <span id="lblHudCost" class="text-slate-400">預估整組成本：</span>
+            <span id="hudTotalCost" class="font-mono font-bold text-amber-400">NT$ 0</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="btnToggleRightPanel" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs border border-slate-700 flex items-center gap-1">
+            <span>📋</span>
+            <span id="lblRightPanel">BOM 與成本分析表</span>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Right Drawer: BOM, CNC Machining Time & Cost Breakdown -->
+    <aside id="rightPanel" class="hidden w-80 md:w-96 border-l border-slate-800 bg-slate-900/95 flex flex-col shrink-0 z-20 transition-all duration-300 overflow-hidden">
+      <div class="p-3 border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <h2 id="lblBomDrawerTitle" class="text-xs font-semibold text-white">置放工具 BOM 物料與 EVA 成本分析</h2>
+          <p id="lblBomDrawerSub" class="text-[10px] text-slate-400">座標、開槽深度、DIN標準、單重與報價預估</p>
+        </div>
+        <button id="btnCloseRightPanel" class="text-slate-400 hover:text-white p-1">✕</button>
+      </div>
+
+      <!-- BOM List -->
+      <div class="flex-1 overflow-y-auto p-3 space-y-2">
+        <div id="bomListContainer" class="space-y-1.5"></div>
+      </div>
+
+      <!-- Engineering & Cost Summary Footnote -->
+      <div class="p-3 border-t border-slate-800 bg-slate-950/80 text-[11px] text-slate-400 space-y-1.5">
+        <div class="flex items-center justify-between font-medium text-slate-200">
+          <span id="lblEngSummary">EVA 加工與成本估算摘要：</span>
+          <span id="dispCncTime" class="text-cyan-400 font-mono text-[10px]">CNC工時 ~2.5 min</span>
+        </div>
+        <div class="grid grid-cols-2 gap-1.5 text-[10px]">
+          <div class="bg-slate-900 p-1.5 rounded border border-slate-800">
+            <span class="text-slate-400 block">盒體 + EVA 內襯成本：</span>
+            <span id="dispBoxEvaCost" class="text-slate-200 font-mono">NT$ 240</span>
+          </div>
+          <div class="bg-slate-900 p-1.5 rounded border border-slate-800">
+            <span class="text-slate-400 block">建議出廠參考報價：</span>
+            <span id="dispSuggestedPrice" class="text-amber-300 font-mono font-semibold">NT$ 1,280</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Keyboard Shortcuts & Engineering Guide Modal -->
+  <div id="helpModal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+    <div class="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl w-full max-w-md p-4 space-y-3 text-xs">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <h3 class="text-sm font-bold text-white">⌨️ 快捷鍵與 EVA 開槽工程規範指南</h3>
+        <button id="btnCloseHelp" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <div class="space-y-2 text-slate-300">
+        <div class="grid grid-cols-2 gap-2 bg-slate-950 p-2.5 rounded border border-slate-800">
+          <div><span class="kbd-key">R</span> / <span class="kbd-key">Space</span>：旋轉選取工具 90°</div>
+          <div><span class="kbd-key">D</span>：快速複製選取工具</div>
+          <div><span class="kbd-key">L</span>：鎖定/解鎖工具位置</div>
+          <div><span class="kbd-key">Del</span> / <span class="kbd-key">Back</span>：刪除選取工具</div>
+          <div><span class="kbd-key">↑↓←→</span>：1mm 精密微調座標</div>
+          <div><span class="kbd-key">Ctrl+Z</span> / <span class="kbd-key">Y</span>：復原 / 重做</div>
+        </div>
+        <div class="bg-blue-950/30 border border-blue-800/50 rounded p-2.5 space-y-1 text-[11px]">
+          <div class="font-semibold text-blue-300">🛠️ 國際手工具廠 EVA 內襯設計準則：</div>
+          <div>• 最小肋壁間距：建議 ≥ 6mm（防止取放工具時 EVA 泡棉撕裂變形）</div>
+          <div>• 開槽沉入深度：建議為工具高度之 55%~70%，重型工具選用 Shore A 55°~70°</div>
+          <div>• 重心平衡 (CoG)：手提箱建議 X/Y 重心偏移量控制在 10% 以內，確保提取手感平穩</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Toast Notification -->
+  <div id="toast" class="fixed top-16 right-6 bg-slate-900 border border-blue-500/80 text-white px-4 py-2.5 rounded-lg shadow-2xl text-xs z-50 transform transition-all duration-300 translate-y-2 opacity-0 pointer-events-none flex items-center gap-2">
+    <span id="toastIcon" class="text-blue-400">✓</span>
+    <span id="toastMsg">通知內容</span>
+  </div>
+
+  <!-- Hidden File Input for JSON Import -->
+  <input type="file" id="jsonFileInput" accept=".json" class="hidden">
+
+  <!-- Flagship Core Application Script -->
+  <script>
+    // -------------------------------------------------------------
+    // 1. Complete 60-Item International Hand Tool Database
+    // -------------------------------------------------------------
+    const TOOL_CATALOG = [
+      // === A. RATCHETS & TORQUE WRENCHES (棘輪與扭力扳手) ===
+      { code: 'RT-14-72', cat: 'ratchet', name: '1/4" 72齒快脫梨形棘輪扳手', nameEn: '1/4" 72T Quick-Release Ratchet', type: 'ratchet', length: 150, width: 26, height: 24, weight: 140, cost: 280, std: 'DIN 3122', color: '#2563eb' },
+      { code: 'RT-38-72', cat: 'ratchet', name: '3/8" 72齒梨形棘輪扳手', nameEn: '3/8" 72T Pear Head Ratchet', type: 'ratchet', length: 200, width: 32, height: 28, weight: 290, cost: 360, std: 'DIN 3122', color: '#0284c7' },
+      { code: 'RT-38-FLX', cat: 'ratchet', name: '3/8" 搖頭雙色棘輪扳手', nameEn: '3/8" Flex-Head Ergonomic Ratchet', type: 'ratchet', length: 245, width: 34, height: 28, weight: 350, cost: 450, std: 'ISO 3315', color: '#0ea5e9' },
+      { code: 'RT-12-72', cat: 'ratchet', name: '1/2" 工業級重型棘輪扳手', nameEn: '1/2" Heavy-Duty Industrial Ratchet', type: 'ratchet', length: 250, width: 38, height: 34, weight: 580, cost: 490, std: 'DIN 3122', color: '#1d4ed8' },
+      { code: 'TQ-38-60', cat: 'ratchet', name: '3/8" 預置式扭力扳手 (10-60Nm)', nameEn: '3/8" Click Torque Wrench (10-60Nm)', type: 'torque_wrench', length: 310, width: 32, height: 30, weight: 780, cost: 1350, std: 'ISO 6789', color: '#e11d48' },
+      { code: 'TQ-12-210', cat: 'ratchet', name: '1/2" 預置式扭力扳手 (28-210Nm)', nameEn: '1/2" Click Torque Wrench (28-210Nm)', type: 'torque_wrench', length: 355, width: 36, height: 34, weight: 1150, cost: 1580, std: 'ISO 6789', color: '#dc2626' },
+      { code: 'TQ-12-DIG', cat: 'ratchet', name: '1/2" 數位電子扭力扳手 (40-200Nm)', nameEn: '1/2" Digital Torque Wrench (40-200Nm)', type: 'torque_wrench', length: 390, width: 40, height: 36, weight: 1280, cost: 2850, std: 'ISO 6789', color: '#f97316' },
+      { code: 'BR-12-250', cat: 'ratchet', name: '1/2" F型轉向桿 / 強生桿 250mm', nameEn: '1/2" Swivel Breaker Bar 250mm', type: 'breaker_bar', length: 250, width: 26, height: 24, weight: 480, cost: 260, std: 'DIN 3122', color: '#cbd5e1' },
+      { code: 'BR-12-380', cat: 'ratchet', name: '1/2" 加長重型強生桿 380mm', nameEn: '1/2" Heavy Breaker Bar 380mm', type: 'breaker_bar', length: 380, width: 28, height: 26, weight: 760, cost: 380, std: 'DIN 3122', color: '#94a3b8' },
+
+      // === B. WRENCHES & SPANNERS (梅開扳手與活動扳手) ===
+      { code: 'CW-08', cat: 'wrench', name: '梅開複合扳手 8mm (CR-V)', nameEn: 'Combination Wrench 8mm', type: 'combo_wrench', length: 140, width: 20, height: 7, weight: 45, cost: 45, std: 'DIN 3113', color: '#cbd5e1' },
+      { code: 'CW-10', cat: 'wrench', name: '梅開複合扳手 10mm (CR-V)', nameEn: 'Combination Wrench 10mm', type: 'combo_wrench', length: 158, width: 23, height: 8, weight: 65, cost: 55, std: 'DIN 3113', color: '#cbd5e1' },
+      { code: 'CW-12', cat: 'wrench', name: '梅開複合扳手 12mm (CR-V)', nameEn: 'Combination Wrench 12mm', type: 'combo_wrench', length: 170, width: 26, height: 9, weight: 88, cost: 65, std: 'DIN 3113', color: '#cbd5e1' },
+      { code: 'CW-13R', cat: 'wrench', name: '72齒棘輪梅開扳手 13mm', nameEn: '72T Ratcheting Wrench 13mm', type: 'combo_wrench', length: 178, width: 28, height: 10, weight: 110, cost: 140, std: 'DIN 3113', color: '#38bdf8' },
+      { code: 'CW-14', cat: 'wrench', name: '梅開複合扳手 14mm (單支)', nameEn: 'Combination Wrench 14mm', type: 'combo_wrench', length: 185, width: 30, height: 10, weight: 115, cost: 75, std: 'DIN 3113', color: '#cbd5e1' },
+      { code: 'CW-17', cat: 'wrench', name: '梅開複合扳手 17mm (CR-V)', nameEn: 'Combination Wrench 17mm', type: 'combo_wrench', length: 215, width: 36, height: 11, weight: 165, cost: 95, std: 'DIN 3113', color: '#cbd5e1' },
+      { code: 'CW-19', cat: 'wrench', name: '梅開複合扳手 19mm (CR-V)', nameEn: 'Combination Wrench 19mm', type: 'combo_wrench', length: 235, width: 40, height: 12, weight: 210, cost: 115, std: 'DIN 3113', color: '#cbd5e1' },
+      { code: 'CW-SET8', cat: 'wrench', name: '梅開扳手階梯排組 (8~19mm 8件)', nameEn: 'Combination Wrench Set (8-19mm 8pcs)', type: 'wrench_set', length: 210, width: 135, height: 24, weight: 880, cost: 620, std: 'DIN 3113', color: '#cbd5e1' },
+      { code: 'DW-SET6', cat: 'wrench', name: '雙梅花偏置扳手排組 (8~22mm 6件)', nameEn: 'Offset Double Ring Wrench Set (6pcs)', type: 'wrench_set', length: 235, width: 115, height: 26, weight: 920, cost: 680, std: 'DIN 838', color: '#94a3b8' },
+      { code: 'AW-08', cat: 'wrench', name: '工業級活動扳手 8" (200mm)', nameEn: 'Adjustable Wrench 8" (200mm)', type: 'adj_wrench', length: 205, width: 58, height: 15, weight: 280, cost: 240, std: 'ISO 6787', color: '#94a3b8' },
+      { code: 'AW-10', cat: 'wrench', name: '大開口薄型活動扳手 10" (250mm)', nameEn: 'Wide-Jaw Adjustable Wrench 10"', type: 'adj_wrench', length: 255, width: 72, height: 18, weight: 460, cost: 340, std: 'ISO 6787', color: '#64748b' },
+
+      // === C. SOCKETS & DRIVE ACCESSORIES (套筒與接桿配件) ===
+      { code: 'SK-14-S6', cat: 'socket', name: '1/4" 短套筒組 (4~13mm 6顆)', nameEn: '1/4" Short Socket Strip (4-13mm 6pcs)', type: 'socket_strip', length: 120, width: 22, height: 25, weight: 160, cost: 180, std: 'DIN 3124', color: '#94a3b8' },
+      { code: 'SK-14-S10', cat: 'socket', name: '1/4" 精密短套筒排組 (4~14mm 10顆)', nameEn: '1/4" Socket Rail Set (4-14mm 10pcs)', type: 'socket_strip', length: 165, width: 22, height: 25, weight: 240, cost: 280, std: 'DIN 3124', color: '#cbd5e1' },
+      { code: 'SK-14-D6', cat: 'socket', name: '1/4" 深孔長套筒組 (6~13mm 6顆)', nameEn: '1/4" Deep Socket Strip (6-13mm 6pcs)', type: 'socket_strip', length: 130, width: 22, height: 50, weight: 290, cost: 290, std: 'DIN 3124', color: '#94a3b8' },
+      { code: 'SK-38-S8', cat: 'socket', name: '3/8" 六角短套筒組 (8~19mm 8顆)', nameEn: '3/8" Metric Socket Strip (8-19mm 8pcs)', type: 'socket_strip', length: 185, width: 26, height: 30, weight: 420, cost: 360, std: 'DIN 3124', color: '#cbd5e1' },
+      { code: 'SK-12-S8', cat: 'socket', name: '1/2" 鉻釩鋼短套筒組 (10~24mm 8顆)', nameEn: '1/2" CR-V Socket Strip (10-24mm 8pcs)', type: 'socket_strip', length: 220, width: 34, height: 38, weight: 780, cost: 520, std: 'DIN 3124', color: '#94a3b8' },
+      { code: 'SK-12-IMP4', cat: 'socket', name: '1/2" 氣動深孔套筒組 (4顆連列)', nameEn: '1/2" CR-MO Deep Impact Sockets (4pcs)', type: 'socket_strip', length: 150, width: 32, height: 78, weight: 650, cost: 480, std: 'DIN 3129', color: '#334155' },
+      { code: 'SK-38-HEX6', cat: 'socket', name: '氣動六角凸套筒組 (H5~H12 6顆)', nameEn: 'Hex Bit Impact Socket Set (H5-H12 6pcs)', type: 'hex_bit_socket', length: 145, width: 26, height: 55, weight: 410, cost: 390, std: 'DIN 7422', color: '#b45309' },
+      { code: 'SK-38-TRX6', cat: 'socket', name: '3/8" 星形 Torx 壓入套筒組 (T20~T50)', nameEn: '3/8" Torx Bit Socket Set (T20-T50 6pcs)', type: 'hex_bit_socket', length: 145, width: 26, height: 50, weight: 380, cost: 390, std: 'ISO 10664', color: '#0284c7' },
+      { code: 'SK-SPK-16', cat: 'socket', name: '火星塞磁性套筒 16mm (3/8")', nameEn: 'Magnetic Spark Plug Socket 16mm', type: 'spark_socket', length: 65, width: 22, height: 22, weight: 105, cost: 110, std: 'DIN 3120', color: '#38bdf8' },
+      { code: 'SK-SPK-14', cat: 'socket', name: '薄壁火星塞套筒 14mm (歐系車用)', nameEn: 'Thin-Wall Spark Plug Socket 14mm', type: 'spark_socket', length: 65, width: 20, height: 20, weight: 90, cost: 120, std: 'DIN 3120', color: '#10b981' },
+      { code: 'EX-14-50', cat: 'socket', name: '1/4" 延長接桿 50mm', nameEn: '1/4" Extension Bar 50mm', type: 'extension_bar', length: 50, width: 14, height: 14, weight: 35, cost: 40, std: 'DIN 3123', color: '#cbd5e1' },
+      { code: 'EX-14-100', cat: 'socket', name: '1/4" 延長接桿 100mm', nameEn: '1/4" Extension Bar 100mm', type: 'extension_bar', length: 100, width: 14, height: 14, weight: 65, cost: 55, std: 'DIN 3123', color: '#cbd5e1' },
+      { code: 'EX-38-150', cat: 'socket', name: '3/8" 搖擺延長接桿 150mm', nameEn: '3/8" Wobble Extension Bar 150mm', type: 'extension_bar', length: 150, width: 18, height: 18, weight: 145, cost: 90, std: 'DIN 3123', color: '#cbd5e1' },
+      { code: 'EX-12-250', cat: 'socket', name: '1/2" 重型延長接桿 250mm', nameEn: '1/2" Heavy Extension Bar 250mm', type: 'extension_bar', length: 250, width: 24, height: 24, weight: 380, cost: 150, std: 'DIN 3123', color: '#cbd5e1' },
+      { code: 'UJ-14', cat: 'socket', name: '1/4" 萬向接頭 (Universal Joint)', nameEn: '1/4" Universal Joint', type: 'u_joint', length: 42, width: 18, height: 18, weight: 45, cost: 75, std: 'DIN 3123', color: '#cbd5e1' },
+      { code: 'UJ-12', cat: 'socket', name: '1/2" 萬向接頭 (Universal Joint)', nameEn: '1/2" Universal Joint', type: 'u_joint', length: 65, width: 26, height: 26, weight: 135, cost: 120, std: 'DIN 3123', color: '#cbd5e1' },
+      { code: 'TB-14-115', cat: 'socket', name: '滑行 T 型扳手桿 (1/4" 115mm)', nameEn: '1/4" Sliding T-Bar 115mm', type: 't_bar', length: 115, width: 26, height: 14, weight: 95, cost: 70, std: 'DIN 3122', color: '#cbd5e1' },
+      { code: 'TB-38-160', cat: 'socket', name: '滑行 T 型扳手桿 (3/8" 160mm)', nameEn: '3/8" Sliding T-Bar 160mm', type: 't_bar', length: 160, width: 35, height: 16, weight: 180, cost: 95, std: 'DIN 3122', color: '#cbd5e1' },
+
+      // === D. PLIERS & CLAMPING (鉗類與夾持工具) ===
+      { code: 'PL-CMB-7', cat: 'pliers', name: '多功能鋼絲鉗 7" (180mm)', nameEn: 'Combination Pliers 7" (180mm)', type: 'pliers', length: 180, width: 52, height: 18, weight: 260, cost: 220, std: 'ISO 5746', color: '#e11d48' },
+      { code: 'PL-CMB-8', cat: 'pliers', name: '重型省力鋼絲鉗 8" (205mm)', nameEn: 'Heavy-Duty Combination Pliers 8"', type: 'pliers', length: 205, width: 56, height: 20, weight: 340, cost: 260, std: 'ISO 5746', color: '#dc2626' },
+      { code: 'PL-LN-6', cat: 'pliers', name: '絕緣尖嘴鉗 6" (165mm)', nameEn: 'Long Nose Pliers 6" (165mm)', type: 'long_nose_pliers', length: 165, width: 50, height: 15, weight: 165, cost: 195, std: 'ISO 5745', color: '#f59e0b' },
+      { code: 'PL-BN-6', cat: 'pliers', name: '彎嘴尖嘴鉗 6" (45° 彎頭)', nameEn: 'Bent Nose Pliers 6" (45°)', type: 'long_nose_pliers', length: 160, width: 50, height: 15, weight: 165, cost: 210, std: 'ISO 5745', color: '#eab308' },
+      { code: 'PL-DG-6', cat: 'pliers', name: '省力斜口鉗 6" (160mm)', nameEn: 'Diagonal Cutting Nippers 6"', type: 'diag_pliers', length: 160, width: 54, height: 16, weight: 195, cost: 210, std: 'ISO 5749', color: '#ef4444' },
+      { code: 'PL-WP-8', cat: 'pliers', name: '多段鯉魚鉗 / 水泵鉗 8"', nameEn: 'Water Pump Pliers 8" (205mm)', type: 'water_pump_pliers', length: 205, width: 52, height: 16, weight: 290, cost: 250, std: 'ISO 8976', color: '#0284c7' },
+      { code: 'PL-WP-10', cat: 'pliers', name: '按鍵式快調水泵鉗 10" (250mm)', nameEn: 'Push-Button Water Pump Pliers 10"', type: 'water_pump_pliers', length: 250, width: 55, height: 18, weight: 390, cost: 340, std: 'ISO 8976', color: '#0369a1' },
+      { code: 'PL-LK-10', cat: 'pliers', name: '圓嘴大力鉗 / 萬能鉗 10"', nameEn: 'Curved-Jaw Locking Pliers 10"', type: 'locking_pliers', length: 225, width: 65, height: 20, weight: 490, cost: 280, std: 'ASME B107', color: '#cbd5e1' },
+      { code: 'PL-CC-7', cat: 'pliers', name: '軸用/孔用卡簧鉗 7" (Circlip)', nameEn: 'Internal Circlip Pliers 7"', type: 'long_nose_pliers', length: 175, width: 50, height: 14, weight: 170, cost: 220, std: 'DIN 5256', color: '#3b82f6' },
+
+      // === E. SCREWDRIVERS & HEX/TORX KEYS (起子與六角組) ===
+      { code: 'SD-PH1', cat: 'driver', name: '雙色人體工學十字起子 (PH1×100)', nameEn: 'Ergonomic Phillips Screwdriver PH1', type: 'screwdriver', length: 195, width: 30, height: 30, weight: 95, cost: 85, std: 'ISO 8764', color: '#2563eb' },
+      { code: 'SD-PH2', cat: 'driver', name: '雙色人體工學螺絲起子 (PH2×100)', nameEn: 'Ergonomic Phillips Screwdriver PH2', type: 'screwdriver', length: 210, width: 32, height: 32, weight: 110, cost: 95, std: 'ISO 8764', color: '#2563eb' },
+      { code: 'SD-SL6', cat: 'driver', name: '雙色人體工學一字起子 (SL6×100)', nameEn: 'Ergonomic Slotted Screwdriver SL6', type: 'screwdriver', length: 210, width: 32, height: 32, weight: 110, cost: 95, std: 'ISO 2380', color: '#dc2626' },
+      { code: 'SD-SPN', cat: 'driver', name: '1/4" 方桿旋具手柄 150mm', nameEn: '1/4" Square Drive Spinner Handle', type: 'screwdriver', length: 150, width: 28, height: 28, weight: 95, cost: 80, std: 'DIN 3122', color: '#059669' },
+      { code: 'SD-TH5', cat: 'driver', name: 'T型包膠六角扳手 H5×150mm', nameEn: 'T-Handle Ball Hex Key H5×150', type: 't_bar', length: 185, width: 95, height: 22, weight: 145, cost: 130, std: 'ISO 2936', color: '#f97316' },
+      { code: 'HK-SET9', cat: 'driver', name: 'L型球頭內六角扳手組 (9件式)', nameEn: 'L-Type Ball-End Hex Key Set (9pcs)', type: 'hex_key_set', length: 170, width: 62, height: 20, weight: 320, cost: 260, std: 'ISO 2936', color: '#2563eb' },
+      { code: 'TK-SET9', cat: 'driver', name: 'L型中空星形扳手組 (T10~T50 9件)', nameEn: 'Tamper-Torx L-Key Set (T10-T50 9pcs)', type: 'hex_key_set', length: 175, width: 64, height: 20, weight: 340, cost: 290, std: 'ISO 10664', color: '#10b981' },
+      { code: 'BT-BOX30', cat: 'driver', name: 'S2 旋具頭/起子頭模組盒 (30件)', nameEn: 'S2 Screwdriver Bit Cassette (30pcs)', type: 'bit_box', length: 110, width: 62, height: 24, weight: 220, cost: 320, std: 'DIN 3126', color: '#f59e0b' },
+      { code: 'BT-RAIL10', cat: 'driver', name: 'S2 旋具頭模組排 (10件)', nameEn: 'S2 Precision Bit Strip (10pcs)', type: 'bit_box', length: 95, width: 32, height: 20, weight: 110, cost: 140, std: 'DIN 3126', color: '#f59e0b' },
+
+      // === F. STRIKING & WORKSHOP (敲擊與車間金工) ===
+      { code: 'HM-BP300', cat: 'strike', name: '防震圓頭鉗工錘 300g', nameEn: 'Fiberglass Ball-Peen Hammer 300g', type: 'hammer', length: 260, width: 92, height: 26, weight: 430, cost: 240, std: 'DIN 1041', color: '#ea580c' },
+      { code: 'HM-DB400', cat: 'strike', name: '無反彈雙頭橡膠安裝錘 400g', nameEn: 'Dead-Blow Soft-Face Mallet 400g', type: 'hammer', length: 280, width: 92, height: 38, weight: 520, cost: 280, std: 'DIN 5128', color: '#f97316' },
+      { code: 'CH-SET5', cat: 'strike', name: '合金鋼冷鑿與中心沖組 (5件式)', nameEn: 'Cold Chisel & Punch Set (5pcs)', type: 'hex_key_set', length: 175, width: 85, height: 24, weight: 540, cost: 320, std: 'DIN 6453', color: '#eab308' },
+      { code: 'KN-UT160', cat: 'strike', name: '鋁合金重型美工刀', nameEn: 'Heavy-Duty Aluminum Utility Knife', type: 'utility_knife', length: 160, width: 36, height: 20, weight: 125, cost: 120, std: 'Industrial', color: '#dc2626' },
+
+      // === G. MEASUREMENT & ELECTRICAL (量測與電工儀表) ===
+      { code: 'MS-CAL150', cat: 'measure', name: '工業級數顯游標卡尺 0-150mm', nameEn: 'IP54 Digital Vernier Caliper 150mm', type: 'caliper', length: 235, width: 78, height: 16, weight: 195, cost: 780, std: 'DIN 862', color: '#0284c7' },
+      { code: 'MS-TAPE5', cat: 'measure', name: '防摔包膠鋼捲尺 5M×19mm', nameEn: 'Shockproof Measuring Tape 5M×19mm', type: 'tape_measure', length: 75, width: 70, height: 40, weight: 210, cost: 150, std: 'MID Class II', color: '#eab308' },
+      { code: 'MS-DMM', cat: 'measure', name: '真有效值數位三用電表 (True RMS)', nameEn: 'True-RMS Digital Multimeter', type: 'multimeter', length: 155, width: 78, height: 42, weight: 310, cost: 950, std: 'CAT III 600V', color: '#f59e0b' },
+      { code: 'MS-FLG20', cat: 'measure', name: '不銹鋼精密厚薄規 / 塞尺 (20片)', nameEn: 'Stainless Feeler Gauge (20 Blades)', type: 'extension_bar', length: 105, width: 16, height: 14, weight: 95, cost: 110, std: 'DIN 2275', color: '#cbd5e1' },
+
+      // === H. POWER & PNEUMATIC TOOLS (電動與氣動工具) ===
+      { code: 'PW-AIR12', cat: 'power', name: '1/2" 工業級雙錘氣動衝擊扳手', nameEn: '1/2" Twin-Hammer Air Impact Wrench', type: 'power_drill', length: 190, width: 185, height: 68, weight: 2100, cost: 2400, std: 'Max 1200Nm', color: '#dc2626' },
+      { code: 'PW-DRV18', cat: 'power', name: '18V 無刷電動衝擊起子機', nameEn: '18V Brushless Cordless Impact Driver', type: 'power_drill', length: 145, width: 205, height: 72, weight: 1350, cost: 2800, std: '18V Li-Ion', color: '#0284c7' },
+      { code: 'PW-BAT40', cat: 'power', name: '18V/20V 4.0Ah 鋰電池模組', nameEn: '18V/20V 4.0Ah Li-Ion Battery Pack', type: 'bit_box', length: 115, width: 78, height: 62, weight: 640, cost: 1200, std: 'UN38.3', color: '#1e293b' }
+    ];
+
+    // 16 Box & Drawer Presets
+    const BOX_PRESETS = {
+      metal_mini_195:   { length: 195, width: 105, height: 38, wall: 2.5, eva: 16, color: '#1e3a8a', lid: 95, tagZh: '迷你鐵盒', tagEn: 'Mini Metal Case', baseCost: 140 },
+      sy_socket_24:     { length: 280, width: 130, height: 42, wall: 3.0, eva: 18, color: '#1e3a8a', lid: 95, tagZh: '標準鐵盒', tagEn: 'Std Metal Case', baseCost: 220 },
+      metal_mid_360:    { length: 360, width: 165, height: 50, wall: 3.0, eva: 22, color: '#1e3a8a', lid: 95, tagZh: '雙排鐵盒', tagEn: 'Mid Metal Case', baseCost: 310 },
+      metal_heavy_445:  { length: 445, width: 195, height: 58, wall: 3.5, eva: 25, color: '#991b1b', lid: 95, tagZh: '重型鐵盒', tagEn: 'Heavy Metal Case', baseCost: 420 },
+      sy_blow_medium:   { length: 380, width: 260, height: 75, wall: 3.5, eva: 28, color: '#0f172a', lid: 95, tagZh: '中型吹氣箱', tagEn: 'Medium BMC Case', baseCost: 350 },
+      sy_combo_46:      { length: 420, width: 280, height: 85, wall: 4.0, eva: 30, color: '#1e3a8a', lid: 95, tagZh: '汽修吹氣箱', tagEn: 'Auto BMC Case', baseCost: 420 },
+      sy_heavy_case:    { length: 480, width: 340, height: 110, wall: 4.5, eva: 38, color: '#b45309', lid: 95, tagZh: '大型重型箱', tagEn: 'Heavy BMC Case', baseCost: 580 },
+      bmc_flagship_540: { length: 540, width: 380, height: 120, wall: 5.0, eva: 42, color: '#0f172a', lid: 95, tagZh: '旗艦外銷箱', tagEn: 'Flagship Case', baseCost: 690 },
+      tray_1_3_narrow:  { length: 185, width: 395, height: 40, wall: 2.0, eva: 32, color: '#0f172a', lid: 118, tagZh: '1/3 抽屜盤', tagEn: '1/3 Drawer Tray', baseCost: 190, noLid: true },
+      tray_2_3_double:  { length: 370, width: 395, height: 40, wall: 2.5, eva: 32, color: '#0f172a', lid: 118, tagZh: '2/3 抽屜盤', tagEn: '2/3 Drawer Tray', baseCost: 320, noLid: true },
+      kt_eva_tray_3:    { length: 554, width: 260, height: 45, wall: 3.0, eva: 32, color: '#0f172a', lid: 118, tagZh: '標準全抽屜', tagEn: 'Std Full Drawer', baseCost: 420, noLid: true },
+      boxo_full_drawer: { length: 565, width: 395, height: 50, wall: 3.0, eva: 35, color: '#475569', lid: 118, tagZh: '歐規全抽屜', tagEn: 'Euro Full Drawer', baseCost: 490, noLid: true },
+      us_deep_drawer:   { length: 680, width: 450, height: 65, wall: 3.5, eva: 45, color: '#991b1b', lid: 118, tagZh: '美規深抽屜', tagEn: 'US Deep Drawer', baseCost: 650, noLid: true },
+      ip67_rugged_430:  { length: 430, width: 320, height: 135, wall: 5.5, eva: 55, color: '#0f172a', lid: 95, tagZh: 'IP67 氣密箱', tagEn: 'IP67 Rugged Case', baseCost: 1250 },
+      systainer_390:    { length: 390, width: 290, height: 70, wall: 3.5, eva: 32, color: '#475569', lid: 95, tagZh: 'Systainer箱', tagEn: 'Systainer Case', baseCost: 780 },
+      alu_flight_520:   { length: 520, width: 360, height: 115, wall: 4.5, eva: 40, color: '#475569', lid: 95, tagZh: '鋁框航空箱', tagEn: 'Alu Flight Case', baseCost: 1100 }
+    };
+
+    // -------------------------------------------------------------
+    // 2. Application State & History Stack (Undo / Redo)
+    // -------------------------------------------------------------
+    const state = {
+      lang: 'zh',
+      boxPresetKey: 'sy_socket_24',
+      box: {
+        length: 280,
+        width: 130,
+        height: 42,
+        wallThickness: 3,
+        evaHeight: 18,
+        color: '#1e3a8a',
+        evaStyle: 'dual_red',
+        evaDensity: 55,
+        lidAngle: 95,
+        noLid: false,
+        showLidFoam: true,
+      },
+      tools: [],
+      selectedToolId: null,
+      wireframe: false,
+      showDimensions: true,
+      showFingerNotches: true,
+      notchRadius: 11,
+      showLaserText: true,
+      showCogMarker: true,
+      explodeRatio: 0, // 0 to 1
+      gridSnap: 5,
+      pocketMode: 'pockets',
+      safeMargin: 6,
+      outerMargin: 10,
+      activeCat: 'all',
+      searchQuery: ''
+    };
+
+    let nextToolId = 1;
+    const historyStack = [];
+    let historyIndex = -1;
+
+    function pushHistory() {
+      const snapshot = JSON.stringify({ box: state.box, tools: state.tools });
+      if (historyIndex >= 0 && historyStack[historyIndex] === snapshot) return;
+      historyStack.splice(historyIndex + 1);
+      historyStack.push(snapshot);
+      if (historyStack.length > 40) historyStack.shift();
+      historyIndex = historyStack.length - 1;
+      updateUndoRedoButtons();
+    }
+
+    function updateUndoRedoButtons() {
+      document.getElementById('btnUndo').disabled = historyIndex <= 0;
+      document.getElementById('btnRedo').disabled = historyIndex >= historyStack.length - 1;
+    }
+
+    function undoAction() {
+      if (historyIndex > 0) {
+        historyIndex--;
+        const parsed = JSON.parse(historyStack[historyIndex]);
+        Object.assign(state.box, parsed.box);
+        state.tools = parsed.tools;
+        syncBoxInputsFromState();
+        buildBox3D();
+        renderAllTools3D();
+        updateUndoRedoButtons();
+        showToast(state.lang === 'en' ? 'Undo applied' : '已復原上一步操作', '↩');
+      }
+    }
+
+    function redoAction() {
+      if (historyIndex < historyStack.length - 1) {
+        historyIndex++;
+        const parsed = JSON.parse(historyStack[historyIndex]);
+        Object.assign(state.box, parsed.box);
+        state.tools = parsed.tools;
+        syncBoxInputsFromState();
+        buildBox3D();
+        renderAllTools3D();
+        updateUndoRedoButtons();
+        showToast(state.lang === 'en' ? 'Redo applied' : '已重做操作', '↪');
+      }
+    }
+
+    function showToast(msg, icon = '✓', isError = false) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      document.getElementById('toastIcon').innerText = icon;
+      toast.className = `fixed top-16 right-6 ${isError ? 'bg-rose-950 border-rose-500 text-rose-200' : 'bg-slate-900 border-blue-500 text-white'} border px-4 py-2.5 rounded-lg shadow-2xl text-xs z-50 transform transition-all duration-300 translate-y-0 opacity-100 flex items-center gap-2`;
+      setTimeout(() => {
+        toast.className = toast.className.replace('translate-y-0 opacity-100', 'translate-y-2 opacity-0 pointer-events-none');
+      }, 2400);
+    }
+
+    function getEvaContrastHex() {
+      if (state.box.evaStyle === 'dual_blue') return 0x2563eb;
+      if (state.box.evaStyle === 'dual_yellow') return 0xeab308;
+      if (state.box.evaStyle === 'dual_green') return 0x10b981;
+      if (state.box.evaStyle === 'all_black') return 0x090d16;
+      return 0xef4444; // dual_red or carbon_fiber
+    }
+
+    // -------------------------------------------------------------
+    // 3. Three.js Scene & Lighting Setup
+    // -------------------------------------------------------------
+    const container = document.getElementById('canvasContainer');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x070b12);
+
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 4500);
+    camera.position.set(290, 330, 370);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.maxPolarAngle = Math.PI / 2 + 0.1;
+    controls.target.set(0, 20, 0);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.72);
+    scene.add(ambientLight);
+
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.95);
+    dirLight1.position.set(340, 560, 280);
+    dirLight1.castShadow = true;
+    dirLight1.shadow.mapSize.width = 2048;
+    dirLight1.shadow.mapSize.height = 2048;
+    const d = 480;
+    dirLight1.shadow.camera.left = -d;
+    dirLight1.shadow.camera.right = d;
+    dirLight1.shadow.camera.top = d;
+    dirLight1.shadow.camera.bottom = -d;
+    scene.add(dirLight1);
+
+    const dirLight2 = new THREE.DirectionalLight(0x93c5fd, 0.45);
+    dirLight2.position.set(-340, 240, -240);
+    scene.add(dirLight2);
+
+    const groundGrid = new THREE.GridHelper(1400, 70, 0x1e293b, 0x0f172a);
+    groundGrid.position.y = -0.5;
+    scene.add(groundGrid);
+
+    const shadowPlane = new THREE.Mesh(
+      new THREE.PlaneGeometry(1600, 1600),
+      new THREE.ShadowMaterial({ opacity: 0.35 })
+    );
+    shadowPlane.rotation.x = -Math.PI / 2;
+    shadowPlane.position.y = -0.6;
+    shadowPlane.receiveShadow = true;
+    scene.add(shadowPlane);
+
+    const boxGroup = new THREE.Group();
+    scene.add(boxGroup);
+
+    const toolsGroup = new THREE.Group();
+    scene.add(toolsGroup);
+
+    const dimensionsGroup = new THREE.Group();
+    scene.add(dimensionsGroup);
+
+    const cogGroup = new THREE.Group();
+    scene.add(cogGroup);
+
+    let boxLidPivot = null;
+
+    // -------------------------------------------------------------
+    // 4. Build 3D Box, Dual-Layer EVA, Lid Egg-Crate Foam & Exploded View
+    // -------------------------------------------------------------
+    function buildBox3D() {
+      while (boxGroup.children.length > 0) {
+        boxGroup.remove(boxGroup.children[0]);
+      }
+
+      const L = Number(state.box.length);
+      const W = Number(state.box.width);
+      const H = Number(state.box.height);
+      const t = Number(state.box.wallThickness);
+      const isDrawer = !!state.box.noLid || state.box.lidAngle >= 118;
+      const baseH = isDrawer ? H : H * 0.62;
+      const lidH = H * 0.38;
+      const exp = Number(state.explodeRatio || 0); // 0..1
+
+      const boxMat = new THREE.MeshStandardMaterial({
+        color: state.box.color,
+        roughness: 0.35,
+        metalness: 0.45,
+        wireframe: state.wireframe
+      });
+
+      const baseObj = new THREE.Group();
+
+      // Bottom Plate
+      const botMesh = new THREE.Mesh(new THREE.BoxGeometry(L, t, W), boxMat);
+      botMesh.position.set(0, t / 2, 0);
+      botMesh.castShadow = true;
+      botMesh.receiveShadow = true;
+      baseObj.add(botMesh);
+
+      // Front & Back Walls
+      const fbWallGeo = new THREE.BoxGeometry(L, baseH - t, t);
+      const frontWall = new THREE.Mesh(fbWallGeo, boxMat);
+      frontWall.position.set(0, (baseH + t) / 2, W / 2 - t / 2);
+      baseObj.add(frontWall);
+
+      const backWall = new THREE.Mesh(fbWallGeo, boxMat);
+      backWall.position.set(0, (baseH + t) / 2, -W / 2 + t / 2);
+      baseObj.add(backWall);
+
+      // Left & Right Walls
+      const lrWallGeo = new THREE.BoxGeometry(t, baseH - t, W - 2 * t);
+      const leftWall = new THREE.Mesh(lrWallGeo, boxMat);
+      leftWall.position.set(-L / 2 + t / 2, (baseH + t) / 2, 0);
+      baseObj.add(leftWall);
+
+      const rightWall = new THREE.Mesh(lrWallGeo, boxMat);
+      rightWall.position.set(L / 2 - t / 2, (baseH + t) / 2, 0);
+      baseObj.add(rightWall);
+
+      // Corner Bumpers
+      const cornerGeo = new THREE.CylinderGeometry(t * 1.25, t * 1.25, baseH, 16);
+      const cornerMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.8 });
+      [[-L/2, -W/2], [L/2, -W/2], [-L/2, W/2], [L/2, W/2]].forEach(([cx, cz]) => {
+        const cMesh = new THREE.Mesh(cornerGeo, cornerMat);
+        cMesh.position.set(cx, baseH / 2, cz);
+        baseObj.add(cMesh);
+      });
+
+      if (!isDrawer) {
+        // Front Metal Latches & Ergonomic Carry Handle
+        const latchGeo = new THREE.BoxGeometry(16, 14, 4);
+        const latchMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.85, roughness: 0.2 });
+        [-L * 0.26, L * 0.26].forEach(lx => {
+          const lMesh = new THREE.Mesh(latchGeo, latchMat);
+          lMesh.position.set(lx, baseH * 0.72, W / 2 + 1.5);
+          baseObj.add(lMesh);
+        });
+
+        const handleMesh = new THREE.Mesh(
+          new THREE.BoxGeometry(Math.min(130, L * 0.34), 12, 11),
+          new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.6 })
+        );
+        handleMesh.position.set(0, baseH * 0.42, W / 2 + 7);
+        baseObj.add(handleMesh);
+      }
+
+      boxGroup.add(baseObj);
+
+      // --- Dual-Layer EVA Foam Insert (Supports 3D Exploded Separation) ---
+      const evaL = L - 2 * t - 1;
+      const evaW = W - 2 * t - 1;
+      const evaH = Math.min(Number(state.box.evaHeight), baseH - t);
+      const evaTopColor = state.box.evaStyle === 'carbon_fiber' ? 0x111827 : 0x1e293b;
+      const evaSubColor = getEvaContrastHex();
+
+      // Layer 1: Bottom 5S Contrast Layer
+      const evaSubMesh = new THREE.Mesh(
+        new THREE.BoxGeometry(evaL, 3.8, evaW),
+        new THREE.MeshStandardMaterial({ color: evaSubColor, roughness: 0.85, wireframe: state.wireframe })
+      );
+      evaSubMesh.position.set(0, t + 1.9 + exp * 28, 0);
+      boxGroup.add(evaSubMesh);
+
+      // Layer 2: Upper CNC Machined Dark EVA Layer
+      const mainFoamH = Math.max(2, evaH - 3.8);
+      const evaMainMesh = new THREE.Mesh(
+        new THREE.BoxGeometry(evaL, mainFoamH, evaW),
+        new THREE.MeshStandardMaterial({ color: evaTopColor, roughness: state.box.evaStyle === 'carbon_fiber' ? 0.45 : 0.92, metalness: state.box.evaStyle === 'carbon_fiber' ? 0.3 : 0.05, wireframe: state.wireframe })
+      );
+      evaMainMesh.position.set(0, t + 3.8 + mainFoamH / 2 + exp * 58, 0);
+      evaMainMesh.receiveShadow = true;
+      boxGroup.add(evaMainMesh);
+
+      // --- Lid & Convoluted Top Foam ---
+      if (!isDrawer) {
+        boxLidPivot = new THREE.Group();
+        boxLidPivot.position.set(0, baseH + exp * 115, -W / 2 + t);
+
+        const lidObj = new THREE.Group();
+        const lidTopMesh = new THREE.Mesh(new THREE.BoxGeometry(L, t, W), boxMat);
+        lidTopMesh.position.set(0, lidH - t / 2, W / 2 - t);
+        lidObj.add(lidTopMesh);
+
+        const lidFbGeo = new THREE.BoxGeometry(L, lidH - t, t);
+        const lidFront = new THREE.Mesh(lidFbGeo, boxMat);
+        lidFront.position.set(0, (lidH - t) / 2, W - 1.5 * t);
+        lidObj.add(lidFront);
+
+        const lidBack = new THREE.Mesh(lidFbGeo, boxMat);
+        lidBack.position.set(0, (lidH - t) / 2, -t / 2);
+        lidObj.add(lidBack);
+
+        const lidLrGeo = new THREE.BoxGeometry(t, lidH - t, W - 2 * t);
+        const lidLeft = new THREE.Mesh(lidLrGeo, boxMat);
+        lidLeft.position.set(-L / 2 + t / 2, (lidH - t) / 2, W / 2 - t);
+        lidObj.add(lidLeft);
+
+        const lidRight = new THREE.Mesh(lidLrGeo, boxMat);
+        lidRight.position.set(L / 2 - t / 2, (lidH - t) / 2, W / 2 - t);
+        lidObj.add(lidRight);
+
+        // Top Lid Egg-Crate Convoluted Foam Insert
+        if (state.box.showLidFoam) {
+          const lidFoamMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.95, wireframe: state.wireframe });
+          const lidFoamPad = new THREE.Mesh(new THREE.BoxGeometry(evaL - 4, 6, evaW - 4), lidFoamMat);
+          lidFoamPad.position.set(0, lidH - t - 3 - exp * 18, W / 2 - t);
+          lidObj.add(lidFoamPad);
+        }
+
+        // Hinges
+        const hingeGeo = new THREE.CylinderGeometry(3.5, 3.5, 24, 16);
+        const hingeMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.8, roughness: 0.3 });
+        [-L * 0.3, L * 0.3].forEach(hx => {
+          const hMesh = new THREE.Mesh(hingeGeo, hingeMat);
+          hMesh.rotation.z = Math.PI / 2;
+          hMesh.position.set(hx, 0, 0);
+          boxLidPivot.add(hMesh);
+        });
+
+        boxLidPivot.add(lidObj);
+        boxGroup.add(boxLidPivot);
+        updateLidAngle3D();
+      } else {
+        boxLidPivot = null;
+      }
+
+      buildDimensions3D();
+    }
+
+    function updateLidAngle3D() {
+      if (!boxLidPivot) return;
+      const rad = THREE.MathUtils.degToRad(state.box.lidAngle);
+      boxLidPivot.rotation.x = -rad;
+    }
+
+    function buildDimensions3D() {
+      while (dimensionsGroup.children.length > 0) {
+        dimensionsGroup.remove(dimensionsGroup.children[0]);
+      }
+      if (!state.showDimensions) return;
+
+      const L = Number(state.box.length);
+      const W = Number(state.box.width);
+      const H = Number(state.box.height);
+      const lineMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.78 });
+
+      const lenPts = [
+        new THREE.Vector3(-L/2, 2, W/2 + 12), new THREE.Vector3(-L/2, 2, W/2 + 28),
+        new THREE.Vector3(-L/2, 2, W/2 + 22), new THREE.Vector3(L/2, 2, W/2 + 22),
+        new THREE.Vector3(L/2, 2, W/2 + 12),  new THREE.Vector3(L/2, 2, W/2 + 28)
+      ];
+      dimensionsGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(lenPts), lineMat));
+
+      const wPts = [
+        new THREE.Vector3(L/2 + 12, 2, -W/2), new THREE.Vector3(L/2 + 28, 2, -W/2),
+        new THREE.Vector3(L/2 + 22, 2, -W/2), new THREE.Vector3(L/2 + 22, 2, W/2),
+        new THREE.Vector3(L/2 + 12, 2, W/2),  new THREE.Vector3(L/2 + 28, 2, W/2)
+      ];
+      dimensionsGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(wPts), lineMat));
+
+      const hPts = [new THREE.Vector3(L/2 + 22, 0, W/2 + 22), new THREE.Vector3(L/2 + 22, H, W/2 + 22)];
+      dimensionsGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(hPts), lineMat));
+    }
+
+    // -------------------------------------------------------------
+    // 5. High-Precision 3D Tool Mesh Generator (All Archetypes)
+    // -------------------------------------------------------------
+    function createTool3DMesh(tool) {
+      const g = new THREE.Group();
+      g.userData = { toolId: tool.id };
+
+      const chromeMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.88, roughness: 0.2, wireframe: state.wireframe });
+      const darkSteelMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.78, roughness: 0.38, wireframe: state.wireframe });
+      const phosphateBlackMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.65, roughness: 0.5, wireframe: state.wireframe });
+      const bronzeS2Mat = new THREE.MeshStandardMaterial({ color: 0xb45309, metalness: 0.75, roughness: 0.35, wireframe: state.wireframe });
+      const knurlMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.7, roughness: 0.55, wireframe: state.wireframe });
+      const rubberMat = new THREE.MeshStandardMaterial({ color: tool.color ? new THREE.Color(tool.color) : 0x2563eb, roughness: 0.8, wireframe: state.wireframe });
+      const darkGripMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.9, wireframe: state.wireframe });
+
+      const L = Number(tool.length);
+      const W = Number(tool.width);
+      const H = Number(tool.height);
+
+      if (tool.type === 'ratchet') {
+        const handleLen = L * 0.52;
+        const bar = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.24, W * 0.28, handleLen, 20).rotateZ(Math.PI / 2), rubberMat);
+        bar.position.set(-L * 0.22, H * 0.45, 0);
+        bar.castShadow = true;
+        g.add(bar);
+
+        const ring = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.29, W * 0.29, handleLen * 0.25, 20).rotateZ(Math.PI / 2), darkGripMat);
+        ring.position.set(-L * 0.22, H * 0.45, 0);
+        g.add(ring);
+
+        const neck = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.16, W * 0.22, L * 0.32, 16).rotateZ(Math.PI / 2), chromeMat);
+        neck.position.set(L * 0.16, H * 0.45, 0);
+        neck.castShadow = true;
+        g.add(neck);
+
+        const head = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.48, W * 0.48, H * 0.72, 24), chromeMat);
+        head.position.set(L * 0.38, H * 0.45, 0);
+        head.castShadow = true;
+        g.add(head);
+
+        const btnMesh = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.14, W * 0.14, H * 0.85, 16), darkSteelMat);
+        btnMesh.position.set(L * 0.38, H * 0.48, 0);
+        g.add(btnMesh);
+
+        const peg = new THREE.Mesh(new THREE.BoxGeometry(W * 0.32, H * 0.38, W * 0.32), darkSteelMat);
+        peg.position.set(L * 0.38, H * 0.85, 0);
+        g.add(peg);
+
+      } else if (tool.type === 'torque_wrench') {
+        const shaft = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.22, W * 0.22, L * 0.56, 20).rotateZ(Math.PI / 2), chromeMat);
+        shaft.position.set(L * 0.05, H * 0.45, 0);
+        shaft.castShadow = true;
+        g.add(shaft);
+
+        const grip = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.34, W * 0.32, L * 0.32, 24).rotateZ(Math.PI / 2), darkGripMat);
+        grip.position.set(-L * 0.30, H * 0.45, 0);
+        grip.castShadow = true;
+        g.add(grip);
+
+        const collar = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.37, W * 0.37, 14, 24).rotateZ(Math.PI / 2), rubberMat);
+        collar.position.set(-L * 0.13, H * 0.45, 0);
+        g.add(collar);
+
+        const head = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.48, W * 0.48, H * 0.72, 24), darkSteelMat);
+        head.position.set(L * 0.40, H * 0.45, 0);
+        head.castShadow = true;
+        g.add(head);
+
+      } else if (tool.type === 'combo_wrench') {
+        const beam = new THREE.Mesh(new THREE.BoxGeometry(L * 0.68, H * 0.55, W * 0.42), chromeMat);
+        beam.position.set(0, H * 0.4, 0);
+        beam.castShadow = true;
+        g.add(beam);
+
+        const ringMesh = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.46, W * 0.46, H * 0.85, 24), chromeMat);
+        ringMesh.position.set(L * 0.38, H * 0.45, 0);
+        g.add(ringMesh);
+
+        const holeMesh = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.26, W * 0.26, H * 0.92, 12), darkGripMat);
+        holeMesh.position.set(L * 0.38, H * 0.45, 0);
+        g.add(holeMesh);
+
+        const jawMesh = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.48, W * 0.48, H * 0.8, 20), chromeMat);
+        jawMesh.position.set(-L * 0.38, H * 0.45, 0);
+        g.add(jawMesh);
+
+      } else if (tool.type === 'wrench_set') {
+        const count = 8;
+        const stepZ = W / count;
+        for (let i = 0; i < count; i++) {
+          const ratio = 0.62 + (i / (count - 1)) * 0.38;
+          const wLen = L * ratio;
+          const wWid = 12 + i * 1.5;
+          const zPos = -W / 2 + stepZ * (i + 0.5);
+          const bMesh = new THREE.Mesh(new THREE.BoxGeometry(wLen * 0.72, H * 0.45, wWid * 0.42), chromeMat);
+          bMesh.position.set(0, H * 0.55, zPos);
+          bMesh.castShadow = true;
+          g.add(bMesh);
+          const e1 = new THREE.Mesh(new THREE.CylinderGeometry(wWid * 0.45, wWid * 0.45, H * 0.65, 16), chromeMat);
+          e1.position.set(-wLen * 0.38, H * 0.55, zPos);
+          g.add(e1);
+          const e2 = new THREE.Mesh(new THREE.CylinderGeometry(wWid * 0.42, wWid * 0.42, H * 0.65, 16), chromeMat);
+          e2.position.set(wLen * 0.38, H * 0.55, zPos);
+          g.add(e2);
+        }
+
+      } else if (tool.type === 'adj_wrench') {
+        const handle = new THREE.Mesh(new THREE.BoxGeometry(L * 0.62, H * 0.6, W * 0.36), chromeMat);
+        handle.position.set(-L * 0.16, H * 0.45, 0);
+        handle.castShadow = true;
+        g.add(handle);
+        const head = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.48, W * 0.42, H * 0.85, 6), chromeMat);
+        head.position.set(L * 0.28, H * 0.45, 0);
+        g.add(head);
+        const worm = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.12, W * 0.12, W * 0.32, 16), bronzeS2Mat);
+        worm.position.set(L * 0.14, H * 0.45, W * 0.1);
+        g.add(worm);
+
+      } else if (tool.type === 'breaker_bar') {
+        const bar = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.24, W * 0.24, L * 0.88, 20).rotateZ(Math.PI / 2), chromeMat);
+        bar.position.set(-L * 0.04, H * 0.45, 0);
+        bar.castShadow = true;
+        g.add(bar);
+        const grip = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.32, W * 0.32, L * 0.28, 20).rotateZ(Math.PI / 2), knurlMat);
+        grip.position.set(-L * 0.32, H * 0.45, 0);
+        g.add(grip);
+        const joint = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.42, W * 0.42, H * 0.85, 20).rotateX(Math.PI / 2), darkSteelMat);
+        joint.position.set(L * 0.42, H * 0.45, 0);
+        g.add(joint);
+
+      } else if (tool.type === 'socket_strip') {
+        const count = H > 50 ? 4 : (L > 160 ? 8 : 6);
+        const spacing = L / count;
+        const isImpact = H > 50;
+        const sockMat = isImpact ? phosphateBlackMat : chromeMat;
+        const rail = new THREE.Mesh(new THREE.BoxGeometry(L, 3, W * 0.7), knurlMat);
+        rail.position.set(0, 1.5, 0);
+        g.add(rail);
+        for (let i = 0; i < count; i++) {
+          const sRad = (W * 0.36) * (0.72 + (i / count) * 0.45);
+          const sMesh = new THREE.Mesh(new THREE.CylinderGeometry(sRad, sRad, H - 3, 24), sockMat);
+          sMesh.position.set(-L/2 + spacing * (i + 0.5), (H + 3) / 2, 0);
+          sMesh.castShadow = true;
+          g.add(sMesh);
+        }
+
+      } else if (tool.type === 'hex_bit_socket') {
+        const count = 6;
+        const spacing = L / count;
+        for (let i = 0; i < count; i++) {
+          const xPos = -L/2 + spacing * (i + 0.5);
+          const baseMesh = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.38, W * 0.38, H * 0.48, 20), phosphateBlackMat);
+          baseMesh.position.set(xPos, 3 + H * 0.24, 0);
+          g.add(baseMesh);
+          const bitMesh = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.16, W * 0.16, H * 0.46, 6), bronzeS2Mat);
+          bitMesh.position.set(xPos, 3 + H * 0.71, 0);
+          g.add(bitMesh);
+        }
+
+      } else if (tool.type === 'spark_socket' || tool.type === 'u_joint' || tool.type === 'extension_bar') {
+        const shaft = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.38, W * 0.38, L * 0.85, 20).rotateZ(Math.PI / 2), chromeMat);
+        shaft.position.set(0, H / 2, 0);
+        shaft.castShadow = true;
+        g.add(shaft);
+        const end = new THREE.Mesh(new THREE.BoxGeometry(L * 0.16, W * 0.65, W * 0.65), darkSteelMat);
+        end.position.set(L * 0.42, H / 2, 0);
+        g.add(end);
+
+      } else if (tool.type === 't_bar') {
+        const mainBar = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.12, W * 0.12, L, 16).rotateZ(Math.PI / 2), chromeMat);
+        mainBar.position.set(0, H / 2, 0);
+        g.add(mainBar);
+        const crossBar = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.16, W * 0.16, W * 0.95, 16).rotateX(Math.PI / 2), rubberMat);
+        crossBar.position.set(-L * 0.28, H / 2, 0);
+        g.add(crossBar);
+
+      } else if (tool.type === 'screwdriver') {
+        const handle = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.46, W * 0.36, L * 0.46, 20).rotateZ(Math.PI / 2), rubberMat);
+        handle.position.set(-L * 0.25, H / 2, 0);
+        handle.castShadow = true;
+        g.add(handle);
+        const shank = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.11, W * 0.11, L * 0.54, 16).rotateZ(Math.PI / 2), chromeMat);
+        shank.position.set(L * 0.22, H / 2, 0);
+        g.add(shank);
+
+      } else if (tool.type === 'hex_key_set') {
+        const clip = new THREE.Mesh(new THREE.BoxGeometry(L * 0.26, H * 0.9, W * 0.92), rubberMat);
+        clip.position.set(-L * 0.05, H * 0.48, 0);
+        g.add(clip);
+        for (let i = 0; i < 8; i++) {
+          const ratio = 0.5 + (i / 7) * 0.5;
+          const kLen = L * ratio;
+          const zPos = -W * 0.4 + (i / 7) * (W * 0.8);
+          const arm = new THREE.Mesh(new THREE.CylinderGeometry(1.5 + i * 0.3, 1.5 + i * 0.3, kLen, 6).rotateZ(Math.PI / 2), chromeMat);
+          arm.position.set(-L * 0.45 + kLen / 2, H * 0.5, zPos);
+          g.add(arm);
+        }
+
+      } else if (tool.type === 'bit_box' || tool.type === 'multimeter') {
+        const tray = new THREE.Mesh(new THREE.BoxGeometry(L, H * 0.85, W), rubberMat);
+        tray.position.set(0, H * 0.42, 0);
+        tray.castShadow = true;
+        g.add(tray);
+        const screen = new THREE.Mesh(new THREE.BoxGeometry(L * 0.72, 2, W * 0.72), darkGripMat);
+        screen.position.set(0, H * 0.86, 0);
+        g.add(screen);
+
+      } else if (tool.type === 'pliers' || tool.type === 'long_nose_pliers' || tool.type === 'diag_pliers' || tool.type === 'water_pump_pliers' || tool.type === 'locking_pliers') {
+        const jaw = new THREE.Mesh(new THREE.BoxGeometry(L * 0.32, H * 0.72, W * 0.44), tool.type === 'locking_pliers' ? chromeMat : darkSteelMat);
+        jaw.position.set(L * 0.30, H / 2, 0);
+        jaw.castShadow = true;
+        g.add(jaw);
+        const pivot = new THREE.Mesh(new THREE.CylinderGeometry(W * 0.22, W * 0.22, H * 0.88, 20), chromeMat);
+        pivot.position.set(L * 0.12, H / 2, 0);
+        g.add(pivot);
+        const hGeo = new THREE.CylinderGeometry(W * 0.15, W * 0.20, L * 0.62, 16).rotateZ(Math.PI / 2);
+        const h1 = new THREE.Mesh(hGeo, tool.type === 'locking_pliers' ? chromeMat : rubberMat);
+        h1.position.set(-L * 0.18, H / 2, -W * 0.24);
+        h1.rotation.y = 0.12;
+        g.add(h1);
+        const h2 = new THREE.Mesh(hGeo, tool.type === 'locking_pliers' ? chromeMat : rubberMat);
+        h2.position.set(-L * 0.18, H / 2, W * 0.24);
+        h2.rotation.y = -0.12;
+        g.add(h2);
+
+      } else if (tool.type === 'hammer') {
+        const shaft = new THREE.Mesh(new THREE.CylinderGeometry(11, 14, L * 0.85, 16).rotateZ(Math.PI / 2), rubberMat);
+        shaft.position.set(-L * 0.06, H / 2, 0);
+        g.add(shaft);
+        const head = new THREE.Mesh(new THREE.CylinderGeometry(H * 0.48, H * 0.48, W * 0.85, 20).rotateX(Math.PI / 2), phosphateBlackMat);
+        head.position.set(L * 0.36, H / 2, 0);
+        g.add(head);
+
+      } else if (tool.type === 'caliper') {
+        const scaleBar = new THREE.Mesh(new THREE.BoxGeometry(L, H * 0.35, W * 0.22), chromeMat);
+        scaleBar.position.set(0, H * 0.4, -W * 0.15);
+        g.add(scaleBar);
+        const jawFixed = new THREE.Mesh(new THREE.BoxGeometry(18, H * 0.35, W * 0.85), chromeMat);
+        jawFixed.position.set(-L * 0.42, H * 0.4, 0);
+        g.add(jawFixed);
+        const lcdHousing = new THREE.Mesh(new THREE.BoxGeometry(L * 0.28, H * 0.85, W * 0.45), darkGripMat);
+        lcdHousing.position.set(-L * 0.15, H * 0.5, -W * 0.1);
+        g.add(lcdHousing);
+
+      } else if (tool.type === 'power_drill') {
+        const barrel = new THREE.Mesh(new THREE.CylinderGeometry(H * 0.42, H * 0.42, L * 0.78, 20).rotateZ(Math.PI / 2), rubberMat);
+        barrel.position.set(L * 0.05, H * 0.52, -W * 0.22);
+        barrel.castShadow = true;
+        g.add(barrel);
+        const grip = new THREE.Mesh(new THREE.CylinderGeometry(H * 0.26, H * 0.28, W * 0.65, 16).rotateX(Math.PI / 2), darkGripMat);
+        grip.position.set(-L * 0.05, H * 0.45, W * 0.08);
+        g.add(grip);
+        const nose = new THREE.Mesh(new THREE.CylinderGeometry(H * 0.22, H * 0.34, L * 0.22, 16).rotateZ(Math.PI / 2), chromeMat);
+        nose.position.set(L * 0.42, H * 0.52, -W * 0.22);
+        g.add(nose);
+
+      } else if (tool.type === 'tape_measure') {
+        const caseMesh = new THREE.Mesh(new THREE.CylinderGeometry(L * 0.48, L * 0.48, H * 0.88, 24), rubberMat);
+        caseMesh.position.set(0, H * 0.45, 0);
+        g.add(caseMesh);
+
+      } else {
+        const bMesh = new THREE.Mesh(new THREE.BoxGeometry(L, H, W), rubberMat);
+        bMesh.position.set(0, H / 2, 0);
+        g.add(bMesh);
+      }
+
+      // Position & EVA Pocket / Finger Notch Rendering (with Exploded View offset)
+      const t = Number(state.box.wallThickness);
+      const baseH = state.box.noLid ? Number(state.box.height) : Number(state.box.height) * 0.62;
+      const evaH = Math.min(Number(state.box.evaHeight), baseH - t);
+      const customDepth = Number(tool.depth) || Math.round(H * 0.6);
+      const sinkDepth = (state.pocketMode === 'pockets') ? Math.min(customDepth, evaH - 3) : 0;
+      const exp = Number(state.explodeRatio || 0);
+      const baseElevation = t + evaH - sinkDepth + exp * 88;
+
+      if (state.pocketMode === 'pockets') {
+        const foamSurfaceLocalY = sinkDepth + 0.3 - exp * 30;
+        const pocketColor = getEvaContrastHex();
+        const pocketMat = new THREE.MeshStandardMaterial({ color: pocketColor, roughness: 0.9 });
+
+        const cavityPad = new THREE.Mesh(new THREE.BoxGeometry(L + 2, 0.6, W + 2), pocketMat);
+        cavityPad.position.set(0, foamSurfaceLocalY - 0.2, 0);
+        g.add(cavityPad);
+
+        if (state.showFingerNotches) {
+          const nr = Number(state.notchRadius) || 11;
+          const notchGeo = new THREE.CylinderGeometry(nr, nr, 0.8, 20);
+          const n1 = new THREE.Mesh(notchGeo, pocketMat);
+          n1.position.set(0, foamSurfaceLocalY, W / 2 + 3.5);
+          g.add(n1);
+          const n2 = new THREE.Mesh(notchGeo, pocketMat);
+          n2.position.set(0, foamSurfaceLocalY, -W / 2 - 3.5);
+          g.add(n2);
+        }
+      }
+
+      // Selection / Lock / Conflict Wireframe Box
+      const boxHelperGeo = new THREE.BoxGeometry(L + 2, H + 2, W + 2);
+      const wireEdges = new THREE.EdgesGeometry(boxHelperGeo);
+      const selColor = tool.locked ? 0xf59e0b : 0x38bdf8;
+      const selWire = new THREE.LineSegments(wireEdges, new THREE.LineBasicMaterial({ color: selColor, linewidth: 2 }));
+      selWire.position.set(0, H / 2, 0);
+      selWire.visible = (tool.id === state.selectedToolId);
+      g.add(selWire);
+
+      const warnWire = new THREE.LineSegments(wireEdges, new THREE.LineBasicMaterial({ color: 0xef4444, linewidth: 2 }));
+      warnWire.position.set(0, H / 2, 0);
+      warnWire.visible = !!tool.hasConflict;
+      g.add(warnWire);
+
+      g.position.set(tool.x, baseElevation, tool.y);
+      g.rotation.y = THREE.MathUtils.degToRad(tool.rotation || 0);
+
+      return g;
+    }
+
+    // -------------------------------------------------------------
+    // 6. Center of Gravity (CoG) 3D Indicator & Render Loop
+    // -------------------------------------------------------------
+    function renderAllTools3D() {
+      while (toolsGroup.children.length > 0) {
+        toolsGroup.remove(toolsGroup.children[0]);
+      }
+      while (cogGroup.children.length > 0) {
+        cogGroup.remove(cogGroup.children[0]);
+      }
+
+      checkCollisionsAndClearance();
+
+      state.tools.forEach(tool => {
+        const meshGroup = createTool3DMesh(tool);
+        toolsGroup.add(meshGroup);
+      });
+
+      // Compute Center of Gravity (CoG) of all tools
+      let sumWX = 0, sumWY = 0, sumW = 0;
+      state.tools.forEach(t => {
+        const w = Number(t.weight || 100);
+        sumWX += t.x * w;
+        sumWY += t.y * w;
+        sumW += w;
+      });
+      const cogX = sumW > 0 ? Math.round(sumWX / sumW) : 0;
+      const cogY = sumW > 0 ? Math.round(sumWY / sumW) : 0;
+      state.cog = { x: cogX, y: cogY };
+
+      if (state.showCogMarker && state.tools.length > 0) {
+        const t = Number(state.box.wallThickness);
+        const evaH = Number(state.box.evaHeight);
+        const markerY = t + evaH + 1.2 + Number(state.explodeRatio || 0) * 58;
+        const isBalanced = Math.abs(cogX) < state.box.length * 0.12 && Math.abs(cogY) < state.box.width * 0.15;
+        const cogColor = isBalanced ? 0x10b981 : 0xf59e0b;
+
+        const ring = new THREE.Mesh(
+          new THREE.RingGeometry(6, 9, 24),
+          new THREE.MeshBasicMaterial({ color: cogColor, side: THREE.DoubleSide })
+        );
+        ring.rotation.x = Math.PI / 2;
+        ring.position.set(cogX, markerY, cogY);
+        cogGroup.add(ring);
+
+        const crossPts = [
+          new THREE.Vector3(cogX - 13, markerY, cogY), new THREE.Vector3(cogX + 13, markerY, cogY),
+          new THREE.Vector3(cogX, markerY, cogY - 13), new THREE.Vector3(cogX, markerY, cogY + 13)
+        ];
+        cogGroup.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(crossPts), new THREE.LineBasicMaterial({ color: cogColor })));
+      }
+
+      updateBOMAndMetrics();
+    }
+
+    // -------------------------------------------------------------
+    // 7. 3D Interference, Wall Boundary & Lid Z-Clearance Check
+    // -------------------------------------------------------------
+    function checkCollisionsAndClearance() {
+      const L = Number(state.box.length);
+      const W = Number(state.box.width);
+      const H = Number(state.box.height);
+      const t = Number(state.box.wallThickness);
+      const isDrawer = !!state.box.noLid || state.box.lidAngle >= 118;
+      const baseH = isDrawer ? H : H * 0.62;
+      const evaH = Math.min(Number(state.box.evaHeight), baseH - t);
+      const innerHalfL = (L - 2 * t) / 2;
+      const innerHalfW = (W - 2 * t) / 2;
+      const lidFoamThickness = (!isDrawer && state.box.showLidFoam) ? 5 : 0;
+      const maxInternalHeight = H - 2 * t - lidFoamThickness;
+      const safeMargin = Number(state.safeMargin);
+      const outerMargin = Number(state.outerMargin);
+
+      let anyConflict = false;
+
+      state.tools.forEach(tool => {
+        tool.hasConflict = false;
+        tool.conflictReason = '';
+      });
+
+      state.tools.forEach(tool => {
+        const rad = THREE.MathUtils.degToRad(tool.rotation || 0);
+        const cos = Math.abs(Math.cos(rad));
+        const sin = Math.abs(Math.sin(rad));
+        const effHalfX = (tool.length * cos + tool.width * sin) / 2;
+        const effHalfZ = (tool.length * sin + tool.width * cos) / 2;
+
+        if (tool.x - effHalfX < -innerHalfL + outerMargin ||
+            tool.x + effHalfX > innerHalfL - outerMargin ||
+            tool.y - effHalfZ < -innerHalfW + outerMargin ||
+            tool.y + effHalfZ > innerHalfW - outerMargin) {
+          tool.hasConflict = true;
+          tool.conflictReason = state.lang === 'en' ? 'Exceeds inner wall margin' : '超出盒內壁安全邊界';
+          anyConflict = true;
+        }
+
+        const customDepth = Number(tool.depth) || Math.round(tool.height * 0.6);
+        const sinkDepth = (state.pocketMode === 'pockets') ? Math.min(customDepth, evaH - 3) : 0;
+        const toolTopY = evaH - sinkDepth + tool.height;
+        if (toolTopY > maxInternalHeight) {
+          tool.hasConflict = true;
+          tool.conflictReason = state.lang === 'en'
+            ? `Z-Height (${Math.round(toolTopY)}>${maxInternalHeight}mm)`
+            : `高度超限 (${Math.round(toolTopY)}>${maxInternalHeight}mm 頂蓋干涉)`;
+          anyConflict = true;
+        }
+      });
+
+      for (let i = 0; i < state.tools.length; i++) {
+        for (let j = i + 1; j < state.tools.length; j++) {
+          const t1 = state.tools[i];
+          const t2 = state.tools[j];
+          const rad1 = THREE.MathUtils.degToRad(t1.rotation || 0);
+          const rad2 = THREE.MathUtils.degToRad(t2.rotation || 0);
+          const eff1X = (t1.length * Math.abs(Math.cos(rad1)) + t1.width * Math.abs(Math.sin(rad1))) / 2;
+          const eff1Z = (t1.length * Math.abs(Math.sin(rad1)) + t1.width * Math.abs(Math.cos(rad1))) / 2;
+          const eff2X = (t2.length * Math.abs(Math.cos(rad2)) + t2.width * Math.abs(Math.sin(rad2))) / 2;
+          const eff2Z = (t2.length * Math.abs(Math.sin(rad2)) + t2.width * Math.abs(Math.cos(rad2))) / 2;
+
+          if (Math.abs(t1.x - t2.x) < (eff1X + eff2X + safeMargin) &&
+              Math.abs(t1.y - t2.y) < (eff1Z + eff2Z + safeMargin)) {
+            t1.hasConflict = true;
+            t2.hasConflict = true;
+            const n1 = state.lang === 'en' ? (t1.nameEn || t1.name) : t1.name;
+            const n2 = state.lang === 'en' ? (t2.nameEn || t2.name) : t2.name;
+            t1.conflictReason = state.lang === 'en' ? `Gap <${safeMargin}mm with "${n2}"` : `與「${n2}」間距過近 (<${safeMargin}mm)`;
+            t2.conflictReason = state.lang === 'en' ? `Gap <${safeMargin}mm with "${n1}"` : `與「${n1}」間距過近 (<${safeMargin}mm)`;
+            anyConflict = true;
+          }
+        }
+      }
+
+      const statusText = document.getElementById('statusInterferenceText');
+      const statusDot = document.getElementById('statusIndicatorDot');
+      const statusBadge = document.getElementById('badgeInterference');
+
+      if (anyConflict) {
+        statusText.innerText = state.lang === 'en' ? 'Warning: Collision / Boundary / Z-Height Conflict!' : '干涉警示：存在碰撞、越界或上蓋高度干涉！';
+        statusText.className = 'text-xs font-semibold text-rose-400 font-mono tracking-wide';
+        statusDot.className = 'relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500';
+        statusBadge.className = 'hud-chip px-3 py-1.5 rounded-lg border border-rose-500/80 shadow-xl flex items-center gap-2 pointer-events-auto bg-rose-950/40';
+      } else {
+        statusText.innerText = state.lang === 'en' ? 'Clearance Check: OK (Meets EVA Standard)' : '干涉檢測：合格無衝突 (肋壁與淨高充足)';
+        statusText.className = 'text-xs font-semibold text-emerald-400 font-mono tracking-wide';
+        statusDot.className = 'relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500';
+        statusBadge.className = 'hud-chip px-3 py-1.5 rounded-lg border border-emerald-500/50 shadow-xl flex items-center gap-2 pointer-events-auto';
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 8. Multi-Strategy Smart Auto-Pack Algorithm (Respects Locked Tools)
+    // -------------------------------------------------------------
+    function executeAutoLayout(silent = false) {
+      if (state.tools.length === 0) return;
+
+      const L = Number(state.box.length);
+      const W = Number(state.box.width);
+      const t = Number(state.box.wallThickness);
+      const safeMargin = Number(state.safeMargin);
+      const outerMargin = Number(state.outerMargin);
+      const strategy = document.getElementById('packStrategySelect').value;
+
+      const usableL = L - 2 * t - 2 * outerMargin;
+      const usableW = W - 2 * t - 2 * outerMargin;
+      const startX = -usableL / 2;
+      const startZ = -usableW / 2;
+
+      const unlocked = state.tools.filter(item => !item.locked);
+
+      if (strategy === 'category') {
+        const catOrder = { ratchet: 1, wrench: 2, socket: 3, pliers: 4, driver: 5, strike: 6, measure: 7, power: 8 };
+        unlocked.sort((a, b) => (catOrder[a.cat] || 9) - (catOrder[b.cat] || 9) || b.length - a.length);
+      } else if (strategy === 'staircase') {
+        unlocked.sort((a, b) => (a.length * a.width) - (b.length * b.width));
+      } else {
+        unlocked.sort((a, b) => Math.max(b.length, b.width) - Math.max(a.length, a.width));
+      }
+
+      let currentX = startX;
+      let currentZ = startZ;
+      let rowMaxDepth = 0;
+
+      unlocked.forEach(tool => {
+        let l = tool.length;
+        let w = tool.width;
+        tool.rotation = 0;
+
+        if (l > usableL && w <= usableL) {
+          tool.rotation = 90;
+          l = tool.width;
+          w = tool.length;
+        }
+
+        if (currentX + l > usableL / 2) {
+          if (w <= (usableL / 2 - currentX) && l <= Math.max(rowMaxDepth, usableW * 0.48)) {
+            tool.rotation = 90;
+            l = tool.width;
+            w = tool.length;
+          } else {
+            currentX = startX;
+            currentZ += rowMaxDepth + safeMargin;
+            rowMaxDepth = 0;
+          }
+        }
+
+        tool.x = Math.round(currentX + l / 2);
+        tool.y = Math.round(currentZ + w / 2);
+
+        currentX += l + safeMargin;
+        if (w > rowMaxDepth) rowMaxDepth = w;
+      });
+
+      pushHistory();
+      renderAllTools3D();
+      if (!silent) {
+        showToast(state.lang === 'en' ? 'Smart Auto-Pack Completed!' : '已完成多策略智慧自動排樣！', '⚡');
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 9. Load 10 Complete Industry Tool Kits
+    // -------------------------------------------------------------
+    function addToolFromCode(code, x = 0, y = 0, rotation = 0) {
+      const ref = TOOL_CATALOG.find(item => item.code === code) || TOOL_CATALOG[0];
+      return {
+        id: nextToolId++,
+        code: ref.code,
+        cat: ref.cat,
+        name: ref.name,
+        nameEn: ref.nameEn,
+        type: ref.type,
+        length: ref.length,
+        width: ref.width,
+        height: ref.height,
+        depth: Math.round(ref.height * 0.6),
+        weight: ref.weight,
+        cost: ref.cost,
+        std: ref.std,
+        color: ref.color,
+        x,
+        y,
+        rotation,
+        locked: false
+      };
+    }
+
+    function applyBoxPreset(presetKey) {
+      const p = BOX_PRESETS[presetKey];
+      if (!p) return;
+      state.boxPresetKey = presetKey;
+      state.box.length = p.length;
+      state.box.width = p.width;
+      state.box.height = p.height;
+      state.box.wallThickness = p.wall;
+      state.box.evaHeight = p.eva;
+      state.box.color = p.color;
+      state.box.lidAngle = p.lid;
+      state.box.noLid = !!p.noLid;
+      document.getElementById('presetBoxSelect').value = presetKey;
+      document.getElementById('dispBoxTypeTag').innerText = state.lang === 'en' ? p.tagEn : p.tagZh;
+      syncBoxInputsFromState();
+    }
+
+    function syncBoxInputsFromState() {
+      document.getElementById('inputBoxL').value = state.box.length;
+      document.getElementById('inputBoxW').value = state.box.width;
+      document.getElementById('inputBoxH').value = state.box.height;
+      document.getElementById('inputWallT').value = state.box.wallThickness;
+      document.getElementById('inputEvaH').value = state.box.evaHeight;
+      document.getElementById('rangeLidAngle').value = state.box.lidAngle;
+    }
+
+    function loadKitTemplate(kitKey) {
+      state.tools = [];
+      selectTool(null);
+
+      if (kitKey === 'kit_24_socket') {
+        applyBoxPreset('sy_socket_24');
+        state.tools = [
+          addToolFromCode('RT-14-72', -50, -30, 0),
+          addToolFromCode('EX-14-100', 75, -34, 0),
+          addToolFromCode('UJ-14', 102, -8, 0),
+          addToolFromCode('TB-14-115', 25, -8, 0),
+          addToolFromCode('SK-14-S6', -62, 26, 0),
+          addToolFromCode('BT-RAIL10', 65, 26, 0)
+        ];
+      } else if (kitKey === 'kit_46_auto') {
+        applyBoxPreset('sy_combo_46');
+        state.tools = [
+          addToolFromCode('TQ-12-210', -12, -92, 0),
+          addToolFromCode('RT-12-72', -65, -42, 0),
+          addToolFromCode('RT-14-72', 112, -42, 0),
+          addToolFromCode('SK-12-IMP4', -112, 12, 0),
+          addToolFromCode('SK-38-HEX6', 48, 12, 0),
+          addToolFromCode('SK-SPK-16', 158, 12, 0),
+          addToolFromCode('SK-14-S6', -125, 78, 0),
+          addToolFromCode('HK-SET9', 32, 78, 0),
+          addToolFromCode('UJ-12', 158, 78, 0)
+        ];
+      } else if (kitKey === 'kit_drawer_1_socket') {
+        applyBoxPreset('boxo_full_drawer');
+        state.tools = [
+          addToolFromCode('TQ-12-210', -85, -145, 0),
+          addToolFromCode('BR-12-250', 145, -145, 0),
+          addToolFromCode('RT-12-72', -135, -88, 0),
+          addToolFromCode('RT-38-72', 55, -88, 0),
+          addToolFromCode('RT-14-72', 200, -88, 0),
+          addToolFromCode('SK-12-S8', -150, -25, 0),
+          addToolFromCode('SK-38-S8', 85, -25, 0),
+          addToolFromCode('SK-12-IMP4', -185, 50, 0),
+          addToolFromCode('SK-38-HEX6', -10, 50, 0),
+          addToolFromCode('SK-38-TRX6', 155, 50, 0),
+          addToolFromCode('SK-14-S10', -175, 130, 0),
+          addToolFromCode('EX-12-250', 35, 130, 0),
+          addToolFromCode('UJ-12', 210, 130, 0)
+        ];
+      } else if (kitKey === 'kit_drawer_2_wrench') {
+        applyBoxPreset('kt_eva_tray_3');
+        state.tools = [
+          addToolFromCode('CW-SET8', -145, -38, 0),
+          addToolFromCode('AW-08', -145, 74, 0),
+          addToolFromCode('PL-CMB-7', 65, -78, 0),
+          addToolFromCode('PL-LN-6', 65, -18, 0),
+          addToolFromCode('PL-DG-6', 65, 44, 0),
+          addToolFromCode('SD-PH2', 105, 95, 0),
+          addToolFromCode('BT-BOX30', 210, -55, 90),
+          addToolFromCode('CW-14', 235, 20, 90)
+        ];
+      } else if (kitKey === 'kit_drawer_3_workshop') {
+        applyBoxPreset('boxo_full_drawer');
+        state.tools = [
+          addToolFromCode('HM-BP300', -130, -125, 0),
+          addToolFromCode('HM-DB400', -120, -15, 0),
+          addToolFromCode('MS-CAL150', -135, 95, 0),
+          addToolFromCode('MS-DMM', 110, -120, 0),
+          addToolFromCode('MS-TAPE5', 225, -120, 0),
+          addToolFromCode('CH-SET5', 140, -15, 0),
+          addToolFromCode('KN-UT160', 120, 85, 0),
+          addToolFromCode('HK-SET9', 125, 145, 0),
+          addToolFromCode('MS-FLG20', -160, 155, 0)
+        ];
+      } else if (kitKey === 'kit_mod_1_3_pliers') {
+        applyBoxPreset('tray_1_3_narrow');
+        state.tools = [
+          addToolFromCode('PL-CMB-8', 0, -135, 90),
+          addToolFromCode('PL-LN-6', 0, -45, 90),
+          addToolFromCode('PL-DG-6', 0, 45, 90),
+          addToolFromCode('PL-WP-8', 0, 135, 90)
+        ];
+        // Rotate 0 so they lie horizontally across 185mm width
+        state.tools.forEach((t, idx) => { t.rotation = 0; t.x = 0; t.y = -135 + idx * 90; });
+      } else if (kitKey === 'kit_mod_1_3_driver') {
+        applyBoxPreset('tray_1_3_narrow');
+        state.tools = [
+          addToolFromCode('SD-PH1', 0, -145, 0),
+          addToolFromCode('SD-PH2', 0, -95, 0),
+          addToolFromCode('SD-SL6', 0, -45, 0),
+          addToolFromCode('SD-SPN', 0, 5, 0),
+          addToolFromCode('HK-SET9', 0, 75, 0),
+          addToolFromCode('BT-BOX30', 0, 148, 0)
+        ];
+      } else if (kitKey === 'kit_pneumatic_impact') {
+        applyBoxPreset('sy_blow_medium');
+        state.tools = [
+          addToolFromCode('PW-AIR12', -75, -15, 0),
+          addToolFromCode('SK-12-IMP4', 95, -55, 0),
+          addToolFromCode('EX-12-250', 35, 75, 0),
+          addToolFromCode('UJ-12', -125, 75, 0)
+        ];
+      } else if (kitKey === 'kit_ev_inspection') {
+        applyBoxPreset('ip67_rugged_430');
+        state.tools = [
+          addToolFromCode('TQ-12-DIG', -5, -108, 0),
+          addToolFromCode('PW-DRV18', -105, 25, 0),
+          addToolFromCode('PW-BAT40', 45, -15, 0),
+          addToolFromCode('MS-DMM', 135, 45, 90),
+          addToolFromCode('MS-CAL150', 25, 105, 0)
+        ];
+      } else {
+        applyBoxPreset('sy_combo_46');
+        state.tools = [
+          addToolFromCode('HM-BP300', -55, -72, 0),
+          addToolFromCode('MS-TAPE5', 138, -76, 0),
+          addToolFromCode('AW-08', -85, 8, 0),
+          addToolFromCode('PL-CMB-7', 95, 8, 0),
+          addToolFromCode('KN-UT160', -105, 65, 0),
+          addToolFromCode('SD-PH2', 82, 65, 0),
+          addToolFromCode('SK-14-S6', -125, 105, 0),
+          addToolFromCode('RT-14-72', 35, 105, 0)
+        ];
+      }
+
+      pushHistory();
+      buildBox3D();
+      renderAllTools3D();
+      showToast(state.lang === 'en' ? 'Loaded Turnkey Tool Kit!' : '已載入標準成套工具組套！', '🧰');
+    }
+
+    // -------------------------------------------------------------
+    // 10. Render 60-Tool Catalog UI with Search & Category Filter
+    // -------------------------------------------------------------
+    function renderCatalogUI() {
+      const listEl = document.getElementById('toolCatalogList');
+      listEl.innerHTML = '';
+      const q = (state.searchQuery || '').toLowerCase().trim();
+
+      const filtered = TOOL_CATALOG.filter(item => {
+        const matchCat = state.activeCat === 'all' || item.cat === state.activeCat;
+        if (!matchCat) return false;
+        if (!q) return true;
+        return item.name.toLowerCase().includes(q) ||
+               item.nameEn.toLowerCase().includes(q) ||
+               item.code.toLowerCase().includes(q) ||
+               item.std.toLowerCase().includes(q);
+      });
+
+      if (filtered.length === 0) {
+        listEl.innerHTML = `<div class="p-4 text-center text-slate-500 text-xs">${state.lang === 'en' ? 'No matching tools found' : '找不到符合關鍵字的手工具'}</div>`;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const btn = document.createElement('button');
+        btn.className = 'w-full p-2 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700/70 text-left flex items-center justify-between transition group';
+        const title = state.lang === 'en' ? item.nameEn : item.name;
+        btn.innerHTML = `
+          <div class="flex items-center gap-2 min-w-0 pr-2">
+            <span class="w-2 h-7 rounded-full shrink-0" style="background:${item.color}"></span>
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-medium text-slate-100 truncate">${title}</span>
+                <span class="text-[9px] px-1 py-0.2 rounded bg-slate-800 text-cyan-300 font-mono shrink-0">${item.std}</span>
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono">${item.length}×${item.width}×${item.height}mm · ${item.weight}g · NT$${item.cost}</div>
+            </div>
+          </div>
+          <span class="text-[11px] font-semibold text-blue-400 group-hover:translate-x-0.5 transition shrink-0">${state.lang === 'en' ? '+ Add' : '+ 放入'}</span>
+        `;
+        btn.addEventListener('click', () => {
+          const qty = Number(document.getElementById('batchAddQty').value) || 1;
+          let lastAdded = null;
+          for (let i = 0; i < qty; i++) {
+            lastAdded = addToolFromCode(item.code);
+            state.tools.push(lastAdded);
+          }
+          executeAutoLayout(true);
+          if (lastAdded) selectTool(lastAdded.id);
+          showToast(state.lang === 'en' ? `Added ${qty}x "${item.nameEn}"` : `已置入 ${qty} 件「${item.name}」`, '➕');
+        });
+        listEl.appendChild(btn);
+      });
+    }
+
+    // -------------------------------------------------------------
+    // 11. BOM, Center of Gravity & Costing Calculation
+    // -------------------------------------------------------------
+    function updateBOMAndMetrics() {
+      const L = Number(state.box.length);
+      const W = Number(state.box.width);
+      const H = Number(state.box.height);
+      const t = Number(state.box.wallThickness);
+
+      const innerL = L - 2 * t;
+      const innerW = W - 2 * t;
+      const innerH = H - 2 * t;
+      const innerArea = innerL * innerW;
+
+      let totalToolArea = 0;
+      let totalToolWeightG = 0;
+      let totalToolCost = 0;
+
+      state.tools.forEach(tool => {
+        totalToolArea += (tool.length * tool.width);
+        totalToolWeightG += Number(tool.weight || 100);
+        totalToolCost += Number(tool.cost || 120);
+      });
+
+      const areaRatio = innerArea > 0 ? ((totalToolArea / innerArea) * 100).toFixed(1) : '0.0';
+      const boxVolumeDm3 = (L * W * H) / 1000000;
+      const boxWeightKg = Number((boxVolumeDm3 * 0.45).toFixed(2));
+      const totalWeightKg = (boxWeightKg + totalToolWeightG / 1000).toFixed(2);
+
+      // Cost & CNC time estimation
+      const presetInfo = BOX_PRESETS[state.boxPresetKey] || { baseCost: 280 };
+      const evaAreaDm2 = innerArea / 10000;
+      const evaCost = Math.round(evaAreaDm2 * (state.box.evaHeight * 1.1));
+      const boxEvaCost = presetInfo.baseCost + evaCost;
+      const totalCost = boxEvaCost + totalToolCost;
+      const suggestedPrice = Math.round(totalCost * 1.45);
+      const cncMinutes = (0.8 + state.tools.length * 0.35).toFixed(1);
+
+      document.getElementById('dispInternalDim').innerText = `${innerL} × ${innerW} × ${innerH} mm`;
+      document.getElementById('dispInternalArea').innerText = `${(innerArea / 100).toFixed(1)} cm² (${state.lang === 'en' ? 'Cutout' : '挖除'} ${areaRatio}%)`;
+
+      const cogX = state.cog ? state.cog.x : 0;
+      const cogY = state.cog ? state.cog.y : 0;
+      const cogOk = Math.abs(cogX) < L * 0.12 && Math.abs(cogY) < W * 0.15;
+      const cogEl = document.getElementById('dispCogBalance');
+      cogEl.innerText = `ΔX:${cogX}mm, ΔY:${cogY}mm (${cogOk ? (state.lang === 'en' ? 'Balanced' : '平衡極佳') : (state.lang === 'en' ? 'Off-Center' : '略偏心')})`;
+      cogEl.className = cogOk ? 'text-emerald-400 font-mono' : 'text-amber-400 font-mono';
+
+      document.getElementById('hudToolCount').innerText = state.lang === 'en' ? `${state.tools.length} pcs` : `${state.tools.length} 件`;
+      document.getElementById('hudAreaUsage').innerText = `${areaRatio}%`;
+      document.getElementById('hudTotalWeight').innerText = `${totalWeightKg} kg`;
+      document.getElementById('hudTotalCost').innerText = `NT$ ${totalCost.toLocaleString()}`;
+
+      document.getElementById('dispCncTime').innerText = `CNC ~${cncMinutes} min`;
+      document.getElementById('dispBoxEvaCost').innerText = `NT$ ${boxEvaCost.toLocaleString()}`;
+      document.getElementById('dispSuggestedPrice').innerText = `NT$ ${suggestedPrice.toLocaleString()}`;
+
+      const bomContainer = document.getElementById('bomListContainer');
+      bomContainer.innerHTML = '';
+
+      if (state.tools.length === 0) {
+        bomContainer.innerHTML = `<div class="p-6 text-center text-slate-500 text-xs">${state.lang === 'en' ? 'No tools placed yet. Select from Tool Library or Turnkey Kits.' : '目前盒內無工具，請從左側「組套範本」或「工具庫」點選加入'}</div>`;
+        return;
+      }
+
+      state.tools.forEach((tool, idx) => {
+        const itemDiv = document.createElement('div');
+        const isSelected = tool.id === state.selectedToolId;
+        const dispName = state.lang === 'en' ? (tool.nameEn || tool.name) : tool.name;
+        itemDiv.className = `p-2 rounded-lg border text-xs transition cursor-pointer ${
+          tool.hasConflict ? 'bg-rose-950/35 border-rose-700 text-rose-200' :
+          isSelected ? 'bg-blue-900/45 border-blue-500 text-white shadow-lg' :
+          'bg-slate-800/45 border-slate-700/60 hover:bg-slate-800 text-slate-300'
+        }`;
+
+        itemDiv.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5 font-medium truncate">
+              <span class="w-4 h-4 rounded-full bg-slate-700 text-[10px] flex items-center justify-center text-slate-300 shrink-0">${idx + 1}</span>
+              <span class="truncate">${tool.locked ? '🔒 ' : ''}${dispName}</span>
+            </div>
+            <div class="flex items-center gap-1 shrink-0">
+              <button data-action="lock" data-id="${tool.id}" class="p-1 rounded hover:bg-slate-700 text-slate-400 hover:text-amber-300 text-[10px]" title="鎖定位置">${tool.locked ? '🔒' : '🔓'}</button>
+              <button data-action="rotate" data-id="${tool.id}" class="p-1 rounded hover:bg-slate-700 text-slate-400 hover:text-white">↻</button>
+              <button data-action="delete" data-id="${tool.id}" class="p-1 rounded hover:bg-rose-900 text-slate-400 hover:text-rose-300">✕</button>
+            </div>
+          </div>
+          <div class="mt-1 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+            <span>${tool.length}×${tool.width}×${tool.height}mm (深${tool.depth || Math.round(tool.height*0.6)})</span>
+            <span>(${tool.x}, ${tool.y})</span>
+            <span class="text-amber-300">NT$${tool.cost || 120}</span>
+          </div>
+          ${tool.hasConflict ? `<div class="mt-1 text-[10px] text-rose-400">⚠️ ${tool.conflictReason}</div>` : ''}
+        `;
+
+        itemDiv.addEventListener('click', (e) => {
+          if (e.target.closest('button')) return;
+          selectTool(tool.id);
+        });
+        bomContainer.appendChild(itemDiv);
+      });
+
+      bomContainer.querySelectorAll('button[data-action="lock"]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleLockToolById(Number(btn.getAttribute('data-id')));
+        });
+      });
+      bomContainer.querySelectorAll('button[data-action="rotate"]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          rotateToolById(Number(btn.getAttribute('data-id')), 90);
+        });
+      });
+      bomContainer.querySelectorAll('button[data-action="delete"]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          deleteToolById(Number(btn.getAttribute('data-id')));
+        });
+      });
+    }
+
+    // -------------------------------------------------------------
+    // 12. Tool Selection, Inspector & Manipulation
+    // -------------------------------------------------------------
+    function selectTool(id) {
+      state.selectedToolId = id;
+      const tool = state.tools.find(t => t.id === id);
+      const inspector = document.getElementById('toolInspector');
+
+      if (tool) {
+        document.getElementById('inspectToolName').innerText = state.lang === 'en' ? (tool.nameEn || tool.name) : tool.name;
+        document.getElementById('inspectX').value = tool.x;
+        document.getElementById('inspectY').value = tool.y;
+        document.getElementById('inspectRot').value = tool.rotation || 0;
+        document.getElementById('inspectDepth').value = tool.depth || Math.round(tool.height * 0.6);
+        const lockBtn = document.getElementById('btnLockTool');
+        lockBtn.innerText = tool.locked
+          ? (state.lang === 'en' ? '🔒 Locked' : '🔒 已鎖定')
+          : (state.lang === 'en' ? '🔓 Unlocked' : '🔓 未鎖定');
+        lockBtn.className = tool.locked
+          ? 'px-1.5 py-0.5 rounded bg-amber-900/70 text-[10px] text-amber-200 border border-amber-600'
+          : 'px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-slate-300';
+        inspector.className = 'absolute bottom-14 left-3.5 bg-slate-900/95 backdrop-blur border border-blue-500 rounded-xl p-3 shadow-2xl space-y-2.5 z-20 w-80 transition-all opacity-100 pointer-events-auto';
+      } else {
+        inspector.className = 'absolute bottom-14 left-3.5 bg-slate-900/95 backdrop-blur border border-blue-500 rounded-xl p-3 shadow-2xl space-y-2.5 z-20 w-80 transition-all opacity-0 pointer-events-none';
+      }
+
+      renderAllTools3D();
+    }
+
+    function toggleLockToolById(id) {
+      const tool = state.tools.find(t => t.id === id);
+      if (tool) {
+        tool.locked = !tool.locked;
+        pushHistory();
+        selectTool(id);
+      }
+    }
+
+    function rotateToolById(id, angleStep = 90) {
+      const tool = state.tools.find(t => t.id === id);
+      if (tool) {
+        tool.rotation = ((tool.rotation || 0) + angleStep) % 360;
+        pushHistory();
+        selectTool(id);
+      }
+    }
+
+    function deleteToolById(id) {
+      state.tools = state.tools.filter(t => t.id !== id);
+      pushHistory();
+      if (state.selectedToolId === id) selectTool(null);
+      else renderAllTools3D();
+      showToast(state.lang === 'en' ? 'Removed tool' : '已移除指定工具', '🗑️');
+    }
+
+    // -------------------------------------------------------------
+    // 13. Raycasting 3D Drag & Keyboard Shortcuts
+    // -------------------------------------------------------------
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let isDragging = false;
+    let draggedTool = null;
+    const plane = new THREE.Plane();
+    const planeIntersect = new THREE.Vector3();
+    const dragOffset = new THREE.Vector2();
+
+    container.addEventListener('pointerdown', (e) => {
+      const rect = container.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / container.clientWidth) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / container.clientHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(toolsGroup.children, true);
+
+      if (intersects.length > 0) {
+        let obj = intersects[0].object;
+        while (obj.parent && obj.parent !== toolsGroup) obj = obj.parent;
+        if (obj.userData && obj.userData.toolId) {
+          const t = state.tools.find(item => item.id === obj.userData.toolId);
+          selectTool(t.id);
+          if (t.locked) {
+            showToast(state.lang === 'en' ? 'Tool is locked (Press L to unlock)' : '此工具已鎖定位置 (按 L 鍵可解鎖)', '🔒');
+            return;
+          }
+          controls.enabled = false;
+          isDragging = true;
+          draggedTool = t;
+          plane.setFromNormalAndCoplanarPoint(new THREE.Vector3(0, 1, 0), obj.position);
+          raycaster.ray.intersectPlane(plane, planeIntersect);
+          dragOffset.x = planeIntersect.x - draggedTool.x;
+          dragOffset.y = planeIntersect.z - draggedTool.y;
+        }
+      }
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!isDragging || !draggedTool) return;
+      const rect = container.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / container.clientWidth) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / container.clientHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      if (raycaster.ray.intersectPlane(plane, planeIntersect)) {
+        let newX = planeIntersect.x - dragOffset.x;
+        let newY = planeIntersect.z - dragOffset.y;
+        const snap = Number(state.gridSnap);
+        if (snap > 0) {
+          newX = Math.round(newX / snap) * snap;
+          newY = Math.round(newY / snap) * snap;
+        }
+        draggedTool.x = Math.round(newX);
+        draggedTool.y = Math.round(newY);
+        document.getElementById('inspectX').value = draggedTool.x;
+        document.getElementById('inspectY').value = draggedTool.y;
+        renderAllTools3D();
+      }
+    });
+
+    window.addEventListener('pointerup', () => {
+      if (isDragging) {
+        isDragging = false;
+        draggedTool = null;
+        controls.enabled = true;
+        pushHistory();
+      }
+    });
+
+    // Global Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+        e.preventDefault();
+        undoAction();
+        return;
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') {
+        e.preventDefault();
+        redoAction();
+        return;
+      }
+
+      if (!state.selectedToolId) return;
+      const tool = state.tools.find(t => t.id === state.selectedToolId);
+      if (!tool) return;
+
+      const step = e.shiftKey ? 5 : 1;
+      if (e.key === 'ArrowLeft') { e.preventDefault(); if (!tool.locked) { tool.x -= step; selectTool(tool.id); pushHistory(); } }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); if (!tool.locked) { tool.x += step; selectTool(tool.id); pushHistory(); } }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); if (!tool.locked) { tool.y -= step; selectTool(tool.id); pushHistory(); } }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); if (!tool.locked) { tool.y += step; selectTool(tool.id); pushHistory(); } }
+      else if (e.key.toLowerCase() === 'r' || e.key === ' ') { e.preventDefault(); rotateToolById(tool.id, 90); }
+      else if (e.key.toLowerCase() === 'l') { e.preventDefault(); toggleLockToolById(tool.id); }
+      else if (e.key.toLowerCase() === 'd') { e.preventDefault(); document.getElementById('btnDuplicateTool').click(); }
+      else if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); deleteToolById(tool.id); }
+    });
+
+    // -------------------------------------------------------------
+    // 14. UI Tabs, Controls & Export Handlers (1:1 AutoCAD DXF, SVG, CSV, JSON)
+    // -------------------------------------------------------------
+    const tabBtns = ['tabBtnKit', 'tabBtnTools', 'tabBtnEva', 'tabBtnLayout'].map(id => document.getElementById(id));
+    const tabPanels = ['panelKit', 'panelTools', 'panelEva', 'panelLayout'].map(id => document.getElementById(id));
+
+    tabBtns.forEach((btn, idx) => {
+      btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.className = 'py-2.5 px-1 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex flex-col items-center gap-0.5 transition');
+        tabPanels.forEach(p => p.classList.add('hidden'));
+        btn.className = 'py-2.5 px-1 font-semibold border-b-2 border-blue-500 text-blue-400 bg-slate-800/50 flex flex-col items-center gap-0.5 transition';
+        tabPanels[idx].classList.remove('hidden');
+      });
+    });
+
+    document.getElementById('btnUndo').addEventListener('click', undoAction);
+    document.getElementById('btnRedo').addEventListener('click', redoAction);
+
+    document.getElementById('btnLoadKitTemplate').addEventListener('click', () => {
+      loadKitTemplate(document.getElementById('kitTemplateSelect').value);
+    });
+
+    document.getElementById('presetBoxSelect').addEventListener('change', (e) => {
+      if (e.target.value !== 'custom') {
+        applyBoxPreset(e.target.value);
+        pushHistory();
+        buildBox3D();
+        renderAllTools3D();
+      }
+    });
+
+    ['inputBoxL', 'inputBoxW', 'inputBoxH', 'inputWallT', 'inputEvaH'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        state.box.length = Number(document.getElementById('inputBoxL').value) || 280;
+        state.box.width = Number(document.getElementById('inputBoxW').value) || 130;
+        state.box.height = Number(document.getElementById('inputBoxH').value) || 42;
+        state.box.wallThickness = Number(document.getElementById('inputWallT').value) || 3;
+        state.box.evaHeight = Number(document.getElementById('inputEvaH').value) || 18;
+        buildBox3D();
+        renderAllTools3D();
+      });
+    });
+
+    // Lid Angle & Exploded View Sliders
+    document.getElementById('rangeLidAngle').addEventListener('input', (e) => {
+      state.box.noLid = false;
+      state.box.lidAngle = Number(e.target.value);
+      document.getElementById('dispLidAngle').innerText = `${state.box.lidAngle}°`;
+      buildBox3D();
+    });
+    document.getElementById('btnLidClose').addEventListener('click', () => { state.box.noLid = false; state.box.lidAngle = 0; document.getElementById('rangeLidAngle').value = 0; document.getElementById('dispLidAngle').innerText = '0°'; buildBox3D(); });
+    document.getElementById('btnLidHalf').addEventListener('click', () => { state.box.noLid = false; state.box.lidAngle = 45; document.getElementById('rangeLidAngle').value = 45; document.getElementById('dispLidAngle').innerText = '45°'; buildBox3D(); });
+    document.getElementById('btnLidOpen').addEventListener('click', () => { state.box.noLid = false; state.box.lidAngle = 95; document.getElementById('rangeLidAngle').value = 95; document.getElementById('dispLidAngle').innerText = '95°'; buildBox3D(); });
+    document.getElementById('btnLidFlat').addEventListener('click', () => { state.box.noLid = true; document.getElementById('dispLidAngle').innerText = '無上蓋'; buildBox3D(); renderAllTools3D(); });
+
+    const rangeExplode = document.getElementById('rangeExplode');
+    rangeExplode.addEventListener('input', (e) => {
+      const val = Number(e.target.value);
+      state.explodeRatio = val / 100;
+      document.getElementById('dispExplodeVal').innerText = `${val}%`;
+      buildBox3D();
+      renderAllTools3D();
+    });
+
+    document.getElementById('btnQuickExplode').addEventListener('click', () => {
+      const nextVal = state.explodeRatio > 0 ? 0 : 75;
+      rangeExplode.value = nextVal;
+      state.explodeRatio = nextVal / 100;
+      document.getElementById('dispExplodeVal').innerText = `${nextVal}%`;
+      buildBox3D();
+      renderAllTools3D();
+      showToast(nextVal > 0 ? (state.lang === 'en' ? '3D Exploded View Enabled' : '已展開 3D 結構爆炸分解圖') : (state.lang === 'en' ? 'Assembled View Restored' : '已恢復組合視角'), '💥');
+    });
+
+    // Search & Category Filter
+    const searchInput = document.getElementById('toolSearchInput');
+    const clearSearchBtn = document.getElementById('btnClearSearch');
+    searchInput.addEventListener('input', (e) => {
+      state.searchQuery = e.target.value;
+      clearSearchBtn.classList.toggle('hidden', !state.searchQuery);
+      renderCatalogUI();
+    });
+    clearSearchBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      state.searchQuery = '';
+      clearSearchBtn.classList.add('hidden');
+      renderCatalogUI();
+    });
+
+    document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.activeCat = btn.getAttribute('data-cat');
+        document.querySelectorAll('.cat-filter-btn').forEach(b => {
+          b.className = 'cat-filter-btn px-2 py-0.5 rounded text-[10px] font-medium bg-slate-800 text-slate-300 hover:bg-slate-700';
+        });
+        btn.className = 'cat-filter-btn px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-600 text-white';
+        renderCatalogUI();
+      });
+    });
+
+    // Custom Tool Add
+    document.getElementById('btnAddCustomTool').addEventListener('click', () => {
+      const name = document.getElementById('inputCustomName').value.trim() || '自訂特規工具';
+      const newTool = {
+        id: nextToolId++,
+        code: 'CUST-01',
+        cat: 'strike',
+        name,
+        nameEn: name,
+        type: document.getElementById('inputCustomShape').value,
+        length: Number(document.getElementById('inputCustomL').value) || 140,
+        width: Number(document.getElementById('inputCustomW').value) || 32,
+        height: Number(document.getElementById('inputCustomH').value) || 24,
+        depth: 15,
+        weight: Number(document.getElementById('inputCustomWeight').value) || 180,
+        cost: 250,
+        std: 'Custom',
+        color: document.getElementById('inputCustomColor').value,
+        x: 0,
+        y: 0,
+        rotation: 0,
+        locked: false
+      };
+      state.tools.push(newTool);
+      executeAutoLayout(true);
+      selectTool(newTool.id);
+      showToast(state.lang === 'en' ? `Added custom tool "${name}"` : `已加入自訂工具「${name}」`, '✅');
+    });
+
+    // EVA & Appearance Settings
+    document.querySelectorAll('.box-color-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.box.color = btn.getAttribute('data-color');
+        document.querySelectorAll('.box-color-btn').forEach(b => b.classList.replace('border-blue-400', 'border-slate-700'));
+        btn.classList.replace('border-slate-700', 'border-blue-400');
+        buildBox3D();
+      });
+    });
+
+    document.getElementById('evaColorSelect').addEventListener('change', (e) => {
+      state.box.evaStyle = e.target.value;
+      buildBox3D();
+      renderAllTools3D();
+    });
+    document.getElementById('notchRadiusSelect').addEventListener('change', (e) => {
+      state.notchRadius = Number(e.target.value);
+      renderAllTools3D();
+    });
+    document.getElementById('togglePocketMode').addEventListener('change', (e) => {
+      state.pocketMode = e.target.checked ? 'pockets' : 'flat';
+      renderAllTools3D();
+    });
+    document.getElementById('toggleFingerNotch').addEventListener('change', (e) => {
+      state.showFingerNotches = e.target.checked;
+      renderAllTools3D();
+    });
+    document.getElementById('toggleLidFoam').addEventListener('change', (e) => {
+      state.box.showLidFoam = e.target.checked;
+      buildBox3D();
+      renderAllTools3D();
+    });
+    document.getElementById('toggleLaserText').addEventListener('change', (e) => {
+      state.showLaserText = e.target.checked;
+    });
+    document.getElementById('toggleCogMarker').addEventListener('change', (e) => {
+      state.showCogMarker = e.target.checked;
+      renderAllTools3D();
+    });
+
+    // Layout & CAD Alignment Buttons
+    document.getElementById('btnAutoLayout').addEventListener('click', () => executeAutoLayout(false));
+    ['inputSafeMargin', 'inputOuterMargin'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        state.safeMargin = Number(document.getElementById('inputSafeMargin').value) || 6;
+        state.outerMargin = Number(document.getElementById('inputOuterMargin').value) || 10;
+        renderAllTools3D();
+      });
+    });
+    document.getElementById('gridSnapSelect').addEventListener('change', (e) => {
+      state.gridSnap = Number(e.target.value);
+    });
+
+    document.getElementById('btnCenterAll').addEventListener('click', () => {
+      if (state.tools.length === 0) return;
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      state.tools.forEach(t => {
+        minX = Math.min(minX, t.x - t.length / 2);
+        maxX = Math.max(maxX, t.x + t.length / 2);
+        minY = Math.min(minY, t.y - t.width / 2);
+        maxY = Math.max(maxY, t.y + t.width / 2);
+      });
+      const cx = (minX + maxX) / 2;
+      const cy = (minY + maxY) / 2;
+      state.tools.forEach(t => { if (!t.locked) { t.x = Math.round(t.x - cx); t.y = Math.round(t.y - cy); } });
+      pushHistory();
+      renderAllTools3D();
+      showToast(state.lang === 'en' ? 'Centered all tools to box origin' : '已將整體工具置中對齊盒心！', '🎯');
+    });
+
+    document.getElementById('btnMirrorX').addEventListener('click', () => {
+      state.tools.forEach(t => { if (!t.locked) t.x = -t.x; });
+      pushHistory();
+      renderAllTools3D();
+      showToast(state.lang === 'en' ? 'Mirrored layout horizontally' : '已完成左右鏡像翻轉！', '↔️');
+    });
+
+    document.getElementById('btnMirrorY').addEventListener('click', () => {
+      state.tools.forEach(t => { if (!t.locked) t.y = -t.y; });
+      pushHistory();
+      renderAllTools3D();
+      showToast(state.lang === 'en' ? 'Mirrored layout vertically' : '已完成上下鏡像翻轉！', '↕️');
+    });
+
+    document.getElementById('btnRotateAll90').addEventListener('click', () => {
+      state.tools.forEach(t => { if (!t.locked) t.rotation = ((t.rotation || 0) + 90) % 360; });
+      pushHistory();
+      renderAllTools3D();
+    });
+
+    document.getElementById('btnClearTools').addEventListener('click', () => {
+      state.tools = [];
+      pushHistory();
+      selectTool(null);
+      showToast(state.lang === 'en' ? 'Cleared all tools' : '已清空盒內所有工具', '🧹');
+    });
+
+    // Selected Tool Inspector Events
+    document.getElementById('btnCloseInspector').addEventListener('click', () => selectTool(null));
+    document.getElementById('btnLockTool').addEventListener('click', () => {
+      if (state.selectedToolId) toggleLockToolById(state.selectedToolId);
+    });
+    ['inspectX', 'inspectY', 'inspectRot', 'inspectDepth'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        const tool = state.tools.find(t => t.id === state.selectedToolId);
+        if (tool) {
+          tool.x = Number(document.getElementById('inspectX').value) || 0;
+          tool.y = Number(document.getElementById('inspectY').value) || 0;
+          tool.rotation = Number(document.getElementById('inspectRot').value) || 0;
+          tool.depth = Number(document.getElementById('inspectDepth').value) || 12;
+          renderAllTools3D();
+        }
+      });
+    });
+    document.getElementById('btnRot45').addEventListener('click', () => {
+      if (state.selectedToolId) rotateToolById(state.selectedToolId, 45);
+    });
+    document.getElementById('btnRotateTool').addEventListener('click', () => {
+      if (state.selectedToolId) rotateToolById(state.selectedToolId, 90);
+    });
+    document.getElementById('btnCenterSelected').addEventListener('click', () => {
+      const tool = state.tools.find(t => t.id === state.selectedToolId);
+      if (tool && !tool.locked) {
+        tool.x = 0; tool.y = 0;
+        pushHistory();
+        selectTool(tool.id);
+      }
+    });
+    document.getElementById('btnDuplicateTool').addEventListener('click', () => {
+      const tool = state.tools.find(t => t.id === state.selectedToolId);
+      if (tool) {
+        const copy = { ...tool, id: nextToolId++, x: tool.x + 18, y: tool.y + 18, locked: false };
+        state.tools.push(copy);
+        pushHistory();
+        selectTool(copy.id);
+        showToast(state.lang === 'en' ? 'Duplicated tool' : `已複製「${copy.name}」`, '📋');
+      }
+    });
+    document.getElementById('btnDeleteSelectedTool').addEventListener('click', () => {
+      if (state.selectedToolId) deleteToolById(state.selectedToolId);
+    });
+
+    // Camera Presets
+    document.getElementById('camIso').addEventListener('click', () => { camera.position.set(290, 330, 370); controls.target.set(0, 20, 0); controls.update(); });
+    document.getElementById('camTop').addEventListener('click', () => { camera.position.set(0, 540, 0.01); controls.target.set(0, 0, 0); controls.update(); });
+    document.getElementById('camFront').addEventListener('click', () => { camera.position.set(0, 50, 500); controls.target.set(0, 25, 0); controls.update(); });
+    document.getElementById('camSide').addEventListener('click', () => { camera.position.set(500, 50, 0); controls.target.set(0, 25, 0); controls.update(); });
+
+    document.getElementById('btnToggleDim').addEventListener('click', () => { state.showDimensions = !state.showDimensions; buildDimensions3D(); });
+    document.getElementById('btnToggleWire').addEventListener('click', () => { state.wireframe = !state.wireframe; buildBox3D(); renderAllTools3D(); });
+
+    // Right Drawer & Help Modal
+    const rightPanel = document.getElementById('rightPanel');
+    document.getElementById('btnToggleRightPanel').addEventListener('click', () => rightPanel.classList.toggle('hidden'));
+    document.getElementById('btnCloseRightPanel').addEventListener('click', () => rightPanel.classList.add('hidden'));
+
+    const helpModal = document.getElementById('helpModal');
+    document.getElementById('btnShowHelp').addEventListener('click', () => helpModal.classList.remove('hidden'));
+    document.getElementById('btnCloseHelp').addEventListener('click', () => helpModal.classList.add('hidden'));
+
+    // --- Export 1:1 AutoCAD DXF ---
+    document.getElementById('btnExportDXF').addEventListener('click', () => {
+      const L = Number(state.box.length);
+      const W = Number(state.box.width);
+      const t = Number(state.box.wallThickness);
+      const inL = L - 2 * t;
+      const inW = W - 2 * t;
+
+      function dxfRect(x, y, w, h, rotDeg, layer) {
+        const rad = (rotDeg || 0) * Math.PI / 180;
+        const cos = Math.cos(rad), sin = Math.sin(rad);
+        const pts = [[-w/2, -h/2], [w/2, -h/2], [w/2, h/2], [-w/2, h/2], [-w/2, -h/2]].map(([px, py]) => [
+          (x + px * cos - py * sin).toFixed(3),
+          (y + px * sin + py * cos).toFixed(3)
+        ]);
+        let s = '';
+        for (let i = 0; i < 4; i++) {
+          s += `0\nLINE\n8\n${layer}\n10\n${pts[i][0]}\n20\n${pts[i][1]}\n30\n0.0\n11\n${pts[i+1][0]}\n21\n${pts[i+1][1]}\n31\n0.0\n`;
+        }
+        return s;
+      }
+
+      function dxfCircle(x, y, r, layer) {
+        return `0\nCIRCLE\n8\n${layer}\n10\n${x.toFixed(3)}\n20\n${y.toFixed(3)}\n30\n0.0\n40\n${r.toFixed(3)}\n`;
+      }
+
+      let entities = '';
+      entities += dxfRect(0, 0, L, W, 0, 'BOX_OUTER');
+      entities += dxfRect(0, 0, inL, inW, 0, 'EVA_BOUNDARY');
+
+      const nr = Number(state.notchRadius) || 11;
+      state.tools.forEach((tool, idx) => {
+        const ty = -tool.y; // Invert Z to CAD Y
+        entities += dxfRect(tool.x, ty, tool.length, tool.width, -(tool.rotation || 0), 'TOOL_POCKET');
+        if (state.showFingerNotches) {
+          const rad = -(tool.rotation || 0) * Math.PI / 180;
+          const nx1 = tool.x - (-tool.width / 2) * Math.sin(rad);
+          const ny1 = ty + (-tool.width / 2) * Math.cos(rad);
+          const nx2 = tool.x - (tool.width / 2) * Math.sin(rad);
+          const ny2 = ty + (tool.width / 2) * Math.cos(rad);
+          entities += dxfCircle(nx1, ny1, nr, 'FINGER_NOTCH');
+          entities += dxfCircle(nx2, ny2, nr, 'FINGER_NOTCH');
+        }
+        entities += `0\nTEXT\n8\nLASER_TEXT\n10\n${tool.x.toFixed(2)}\n20\n${ty.toFixed(2)}\n30\n0.0\n40\n3.5\n1\n#${idx+1} ${tool.code || tool.nameEn || tool.name} (D:${tool.depth || 12}mm)\n`;
+      });
+
+      const dxfContent = `0\nSECTION\n2\nHEADER\n9\n$INSUNITS\n70\n4\n0\nENDSEC\n0\nSECTION\n2\nENTITIES\n${entities}0\nENDSEC\n0\nEOF\n`;
+      const blob = new Blob([dxfContent], { type: 'application/dxf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Maxjimtech_EVA_CAD_${L}x${W}mm_${Date.now()}.dxf`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(state.lang === 'en' ? 'Exported 1:1 AutoCAD DXF File!' : '已匯出 1:1 AutoCAD DXF 工程圖檔！', '📐');
+    });
+
+    // --- Export 1:1 Laser/CNC SVG ---
+    document.getElementById('btnExportSVG').addEventListener('click', () => {
+      const L = Number(state.box.length);
+      const W = Number(state.box.width);
+      const t = Number(state.box.wallThickness);
+      const innerL = L - 2 * t;
+      const innerW = W - 2 * t;
+      const pad = 45;
+      const svgW = L + pad * 2;
+      const svgH = W + pad * 2;
+      const cx = svgW / 2;
+      const cy = svgH / 2;
+      const nr = Number(state.notchRadius) || 11;
+
+      let toolShapes = '';
+      state.tools.forEach((tool, idx) => {
+        const tx = cx + tool.x;
+        const ty = cy + tool.y;
+        const rot = tool.rotation || 0;
+        const strokeCol = tool.hasConflict ? '#ef4444' : '#38bdf8';
+        const label = state.lang === 'en' ? (tool.nameEn || tool.name) : tool.name;
+
+        toolShapes += `
+          <g transform="translate(${tx}, ${ty}) rotate(${rot})">
+            <rect x="${-tool.length / 2}" y="${-tool.width / 2}" width="${tool.length}" height="${tool.width}" rx="3" fill="rgba(56,189,248,0.14)" stroke="${strokeCol}" stroke-width="1.2"/>
+            ${state.showFingerNotches ? `
+              <circle cx="0" cy="${-tool.width / 2}" r="${nr}" fill="#0f172a" stroke="#f43f5e" stroke-width="0.9" stroke-dasharray="2,1"/>
+              <circle cx="0" cy="${tool.width / 2}" r="${nr}" fill="#0f172a" stroke="#f43f5e" stroke-width="0.9" stroke-dasharray="2,1"/>
+            ` : ''}
+            <text x="0" y="2.5" fill="#f8fafc" font-size="6.5" font-family="monospace" text-anchor="middle">#${idx + 1} ${label} (${tool.length}x${tool.width} D:${tool.depth || 12}mm)</text>
+          </g>
+        `;
+      });
+
+      const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${svgW} ${svgH}" width="${svgW}mm" height="${svgH}mm">
+  <rect width="100%" height="100%" fill="#090d16"/>
+  <rect x="${pad}" y="${pad}" width="${L}" height="${W}" fill="none" stroke="#64748b" stroke-width="1.5"/>
+  <rect x="${pad + t}" y="${pad + t}" width="${innerL}" height="${innerW}" fill="#1e293b" stroke="#22d3ee" stroke-width="1" stroke-dasharray="4,2"/>
+  <line x1="${pad}" y1="${cy}" x2="${pad + L}" y2="${cy}" stroke="#334155" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <line x1="${cx}" y1="${pad}" x2="${cx}" y2="${pad + W}" stroke="#334155" stroke-width="0.5" stroke-dasharray="3,3"/>
+  ${toolShapes}
+  <text x="${pad}" y="${pad - 14}" fill="#f8fafc" font-size="10" font-family="sans-serif" font-weight="bold">肇祥企業社 Maxjimtech · 1:1 EVA 泡棉雷射/CNC 開槽工程圖 | 外徑: ${L}×${W}×${state.box.height}mm | EVA內襯: ${innerL}×${innerW}×${state.box.evaHeight}mm (Shore A ${state.box.evaDensity}°)</text>
+</svg>`;
+
+      const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `肇祥企業社Maxjimtech_1比1_EVA開槽圖_${Date.now()}.svg`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(state.lang === 'en' ? 'Exported 1:1 EVA Laser/CNC SVG!' : '已匯出 1:1 2D EVA 雷切開槽圖 (SVG)！', '🎯');
+    });
+
+    // --- Export BOM & Costing CSV ---
+    document.getElementById('btnExportCSV').addEventListener('click', () => {
+      let csv = state.lang === 'en'
+        ? '\uFEFFNo.,Part Code,Tool Name,Standard,Length(mm),Width(mm),Height(mm),Pocket Depth(mm),X(mm),Y(mm),Angle(deg),Weight(g),Unit Cost(NT$),Status\n'
+        : '\uFEFF序號,料號,工具品名,國際標準,長度(mm),寬度(mm),高度(mm),開槽深度(mm),X座標(mm),Y座標(mm),旋轉角(°),單重(g),預估成本(NT$),干涉狀態\n';
+
+      state.tools.forEach((t, i) => {
+        const name = state.lang === 'en' ? (t.nameEn || t.name) : t.name;
+        csv += `${i + 1},"${t.code || ''}","${name}","${t.std || ''}",${t.length},${t.width},${t.height},${t.depth || Math.round(t.height*0.6)},${t.x},${t.y},${t.rotation || 0},${t.weight || 0},${t.cost || 120},"${t.hasConflict ? t.conflictReason : (state.lang === 'en' ? 'OK' : '合格')}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `肇祥企業社Maxjimtech_工具盒BOM與成本報價表_${Date.now()}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(state.lang === 'en' ? 'Exported BOM & Costing CSV!' : '已下載 BOM 與成本報價清單 (CSV)！', '📊');
+    });
+
+    // Snapshot PNG
+    document.getElementById('btnSnapshot').addEventListener('click', () => {
+      renderer.render(scene, camera);
+      const a = document.createElement('a');
+      a.href = renderer.domElement.toDataURL('image/png');
+      a.download = `肇祥企業社Maxjimtech_工具盒3D配置圖_${Date.now()}.png`;
+      a.click();
+      showToast(state.lang === 'en' ? 'Saved 3D Snapshot (PNG)' : '已匯出 3D 渲染截圖 (PNG)！', '📸');
+    });
+
+    // Save / Load JSON
+    document.getElementById('btnExportJSON').addEventListener('click', () => {
+      const data = { version: '5.0', system: 'Maxjimtech 3D Toolbox Flagship Planner', box: state.box, tools: state.tools };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `肇祥企業社Maxjimtech_工具盒專案_${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(state.lang === 'en' ? 'Project saved (JSON)' : '已儲存專案配置檔 (JSON)', '💾');
+    });
+
+    const jsonFileInput = document.getElementById('jsonFileInput');
+    document.getElementById('btnImportJSON').addEventListener('click', () => jsonFileInput.click());
+    jsonFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const parsed = JSON.parse(ev.target.result);
+          if (parsed.box && Array.isArray(parsed.tools)) {
+            Object.assign(state.box, parsed.box);
+            state.tools = parsed.tools;
+            syncBoxInputsFromState();
+            pushHistory();
+            buildBox3D();
+            renderAllTools3D();
+            showToast(state.lang === 'en' ? 'Project loaded!' : '已成功載入專案配置檔！', '📂');
+          }
+        } catch (err) {
+          showToast('JSON 格式錯誤', '⚠️', true);
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    document.getElementById('btnResetAll').addEventListener('click', () => {
+      state.explodeRatio = 0;
+      document.getElementById('rangeExplode').value = 0;
+      document.getElementById('dispExplodeVal').innerText = '0%';
+      loadKitTemplate('kit_24_socket');
+    });
+
+    // -------------------------------------------------------------
+    // 15. Bilingual (ZH-TW / EN) Internationalization Engine
+    // -------------------------------------------------------------
+    const uiPairs = [
+      ['肇祥企業社 Maxjimtech · 工具盒配套 3D 佈局規劃與 EVA 工程系統', 'Maxjimtech · 3D Toolbox & EVA Foam Engineering System'],
+      ['60款國際標準手工具 · 16款盒體/抽屜盤 · 10大成套範本 · 3D爆炸分解 · 重心平衡分析 · 1:1 AutoCAD DXF/SVG 匯出', '60 DIN/ISO Hand Tools · 16 Cases/Trays · 10 Turnkey Kits · 3D Exploded View · CoG Balance · 1:1 AutoCAD DXF/SVG'],
+      ['復原', 'Undo'],
+      ['重做', 'Redo'],
+      ['匯出 CAD (DXF)', 'Export DXF'],
+      ['2D 雷切圖 (SVG)', '2D Laser SVG'],
+      ['報價 BOM (CSV)', 'Cost BOM (CSV)'],
+      ['截圖', 'Snapshot'],
+      ['存檔', 'Save'],
+      ['讀檔', 'Load'],
+      ['🧰 1.組套與盒體', '🧰 1.Kits & Box'],
+      ['🔧 2.工具庫(60)', '🔧 2.Tools (60)'],
+      ['🧽 3.EVA與構造', '🧽 3.EVA & Foam'],
+      ['⚡ 4.排樣與對齊', '⚡ 4.Auto-Pack'],
+      ['國際手工具廠標準成套組套 (10大範本)', '10 Industry Standard Turnkey Tool Kits'],
+      ['套用成套組套', 'Load Kit'],
+      ['單獨切換盒體 / 工具車抽屜規格 (16款)', 'Select Case / Tool Trolley Drawer (16 Presets)'],
+      ['外長 L (mm)', 'Length L (mm)'],
+      ['外寬 W (mm)', 'Width W (mm)'],
+      ['外高 H (mm)', 'Height H (mm)'],
+      ['盒壁厚度 t (mm)', 'Wall t (mm)'],
+      ['底層 EVA 總厚 (mm)', 'EVA Thickness (mm)'],
+      ['可用內徑 (L×W×H)：', 'Internal Dim (L×W×H):'],
+      ['EVA 有效面積 / 挖除率：', 'EVA Area / Cutout Ratio:'],
+      ['手提重心平衡 (CoG)：', 'Center of Gravity (CoG):'],
+      ['上蓋開闔角度 (Lid Angle)', 'Lid Opening Angle'],
+      ['蓋緊 (0°)', 'Closed (0°)'],
+      ['半開 (45°)', 'Half (45°)'],
+      ['展示 (95°)', 'Open (95°)'],
+      ['無上蓋抽屜', 'Open Tray'],
+      ['💥 3D 結構爆炸分解圖 (Exploded View)', '💥 3D Exploded View Slider'],
+      ['國際標準手工具模型庫 (60款)', 'DIN/ISO Hand Tool Library (60 Models)'],
+      ['單次放入：', 'Batch Qty:'],
+      ['全部 (60)', 'All (60)'],
+      ['棘輪/扭力', 'Ratchet/Torque'],
+      ['扳手/活動', 'Wrenches'],
+      ['套筒/接桿', 'Sockets'],
+      ['鉗類/夾持', 'Pliers'],
+      ['起子/六角', 'Drivers/Hex'],
+      ['敲擊/金工', 'Striking'],
+      ['量測/電工', 'Measure/DMM'],
+      ['氣動/電動', 'Power/Air'],
+      ['➕ 自訂特規手工具 / 治具檢具輸入', '➕ Custom Tool / Gauge Input'],
+      ['+ 加入自訂工具至盒內', '+ Add Custom Tool to Box'],
+      ['盒體塗裝與 5S 雙色 EVA 泡棉工程設定', 'Case Finish & 5S Dual-Color EVA Engineering'],
+      ['⚡ 多策略智慧自動排樣演算法 (Auto-Pack)', '⚡ Multi-Strategy Smart Auto-Pack'],
+      ['⚡ 執行智慧自動排樣 (Auto-Pack Layout)', '⚡ Run Smart Auto-Pack Layout'],
+      ['📐 CAD 快速對齊、鏡像與網格吸附', '📐 CAD Alignment, Mirror & Grid Snap'],
+      ['🎯 整體置中對齊', '🎯 Center All'],
+      ['↔️ 左右鏡像翻轉', '↔️ Mirror X'],
+      ['↕️ 上下鏡像翻轉', '↕️ Mirror Y'],
+      ['↻ 全部旋轉 90°', '↻ Rotate All 90°'],
+      ['🗑️ 清空盒內所有工具 (Clear All)', '🗑️ Clear All Tools in Box'],
+      ['3D 等角 (ISO)', '3D ISO'],
+      ['2D 俯視 (Top)', '2D Top'],
+      ['正視 (Front)', 'Front'],
+      ['側視 (Side)', 'Side'],
+      ['爆炸圖', 'Explode'],
+      ['尺寸線', 'Dims'],
+      ['線框', 'Wireframe'],
+      ['配置工具數：', 'Tools:'],
+      ['面積稼動率：', 'Area Usage:'],
+      ['整盒總重：', 'Total Weight:'],
+      ['預估整組成本：', 'Est. Cost:'],
+      ['BOM 與成本分析表', 'BOM & Costing'],
+      ['置放工具 BOM 物料與 EVA 成本分析', 'Tool BOM Schedule & EVA Cost Analysis'],
+      ['座標、開槽深度、DIN標準、單重與報價預估', 'Coordinates, pocket depth, DIN std, weight & cost']
+    ];
+
+    document.getElementById('btnToggleLang').addEventListener('click', () => {
+      state.lang = state.lang === 'zh' ? 'en' : 'zh';
+      const lang = state.lang;
+      document.getElementById('langBtnText').innerText = lang === 'en' ? '中文 / EN' : 'EN / 中文';
+      searchInput.placeholder = lang === 'en'
+        ? '🔍 Search 60 tools by name, size, DIN std (e.g. 1/2, ratchet, 14mm, pliers)...'
+        : '🔍 搜尋工具名稱、規格、DIN標準 (例: 1/2, 棘輪, 14mm, 鉗, PH2)...';
+
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+      let node;
+      while ((node = walker.nextNode())) {
+        const val = node.nodeValue.trim();
+        if (!val) continue;
+        for (const [zh, en] of uiPairs) {
+          if (lang === 'en' && val === zh) { node.nodeValue = node.nodeValue.replace(zh, en); break; }
+          else if (lang === 'zh' && val === en) { node.nodeValue = node.nodeValue.replace(en, zh); break; }
+        }
+      }
+
+      renderCatalogUI();
+      if (state.selectedToolId) selectTool(state.selectedToolId);
+      else renderAllTools3D();
+      showToast(lang === 'en' ? 'Switched to English Interface' : '已切換為繁體中文介面', '🌐');
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+
+    // Startup Initialization
+    renderCatalogUI();
+    loadKitTemplate('kit_24_socket');
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+<script>(()=>{const viewport=document.getElementById('canvasContainer');let frame;new ResizeObserver(()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>window.dispatchEvent(new Event('resize')));}).observe(viewport);const button=document.getElementById('evaFullscreen');button.addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch(e){button.textContent='請使用瀏覽器全螢幕（F11）';}});document.addEventListener('fullscreenchange',()=>button.textContent=document.fullscreenElement?'離開全螢幕':'全螢幕操作');})();</script></body>
+</html>
