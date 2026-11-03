@@ -1,0 +1,2393 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TOOLCASE PRO CAD — 全球手工工具暨提箱盒體結構設計參考系統</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          colors: {
+            slate950: '#070b14',
+            cadBlue: '#0ea5e9',
+            cadAmber: '#f59e0b',
+            cadEmerald: '#10b981'
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background-color: #070b14;
+      color: #f1f5f9;
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    }
+    .cad-grid-bg {
+      background-image: 
+        linear-gradient(to right, rgba(30, 41, 59, 0.45) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(30, 41, 59, 0.45) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .blueprint-svg {
+      background-color: #091326;
+      background-image:
+        linear-gradient(rgba(14, 165, 233, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(14, 165, 233, 0.12) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    input[type="range"] {
+      accent-color: #f59e0b;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950 cad-grid-bg">
+
+  <!-- Top Engineering Header -->
+  <header class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-4 py-2.5">
+    <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-amber-500/20 font-mono font-bold text-slate-950 text-lg">
+          TC
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-bold text-base sm:text-lg tracking-tight text-white">TOOLCASE PRO CAD</h1>
+            <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30">v4.2 R&D Edition</span>
+            <span class="hidden md:inline-block text-[11px] font-mono px-2 py-0.5 rounded bg-sky-500/15 text-sky-400 border border-sky-500/30">DIN / ISO / ISTA-2A</span>
+          </div>
+          <p class="text-xs text-slate-400">全球手工工具設計、吹氣／射出提箱、盒體造型與機構結構工程參考系統</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="flex flex-wrap items-center gap-1.5" aria-label="主要模組導覽">
+        <button id="tabBtn-3d" data-tab="3d" class="nav-tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-1.5 bg-amber-500 text-slate-950 font-semibold shadow">
+          <span>🧊</span> <span>3D 盒體結構與模具模擬</span>
+        </button>
+        <button id="tabBtn-db" data-tab="db" class="nav-tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-1.5 bg-slate-800 text-slate-300 hover:bg-slate-700">
+          <span>🌐</span> <span>全球工具箱與台灣公版庫 (16)</span>
+        </button>
+        <button id="tabBtn-mech" data-tab="mech" class="nav-tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-1.5 bg-slate-800 text-slate-300 hover:bg-slate-700">
+          <span>⚙️</span> <span>機構剖面圖鑑 (扣具/鉸鏈/止口)</span>
+        </button>
+        <button id="tabBtn-tools" data-tab="tools" class="nav-tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-1.5 bg-slate-800 text-slate-300 hover:bg-slate-700">
+          <span>🔧</span> <span>手工具 DIN/ISO 暨內襯卡槽計算</span>
+        </button>
+        <button id="tabBtn-mat" data-tab="mat" class="nav-tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-1.5 bg-slate-800 text-slate-300 hover:bg-slate-700">
+          <span>🧪</span> <span>塑料物性與 ISTA 落摔規範</span>
+        </button>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2">
+        <button id="btnOpenSpecModal" class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-sky-500/20 text-sky-300 border border-sky-500/40 hover:bg-sky-500/30 transition flex items-center gap-1.5">
+          <span>📋</span> <span>匯出工程規格書 (BOM/CAD)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace Container -->
+  <main class="flex-1 max-w-[1600px] w-full mx-auto p-4 space-y-6">
+
+    <!-- ========================================================= -->
+    <!-- MODULE 1: 3D PARAMETRIC CASE & MOLD SIMULATOR             -->
+    <!-- ========================================================= -->
+    <section id="panel-3d" class="tab-panel space-y-4">
+      <!-- Top KPI Strip -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+          <div class="text-[11px] text-slate-400 font-mono">外徑尺寸 (L×W×H)</div>
+          <div id="kpi-dimensions" class="text-base sm:text-lg font-mono font-bold text-white mt-0.5">442 × 357 × 151 mm</div>
+          <div id="kpi-volume" class="text-[11px] text-amber-400 font-mono">內部有效容積: 17.8 L</div>
+        </div>
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+          <div class="text-[11px] text-slate-400 font-mono">成型工藝 / 塑料</div>
+          <div id="kpi-process" class="text-base sm:text-lg font-bold text-sky-400 mt-0.5">高壓射出 (ABS 抗衝擊)</div>
+          <div id="kpi-wall" class="text-[11px] text-slate-400 font-mono">標準肉厚: 2.8 mm / 拔模角 1.5°</div>
+        </div>
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+          <div class="text-[11px] text-slate-400 font-mono">預估空箱淨重 (含五金)</div>
+          <div id="kpi-weight" class="text-base sm:text-lg font-mono font-bold text-emerald-400 mt-0.5">2,140 g (2.14 kg)</div>
+          <div id="kpi-resin-cost" class="text-[11px] text-slate-400 font-mono">塑料成本預估: ~NT$ 148</div>
+        </div>
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+          <div class="text-[11px] text-slate-400 font-mono">建議射出/吹塑鎖模力</div>
+          <div id="kpi-clamp" class="text-base sm:text-lg font-mono font-bold text-amber-400 mt-0.5">680 Ton (噸)</div>
+          <div id="kpi-proj-area" class="text-[11px] text-slate-400 font-mono">投影面積: 1,578 cm² (雙模穴/上下蓋)</div>
+        </div>
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+          <div class="text-[11px] text-slate-400 font-mono">頂蓋抗壓 / 堆疊強度</div>
+          <div id="kpi-stack-load" class="text-base sm:text-lg font-mono font-bold text-white mt-0.5">115 kgf</div>
+          <div id="kpi-ip-rating" class="text-[11px] text-sky-400 font-mono">防護等級: IP54 防塵防潑水</div>
+        </div>
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+          <div class="text-[11px] text-slate-400 font-mono">耐寒落摔安全係數</div>
+          <div id="kpi-drop-score" class="text-base sm:text-lg font-mono font-bold text-emerald-400 mt-0.5">92 / 100 (優異)</div>
+          <div id="kpi-drop-spec" class="text-[11px] text-slate-400 font-mono">-20°C / 1.2m 六面四角通過</div>
+        </div>
+      </div>
+
+      <!-- Main 3D Viewport & Parameter Controls -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <!-- Left Column: Parametric Controls -->
+        <div class="lg:col-span-4 bg-slate-900/95 border border-slate-800 rounded-xl p-4 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+            <div>
+              <h2 class="font-bold text-sm text-white flex items-center gap-1.5">
+                <span class="text-amber-400">🎛️</span> 盒體結構參數化設計器
+              </h2>
+              <p class="text-[11px] text-slate-400">即時調整尺寸、肋條、止口與五金配置</p>
+            </div>
+            <select id="presetCaseSelect" aria-label="載入指標箱型預設參數" class="bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1 text-xs font-mono text-amber-300 focus:outline-none focus:border-amber-500">
+              <option value="custom">-- 快速載入指標箱型 --</option>
+              <option value="lboxx136" selected>Bosch L-BOXX 136 (射出 ABS)</option>
+              <option value="sys3m187">Festool Systainer³ M 187 (ABS)</option>
+              <option value="packout">Milwaukee PACKOUT Large (耐衝擊PP)</option>
+              <option value="pelican1500">Pelican 1500 重載防水箱 (共聚PP)</option>
+              <option value="twblow94">台灣外銷 94件組 吹氣套筒盒 (HDPE)</option>
+              <option value="twblow270">台灣郁慶 02-601 緊湊吹氣盒 (HDPE)</option>
+            </select>
+          </div>
+
+          <!-- Dimensional Sliders -->
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">外長 Length (X)</span>
+                <span id="val-length" class="font-mono text-amber-400 font-semibold">442 mm</span>
+              </div>
+              <input id="slider-length" type="range" min="220" max="650" value="442" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">外寬 Width (Z)</span>
+                <span id="val-width" class="font-mono text-amber-400 font-semibold">357 mm</span>
+              </div>
+              <input id="slider-width" type="range" min="160" max="480" value="357" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">總高 Height (Y)</span>
+                <span id="val-height" class="font-mono text-amber-400 font-semibold">151 mm</span>
+              </div>
+              <input id="slider-height" type="range" min="55" max="320" value="151" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-1">
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-300">上蓋高度佔比</span>
+                  <span id="val-lidratio" class="font-mono text-sky-400">28%</span>
+                </div>
+                <input id="slider-lidratio" type="range" min="15" max="50" value="28" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-300">上蓋掀開角度</span>
+                  <span id="val-openangle" class="font-mono text-emerald-400">45°</span>
+                </div>
+                <input id="slider-openangle" type="range" min="0" max="110" value="45" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-1">
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-300">平均肉厚 Wall (t)</span>
+                  <span id="val-wall" class="font-mono text-amber-400">2.8 mm</span>
+                </div>
+                <input id="slider-wall" type="range" min="1.8" max="5.5" step="0.1" value="2.8" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-300">加強立肋數量</span>
+                  <span id="val-ribs" class="font-mono text-sky-400">8 道</span>
+                </div>
+                <input id="slider-ribs" type="range" min="0" max="16" step="2" value="8" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+              </div>
+            </div>
+          </div>
+
+          <!-- Structural & Material Selectors -->
+          <div class="grid grid-cols-2 gap-2.5 pt-2 border-t border-slate-800 text-xs">
+            <div>
+              <label for="select-process" class="block text-slate-400 mb-1">成型製程與塑料</label>
+              <select id="select-process" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-slate-200">
+                <option value="inj_abs" selected>射出 - 高剛性 ABS</option>
+                <option value="inj_pp">射出 - 耐衝擊共聚 PP-B</option>
+                <option value="inj_ppgf">射出 - PP + 20% 玻纖強化</option>
+                <option value="inj_pcabs">射出 - PC/ABS 工程合金</option>
+                <option value="blow_hdpe">中空吹氣 - 雙層 HDPE</option>
+              </select>
+            </div>
+            <div>
+              <label for="select-latch" class="block text-slate-400 mb-1">扣具機構型式</label>
+              <select id="select-latch" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-slate-200">
+                <option value="double_throw" selected>二段式省力壓扣 (Double-Throw)</option>
+                <option value="tloc">中央單手旋鈕扣 (T-LOC 式)</option>
+                <option value="metal_draw">304 不鏽鋼蝴蝶彈片扣</option>
+                <option value="slide_snap">嵌入式滑動卡扣 (可換式)</option>
+              </select>
+            </div>
+            <div>
+              <label for="select-seal" class="block text-slate-400 mb-1">上下蓋止口與防水設計</label>
+              <select id="select-seal" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-slate-200">
+                <option value="step_ip54" selected>高低階迷宮止口 (IP54 防潑水)</option>
+                <option value="oring_ip67">舌槽 + EPDM 發泡膠條 (IP67)</option>
+                <option value="blow_pinch">吹氣凹凸吻合止口 (IP42)</option>
+              </select>
+            </div>
+            <div>
+              <label for="select-insert" class="block text-slate-400 mb-1">內部定位內襯結構</label>
+              <select id="select-insert" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-slate-200">
+                <option value="cnc_eva" selected>雙色高密度 EVA 銑削內襯</option>
+                <option value="blow_cavity">一體吹塑倒扣卡槽 (無內襯)</option>
+                <option value="thermo_tray">PS/PET 真空泡殼內盤</option>
+                <option value="dividers">可拆式射出隔板 + 零件盒</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Toggles for 3D Visualization -->
+          <div class="pt-2 border-t border-slate-800 flex flex-wrap gap-2">
+            <button id="btnToggleExplode" class="flex-1 px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+              💥 爆炸分解圖: 關閉
+            </button>
+            <button id="btnToggleWireframe" class="flex-1 px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+              🕸️ 線框模式: 關閉
+            </button>
+            <button id="btnToggleFoam" class="flex-1 px-2.5 py-1.5 rounded-lg text-xs font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40 transition">
+              🧰 顯示工具內襯: 開啟
+            </button>
+          </div>
+        </div>
+
+        <!-- Center/Right Column: Interactive 3D CAD Viewport + Live Structural Rules -->
+        <div class="lg:col-span-8 flex flex-col gap-4">
+          <div class="relative bg-slate-950 border border-slate-800 rounded-xl overflow-hidden h-[420px] sm:h-[460px] flex flex-col">
+            <!-- Top Overlay HUD -->
+            <div class="absolute top-3 left-3 z-10 flex flex-wrap items-center gap-2 pointer-events-none">
+              <span class="px-2.5 py-1 rounded bg-slate-900/85 border border-slate-700 text-[11px] font-mono text-sky-400">
+                THREE.JS CAD VIEWPORT (左鍵旋轉 / 滾輪縮放)
+              </span>
+              <span id="hud-case-tag" class="px-2.5 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-[11px] font-mono text-amber-300">
+                BOSCH L-BOXX 136 架構參考
+              </span>
+            </div>
+
+            <!-- Camera Preset Buttons -->
+            <div class="absolute top-3 right-3 z-10 flex items-center gap-1.5">
+              <button data-cam="iso" class="cam-btn px-2 py-1 rounded bg-slate-900/90 hover:bg-slate-800 text-[11px] font-mono text-slate-200 border border-slate-700">等角 ISO</button>
+              <button data-cam="front" class="cam-btn px-2 py-1 rounded bg-slate-900/90 hover:bg-slate-800 text-[11px] font-mono text-slate-200 border border-slate-700">前視圖</button>
+              <button data-cam="top" class="cam-btn px-2 py-1 rounded bg-slate-900/90 hover:bg-slate-800 text-[11px] font-mono text-slate-200 border border-slate-700">俯視(內襯)</button>
+              <button data-cam="side" class="cam-btn px-2 py-1 rounded bg-slate-900/90 hover:bg-slate-800 text-[11px] font-mono text-slate-200 border border-slate-700">側剖視</button>
+            </div>
+
+            <!-- 3D Canvas Container -->
+            <div id="threeContainer" class="w-full flex-1 cursor-grab active:cursor-grabbing"></div>
+
+            <!-- Bottom Legend Overlay -->
+            <div class="bg-slate-900/95 border-t border-slate-800 px-3 py-2 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-slate-400">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-sky-500 inline-block"></span>箱體/加強肋</span>
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500 inline-block"></span>結構扣具/堆疊卡榫</span>
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-rose-500 inline-block"></span>雙色 EVA 內襯/手工具</span>
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-400 inline-block"></span>包膠人體工學提把</span>
+              </div>
+              <div id="hud-mold-warning" class="text-emerald-400">
+                ✓ 肉厚與肋條根部比例符合 DFM 成型規範 (Rib ≤ 0.6t)
+              </div>
+            </div>
+          </div>
+
+          <!-- Real-time DFM (Design for Manufacturing) Engineering Checks -->
+          <div class="bg-slate-900/95 border border-slate-800 rounded-xl p-4">
+            <div class="flex items-center justify-between mb-2.5">
+              <h3 class="text-xs font-mono uppercase tracking-wider text-sky-400 font-semibold">
+                📐 即時 DFM 機構與模具檢核報告 (Design For Manufacturing Audit)
+              </h3>
+              <span class="text-[11px] font-mono text-slate-400">自動依據當前壁厚與尺寸計算</span>
+            </div>
+            <div id="dfm-audit-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- MODULE 2: GLOBAL MODULAR & BLOW-MOLD CASE DATABASE        -->
+    <!-- ========================================================= -->
+    <section id="panel-db" class="tab-panel hidden space-y-4">
+      <div class="bg-slate-900/95 border border-slate-800 rounded-xl p-4 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-base font-bold text-white flex items-center gap-2">
+            <span>🌐</span> 全球指標模組化提箱暨台灣外銷吹氣／射出盒體資料庫
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">
+            彙整歐美日一線大廠與台灣手工具提箱專業廠（Casemate 凱鍶鎂、Ersson 춘成、Yu-Ching 郁慶）量產規格、堆疊專利與材質基準
+          </p>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex flex-wrap items-center gap-2">
+          <input id="dbSearchInput" type="text" placeholder="搜尋品牌、型號、材質 (如 L-BOXX, HDPE, IP67)..." class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 w-64 focus:outline-none focus:border-amber-500">
+          <select id="dbFilterProcess" aria-label="依成型工藝篩選" class="bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200">
+            <option value="all">所有成型工藝 (16)</option>
+            <option value="injection">高壓射出成型 (Injection)</option>
+            <option value="blow">雙層中空吹氣成型 (Blow Mold)</option>
+            <option value="heavy_ip67">重載氣密防水箱 (IP67/軍規)</option>
+          </select>
+          <select id="dbFilterRegion" aria-label="依地區與體系篩選" class="bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200">
+            <option value="all">所有體系</option>
+            <option value="EU">歐洲體系 (Tanaka/Sortimo/Knipex)</option>
+            <option value="US">北美體系 (Milwaukee/DeWalt/Pelican)</option>
+            <option value="JP">日本體系 (Makita)</option>
+            <option value="TW">台灣外銷 OEM/ODM 指標廠</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Database Table -->
+      <div class="bg-slate-900/95 border border-slate-800 rounded-xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-slate-950 text-slate-400 font-mono border-b border-slate-800">
+                <th class="py-3 px-3">系統型號 / 製造商</th>
+                <th class="py-3 px-3">製程與塑料</th>
+                <th class="py-3 px-3">外徑尺寸 L×W×H (mm)</th>
+                <th class="py-3 px-3">內徑尺寸 L×W×H (mm)</th>
+                <th class="py-3 px-3">空重 / 最大載重</th>
+                <th class="py-3 px-3">防護 / 堆疊扣具機構</th>
+                <th class="py-3 px-3 text-right">結構模擬 / 來源</th>
+              </tr>
+            </thead>
+            <tbody id="dbTableBody" class="divide-y divide-slate-800/80">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- MODULE 3: STRUCTURAL MECHANISM & 2D CAD BLUEPRINT ATLAS   -->
+    <!-- ========================================================= -->
+    <section id="panel-mech" class="tab-panel hidden space-y-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <!-- Left List of 8 Key Mechanisms -->
+        <div class="lg:col-span-5 bg-slate-900/95 border border-slate-800 rounded-xl p-4 space-y-3">
+          <div>
+            <h2 class="text-base font-bold text-white">⚙️ 提箱與盒體核心機構結構圖鑑</h2>
+            <p class="text-xs text-slate-400">點選任一結構查看右側 2D CAD 工程剖面圖、公差配合與模具滑塊要點</p>
+          </div>
+          <div id="mechListContainer" class="space-y-2">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Right Interactive 2D CAD Blueprint & Engineering Specs -->
+        <div class="lg:col-span-7 bg-slate-900/95 border border-slate-800 rounded-xl p-4 flex flex-col justify-between space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div>
+              <span id="cad-badge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">MECH-01</span>
+              <h3 id="cad-title" class="text-base font-bold text-white mt-1">二段式省力凸輪壓扣 (Double-Throw Over-Center Cam Latch)</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <label class="text-xs text-slate-400 font-mono">剖面放大倍率:</label>
+              <button data-zoom="1" class="cad-zoom-btn px-2 py-1 rounded bg-sky-500 text-slate-950 font-mono text-xs font-bold">1.0x</button>
+              <button data-zoom="1.25" class="cad-zoom-btn px-2 py-1 rounded bg-slate-800 text-slate-300 font-mono text-xs">1.25x</button>
+            </div>
+          </div>
+
+          <!-- Interactive SVG Blueprint Canvas -->
+          <div class="blueprint-svg border border-sky-500/30 rounded-xl p-3 flex items-center justify-center min-h-[300px] overflow-hidden relative">
+            <div id="cadSvgWrapper" class="w-full h-full flex items-center justify-center transition-transform duration-200">
+              <!-- Dynamic SVG Injected Here -->
+            </div>
+            <div class="absolute bottom-2 right-3 text-[10px] font-mono text-sky-400/80">
+              UNIT: mm | TOLERANCE: ISO 2768-mK | PROJECTION: THIRD ANGLE
+            </div>
+          </div>
+
+          <!-- Detailed Engineering Spec Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="bg-slate-950 border border-slate-800 rounded-lg p-3">
+              <div class="font-mono text-amber-400 font-semibold mb-1">📏 關鍵尺寸與公差建議</div>
+              <p id="cad-tolerance" class="text-slate-300 leading-relaxed"></p>
+            </div>
+            <div class="bg-slate-950 border border-slate-800 rounded-lg p-3">
+              <div class="font-mono text-sky-400 font-semibold mb-1">🛠️ 模具結構與拆模要點</div>
+              <p id="cad-mold" class="text-slate-300 leading-relaxed"></p>
+            </div>
+            <div class="bg-slate-950 border border-slate-800 rounded-lg p-3">
+              <div class="font-mono text-emerald-400 font-semibold mb-1">⚠️ 常見失效模式與對策</div>
+              <p id="cad-failure" class="text-slate-300 leading-relaxed"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- MODULE 4: HAND TOOL DIN/ISO STANDARDS & CAVITY CALCULATOR -->
+    <!-- ========================================================= -->
+    <section id="panel-tools" class="tab-panel hidden space-y-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <!-- Left: Hand Tool DIN/ISO Standard Dimensions & Ergonomics -->
+        <div class="lg:col-span-7 bg-slate-900/95 border border-slate-800 rounded-xl p-4 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div>
+              <h2 class="text-base font-bold text-white">🔧 手工工具國際標準尺寸與握柄人體工學資料庫</h2>
+              <p class="text-xs text-slate-400">設計內襯模穴 (Cavity) 與雙色握柄時必備的 DIN / ISO 標準外徑、方頭公差與握力扭力規範</p>
+            </div>
+            <select id="toolCategoryFilter" aria-label="篩選手工工具類別" class="bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-amber-300 font-mono">
+              <option value="all">全部手工具類別</option>
+              <option value="socket">套筒與棘輪扳手 (DIN 3120 / 3124)</option>
+              <option value="wrench">複合扳手與扭力扳手 (ISO 6789 / DIN 3113)</option>
+              <option value="driver">螺絲起子與絕緣握柄 (ISO 8764 / IEC 60900)</option>
+              <option value="pliers">鉗類雙料握柄 (ISO 5742 / DIN ISO 5746)</option>
+            </select>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-slate-950 text-slate-400 font-mono border-b border-slate-800">
+                  <th class="py-2.5 px-2.5">工具名稱與規格</th>
+                  <th class="py-2.5 px-2.5">國際標準編號</th>
+                  <th class="py-2.5 px-2.5">關鍵外徑 / 長度 (mm)</th>
+                  <th class="py-2.5 px-2.5">人體工學 / 雙料硬度建議</th>
+                  <th class="py-2.5 px-2.5 text-right">帶入模穴計算</th>
+                </tr>
+              </thead>
+              <tbody id="toolStandardBody" class="divide-y divide-slate-800/80">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Ergonomic Handle Design Reference Box -->
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div>
+              <div class="font-mono text-amber-400 font-semibold">✊ 強力扭轉握柄直徑 (ISO)</div>
+              <p class="text-slate-300 mt-1">
+                高扭力起子／棘輪扳手最佳握持直徑為 <span class="font-mono text-white">Ø32 ~ Ø40 mm</span>；精密微調區（頸部凹槽）建議 <span class="font-mono text-white">Ø14 ~ Ø18 mm</span>，防滾動六角或十二角肩部寬度 ≥ <span class="font-mono text-white">36 mm</span>。
+              </p>
+            </div>
+            <div>
+              <div class="font-mono text-sky-400 font-semibold">🧬 雙色包膠射出材料配對</div>
+              <p class="text-slate-300 mt-1">
+                硬質骨件：<span class="font-mono text-white">PP + 30% GF</span> 或 <span class="font-mono text-white">PA6 + GF</span>。<br>
+                軟質包膠：<span class="font-mono text-white">TPE / TPV (Shore A 55~65)</span>，耐機油與煞車油需選用 <span class="font-mono text-white">TPU 或 Santoprene™</span>，包膠厚度 <span class="font-mono text-white">1.8~2.5 mm</span>。
+              </p>
+            </div>
+            <div>
+              <div class="font-mono text-emerald-400 font-semibold">🏋️ 提箱提把人體工學 (ISO 11228)</div>
+              <p class="text-slate-300 mt-1">
+                四指穿入淨寬 ≥ <span class="font-mono text-white">115 mm</span>（戴手套 ≥ <span class="font-mono text-white">130 mm</span>），指節高度淨空 ≥ <span class="font-mono text-white">38 mm</span>，握桿截面橢圓 <span class="font-mono text-white">28 × 20 mm</span>，重心偏移量需 &lt; <span class="font-mono text-white">12 mm</span>。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Tool Cavity Interference & Retention Calculator -->
+        <div class="lg:col-span-5 bg-slate-900/95 border border-slate-800 rounded-xl p-4 space-y-4">
+          <div class="border-b border-slate-800 pb-3">
+            <h2 class="text-base font-bold text-white flex items-center gap-2">
+              <span>📐</span> 內襯模穴干涉量與取放手指槽計算器
+            </h2>
+            <p class="text-xs text-slate-400">
+              解決手工具提箱最常見的「上蓋搖晃掉件」與「卡死拔不出來」問題
+            </p>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="calc-tool-dia" class="block text-slate-300 mb-1">工具實測外徑 / 寬度 D (mm)</label>
+                <input id="calc-tool-dia" type="number" step="0.1" value="28.0" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 font-mono text-amber-400 text-sm">
+              </div>
+              <div>
+                <label for="calc-tool-len" class="block text-slate-300 mb-1">工具總長度 L (mm)</label>
+                <input id="calc-tool-len" type="number" step="1" value="250" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 font-mono text-amber-400 text-sm">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="calc-tool-weight" class="block text-slate-300 mb-1">單件工具重量 W (g)</label>
+                <input id="calc-tool-weight" type="number" step="10" value="480" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 font-mono text-sky-400 text-sm">
+              </div>
+              <div>
+                <label for="calc-cavity-type" class="block text-slate-300 mb-1">內襯模穴製程</label>
+                <select id="calc-cavity-type" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-200">
+                  <option value="eva_38">EVA 泡棉 (Shore C 38~45 標準)</option>
+                  <option value="eva_60">高密度 XPE/EVA (Shore C 60 重載)</option>
+                  <option value="blow_hdpe" selected>HDPE 吹氣盒一體倒扣卡點</option>
+                  <option value="inj_abs">ABS/PP 射出彈性舌片卡扣</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="calc-mount-pos" class="block text-slate-300 mb-1">工具配置位置（影響抗落摔G值）</label>
+              <select id="calc-mount-pos" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-200">
+                <option value="bottom">下箱底座水平放置 (標準)</option>
+                <option value="lid_inverted" selected>上蓋內側倒掛配置 (需高保持力防掉落)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Calculated Output Card -->
+          <div class="bg-slate-950 border border-amber-500/40 rounded-xl p-4 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <span class="text-xs font-mono text-amber-400 uppercase font-semibold">CAD 模穴加工建議數值</span>
+              <span id="calc-retention-badge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">抗 8G 震動合格</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-slate-900 rounded-lg p-2.5 border border-slate-800">
+                <div class="text-[11px] text-slate-400">模穴開槽寬度 (Cavity Width)</div>
+                <div id="res-cavity-width" class="text-base font-mono font-bold text-white mt-0.5">28.40 mm</div>
+                <div id="res-undercut" class="text-[11px] font-mono text-amber-400">雙側倒扣凸點間距: 27.10 mm</div>
+              </div>
+              <div class="bg-slate-900 rounded-lg p-2.5 border border-slate-800">
+                <div class="text-[11px] text-slate-400">模穴長度與端頭間隙</div>
+                <div id="res-cavity-len" class="text-base font-mono font-bold text-white mt-0.5">251.5 mm</div>
+                <div class="text-[11px] font-mono text-slate-400">軸向預留 +1.5 mm 防熱脹卡死</div>
+              </div>
+              <div class="bg-slate-900 rounded-lg p-2.5 border border-slate-800">
+                <div class="text-[11px] text-slate-400">建議埋入深度 &amp; 手指挖槽</div>
+                <div id="res-cavity-depth" class="text-base font-mono font-bold text-sky-400 mt-0.5">18.2 mm (65% D)</div>
+                <div id="res-finger-notch" class="text-[11px] font-mono text-slate-300">手指槽: Ø24 mm × 深 15 mm</div>
+              </div>
+              <div class="bg-slate-900 rounded-lg p-2.5 border border-slate-800">
+                <div class="text-[11px] text-slate-400">預估拔出力量 (Pull-out Force)</div>
+                <div id="res-pull-force" class="text-base font-mono font-bold text-emerald-400 mt-0.5">18.5 N (1.89 kgf)</div>
+                <div class="text-[11px] font-mono text-slate-400">理想單手取放區間: 12 ~ 32 N</div>
+              </div>
+            </div>
+
+            <p id="res-engineering-note" class="text-xs text-slate-300 bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 leading-relaxed">
+              💡 <strong>工程師備註：</strong>吹氣盒上蓋倒掛重型套筒或棘輪扳手時，倒扣凸點 (Detent Dimple) 單邊過盈量建議設為 0.45 mm，且凸點中心應位於工具重心兩側對稱處，深度設於工具圓截面中心線上方 1.5 mm。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- MODULE 5: PLASTICS MATERIAL RADAR & ISTA DROP TEST        -->
+    <!-- ========================================================= -->
+    <section id="panel-mat" class="tab-panel hidden space-y-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <!-- Left: Material Comparison Radar Chart & Specs -->
+        <div class="lg:col-span-6 bg-slate-900/95 border border-slate-800 rounded-xl p-4 space-y-4">
+          <div>
+            <h2 class="text-base font-bold text-white">🧪 工具箱工程塑料物性對比雷達圖</h2>
+            <p class="text-xs text-slate-400">比較 -20°C 低溫耐衝擊、剛性抗彎模數、成型收縮率、耐化學油污與成本表現</p>
+          </div>
+
+          <div class="relative h-72 w-full bg-slate-950 rounded-xl p-3 border border-slate-800">
+            <canvas id="materialRadarChart"></canvas>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-slate-950 text-slate-400 font-mono border-b border-slate-800">
+                  <th class="py-2 px-2">材料代號</th>
+                  <th class="py-2 px-2">比重</th>
+                  <th class="py-2 px-2">成型收縮率</th>
+                  <th class="py-2 px-2">彎曲模數 (MPa)</th>
+                  <th class="py-2 px-2">Izod 缺口衝擊 (-20°C)</th>
+                  <th class="py-2 px-2">典型代表箱款</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/80 font-mono text-[11px]">
+                <tr>
+                  <td class="py-2 px-2 text-amber-400 font-bold">ABS (高耐衝擊級)</td>
+                  <td class="py-2 px-2">1.05</td>
+                  <td class="py-2 px-2">0.4% ~ 0.7%</td>
+                  <td class="py-2 px-2">2,300 MPa</td>
+                  <td class="py-2 px-2">180 J/m</td>
+                  <td class="py-2 px-2 font-sans text-slate-300">Festool Systainer³, Bosch L-BOXX, Makita Makpac</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-2 text-sky-400 font-bold">PP-B (耐衝擊共聚聚丙烯)</td>
+                  <td class="py-2 px-2">0.91</td>
+                  <td class="py-2 px-2">1.2% ~ 1.8%</td>
+                  <td class="py-2 px-2">1,350 MPa</td>
+                  <td class="py-2 px-2">260 J/m</td>
+                  <td class="py-2 px-2 font-sans text-slate-300">DeWalt TSTAK, Pelican Protector, Explorer Cases</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-2 text-emerald-400 font-bold">HDPE (高分子中空吹氣級)</td>
+                  <td class="py-2 px-2">0.95</td>
+                  <td class="py-2 px-2">1.8% ~ 2.5%</td>
+                  <td class="py-2 px-2">1,150 MPa</td>
+                  <td class="py-2 px-2">420 J/m (極耐寒)</td>
+                  <td class="py-2 px-2 font-sans text-slate-300">台灣外銷套筒組吹氣箱 (Casemate / 郁慶 / 춘成)</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-2 text-purple-400 font-bold">PP + 20% GF (玻纖強化)</td>
+                  <td class="py-2 px-2">1.04</td>
+                  <td class="py-2 px-2">0.4% ~ 0.8%</td>
+                  <td class="py-2 px-2">4,200 MPa</td>
+                  <td class="py-2 px-2">140 J/m</td>
+                  <td class="py-2 px-2 font-sans text-slate-300">重載結構扣具、箱角防撞護塊、抽屜滑軌骨架</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-2 text-rose-400 font-bold">PC / ABS 合金</td>
+                  <td class="py-2 px-2">1.12</td>
+                  <td class="py-2 px-2">0.5% ~ 0.7%</td>
+                  <td class="py-2 px-2">2,500 MPa</td>
+                  <td class="py-2 px-2">380 J/m</td>
+                  <td class="py-2 px-2 font-sans text-slate-300">透明零件盒上蓋 (PC)、極地工程儀器箱</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Quality & ISTA / DIN Drop & Fatigue Test Simulator -->
+        <div class="lg:col-span-6 bg-slate-900/95 border border-slate-800 rounded-xl p-4 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div>
+              <h2 class="text-base font-bold text-white">🔨 外銷手工具提箱可靠度與落摔檢驗標準清單</h2>
+              <p class="text-xs text-slate-400">勾選已完成之驗證項目，即時計算量產簽樣 (Golden Sample) 通過率</p>
+            </div>
+            <div id="qa-progress-badge" class="px-3 py-1 rounded-lg bg-amber-500/20 border border-amber-500/40 font-mono text-xs text-amber-300 font-bold">
+              完成度: 6 / 8 (75%)
+            </div>
+          </div>
+
+          <div id="qaChecklistContainer" class="space-y-2.5 text-xs">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Export Engineering Specification Modal -->
+  <div id="specModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full p-5 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <h3 class="text-base font-bold text-white font-mono">📋 盒體機構工程規格書與 BOM 匯出</h3>
+          <p class="text-xs text-slate-400">依據目前 3D 結構模擬器與內襯計算器參數自動生成</p>
+        </div>
+        <button id="btnCloseSpecModal" class="text-slate-400 hover:text-white text-sm font-mono px-2 py-1 rounded bg-slate-800">✕ 關閉</button>
+      </div>
+
+      <pre id="specPreviewText" class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs font-mono text-emerald-300 overflow-x-auto max-h-80 leading-relaxed"></pre>
+
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+        <span id="copyToastMsg" class="text-xs font-mono text-amber-400"></span>
+        <div class="flex items-center gap-2">
+          <button id="btnCopySpecText" class="px-3.5 py-2 rounded-lg text-xs font-mono font-semibold bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 transition">
+            📄 複製規格書文字
+          </button>
+          <button id="btnDownloadJson" class="px-3.5 py-2 rounded-lg text-xs font-mono font-semibold bg-amber-500 hover:bg-amber-400 text-slate-950 transition">
+            ⬇️ 下載 JSON 參數檔
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/80 bg-slate-950/90 px-4 py-3 mt-6 text-[11px] text-slate-400">
+    <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div>
+        <span>TOOLCASE PRO CAD 工程資料庫 — 專為手工具機構設計、吹氣／射出模具開發與外銷提箱驗證打造</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-3 font-mono">
+        <a href="https://www.boschtools.com/us/en/products/l-boxx-2-1600A015KV" target="_blank" rel="noopener noreferrer" class="hover:text-sky-400 underline">Bosch L-BOXX</a>
+        <a href="https://www.klium.com/en/festool-sys3-combi-m-287-systainer-577766-125270" target="_blank" rel="noopener noreferrer" class="hover:text-sky-400 underline">Festool Systainer³</a>
+        <a href="https://makitatools.com/products/makpac" target="_blank" rel="noopener noreferrer" class="hover:text-sky-400 underline">Makita MAKPAC</a>
+        <a href="https://www.casemate.com/zh-tw/product.html" target="_blank" rel="noopener noreferrer" class="hover:text-sky-400 underline">Casemate 凱鍶鎂</a>
+        <a href="https://www.yu-ching.com/zh_TW/shop/category/tool-box-4" target="_blank" rel="noopener noreferrer" class="hover:text-sky-400 underline">郁慶塑膠</a>
+        <a href="https://www.ersson.com.tw/en/product-c93079/BLOW-MOLD-CASE.html" target="_blank" rel="noopener noreferrer" class="hover:text-sky-400 underline">Ersson 춘成</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================= -->
+  <!-- APPLICATION LOGIC & DATABASES                             -->
+  <!-- ========================================================= -->
+  <script>
+    // 1. GLOBAL MODULAR & TAIWAN OEM CASE DATABASE (16 Verified Models)
+    const CASE_DATABASE = [
+      {
+        id: 'lboxx136',
+        name: 'Bosch / Sortimo L-BOXX 136',
+        brand: 'Bosch / Sortimo',
+        region: 'EU',
+        process: 'injection',
+        processLabel: '高壓射出 (ABS)',
+        material: '耐衝擊 ABS',
+        extDim: [442, 357, 151],
+        intDim: [378, 311, 107],
+        wall: 2.8,
+        lidRatio: 28,
+        ribs: 8,
+        weightKg: 2.2,
+        maxLoadKg: 25,
+        lidLoadKg: 100,
+        ipRating: 'IP42 防潑水',
+        latchType: '1-Click 側邊自動卡扣 + 前方雙壓扣',
+        url: 'https://www.boschtools.com/us/en/products/l-boxx-2-1600A015KV'
+      },
+      {
+        id: 'lboxx238',
+        name: 'Bosch / Sortimo L-BOXX 238',
+        brand: 'Bosch / Sortimo',
+        region: 'EU',
+        process: 'injection',
+        processLabel: '高壓射出 (ABS)',
+        material: '耐衝擊 ABS',
+        extDim: [442, 357, 253],
+        intDim: [378, 306, 209],
+        wall: 3.0,
+        lidRatio: 22,
+        ribs: 10,
+        weightKg: 2.8,
+        maxLoadKg: 25,
+        lidLoadKg: 100,
+        ipRating: 'IP42 防潑水',
+        latchType: '1-Click 彈簧連動堆疊扣 + 頂部與前手把',
+        url: 'https://ensore.co/HAZET-L-Boxx-136-Tool-Storage-Case-13-3L-Impact-Resistant-f-718109'
+      },
+      {
+        id: 'sys3m187',
+        name: 'Festool / Tanos Systainer³ SYS3 M 187',
+        brand: 'Festool / Tanos',
+        region: 'EU',
+        process: 'injection',
+        processLabel: '高壓射出 (ABS)',
+        material: '高剛性 ABS',
+        extDim: [396, 296, 187],
+        intDim: [389, 275, 146],
+        wall: 2.6,
+        lidRatio: 24,
+        ribs: 6,
+        weightKg: 1.8,
+        maxLoadKg: 20,
+        lidLoadKg: 100,
+        ipRating: 'IP43 防塵防潑水',
+        latchType: 'T-LOC 中央單手旋鈕 (開蓋/閉合/堆疊三合一)',
+        url: 'https://www.klium.com/en/festool-sys3-combi-m-287-systainer-577766-125270'
+      },
+      {
+        id: 'sys3combi287',
+        name: 'Festool Systainer³ SYS3-COMBI M 287',
+        brand: 'Festool / Tanos',
+        region: 'EU',
+        process: 'injection',
+        processLabel: '高壓射出 (ABS)',
+        material: '高剛性 ABS',
+        extDim: [396, 296, 287],
+        intDim: [389, 275, 126],
+        wall: 2.8,
+        lidRatio: 20,
+        ribs: 8,
+        weightKg: 4.3,
+        maxLoadKg: 20,
+        lidLoadKg: 100,
+        ipRating: 'IP43 + 下層前抽屜',
+        latchType: 'T-LOC 旋鈕 + 前抽屜卡停滑軌結構',
+        url: 'https://www.klium.com/en/festool-sys3-combi-m-287-systainer-577766-125270'
+      },
+      {
+        id: 'packout',
+        name: 'Milwaukee PACKOUT Large Tool Box (4932464079)',
+        brand: 'Milwaukee',
+        region: 'US',
+        process: 'injection',
+        processLabel: '重載射出 + 金屬護角',
+        material: '耐衝擊共聚 PP + 鋁合金強化角',
+        extDim: [560, 410, 290],
+        intDim: [500, 335, 225],
+        wall: 3.5,
+        lidRatio: 25,
+        ribs: 12,
+        weightKg: 5.5,
+        maxLoadKg: 45,
+        lidLoadKg: 136,
+        ipRating: 'IP65 全周防水膠條',
+        latchType: '底板滑入式楔形卡槽 (Cleat Lock) + 重型壓扣',
+        url: 'https://www.skroutz.mt/s/65934325/bosch-1600a037dy-tool-box-set.html'
+      },
+      {
+        id: 'packout_compact',
+        name: 'Milwaukee PACKOUT Compact Box (4932471723)',
+        brand: 'Milwaukee',
+        region: 'US',
+        process: 'injection',
+        processLabel: '重載射出 (PP)',
+        material: '耐衝擊共聚 PP',
+        extDim: [411, 254, 330],
+        intDim: [355, 200, 265],
+        wall: 3.2,
+        lidRatio: 22,
+        ribs: 8,
+        weightKg: 3.1,
+        maxLoadKg: 34,
+        lidLoadKg: 100,
+        ipRating: 'IP65 全周防水膠條',
+        latchType: '半寬模組化 PACKOUT 楔形底扣',
+        url: 'https://www.skroutz.mt/s/65934325/bosch-1600a037dy-tool-box-set.html'
+      },
+      {
+        id: 'tstak_deep',
+        name: 'DeWalt TSTAK 2.0 Deep Box VI (DWST83346-1)',
+        brand: 'DeWalt',
+        region: 'US',
+        process: 'injection',
+        processLabel: '高壓射出 (PP)',
+        material: '高韌性 PP + 不鏽鋼扣片',
+        extDim: [440, 333, 302],
+        intDim: [390, 280, 250],
+        wall: 2.9,
+        lidRatio: 24,
+        ribs: 8,
+        weightKg: 2.7,
+        maxLoadKg: 30,
+        lidLoadKg: 90,
+        ipRating: 'IP54 防塵防潑水',
+        latchType: '前方金屬蝴蝶壓扣 + 側邊彈性塑膠連扣耳',
+        url: 'https://modulartoolbox.com/vs/tstak-vs-systainer/'
+      },
+      {
+        id: 'makpac2',
+        name: 'Makita MAKPAC Interlocking Case Type 2 (821550-0)',
+        brand: 'Makita',
+        region: 'JP',
+        process: 'injection',
+        processLabel: '高壓射出 (ABS)',
+        material: 'ABS (圓弧導角加強肋)',
+        extDim: [395, 295, 157],
+        intDim: [375, 265, 125],
+        wall: 2.6,
+        lidRatio: 26,
+        ribs: 10,
+        weightKg: 1.6,
+        maxLoadKg: 20,
+        lidLoadKg: 85,
+        ipRating: 'IP40 防塵標準',
+        latchType: '四角雙層向上推滑扣 (4-Latch Slide System)',
+        url: 'https://makitatools.com/products/makpac'
+      },
+      {
+        id: 'pelican1170',
+        name: 'Pelican Protector 1170 氣密儀器工具箱',
+        brand: 'Pelican',
+        region: 'US',
+        process: 'heavy_ip67',
+        processLabel: '微發泡核心厚壁射出',
+        material: '共聚 PP (Open-Cell Core)',
+        extDim: [296, 212, 96],
+        intDim: [268, 153, 80],
+        wall: 4.5,
+        lidRatio: 35,
+        ribs: 6,
+        weightKg: 0.95,
+        maxLoadKg: 18,
+        lidLoadKg: 150,
+        ipRating: 'IP67 + 自動平衡洩壓閥',
+        latchType: 'ABS 二段式凸輪省力壓扣 + 70 Shore 丁腈 O-Ring',
+        url: 'https://www.airgas.com/product/Tools-and-Hardware/MRO-%26-Plant-Maintenance/Storage-Systems%2C-Benches-%26-Stations/p/PPX1170-000-110'
+      },
+      {
+        id: 'pelican1500',
+        name: 'Pelican Protector 1500 重載軍規工具箱',
+        brand: 'Pelican',
+        region: 'US',
+        process: 'heavy_ip67',
+        processLabel: '微發泡核心厚壁射出',
+        material: '共聚 PP + 304 不鏽鋼插銷',
+        extDim: [470, 357, 176],
+        intDim: [425, 284, 155],
+        wall: 5.0,
+        lidRatio: 30,
+        ribs: 10,
+        weightKg: 3.2,
+        maxLoadKg: 35,
+        lidLoadKg: 180,
+        ipRating: 'IP67 氣密防水 (-40~99°C)',
+        latchType: 'Double-Throw 二段式壓扣 + 3微米 PET 疏水透氣閥',
+        url: 'https://www.airgas.com/product/Tools-and-Hardware/MRO-%26-Plant-Maintenance/Storage-Systems%2C-Benches-%26-Stations/p/PPX1450-000-150'
+      },
+      {
+        id: 'explorer5117',
+        name: 'Explorer Cases Mod. 5117.O 專業防水工具箱',
+        brand: 'Explorer Cases (義大利)',
+        region: 'EU',
+        process: 'heavy_ip67',
+        processLabel: '厚壁射出 (PP)',
+        material: 'Copolymer Polypropylene',
+        extDim: [546, 347, 197],
+        intDim: [510, 290, 175],
+        wall: 4.6,
+        lidRatio: 28,
+        ribs: 12,
+        weightKg: 4.1,
+        maxLoadKg: 40,
+        lidLoadKg: 160,
+        ipRating: 'IP67 防壓防水',
+        latchType: '防卡死雙鉤壓扣 + 手動洩壓閥',
+        url: 'https://www.explorercases.com/en/products/5117/5117-o-copolymer-polypropylene-waterproof-case/pdf-simple/'
+      },
+      {
+        id: 'knipex_move',
+        name: 'Knipex BIG Basic Move 電工手工具箱 (00 21 06 LE)',
+        brand: 'Knipex (德國)',
+        region: 'EU',
+        process: 'injection',
+        processLabel: '真空成型 ABS + 鋁框',
+        material: '重載 ABS 殼體 + 周邊鋁合金框架',
+        extDim: [515, 430, 280],
+        intDim: [480, 370, 245],
+        wall: 3.4,
+        lidRatio: 42,
+        ribs: 6,
+        weightKg: 6.2,
+        maxLoadKg: 30,
+        lidLoadKg: 95,
+        ipRating: 'IP43 + 拉桿滾輪結構',
+        latchType: '雙金屬密碼鑰匙鎖扣 + 多層工具插袋板',
+        url: 'https://www.skroutz.mt/s/65934325/bosch-1600a037dy-tool-box-set.html'
+      },
+      {
+        id: 'twblow94',
+        name: 'Casemate 凱鍶鎂 No.03 可換扣具專業吹氣手工具箱',
+        brand: 'Casemate 凱鍶鎂 (台灣)',
+        region: 'TW',
+        process: 'blow',
+        processLabel: '雙層中空吹氣成型',
+        material: '高分子 HDPE + 可換式 ABS/金屬扣',
+        extDim: [390, 295, 92],
+        intDim: [365, 260, 74],
+        wall: 2.2,
+        lidRatio: 48,
+        ribs: 8,
+        weightKg: 1.45,
+        maxLoadKg: 18,
+        lidLoadKg: 70,
+        ipRating: 'Mold-Tech 防刮咬花表面',
+        latchType: '專利可替換式滑入扣具 (支援不鏽鋼/ABS/PP雙色扣)',
+        url: 'https://www.casemate.com/en/product-289981/No-03-Blow-Mold-Case-With-Changeable-Latches.html'
+      },
+      {
+        id: 'twblow580',
+        name: '郁慶塑膠 Yu-Ching 02-501 長型扭力扳手／套筒吹氣盒',
+        brand: '郁慶塑膠 Yu-Ching (台灣)',
+        region: 'TW',
+        process: 'blow',
+        processLabel: '雙層中空吹氣成型',
+        material: '高密度 HDPE (支援海廢漁網再生料)',
+        extDim: [580, 265, 90],
+        intDim: [552, 232, 72],
+        wall: 2.3,
+        lidRatio: 46,
+        ribs: 10,
+        weightKg: 1.68,
+        maxLoadKg: 20,
+        lidLoadKg: 65,
+        ipRating: '耐寒 -20°C 落摔認證',
+        latchType: '雙獨立射出卡扣 + 吹塑 T 型加強鉸鏈',
+        url: 'https://www.yu-ching.com/zh_TW/shop/blow-mold-case-tool-box-02-501-2'
+      },
+      {
+        id: 'twblow270',
+        name: '郁慶塑膠 Yu-Ching 02-601 緊湊型起子頭／棘輪吹氣盒',
+        brand: '郁慶塑膠 Yu-Ching (台灣)',
+        region: 'TW',
+        process: 'blow',
+        processLabel: '雙層中空吹氣成型',
+        material: '高密度 HDPE',
+        extDim: [270, 190, 60],
+        intDim: [248, 162, 46],
+        wall: 2.0,
+        lidRatio: 50,
+        ribs: 6,
+        weightKg: 0.58,
+        maxLoadKg: 8,
+        lidLoadKg: 45,
+        ipRating: '輕巧防摔雙層氣室',
+        latchType: '一體式/嵌入式快扣 + 內層倒扣套筒柱',
+        url: 'https://www.yu-ching.com/zh_TW/shop/oem-blowing-mold-tool-case-02-601-4'
+      },
+      {
+        id: 'twersson',
+        name: 'Ersson 춘成塑膠 AMG / GT 系列重載吹氣工具箱',
+        brand: 'Ersson 춘成 (台灣)',
+        region: 'TW',
+        process: 'blow',
+        processLabel: '雙層中空吹氣 + 射出雙色件',
+        material: 'HDPE 箱體 + PP/TPR 雙色軟質握把',
+        extDim: [445, 320, 105],
+        intDim: [415, 282, 84],
+        wall: 2.4,
+        lidRatio: 48,
+        ribs: 10,
+        weightKg: 1.85,
+        maxLoadKg: 22,
+        lidLoadKg: 75,
+        ipRating: '四角氣墊防撞腳墊設計',
+        latchType: '安全鎖孔金屬搭扣 + 雙層 Kiss-off 抗彎結構',
+        url: 'https://www.ersson.com.tw/en/product-c93079/BLOW-MOLD-CASE.html'
+      }
+    ];
+
+    // 2. STRUCTURAL MECHANISMS & 2D CAD BLUEPRINT DATA (6 Core Mechanisms)
+    const MECHANISM_ATLAS = [
+      {
+        id: 'MECH-01',
+        title: '二段式省力凸輪壓扣 (Double-Throw Over-Center Cam Latch)',
+        subtitle: 'Pelican / 重載射出箱標準配製，降低 45% 開啟扳動阻力',
+        tolerance: '主樞軸銷孔配合建議 Ø4.05 H8 / Ø4.00 f7（304 不鏽鋼滾花銷）；過死點 (Over-center) 鎖緊行程需預留 1.8 ~ 2.2 mm 彈性壓縮量以壓實防水膠條。',
+        mold: '扣具本體建議採用 PP+20%GF 或 POM 獨立射出成型；箱體底座卡鉤座需設計斜銷 (Angled Lifter) 成型倒扣面，拔模角 ≥ 1.5°。',
+        failure: '傳統單段扣在箱內負壓或膠條反彈大時極易彈傷手指。二段式先由第一凸輪頂開上蓋釋放真空，再翻開扣體，可承受 180 kgf 拉力。',
+        svgType: 'latch_cam'
+      },
+      {
+        id: 'MECH-02',
+        title: '中央單手旋鈕堆疊鎖 (T-LOC One-Hand Rotary Interlock)',
+        subtitle: 'Festool / Tanos 經典機構，單一旋鈕完成「閉合、開啟、上下箱連結合體」',
+        tolerance: '中央轉盤軸孔間隙 0.15 ~ 0.25 mm；旋鈕背面弧形滑槽升角建議 18° ~ 22°，終端需設 Ø2.5 mm 定位凸點提供明確「咔噠」手感。',
+        mold: '旋鈕本體為高剛性 ABS 射出，箱體正面需預留深度 14 mm 之圓弧內凹旋轉閃避槽，並於下方箱體頂部對應處設 T 型鳩尾卡槽。',
+        failure: '若泥沙進入旋轉軌道易造成卡滯，需在旋鈕底部設計 2 道排屑導溝，並確保轉軸卡扣根部導 R 角 ≥ R1.2 mm 防止應力白化。',
+        svgType: 'tloc_rotary'
+      },
+      {
+        id: 'MECH-03',
+        title: '上下蓋舌槽止口與 IP67 發泡膠條 (Tongue & Groove + EPDM O-Ring)',
+        subtitle: '防止箱體受側向撞擊錯位 (Anti-Shear) 並達成氣密防水',
+        tolerance: '上蓋舌片 (Tongue) 寬度 3.2 mm，下蓋溝槽 (Groove) 寬度 3.8 mm（單邊間隙 0.30 mm）；EPDM 閉孔發泡膠條直徑 Ø5.5 mm，設計壓縮率 25% ~ 32%。',
+        mold: '止口轉角處半徑 R 必須 ≥ 12 mm，避免防水膠條在轉角處因曲率過小而皺褶翹起漏水；止口內外側拔模角建議 1° ~ 1.5°。',
+        failure: '膠條壓縮率若超過 40% 會導致長期壓縮永久變形 (Compression Set) 及扣具過緊；若低於 18% 則無法通過 IP67 水下 1 公尺 30 分鐘測試。',
+        svgType: 'tongue_groove'
+      },
+      {
+        id: 'MECH-04',
+        title: '中空吹氣雙層 Kiss-Off 融合柱與防撞氣墊角 (Blow-Mold Kiss-Off & Bumper)',
+        subtitle: '台灣外銷吹氣工具箱靈魂結構：大幅提升雙層中空板抗彎剛性與落摔吸能',
+        tolerance: '內外皮層厚度約 1.8 ~ 2.4 mm；Kiss-Off 貼合柱頂部融合區總厚應控制在雙層壁厚之 1.6 ~ 1.8 倍，融合面積直徑 Ø10 ~ Ø16 mm。',
+        mold: '吹氣模穴在箱體四角需設計「分料減薄凹槽 (Pinch Relief)」，避免型坯 (Parison) 在四角吹脹比過大導致角部壁厚低於 1.0 mm 而落摔破裂。',
+        failure: '若 Kiss-Off 柱拔模斜度小於 8° 或間距過密，吹氣時型坯容易拉破穿孔；建議圓錐角設為 12° ~ 18° 並呈梅花交錯排列。',
+        svgType: 'blow_kissoff'
+      },
+      {
+        id: 'MECH-05',
+        title: '吹塑 T 型滑塊鉸鏈 vs. 射出不鏽鋼穿銷鉸鏈 (US6325962B1 結構對比)',
+        subtitle: '解決傳統一體式塑膠活頁 (Living Hinge) 低溫反覆折彎斷裂問題',
+        tolerance: '射出穿銷鉸鏈：Ø4.0 mm 304 不鏽鋼直銷配 Ø4.05 mm 孔，每節軸套長度 18 ~ 25 mm，總共 5~7 節交錯，並設 95°~105° 開蓋止動斜面 (Stop Block)。',
+        mold: '吹氣盒高強度鉸鏈（參考專利 US6325962B1）利用模具 T 型滑塊形成雙層實心凸耳與凹槽互扣，比薄片式塑膠活頁壽命提升 8 倍以上。',
+        failure: '一般 PP 一體式蝴蝶活頁厚度若偏離 0.35 ~ 0.45 mm 或在 -10°C 以下開合，極易脆斷；外銷歐美專業工具箱強烈建議改用互扣軸套或穿銷結構。',
+        svgType: 'hinge_pin'
+      },
+      {
+        id: 'MECH-06',
+        title: '射出箱加強立肋、Boss 柱與防縮水準則 (Rib & Gusset DFM Rules)',
+        subtitle: '消除外觀面縮水凹痕 (Sink Marks) 並提升頂蓋 100 kg 堆疊承重',
+        tolerance: '肋條根部厚度 t_rib = 0.50 ~ 0.60 × 主壁厚 T；肋高 H_rib ≤ 3.0 × T；根部圓角 R = 0.25 ~ 0.40 × T；拔模斜度 0.5° ~ 1.0°/單邊。',
+        mold: '若外觀面貼標區不允許任何縮水痕，肋條根部比值需降至 0.45 T，或在正面對應處設計咬花 (MT-11020) 與造型凹槽 (Shadow Groove) 進行視覺遮蔽。',
+        failure: '肋條交界處（十字節點）塑料積聚易產生真空氣泡與縮水，必須在十字中心設計「掏空火山口 (Coring Hole)」維持均勻壁厚。',
+        svgType: 'rib_dfm'
+      }
+    ];
+
+    // 3. HAND TOOL DIN / ISO STANDARD DIMENSIONS DATABASE
+    const HAND_TOOL_STANDARDS = [
+      {
+        id: 'sock_12_19',
+        category: 'socket',
+        name: '1/2" (12.5mm) 六角標準套筒 19mm',
+        standard: 'DIN 3124 / ISO 2725-1',
+        dia: 26.8,
+        length: 38.0,
+        weight: 78,
+        ergoNote: '套筒外徑 D1=26.8mm, 驅動端 D2=24.0mm；滾花溝槽便於油手拔取',
+        url: 'https://www.autodoc24.fr/ks-tools/10495556'
+      },
+      {
+        id: 'sock_12_36',
+        category: 'socket',
+        name: '1/2" 重載六角套筒 36mm (Cr-V)',
+        standard: 'DIN 3120 / ISO 1174',
+        dia: 48.0,
+        length: 50.0,
+        weight: 310,
+        ergoNote: '大質量套筒若置於上蓋，吹氣盒需設雙側 0.5mm 倒扣凸點防落摔掉件',
+        url: 'https://www.autodoc24.fr/ks-tools/10494323'
+      },
+      {
+        id: 'sock_14_8',
+        category: 'socket',
+        name: '1/4" (6.3mm) 六角精密套筒 8mm',
+        standard: 'DIN 3124 / ISO 2725',
+        dia: 12.0,
+        length: 25.0,
+        weight: 14,
+        ergoNote: '小套筒建議採直立插銷或連排 EVA 槽配置，槽間距 ≥ 4.0mm',
+        url: 'https://www.egamaster.com/en/products/product/socket-wrench-1-4-standard-6-edges-din-3124-8-mm'
+      },
+      {
+        id: 'ratchet_12',
+        category: 'socket',
+        name: '1/2" 72齒雙色包膠棘輪扳手 (250mm)',
+        standard: 'DIN 3122 / ISO 3315',
+        dia: 34.5,
+        length: 250.0,
+        weight: 540,
+        ergoNote: '握柄最大橢圓 Ø34.5mm，PP+TPE 雙料 Shore A 60，重心距方頭 85mm',
+        url: 'https://www.conrad.com/en/p/ks-tools-1511109-socket-wrench-din-3120-din-iso-1174-din-3122-din-iso-3315-2701687.html'
+      },
+      {
+        id: 'torque_12',
+        category: 'wrench',
+        name: '1/2" 預置式扭力扳手 (40-200 Nm)',
+        standard: 'DIN EN ISO 6789-1',
+        dia: 38.0,
+        length: 485.0,
+        weight: 1320,
+        ergoNote: '精密彈簧機構嚴禁受壓，盒體模穴需在棘輪頭與鎖定尾蓋處騰空 2mm',
+        url: 'https://www.conrad.com/en/p/ks-tools-1511109-socket-wrench-din-3120-din-iso-1174-din-3122-din-iso-3315-2701687.html'
+      },
+      {
+        id: 'combo_17',
+        category: 'wrench',
+        name: '梅開複合扳手 17mm (15° 偏角)',
+        standard: 'DIN 3113 Form A / ISO 7738',
+        dia: 36.2,
+        length: 210.0,
+        weight: 145,
+        ergoNote: '開口端寬 36.2mm、柄身厚 6.5mm；建議採 35° 斜插排列節省盒體面積',
+        url: 'https://www.skroutz.mt/s/65934325/bosch-1600a037dy-tool-box-set.html'
+      },
+      {
+        id: 'vde_ph2',
+        category: 'driver',
+        name: 'VDE 1000V 絕緣十字起子 PH2 × 100',
+        standard: 'DIN EN IEC 60900 / ISO 8764',
+        dia: 36.0,
+        length: 210.0,
+        weight: 105,
+        ergoNote: '護手凸緣直徑 Ø36mm 防滑入帶電區；軟硬雙色 TPE 摩擦係數 μ ≥ 0.75',
+        url: 'https://webstore.ansi.org/industry/ergonomics/hand-held-tool-ergonomics'
+      },
+      {
+        id: 'pliers_water',
+        category: 'pliers',
+        name: '10" (250mm) 盒式關節水泵鉗',
+        standard: 'DIN ISO 8976 (Knipex Cobra 級)',
+        dia: 52.0,
+        length: 250.0,
+        weight: 335,
+        ergoNote: '雙柄閉合寬度 52mm；內襯模穴於鉗頭與尾端設手指挖槽 Ø26mm',
+        url: 'https://www.skroutz.mt/s/65934325/bosch-1600a037dy-tool-box-set.html'
+      }
+    ];
+
+    // 4. QA & ISTA DROP TEST CHECKLIST DATA
+    const QA_CHECKLIST = [
+      {
+        id: 'qa1',
+        checked: true,
+        title: 'ISTA 2A / 常溫六面四角一稜自由落摔測試 (1.0m ~ 1.2m)',
+        desc: '滿載全套手工具狀態下，自 1.2m 高度針對底面、頂面、四側面、四底角及最脆弱鉸鏈稜線各落摔 1 次，箱體不得破裂、扣具不得彈開、內部套筒掉離模穴數 = 0。'
+      },
+      {
+        id: 'qa2',
+        checked: true,
+        title: '-20°C 極寒冷凍 24 小時落摔測試 (Cold Impact Test)',
+        desc: '外銷歐美／俄羅斯必測：整箱置於 -20°C 恆溫箱 24 小時後取出 60 秒內，自 0.8m 高度對箱角與鉸鏈落摔，檢測 PP/HDPE/ABS 是否有低溫脆裂或發白斷裂。'
+      },
+      {
+        id: 'qa3',
+        checked: true,
+        title: '提把靜態 2.5 倍超載吊重與 10,000 次動態往復疲勞測試',
+        desc: '依 ISO 11228 規範，箱內填充額定載重 2.5 倍之鐵砂（如額定 25kg 則測 62.5kg）懸吊 24 小時；並以每分鐘 30 次頻率進行 80mm 行程上下震動 10,000 次。'
+      },
+      {
+        id: 'qa4',
+        checked: true,
+        title: '扣具與鉸鏈 5,000 次開合壽命循環測試 (Latch & Hinge Cycling)',
+        desc: '扣具反覆扣合與扳開 5,000 次後，扣合力衰減不得超過初始值之 25%；上蓋開合 5,000 次後，止動塊不得變形且開啟角度變化 ≤ 3°。'
+      },
+      {
+        id: 'qa5',
+        checked: true,
+        title: '上蓋内襯倒掛工具 8G 隨機震動防掉件測試 (Random Vibration)',
+        desc: '固定於震動台（頻率 5~100 Hz）模擬長途海運與貨車顛簸 120 分鐘，打開上蓋時所有倒掛套筒、起子頭與接桿必須100%留在原模穴內。'
+      },
+      {
+        id: 'qa6',
+        checked: true,
+        title: '頂蓋 100 kgf 靜態堆疊抗壓與 60°C 高溫蠕變測試',
+        desc: '於 60°C 貨櫃高溫環境下，箱頂施加 100 kgf 均佈載重持續 48 小時，頂蓋中心最大下陷撓度需 ≤ 3.5 mm，卸載後殘餘變形 ≤ 1.0 mm。'
+      },
+      {
+        id: 'qa7',
+        checked: false,
+        title: 'IP54 / IP67 防塵防水與負壓氣密檢驗 (IEC 60529)',
+        desc: '針對附 EPDM 膠條之重載箱，抽負壓或浸入水下 1.0 公尺 30 分鐘，內部試紙零滲水；並驗證自動平衡透氣閥 (Purge Valve) 正常運作。'
+      },
+      {
+        id: 'qa8',
+        checked: false,
+        title: 'PAHs 多環芳香烴 / REACH / RoHS 環保與耐機油腐蝕測試',
+        desc: '德國 GS 認證必備：雙色軟膠握把與 EVA 泡棉需通過歐盟 AfPS GS PAHs Category 2 檢測，且表面沾附煞車油／機油 48 小時不得膨脹溶出。'
+      }
+    ];
+
+    // =========================================================
+    // STATE MANAGEMENT
+    // =========================================================
+    const appState = {
+      activeTab: '3d',
+      length: 442,
+      width: 357,
+      height: 151,
+      lidRatio: 28,
+      openAngle: 45,
+      wall: 2.8,
+      ribs: 8,
+      process: 'inj_abs',
+      latch: 'double_throw',
+      seal: 'step_ip54',
+      insert: 'cnc_eva',
+      explode: false,
+      wireframe: false,
+      showFoam: true,
+      selectedMechId: 'MECH-01',
+      cadZoom: 1.0
+    };
+
+    // =========================================================
+    // TAB NAVIGATION
+    // =========================================================
+    document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-tab');
+        appState.activeTab = target;
+
+        document.querySelectorAll('.nav-tab-btn').forEach(b => {
+          b.className = 'nav-tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-1.5 bg-slate-800 text-slate-300 hover:bg-slate-700';
+        });
+        btn.className = 'nav-tab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-1.5 bg-amber-500 text-slate-950 font-semibold shadow';
+
+        document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.add('hidden'));
+        const activePanel = document.getElementById('panel-' + target);
+        if (activePanel) activePanel.classList.remove('hidden');
+
+        if (target === '3d') {
+          setTimeout(resizeThreeViewport, 50);
+        } else if (target === 'mat') {
+          setTimeout(initMaterialRadarChart, 50);
+        }
+      });
+    });
+
+    // =========================================================
+    // THREE.JS 3D PARAMETRIC CASE SIMULATOR
+    // =========================================================
+    let scene, camera, renderer, caseGroup;
+    let isDragging = false;
+    let prevMouse = { x: 0, y: 0 };
+    let spherical = { theta: 0.65, phi: 1.05, radius: 750 };
+
+    function initThreeViewport() {
+      const container = document.getElementById('threeContainer');
+      if (!container) return;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x060b14);
+
+      const w = container.clientWidth || 720;
+      const h = container.clientHeight || 420;
+      camera = new THREE.PerspectiveCamera(40, w / h, 10, 5000);
+      updateCameraFromSpherical();
+
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.innerHTML = '';
+      container.appendChild(renderer.domElement);
+
+      // Lights
+      const ambient = new THREE.AmbientLight(0xffffff, 0.65);
+      scene.add(ambient);
+
+      const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.85);
+      dirLight1.position.set(450, 700, 500);
+      scene.add(dirLight1);
+
+      const dirLight2 = new THREE.DirectionalLight(0x38bdf8, 0.35);
+      dirLight2.position.set(-500, -200, -400);
+      scene.add(dirLight2);
+
+      // Reference CAD Grid
+      const grid = new THREE.GridHelper(900, 18, 0x0ea5e9, 0x1e293b);
+      grid.position.y = -130;
+      scene.add(grid);
+
+      caseGroup = new THREE.Group();
+      scene.add(caseGroup);
+
+      // Mouse & Touch Orbit Controls
+      const dom = renderer.domElement;
+      dom.addEventListener('mousedown', e => {
+        isDragging = true;
+        prevMouse = { x: e.clientX, y: e.clientY };
+      });
+      window.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        const dx = e.clientX - prevMouse.x;
+        const dy = e.clientY - prevMouse.y;
+        prevMouse = { x: e.clientX, y: e.clientY };
+        spherical.theta -= dx * 0.008;
+        spherical.phi = Math.max(0.2, Math.min(Math.PI - 0.2, spherical.phi - dy * 0.008));
+        updateCameraFromSpherical();
+      });
+      window.addEventListener('mouseup', () => { isDragging = false; });
+
+      dom.addEventListener('wheel', e => {
+        e.preventDefault();
+        spherical.radius = Math.max(320, Math.min(1400, spherical.radius + e.deltaY * 0.45));
+        updateCameraFromSpherical();
+      }, { passive: false });
+
+      // Touch support
+      dom.addEventListener('touchstart', e => {
+        if (e.touches.length === 1) {
+          isDragging = true;
+          prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+      }, { passive: true });
+      dom.addEventListener('touchmove', e => {
+        if (!isDragging || e.touches.length !== 1) return;
+        const dx = e.touches[0].clientX - prevMouse.x;
+        const dy = e.touches[0].clientY - prevMouse.y;
+        prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        spherical.theta -= dx * 0.008;
+        spherical.phi = Math.max(0.2, Math.min(Math.PI - 0.2, spherical.phi - dy * 0.008));
+        updateCameraFromSpherical();
+      }, { passive: true });
+      dom.addEventListener('touchend', () => { isDragging = false; });
+
+      window.addEventListener('resize', resizeThreeViewport);
+
+      rebuild3DCaseGeometry();
+      animateThree();
+    }
+
+    function updateCameraFromSpherical() {
+      if (!camera) return;
+      camera.position.x = spherical.radius * Math.sin(spherical.phi) * Math.sin(spherical.theta);
+      camera.position.y = spherical.radius * Math.cos(spherical.phi);
+      camera.position.z = spherical.radius * Math.sin(spherical.phi) * Math.cos(spherical.theta);
+      camera.lookAt(0, 10, 0);
+    }
+
+    function resizeThreeViewport() {
+      const container = document.getElementById('threeContainer');
+      if (!container || !renderer || !camera) return;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      if (w > 0 && h > 0) {
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      }
+    }
+
+    function animateThree() {
+      requestAnimationFrame(animateThree);
+      if (renderer && scene && camera) {
+        renderer.render(scene, camera);
+      }
+    }
+
+    // Build Hollow Box Helper
+    function createHollowShell(L, W, H, wallThickness, material) {
+      const shellGroup = new THREE.Group();
+      const t = wallThickness * 2.2; // Visual thickness scaling for clear CAD inspection
+
+      // Bottom plate
+      const bottomGeo = new THREE.BoxGeometry(L, t, W);
+      const bottomMesh = new THREE.Mesh(bottomGeo, material);
+      bottomMesh.position.y = -H / 2 + t / 2;
+      shellGroup.add(bottomMesh);
+
+      // Front & Back walls
+      const fbGeo = new THREE.BoxGeometry(L, H - t, t);
+      const frontMesh = new THREE.Mesh(fbGeo, material);
+      frontMesh.position.set(0, t / 2, W / 2 - t / 2);
+      shellGroup.add(frontMesh);
+
+      const backMesh = new THREE.Mesh(fbGeo, material);
+      backMesh.position.set(0, t / 2, -W / 2 + t / 2);
+      shellGroup.add(backMesh);
+
+      // Left & Right walls
+      const lrGeo = new THREE.BoxGeometry(t, H - t, W - 2 * t);
+      const leftMesh = new THREE.Mesh(lrGeo, material);
+      leftMesh.position.set(-L / 2 + t / 2, t / 2, 0);
+      shellGroup.add(leftMesh);
+
+      const rightMesh = new THREE.Mesh(lrGeo, material);
+      rightMesh.position.set(L / 2 - t / 2, t / 2, 0);
+      shellGroup.add(rightMesh);
+
+      return shellGroup;
+    }
+
+    function rebuild3DCaseGeometry() {
+      if (!caseGroup) return;
+      while (caseGroup.children.length > 0) {
+        caseGroup.remove(caseGroup.children[0]);
+      }
+
+      const L = appState.length;
+      const W = appState.width;
+      const H = appState.height;
+      const lidH = H * (appState.lidRatio / 100);
+      const baseH = H - lidH;
+      const explodeGap = appState.explode ? 65 : 0;
+
+      // Color Palette based on Process/Material
+      let bodyColor = 0x0284c7; // Sky blue (Bosch / Industrial)
+      if (appState.process === 'inj_pp') bodyColor = 0x1e293b;
+      if (appState.process === 'inj_ppgf') bodyColor = 0xb91c1c;
+      if (appState.process === 'inj_pcabs') bodyColor = 0x0f766e;
+      if (appState.process === 'blow_hdpe') bodyColor = 0x1d4ed8;
+
+      const shellMat = new THREE.MeshStandardMaterial({
+        color: bodyColor,
+        roughness: 0.45,
+        metalness: 0.15,
+        wireframe: appState.wireframe
+      });
+      const ribMat = new THREE.MeshStandardMaterial({
+        color: 0x38bdf8,
+        roughness: 0.35,
+        metalness: 0.2,
+        wireframe: appState.wireframe
+      });
+      const hardwareMat = new THREE.MeshStandardMaterial({
+        color: 0xf59e0b,
+        roughness: 0.3,
+        metalness: 0.4,
+        wireframe: appState.wireframe
+      });
+      const handleMat = new THREE.MeshStandardMaterial({
+        color: 0x10b981,
+        roughness: 0.5,
+        metalness: 0.1,
+        wireframe: appState.wireframe
+      });
+      const evaMat = new THREE.MeshStandardMaterial({
+        color: 0xe11d48,
+        roughness: 0.7,
+        metalness: 0.05,
+        wireframe: appState.wireframe
+      });
+      const toolSteelMat = new THREE.MeshStandardMaterial({
+        color: 0xe2e8f0,
+        roughness: 0.2,
+        metalness: 0.85,
+        wireframe: appState.wireframe
+      });
+
+      // 1. BASE SHELL
+      const baseShell = createHollowShell(L, W, baseH, appState.wall, shellMat);
+      baseShell.position.y = -lidH / 2 - explodeGap * 0.5;
+      caseGroup.add(baseShell);
+
+      // Add Corner Bumpers & External Structural Ribs on Base
+      const numRibs = appState.ribs;
+      if (numRibs > 0) {
+        const ribDepth = appState.wall * 2.2;
+        const ribThick = appState.wall * 1.3;
+        for (let i = 0; i < numRibs / 2; i++) {
+          const offsetX = -L * 0.36 + (i / Math.max(1, numRibs / 2 - 1)) * (L * 0.72);
+          const fRib = new THREE.Mesh(new THREE.BoxGeometry(ribThick, baseH * 0.85, ribDepth), ribMat);
+          fRib.position.set(offsetX, baseShell.position.y, W / 2 + ribDepth / 2);
+          caseGroup.add(fRib);
+
+          const bRib = new THREE.Mesh(new THREE.BoxGeometry(ribThick, baseH * 0.85, ribDepth), ribMat);
+          bRib.position.set(offsetX, baseShell.position.y, -W / 2 - ribDepth / 2);
+          caseGroup.add(bRib);
+        }
+      }
+
+      // Ergonomic Front Carry Handle
+      const handleGroup = new THREE.Group();
+      const gripWidth = Math.min(145, L * 0.36);
+      const gripBar = new THREE.Mesh(new THREE.CylinderGeometry(11, 11, gripWidth, 16), handleMat);
+      gripBar.rotation.z = Math.PI / 2;
+      gripBar.position.set(0, baseShell.position.y + baseH * 0.1, W / 2 + 24);
+      handleGroup.add(gripBar);
+
+      const armGeo = new THREE.BoxGeometry(14, 14, 26);
+      const leftArm = new THREE.Mesh(armGeo, hardwareMat);
+      leftArm.position.set(-gripWidth / 2 + 7, baseShell.position.y + baseH * 0.1, W / 2 + 12);
+      const rightArm = new THREE.Mesh(armGeo, hardwareMat);
+      rightArm.position.set(gripWidth / 2 - 7, baseShell.position.y + baseH * 0.1, W / 2 + 12);
+      handleGroup.add(leftArm, rightArm);
+      caseGroup.add(handleGroup);
+
+      // 2. INTERNAL FOAM INSERT & SAMPLE HAND TOOLS
+      if (appState.showFoam) {
+        const foamGroup = new THREE.Group();
+        const foamH = Math.max(20, baseH * 0.55);
+        const foamBlock = new THREE.Mesh(
+          new THREE.BoxGeometry(L - 26, foamH, W - 26),
+          evaMat
+        );
+        foamBlock.position.y = baseShell.position.y - baseH * 0.12 + explodeGap * 0.6;
+        foamGroup.add(foamBlock);
+
+        // Simulated Chrome-Vanadium Ratchet Wrench & Sockets in Foam
+        const ratchetBar = new THREE.Mesh(
+          new THREE.CylinderGeometry(7, 9, Math.min(250, L * 0.58), 16),
+          toolSteelMat
+        );
+        ratchetBar.rotation.z = Math.PI / 2;
+        ratchetBar.position.set(-L * 0.08, foamBlock.position.y + foamH / 2 + 6, -W * 0.16);
+        foamGroup.add(ratchetBar);
+
+        const ratchetHead = new THREE.Mesh(
+          new THREE.CylinderGeometry(20, 20, 16, 20),
+          toolSteelMat
+        );
+        ratchetHead.position.set(-L * 0.08 - Math.min(250, L * 0.58) / 2, foamBlock.position.y + foamH / 2 + 6, -W * 0.16);
+        foamGroup.add(ratchetHead);
+
+        // Row of DIN 3124 Sockets
+        const socketCount = Math.min(8, Math.floor((L - 80) / 38));
+        for (let s = 0; s < socketCount; s++) {
+          const radius = 9 + s * 1.4;
+          const sock = new THREE.Mesh(
+            new THREE.CylinderGeometry(radius, radius, 36, 16),
+            toolSteelMat
+          );
+          sock.position.set(-L * 0.34 + s * 36, foamBlock.position.y + foamH / 2 + 8, W * 0.18);
+          foamGroup.add(sock);
+        }
+
+        caseGroup.add(foamGroup);
+      }
+
+      // 3. HINGED LID SHELL (Pivots around Rear Top Edge of Base)
+      const lidPivot = new THREE.Group();
+      const pivotY = baseShell.position.y + baseH / 2 + explodeGap;
+      const pivotZ = -W / 2;
+      lidPivot.position.set(0, pivotY, pivotZ);
+
+      const lidShell = createHollowShell(L, W, lidH, appState.wall, shellMat);
+      lidShell.rotation.x = Math.PI; // Flip so cavity faces down
+      lidShell.position.set(0, lidH / 2, W / 2);
+      lidPivot.add(lidShell);
+
+      // Lid Top Stacking Cleats & Grid Ribs
+      const cleatGeo = new THREE.BoxGeometry(42, 6, 42);
+      [
+        [-L * 0.35, lidH + 3, W * 0.22],
+        [L * 0.35, lidH + 3, W * 0.22],
+        [-L * 0.35, lidH + 3, W * 0.78],
+        [L * 0.35, lidH + 3, W * 0.78]
+      ].forEach(pos => {
+        const cleat = new THREE.Mesh(cleatGeo, hardwareMat);
+        cleat.position.set(pos[0], pos[1], pos[2]);
+        lidPivot.add(cleat);
+      });
+
+      // Latches on Front of Lid/Base
+      if (appState.latch === 'tloc') {
+        const tlocKnob = new THREE.Mesh(new THREE.CylinderGeometry(34, 34, 14, 24), hardwareMat);
+        tlocKnob.rotation.x = Math.PI / 2;
+        tlocKnob.position.set(0, 4, W + 7);
+        lidPivot.add(tlocKnob);
+      } else {
+        const latchGeo = new THREE.BoxGeometry(36, 46, 12);
+        const latchL = new THREE.Mesh(latchGeo, hardwareMat);
+        latchL.position.set(-L * 0.28, 0, W + 6);
+        const latchR = new THREE.Mesh(latchGeo, hardwareMat);
+        latchR.position.set(L * 0.28, 0, W + 6);
+        lidPivot.add(latchL, latchR);
+      }
+
+      // Rear Hinge Knuckles
+      for (let h = -1; h <= 1; h += 2) {
+        const knuckle = new THREE.Mesh(new THREE.CylinderGeometry(8, 8, 52, 16), hardwareMat);
+        knuckle.rotation.z = Math.PI / 2;
+        knuckle.position.set(h * L * 0.26, 0, 0);
+        lidPivot.add(knuckle);
+      }
+
+      // Apply Lid Opening Angle
+      lidPivot.rotation.x = -THREE.MathUtils.degToRad(appState.openAngle);
+      caseGroup.add(lidPivot);
+    }
+
+    // Camera View Preset Buttons
+    document.querySelectorAll('.cam-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const view = btn.getAttribute('data-cam');
+        if (view === 'iso') { spherical.theta = 0.65; spherical.phi = 1.05; spherical.radius = 750; }
+        if (view === 'front') { spherical.theta = 0; spherical.phi = 1.42; spherical.radius = 700; }
+        if (view === 'top') { spherical.theta = 0; spherical.phi = 0.22; spherical.radius = 760; }
+        if (view === 'side') { spherical.theta = Math.PI / 2; spherical.phi = 1.38; spherical.radius = 700; }
+        updateCameraFromSpherical();
+      });
+    });
+
+    // =========================================================
+    // KPI & DFM ENGINEERING CALCULATIONS
+    // =========================================================
+    function updateEngineeringCalculations() {
+      const L = appState.length;
+      const W = appState.width;
+      const H = appState.height;
+      const t = appState.wall;
+      const ribs = appState.ribs;
+
+      // Material properties lookup
+      const matMap = {
+        inj_abs: { name: '高壓射出 (ABS 抗衝擊)', density: 1.05, shrink: '0.5%', draft: '1.5°', pressureFactor: 0.42, pricePerKg: 68 },
+        inj_pp: { name: '高壓射出 (共聚 PP-B)', density: 0.91, shrink: '1.5%', draft: '1.5°', pressureFactor: 0.35, pricePerKg: 54 },
+        inj_ppgf: { name: '射出 (PP + 20% 玻纖)', density: 1.04, shrink: '0.6%', draft: '2.0°', pressureFactor: 0.48, pricePerKg: 82 },
+        inj_pcabs: { name: '射出 (PC/ABS 合金)', density: 1.12, shrink: '0.6%', draft: '1.5°', pressureFactor: 0.52, pricePerKg: 115 },
+        blow_hdpe: { name: '雙層中空吹氣 (HDPE)', density: 0.95, shrink: '2.0%', draft: '1.0°', pressureFactor: 0.14, pricePerKg: 52 }
+      };
+      const mat = matMap[appState.process] || matMap.inj_abs;
+
+      // Internal effective volume (Liters)
+      const wallOffset = appState.process === 'blow_hdpe' ? 24 : 16;
+      const intL = Math.max(50, L - wallOffset);
+      const intW = Math.max(50, W - wallOffset);
+      const intH = Math.max(25, H - wallOffset);
+      const volLiters = ((intL * intW * intH) / 1e6).toFixed(1);
+
+      // Surface area & Weight estimation
+      const surfaceAreaCm2 = (2 * (L * W + L * H + W * H)) / 100;
+      const ribFactor = 1 + ribs * 0.018;
+      const blowDoubleLayerFactor = appState.process === 'blow_hdpe' ? 1.55 : 1.0;
+      const weightGrams = Math.round(surfaceAreaCm2 * (t / 10) * mat.density * ribFactor * blowDoubleLayerFactor + 180);
+      const resinCostNTD = Math.round((weightGrams / 1000) * mat.pricePerKg);
+
+      // Projected area (Lid + Base in family mold or 2 cavities) & Clamping Tonnage
+      const projAreaCm2 = Math.round((L * W * 2) / 100);
+      const clampTons = Math.round(projAreaCm2 * mat.pressureFactor);
+
+      // Lid stacking load & Drop score
+      const stackKg = Math.round(45 + Math.pow(t, 1.8) * 8 + ribs * 3.5);
+      const sealMap = {
+        step_ip54: 'IP54 防塵防潑水迷宮止口',
+        oring_ip67: 'IP67 氣密 EPDM 膠條 + 洩壓閥',
+        blow_pinch: 'IP42 吹氣凹凸吻合止口'
+      };
+      let dropScore = 80 + Math.round((t - 2.0) * 6) + (appState.process === 'blow_hdpe' || appState.process === 'inj_pcabs' ? 8 : 4);
+      dropScore = Math.max(62, Math.min(99, dropScore));
+
+      // Update Top KPI Cards
+      document.getElementById('kpi-dimensions').textContent = `${L} × ${W} × ${H} mm`;
+      document.getElementById('kpi-volume').textContent = `內部有效容積: ${volLiters} L (${intL}×${intW}×${intH})`;
+      document.getElementById('kpi-process').textContent = mat.name;
+      document.getElementById('kpi-wall').textContent = `標準肉厚: ${t.toFixed(1)} mm / 拔模角 ${mat.draft}`;
+      document.getElementById('kpi-weight').textContent = `${weightGrams.toLocaleString()} g (${(weightGrams / 1000).toFixed(2)} kg)`;
+      document.getElementById('kpi-resin-cost').textContent = `原料成本預估: ~NT$ ${resinCostNTD} (縮水率 ${mat.shrink})`;
+      document.getElementById('kpi-clamp').textContent = `${clampTons} Ton (噸)`;
+      document.getElementById('kpi-proj-area').textContent = `上下蓋總投影面積: ${projAreaCm2.toLocaleString()} cm²`;
+      document.getElementById('kpi-stack-load').textContent = `${stackKg} kgf`;
+      document.getElementById('kpi-ip-rating').textContent = sealMap[appState.seal];
+      document.getElementById('kpi-drop-score').textContent = `${dropScore} / 100 (${dropScore >= 85 ? '極佳' : '合格'})`;
+
+      // Update DFM Audit Grid
+      const recRibThick = (t * 0.55).toFixed(2);
+      const recRibHeight = (t * 2.8).toFixed(1);
+      const recCornerR = (t * 1.5).toFixed(1);
+
+      const dfmHtml = `
+        <div class="bg-slate-950 border border-slate-800 rounded-lg p-3">
+          <div class="font-mono text-amber-400 font-semibold">1. 立肋與防縮水規範 (Rib DFM)</div>
+          <p class="text-slate-300 mt-1 leading-relaxed">
+            主肉厚 <span class="font-mono text-white">${t.toFixed(1)} mm</span>，建議立肋根部厚度設為 <span class="font-mono text-emerald-400">${recRibThick} mm</span> (0.55t)，肋高上限 <span class="font-mono text-white">${recRibHeight} mm</span>，根部導角 <span class="font-mono text-white">R${(t * 0.3).toFixed(1)} mm</span>。
+          </p>
+        </div>
+        <div class="bg-slate-950 border border-slate-800 rounded-lg p-3">
+          <div class="font-mono text-sky-400 font-semibold">2. 轉角應力與拔模斜度 (Draft &amp; R)</div>
+          <p class="text-slate-300 mt-1 leading-relaxed">
+            箱體四角內 R 建議 ≥ <span class="font-mono text-white">R${recCornerR} mm</span>，外 R = <span class="font-mono text-white">R${(parseFloat(recCornerR) + t).toFixed(1)} mm</span> 維持等肉厚；咬花面 (MT-11020) 拔模斜度需 ≥ <span class="font-mono text-emerald-400">${mat.draft}</span>。
+          </p>
+        </div>
+        <div class="bg-slate-950 border border-slate-800 rounded-lg p-3">
+          <div class="font-mono text-emerald-400 font-semibold">3. 模具澆口與排氣配置 (Gating)</div>
+          <p class="text-slate-300 mt-1 leading-relaxed">
+            ${appState.process === 'blow_hdpe'
+              ? '中空吹氣建議採用儲料缸模頭 + 伺服型坯厚薄控制器 (Parison Programming)，於箱角加厚 25%，合模線夾坯刀口寬 0.6mm。'
+              : `投影面積 ${projAreaCm2} cm² 建議採用 4 點熱澆道針閥澆口 (Valve Gate) 對稱進膠，熔接線避開扣具座與提把耳孔。`}
+          </p>
+        </div>
+      `;
+      document.getElementById('dfm-audit-grid').innerHTML = dfmHtml;
+    }
+
+    // Bind Parametric Control Listeners
+    function bindParametricControls() {
+      const bindSlider = (id, stateKey, labelId, unit) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', () => {
+          appState[stateKey] = parseFloat(el.value);
+          document.getElementById(labelId).textContent = `${appState[stateKey]} ${unit}`;
+          rebuild3DCaseGeometry();
+          updateEngineeringCalculations();
+        });
+      };
+
+      bindSlider('slider-length', 'length', 'val-length', 'mm');
+      bindSlider('slider-width', 'width', 'val-width', 'mm');
+      bindSlider('slider-height', 'height', 'val-height', 'mm');
+      bindSlider('slider-lidratio', 'lidRatio', 'val-lidratio', '%');
+      bindSlider('slider-openangle', 'openAngle', 'val-openangle', '°');
+      bindSlider('slider-wall', 'wall', 'val-wall', 'mm');
+      bindSlider('slider-ribs', 'ribs', 'val-ribs', '道');
+
+      ['select-process', 'select-latch', 'select-seal', 'select-insert'].forEach(selId => {
+        const el = document.getElementById(selId);
+        if (!el) return;
+        el.addEventListener('change', () => {
+          const key = selId.replace('select-', '');
+          appState[key] = el.value;
+          rebuild3DCaseGeometry();
+          updateEngineeringCalculations();
+        });
+      });
+
+      // Preset Loader
+      const presetSelect = document.getElementById('presetCaseSelect');
+      presetSelect.addEventListener('change', () => {
+        const val = presetSelect.value;
+        if (val === 'custom') return;
+        loadCaseIntoSimulator(val);
+      });
+
+      // Toggles
+      document.getElementById('btnToggleExplode').addEventListener('click', e => {
+        appState.explode = !appState.explode;
+        e.currentTarget.textContent = `💥 爆炸分解圖: ${appState.explode ? '開啟' : '關閉'}`;
+        rebuild3DCaseGeometry();
+      });
+
+      document.getElementById('btnToggleWireframe').addEventListener('click', e => {
+        appState.wireframe = !appState.wireframe;
+        e.currentTarget.textContent = `🕸️ 線框模式: ${appState.wireframe ? '開啟' : '關閉'}`;
+        rebuild3DCaseGeometry();
+      });
+
+      document.getElementById('btnToggleFoam').addEventListener('click', e => {
+        appState.showFoam = !appState.showFoam;
+        e.currentTarget.textContent = `🧰 顯示工具內襯: ${appState.showFoam ? '開啟' : '關閉'}`;
+        rebuild3DCaseGeometry();
+      });
+    }
+
+    function loadCaseIntoSimulator(caseId) {
+      const item = CASE_DATABASE.find(c => c.id === caseId);
+      if (!item) return;
+
+      appState.length = item.extDim[0];
+      appState.width = item.extDim[1];
+      appState.height = item.extDim[2];
+      appState.wall = item.wall;
+      appState.lidRatio = item.lidRatio;
+      appState.ribs = item.ribs;
+
+      if (item.process === 'blow') {
+        appState.process = 'blow_hdpe';
+        appState.seal = 'blow_pinch';
+        appState.latch = 'slide_snap';
+      } else if (item.process === 'heavy_ip67') {
+        appState.process = 'inj_pp';
+        appState.seal = 'oring_ip67';
+        appState.latch = 'double_throw';
+      } else {
+        appState.process = item.material.includes('PP') ? 'inj_pp' : 'inj_abs';
+        appState.seal = 'step_ip54';
+        appState.latch = item.id.startsWith('sys') ? 'tloc' : 'double_throw';
+      }
+
+      // Sync UI Sliders & Selects
+      document.getElementById('slider-length').value = appState.length;
+      document.getElementById('val-length').textContent = `${appState.length} mm`;
+      document.getElementById('slider-width').value = appState.width;
+      document.getElementById('val-width').textContent = `${appState.width} mm`;
+      document.getElementById('slider-height').value = appState.height;
+      document.getElementById('val-height').textContent = `${appState.height} mm`;
+      document.getElementById('slider-lidratio').value = appState.lidRatio;
+      document.getElementById('val-lidratio').textContent = `${appState.lidRatio}%`;
+      document.getElementById('slider-wall').value = appState.wall;
+      document.getElementById('val-wall').textContent = `${appState.wall} mm`;
+      document.getElementById('slider-ribs').value = appState.ribs;
+      document.getElementById('val-ribs').textContent = `${appState.ribs} 道`;
+
+      document.getElementById('select-process').value = appState.process;
+      document.getElementById('select-latch').value = appState.latch;
+      document.getElementById('select-seal').value = appState.seal;
+      document.getElementById('hud-case-tag').textContent = `${item.name} 規格載入`;
+
+      rebuild3DCaseGeometry();
+      updateEngineeringCalculations();
+    }
+
+    // =========================================================
+    // RENDER GLOBAL DATABASE TABLE
+    // =========================================================
+    function renderCaseDatabaseTable() {
+      const q = (document.getElementById('dbSearchInput').value || '').toLowerCase();
+      const proc = document.getElementById('dbFilterProcess').value;
+      const reg = document.getElementById('dbFilterRegion').value;
+
+      const filtered = CASE_DATABASE.filter(item => {
+        const matchQ = !q ||
+          item.name.toLowerCase().includes(q) ||
+          item.brand.toLowerCase().includes(q) ||
+          item.material.toLowerCase().includes(q) ||
+          item.latchType.toLowerCase().includes(q);
+        const matchProc = proc === 'all' || item.process === proc;
+        const matchReg = reg === 'all' || item.region === reg;
+        return matchQ && matchProc && matchReg;
+      });
+
+      const tbody = document.getElementById('dbTableBody');
+      tbody.innerHTML = filtered.map(item => `
+        <tr class="hover:bg-slate-800/60 transition">
+          <td class="py-3 px-3">
+            <div class="font-bold text-white">${item.name}</div>
+            <div class="text-[11px] text-slate-400 flex items-center gap-1.5 mt-0.5">
+              <span class="px-1.5 py-0.5 rounded bg-slate-800 font-mono text-amber-400">${item.region}</span>
+              <span>${item.brand}</span>
+            </div>
+          </td>
+          <td class="py-3 px-3">
+            <div class="text-sky-300 font-medium">${item.processLabel}</div>
+            <div class="text-[11px] text-slate-400 font-mono">${item.material} (肉厚 ${item.wall}mm)</div>
+          </td>
+          <td class="py-3 px-3 font-mono text-white font-semibold">
+            ${item.extDim[0]} × ${item.extDim[1]} × ${item.extDim[2]}
+          </td>
+          <td class="py-3 px-3 font-mono text-slate-300">
+            ${item.intDim[0]} × ${item.intDim[1]} × ${item.intDim[2]}
+          </td>
+          <td class="py-3 px-3 font-mono">
+            <div class="text-emerald-400">${item.weightKg} kg</div>
+            <div class="text-[11px] text-slate-400">載重 ${item.maxLoadKg}kg / 頂壓 ${item.lidLoadKg}kg</div>
+          </td>
+          <td class="py-3 px-3">
+            <div class="text-amber-300 font-medium">${item.ipRating}</div>
+            <div class="text-[11px] text-slate-300">${item.latchType}</div>
+          </td>
+          <td class="py-3 px-3 text-right space-x-1.5 whitespace-nowrap">
+            <button data-load-case="${item.id}" class="btn-load-sim px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-slate-950 font-mono text-[11px] border border-amber-500/40 transition">
+              🧊 載入 3D 模擬
+            </button>
+            <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="inline-block px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-sky-400 font-mono text-[11px] border border-slate-700">
+              官方規格 ↗
+            </a>
+          </td>
+        </tr>
+      `).join('');
+
+      document.querySelectorAll('.btn-load-sim').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const cid = btn.getAttribute('data-load-case');
+          loadCaseIntoSimulator(cid);
+          document.getElementById('tabBtn-3d').click();
+        });
+      });
+    }
+
+    ['dbSearchInput', 'dbFilterProcess', 'dbFilterRegion'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', renderCaseDatabaseTable);
+    });
+
+    // =========================================================
+    // RENDER STRUCTURAL MECHANISM ATLAS & 2D CAD SVG BLUEPRINTS
+    // =========================================================
+    function renderMechanismList() {
+      const container = document.getElementById('mechListContainer');
+      container.innerHTML = MECHANISM_ATLAS.map(m => {
+        const active = m.id === appState.selectedMechId;
+        return `
+          <button data-mech-id="${m.id}" class="mech-item-btn w-full text-left p-3 rounded-xl border transition flex items-start justify-between gap-2 ${
+            active
+              ? 'bg-sky-500/15 border-sky-400 text-white shadow'
+              : 'bg-slate-950/80 border-slate-800 text-slate-300 hover:bg-slate-800/70'
+          }">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-amber-400">${m.id}</span>
+                <span class="font-bold text-xs sm:text-sm">${m.title}</span>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1">${m.subtitle}</p>
+            </div>
+            <span class="text-sky-400 font-mono text-xs">CAD →</span>
+          </button>
+        `;
+      }).join('');
+
+      document.querySelectorAll('.mech-item-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          appState.selectedMechId = btn.getAttribute('data-mech-id');
+          renderMechanismList();
+          renderMechanismDetail();
+        });
+      });
+    }
+
+    function getMechanismSvgDiagram(svgType) {
+      if (svgType === 'latch_cam') {
+        return `
+          <svg viewBox="0 0 600 280" class="w-full max-w-[580px] h-auto">
+            <!-- Lid & Base Cross Section -->
+            <path d="M80,40 L240,40 L240,120 L205,120 L205,95 L80,95 Z" fill="#0f2942" stroke="#38bdf8" stroke-width="2"/>
+            <path d="M80,135 L205,135 L205,160 L240,160 L240,245 L80,245 Z" fill="#0f2942" stroke="#38bdf8" stroke-width="2"/>
+            <!-- O-Ring -->
+            <circle cx="222" cy="128" r="9" fill="#f43f5e" stroke="#fda4af" stroke-width="1.5"/>
+            <!-- Primary Cam Pin & Secondary Latch Lever -->
+            <circle cx="265" cy="95" r="8" fill="#f59e0b" stroke="#fef08a" stroke-width="2"/>
+            <path d="M260,95 L295,155 L295,220 L265,235 L265,175 L240,175" fill="none" stroke="#f59e0b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="278" cy="145" r="6" fill="#10b981"/>
+            <!-- Force & Dimension Callouts -->
+            <line x1="265" y1="30" x2="265" y2="95" stroke="#94a3b8" stroke-dasharray="4 3"/>
+            <text x="275" y="52" fill="#38bdf8" font-family="JetBrains Mono" font-size="11">第一凸輪支點 Ø4.05 H8</text>
+            <text x="310" y="148" fill="#10b981" font-family="JetBrains Mono" font-size="11">第二連桿軸 (省力比 1:3.2)</text>
+            <text x="310" y="210" fill="#f59e0b" font-family="JetBrains Mono" font-size="11">過死點鎖緊行程 e = 2.0 mm</text>
+            <text x="95" y="72" fill="#e2e8f0" font-family="JetBrains Mono" font-size="12">上蓋殼體 (LID)</text>
+            <text x="95" y="205" fill="#e2e8f0" font-family="JetBrains Mono" font-size="12">下箱底座 (BASE)</text>
+          </svg>
+        `;
+      }
+      if (svgType === 'tloc_rotary') {
+        return `
+          <svg viewBox="0 0 600 280" class="w-full max-w-[580px] h-auto">
+            <!-- Rotary T-LOC Disc -->
+            <circle cx="300" cy="145" r="82" fill="#0f2942" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6 4"/>
+            <path d="M235,120 L365,120 L365,152 L322,152 L322,205 L278,205 L278,152 L235,152 Z" fill="#f59e0b" fill-opacity="0.25" stroke="#f59e0b" stroke-width="3"/>
+            <circle cx="300" cy="145" r="14" fill="#0ea5e9" stroke="#e0f2fe" stroke-width="2"/>
+            <!-- Curved Locking Ramp -->
+            <path d="M240,85 A75,75 0 0,1 360,85" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round"/>
+            <text x="235" y="65" fill="#10b981" font-family="JetBrains Mono" font-size="11">上蓋鎖定導軌 (升角 α = 20°)</text>
+            <text x="385" y="145" fill="#f59e0b" font-family="JetBrains Mono" font-size="11">T-LOC 旋鈕行程 ±90°</text>
+            <text x="205" y="242" fill="#38bdf8" font-family="JetBrains Mono" font-size="11">旋轉軸間隙 0.20mm + 排泥屑槽 ×2</text>
+          </svg>
+        `;
+      }
+      if (svgType === 'tongue_groove') {
+        return `
+          <svg viewBox="0 0 600 280" class="w-full max-w-[580px] h-auto">
+            <!-- Upper Lid Tongue -->
+            <path d="M160,25 L260,25 L260,135 L228,135 L228,90 L160,90 Z" fill="#0f2942" stroke="#38bdf8" stroke-width="2.5"/>
+            <!-- Lower Base Groove -->
+            <path d="M160,175 L215,175 L215,112 L233,112 L233,152 L262,152 L262,112 L280,112 L280,250 L160,250 Z" fill="#0f2942" stroke="#38bdf8" stroke-width="2.5"/>
+            <!-- Compressed EPDM O-ring -->
+            <ellipse cx="247" cy="138" rx="13" ry="10" fill="#f43f5e" stroke="#fecdd3" stroke-width="2"/>
+            <!-- Dimension Lines -->
+            <text x="305" y="95" fill="#38bdf8" font-family="JetBrains Mono" font-size="11">上蓋壓舌寬 B1 = 3.20 mm</text>
+            <text x="305" y="125" fill="#10b981" font-family="JetBrains Mono" font-size="11">下蓋密封槽寬 B2 = 3.80 mm (單邊間隙 0.3mm)</text>
+            <text x="305" y="155" fill="#f43f5e" font-family="JetBrains Mono" font-size="11">Ø5.5 EPDM 發泡膠條 (壓縮率 28%)</text>
+            <text x="305" y="185" fill="#f59e0b" font-family="JetBrains Mono" font-size="11">內外止口擋牆抵抗側向落摔剪力</text>
+          </svg>
+        `;
+      }
+      if (svgType === 'blow_kissoff') {
+        return `
+          <svg viewBox="0 0 600 280" class="w-full max-w-[580px] h-auto">
+            <!-- Outer Blow Wall -->
+            <path d="M70,210 L530,210 L530,232 L70,232 Z" fill="#0ea5e9" fill-opacity="0.3" stroke="#38bdf8" stroke-width="2"/>
+            <!-- Inner Cavity Wall with Conical Kiss-Offs -->
+            <path d="M70,80 L175,80 L205,192 L245,192 L275,80 L345,80 L375,192 L415,192 L445,80 L530,80 L530,100 L458,100 L425,210 L365,210 L332,100 L288,100 L255,210 L195,210 L162,100 L70,100 Z" fill="#f59e0b" fill-opacity="0.28" stroke="#f59e0b" stroke-width="2"/>
+            <text x="195" y="255" fill="#10b981" font-family="JetBrains Mono" font-size="11">Kiss-Off 融接區 Ø14mm (總厚 = 1.7 × 單層肉厚)</text>
+            <text x="175" y="55" fill="#f59e0b" font-family="JetBrains Mono" font-size="11">內層吹塑工具模穴 + 15° 圓錐支撐柱</text>
+            <text x="80" y="155" fill="#38bdf8" font-family="JetBrains Mono" font-size="11">中空空氣緩衝室 (Air Cushion)</text>
+          </svg>
+        `;
+      }
+      if (svgType === 'hinge_pin') {
+        return `
+          <svg viewBox="0 0 600 280" class="w-full max-w-[580px] h-auto">
+            <!-- Hinge Knuckle Cross Section -->
+            <circle cx="240" cy="140" r="46" fill="#0f2942" stroke="#38bdf8" stroke-width="2.5"/>
+            <circle cx="240" cy="140" r="18" fill="#f59e0b" stroke="#fef08a" stroke-width="2"/>
+            <!-- Stop Cam Block at 102 deg -->
+            <path d="M194,140 L110,85 L130,55 L220,100" fill="#0f2942" stroke="#38bdf8" stroke-width="2"/>
+            <path d="M240,186 L240,250 L175,250 L175,165" fill="#0f2942" stroke="#10b981" stroke-width="2"/>
+            <line x1="295" y1="140" x2="480" y2="140" stroke="#94a3b8" stroke-dasharray="4 3"/>
+            <text x="305" y="105" fill="#f59e0b" font-family="JetBrains Mono" font-size="11">Ø4.0mm 304不鏽鋼滾花直銷</text>
+            <text x="305" y="132" fill="#38bdf8" font-family="JetBrains Mono" font-size="11">鉸鏈肉厚 ≥ 3.2mm (防落摔撕裂)</text>
+            <text x="305" y="165" fill="#10b981" font-family="JetBrains Mono" font-size="11">102° 開蓋極限止動肩部 (Stop Rib)</text>
+          </svg>
+        `;
+      }
+      // Default: rib_dfm
+      return `
+        <svg viewBox="0 0 600 280" class="w-full max-w-[580px] h-auto">
+          <!-- Main Wall T -->
+          <rect x="100" y="185" width="380" height="42" fill="#0f2942" stroke="#38bdf8" stroke-width="2.5"/>
+          <!-- Vertical Rib -->
+          <path d="M268,185 L274,65 L306,65 L312,185" fill="#0f2942" stroke="#f59e0b" stroke-width="2.5"/>
+          <!-- Fillet R -->
+          <path d="M255,185 Q268,185 269,170" fill="none" stroke="#10b981" stroke-width="3"/>
+          <path d="M325,185 Q312,185 311,170" fill="none" stroke="#10b981" stroke-width="3"/>
+          <!-- Labels -->
+          <text x="335" y="95" fill="#f59e0b" font-family="JetBrains Mono" font-size="11">肋高 H ≤ 3.0 × T (拔模角 0.5°~1.0°)</text>
+          <text x="335" y="130" fill="#10b981" font-family="JetBrains Mono" font-size="11">根部厚 t = 0.55 × T / 圓角 R = 0.3 × T</text>
+          <text x="335" y="165" fill="#38bdf8" font-family="JetBrains Mono" font-size="11">主壁厚 T = 2.8 mm</text>
+          <text x="205" y="248" fill="#f43f5e" font-family="JetBrains Mono" font-size="11">外觀面零縮水凹痕 (No Sink Mark Zone)</text>
+        </svg>
+      `;
+    }
+
+    function renderMechanismDetail() {
+      const m = MECHANISM_ATLAS.find(item => item.id === appState.selectedMechId) || MECHANISM_ATLAS[0];
+      document.getElementById('cad-badge').textContent = m.id;
+      document.getElementById('cad-title').textContent = m.title;
+      document.getElementById('cad-tolerance').textContent = m.tolerance;
+      document.getElementById('cad-mold').textContent = m.mold;
+      document.getElementById('cad-failure').textContent = m.failure;
+
+      const wrapper = document.getElementById('cadSvgWrapper');
+      wrapper.innerHTML = getMechanismSvgDiagram(m.svgType);
+      wrapper.style.transform = `scale(${appState.cadZoom})`;
+    }
+
+    document.querySelectorAll('.cad-zoom-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        appState.cadZoom = parseFloat(btn.getAttribute('data-zoom'));
+        document.querySelectorAll('.cad-zoom-btn').forEach(b => {
+          b.className = 'cad-zoom-btn px-2 py-1 rounded bg-slate-800 text-slate-300 font-mono text-xs';
+        });
+        btn.className = 'cad-zoom-btn px-2 py-1 rounded bg-sky-500 text-slate-950 font-mono text-xs font-bold';
+        renderMechanismDetail();
+      });
+    });
+
+    // =========================================================
+    // HAND TOOL DIN/ISO TABLE & CAVITY INTERFERENCE CALCULATOR
+    // =========================================================
+    function renderHandToolStandards() {
+      const cat = document.getElementById('toolCategoryFilter').value;
+      const filtered = HAND_TOOL_STANDARDS.filter(t => cat === 'all' || t.category === cat);
+      const tbody = document.getElementById('toolStandardBody');
+
+      tbody.innerHTML = filtered.map(t => `
+        <tr class="hover:bg-slate-800/60 transition">
+          <td class="py-2.5 px-2.5 font-semibold text-white">
+            <a href="${t.url}" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 underline">${t.name}</a>
+          </td>
+          <td class="py-2.5 px-2.5 font-mono text-sky-400">${t.standard}</td>
+          <td class="py-2.5 px-2.5 font-mono text-slate-200">Ø${t.dia} × L${t.length} mm (${t.weight}g)</td>
+          <td class="py-2.5 px-2.5 text-slate-300">${t.ergoNote}</td>
+          <td class="py-2.5 px-2.5 text-right">
+            <button data-tool-id="${t.id}" class="btn-calc-tool px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-slate-950 font-mono text-[11px] border border-amber-500/40 transition">
+              帶入計算 →
+            </button>
+          </td>
+        </tr>
+      `).join('');
+
+      document.querySelectorAll('.btn-calc-tool').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tid = btn.getAttribute('data-tool-id');
+          const tool = HAND_TOOL_STANDARDS.find(x => x.id === tid);
+          if (!tool) return;
+          document.getElementById('calc-tool-dia').value = tool.dia;
+          document.getElementById('calc-tool-len').value = tool.length;
+          document.getElementById('calc-tool-weight').value = tool.weight;
+          updateCavityCalculator();
+        });
+      });
+    }
+
+    document.getElementById('toolCategoryFilter').addEventListener('change', renderHandToolStandards);
+
+    function updateCavityCalculator() {
+      const D = parseFloat(document.getElementById('calc-tool-dia').value) || 28.0;
+      const L = parseFloat(document.getElementById('calc-tool-len').value) || 250;
+      const W = parseFloat(document.getElementById('calc-tool-weight').value) || 480;
+      const cType = document.getElementById('calc-cavity-type').value;
+      const pos = document.getElementById('calc-mount-pos').value;
+
+      let cavityWidth = D;
+      let undercutNote = '';
+      let pullForceN = 15;
+      let depthRatio = pos === 'lid_inverted' ? 0.68 : 0.55;
+
+      if (cType === 'eva_38') {
+        const interference = pos === 'lid_inverted' ? 0.85 : 0.50;
+        cavityWidth = D - interference;
+        undercutNote = `EVA 38° 雙側過盈壓縮: -${interference.toFixed(2)} mm`;
+        pullForceN = 14 + (W / 100) * 1.8 + (pos === 'lid_inverted' ? 6 : 0);
+      } else if (cType === 'eva_60') {
+        const interference = pos === 'lid_inverted' ? 0.55 : 0.35;
+        cavityWidth = D - interference;
+        undercutNote = `高密度 EVA 60° 過盈量: -${interference.toFixed(2)} mm`;
+        pullForceN = 18 + (W / 100) * 2.1;
+      } else if (cType === 'blow_hdpe') {
+        cavityWidth = D + 0.4;
+        const dimpleGap = D - (pos === 'lid_inverted' ? 0.90 : 0.60);
+        undercutNote = `吹塑雙側倒扣凸點間距: ${dimpleGap.toFixed(2)} mm`;
+        pullForceN = 16 + (W / 100) * 2.2 + (pos === 'lid_inverted' ? 5 : 0);
+      } else {
+        cavityWidth = D + 0.3;
+        const snapGap = D - 0.50;
+        undercutNote = `射出彈性卡爪開口: ${snapGap.toFixed(2)} mm (厚 1.8mm)`;
+        pullForceN = 20 + (W / 100) * 1.9;
+      }
+
+      const depthMm = (D * depthRatio).toFixed(1);
+      const fingerDia = Math.max(20, Math.min(28, Math.round(D * 0.85)));
+
+      document.getElementById('res-cavity-width').textContent = `${cavityWidth.toFixed(2)} mm`;
+      document.getElementById('res-undercut').textContent = undercutNote;
+      document.getElementById('res-cavity-len').textContent = `${(L + 1.5).toFixed(1)} mm`;
+      document.getElementById('res-cavity-depth').textContent = `${depthMm} mm (${Math.round(depthRatio * 100)}% D)`;
+      document.getElementById('res-finger-notch').textContent = `手指挖槽: Ø${fingerDia} mm × 深 ${Math.round(D * 0.55)} mm`;
+      document.getElementById('res-pull-force').textContent = `${pullForceN.toFixed(1)} N (${(pullForceN / 9.81).toFixed(2)} kgf)`;
+
+      const gForceSurvived = ((pullForceN / 9.81) / (W / 1000)).toFixed(1);
+      const badge = document.getElementById('calc-retention-badge');
+      badge.textContent = `抗 ${gForceSurvived}G 落摔衝擊`;
+      badge.className = parseFloat(gForceSurvived) >= 3.0
+        ? 'text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300'
+        : 'text-[11px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300';
+    }
+
+    ['calc-tool-dia', 'calc-tool-len', 'calc-tool-weight', 'calc-cavity-type', 'calc-mount-pos'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', updateCavityCalculator);
+    });
+
+    // =========================================================
+    // MATERIAL RADAR CHART & QA CHECKLIST
+    // =========================================================
+    let radarChartInstance = null;
+    function initMaterialRadarChart() {
+      const ctx = document.getElementById('materialRadarChart');
+      if (!ctx) return;
+      if (radarChartInstance) radarChartInstance.destroy();
+
+      radarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['-20°C 耐寒落摔', '抗彎剛性 (Modulus)', '尺寸精度 (低收縮)', '耐酸鹼與機油', '表面光澤與咬花質感', '原料成本效益'],
+          datasets: [
+            {
+              label: '射出 ABS (Systainer / L-BOXX)',
+              data: [72, 85, 92, 74, 95, 78],
+              borderColor: '#f59e0b',
+              backgroundColor: 'rgba(245, 158, 11, 0.18)',
+              pointBackgroundColor: '#f59e0b'
+            },
+            {
+              label: '耐衝擊共聚 PP-B (Packout / Pelican)',
+              data: [88, 70, 72, 94, 76, 90],
+              borderColor: '#38bdf8',
+              backgroundColor: 'rgba(56, 189, 248, 0.18)',
+              pointBackgroundColor: '#38bdf8'
+            },
+            {
+              label: '中空吹氣 HDPE (台灣外銷套筒盒)',
+              data: [96, 65, 64, 95, 70, 94],
+              borderColor: '#10b981',
+              backgroundColor: 'rgba(16, 185, 129, 0.18)',
+              pointBackgroundColor: '#10b981'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              min: 40,
+              max: 100,
+              angleLines: { color: 'rgba(148, 163, 184, 0.2)' },
+              grid: { color: 'rgba(148, 163, 184, 0.2)' },
+              pointLabels: { color: '#e2e8f0', font: { size: 11 } },
+              ticks: { display: false }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: { color: '#f1f5f9', font: { size: 11 } }
+            }
+          }
+        }
+      });
+    }
+
+    function renderQaChecklist() {
+      const container = document.getElementById('qaChecklistContainer');
+      const doneCount = QA_CHECKLIST.filter(i => i.checked).length;
+      const pct = Math.round((doneCount / QA_CHECKLIST.length) * 100);
+      document.getElementById('qa-progress-badge').textContent = `完成度: ${doneCount} / ${QA_CHECKLIST.length} (${pct}%)`;
+
+      container.innerHTML = QA_CHECKLIST.map(item => `
+        <label class="flex items-start gap-3 p-3 rounded-xl bg-slate-950 border ${item.checked ? 'border-emerald-500/40' : 'border-slate-800'} cursor-pointer hover:bg-slate-900 transition">
+          <input type="checkbox" data-qa-id="${item.id}" ${item.checked ? 'checked' : ''} class="mt-1 rounded accent-emerald-500 w-4 h-4">
+          <div>
+            <div class="font-bold ${item.checked ? 'text-emerald-300' : 'text-white'}">${item.title}</div>
+            <p class="text-[11px] text-slate-400 mt-0.5 leading-relaxed">${item.desc}</p>
+          </div>
+        </label>
+      `).join('');
+
+      container.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+        chk.addEventListener('change', () => {
+          const qid = chk.getAttribute('data-qa-id');
+          const found = QA_CHECKLIST.find(x => x.id === qid);
+          if (found) found.checked = chk.checked;
+          renderQaChecklist();
+        });
+      });
+    }
+
+    // =========================================================
+    // EXPORT ENGINEERING SPECIFICATION MODAL
+    // =========================================================
+    function buildEngineeringSpecReport() {
+      return `====================================================================
+TOOLCASE PRO CAD — 手工工具提箱／盒體結構設計規格書 (Engineering BOM)
+生成時間: ${new Date().toISOString().slice(0, 10)} | 標準依據: DIN 3120 / ISO 11228 / ISTA-2A
+====================================================================
+[1. 盒體幾何與成型參數]
+- 外徑總尺寸 (L×W×H)  : ${appState.length} × ${appState.width} × ${appState.height} mm
+- 上蓋高度佔比        : ${appState.lidRatio}% (上蓋 ${Math.round(appState.height * appState.lidRatio / 100)} mm / 下底 ${Math.round(appState.height * (100 - appState.lidRatio) / 100)} mm)
+- 成型製程與材質代碼  : ${document.getElementById('kpi-process').textContent}
+- 標準平均肉厚 (Wall) : ${appState.wall.toFixed(1)} mm (立肋根部建議 ${(appState.wall * 0.55).toFixed(2)} mm)
+- 外部結構加強立肋    : ${appState.ribs} 道對稱抗彎肋
+- 預估空箱淨重與鎖模力: ${document.getElementById('kpi-weight').textContent} / 建議鎖模力 ${document.getElementById('kpi-clamp').textContent}
+
+[2. 止口、扣具與內襯配置]
+- 扣具機構型式        : ${document.getElementById('select-latch').selectedOptions[0].text}
+- 上下蓋止口與防水    : ${document.getElementById('select-seal').selectedOptions[0].text}
+- 內部工具定位內襯    : ${document.getElementById('select-insert').selectedOptions[0].text}
+
+[3. 內襯模穴加工計算結果]
+- 目標工具外徑 × 長度 : Ø${document.getElementById('calc-tool-dia').value} mm × L${document.getElementById('calc-tool-len').value} mm (${document.getElementById('calc-tool-weight').value} g)
+- 建議模穴開槽寬度    : ${document.getElementById('res-cavity-width').textContent} (${document.getElementById('res-undercut').textContent})
+- 建議埋入深度與手指槽: ${document.getElementById('res-cavity-depth').textContent} / ${document.getElementById('res-finger-notch').textContent}
+- 預估單手拔出保持力  : ${document.getElementById('res-pull-force').textContent}
+====================================================================`;
+    }
+
+    document.getElementById('btnOpenSpecModal').addEventListener('click', () => {
+      document.getElementById('specPreviewText').textContent = buildEngineeringSpecReport();
+      document.getElementById('copyToastMsg').textContent = '';
+      const modal = document.getElementById('specModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    });
+
+    document.getElementById('btnCloseSpecModal').addEventListener('click', () => {
+      const modal = document.getElementById('specModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+
+    document.getElementById('btnCopySpecText').addEventListener('click', () => {
+      const text = buildEngineeringSpecReport();
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        document.getElementById('copyToastMsg').textContent = '✓ 已複製工程規格書至剪貼簿！';
+      } catch (err) {
+        document.getElementById('copyToastMsg').textContent = '請手動全選複製';
+      }
+      document.body.removeChild(ta);
+    });
+
+    document.getElementById('btnDownloadJson').addEventListener('click', () => {
+      const payload = {
+        system: 'TOOLCASE PRO CAD v4.2',
+        parameters: appState,
+        cavityCalc: {
+          toolDiameterMm: parseFloat(document.getElementById('calc-tool-dia').value),
+          toolLengthMm: parseFloat(document.getElementById('calc-tool-len').value),
+          cavityWidth: document.getElementById('res-cavity-width').textContent,
+          pullForce: document.getElementById('res-pull-force').textContent
+        }
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `toolcase_cad_spec_${appState.length}x${appState.width}x${appState.height}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    // =========================================================
+    // INITIALIZE EVERYTHING ON LOAD
+    // =========================================================
+    window.addEventListener('load', () => {
+      bindParametricControls();
+      updateEngineeringCalculations();
+      renderCaseDatabaseTable();
+      renderMechanismList();
+      renderMechanismDetail();
+      renderHandToolStandards();
+      updateCavityCalculator();
+      renderQaChecklist();
+      initThreeViewport();
+    });
+  </script>
+</body>
+</html>
