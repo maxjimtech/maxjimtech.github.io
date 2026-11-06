@@ -1,0 +1,3622 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>肇祥企業社 Maxjimtech｜CASEFORM PRO 3D 全球工具盒外型造型與結構設計模擬系統</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0b0f17;
+      --panel-bg: #111827;
+      --panel-border: #1f2937;
+      --accent: #f59e0b;
+      --accent-cyan: #06b6d4;
+    }
+    * { box-sizing: border-box; user-select: none; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+      background-color: var(--bg-dark);
+      color: #f3f4f6;
+      overflow: hidden;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 5px;
+      background: #1e293b;
+      border-radius: 4px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #f59e0b;
+      cursor: pointer;
+      border: 2px solid #fff;
+      box-shadow: 0 0 6px rgba(245,158,11,0.6);
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(245,158,11,0.22), rgba(6,182,212,0.12));
+      border-color: #f59e0b;
+      color: #fbbf24;
+    }
+    .card-option {
+      transition: all 0.16s ease;
+    }
+    .card-option:hover {
+      border-color: #475569;
+      background-color: rgba(30, 41, 59, 0.75);
+    }
+    .card-option.selected {
+      border-color: #f59e0b;
+      background: linear-gradient(135deg, rgba(245,158,11,0.16), rgba(15,23,42,0.9));
+      box-shadow: 0 0 0 1px rgba(245,158,11,0.4);
+    }
+    .glass-hud {
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(51, 65, 85, 0.75);
+    }
+  </style>
+</head>
+<body class="h-screen w-screen flex flex-col bg-slate-950 text-slate-100">
+
+  <!-- TOP HEADER BAR -->
+  <header class="h-14 shrink-0 bg-slate-900/95 border-b border-slate-800 px-3 lg:px-5 flex items-center justify-between gap-2 z-30">
+    <div class="flex items-center gap-3 min-w-0">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center font-black text-slate-950 text-base shadow-lg shadow-amber-500/20 shrink-0">
+        MJ
+      </div>
+      <div class="min-w-0">
+        <div class="flex items-center gap-2">
+          <h1 class="font-bold text-sm lg:text-base tracking-tight text-white truncate" id="ui-app-title">
+            肇祥企業社 Maxjimtech｜CASEFORM PRO 3D 工具盒外型造型與結構設計系統
+          </h1>
+          <span class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-amber-500/20 text-amber-400 border border-amber-500/40 rounded-full">
+            Industrial Styling Studio v6.0
+          </span>
+        </div>
+        <p class="text-[11px] text-slate-400 truncate hidden md:block" id="ui-app-subtitle">
+          盒體工業造型 • 立肋與防撞包角 • 材質與模具製程 • 活頁/扣榫/防水密封 • 品牌 LOGO 銘版即時 3D 模擬與市售對標資料庫
+        </p>
+      </div>
+    </div>
+
+    <!-- Quick Action Toolbar -->
+    <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+      <button id="btn-open-db-modal" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/40 flex items-center gap-1.5 transition">
+        <span>📚</span>
+        <span id="ui-btn-db">市售 18 款盒體造型資料庫</span>
+      </button>
+      <button id="btn-open-section-modal" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 flex items-center gap-1.5 transition">
+        <span>📐</span>
+        <span id="ui-btn-section">2D 扣榫/活頁/密封剖面圖</span>
+      </button>
+      <button id="btn-snapshot" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hidden sm:flex items-center gap-1 transition" title="下載 3D 外型渲染圖">
+        <span>📸</span>
+        <span class="hidden lg:inline">3D 截圖</span>
+      </button>
+      <button id="btn-export-spec" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center gap-1 shadow-md shadow-amber-500/20 transition">
+        <span>📥</span>
+        <span id="ui-btn-export">匯出外型規格書 & CAD</span>
+      </button>
+      <button id="btn-lang-toggle" class="px-2 py-1.5 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 transition">
+        🌐 中/EN
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE: LEFT DESIGN STUDIO + CENTER 3D VIEWPORT + RIGHT ENGINEERING & BENCHMARK -->
+  <div class="flex-1 flex overflow-hidden relative">
+
+    <!-- LEFT PANEL: 6-TAB INDUSTRIAL DESIGN & EXTERIOR STYLING CONTROLS -->
+    <aside class="w-80 lg:w-[410px] shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col overflow-hidden z-20">
+      
+      <!-- Preset Market Case Selector Bar -->
+      <div class="p-2.5 bg-slate-950/70 border-b border-slate-800">
+        <div class="flex items-center justify-between mb-1">
+          <label for="select-market-preset" class="text-[11px] font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1">
+            <span>⚡</span>
+            <span id="ui-preset-label">一鍵載入市售標竿盒體外型 (18 款)</span>
+          </label>
+          <span class="text-[10px] text-slate-400 mono" id="preset-origin-tag">Taiwan / Global OEM</span>
+        </div>
+        <select id="select-market-preset" class="w-full bg-slate-900 border border-slate-700 hover:border-amber-500/60 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 font-medium focus:outline-none focus:border-amber-500">
+          <!-- Populated dynamically from MARKET_CASES -->
+        </select>
+      </div>
+
+      <!-- 6 Styling Category Tabs -->
+      <div class="grid grid-cols-6 gap-1 p-1.5 bg-slate-950 border-b border-slate-800 text-[11px] font-semibold">
+        <button data-tab="tab-form" class="tab-btn active py-1.5 px-1 rounded-md border border-transparent flex flex-col items-center gap-0.5 transition">
+          <span class="text-sm">🧊</span>
+          <span class="truncate" id="tab-lbl-form">盒體造型</span>
+        </button>
+        <button data-tab="tab-dim" class="tab-btn py-1.5 px-1 rounded-md border border-transparent text-slate-400 hover:text-slate-200 flex flex-col items-center gap-0.5 transition">
+          <span class="text-sm">📏</span>
+          <span class="truncate" id="tab-lbl-dim">尺寸立肋</span>
+        </button>
+        <button data-tab="tab-mat" class="tab-btn py-1.5 px-1 rounded-md border border-transparent text-slate-400 hover:text-slate-200 flex flex-col items-center gap-0.5 transition">
+          <span class="text-sm">🧪</span>
+          <span class="truncate" id="tab-lbl-mat">材質製程</span>
+        </button>
+        <button data-tab="tab-color" class="tab-btn py-1.5 px-1 rounded-md border border-transparent text-slate-400 hover:text-slate-200 flex flex-col items-center gap-0.5 transition">
+          <span class="text-sm">🎨</span>
+          <span class="truncate" id="tab-lbl-color">配色咬花</span>
+        </button>
+        <button data-tab="tab-hw" class="tab-btn py-1.5 px-1 rounded-md border border-transparent text-slate-400 hover:text-slate-200 flex flex-col items-center gap-0.5 transition">
+          <span class="text-sm">🔒</span>
+          <span class="truncate" id="tab-lbl-hw">活頁扣密封</span>
+        </button>
+        <button data-tab="tab-logo" class="tab-btn py-1.5 px-1 rounded-md border border-transparent text-slate-400 hover:text-slate-200 flex flex-col items-center gap-0.5 transition">
+          <span class="text-sm">🏷️</span>
+          <span class="truncate" id="tab-lbl-logo">LOGO銘版</span>
+        </button>
+      </div>
+
+      <!-- Scrollable Tab Content Area -->
+      <div class="flex-1 overflow-y-auto p-3 space-y-4">
+
+        <!-- TAB 1: 整體盒體造型家族 (EXTERIOR FORM FACTOR & HANDLE ARCHITECTURE) -->
+        <section id="tab-form" class="tab-panel space-y-4">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">1. 盒體主外型家族 (8 大工業造型流派)</h3>
+              <span class="text-[10px] text-slate-400">即時 3D 拓樸切換</span>
+            </div>
+            <div id="form-family-grid" class="grid grid-cols-2 gap-2">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="border-t border-slate-800 pt-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">2. 邊角造型與防撞護角 (Corner Styling)</h3>
+            <div id="corner-style-grid" class="grid grid-cols-2 gap-1.5">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="border-t border-slate-800 pt-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2">3. 提把造型與人體工學配置 (Handle Design)</h3>
+            <div id="handle-style-grid" class="grid grid-cols-2 gap-1.5">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="border-t border-slate-800 pt-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-purple-400 mb-2">4. 盒頂與盒底堆疊定位特徵 (Stacking System)</h3>
+            <div id="stacking-style-grid" class="grid grid-cols-2 gap-1.5">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 2: 尺寸比例與盒體加強立肋 (DIMENSIONS, PROPORTIONS & EXTERIOR RIBS) -->
+        <section id="tab-dim" class="tab-panel hidden space-y-4">
+          <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-3 space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">盒體外部三維尺寸 (Outer Dimensions)</h3>
+              <span class="text-[11px] mono text-cyan-300 font-semibold" id="lbl-dim-summary">420 × 310 × 160 mm</span>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">外徑長度 Length (X)</span>
+                <span class="mono font-bold text-amber-400"><span id="val-length">420</span> mm</span>
+              </div>
+              <input type="range" id="slider-length" min="220" max="780" step="5" value="420" class="w-full" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">外徑寬度 Width (Z)</span>
+                <span class="mono font-bold text-amber-400"><span id="val-width">310</span> mm</span>
+              </div>
+              <input type="range" id="slider-width" min="150" max="540" step="5" value="310" class="w-full" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">外徑總高 Height (Y)</span>
+                <span class="mono font-bold text-amber-400"><span id="val-height">160</span> mm</span>
+              </div>
+              <input type="range" id="slider-height" min="65" max="400" step="5" value="160" class="w-full" />
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">上蓋分模線比例 (Lid Ratio)</span>
+                <span class="mono font-bold text-cyan-400"><span id="val-lid-ratio">28</span>% (上蓋) / <span id="val-base-ratio">72</span>% (下盒)</span>
+              </div>
+              <input type="range" id="slider-lid-ratio" min="15" max="50" step="1" value="28" class="w-full" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-1">
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-300">邊角圓角 R 角</span>
+                  <span class="mono font-bold text-emerald-400">R<span id="val-corner-r">16</span> mm</span>
+                </div>
+                <input type="range" id="slider-corner-r" min="2" max="45" step="1" value="16" class="w-full" />
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-300">平均肉厚 Wall t</span>
+                  <span class="mono font-bold text-emerald-400"><span id="val-wall-t">3.2</span> mm</span>
+                </div>
+                <input type="range" id="slider-wall-t" min="0.8" max="5.5" step="0.1" value="3.2" class="w-full" />
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-950/90 border border-amber-500/40 rounded-xl p-3 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">細部倒角與 R 角參數 (Fillets & Chamfers)</h3>
+              <select id="select-edge-profile" class="bg-slate-900 border border-slate-700 rounded px-2 py-0.5 text-[11px] text-amber-300 font-semibold">
+                <option value="fillet_round">圓弧 R 角斷面 (Fillet R)</option>
+                <option value="chamfer_45">45° 斜切倒角 (C-Chamfer)</option>
+                <option value="stepped_bevel">雙階裝甲倒角 (Stepped)</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-300">上蓋天線 R/C 角</span>
+                  <span class="mono font-bold text-cyan-400"><span id="val-top-bevel">5.5</span> mm</span>
+                </div>
+                <input type="range" id="slider-top-bevel" min="0.5" max="18" step="0.5" value="5.5" class="w-full" />
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-300">下盒地線 R/C 角</span>
+                  <span class="mono font-bold text-cyan-400"><span id="val-bot-bevel">4.5</span> mm</span>
+                </div>
+                <input type="range" id="slider-bot-bevel" min="0.5" max="18" step="0.5" value="4.5" class="w-full" />
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">分模線腰線內縮倒角 (Parting Chamfer)</span>
+                <span class="mono font-bold text-emerald-400"><span id="val-parting-chamfer">2.0</span> mm</span>
+              </div>
+              <input type="range" id="slider-parting-chamfer" min="0" max="6.0" step="0.5" value="2.0" class="w-full" />
+            </div>
+          </div>
+
+          <div class="bg-slate-950/90 border border-cyan-500/40 rounded-xl p-3 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400">3D 弧面曲率與立體斜率 (Curved Surfaces)</h3>
+              <button id="btn-reset-curves" class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300">歸零平直</button>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">上蓋 3D 拱頂弧面曲率 (Lid Crown Camber)</span>
+                <span class="mono font-bold text-cyan-300"><span id="val-lid-crown">4.0</span> mm</span>
+              </div>
+              <input type="range" id="slider-lid-crown" min="-8" max="28" step="1" value="4" class="w-full" />
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">盒身前後肚圍外鼓弧度 (Barrel Curvature)</span>
+                <span class="mono font-bold text-cyan-300"><span id="val-barrel-curve">2.0</span> mm</span>
+              </div>
+              <input type="range" id="slider-barrel-curve" min="0" max="18" step="0.5" value="2.0" class="w-full" />
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-300">側壁拔模錐度角</span>
+                  <span class="mono font-bold text-amber-400"><span id="val-draft-angle">1.8</span>°</span>
+                </div>
+                <input type="range" id="slider-draft-angle" min="0" max="8.0" step="0.2" value="1.8" class="w-full" />
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-300">提把內凹弧槽深</span>
+                  <span class="mono font-bold text-emerald-400"><span id="val-scoop-depth">8</span> mm</span>
+                </div>
+                <input type="range" id="slider-scoop-depth" min="0" max="24" step="1" value="8" class="w-full" />
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-3 space-y-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400">盒體外觀加強立肋與表面幾何 (Exterior Ribbing)</h3>
+            <div id="rib-pattern-grid" class="grid grid-cols-2 gap-1.5">
+              <!-- Populated by JS -->
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-2">
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-300">立肋凸出深度</span>
+                  <span class="mono font-bold text-amber-400"><span id="val-rib-depth">3.5</span> mm</span>
+                </div>
+                <input type="range" id="slider-rib-depth" min="0" max="8" step="0.5" value="3.5" class="w-full" />
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-300">立肋密度 (條數)</span>
+                  <span class="mono font-bold text-amber-400"><span id="val-rib-count">6</span> 組</span>
+                </div>
+                <input type="range" id="slider-rib-count" min="2" max="14" step="1" value="6" class="w-full" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 3: 材質與製造方式 (MATERIALS & MANUFACTURING PROCESS) -->
+        <section id="tab-mat" class="tab-panel hidden space-y-4">
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">1. 盒體工程材料選擇 (7 大量產材質)</h3>
+            <div id="material-grid" class="space-y-1.5">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="border-t border-slate-800 pt-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">2. 模具與製造工藝 (6 大成型方式)</h3>
+            <div id="process-grid" class="space-y-1.5">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 4: 配色與表面咬花 (COLORWAY & SURFACE FINISH) -->
+        <section id="tab-color" class="tab-panel hidden space-y-4">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">1. 國際品牌經典配色主題 (12 套 CMF)</h3>
+              <span class="text-[10px] text-slate-400">一鍵套用</span>
+            </div>
+            <div id="color-theme-grid" class="grid grid-cols-2 gap-1.5">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="border-t border-slate-800 pt-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">2. 五區獨立自訂配色 (5-Zone Color Pickers)</h3>
+            <div class="grid grid-cols-1 gap-2 bg-slate-950/70 p-2.5 rounded-xl border border-slate-800">
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-slate-300">① 下盒身主色 (Base Body)</span>
+                <div class="flex items-center gap-2">
+                  <span id="hex-base" class="mono text-[11px] text-slate-400">#1E293B</span>
+                  <input type="color" id="picker-base" value="#1e293b" class="w-7 h-7 rounded cursor-pointer bg-transparent border border-slate-600" />
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-slate-300">② 上蓋主色 (Lid Shell — 可雙色跳色)</span>
+                <div class="flex items-center gap-2">
+                  <span id="hex-lid" class="mono text-[11px] text-slate-400">#1E293B</span>
+                  <input type="color" id="picker-lid" value="#1e293b" class="w-7 h-7 rounded cursor-pointer bg-transparent border border-slate-600" />
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-slate-300">③ 扣具与活頁強調色 (Latches & Hinges)</span>
+                <div class="flex items-center gap-2">
+                  <span id="hex-latch" class="mono text-[11px] text-slate-400">#F59E0B</span>
+                  <input type="color" id="picker-latch" value="#f59e0b" class="w-7 h-7 rounded cursor-pointer bg-transparent border border-slate-600" />
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-slate-300">④ 提把與防撞包角包膠色 (Handle & Bumper)</span>
+                <div class="flex items-center gap-2">
+                  <span id="hex-bumper" class="mono text-[11px] text-slate-400">#0F172A</span>
+                  <input type="color" id="picker-bumper" value="#0f172a" class="w-7 h-7 rounded cursor-pointer bg-transparent border border-slate-600" />
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-slate-300">⑤ 防水密封膠條與氣閥色 (Seal & Valve)</span>
+                <div class="flex items-center gap-2">
+                  <span id="hex-seal" class="mono text-[11px] text-slate-400">#EF4444</span>
+                  <input type="color" id="picker-seal" value="#ef4444" class="w-7 h-7 rounded cursor-pointer bg-transparent border border-slate-600" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-800 pt-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2">3. 表面咬花與塗裝質感 (VDI Texture / Gloss)</h3>
+            <div id="surface-finish-grid" class="grid grid-cols-2 gap-1.5">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 5: 活頁、扣榫與密封系統 (HINGES, LATCHES & SEALING) -->
+        <section id="tab-hw" class="tab-panel hidden space-y-4">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">1. 扣榫機構系統 (7 款市售主流扣具)</h3>
+              <select id="select-latch-layout" class="bg-slate-950 border border-slate-700 rounded px-2 py-0.5 text-[11px] text-amber-300">
+                <option value="2_front">正面雙扣 (2 Front)</option>
+                <option value="1_center">中央單主扣 (1 Center)</option>
+                <option value="4_all">正2+側2 四向鎖扣 (4-Way)</option>
+              </select>
+            </div>
+            <div id="latch-type-grid" class="space-y-1.5">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="border-t border-slate-800 pt-3">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400">2. 後背活頁鉸鏈結構 (6 款活頁機構)</h3>
+              <select id="select-hinge-count" class="bg-slate-950 border border-slate-700 rounded px-2 py-0.5 text-[11px] text-cyan-300">
+                <option value="2">2 顆標準配置</option>
+                <option value="3">3 顆強化抗扭配置</option>
+                <option value="4">4 顆重載軍規配置</option>
+              </select>
+            </div>
+            <div id="hinge-type-grid" class="space-y-1.5">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="border-t border-slate-800 pt-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2">3. 上下蓋密封止口與氣壓閥 (Sealing & IP Rating)</h3>
+            <div id="seal-type-grid" class="space-y-1.5">
+              <!-- Populated by JS -->
+            </div>
+            <div class="mt-2 flex items-center justify-between bg-slate-950/80 p-2 rounded-lg border border-slate-800">
+              <label for="chk-padlock-hasp" class="text-xs text-slate-300 flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="chk-padlock-hasp" checked class="accent-amber-500 w-4 h-4" />
+                <span>加裝不鏽鋼防盜掛鎖孔護耳 (Padlock Hasps)</span>
+              </label>
+              <label for="chk-purge-valve" class="text-xs text-slate-300 flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="chk-purge-valve" checked class="accent-cyan-500 w-4 h-4" />
+                <span>自動氣壓平衡閥</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 6: 品牌 LOGO 與銘版系統 (LOGO PLACEMENT & BADGING) -->
+        <section id="tab-logo" class="tab-panel hidden space-y-4">
+          <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-3 space-y-2.5">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">1. 品牌 LOGO 文字與圖標設定</h3>
+            <div>
+              <label class="text-[11px] text-slate-400 block mb-1">主品牌名稱 (Primary Brand Text)</label>
+              <input type="text" id="input-logo-main" value="MAXJIM TECH" maxlength="24" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-bold text-white focus:outline-none focus:border-amber-500" />
+            </div>
+            <div>
+              <label class="text-[11px] text-slate-400 block mb-1">副標題 / 型號標示 (Subtitle / Spec Tag)</label>
+              <input type="text" id="input-logo-sub" value="肇祥企業社 • TAICHUNG TAIWAN" maxlength="36" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500" />
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[11px] text-slate-400 block mb-1">徽章圖標樣式</label>
+                <select id="select-logo-emblem" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-slate-200">
+                  <option value="shield">🛡️ 精密齒輪盾牌</option>
+                  <option value="hex">⬢ 六角機械螺母</option>
+                  <option value="bolt">⚡ 高壓電工閃電</option>
+                  <option value="caliper">📐 工程精密雙環</option>
+                  <option value="none">無圖標 (純文字)</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-[11px] text-slate-400 block mb-1">LOGO 配置位置</label>
+                <select id="select-logo-pos" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-amber-300 font-semibold">
+                  <option value="both">上蓋中央 + 正面雙銘版</option>
+                  <option value="top_center">僅上蓋正中央凹槽</option>
+                  <option value="front_center">僅正面扣具中央區</option>
+                  <option value="top_front">上蓋前緣斜切銘版區</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">2. LOGO 銘版工藝與模仁成型方式 (6 種工藝)</h3>
+            <div id="logo-style-grid" class="grid grid-cols-2 gap-1.5">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-3 space-y-2.5">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400">3. 銘版凹槽尺寸與配色微調</h3>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">LOGO 銘版寬度 (Width)</span>
+                <span class="mono font-bold text-amber-400"><span id="val-logo-w">140</span> mm</span>
+              </div>
+              <input type="range" id="slider-logo-w" min="50" max="280" step="5" value="140" class="w-full" />
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">LOGO 銘版高度 (Height)</span>
+                <span class="mono font-bold text-amber-400"><span id="val-logo-h">48</span> mm</span>
+              </div>
+              <input type="range" id="slider-logo-h" min="20" max="120" step="2" value="48" class="w-full" />
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">模仁預留銘版槽深 / 浮雕高度</span>
+                <span class="mono font-bold text-cyan-400"><span id="val-logo-depth">2.0</span> mm</span>
+              </div>
+              <input type="range" id="slider-logo-depth" min="0.5" max="4.5" step="0.5" value="2.0" class="w-full" />
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <div class="flex items-center justify-between bg-slate-900 px-2.5 py-1.5 rounded-lg border border-slate-800">
+                <span class="text-[11px] text-slate-300">銘版底色</span>
+                <input type="color" id="picker-logo-bg" value="#0f172a" class="w-6 h-6 rounded cursor-pointer bg-transparent border border-slate-600" />
+              </div>
+              <div class="flex items-center justify-between bg-slate-900 px-2.5 py-1.5 rounded-lg border border-slate-800">
+                <span class="text-[11px] text-slate-300">字體/浮雕色</span>
+                <input type="color" id="picker-logo-fg" value="#f59e0b" class="w-6 h-6 rounded cursor-pointer bg-transparent border border-slate-600" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </aside>
+
+    <!-- CENTER PANEL: REAL-TIME 3D INDUSTRIAL STYLING VIEWPORT -->
+    <main class="flex-1 flex flex-col relative bg-gradient-to-b from-slate-900 via-slate-950 to-black overflow-hidden">
+      
+      <!-- Top Floating Viewport Controls Bar -->
+      <div class="absolute top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2 z-10 pointer-events-none">
+        
+        <!-- Camera Angle Presets -->
+        <div class="glass-hud rounded-xl p-1.5 flex items-center gap-1 pointer-events-auto shadow-xl">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-1.5 hidden sm:inline">視角</span>
+          <button data-cam="iso" class="cam-btn px-2 py-1 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950 transition">45° 等角</button>
+          <button data-cam="front" class="cam-btn px-2 py-1 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">正面 (扣具/銘版)</button>
+          <button data-cam="back" class="cam-btn px-2 py-1 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">背面 (活頁)</button>
+          <button data-cam="top" class="cam-btn px-2 py-1 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">頂視 (上蓋造型)</button>
+          <button data-cam="side" class="cam-btn px-2 py-1 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">側視 (分模線)</button>
+        </div>
+
+        <!-- Interactive Lid Open Angle + Exploded View + Display Toggles -->
+        <div class="glass-hud rounded-xl px-3 py-1.5 flex flex-wrap items-center gap-3 pointer-events-auto shadow-xl">
+          <div class="flex items-center gap-2">
+            <span class="text-[11px] font-semibold text-amber-400">🔓 開蓋角度</span>
+            <input type="range" id="slider-lid-open" min="0" max="115" step="1" value="0" class="w-20 sm:w-24" />
+            <span class="mono text-xs font-bold text-white w-9" id="val-lid-open">0°</span>
+          </div>
+          <div class="h-4 w-px bg-slate-700"></div>
+          <div class="flex items-center gap-2">
+            <span class="text-[11px] font-semibold text-cyan-400">💥 爆炸分解</span>
+            <input type="range" id="slider-explode" min="0" max="100" step="1" value="0" class="w-20 sm:w-24" />
+            <span class="mono text-xs font-bold text-white w-9" id="val-explode">0%</span>
+          </div>
+          <div class="h-4 w-px bg-slate-700 hidden md:block"></div>
+          <div class="flex items-center gap-1.5">
+            <button id="btn-toggle-dims" class="px-2 py-1 rounded text-[11px] font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 transition" title="顯示/隱藏 3D 尺寸標註線">
+              📏 尺寸標註
+            </button>
+            <button id="btn-toggle-wire" class="px-2 py-1 rounded text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700 transition" title="顯示/隱藏 CAD 結構稜線">
+              🕸️ 結構稜線
+            </button>
+            <button id="btn-toggle-turntable" class="px-2 py-1 rounded text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700 transition" title="360° 展示台自動旋轉">
+              🔄 旋轉展示
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D Canvas Container -->
+      <div id="canvas-container" class="flex-1 w-full h-full relative cursor-grab active:cursor-grabbing"></div>
+
+      <!-- Bottom Floating Styling & Engineering Telemetry Bar -->
+      <div class="absolute bottom-3 left-3 right-3 flex flex-wrap items-end justify-between gap-2 z-10 pointer-events-none">
+        
+        <!-- Active Case Architecture Badge -->
+        <div class="glass-hud rounded-xl p-2.5 pointer-events-auto max-w-md shadow-xl">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500 text-slate-950 uppercase" id="hud-form-badge">IP67 軍規氣密箱造型</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 mono" id="hud-ip-badge">IP67 防水氣密</span>
+            <span class="text-[11px] text-slate-400 mono" id="hud-process-badge">高壓射出成型</span>
+          </div>
+          <div class="text-xs font-bold text-white truncate" id="hud-case-title">
+            MaxJim Rugged Protector 420 — 重載立肋 + 二段凸輪壓扣 + SUS304 穿銷活頁
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5 flex flex-wrap gap-x-3 gap-y-0.5" id="hud-hw-summary">
+            <span>活頁: SUS304 不鏽鋼穿銷 (2顆)</span>
+            <span>•</span>
+            <span>扣具: 二段式省力凸輪壓扣 (正面雙扣)</span>
+            <span>•</span>
+            <span>LOGO: 內嵌金屬銘牌</span>
+          </div>
+        </div>
+
+        <!-- Real-Time DFM & Mold Engineering Readout -->
+        <div class="glass-hud rounded-xl p-2.5 pointer-events-auto grid grid-cols-4 gap-3 text-center shadow-xl">
+          <div>
+            <div class="text-[10px] text-slate-400">內部有效容積</div>
+            <div class="mono text-sm font-bold text-cyan-400" id="hud-volume">15.4 L</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-slate-400">空箱預估淨重</div>
+            <div class="mono text-sm font-bold text-amber-400" id="hud-weight">2.48 kg</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-slate-400">建議機台鎖模力</div>
+            <div class="mono text-sm font-bold text-emerald-400" id="hud-clamping">480 Ton</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-slate-400">單件量產預估</div>
+            <div class="mono text-sm font-bold text-purple-300" id="hud-unit-cost">NT$ 465</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- RIGHT PANEL: INDUSTRIAL DESIGN SPEC SHEET, DFM DIAGNOSTICS & 2D CROSS-SECTION PREVIEW -->
+    <aside class="w-72 xl:w-80 shrink-0 bg-slate-900 border-l border-slate-800 hidden lg:flex flex-col overflow-y-auto p-3 space-y-3.5 z-20">
+      
+      <!-- Live 2D Cross-Section Interactive Blueprint Preview -->
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5">
+        <div class="flex items-center justify-between mb-1.5">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1">
+            <span>📐</span>
+            <span>即時盒口密封與扣榫 2D 剖面圖</span>
+          </h3>
+          <button id="btn-expand-blueprint" class="text-[10px] text-amber-400 hover:underline">放大檢視</button>
+        </div>
+        <canvas id="canvas-section-mini" width="280" height="165" class="w-full h-36 bg-slate-900/90 rounded-lg border border-slate-800"></canvas>
+        <p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed" id="txt-section-desc">
+          上下蓋採用舌槽止口（Tongue & Groove）配合 Ø5.0mm EPDM 發泡圓條，扣具閉合壓縮率 28%，達成 IP67 水深 1 米氣密。
+        </p>
+      </div>
+
+      <!-- Exterior Industrial Design Scorecard (Radar / Bars) -->
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">盒體造型與結構性能評分</h3>
+        
+        <div class="space-y-1.5 text-xs">
+          <div>
+            <div class="flex justify-between mb-0.5">
+              <span class="text-slate-300">耐落摔衝擊強度 (-20°C Drop)</span>
+              <span class="mono font-bold text-emerald-400" id="score-impact">94 / 100</span>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+              <div id="bar-impact" class="h-full bg-emerald-500 rounded-full" style="width:94%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between mb-0.5">
+              <span class="text-slate-300">防塵防水氣密等級 (IP Sealing)</span>
+              <span class="mono font-bold text-cyan-400" id="score-seal">98 / 100</span>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+              <div id="bar-seal" class="h-full bg-cyan-500 rounded-full" style="width:98%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between mb-0.5">
+              <span class="text-slate-300">頂部堆疊抗壓剛性 (Stack Load)</span>
+              <span class="mono font-bold text-amber-400" id="score-stack">92 / 100</span>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+              <div id="bar-stack" class="h-full bg-amber-500 rounded-full" style="width:92%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between mb-0.5">
+              <span class="text-slate-300">模具開發與量產經濟性 (DFM Cost)</span>
+              <span class="mono font-bold text-purple-400" id="score-cost">82 / 100</span>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+              <div id="bar-cost" class="h-full bg-purple-500 rounded-full" style="width:82%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mold & DFM Engineering Diagnostics -->
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400">模具 DFM 與結構工程檢核</h3>
+        <div id="dfm-check-list" class="space-y-1.5 text-[11px]">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+
+      <!-- Current Benchmark Reference Card -->
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-1.5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-purple-400">對標市售盒體參考</h3>
+          <span class="text-[10px] px-1.5 py-0.5 bg-purple-500/20 text-purple-300 rounded mono" id="ref-card-brand">Pelican / Explorer</span>
+        </div>
+        <div class="text-xs font-bold text-white" id="ref-card-name">Pelican 1500 / 1535 Protector 系列</div>
+        <p class="text-[11px] text-slate-400 leading-relaxed" id="ref-card-notes">
+          經典軍規氣密箱造型：正面雙二段式省力凸輪壓扣、中央自動氣壓平衡閥、全周垂直密集防撞立肋、不鏽鋼穿銷防撬活頁與上蓋內嵌銘版槽。
+        </p>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- MODAL 1: MARKET 18 BENCHMARK TOOLBOX EXTERIOR DATABASE -->
+  <div id="modal-db" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-6xl w-full max-h-[88vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between gap-4">
+        <div>
+          <h2 class="text-base font-bold text-white flex items-center gap-2">
+            <span>📚</span>
+            <span>全球市售 18 款指標工具盒外型造型與機構參考資料庫</span>
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">
+            涵蓋歐美日模組化射出系統、IP67 軍規防撞箱、台灣外銷雙層中空吹氣箱（Blow-Mold）、日本東洋山型沖壓鐵盒與航太鋁箱 — 點擊任一款即可直接載入 3D 模擬器
+          </p>
+        </div>
+        <button id="btn-close-db-modal" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300">✕ 關閉</button>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="px-4 py-2.5 bg-slate-900 border-b border-slate-800 flex flex-wrap items-center gap-2">
+        <input type="text" id="input-db-search" placeholder="搜尋品牌、造型特徵、材質、扣具（如：Pelican, 吹氣箱, 山型鐵盒, T-LOC, 郁慶...）" class="flex-1 min-w-[220px] bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500" />
+        <div class="flex flex-wrap gap-1" id="db-cat-pills">
+          <button data-cat="all" class="db-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950">全部 (18)</button>
+          <button data-cat="modular" class="db-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">歐美日模組堆疊系統</button>
+          <button data-cat="rugged" class="db-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">IP67 軍規防水氣密箱</button>
+          <button data-cat="blowmold" class="db-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">台灣外銷中空吹氣箱</button>
+          <button data-cat="metal" class="db-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">日歐沖壓鐵盒 & 鋁箱</button>
+        </div>
+      </div>
+
+      <!-- Database Cards Grid -->
+      <div id="db-cards-container" class="flex-1 overflow-y-auto p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: 2D ENGINEERING CROSS-SECTION BLUEPRINTS (HINGE / LATCH / SEAL / LOGO) -->
+  <div id="modal-section" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-5xl w-full max-h-[88vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <h2 class="text-base font-bold text-white flex items-center gap-2">
+            <span>📐</span>
+            <span>盒體四大關鍵機構 2D CAD 工程剖面圖鑑（扣榫 / 活頁 / 止口密封 / 銘版凹槽）</span>
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">
+            即時根據您目前選用的「扣具、活頁、密封條、肉厚與 LOGO 深度」繪製結構剖面與設計公差準則
+          </p>
+        </div>
+        <button id="btn-close-section-modal" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300">✕ 關閉</button>
+      </div>
+      <div class="p-4 flex-1 overflow-y-auto space-y-4">
+        <canvas id="canvas-section-large" width="960" height="460" class="w-full bg-slate-950 rounded-xl border border-slate-800"></canvas>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs" id="section-engineering-notes">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: EXPORT SPECIFICATION & CAD DATA -->
+  <div id="modal-export" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-3xl w-full max-h-[86vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <h2 class="text-base font-bold text-white">📥 匯出盒體外型造型工業設計規格書 (BOM / DFM / JSON / DXF)</h2>
+          <p class="text-xs text-slate-400 mt-0.5">肇祥企業社 Maxjimtech｜可直接提供模具廠、射出/吹塑廠或客戶簽樣核對</p>
+        </div>
+        <button id="btn-close-export-modal" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300">✕ 關閉</button>
+      </div>
+      <div class="p-4 flex-1 overflow-y-auto space-y-3">
+        <textarea id="textarea-export-spec" readonly class="w-full h-72 bg-slate-950 border border-slate-800 rounded-xl p-3 mono text-xs text-slate-200 focus:outline-none"></textarea>
+        <div class="flex flex-wrap items-center justify-end gap-2">
+          <button id="btn-copy-spec" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white border border-slate-600">
+            📋 複製規格書文字
+          </button>
+          <button id="btn-download-dxf" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40">
+            📐 下載盒體三視外框與銘版 1:1 DXF
+          </button>
+          <button id="btn-download-json" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950">
+            💾 下載 JSON 參數專案檔
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-box" class="fixed bottom-5 right-5 z-50 hidden px-4 py-2.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs shadow-2xl transition-all"></div>
+
+  <script>
+    // =========================================================================
+    // 1. REFERENCE DATABASES: FORM FAMILIES, MATERIALS, PROCESSES, HARDWARE,
+    //    COLORWAYS, AND 18 MARKET BENCHMARK CASES
+    // =========================================================================
+
+    const FORM_FAMILIES = [
+      {
+        id: 'rugged_ip67',
+        name: 'IP67 軍規氣密防撞箱',
+        en: 'IP67 Rugged Tactical',
+        icon: '🛡️',
+        desc: 'Pelican / Explorer 風格：全周防撞立肋、凸出扣具護耳、自動泄壓閥、深止口'
+      },
+      {
+        id: 'packout_modular',
+        name: '美規四角裝甲模組箱',
+        en: 'Corner-Armor Modular',
+        icon: '🧱',
+        desc: 'Milwaukee PACKOUT 風格：四角強化防撞柱、上下堆疊鎖塊、幾何斜切上蓋'
+      },
+      {
+        id: 'systainer_tloc',
+        name: '歐規 T-LOC 堆疊系統箱',
+        en: 'Euro Systainer T-LOC',
+        icon: '🔄',
+        desc: 'Festool / Tanos 風格：垂直俐落邊角、中央內凹 T-LOC 旋鈕、折疊頂提把'
+      },
+      {
+        id: 'lboxx_euro',
+        name: '德規側快扣工程系統箱',
+        en: 'Euro Click L-BOXX',
+        icon: '🇩🇪',
+        desc: 'Bosch / Sortimo 風格：兩側快扣聯鎖卡榫、上蓋幾何斜肋、雙提把設計'
+      },
+      {
+        id: 'blowmold_oem',
+        name: '台灣外銷雙層中空吹氣箱',
+        en: 'OEM Double-Wall Blow-Mold',
+        icon: '🏭',
+        desc: '郁慶 / 凱鍶鎂 / 츈成風格：大圓角防摔、一體成型中空提把、Kiss-Off 定位酒窩'
+      },
+      {
+        id: 'camber_metal',
+        name: '日式山型單片深抽鐵盒',
+        en: 'Camber-Top Stamped Steel',
+        icon: '⛰️',
+        desc: 'Toyo Steel Y-350 / Trusco 風格：無縫單片沖壓底座、山型斜頂上蓋、圓管提把'
+      },
+      {
+        id: 'cantilever_metal',
+        name: '雙開四連桿攜帶式鐵盒',
+        en: 'Bi-Fold Cantilever Metal',
+        icon: '🧰',
+        desc: 'Hazet / KTC / Trusco 風格：雙邊對開斜頂上蓋、四連桿展開臂、貫穿式長提把'
+      },
+      {
+        id: 'flight_alu',
+        name: '航太鋁擠型邊框飛行箱',
+        en: 'Aluminum Extrusion Flight',
+        icon: '✈️',
+        desc: '陽極鋁合金 L 型護邊、八顆重載球型鋼包角、潛伏式蝴蝶轉扣、蜂巢複合板'
+      }
+    ];
+
+    const CORNER_STYLES = [
+      { id: 'rounded', name: '流線圓弧 R 角', desc: '射出/吹塑標準應力分散圓角' },
+      { id: 'chamfer45', name: '45° 裝甲斜切角', desc: '現代硬派機械折線感' },
+      { id: 'bumper_pillar', name: '四角 TPE 防撞護柱', desc: 'PACKOUT 風格全高包角柱' },
+      { id: 'ball_metal', name: '重載球型金屬包角', desc: '飛行箱 304 球型衝壓護角' }
+    ];
+
+    const HANDLE_STYLES = [
+      { id: 'front_fold_tpe', name: '正面雙色包膠折疊提把', desc: '氣密箱/工程箱主流人體工學握把' },
+      { id: 'blowmold_integral', name: '吹塑一體成型中空提把', desc: '免組裝零件、與上下蓋同模吹出' },
+      { id: 'top_bail_recess', name: '頂部平齊內嵌折疊寬提把', desc: 'Systainer / L-BOXX 堆疊不干涉' },
+      { id: 'top_tube_bridge', name: '頂部金屬圓管橋式提把', desc: '山型鐵盒/雙開鐵盒經典金屬提把' },
+      { id: 'dual_front_side', name: '正面主把 + 雙側重載提把', desc: '大型工具箱雙人搬運配置' },
+      { id: 'spring_flip', name: '不鏽鋼彈簧回位提把', desc: '飛行箱/軍規鋁箱防震提把' }
+    ];
+
+    const STACKING_STYLES = [
+      { id: 'interlock_ribs', name: '上下蓋凹凸肋條互嵌', desc: 'Pelican 防滑堆疊矩陣' },
+      { id: 'cleat_lock', name: 'PACKOUT 滑軌卡座鎖塊', desc: '可承受 50kg 垂直吊掛聯鎖' },
+      { id: 'dimple_feet', name: '吹氣箱圓柱凸腳 + 定位窩', desc: '台灣 OEM 套筒盒標準堆疊定位' },
+      { id: 'flat_minimal', name: '平滑底部 + 四角止滑墊', desc: '桌面/抽屜內置放不刮傷' }
+    ];
+
+    const RIB_PATTERNS = [
+      { id: 'vertical_pelican', name: '軍規垂直防撞立肋', desc: '強化箱體側壁抗壓與分模線抗變形' },
+      { id: 'x_geometric', name: 'X 型幾何交叉強化肋', desc: '抗扭曲剛性提升 38%，造型動感' },
+      { id: 'hex_honeycomb', name: '六角蜂巢結構裝甲肋', desc: '輕量化高剛性現代工業風' },
+      { id: 'kissoff_dimples', name: '中空吹氣 Kiss-Off 酒窩', desc: '雙層吹塑內外貼合支撐點陣列' },
+      { id: 'stamped_beads', name: '金屬沖壓水平凹凸折線', desc: '薄鋼板防止大面積共振與凹陷' },
+      { id: 'smooth_clean', name: '無外露立肋極簡平滑面', desc: '高質感精品儀器盒外觀' }
+    ];
+
+    const MATERIALS = [
+      { id: 'pp_copo', name: 'PP-B 耐衝擊共聚聚丙烯', density: 0.91, costKg: 58, clampFactor: 0.45, impact: 88, temp: '-20°C ~ 100°C', note: '工具箱最廣泛材質，耐化學油污、韌性佳' },
+      { id: 'abs_hi', name: 'ABS 高剛性工程塑膠', density: 1.05, costKg: 76, clampFactor: 0.62, impact: 84, temp: '-15°C ~ 85°C', note: '尺寸安定性極佳、表面咬花與雙色字標最精緻' },
+      { id: 'pp_gf20', name: 'PP + 20% GF 玻纖強化複合材', density: 1.04, costKg: 88, clampFactor: 0.68, impact: 93, temp: '-30°C ~ 120°C', note: '堆疊抗壓與抗潛變極高，適合重載系統箱' },
+      { id: 'pc_abs', name: 'PC/ABS 軍規耐寒合金樹脂 (HPX)', density: 1.15, costKg: 135, clampFactor: 0.78, impact: 98, temp: '-40°C ~ 115°C', note: '極地低溫落摔不脆裂，軍規氣密箱頂級配方' },
+      { id: 'hdpe_bm', name: 'HDPE 高分子量吹塑級聚乙烯', density: 0.95, costKg: 54, clampFactor: 0.22, impact: 92, temp: '-30°C ~ 90°C', note: '雙層中空吹氣成型專用，雙壁氣墊吸震極佳' },
+      { id: 'spcc_steel', name: 'SPCC 冷軋深抽鋼板 (0.9~1.2mm)', density: 7.85, costKg: 48, clampFactor: 1.10, impact: 95, temp: '-50°C ~ 250°C', note: '單片深抽沖壓或折彎點焊，耐高溫與穿刺' },
+      { id: 'alu_6061', name: '6061-T6 陽極鋁合金 + 蜂巢複合板', density: 2.70, costKg: 165, clampFactor: 0.35, impact: 91, temp: '-50°C ~ 180°C', note: '高階精密儀器飛行箱，免開大型射出模' }
+    ];
+
+    const PROCESSES = [
+      { id: 'inj_single', name: '單射高壓射出成型 (Injection Molding)', moldCostBase: 850000, cycleSec: 48, desc: '尺寸精密、可成複雜止口與立肋，適合年產 1萬~50萬只' },
+      { id: 'inj_2k', name: '雙色射出 TPE 包膠 (2K Overmolding)', moldCostBase: 1350000, cycleSec: 62, desc: '硬質盒身 + 邊角/提把軟質防滑 TPE 一體成型，旗艦手感' },
+      { id: 'blow_double', name: '雙層中空吹氣成型 (Double-Wall Blow Mold)', moldCostBase: 320000, cycleSec: 75, desc: '模具費僅射出模 1/3，內層可直接吹出工具模穴，台灣外銷主力' },
+      { id: 'struct_foam', name: '低壓結構發泡射出 (Structural Foam)', moldCostBase: 680000, cycleSec: 65, desc: '適合厚壁大型重載箱 (4~6mm)，無縮水痕且重量減輕 18%' },
+      { id: 'stamp_deep', name: '連續模深抽沖壓與粉體塗裝 (Stamping)', moldCostBase: 580000, cycleSec: 25, desc: '無縫圓角鐵盒底座 + 靜電粉體烤漆，經典職人質感' },
+      { id: 'alu_extrude', name: '鋁擠型邊框裁切鉚接 (Extrusion Assembly)', moldCostBase: 65000, cycleSec: 180, desc: '免開大模具，可彈性客製任意長寬高，適合少量多樣設備箱' }
+    ];
+
+    const COLOR_THEMES = [
+      { id: 'maxjim_gold', name: '肇祥旗艦黑金 (MaxJim)', base: '#141821', lid: '#141821', latch: '#f59e0b', bumper: '#090d14', seal: '#f59e0b' },
+      { id: 'packout_red', name: '美規重載紅黑 (Packout)', base: '#b91c1c', lid: '#18181b', latch: '#dc2626', bumper: '#18181b', seal: '#ef4444' },
+      { id: 'systainer_green', name: '歐規灰綠 (Systainer)', base: '#d1d5db', lid: '#d1d5db', latch: '#16a34a', bumper: '#374151', seal: '#22c55e' },
+      { id: 'lboxx_blue', name: '德規工地藍紅 (L-BOXX)', base: '#1e3a8a', lid: '#172554', latch: '#dc2626', bumper: '#0f172a', seal: '#ef4444' },
+      { id: 'pelican_tan', name: '軍規沙漠狼棕 (Tactical)', base: '#a18868', lid: '#a18868', latch: '#1c1917', bumper: '#1c1917', seal: '#f97316' },
+      { id: 'pelican_orange', name: '救援高視度橘 (Rescue)', base: '#ea580c', lid: '#ea580c', latch: '#18181b', bumper: '#18181b', seal: '#facc15' },
+      { id: 'dewalt_yellow', name: '工業明黃黑 (Tough)', base: '#eab308', lid: '#18181b', latch: '#eab308', bumper: '#09090b', seal: '#facc15' },
+      { id: 'makita_teal', name: '日系職人青 (Makpac)', base: '#0f766e', lid: '#0f766e', latch: '#1e293b', bumper: '#0f172a', seal: '#14b8a6' },
+      { id: 'toyo_olive', name: '東洋軍綠銅扣 (Olive)', base: '#3f4f3a', lid: '#3f4f3a', latch: '#d97706', bumper: '#273224', seal: '#78716c' },
+      { id: 'toyo_red', name: '東洋復古赤紅 (Toyo Red)', base: '#dc2626', lid: '#dc2626', latch: '#e2e8f0', bumper: '#991b1b', seal: '#cbd5e1' },
+      { id: 'hazet_blue', name: '德系經典藍黑 (Hazet)', base: '#0284c7', lid: '#1e293b', latch: '#e2e8f0', bumper: '#0f172a', seal: '#38bdf8' },
+      { id: 'flight_silver', name: '航太鈦銀鋁箱 (Flight)', base: '#334155', lid: '#334155', latch: '#e2e8f0', bumper: '#cbd5e1', seal: '#06b6d4' }
+    ];
+
+    const SURFACE_FINISHES = [
+      { id: 'vdi_27', name: 'VDI 3400 #27 細霧咬花', roughness: 0.62, metalness: 0.08, desc: '防刮傷耐指紋，歐美工具箱標準咬花' },
+      { id: 'mt_leather', name: 'MT-11020 粗獷皮革紋', roughness: 0.78, metalness: 0.05, desc: '吹氣箱與重載箱常用，遮蔽合模線與縮水' },
+      { id: 'spi_gloss', name: 'SPI A-2 高光鏡面拋光', roughness: 0.18, metalness: 0.12, desc: '色彩飽和亮麗，適合精品級展示工具盒' },
+      { id: 'matte_tactical', name: '消光戰術低反射塗層', roughness: 0.85, metalness: 0.04, desc: '軍規箱無眩光處理' },
+      { id: 'powder_wrinkle', name: '靜電粉體砂紋烤漆', roughness: 0.52, metalness: 0.45, desc: '五金鐵盒防鏽耐磨塗裝' },
+      { id: 'anodized_alu', name: '金屬陽極髮絲質感', roughness: 0.28, metalness: 0.82, desc: '鋁合金與金屬沖壓高反光工藝' }
+    ];
+
+    const LATCH_TYPES = [
+      {
+        id: 'double_throw',
+        name: '二段式省力凸輪壓扣 (Double-Throw Cam Latch)',
+        pullForceN: 420,
+        desc: 'Pelican 專利主流：第一段勾住上蓋凸軸、第二段槓桿省力 45% 壓緊防水膠條，開扣不反彈傷手'
+      },
+      {
+        id: 'tloc_rotary',
+        name: 'T-LOC 中央單手旋鈕鎖扣 (Rotary Twist Lock)',
+        pullForceN: 280,
+        desc: 'Festool / Tanos 代表設計：中央單一 T 型旋鈕可單手完成「鎖定本箱、開啟上蓋、聯鎖上下堆疊箱」'
+      },
+      {
+        id: 'wire_bail',
+        name: '重載金屬線環彈簧拉扣 (Steel Wire Bail Latch)',
+        pullForceN: 550,
+        desc: 'Milwaukee PACKOUT / ToughSystem 主流：塑鋼壓柄配 Ø5mm 硬化鋼線環，抗工地泥沙與強撞擊'
+      },
+      {
+        id: 'flush_snap',
+        name: '吹塑/射出嵌入式平齊拍扣 (Flush Snap-In Latch)',
+        pullForceN: 210,
+        desc: '台灣外銷吹氣箱（郁慶/凱鍶鎂）主流：與盒面完全平齊不勾掛，可快速拆換跳色扣片'
+      },
+      {
+        id: 'metal_toggle',
+        name: '日式沖壓金屬蛙式彈片扣 (Stamped Draw Toggle)',
+        pullForceN: 340,
+        desc: 'Toyo Steel / Trusco 鐵盒專用：鍍鉻或黃銅沖壓搭扣，附 Ø4.5mm 掛鎖穿孔'
+      },
+      {
+        id: 'push_button',
+        name: '按壓式防誤開安全扣 (Push-Button Trigger Latch)',
+        pullForceN: 390,
+        desc: '需先按壓中央釋放鈕才能扳開扣具，防止運輸震動意外彈開'
+      },
+      {
+        id: 'butterfly_recessed',
+        name: '飛行箱潛伏式蝴蝶轉扣 (Recessed Butterfly Latch)',
+        pullForceN: 620,
+        desc: '沉入圓盤底座內的彈簧蝴蝶旋翼扣，側面完全不凸出，適合航空託運'
+      }
+    ];
+
+    const HINGE_TYPES = [
+      {
+        id: 'pin_304',
+        name: 'SUS304 不鏽鋼穿銷多節重載活頁',
+        desc: '上下蓋多節交錯凸耳 + Ø4mm 實心不鏽鋼貫穿銷，抗剪強度最高，附開蓋 105° 止擋肋'
+      },
+      {
+        id: 'blowmold_tslot',
+        name: '吹氣箱一體成型 T 型滑塊互扣活頁',
+        desc: '專利無金屬銷設計：利用吹塑模直接成型 T 型凸塊與 C 型滑槽互扣（參考 US6325962B1），零生鏽零零件成本'
+      },
+      {
+        id: 'piano_full',
+        name: '全幅貫穿式鋼琴鉸鏈 (Continuous Piano Hinge)',
+        desc: '與盒身同寬的不鏽鋼長條捲軸鉸鏈，點焊或鉚接於背側，應力均勻分散'
+      },
+      {
+        id: 'euro_clip',
+        name: '歐規內藏式卡扣轉軸活頁',
+        desc: 'Systainer / L-BOXX 採用：背側平齊無外凸，可緊貼貨車層架推入'
+      },
+      {
+        id: 'living_pp',
+        name: 'PP 一體射出耐折蝴蝶活頁 (Living Hinge)',
+        desc: '利用 PP 分子鏈結晶取向薄壁 (0.35mm) 一體成形，可耐折超過 10 萬次'
+      },
+      {
+        id: 'cantilever_link',
+        name: '雙開四連桿平行展開機構 (4-Bar Linkage)',
+        desc: '雙側四連桿支臂同步向外拉開雙頂蓋，底層與上層工具一目了然'
+      }
+    ];
+
+    const SEAL_TYPES = [
+      {
+        id: 'ip67_epdm',
+        name: 'IP67 舌槽止口 + EPDM 發泡圓條 + 自動泄壓閥',
+        ipRating: 'IP67',
+        score: 98,
+        desc: '上蓋凸舌壓入下盒凹槽內之 Ø5mm 閉孔 EPDM 膠條（壓縮率 28%），水下 1 米 30 分鐘零滲水'
+      },
+      {
+        id: 'ip65_silicone',
+        name: 'IP65 雙唇矽膠高彈性防水密封條',
+        ipRating: 'IP65',
+        score: 90,
+        desc: '耐候矽膠雙唇結構，防高壓水柱噴射與工地粉塵侵入，開闔阻力輕盈'
+      },
+      {
+        id: 'ip54_labyrinth',
+        name: 'IP54 雙階迷宮式塑膠止口 (免膠條)',
+        ipRating: 'IP54',
+        score: 76,
+        desc: '純靠上下蓋模具高低階迷宮咬合（Labyrinth Lip），免除穿膠條人工成本，防雨水潑濺'
+      },
+      {
+        id: 'rolled_hem',
+        name: '沖壓鐵盒捲邊折唇止口 (Rolled Hem Lip)',
+        ipRating: 'IP42',
+        score: 65,
+        desc: '金屬板邊緣 180° 捲邊強化並包覆下盒口，不割手且防垂直滴水'
+      },
+      {
+        id: 'alu_groove',
+        name: '鋁擠型陰陽企口夾 EVA 防塵條',
+        ipRating: 'IP55',
+        score: 82,
+        desc: '上下鋁擠型邊框 M 型陰陽企口咬合，內嵌高密度防震膠條'
+      }
+    ];
+
+    const LOGO_STYLES = [
+      { id: 'recessed_plate', name: '內嵌沉頭槽 + 金屬絲印銘牌', desc: '模仁預留 1.8mm 沉頭槽，貼合陽極鋁牌或拉絲銘版，最具工業精品感' },
+      { id: 'mold_emboss', name: '模具一體陽刻浮雕凸字', desc: '模仁直接放電雕刻凹字，成品表面浮凸 1.2mm，零二次加工費' },
+      { id: 'mold_deboss', name: '模具一體陰刻凹槽字', desc: '字體下沉於盒面，耐磨損不刮花，可後續搭配移印填色' },
+      { id: '2k_inlay', name: '雙色射出立體跳色字標', desc: '如 PACKOUT / L-BOXX 立體跳色塑料嵌入，遠距品牌識別度最高' },
+      { id: 'epoxy_dome', name: 'PU 水晶滴膠立體貼標槽', desc: '台灣外銷吹氣箱常用：橢圓或矩形淺槽貼合高光水晶滴膠標' },
+      { id: 'laser_etch', name: '雷射精密雕刻標示', desc: '適合陽極鋁箱、深色工程塑膠或經銷商客製流水號' }
+    ];
+
+    // 18 Iconic Market Benchmark Cases
+    const MARKET_CASES = [
+      {
+        id: 'maxjim_pro420',
+        cat: 'rugged',
+        brand: 'MaxJim Tech 肇祥企業社',
+        name: 'MaxJim PRO-420 旗艦雙色氣密工具箱',
+        origin: '台灣台中 (原廠開發基準)',
+        form: 'rugged_ip67',
+        L: 420, W: 310, H: 160, lidRatio: 28, cornerR: 16, wallT: 3.4,
+        cornerStyle: 'bumper_pillar', handleStyle: 'front_fold_tpe', stackingStyle: 'interlock_ribs',
+        ribPattern: 'vertical_pelican', ribDepth: 3.5, ribCount: 6,
+        material: 'pc_abs', process: 'inj_2k', finish: 'vdi_27',
+        theme: 'maxjim_gold',
+        latchType: 'double_throw', latchLayout: '2_front',
+        hingeType: 'pin_304', hingeCount: 2,
+        sealType: 'ip67_epdm', padlock: true, purge: true,
+        logoMain: 'MAXJIM TECH', logoSub: '肇祥企業社 • TAICHUNG TAIWAN', logoEmblem: 'shield',
+        logoPos: 'both', logoStyle: 'recessed_plate', logoW: 145, logoH: 48, logoDepth: 2.0,
+        notes: '結合 IP67 舌槽氣密、四角 TPE 防撞護柱、二段省力壓扣與上蓋/正面雙金屬銘版位，專為精密手工具組套與外銷 OEM 設計。'
+      },
+      {
+        id: 'pelican_1500',
+        cat: 'rugged',
+        brand: 'Pelican 派力肯 (USA)',
+        name: 'Pelican Protector 1500 軍規防撞氣密箱',
+        origin: '美國 (軍規標準 STANAG 4280)',
+        form: 'rugged_ip67',
+        L: 470, W: 357, H: 176, lidRatio: 26, cornerR: 18, wallT: 3.8,
+        cornerStyle: 'rounded', handleStyle: 'front_fold_tpe', stackingStyle: 'interlock_ribs',
+        ribPattern: 'vertical_pelican', ribDepth: 4.5, ribCount: 8,
+        material: 'pp_copo', process: 'struct_foam', finish: 'matte_tactical',
+        theme: 'pelican_tan',
+        latchType: 'double_throw', latchLayout: '2_front',
+        hingeType: 'pin_304', hingeCount: 2,
+        sealType: 'ip67_epdm', padlock: true, purge: true,
+        logoMain: 'PROTECTOR 1500', logoSub: 'WATERTIGHT • CRUSHPROOF', logoEmblem: 'shield',
+        logoPos: 'top_front', logoStyle: 'recessed_plate', logoW: 130, logoH: 42, logoDepth: 2.0,
+        notes: '全球軍規氣密箱標竿：結構發泡厚壁 PP、全周垂直雙肋護耳保護扣具與鉸鏈、自動氣壓平衡閥與不鏽鋼防盜鎖孔護片。'
+      },
+      {
+        id: 'pelican_air_1535',
+        cat: 'rugged',
+        brand: 'Pelican Air (USA)',
+        name: 'Pelican Air 1535 HPX 輕量化蜂巢氣密箱',
+        origin: '美國 (輕量化航太氣密)',
+        form: 'rugged_ip67',
+        L: 558, W: 355, H: 228, lidRatio: 25, cornerR: 20, wallT: 2.8,
+        cornerStyle: 'chamfer45', handleStyle: 'dual_front_side', stackingStyle: 'interlock_ribs',
+        ribPattern: 'hex_honeycomb', ribDepth: 3.0, ribCount: 6,
+        material: 'pc_abs', process: 'inj_single', finish: 'vdi_27',
+        theme: 'pelican_orange',
+        latchType: 'push_button', latchLayout: '2_front',
+        hingeType: 'pin_304', hingeCount: 3,
+        sealType: 'ip67_epdm', padlock: true, purge: true,
+        logoMain: 'AIR 1535 HPX', logoSub: 'SUPERLIGHT POLYMER CASE', logoEmblem: 'caliper',
+        logoPos: 'front_center', logoStyle: 'epoxy_dome', logoW: 120, logoH: 38, logoDepth: 1.5,
+        notes: '採用次世代 HPX 樹脂與蜂巢結構美學，比傳統軍規箱減重 28%，配備按壓式安全釋放扣與錐形盒蓋斜角。'
+      },
+      {
+        id: 'milwaukee_packout',
+        cat: 'modular',
+        brand: 'Milwaukee 米沃奇 (USA)',
+        name: 'Milwaukee PACKOUT 重載裝甲模組工具箱',
+        origin: '美國 / 以色列研發',
+        form: 'packout_modular',
+        L: 560, W: 410, H: 165, lidRatio: 24, cornerR: 12, wallT: 3.5,
+        cornerStyle: 'bumper_pillar', handleStyle: 'dual_front_side', stackingStyle: 'cleat_lock',
+        ribPattern: 'x_geometric', ribDepth: 4.0, ribCount: 6,
+        material: 'pp_gf20', process: 'inj_2k', finish: 'mt_leather',
+        theme: 'packout_red',
+        latchType: 'wire_bail', latchLayout: '2_front',
+        hingeType: 'pin_304', hingeCount: 3,
+        sealType: 'ip65_silicone', padlock: true, purge: false,
+        logoMain: 'PACKOUT', logoSub: 'HEAVY DUTY MODULAR SYSTEM', logoEmblem: 'bolt',
+        logoPos: 'top_center', logoStyle: '2k_inlay', logoW: 210, logoH: 60, logoDepth: 2.5,
+        notes: '工地耐摔王：紅黑雙色高對比、四角強化鋁管/裝甲護柱、重載金屬線環拉扣與專利頂底滑軌鎖塊（Cleat Lock）。'
+      },
+      {
+        id: 'festool_sys3_m187',
+        cat: 'modular',
+        brand: 'Festool / Tanos (Germany)',
+        name: 'Systainer³ SYS3 M 187 歐規單手旋鈕系統箱',
+        origin: '德國 (歐規模組系統標準)',
+        form: 'systainer_tloc',
+        L: 396, W: 296, H: 187, lidRatio: 22, cornerR: 8, wallT: 2.6,
+        cornerStyle: 'rounded', handleStyle: 'top_bail_recess', stackingStyle: 'cleat_lock',
+        ribPattern: 'x_geometric', ribDepth: 2.5, ribCount: 5,
+        material: 'abs_hi', process: 'inj_single', finish: 'vdi_27',
+        theme: 'systainer_green',
+        latchType: 'tloc_rotary', latchLayout: '1_center',
+        hingeType: 'euro_clip', hingeCount: 3,
+        sealType: 'ip54_labyrinth', padlock: true, purge: false,
+        logoMain: 'SYSTAINER³', logoSub: 'SYSTEM M 187 • T-LOC', logoEmblem: 'hex',
+        logoPos: 'front_center', logoStyle: '2k_inlay', logoW: 135, logoH: 40, logoDepth: 1.5,
+        notes: '德國工業設計經典：396×296mm 標準歐規投影尺寸、中央單顆 T-LOC 旋鈕即可完成開蓋與上下箱聯鎖，四壁垂直零浪費貨車空間。'
+      },
+      {
+        id: 'bosch_lboxx_136',
+        cat: 'modular',
+        brand: 'Bosch / Sortimo (Germany)',
+        name: 'L-BOXX 136 德規雙側快扣系統工具箱',
+        origin: '德國 (Sortimo 車載認證)',
+        form: 'lboxx_euro',
+        L: 442, W: 357, H: 151, lidRatio: 24, cornerR: 10, wallT: 2.8,
+        cornerStyle: 'chamfer45', handleStyle: 'top_bail_recess', stackingStyle: 'cleat_lock',
+        ribPattern: 'x_geometric', ribDepth: 3.0, ribCount: 6,
+        material: 'abs_hi', process: 'inj_single', finish: 'vdi_27',
+        theme: 'lboxx_blue',
+        latchType: 'flush_snap', latchLayout: '2_front',
+        hingeType: 'euro_clip', hingeCount: 3,
+        sealType: 'ip54_labyrinth', padlock: false, purge: false,
+        logoMain: 'L-BOXX 136', logoSub: 'MOBILITY SYSTEM', logoEmblem: 'hex',
+        logoPos: 'top_center', logoStyle: 'mold_emboss', logoW: 160, logoH: 48, logoDepth: 1.5,
+        notes: '上蓋可承受 100kg 踩踏：兩側配備紅色彈簧快扣（1秒壓合堆疊），同時具備頂部寬提把與正面抽屜式拉把。'
+      },
+      {
+        id: 'dewalt_toughsystem',
+        cat: 'modular',
+        brand: 'DeWalt 得偉 (USA)',
+        name: 'ToughSystem 2.0 DS166 雙色工程防塵防水箱',
+        origin: '美國 / 以色列',
+        form: 'packout_modular',
+        L: 554, W: 371, H: 165, lidRatio: 26, cornerR: 14, wallT: 3.4,
+        cornerStyle: 'bumper_pillar', handleStyle: 'dual_front_side', stackingStyle: 'cleat_lock',
+        ribPattern: 'vertical_pelican', ribDepth: 3.5, ribCount: 7,
+        material: 'pp_gf20', process: 'inj_2k', finish: 'mt_leather',
+        theme: 'dewalt_yellow',
+        latchType: 'wire_bail', latchLayout: '2_front',
+        hingeType: 'pin_304', hingeCount: 3,
+        sealType: 'ip65_silicone', padlock: true, purge: false,
+        logoMain: 'TOUGHSYSTEM 2.0', logoSub: 'IP65 DUST & WATER RESISTANT', logoEmblem: 'bolt',
+        logoPos: 'both', logoStyle: '2k_inlay', logoW: 185, logoH: 52, logoDepth: 2.0,
+        notes: '黑盒配高視度明黃扣具與側邊自動堆疊卡鉤，正中央大型黃色嵌入式立體字標極具視覺張力。'
+      },
+      {
+        id: 'makita_makpac_2',
+        cat: 'modular',
+        brand: 'Makita 牧田 (Japan)',
+        name: 'MAKPAC Type 2 四向滑扣堆疊工具箱',
+        origin: '日本',
+        form: 'systainer_tloc',
+        L: 395, W: 295, H: 157, lidRatio: 25, cornerR: 10, wallT: 2.7,
+        cornerStyle: 'rounded', handleStyle: 'top_bail_recess', stackingStyle: 'cleat_lock',
+        ribPattern: 'hex_honeycomb', ribDepth: 2.5, ribCount: 6,
+        material: 'abs_hi', process: 'inj_single', finish: 'vdi_27',
+        theme: 'makita_teal',
+        latchType: 'flush_snap', latchLayout: '4_all',
+        hingeType: 'euro_clip', hingeCount: 2,
+        sealType: 'ip54_labyrinth', padlock: false, purge: false,
+        logoMain: 'MAKPAC', logoSub: 'CONNECTOR CASE TYPE 2', logoEmblem: 'caliper',
+        logoPos: 'front_center', logoStyle: 'recessed_plate', logoW: 130, logoH: 42, logoDepth: 1.5,
+        notes: '採用正面與側面共 4 組圓弧滑扣聯結上下箱體，圓潤倒角搭配經典牧田青配色。'
+      },
+      {
+        id: 'yuching_02501_bm',
+        cat: 'blowmold',
+        brand: 'Yu-Ching 郁慶塑膠 (Taiwan)',
+        name: 'Yu-Ching 02-501 雙層中空吹氣套筒扳手箱',
+        origin: '台灣台中/彰化 (外銷吹塑標竿)',
+        form: 'blowmold_oem',
+        L: 445, W: 290, H: 92, lidRatio: 45, cornerR: 26, wallT: 2.5,
+        cornerStyle: 'rounded', handleStyle: 'blowmold_integral', stackingStyle: 'dimple_feet',
+        ribPattern: 'kissoff_dimples', ribDepth: 2.5, ribCount: 8,
+        material: 'hdpe_bm', process: 'blow_double', finish: 'mt_leather',
+        theme: 'hazet_blue',
+        latchType: 'flush_snap', latchLayout: '2_front',
+        hingeType: 'blowmold_tslot', hingeCount: 2,
+        sealType: 'ip54_labyrinth', padlock: false, purge: false,
+        logoMain: 'MAXJIM OEM', logoSub: 'CR-V PROFESSIONAL SOCKET SET', logoEmblem: 'hex',
+        logoPos: 'top_center', logoStyle: 'mold_emboss', logoW: 170, logoH: 55, logoDepth: 2.0,
+        notes: '台灣手工具外銷歐美最經典雙層吹氣盒：一體吹塑成型中空握把、T 型滑塊互扣活頁、Kiss-Off 雙層支撐酒窩與大面積浮雕 LOGO 槽。'
+      },
+      {
+        id: 'casemate_no03_bm',
+        cat: 'blowmold',
+        brand: 'Casemate 凱鍶鎂 (Taiwan)',
+        name: 'Casemate No.03 可換色扣雙層吹氣工具盒',
+        origin: '台灣台中 (外銷吹氣專業廠)',
+        form: 'blowmold_oem',
+        L: 380, W: 265, H: 85, lidRatio: 44, cornerR: 24, wallT: 2.4,
+        cornerStyle: 'chamfer45', handleStyle: 'front_fold_tpe', stackingStyle: 'dimple_feet',
+        ribPattern: 'kissoff_dimples', ribDepth: 2.5, ribCount: 6,
+        material: 'hdpe_bm', process: 'blow_double', finish: 'mt_leather',
+        theme: 'maxjim_gold',
+        latchType: 'flush_snap', latchLayout: '2_front',
+        hingeType: 'pin_304', hingeCount: 2,
+        sealType: 'ip54_labyrinth', padlock: false, purge: false,
+        logoMain: 'CASEMATE PRO', logoSub: 'CUSTOM BLOW MOLD CASE', logoEmblem: 'shield',
+        logoPos: 'top_center', logoStyle: 'epoxy_dome', logoW: 140, logoH: 46, logoDepth: 1.8,
+        notes: '改良傳統吹氣箱外觀：搭配射出折疊雙色提把與可快速替換顏色的嵌入式拍扣，只需更換銘版貼與扣片即可服務多品牌客戶。'
+      },
+      {
+        id: 'ersson_amg_bm',
+        cat: 'blowmold',
+        brand: 'Ersson 츈成塑膠 (Taiwan)',
+        name: 'Ersson AMG 跑車流線立肋雙層吹氣箱',
+        origin: '台灣台中 (運動風外銷箱)',
+        form: 'blowmold_oem',
+        L: 485, W: 345, H: 105, lidRatio: 42, cornerR: 28, wallT: 2.6,
+        cornerStyle: 'rounded', handleStyle: 'blowmold_integral', stackingStyle: 'dimple_feet',
+        ribPattern: 'x_geometric', ribDepth: 3.5, ribCount: 6,
+        material: 'hdpe_bm', process: 'blow_double', finish: 'mt_leather',
+        theme: 'packout_red',
+        latchType: 'metal_toggle', latchLayout: '2_front',
+        hingeType: 'pin_304', hingeCount: 2,
+        sealType: 'ip54_labyrinth', padlock: true, purge: false,
+        logoMain: 'ERSSON AMG', logoSub: '94-PC MECHANIC TOOL KIT', logoEmblem: 'caliper',
+        logoPos: 'top_center', logoStyle: 'recessed_plate', logoW: 165, logoH: 50, logoDepth: 2.0,
+        notes: '專為 72~108 件綜合套筒組設計：大圓弧防摔邊角配跑車引擎蓋流線斜肋、金屬蛙式閃亮拉扣，耐寒 -30°C 落摔測試。'
+      },
+      {
+        id: 'toyo_y350_camber',
+        cat: 'metal',
+        brand: 'Toyo Steel 東洋スチール (Japan)',
+        name: 'Toyo Steel Y-350 日本山型單片深抽沖壓鐵盒',
+        origin: '日本大阪 (Good Design 大賞)',
+        form: 'camber_metal',
+        L: 373, W: 164, H: 124, lidRatio: 42, cornerR: 12, wallT: 0.9,
+        cornerStyle: 'rounded', handleStyle: 'top_tube_bridge', stackingStyle: 'flat_minimal',
+        ribPattern: 'stamped_beads', ribDepth: 1.5, ribCount: 4,
+        material: 'spcc_steel', process: 'stamp_deep', finish: 'powder_wrinkle',
+        theme: 'toyo_olive',
+        latchType: 'metal_toggle', latchLayout: '1_center',
+        hingeType: 'piano_full', hingeCount: 2,
+        sealType: 'rolled_hem', padlock: true, purge: false,
+        logoMain: 'TOYO STEEL', logoSub: 'MADE IN HIGASHIOSAKA JAPAN', logoEmblem: 'none',
+        logoPos: 'top_center', logoStyle: 'mold_emboss', logoW: 120, logoH: 32, logoDepth: 1.0,
+        notes: '整張鋼板無接縫一次深抽成型底座（Seamless Deep-Drawn）、經典山型斜頂增加收納高度、圓潤捲邊不割手與頂部圓管橋式提把。'
+      },
+      {
+        id: 'toyo_t320_flat',
+        cat: 'metal',
+        brand: 'Toyo Steel 東洋スチール (Japan)',
+        name: 'Toyo Steel T-320 平頂可堆疊沖壓工具鐵盒',
+        origin: '日本大阪',
+        form: 'camber_metal',
+        L: 340, W: 160, H: 85, lidRatio: 28, cornerR: 14, wallT: 0.9,
+        cornerStyle: 'rounded', handleStyle: 'flat_minimal', stackingStyle: 'dimple_feet',
+        ribPattern: 'stamped_beads', ribDepth: 1.5, ribCount: 4,
+        material: 'spcc_steel', process: 'stamp_deep', finish: 'spi_gloss',
+        theme: 'toyo_red',
+        latchType: 'metal_toggle', latchLayout: '1_center',
+        hingeType: 'piano_full', hingeCount: 2,
+        sealType: 'rolled_hem', padlock: true, purge: false,
+        logoMain: 'TRUSCO T-320', logoSub: 'STACKABLE STEEL TRUNK', logoEmblem: 'none',
+        logoPos: 'top_center', logoStyle: 'mold_emboss', logoW: 115, logoH: 30, logoDepth: 1.0,
+        notes: '上蓋沖壓四角的凹槽與盒底凸點完美吻合，無頂部外凸提把設計，專門用於工作桌與工具車多層疊放。'
+      },
+      {
+        id: 'trusco_gt350_cantilever',
+        cat: 'metal',
+        brand: 'Trusco / Hazet (Japan / Germany)',
+        name: 'GT-350 雙開四連桿攜帶式金屬工具箱',
+        origin: '日本 / 德國經典機構',
+        form: 'cantilever_metal',
+        L: 360, W: 210, H: 185, lidRatio: 32, cornerR: 6, wallT: 1.0,
+        cornerStyle: 'chamfer45', handleStyle: 'top_tube_bridge', stackingStyle: 'flat_minimal',
+        ribPattern: 'stamped_beads', ribDepth: 2.0, ribCount: 5,
+        material: 'spcc_steel', process: 'stamp_deep', finish: 'powder_wrinkle',
+        theme: 'hazet_blue',
+        latchType: 'metal_toggle', latchLayout: '2_front',
+        hingeType: 'cantilever_link', hingeCount: 4,
+        sealType: 'rolled_hem', padlock: true, purge: false,
+        logoMain: 'MAXJIM GT-350', logoSub: 'CANTILEVER TOOL CHEST', logoEmblem: 'shield',
+        logoPos: 'front_center', logoStyle: 'recessed_plate', logoW: 120, logoH: 34, logoDepth: 1.2,
+        notes: '拉動開蓋滑桿即可觀察左右雙頂蓋透過四連桿同步向外展開，貫穿式長圓管提把在合蓋時自動鎖定雙頂蓋。'
+      },
+      {
+        id: 'explorer_5117_ip67',
+        cat: 'rugged',
+        brand: 'Explorer Cases (Italy)',
+        name: 'Explorer 5117.O 義式軍規防撞儀器箱',
+        origin: '義大利 (NATO 軍規認證)',
+        form: 'rugged_ip67',
+        L: 546, W: 347, H: 197, lidRatio: 27, cornerR: 16, wallT: 3.6,
+        cornerStyle: 'bumper_pillar', handleStyle: 'front_fold_tpe', stackingStyle: 'interlock_ribs',
+        ribPattern: 'vertical_pelican', ribDepth: 4.0, ribCount: 9,
+        material: 'pp_copo', process: 'inj_single', finish: 'vdi_27',
+        theme: 'pelican_orange',
+        latchType: 'double_throw', latchLayout: '2_front',
+        hingeType: 'pin_304', hingeCount: 3,
+        sealType: 'ip67_epdm', padlock: true, purge: true,
+        logoMain: 'EXPLORER 5117', logoSub: 'MADE IN ITALY • IP67', logoEmblem: 'shield',
+        logoPos: 'both', logoStyle: 'recessed_plate', logoW: 140, logoH: 45, logoDepth: 2.0,
+        notes: '義大利工業美學：寬大軟膠握把、正面與上蓋均有獨立的加深 PVC/金屬銘牌槽與名片夾座，上下箱交叉立肋防滑堆疊。'
+      },
+      {
+        id: 'panaro_max430',
+        cat: 'rugged',
+        brand: 'Panaro MAX (Italy)',
+        name: 'MAX430 精密量具與光學儀器氣密手提箱',
+        origin: '義大利',
+        form: 'rugged_ip67',
+        L: 464, W: 366, H: 176, lidRatio: 26, cornerR: 15, wallT: 3.3,
+        cornerStyle: 'rounded', handleStyle: 'front_fold_tpe', stackingStyle: 'interlock_ribs',
+        ribPattern: 'smooth_clean', ribDepth: 1.5, ribCount: 4,
+        material: 'pp_copo', process: 'inj_single', finish: 'vdi_27',
+        theme: 'maxjim_gold',
+        latchType: 'double_throw', latchLayout: '2_front',
+        hingeType: 'piano_full', hingeCount: 4,
+        sealType: 'ip67_epdm', padlock: true, purge: true,
+        logoMain: 'PANARO MAX', logoSub: 'WATERPROOF CASE IP67', logoEmblem: 'caliper',
+        logoPos: 'top_center', logoStyle: 'epoxy_dome', logoW: 130, logoH: 42, logoDepth: 1.5,
+        notes: '背側採用全幅貫穿式多節轉軸設計，盒面減少外露凸肋以呈現乾淨俐落的現代儀器箱風格。'
+      },
+      {
+        id: 'knipex_robust45',
+        cat: 'rugged',
+        brand: 'Knipex / B&W (Germany)',
+        name: 'Robust45 Move 德規高空與電工重載氣密箱',
+        origin: '德國',
+        form: 'packout_modular',
+        L: 609, W: 428, H: 263, lidRatio: 30, cornerR: 18, wallT: 3.8,
+        cornerStyle: 'chamfer45', handleStyle: 'dual_front_side', stackingStyle: 'interlock_ribs',
+        ribPattern: 'x_geometric', ribDepth: 4.0, ribCount: 6,
+        material: 'pp_copo', process: 'inj_single', finish: 'matte_tactical',
+        theme: 'lboxx_blue',
+        latchType: 'double_throw', latchLayout: '2_front',
+        hingeType: 'pin_304', hingeCount: 3,
+        sealType: 'ip67_epdm', padlock: true, purge: true,
+        logoMain: 'ROBUST 45', logoSub: 'HEAVY DUTY ELECTRICIAN CASE', logoEmblem: 'bolt',
+        logoPos: 'top_front', logoStyle: 'recessed_plate', logoW: 150, logoH: 44, logoDepth: 2.0,
+        notes: '專為跨國駐廠工程師打造：加厚 PP 盒殼搭配氣壓支撐桿上蓋、大型二段壓扣與極地耐寒密封圈。'
+      },
+      {
+        id: 'flight_alu_pro',
+        cat: 'metal',
+        brand: 'MaxJim Flight Custom',
+        name: '航太鋁擠型邊框 + 球型鋼包角精密儀器飛行箱',
+        origin: '台灣客製化設備箱',
+        form: 'flight_alu',
+        L: 520, W: 380, H: 210, lidRatio: 30, cornerR: 10, wallT: 4.5,
+        cornerStyle: 'ball_metal', handleStyle: 'spring_flip', stackingStyle: 'ball_metal',
+        ribPattern: 'hex_honeycomb', ribDepth: 1.0, ribCount: 6,
+        material: 'alu_6061', process: 'alu_extrude', finish: 'anodized_alu',
+        theme: 'flight_silver',
+        latchType: 'butterfly_recessed', latchLayout: '2_front',
+        hingeType: 'piano_full', hingeCount: 3,
+        sealType: 'alu_groove', padlock: true, purge: false,
+        logoMain: 'MAXJIM FLIGHT', logoSub: 'CUSTOM AUTOMATION INSTRUMENT', logoEmblem: 'shield',
+        logoPos: 'front_center', logoStyle: 'laser_etch', logoW: 160, logoH: 50, logoDepth: 1.0,
+        notes: '免開大型射出模！以 6061 鋁擠型護邊結合八顆球型鋼包角與潛伏蝴蝶扣，最適合高單價自動化檢測治具與光學設備。'
+      }
+    ];
+
+    // =========================================================================
+    // 2. APPLICATION STATE
+    // =========================================================================
+    const state = {
+      lang: 'zh',
+      presetId: 'maxjim_pro420',
+      form: 'rugged_ip67',
+      L: 420,
+      W: 310,
+      H: 160,
+      lidRatio: 28,
+      cornerR: 16,
+      wallT: 3.4,
+      edgeProfile: 'fillet_round',
+      topBevel: 5.5,
+      botBevel: 4.5,
+      partingChamfer: 2.0,
+      lidCrown: 4.0,
+      barrelCurve: 2.0,
+      draftAngle: 1.8,
+      scoopDepth: 8,
+      cornerStyle: 'bumper_pillar',
+      handleStyle: 'front_fold_tpe',
+      stackingStyle: 'interlock_ribs',
+      ribPattern: 'vertical_pelican',
+      ribDepth: 3.5,
+      ribCount: 6,
+      material: 'pc_abs',
+      process: 'inj_2k',
+      finish: 'vdi_27',
+      theme: 'maxjim_gold',
+      colors: {
+        base: '#141821',
+        lid: '#141821',
+        latch: '#f59e0b',
+        bumper: '#090d14',
+        seal: '#f59e0b'
+      },
+      latchType: 'double_throw',
+      latchLayout: '2_front',
+      hingeType: 'pin_304',
+      hingeCount: 2,
+      sealType: 'ip67_epdm',
+      padlock: true,
+      purge: true,
+      logoMain: 'MAXJIM TECH',
+      logoSub: '肇祥企業社 • TAICHUNG TAIWAN',
+      logoEmblem: 'shield',
+      logoPos: 'both',
+      logoStyle: 'recessed_plate',
+      logoW: 145,
+      logoH: 48,
+      logoDepth: 2.0,
+      logoBg: '#0f172a',
+      logoFg: '#f59e0b',
+      // Viewport interactive parameters
+      lidOpenDeg: 0,
+      explodePct: 0,
+      showDims: true,
+      showWireframe: false,
+      turntable: false,
+      dbFilterCat: 'all',
+      dbSearchQuery: ''
+    };
+
+    // =========================================================================
+    // 3. THREE.JS 3D PROCEDURAL EXTERIOR STYLING ENGINE
+    // =========================================================================
+    let scene, camera, renderer, controls, caseRootGroup, dimGroup;
+    let clock = new THREE.Clock();
+
+    function initThreeJS() {
+      const container = document.getElementById('canvas-container');
+      const w = container.clientWidth || 800;
+      const h = container.clientHeight || 600;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x0b0f17);
+      scene.fog = new THREE.FogExp2(0x0b0f17, 0.00042);
+
+      camera = new THREE.PerspectiveCamera(38, w / h, 1, 8000);
+      camera.position.set(560, 420, 620);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
+      container.innerHTML = '';
+      container.appendChild(renderer.domElement);
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.06;
+      controls.target.set(0, 80, 0);
+      controls.maxPolarAngle = Math.PI * 0.52;
+      controls.minDistance = 200;
+      controls.maxDistance = 2200;
+
+      // Studio Industrial Lighting
+      const hemiLight = new THREE.HemisphereLight(0xdbeafe, 0x1e293b, 0.75);
+      scene.add(hemiLight);
+
+      const keyLight = new THREE.DirectionalLight(0xfffbeb, 1.35);
+      keyLight.position.set(520, 880, 640);
+      keyLight.castShadow = true;
+      keyLight.shadow.mapSize.width = 2048;
+      keyLight.shadow.mapSize.height = 2048;
+      keyLight.shadow.camera.near = 100;
+      keyLight.shadow.camera.far = 2500;
+      const d = 550;
+      keyLight.shadow.camera.left = -d;
+      keyLight.shadow.camera.right = d;
+      keyLight.shadow.camera.top = d;
+      keyLight.shadow.camera.bottom = -d;
+      keyLight.shadow.bias = -0.0005;
+      scene.add(keyLight);
+
+      const rimLight1 = new THREE.DirectionalLight(0x38bdf8, 0.65);
+      rimLight1.position.set(-600, 450, -550);
+      scene.add(rimLight1);
+
+      const rimLight2 = new THREE.DirectionalLight(0xf59e0b, 0.42);
+      rimLight2.position.set(550, 200, -500);
+      scene.add(rimLight2);
+
+      // Studio Pedestal & Reference Grid
+      const gridHelper = new THREE.GridHelper(1600, 32, 0x334155, 0x1e293b);
+      gridHelper.position.y = -2;
+      scene.add(gridHelper);
+
+      const floorGeo = new THREE.PlaneGeometry(3000, 3000);
+      const floorMat = new THREE.ShadowMaterial({ opacity: 0.35 });
+      const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+      floorMesh.rotation.x = -Math.PI / 2;
+      floorMesh.position.y = -1.5;
+      floorMesh.receiveShadow = true;
+      scene.add(floorMesh);
+
+      caseRootGroup = new THREE.Group();
+      scene.add(caseRootGroup);
+
+      dimGroup = new THREE.Group();
+      scene.add(dimGroup);
+
+      window.addEventListener('resize', onWindowResize);
+      animate();
+    }
+
+    function onWindowResize() {
+      const container = document.getElementById('canvas-container');
+      if (!container || !renderer) return;
+      const w = container.clientWidth || 800;
+      const h = container.clientHeight || 600;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (state.turntable && caseRootGroup) {
+        caseRootGroup.rotation.y += 0.0045;
+      } else if (caseRootGroup) {
+        caseRootGroup.rotation.y *= 0.9;
+      }
+      if (controls) controls.update();
+      if (renderer && scene && camera) renderer.render(scene, camera);
+    }
+
+    // Helper: Create Rounded / Chamfered Extruded Box Geometry along Y axis
+    function createRoundedRectShape(width, depth, radius, isChamfer) {
+      const shape = new THREE.Shape();
+      const hw = width / 2;
+      const hd = depth / 2;
+      const r = Math.min(radius, hw * 0.45, hd * 0.45);
+
+      shape.moveTo(-hw + r, -hd);
+      shape.lineTo(hw - r, -hd);
+      if (isChamfer) {
+        shape.lineTo(hw, -hd + r);
+      } else {
+        shape.quadraticCurveTo(hw, -hd, hw, -hd + r);
+      }
+      shape.lineTo(hw, hd - r);
+      if (isChamfer) {
+        shape.lineTo(hw - r, hd);
+      } else {
+        shape.quadraticCurveTo(hw, hd, hw - r, hd);
+      }
+      shape.lineTo(-hw + r, hd);
+      if (isChamfer) {
+        shape.lineTo(-hw, hd - r);
+      } else {
+        shape.quadraticCurveTo(-hw, hd, -hw, hd - r);
+      }
+      shape.lineTo(-hw, -hd + r);
+      if (isChamfer) {
+        shape.lineTo(-hw + r, -hd);
+      } else {
+        shape.quadraticCurveTo(-hw, -hd, -hw + r, -hd);
+      }
+      return shape;
+    }
+
+    function buildShellSegmentMesh(L, W, segH, radius, isChamfer, bevelSize, mat, isLid = false) {
+      const effBevel = isLid ? state.topBevel : state.botBevel;
+      const shape = createRoundedRectShape(Math.max(40, L - effBevel * 1.3), Math.max(40, W - effBevel * 1.3), radius, isChamfer);
+      const bevelSegs = state.edgeProfile === 'chamfer_45' ? 1 : (state.edgeProfile === 'stepped_bevel' ? 2 : 5);
+      const extrudeSettings = {
+        depth: Math.max(4, segH - effBevel * 1.6),
+        bevelEnabled: effBevel > 0.25,
+        bevelSegments: bevelSegs,
+        steps: 10,
+        bevelSize: effBevel * 0.85,
+        bevelThickness: effBevel * 0.85
+      };
+      const geo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+      geo.rotateX(-Math.PI / 2);
+      geo.translate(0, effBevel * 0.85, 0);
+
+      // Apply 3D Surface Curvature (Lid Crown Camber, Barrel Belly Curvature & Wall Draft Taper)
+      const posAttr = geo.attributes.position;
+      const halfL = L / 2;
+      const halfW = W / 2;
+      const draftTan = Math.tan(THREE.MathUtils.degToRad(state.draftAngle || 0));
+
+      for (let i = 0; i < posAttr.count; i++) {
+        let vx = posAttr.getX(i);
+        let vy = posAttr.getY(i);
+        let vz = posAttr.getZ(i);
+
+        const nx = Math.min(1, Math.abs(vx) / halfL);
+        const nz = Math.min(1, Math.abs(vz) / halfW);
+        const hFrac = isLid
+          ? Math.max(0, Math.min(1, vy / Math.max(1, segH)))
+          : Math.max(0, Math.min(1, (segH - vy) / Math.max(1, segH)));
+
+        // Side wall draft taper
+        const shrink = hFrac * segH * draftTan;
+        vx *= Math.max(0.82, (halfL - shrink) / halfL);
+        vz *= Math.max(0.82, (halfW - shrink) / halfW);
+
+        // Barrel belly outward curvature
+        if (state.barrelCurve > 0.1) {
+          const belly = Math.sin((1 - hFrac * 0.65) * Math.PI * 0.5);
+          vz += Math.sign(vz) * state.barrelCurve * Math.max(0, 1 - nx * nx) * belly;
+          vx += Math.sign(vx) * (state.barrelCurve * 0.65) * Math.max(0, 1 - nz * nz) * belly;
+        }
+
+        // 3D Parabolic Lid Crown Camber
+        if (isLid && Math.abs(state.lidCrown) > 0.2 && vy > segH * 0.52) {
+          const topBlend = (vy - segH * 0.52) / (segH * 0.48);
+          const dome = Math.max(0, (1 - nx * nx * 0.88) * (1 - nz * nz * 0.88));
+          vy += state.lidCrown * dome * Math.min(1.2, topBlend);
+        }
+
+        posAttr.setXYZ(i, vx, vy, vz);
+      }
+      geo.computeVertexNormals();
+
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      return mesh;
+    }
+
+    // Generate Dynamic High-Resolution Canvas Texture for Brand LOGO & Badge Plate
+    function createLogoCanvasTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1024;
+      canvas.height = 384;
+      const ctx = canvas.getContext('2d');
+
+      const styleId = state.logoStyle;
+      const bgHex = state.logoBg;
+      const fgHex = state.logoFg;
+
+      // Plate Background
+      if (styleId === 'mold_emboss' || styleId === 'mold_deboss') {
+        ctx.fillStyle = state.colors.lid;
+      } else if (styleId === 'laser_etch') {
+        ctx.fillStyle = '#1e293b';
+      } else {
+        ctx.fillStyle = bgHex;
+      }
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Metallic sheen or border
+      const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      grad.addColorStop(0, 'rgba(255,255,255,0.12)');
+      grad.addColorStop(0.5, 'rgba(255,255,255,0.0)');
+      grad.addColorStop(1, 'rgba(0,0,0,0.22)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Outer Frame & Corner Rivets
+      ctx.strokeStyle = fgHex;
+      ctx.lineWidth = styleId === '2k_inlay' ? 16 : 8;
+      ctx.strokeRect(18, 18, canvas.width - 36, canvas.height - 36);
+
+      if (styleId === 'recessed_plate') {
+        const rivets = [[48, 48], [canvas.width - 48, 48], [48, canvas.height - 48], [canvas.width - 48, canvas.height - 48]];
+        rivets.forEach(([rx, ry]) => {
+          ctx.beginPath();
+          ctx.arc(rx, ry, 14, 0, Math.PI * 2);
+          ctx.fillStyle = '#cbd5e1';
+          ctx.fill();
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = '#0f172a';
+          ctx.stroke();
+        });
+      }
+
+      // Draw Emblem Icon on left
+      let textCenterX = canvas.width * 0.54;
+      const emblem = state.logoEmblem;
+      if (emblem !== 'none') {
+        const ex = 155;
+        const ey = canvas.height / 2;
+        ctx.save();
+        ctx.translate(ex, ey);
+        ctx.strokeStyle = fgHex;
+        ctx.fillStyle = fgHex;
+        ctx.lineWidth = 10;
+
+        if (emblem === 'shield') {
+          ctx.beginPath();
+          ctx.moveTo(0, -95);
+          ctx.lineTo(78, -62);
+          ctx.lineTo(68, 30);
+          ctx.lineTo(0, 95);
+          ctx.lineTo(-68, 30);
+          ctx.lineTo(-78, -62);
+          ctx.closePath();
+          ctx.stroke();
+          ctx.font = '900 58px Inter, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('MJ', 0, 4);
+        } else if (emblem === 'hex') {
+          ctx.beginPath();
+          for (let i = 0; i < 6; i++) {
+            const ang = (Math.PI / 3) * i - Math.PI / 6;
+            const px = Math.cos(ang) * 84;
+            const py = Math.sin(ang) * 84;
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.closePath();
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(0, 0, 36, 0, Math.PI * 2);
+          ctx.stroke();
+        } else if (emblem === 'bolt') {
+          ctx.beginPath();
+          ctx.moveTo(15, -90);
+          ctx.lineTo(-55, 10);
+          ctx.lineTo(5, 10);
+          ctx.lineTo(-18, 90);
+          ctx.lineTo(55, -12);
+          ctx.lineTo(-5, -12);
+          ctx.closePath();
+          ctx.fill();
+        } else if (emblem === 'caliper') {
+          ctx.beginPath();
+          ctx.arc(0, 0, 76, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(-55, 0); ctx.lineTo(55, 0);
+          ctx.moveTo(0, -55); ctx.lineTo(0, 55);
+          ctx.stroke();
+        }
+        ctx.restore();
+      } else {
+        textCenterX = canvas.width * 0.5;
+      }
+
+      // Main Brand Text
+      ctx.fillStyle = (styleId === 'mold_deboss') ? '#090d14' : fgHex;
+      ctx.font = '900 96px "Inter", "Noto Sans TC", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(state.logoMain || 'MAXJIM TECH', textCenterX, canvas.height * 0.41);
+
+      // Subtitle Text
+      ctx.fillStyle = (styleId === 'mold_emboss' || styleId === 'mold_deboss') ? fgHex : '#e2e8f0';
+      ctx.font = '700 36px "JetBrains Mono", "Noto Sans TC", sans-serif';
+      ctx.fillText(state.logoSub || 'INDUSTRIAL TOOLING SYSTEM', textCenterX, canvas.height * 0.74);
+
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.anisotropy = 4;
+      tex.needsUpdate = true;
+      return tex;
+    }
+
+    // Build Complete Parametric 3D Toolbox Exterior Model
+    function rebuild3DToolbox() {
+      if (!caseRootGroup) return;
+
+      // Clear previous meshes
+      while (caseRootGroup.children.length > 0) {
+        const c = caseRootGroup.children[0];
+        caseRootGroup.remove(c);
+      }
+      while (dimGroup.children.length > 0) {
+        dimGroup.remove(dimGroup.children[0]);
+      }
+
+      const L = state.L;
+      const W = state.W;
+      const H = state.H;
+      const lidRatio = state.lidRatio / 100;
+      const lidH = Math.max(18, H * lidRatio);
+      const baseH = Math.max(30, H - lidH);
+      const r = state.cornerR;
+      const isChamfer = state.cornerStyle === 'chamfer45' || state.form === 'packout_modular';
+      const explode = (state.explodePct / 100) * 110;
+      const openRad = THREE.MathUtils.degToRad(state.lidOpenDeg);
+
+      // Surface finish properties
+      const finishObj = SURFACE_FINISHES.find(f => f.id === state.finish) || SURFACE_FINISHES[0];
+      const isMetalBox = state.material === 'spcc_steel' || state.material === 'alu_6061' || state.form === 'camber_metal' || state.form === 'cantilever_metal' || state.form === 'flight_alu';
+
+      const baseMat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(state.colors.base),
+        roughness: finishObj.roughness,
+        metalness: isMetalBox ? Math.max(0.42, finishObj.metalness) : finishObj.metalness
+      });
+      const lidMat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(state.colors.lid),
+        roughness: finishObj.roughness,
+        metalness: isMetalBox ? Math.max(0.42, finishObj.metalness) : finishObj.metalness
+      });
+      const latchMat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(state.colors.latch),
+        roughness: state.latchType === 'metal_toggle' || state.latchType === 'butterfly_recessed' ? 0.25 : 0.45,
+        metalness: state.latchType === 'metal_toggle' || state.latchType === 'butterfly_recessed' ? 0.85 : 0.15
+      });
+      const bumperMat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(state.colors.bumper),
+        roughness: state.cornerStyle === 'ball_metal' ? 0.22 : 0.82,
+        metalness: state.cornerStyle === 'ball_metal' ? 0.88 : 0.08
+      });
+      const sealMat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(state.colors.seal),
+        roughness: 0.6,
+        metalness: 0.1
+      });
+      const chromeMat = new THREE.MeshStandardMaterial({
+        color: 0xe2e8f0,
+        roughness: 0.22,
+        metalness: 0.88
+      });
+      const darkInteriorMat = new THREE.MeshStandardMaterial({
+        color: 0x0f172a,
+        roughness: 0.85,
+        metalness: 0.05
+      });
+
+      // 1. BASE SHELL GROUP
+      const baseGroup = new THREE.Group();
+      baseGroup.position.y = -explode * 0.35;
+      caseRootGroup.add(baseGroup);
+
+      const bevelBase = state.form === 'systainer_tloc' ? 1.5 : (state.form === 'blowmold_oem' ? 6.0 : 3.5);
+      const baseShellMesh = buildShellSegmentMesh(L, W, baseH, r, isChamfer, bevelBase, baseMat, false);
+      baseGroup.add(baseShellMesh);
+
+      // Parting Line Shadow Chamfer Groove
+      if (state.partingChamfer > 0.2) {
+        const ch = state.partingChamfer;
+        const pGroove = new THREE.Mesh(new THREE.BoxGeometry(L - ch * 2, ch * 1.8, W - ch * 2), darkInteriorMat);
+        pGroove.position.set(0, baseH - ch * 0.4, 0);
+        baseGroup.add(pGroove);
+      }
+
+      // Ergonomic Curved Hand Scoop Recess behind Front Handle
+      if (state.scoopDepth > 0.5 && state.handleStyle !== 'flat_minimal' && state.form !== 'cantilever_metal') {
+        const scoopGeo = new THREE.CylinderGeometry(state.scoopDepth * 1.5, state.scoopDepth * 1.5, Math.min(135, L * 0.32), 20);
+        scoopGeo.rotateZ(Math.PI / 2);
+        const scoopMesh = new THREE.Mesh(scoopGeo, darkInteriorMat);
+        scoopMesh.position.set(0, baseH * 0.45, W / 2 + (state.barrelCurve || 0) * 0.7);
+        baseGroup.add(scoopMesh);
+      }
+
+      // Interior Cavity Visual (visible when lid opens or explodes)
+      const wall = Math.max(3, state.wallT * 2.2);
+      const recessGeo = new THREE.BoxGeometry(L - wall * 2, baseH * 0.72, W - wall * 2);
+      const recessMesh = new THREE.Mesh(recessGeo, darkInteriorMat);
+      recessMesh.position.set(0, baseH * 0.64, 0);
+      baseGroup.add(recessMesh);
+
+      // Interior 5S Dual-Color EVA Foam Hint inside Base
+      const evaBottomMat = new THREE.MeshStandardMaterial({ color: new THREE.Color(state.colors.seal), roughness: 0.9 });
+      const evaTopMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.92 });
+      const evaSubMesh = new THREE.Mesh(new THREE.BoxGeometry(L - wall * 2.6, 8, W - wall * 2.6), evaBottomMat);
+      evaSubMesh.position.set(0, baseH * 0.35 + explode * 0.25, 0);
+      baseGroup.add(evaSubMesh);
+      const evaMainMesh = new THREE.Mesh(new THREE.BoxGeometry(L - wall * 2.6, 22, W - wall * 2.6), evaTopMat);
+      evaMainMesh.position.set(0, baseH * 0.48 + explode * 0.45, 0);
+      baseGroup.add(evaMainMesh);
+
+      // Parting Lip & Waterproof O-Ring Seal around Top of Base
+      const sealGroup = new THREE.Group();
+      sealGroup.position.set(0, baseH + explode * 0.22, 0);
+      baseGroup.add(sealGroup);
+
+      const lipThick = state.sealType === 'rolled_hem' ? 2.2 : 4.5;
+      const lipH = state.sealType === 'ip67_epdm' ? 7.5 : 5.0;
+      // Perimeter gasket loop
+      const gasketBarF = new THREE.Mesh(new THREE.BoxGeometry(L - r * 1.4, lipH, lipThick), sealMat);
+      gasketBarF.position.set(0, 0, W / 2 - lipThick);
+      const gasketBarB = gasketBarF.clone();
+      gasketBarB.position.set(0, 0, -W / 2 + lipThick);
+      const gasketBarL = new THREE.Mesh(new THREE.BoxGeometry(lipThick, lipH, W - r * 1.4), sealMat);
+      gasketBarL.position.set(-L / 2 + lipThick, 0, 0);
+      const gasketBarR = gasketBarL.clone();
+      gasketBarR.position.set(L / 2 - lipThick, 0, 0);
+      sealGroup.add(gasketBarF, gasketBarB, gasketBarL, gasketBarR);
+
+      // 2. LID GROUP(S) — Standard Rear-Hinged Lid OR Bi-Fold Cantilever Lids
+      const lidPivotGroup = new THREE.Group();
+      // Pivot at rear top edge of base: z = -W/2, y = baseH
+      lidPivotGroup.position.set(0, baseH + explode * 0.65, -W / 2);
+      lidPivotGroup.rotation.x = -openRad;
+      caseRootGroup.add(lidPivotGroup);
+
+      const lidContentGroup = new THREE.Group();
+      lidContentGroup.position.set(0, 0, W / 2);
+      lidPivotGroup.add(lidContentGroup);
+
+      if (state.form === 'cantilever_metal') {
+        // Bi-Fold Cantilever Split Top Lids + 4-Bar Linkage Arms
+        const halfW = W / 2 - 2;
+        const spreadZ = Math.sin(openRad * 0.85) * (halfW * 0.92);
+        const liftY = Math.sin(openRad * 0.85) * 32;
+
+        [-1, 1].forEach(dir => {
+          const halfLidGrp = new THREE.Group();
+          halfLidGrp.position.set(0, baseH + explode * 0.65 + liftY, dir * (halfW / 2 + 1 + spreadZ));
+          caseRootGroup.add(halfLidGrp);
+
+          // Trapezoidal camber half-lid
+          const halfMesh = buildShellSegmentMesh(L, halfW, lidH, 6, true, 2, lidMat);
+          halfLidGrp.add(halfMesh);
+
+          // 4-Bar Linkage Struts on Left & Right Ends
+          [-L / 2 + 4, L / 2 - 4].forEach(lx => {
+            const barGeo = new THREE.BoxGeometry(3.5, 48, 8);
+            const bar1 = new THREE.Mesh(barGeo, chromeMat);
+            bar1.position.set(lx, -14, dir * 12);
+            bar1.rotation.x = dir * (0.35 + openRad * 0.45);
+            halfLidGrp.add(bar1);
+          });
+        });
+
+        // Full-Length Central Tubular Carry Bar spanning across the box
+        const bridgeGrp = new THREE.Group();
+        bridgeGrp.position.set(0, baseH + lidH + 26 + explode * 0.95, 0);
+        caseRootGroup.add(bridgeGrp);
+        const barCyl = new THREE.Mesh(new THREE.CylinderGeometry(8, 8, L - 16, 20), chromeMat);
+        barCyl.rotation.z = Math.PI / 2;
+        bridgeGrp.add(barCyl);
+        [-L / 2 + 14, L / 2 - 14].forEach(bx => {
+          const post = new THREE.Mesh(new THREE.BoxGeometry(8, lidH + 45, 22), bumperMat);
+          post.position.set(bx, -(lidH + 45) / 2, 0);
+          bridgeGrp.add(post);
+        });
+      } else if (state.form === 'camber_metal') {
+        // Japanese Camber-Top (Mountain / Barn Roof) Lid
+        const lowerLip = buildShellSegmentMesh(L + 2, W + 2, lidH * 0.35, r, false, 1.5, lidMat);
+        lidContentGroup.add(lowerLip);
+
+        // Pitched Barn Roof Geometry
+        const roofShape = new THREE.Shape();
+        const hw = W / 2;
+        const roofTopW = W * 0.48;
+        roofShape.moveTo(-hw, 0);
+        roofShape.lineTo(hw, 0);
+        roofShape.lineTo(roofTopW / 2, lidH * 0.68);
+        roofShape.lineTo(-roofTopW / 2, lidH * 0.68);
+        roofShape.closePath();
+
+        const roofGeo = new THREE.ExtrudeGeometry(roofShape, {
+          depth: L - 6,
+          bevelEnabled: true,
+          bevelSegments: 2,
+          steps: 1,
+          bevelSize: 2.5,
+          bevelThickness: 2.5
+        });
+        roofGeo.rotateY(Math.PI / 2);
+        roofGeo.translate(-(L - 6) / 2, lidH * 0.32, 0);
+        const roofMesh = new THREE.Mesh(roofGeo, lidMat);
+        roofMesh.castShadow = true;
+        lidContentGroup.add(roofMesh);
+      } else {
+        // Standard Injection / Blow-Mold / Systainer / Flight Case Lid
+        const bevelLid = state.form === 'systainer_tloc' ? 1.5 : (state.form === 'blowmold_oem' ? 6.5 : 4.0);
+        const lidShellMesh = buildShellSegmentMesh(L, W, lidH, r, isChamfer, bevelLid, lidMat, true);
+        lidContentGroup.add(lidShellMesh);
+      }
+
+      // 3. CORNER ARMOR / BUMPERS / ALUMINUM EXTRUSION PROFILES
+      if (state.cornerStyle === 'bumper_pillar' || state.form === 'packout_modular') {
+        const pillarR = Math.max(12, r * 0.85);
+        const offsets = [
+          [-L / 2 + pillarR * 0.55, -W / 2 + pillarR * 0.55],
+          [L / 2 - pillarR * 0.55, -W / 2 + pillarR * 0.55],
+          [-L / 2 + pillarR * 0.55, W / 2 - pillarR * 0.55],
+          [L / 2 - pillarR * 0.55, W / 2 - pillarR * 0.55]
+        ];
+        offsets.forEach(([cx, cz]) => {
+          const sx = Math.sign(cx) * explode * 0.25;
+          const sz = Math.sign(cz) * explode * 0.25;
+          const basePillar = new THREE.Mesh(new THREE.BoxGeometry(pillarR * 1.45, baseH + 2, pillarR * 1.45), bumperMat);
+          basePillar.position.set(cx + sx, baseH / 2, cz + sz);
+          baseGroup.add(basePillar);
+
+          if (state.form !== 'cantilever_metal') {
+            const lidPillar = new THREE.Mesh(new THREE.BoxGeometry(pillarR * 1.45, lidH + 2, pillarR * 1.45), bumperMat);
+            lidPillar.position.set(cx + sx, lidH / 2, cz + sz);
+            lidContentGroup.add(lidPillar);
+          }
+        });
+      } else if (state.cornerStyle === 'ball_metal' || state.form === 'flight_alu') {
+        // 8 Spherical Steel Ball Corners + Extruded Aluminum Edge Trim
+        const ballR = 14;
+        const corners = [
+          [-L / 2, -W / 2], [L / 2, -W / 2], [-L / 2, W / 2], [L / 2, W / 2]
+        ];
+        corners.forEach(([cx, cz]) => {
+          const sx = Math.sign(cx) * explode * 0.3;
+          const sz = Math.sign(cz) * explode * 0.3;
+          const bBot = new THREE.Mesh(new THREE.SphereGeometry(ballR, 16, 16), chromeMat);
+          bBot.position.set(cx + sx, 6, cz + sz);
+          baseGroup.add(bBot);
+
+          if (state.form !== 'cantilever_metal') {
+            const bTop = new THREE.Mesh(new THREE.SphereGeometry(ballR, 16, 16), chromeMat);
+            bTop.position.set(cx + sx, lidH - 6, cz + sz);
+            lidContentGroup.add(bTop);
+          }
+        });
+      }
+
+      // 4. EXTERIOR STRUCTURAL RIBBING & SURFACE STYLING DETAILS
+      const ribD = state.ribDepth;
+      const ribN = state.ribCount;
+      if (ribD > 0.2) {
+        if (state.ribPattern === 'vertical_pelican') {
+          // Vertical structural ribs along front, back, left, right + across top lid
+          for (let i = 0; i < ribN; i++) {
+            const t = (i + 1) / (ribN + 1) - 0.5;
+            const rx = t * (L - r * 3.2);
+            // Front & back vertical ribs on base
+            [-1, 1].forEach(zDir => {
+              const ribBase = new THREE.Mesh(new THREE.BoxGeometry(6.5, baseH - 8, ribD * 2), baseMat);
+              ribBase.position.set(rx, baseH / 2, zDir * (W / 2 + ribD * 0.5));
+              baseGroup.add(ribBase);
+
+              if (state.form !== 'cantilever_metal' && state.form !== 'camber_metal') {
+                const ribLid = new THREE.Mesh(new THREE.BoxGeometry(6.5, lidH - 6, ribD * 2), lidMat);
+                ribLid.position.set(rx, lidH / 2, zDir * (W / 2 + ribD * 0.5));
+                lidContentGroup.add(ribLid);
+              }
+            });
+            // Top lid longitudinal ribs (leaving center clear for logo)
+            if (state.form !== 'cantilever_metal' && state.form !== 'camber_metal' && Math.abs(rx) > state.logoW * 0.52) {
+              const topRib = new THREE.Mesh(new THREE.BoxGeometry(7, ribD * 1.6, W - r * 2.4), lidMat);
+              topRib.position.set(rx, lidH + ribD * 0.5, 0);
+              lidContentGroup.add(topRib);
+            }
+          }
+        } else if (state.ribPattern === 'x_geometric') {
+          // Geometric X-Ribs on Lid & Side Recessed Panels
+          if (state.form !== 'cantilever_metal' && state.form !== 'camber_metal') {
+            const diagLen = Math.hypot(L * 0.72, W * 0.68);
+            const ang = Math.atan2(W * 0.68, L * 0.72);
+            [ang, -ang].forEach(a => {
+              const xRib = new THREE.Mesh(new THREE.BoxGeometry(diagLen, ribD * 1.5, 8), lidMat);
+              xRib.rotation.y = a;
+              xRib.position.set(0, lidH + ribD * 0.5, 0);
+              lidContentGroup.add(xRib);
+            });
+          }
+          // Side horizontal geometric ribs
+          for (let k = 0; k < 3; k++) {
+            const ry = baseH * (0.28 + k * 0.24);
+            [-1, 1].forEach(xDir => {
+              const sRib = new THREE.Mesh(new THREE.BoxGeometry(ribD * 2, 5, W * 0.68), baseMat);
+              sRib.position.set(xDir * (L / 2 + ribD * 0.5), ry, 0);
+              baseGroup.add(sRib);
+            });
+          }
+        } else if (state.ribPattern === 'hex_honeycomb') {
+          // Hexagonal armor pads on lid and front/back
+          if (state.form !== 'cantilever_metal' && state.form !== 'camber_metal') {
+            const hexGeo = new THREE.CylinderGeometry(22, 24, ribD * 1.6, 6);
+            const cols = Math.max(3, Math.floor((L - 90) / 56));
+            for (let c = 0; c < cols; c++) {
+              const hx = (c - (cols - 1) / 2) * 54;
+              [-W * 0.28, W * 0.28].forEach(hz => {
+                const hMesh = new THREE.Mesh(hexGeo, lidMat);
+                hMesh.position.set(hx, lidH + ribD * 0.5, hz);
+                lidContentGroup.add(hMesh);
+              });
+            }
+          }
+        } else if (state.ribPattern === 'kissoff_dimples') {
+          // Taiwan Blow-Mold Characteristic Kiss-Off Recessed Dimples on Lid & Base
+          const dimpleGeo = new THREE.CylinderGeometry(8, 6, 3.5, 16);
+          const dMat = new THREE.MeshStandardMaterial({ color: 0x090d14, roughness: 0.9 });
+          const cols = Math.min(8, Math.max(4, ribN));
+          for (let c = 0; c < cols; c++) {
+            const dx = (c - (cols - 1) / 2) * ((L - 100) / Math.max(1, cols - 1));
+            [-W * 0.3, W * 0.3].forEach(dz => {
+              if (state.form !== 'cantilever_metal') {
+                const dm = new THREE.Mesh(dimpleGeo, dMat);
+                dm.position.set(dx, lidH - 0.5, dz);
+                lidContentGroup.add(dm);
+              }
+            });
+          }
+        } else if (state.ribPattern === 'stamped_beads') {
+          // Horizontal stamped stiffening beads on all 4 walls
+          const beadRows = 2;
+          for (let b = 0; b < beadRows; b++) {
+            const by = baseH * (0.35 + b * 0.32);
+            [-1, 1].forEach(zDir => {
+              const fBead = new THREE.Mesh(new THREE.BoxGeometry(L * 0.78, 5, ribD * 1.8), baseMat);
+              fBead.position.set(0, by, zDir * (W / 2 + ribD * 0.4));
+              baseGroup.add(fBead);
+            });
+          }
+        }
+      }
+
+      // 5. STACKING CLEATS / FEET ON TOP LID & BASE
+      if (state.stackingStyle === 'cleat_lock' && state.form !== 'cantilever_metal' && state.form !== 'camber_metal') {
+        [-L * 0.28, L * 0.28].forEach(sx => {
+          [-W * 0.26, W * 0.26].forEach(sz => {
+            const cleat = new THREE.Mesh(new THREE.BoxGeometry(44, 6, 26), bumperMat);
+            cleat.position.set(sx, lidH + 3, sz);
+            lidContentGroup.add(cleat);
+          });
+        });
+      } else if (state.stackingStyle === 'dimple_feet' && state.form !== 'cantilever_metal') {
+        [-L * 0.34, L * 0.34].forEach(sx => {
+          [-W * 0.32, W * 0.32].forEach(sz => {
+            const foot = new THREE.Mesh(new THREE.CylinderGeometry(14, 14, 5, 20), lidMat);
+            foot.position.set(sx, lidH + 2, sz);
+            lidContentGroup.add(foot);
+          });
+        });
+      }
+
+      // 6. FRONT & SIDE LATCHES (7 DISTINCT 3D MECHANISMS)
+      const latchPositions = [];
+      if (state.latchLayout === '1_center' || state.latchType === 'tloc_rotary') {
+        latchPositions.push({ x: 0, z: W / 2, rotY: 0 });
+      } else {
+        const offsetX = Math.min(L * 0.28, L / 2 - 48);
+        latchPositions.push({ x: -offsetX, z: W / 2, rotY: 0 });
+        latchPositions.push({ x: offsetX, z: W / 2, rotY: 0 });
+        if (state.latchLayout === '4_all') {
+          latchPositions.push({ x: -L / 2, z: 0, rotY: -Math.PI / 2 });
+          latchPositions.push({ x: L / 2, z: 0, rotY: Math.PI / 2 });
+        }
+      }
+
+      latchPositions.forEach(pos => {
+        const latchGrp = new THREE.Group();
+        const expOut = explode * 0.65;
+        const nx = Math.sin(pos.rotY);
+        const nz = Math.cos(pos.rotY);
+        latchGrp.position.set(pos.x + nx * expOut, baseH - 4, pos.z + nz * expOut);
+        latchGrp.rotation.y = pos.rotY;
+        baseGroup.add(latchGrp);
+
+        if (state.latchType === 'tloc_rotary') {
+          // Festool T-LOC Rotary Twist Lock
+          const recessHousing = new THREE.Mesh(new THREE.BoxGeometry(76, 54, 14), bumperMat);
+          recessHousing.position.set(0, 0, 2);
+          latchGrp.add(recessHousing);
+          const tTopBar = new THREE.Mesh(new THREE.BoxGeometry(64, 16, 16), latchMat);
+          tTopBar.position.set(0, 12, 7);
+          const tStem = new THREE.Mesh(new THREE.BoxGeometry(22, 34, 16), latchMat);
+          tStem.position.set(0, -6, 7);
+          latchGrp.add(tTopBar, tStem);
+        } else if (state.latchType === 'wire_bail') {
+          // Heavy-Duty Steel Wire Bail + Polymer Cam Lever
+          const mountBlock = new THREE.Mesh(new THREE.BoxGeometry(44, 28, 14), latchMat);
+          mountBlock.position.set(0, -10, 5);
+          latchGrp.add(mountBlock);
+          // Wire loop
+          const wireL = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, 38, 12), chromeMat);
+          wireL.position.set(-14, 8, 9);
+          const wireR = wireL.clone();
+          wireR.position.set(14, 8, 9);
+          const wireTop = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, 30, 12), chromeMat);
+          wireTop.rotation.z = Math.PI / 2;
+          wireTop.position.set(0, 26, 9);
+          latchGrp.add(wireL, wireR, wireTop);
+        } else if (state.latchType === 'butterfly_recessed') {
+          // Flight Case Recessed Dish Butterfly Latch
+          const dish = new THREE.Mesh(new THREE.BoxGeometry(58, 58, 10), chromeMat);
+          dish.position.set(0, -4, 3);
+          const wing = new THREE.Mesh(new THREE.BoxGeometry(32, 16, 14), latchMat);
+          wing.rotation.z = 0.25;
+          wing.position.set(0, -4, 6);
+          latchGrp.add(dish, wing);
+        } else if (state.latchType === 'metal_toggle') {
+          // Stamped Metal Draw Toggle Clasp
+          const basePlate = new THREE.Mesh(new THREE.BoxGeometry(30, 38, 8), latchMat);
+          basePlate.position.set(0, -6, 4);
+          const toggleHook = new THREE.Mesh(new THREE.CylinderGeometry(8, 8, 22, 16), chromeMat);
+          toggleHook.rotation.z = Math.PI / 2;
+          toggleHook.position.set(0, 14, 7);
+          latchGrp.add(basePlate, toggleHook);
+        } else {
+          // Double-Throw Cam / Push-Button / Flush Snap Latch with Protective Rib Ears
+          const guardL = new THREE.Mesh(new THREE.BoxGeometry(7, 48, 16), baseMat);
+          guardL.position.set(-23, -2, 6);
+          const guardR = guardL.clone();
+          guardR.position.set(23, -2, 6);
+          const body = new THREE.Mesh(new THREE.BoxGeometry(36, 44, 12), latchMat);
+          body.position.set(0, -2, 8);
+          latchGrp.add(guardL, guardR, body);
+
+          if (state.latchType === 'push_button') {
+            const btn = new THREE.Mesh(new THREE.CylinderGeometry(6, 6, 15, 16), chromeMat);
+            btn.rotation.x = Math.PI / 2;
+            btn.position.set(0, -2, 9);
+            latchGrp.add(btn);
+          }
+        }
+      });
+
+      // Padlock Hasps & Automatic Pressure Purge Valve on Front
+      if (state.padlock) {
+        const haspOffset = Math.min(L * 0.38, L / 2 - 22);
+        [-haspOffset, haspOffset].forEach(hx => {
+          const haspEar = new THREE.Mesh(new THREE.BoxGeometry(14, 18, 20), chromeMat);
+          haspEar.position.set(hx, baseH, W / 2 + 8 + explode * 0.35);
+          baseGroup.add(haspEar);
+        });
+      }
+      if (state.purge) {
+        const valveGrp = new THREE.Group();
+        valveGrp.position.set(0, baseH * 0.56, W / 2 + 4 + explode * 0.5);
+        const vRing = new THREE.Mesh(new THREE.CylinderGeometry(13, 13, 8, 24), bumperMat);
+        vRing.rotation.x = Math.PI / 2;
+        const vCore = new THREE.Mesh(new THREE.CylinderGeometry(8, 8, 10, 20), sealMat);
+        vCore.rotation.x = Math.PI / 2;
+        valveGrp.add(vRing, vCore);
+        baseGroup.add(valveGrp);
+      }
+
+      // 7. REAR HINGES (6 DISTINCT MECHANISMS)
+      const hCount = state.hingeType === 'piano_full' ? 1 : state.hingeCount;
+      for (let i = 0; i < hCount; i++) {
+        const hGrp = new THREE.Group();
+        const t = hCount === 1 ? 0 : ((i / (hCount - 1)) - 0.5) * (L * 0.64);
+        hGrp.position.set(t, baseH, -W / 2 - 4 - explode * 0.55);
+        baseGroup.add(hGrp);
+
+        if (state.hingeType === 'piano_full') {
+          const piano = new THREE.Mesh(new THREE.CylinderGeometry(5, 5, L * 0.78, 16), chromeMat);
+          piano.rotation.z = Math.PI / 2;
+          hGrp.add(piano);
+        } else if (state.hingeType === 'blowmold_tslot') {
+          const tBlock = new THREE.Mesh(new THREE.BoxGeometry(48, 24, 14), latchMat);
+          const slotC = new THREE.Mesh(new THREE.BoxGeometry(56, 14, 16), baseMat);
+          hGrp.add(tBlock, slotC);
+        } else {
+          // Multi-knuckle + Stainless 304 Pin
+          const knuckle = new THREE.Mesh(new THREE.BoxGeometry(38, 32, 14), latchMat);
+          const pin = new THREE.Mesh(new THREE.CylinderGeometry(3.5, 3.5, 44, 12), chromeMat);
+          pin.rotation.z = Math.PI / 2;
+          hGrp.add(knuckle, pin);
+        }
+      }
+
+      // 8. CARRY HANDLES (FRONT, INTEGRAL BLOW-MOLD, TOP BAIL, OR SIDE HANDLES)
+      if (state.handleStyle !== 'flat_minimal' && state.form !== 'cantilever_metal') {
+        if (state.handleStyle === 'top_tube_bridge' || state.form === 'camber_metal') {
+          // Top Tubular Bridge Handle on Camber / Metal Box
+          const topY = (state.form === 'camber_metal' ? lidH * 1.02 : lidH) + explode * 0.45;
+          const tubeLen = Math.min(180, L * 0.48);
+          const tube = new THREE.Mesh(new THREE.CylinderGeometry(6.5, 6.5, tubeLen, 16), chromeMat);
+          tube.rotation.z = Math.PI / 2;
+          tube.position.set(0, topY + 22, 0);
+          lidContentGroup.add(tube);
+          [-tubeLen / 2, tubeLen / 2].forEach(tx => {
+            const bracket = new THREE.Mesh(new THREE.BoxGeometry(10, 24, 16), chromeMat);
+            bracket.position.set(tx, topY + 10, 0);
+            lidContentGroup.add(bracket);
+          });
+        } else if (state.handleStyle === 'top_bail_recess') {
+          // Systainer / L-BOXX Recessed Top Bail Handle
+          const bailW = Math.min(190, L * 0.46);
+          const recessWell = new THREE.Mesh(new THREE.BoxGeometry(bailW + 20, 6, 95), darkInteriorMat);
+          recessWell.position.set(0, lidH - 1, 0);
+          const bailBar = new THREE.Mesh(new THREE.BoxGeometry(bailW, 10, 24), latchMat);
+          bailBar.position.set(0, lidH + 3 + explode * 0.4, 28);
+          lidContentGroup.add(recessWell, bailBar);
+        } else {
+          // Front Ergonomic Folding Handle or Integral Blow-Mold Handle
+          const hndGrp = new THREE.Group();
+          hndGrp.position.set(0, baseH * 0.45, W / 2 + 12 + explode * 0.75);
+          baseGroup.add(hndGrp);
+
+          const hSpan = Math.min(155, L * 0.38);
+          const gripMat = state.handleStyle === 'spring_flip' ? chromeMat : bumperMat;
+          const gripBar = new THREE.Mesh(new THREE.CylinderGeometry(9.5, 9.5, hSpan, 18), gripMat);
+          gripBar.rotation.z = Math.PI / 2;
+          gripBar.position.set(0, 0, 16);
+          hndGrp.add(gripBar);
+
+          [-hSpan / 2 + 8, hSpan / 2 - 8].forEach(ax => {
+            const arm = new THREE.Mesh(new THREE.BoxGeometry(16, 16, 24), state.handleStyle === 'blowmold_integral' ? baseMat : bumperMat);
+            arm.position.set(ax, 0, 4);
+            hndGrp.add(arm);
+          });
+
+          // Side handles if dual_front_side selected
+          if (state.handleStyle === 'dual_front_side') {
+            [-1, 1].forEach(sDir => {
+              const sHnd = new THREE.Mesh(new THREE.BoxGeometry(14, 18, Math.min(110, W * 0.36)), bumperMat);
+              sHnd.position.set(sDir * (L / 2 + 8 + explode * 0.45), baseH * 0.55, 0);
+              baseGroup.add(sHnd);
+            });
+          }
+        }
+      }
+
+      // 9. BRAND LOGO & RECESSED / EMBOSSED BADGE PLATE (TOP LID & FRONT)
+      const logoTex = createLogoCanvasTexture();
+      const badgeMat = new THREE.MeshStandardMaterial({
+        map: logoTex,
+        roughness: state.logoStyle === 'epoxy_dome' ? 0.12 : 0.35,
+        metalness: state.logoStyle === 'recessed_plate' ? 0.55 : 0.15
+      });
+      const pocketRimMat = new THREE.MeshStandardMaterial({
+        color: 0x090d14,
+        roughness: 0.85
+      });
+
+      const lw = Math.min(state.logoW, L * 0.68);
+      const lh = Math.min(state.logoH, W * 0.45);
+      const lDepth = state.logoDepth;
+
+      // Place Top Lid Logo Badge
+      if ((state.logoPos === 'both' || state.logoPos === 'top_center' || state.logoPos === 'top_front') && state.form !== 'cantilever_metal') {
+        const topLogoGrp = new THREE.Group();
+        const topZ = state.logoPos === 'top_front' ? W * 0.24 : 0;
+        const crownLift = (state.form !== 'camber_metal' && state.lidCrown > 0) ? state.lidCrown * (state.logoPos === 'top_front' ? 0.55 : 0.95) : 0;
+        const topY = (state.form === 'camber_metal' ? lidH * 1.01 : lidH + crownLift) + explode * 0.55;
+        topLogoGrp.position.set(0, topY, topZ);
+
+        // Recessed Mold Pocket Rim
+        const pocketMesh = new THREE.Mesh(new THREE.BoxGeometry(lw + 8, lDepth + 1.5, lh + 8), pocketRimMat);
+        pocketMesh.position.y = 0.5;
+        topLogoGrp.add(pocketMesh);
+
+        // Textured Badge Plate
+        const plateMesh = new THREE.Mesh(new THREE.BoxGeometry(lw, lDepth + 2.5, lh), [
+          bumperMat, bumperMat, badgeMat, bumperMat, bumperMat, bumperMat
+        ]);
+        plateMesh.position.y = 1.6;
+        topLogoGrp.add(plateMesh);
+        lidContentGroup.add(topLogoGrp);
+      }
+
+      // Place Front Center Logo Badge (Between Latches)
+      if (state.logoPos === 'both' || state.logoPos === 'front_center') {
+        const fW = Math.min(lw * 0.78, L * 0.32);
+        const fH = Math.min(lh * 0.68, baseH * 0.42);
+        const frontLogoGrp = new THREE.Group();
+        frontLogoGrp.position.set(0, baseH * 0.72, W / 2 + 2 + explode * 0.55);
+
+        const fPocket = new THREE.Mesh(new THREE.BoxGeometry(fW + 6, fH + 6, lDepth + 2), pocketRimMat);
+        frontLogoGrp.add(fPocket);
+
+        const fPlate = new THREE.Mesh(new THREE.BoxGeometry(fW, fH, lDepth + 3.2), [
+          bumperMat, bumperMat, bumperMat, bumperMat, badgeMat, bumperMat
+        ]);
+        fPlate.position.z = 0.8;
+        frontLogoGrp.add(fPlate);
+        baseGroup.add(frontLogoGrp);
+      }
+
+      // 10. OPTIONAL CAD WIREFRAME EDGES OVERLAY
+      if (state.showWireframe) {
+        caseRootGroup.traverse(obj => {
+          if (obj.isMesh && obj.geometry) {
+            const edges = new THREE.EdgesGeometry(obj.geometry, 28);
+            const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.45 }));
+            obj.add(line);
+          }
+        });
+      }
+
+      // 11. 3D DIMENSION CALLOUT LINES (L × W × H)
+      if (state.showDims) {
+        buildDimensionLines(L, W, H);
+      }
+    }
+
+    function makeTextSprite(text, colorHex) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
+      ctx.strokeStyle = colorHex;
+      ctx.lineWidth = 3;
+      ctx.fillRect(6, 6, 244, 52);
+      ctx.strokeRect(6, 6, 244, 52);
+      ctx.fillStyle = colorHex;
+      ctx.font = 'bold 26px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 128, 33);
+
+      const tex = new THREE.CanvasTexture(canvas);
+      const mat = new THREE.SpriteMaterial({ map: tex, depthTest: false });
+      const sprite = new THREE.Sprite(mat);
+      sprite.scale.set(95, 24, 1);
+      return sprite;
+    }
+
+    function buildDimensionLines(L, W, H) {
+      const lineMat = new THREE.LineBasicMaterial({ color: 0x06b6d4 });
+      const offset = 42;
+
+      // Length X line (front bottom)
+      const ptsL = [
+        new THREE.Vector3(-L / 2, 2, W / 2 + offset),
+        new THREE.Vector3(L / 2, 2, W / 2 + offset)
+      ];
+      dimGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(ptsL), lineMat));
+      const spL = makeTextSprite(`L: ${L} mm`, '#38bdf8');
+      spL.position.set(0, 14, W / 2 + offset);
+      dimGroup.add(spL);
+
+      // Width Z line (right bottom)
+      const ptsW = [
+        new THREE.Vector3(L / 2 + offset, 2, -W / 2),
+        new THREE.Vector3(L / 2 + offset, 2, W / 2)
+      ];
+      dimGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(ptsW), lineMat));
+      const spW = makeTextSprite(`W: ${W} mm`, '#fbbf24');
+      spW.position.set(L / 2 + offset + 15, 14, 0);
+      dimGroup.add(spW);
+
+      // Height Y line (right back)
+      const ptsH = [
+        new THREE.Vector3(L / 2 + offset, 0, -W / 2),
+        new THREE.Vector3(L / 2 + offset, H, -W / 2)
+      ];
+      dimGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(ptsH), lineMat));
+      const spH = makeTextSprite(`H: ${H} mm`, '#34d399');
+      spH.position.set(L / 2 + offset + 15, H / 2, -W / 2);
+      dimGroup.add(spH);
+    }
+
+    // =========================================================================
+    // 4. REAL-TIME ENGINEERING & DFM CALCULATIONS + 2D BLUEPRINT RENDERING
+    // =========================================================================
+    function updateEngineeringMetrics() {
+      const L = state.L;
+      const W = state.W;
+      const H = state.H;
+      const t = state.wallT;
+
+      const matObj = MATERIALS.find(m => m.id === state.material) || MATERIALS[0];
+      const procObj = PROCESSES.find(p => p.id === state.process) || PROCESSES[0];
+      const sealObj = SEAL_TYPES.find(s => s.id === state.sealType) || SEAL_TYPES[0];
+      const formObj = FORM_FAMILIES.find(f => f.id === state.form) || FORM_FAMILIES[0];
+      const latchObj = LATCH_TYPES.find(l => l.id === state.latchType) || LATCH_TYPES[0];
+      const hingeObj = HINGE_TYPES.find(h => h.id === state.hingeType) || HINGE_TYPES[0];
+      const logoObj = LOGO_STYLES.find(g => g.id === state.logoStyle) || LOGO_STYLES[0];
+
+      // Inner effective volume (Liters)
+      const effL = Math.max(50, L - t * 6 - 18);
+      const effW = Math.max(40, W - t * 6 - 18);
+      const effH = Math.max(30, H - t * 4 - 14);
+      const volumeL = (effL * effW * effH) / 1e6;
+
+      // Surface area & shell weight (kg)
+      const surfaceAreaCm2 = (2 * (L * W + L * H + W * H)) / 100;
+      const ribFactor = state.ribPattern === 'smooth_clean' ? 1.05 : 1.24;
+      const doubleWallFactor = state.process === 'blow_double' ? 1.65 : 1.0;
+      const shellVolCm3 = surfaceAreaCm2 * (t / 10) * ribFactor * doubleWallFactor;
+      const weightKg = (shellVolCm3 * matObj.density) / 1000 + 0.28; // + hardware weight
+
+      // Clamping tonnage estimate (Projected area cm2 * clampFactor)
+      const projAreaCm2 = (L * W) / 100;
+      const clampTon = Math.round(projAreaCm2 * matObj.clampFactor * (state.process === 'inj_2k' ? 1.25 : 1.0));
+
+      // Unit production cost estimate (NT$)
+      const matCostNT = weightKg * matObj.costKg;
+      const machineCostNT = procObj.cycleSec * 2.4;
+      const hwCostNT = (state.latchLayout === '4_all' ? 95 : 55) + (state.sealType === 'ip67_epdm' ? 68 : 25) + (state.logoStyle === 'recessed_plate' ? 35 : 10);
+      const unitCostNT = Math.round(matCostNT + machineCostNT + hwCostNT);
+
+      // Update Bottom HUD
+      document.getElementById('hud-form-badge').textContent = formObj.name;
+      document.getElementById('hud-ip-badge').textContent = `${sealObj.ipRating} 防護`;
+      document.getElementById('hud-process-badge').textContent = procObj.name.split(' ')[0];
+      document.getElementById('hud-case-title').textContent = `${state.logoMain} ${L}×${W}×${H}mm — ${matObj.name.split(' ')[0]} • ${formObj.name}`;
+      document.getElementById('hud-hw-summary').innerHTML = `
+        <span>活頁: ${hingeObj.name.split(' ')[0]} (${state.hingeCount}顆)</span>
+        <span>•</span>
+        <span>扣具: ${latchObj.name.split(' ')[0]}</span>
+        <span>•</span>
+        <span>LOGO: ${logoObj.name}</span>
+      `;
+      document.getElementById('hud-volume').textContent = `${volumeL.toFixed(1)} L`;
+      document.getElementById('hud-weight').textContent = `${weightKg.toFixed(2)} kg`;
+      document.getElementById('hud-clamping').textContent = state.process === 'alu_extrude' ? '免射出模' : `${clampTon} Ton`;
+      document.getElementById('hud-unit-cost').textContent = `NT$ ${unitCostNT}`;
+
+      // Scores
+      const impactScore = Math.min(99, Math.round(matObj.impact * 0.75 + (state.cornerStyle === 'bumper_pillar' ? 24 : 18)));
+      const sealScore = sealObj.score;
+      const stackScore = Math.min(99, Math.round(70 + state.ribDepth * 3.2 + (state.stackingStyle === 'cleat_lock' ? 14 : 8)));
+      const costScore = Math.max(55, Math.min(96, Math.round(100 - (procObj.moldCostBase / 45000))));
+
+      document.getElementById('score-impact').textContent = `${impactScore} / 100`;
+      document.getElementById('bar-impact').style.width = `${impactScore}%`;
+      document.getElementById('score-seal').textContent = `${sealScore} / 100`;
+      document.getElementById('bar-seal').style.width = `${sealScore}%`;
+      document.getElementById('score-stack').textContent = `${stackScore} / 100`;
+      document.getElementById('bar-stack').style.width = `${stackScore}%`;
+      document.getElementById('score-cost').textContent = `${costScore} / 100`;
+      document.getElementById('bar-cost').style.width = `${costScore}%`;
+
+      // DFM Check Diagnostics
+      const ribRootT = (t * 0.52).toFixed(2);
+      const draftDeg = state.finish === 'mt_leather' ? '2.5°' : '1.5°';
+      const dfmHtml = `
+        <div class="flex items-start gap-2 p-1.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+          <span>✅</span>
+          <div><strong>防縮水立肋根部厚度</strong>：建議立肋根部 $t_{rib} = ${ribRootT}\\text{ mm}$ ($\\le 0.55t$)，背面零縮水痕。</div>
+        </div>
+        <div class="flex items-start gap-2 p-1.5 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-300">
+          <span>📐</span>
+          <div><strong>建議拔模角 (Draft Angle)</strong>：外表面咬花建議拔模角 $\\ge ${draftDeg}$，內模仁 $\\ge 1.0^\\circ$。</div>
+        </div>
+        <div class="flex items-start gap-2 p-1.5 rounded bg-amber-500/10 border border-amber-500/30 text-amber-300">
+          <span>🔒</span>
+          <div><strong>扣具單點閉合保持力</strong>：${latchObj.pullForceN} N / 顆，總閉合預緊力達 ${latchObj.pullForceN * (state.latchLayout === '4_all' ? 4 : (state.latchLayout === '1_center' ? 1 : 2))} N。</div>
+        </div>
+        <div class="flex items-start gap-2 p-1.5 rounded bg-purple-500/10 border border-purple-500/30 text-purple-300">
+          <span>💰</span>
+          <div><strong>預估模具開發費</strong>：約 NT$ ${(procObj.moldCostBase / 10000).toFixed(0)} 萬（成型週期約 ${procObj.cycleSec} 秒/模）。</div>
+        </div>
+      `;
+      document.getElementById('dfm-check-list').innerHTML = dfmHtml;
+      document.getElementById('txt-section-desc').textContent = sealObj.desc;
+
+      drawMiniSectionBlueprint();
+      drawLargeSectionBlueprint();
+    }
+
+    // Draw Live 2D Cross-Section Blueprint on Right Sidebar Canvas
+    function drawMiniSectionBlueprint() {
+      const canvas = document.getElementById('canvas-section-mini');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Blueprint grid
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.12)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 20) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = 0; y < h; y += 20) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      // Draw Upper Lid Wall & Tongue
+      ctx.fillStyle = state.colors.lid;
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(55, 18);
+      ctx.lineTo(135, 18);
+      ctx.lineTo(135, 68);
+      ctx.lineTo(118, 68);
+      ctx.lineTo(118, 86); // Tongue
+      ctx.lineTo(104, 86);
+      ctx.lineTo(104, 68);
+      ctx.lineTo(88, 68);
+      ctx.lineTo(88, 38);
+      ctx.lineTo(55, 38);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Draw Lower Base Wall & Groove
+      ctx.fillStyle = state.colors.base;
+      ctx.strokeStyle = '#fbbf24';
+      ctx.beginPath();
+      ctx.moveTo(55, 148);
+      ctx.lineTo(135, 148);
+      ctx.lineTo(135, 84);
+      ctx.lineTo(123, 84);
+      ctx.lineTo(123, 98);
+      ctx.lineTo(99, 98);
+      ctx.lineTo(99, 84);
+      ctx.lineTo(88, 84);
+      ctx.lineTo(88, 128);
+      ctx.lineTo(55, 128);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Draw O-Ring / Seal Gasket inside Groove
+      if (state.sealType === 'ip67_epdm' || state.sealType === 'ip65_silicone') {
+        ctx.beginPath();
+        ctx.arc(111, 91, 8, 0, Math.PI * 2);
+        ctx.fillStyle = state.colors.seal;
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+
+      // Draw Latch Mechanism on Right
+      ctx.fillStyle = state.colors.latch;
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 2;
+      ctx.fillRect(142, 48, 22, 68);
+      ctx.strokeRect(142, 48, 22, 68);
+
+      // Callout Labels
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = 'bold 11px "JetBrains Mono", sans-serif';
+      ctx.fillText(`上蓋肉厚 t=${state.wallT}mm`, 174, 34);
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText(`密封: ${state.sealType.toUpperCase()}`, 174, 62);
+      ctx.fillStyle = '#fbbf24';
+      ctx.fillText(`扣具: ${state.latchType}`, 174, 90);
+      ctx.fillStyle = '#34d399';
+      ctx.fillText(`LOGO槽深: ${state.logoDepth}mm`, 174, 118);
+    }
+
+    // Draw Full 4-Panel 2D CAD Cross-Section Modal Blueprint
+    function drawLargeSectionBlueprint() {
+      const canvas = document.getElementById('canvas-section-large');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // CAD Blueprint Grid
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.1)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 24) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = 0; y < h; y += 24) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      const panels = [
+        { title: 'DETAIL A: 上下蓋止口與防水膠條剖面', x: 20, y: 20, pw: 215, ph: 420 },
+        { title: 'DETAIL B: 前扣具鎖緊與防撬護肋剖面', x: 255, y: 20, pw: 215, ph: 420 },
+        { title: 'DETAIL C: 後背活頁轉軸與止擋肋剖面', x: 490, y: 20, pw: 215, ph: 420 },
+        { title: 'DETAIL D: 品牌 LOGO 銘版沉頭槽剖面', x: 725, y: 20, pw: 215, ph: 420 }
+      ];
+
+      panels.forEach((p, idx) => {
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(p.x, p.y, p.pw, p.ph);
+
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(p.x + 2, p.y + 2, p.pw - 4, 34);
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = 'bold 12px "Inter", "Noto Sans TC", sans-serif';
+        ctx.fillText(p.title, p.x + 10, p.y + 23);
+
+        const cx = p.x + p.pw / 2;
+        const cy = p.y + p.ph / 2 + 10;
+
+        if (idx === 0) {
+          // Tongue & Groove + Gasket
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 2.5;
+          ctx.strokeRect(cx - 35, cy - 110, 70, 85);
+          ctx.fillStyle = state.colors.seal;
+          ctx.beginPath();
+          ctx.arc(cx, cy - 12, 16, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = '#fbbf24';
+          ctx.strokeRect(cx - 42, cy - 22, 84, 115);
+          ctx.fillStyle = '#cbd5e1';
+          ctx.font = '11px "JetBrains Mono", sans-serif';
+          ctx.fillText('壓縮率: 25%~32%', p.x + 22, p.y + p.ph - 25);
+        } else if (idx === 1) {
+          // Over-center Cam Latch
+          ctx.strokeStyle = '#f59e0b';
+          ctx.lineWidth = 3;
+          ctx.strokeRect(cx - 28, cy - 85, 56, 150);
+          ctx.beginPath();
+          ctx.arc(cx, cy - 45, 12, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.fillStyle = '#cbd5e1';
+          ctx.fillText(`單扣拉力: ${LATCH_TYPES.find(l => l.id === state.latchType)?.pullForceN || 400}N`, p.x + 22, p.y + p.ph - 25);
+        } else if (idx === 2) {
+          // Hinge Pin & Open Stop
+          ctx.strokeStyle = '#34d399';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(cx, cy, 28, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(cx, cy, 10, 0, Math.PI * 2);
+          ctx.fillStyle = '#e2e8f0';
+          ctx.fill();
+          ctx.fillText(`活頁數: ${state.hingeCount} 組 / 105°止擋`, p.x + 22, p.y + p.ph - 25);
+        } else if (idx === 3) {
+          // Logo Recessed Pocket + Rib Root Rule
+          ctx.strokeStyle = '#c084fc';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.moveTo(p.x + 25, cy - 40);
+          ctx.lineTo(cx - 55, cy - 40);
+          ctx.lineTo(cx - 55, cy - 12);
+          ctx.lineTo(cx + 55, cy - 12);
+          ctx.lineTo(cx + 55, cy - 40);
+          ctx.lineTo(p.x + p.pw - 25, cy - 40);
+          ctx.stroke();
+
+          ctx.fillStyle = state.logoFg;
+          ctx.fillRect(cx - 50, cy - 34, 100, 18);
+          ctx.fillStyle = '#cbd5e1';
+          ctx.fillText(`銘版槽深: ${state.logoDepth}mm (間隙+0.3mm)`, p.x + 18, p.y + p.ph - 25);
+        }
+      });
+
+      const notesContainer = document.getElementById('section-engineering-notes');
+      if (notesContainer) {
+        notesContainer.innerHTML = `
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <div class="font-bold text-cyan-400 mb-1">① 止口密封設計準則</div>
+            <p class="text-slate-400 leading-relaxed">上蓋壓舌寬度建議為 $2.8\\sim 3.5\\text{ mm}$，EPDM 發泡膠條槽深需保留 $28\\%$ 壓縮行程，轉角處 R 角不得小於 R10 以防膠條擠壓皺摺。</p>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <div class="font-bold text-amber-400 mb-1">② 扣榫防撬護耳準則</div>
+            <p class="text-slate-400 leading-relaxed">扣具兩側必須設計高出扣具表面 $2.5\\text{ mm}$ 之防撞立肋護耳（Latch Guard Ribs），確保工具箱正面落摔時扣具不直接承受衝擊。</p>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <div class="font-bold text-emerald-400 mb-1">③ 活頁抗扭與開蓋止擋</div>
+            <p class="text-slate-400 leading-relaxed">穿銷活頁採用 $\\varnothing 4.0\\text{ mm}$ SUS304 滾花銷，背側上下蓋交界設計 $105^\\circ$ 機械止擋斜面，開蓋後可穩定直立不後翻。</p>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <div class="font-bold text-purple-400 mb-1">④ 銘版凹槽公差配合</div>
+            <p class="text-slate-400 leading-relaxed">內嵌銘版槽長寬單邊須放寬 $+0.35\\text{ mm}$ 裝配裕度，槽底可設計 $0.4\\text{ mm}$ 背膠導氣淺溝，避免鋁牌黏貼氣泡鼓起。</p>
+          </div>
+        `;
+      }
+    }
+
+    // =========================================================================
+    // 5. UI POPULATION & INTERACTIVE EVENT BINDING
+    // =========================================================================
+    function renderControlGrids() {
+      // Preset Dropdown
+      const presetSel = document.getElementById('select-market-preset');
+      presetSel.innerHTML = MARKET_CASES.map(c =>
+        `<option value="${c.id}" ${c.id === state.presetId ? 'selected' : ''}>[${c.brand}] ${c.name} (${c.L}×${c.W}×${c.H}mm)</option>`
+      ).join('');
+
+      // 1. Form Family Grid
+      document.getElementById('form-family-grid').innerHTML = FORM_FAMILIES.map(f => `
+        <button data-form="${f.id}" class="card-option text-left p-2 rounded-xl border border-slate-800 bg-slate-950/60 ${state.form === f.id ? 'selected' : ''}">
+          <div class="flex items-center gap-1.5 font-bold text-xs text-white">
+            <span>${f.icon}</span>
+            <span class="truncate">${f.name}</span>
+          </div>
+          <div class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-snug">${f.desc}</div>
+        </button>
+      `).join('');
+
+      // 2. Corner Style Grid
+      document.getElementById('corner-style-grid').innerHTML = CORNER_STYLES.map(c => `
+        <button data-corner="${c.id}" class="card-option text-left p-2 rounded-lg border border-slate-800 bg-slate-950/60 ${state.cornerStyle === c.id ? 'selected' : ''}">
+          <div class="font-bold text-xs text-white">${c.name}</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">${c.desc}</div>
+        </button>
+      `).join('');
+
+      // 3. Handle Style Grid
+      document.getElementById('handle-style-grid').innerHTML = HANDLE_STYLES.map(h => `
+        <button data-handle="${h.id}" class="card-option text-left p-2 rounded-lg border border-slate-800 bg-slate-950/60 ${state.handleStyle === h.id ? 'selected' : ''}">
+          <div class="font-bold text-xs text-white">${h.name}</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">${h.desc}</div>
+        </button>
+      `).join('');
+
+      // 4. Stacking Style Grid
+      document.getElementById('stacking-style-grid').innerHTML = STACKING_STYLES.map(s => `
+        <button data-stack="${s.id}" class="card-option text-left p-2 rounded-lg border border-slate-800 bg-slate-950/60 ${state.stackingStyle === s.id ? 'selected' : ''}">
+          <div class="font-bold text-xs text-white">${s.name}</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">${s.desc}</div>
+        </button>
+      `).join('');
+
+      // 5. Rib Pattern Grid
+      document.getElementById('rib-pattern-grid').innerHTML = RIB_PATTERNS.map(r => `
+        <button data-rib="${r.id}" class="card-option text-left p-2 rounded-lg border border-slate-800 bg-slate-950/60 ${state.ribPattern === r.id ? 'selected' : ''}">
+          <div class="font-bold text-xs text-white">${r.name}</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">${r.desc}</div>
+        </button>
+      `).join('');
+
+      // 6. Material Grid
+      document.getElementById('material-grid').innerHTML = MATERIALS.map(m => `
+        <button data-mat="${m.id}" class="card-option w-full text-left p-2 rounded-lg border border-slate-800 bg-slate-950/60 ${state.material === m.id ? 'selected' : ''}">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-xs text-white">${m.name}</span>
+            <span class="mono text-[10px] text-amber-400">比重 ${m.density} • ${m.temp}</span>
+          </div>
+          <div class="text-[10px] text-slate-400 mt-0.5">${m.note}</div>
+        </button>
+      `).join('');
+
+      // 7. Process Grid
+      document.getElementById('process-grid').innerHTML = PROCESSES.map(p => `
+        <button data-proc="${p.id}" class="card-option w-full text-left p-2 rounded-lg border border-slate-800 bg-slate-950/60 ${state.process === p.id ? 'selected' : ''}">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-xs text-white">${p.name}</span>
+            <span class="mono text-[10px] text-cyan-400">週期 ~${p.cycleSec}s</span>
+          </div>
+          <div class="text-[10px] text-slate-400 mt-0.5">${p.desc}</div>
+        </button>
+      `).join('');
+
+      // 8. Color Theme Grid
+      document.getElementById('color-theme-grid').innerHTML = COLOR_THEMES.map(t => `
+        <button data-theme="${t.id}" class="card-option text-left p-2 rounded-lg border border-slate-800 bg-slate-950/60 ${state.theme === t.id ? 'selected' : ''}">
+          <div class="flex items-center gap-1.5 mb-1">
+            <span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:${t.base}"></span>
+            <span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:${t.lid}"></span>
+            <span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:${t.latch}"></span>
+          </div>
+          <div class="font-bold text-[11px] text-white truncate">${t.name}</div>
+        </button>
+      `).join('');
+
+      // 9. Surface Finish Grid
+      document.getElementById('surface-finish-grid').innerHTML = SURFACE_FINISHES.map(f => `
+        <button data-finish="${f.id}" class="card-option text-left p-2 rounded-lg border border-slate-800 bg-slate-950/60 ${state.finish === f.id ? 'selected' : ''}">
+          <div class="font-bold text-xs text-white">${f.name}</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">${f.desc}</div>
+        </button>
+      `).join('');
+
+      // 10. Latch Type Grid
+      document.getElementById('latch-type-grid').innerHTML = LATCH_TYPES.map(l => `
+        <button data-latch="${l.id}" class="card-option w-full text-left p-2 rounded-lg border border-slate-800 bg-slate-950/60 ${state.latchType === l.id ? 'selected' : ''}">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-xs text-white">${l.name}</span>
+            <span class="mono text-[10px] text-amber-400">${l.pullForceN} N</span>
+          </div>
+          <div class="text-[10px] text-slate-400 mt-0.5">${l.desc}</div>
+        </button>
+      `).join('');
+
+      // 11. Hinge Type Grid
+      document.getElementById('hinge-type-grid').innerHTML = HINGE_TYPES.map(h => `
+        <button data-hinge="${h.id}" class="card-option w-full text-left p-2 rounded-lg border border-slate-800 bg-slate-950/60 ${state.hingeType === h.id ? 'selected' : ''}">
+          <div class="font-bold text-xs text-white">${h.name}</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">${h.desc}</div>
+        </button>
+      `).join('');
+
+      // 12. Seal Type Grid
+      document.getElementById('seal-type-grid').innerHTML = SEAL_TYPES.map(s => `
+        <button data-seal="${s.id}" class="card-option w-full text-left p-2 rounded-lg border border-slate-800 bg-slate-950/60 ${state.sealType === s.id ? 'selected' : ''}">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-xs text-white">${s.name}</span>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300 mono">${s.ipRating}</span>
+          </div>
+          <div class="text-[10px] text-slate-400 mt-0.5">${s.desc}</div>
+        </button>
+      `).join('');
+
+      // 13. Logo Style Grid
+      document.getElementById('logo-style-grid').innerHTML = LOGO_STYLES.map(g => `
+        <button data-logostyle="${g.id}" class="card-option text-left p-2 rounded-lg border border-slate-800 bg-slate-950/60 ${state.logoStyle === g.id ? 'selected' : ''}">
+          <div class="font-bold text-xs text-white">${g.name}</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">${g.desc}</div>
+        </button>
+      `).join('');
+
+      // Sync Sliders & Pickers
+      document.getElementById('slider-length').value = state.L;
+      document.getElementById('val-length').textContent = state.L;
+      document.getElementById('slider-width').value = state.W;
+      document.getElementById('val-width').textContent = state.W;
+      document.getElementById('slider-height').value = state.H;
+      document.getElementById('val-height').textContent = state.H;
+      document.getElementById('lbl-dim-summary').textContent = `${state.L} × ${state.W} × ${state.H} mm`;
+
+      document.getElementById('slider-lid-ratio').value = state.lidRatio;
+      document.getElementById('val-lid-ratio').textContent = state.lidRatio;
+      document.getElementById('val-base-ratio').textContent = 100 - state.lidRatio;
+      document.getElementById('slider-corner-r').value = state.cornerR;
+      document.getElementById('val-corner-r').textContent = state.cornerR;
+      document.getElementById('slider-wall-t').value = state.wallT;
+      document.getElementById('val-wall-t').textContent = state.wallT;
+      document.getElementById('slider-rib-depth').value = state.ribDepth;
+      document.getElementById('val-rib-depth').textContent = state.ribDepth;
+      document.getElementById('slider-rib-count').value = state.ribCount;
+      document.getElementById('val-rib-count').textContent = state.ribCount;
+
+      document.getElementById('select-edge-profile').value = state.edgeProfile;
+      document.getElementById('slider-top-bevel').value = state.topBevel;
+      document.getElementById('val-top-bevel').textContent = state.topBevel;
+      document.getElementById('slider-bot-bevel').value = state.botBevel;
+      document.getElementById('val-bot-bevel').textContent = state.botBevel;
+      document.getElementById('slider-parting-chamfer').value = state.partingChamfer;
+      document.getElementById('val-parting-chamfer').textContent = state.partingChamfer;
+      document.getElementById('slider-lid-crown').value = state.lidCrown;
+      document.getElementById('val-lid-crown').textContent = state.lidCrown;
+      document.getElementById('slider-barrel-curve').value = state.barrelCurve;
+      document.getElementById('val-barrel-curve').textContent = state.barrelCurve;
+      document.getElementById('slider-draft-angle').value = state.draftAngle;
+      document.getElementById('val-draft-angle').textContent = state.draftAngle;
+      document.getElementById('slider-scoop-depth').value = state.scoopDepth;
+      document.getElementById('val-scoop-depth').textContent = state.scoopDepth;
+
+      document.getElementById('picker-base').value = state.colors.base;
+      document.getElementById('hex-base').textContent = state.colors.base.toUpperCase();
+      document.getElementById('picker-lid').value = state.colors.lid;
+      document.getElementById('hex-lid').textContent = state.colors.lid.toUpperCase();
+      document.getElementById('picker-latch').value = state.colors.latch;
+      document.getElementById('hex-latch').textContent = state.colors.latch.toUpperCase();
+      document.getElementById('picker-bumper').value = state.colors.bumper;
+      document.getElementById('hex-bumper').textContent = state.colors.bumper.toUpperCase();
+      document.getElementById('picker-seal').value = state.colors.seal;
+      document.getElementById('hex-seal').textContent = state.colors.seal.toUpperCase();
+
+      document.getElementById('select-latch-layout').value = state.latchLayout;
+      document.getElementById('select-hinge-count').value = String(state.hingeCount);
+      document.getElementById('chk-padlock-hasp').checked = state.padlock;
+      document.getElementById('chk-purge-valve').checked = state.purge;
+
+      document.getElementById('input-logo-main').value = state.logoMain;
+      document.getElementById('input-logo-sub').value = state.logoSub;
+      document.getElementById('select-logo-emblem').value = state.logoEmblem;
+      document.getElementById('select-logo-pos').value = state.logoPos;
+      document.getElementById('slider-logo-w').value = state.logoW;
+      document.getElementById('val-logo-w').textContent = state.logoW;
+      document.getElementById('slider-logo-h').value = state.logoH;
+      document.getElementById('val-logo-h').textContent = state.logoH;
+      document.getElementById('slider-logo-depth').value = state.logoDepth;
+      document.getElementById('val-logo-depth').textContent = state.logoDepth;
+    }
+
+    function applyMarketPreset(presetId) {
+      const p = MARKET_CASES.find(c => c.id === presetId);
+      if (!p) return;
+      state.presetId = p.id;
+      state.form = p.form;
+      state.L = p.L;
+      state.W = p.W;
+      state.H = p.H;
+      state.lidRatio = p.lidRatio;
+      state.cornerR = p.cornerR;
+      state.wallT = p.wallT;
+      state.edgeProfile = p.cornerStyle === 'chamfer45' ? 'chamfer_45' : 'fillet_round';
+      state.topBevel = p.form === 'blowmold_oem' ? 9.5 : (p.form === 'systainer_tloc' ? 2.0 : 5.5);
+      state.botBevel = p.form === 'blowmold_oem' ? 8.5 : (p.form === 'systainer_tloc' ? 2.0 : 4.5);
+      state.partingChamfer = p.form === 'blowmold_oem' ? 3.0 : 2.0;
+      state.lidCrown = p.form === 'blowmold_oem' ? 8.0 : (p.id === 'pelican_air_1535' ? 9.0 : (p.form === 'systainer_tloc' ? 0 : 4.0));
+      state.barrelCurve = p.form === 'blowmold_oem' ? 5.0 : 2.0;
+      state.draftAngle = p.form === 'blowmold_oem' ? 3.0 : (p.form === 'systainer_tloc' ? 0.8 : 1.8);
+      state.scoopDepth = p.handleStyle === 'flat_minimal' ? 0 : 8;
+      state.cornerStyle = p.cornerStyle;
+      state.handleStyle = p.handleStyle;
+      state.stackingStyle = p.stackingStyle;
+      state.ribPattern = p.ribPattern;
+      state.ribDepth = p.ribDepth;
+      state.ribCount = p.ribCount;
+      state.material = p.material;
+      state.process = p.process;
+      state.finish = p.finish;
+      state.theme = p.theme;
+      const th = COLOR_THEMES.find(t => t.id === p.theme) || COLOR_THEMES[0];
+      state.colors = { ...th };
+      state.latchType = p.latchType;
+      state.latchLayout = p.latchLayout;
+      state.hingeType = p.hingeType;
+      state.hingeCount = p.hingeCount;
+      state.sealType = p.sealType;
+      state.padlock = p.padlock;
+      state.purge = p.purge;
+      state.logoMain = p.logoMain;
+      state.logoSub = p.logoSub;
+      state.logoEmblem = p.logoEmblem;
+      state.logoPos = p.logoPos;
+      state.logoStyle = p.logoStyle;
+      state.logoW = p.logoW;
+      state.logoH = p.logoH;
+      state.logoDepth = p.logoDepth;
+
+      document.getElementById('preset-origin-tag').textContent = p.origin;
+      document.getElementById('ref-card-brand').textContent = p.brand;
+      document.getElementById('ref-card-name').textContent = p.name;
+      document.getElementById('ref-card-notes').textContent = p.notes;
+
+      renderControlGrids();
+      rebuild3DToolbox();
+      updateEngineeringMetrics();
+      showToast(`已載入市售盒體造型標竿：${p.name}`);
+    }
+
+    function renderDatabaseModalCards() {
+      const q = state.dbSearchQuery.trim().toLowerCase();
+      const cat = state.dbFilterCat;
+      const filtered = MARKET_CASES.filter(c => {
+        if (cat !== 'all' && c.cat !== cat) return false;
+        if (!q) return true;
+        const hay = `${c.brand} ${c.name} ${c.origin} ${c.notes} ${c.form} ${c.latchType}`.toLowerCase();
+        return hay.includes(q);
+      });
+
+      const container = document.getElementById('db-cards-container');
+      container.innerHTML = filtered.map(c => {
+        const th = COLOR_THEMES.find(t => t.id === c.theme) || COLOR_THEMES[0];
+        const mat = MATERIALS.find(m => m.id === c.material) || MATERIALS[0];
+        const proc = PROCESSES.find(p => p.id === c.process) || PROCESSES[0];
+        return `
+          <div class="bg-slate-950 border border-slate-800 hover:border-amber-500/60 rounded-xl p-3.5 flex flex-col justify-between transition">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-1.5">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">${c.brand}</span>
+                <span class="text-[10px] text-slate-400 mono">${c.origin}</span>
+              </div>
+              <h4 class="font-bold text-sm text-white mb-1">${c.name}</h4>
+              <div class="flex items-center gap-2 text-[11px] mono text-cyan-300 mb-2">
+                <span>📏 ${c.L}×${c.W}×${c.H} mm</span>
+                <span>•</span>
+                <span>肉厚 ${c.wallT}mm</span>
+              </div>
+              <p class="text-xs text-slate-400 leading-relaxed mb-3">${c.notes}</p>
+            </div>
+            <div class="border-t border-slate-800/80 pt-2.5 space-y-2">
+              <div class="grid grid-cols-2 gap-1 text-[10px] text-slate-300">
+                <div>🧪 材質: <span class="text-white font-semibold">${mat.name.split(' ')[0]}</span></div>
+                <div>🏭 製程: <span class="text-white font-semibold">${proc.name.split(' ')[0]}</span></div>
+                <div>🔒 扣具: <span class="text-amber-300">${c.latchType}</span></div>
+                <div>🔗 活頁: <span class="text-cyan-300">${c.hingeType}</span></div>
+              </div>
+              <button data-load-case="${c.id}" class="w-full py-1.5 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition flex items-center justify-center gap-1">
+                <span>⚡</span>
+                <span>套用此盒體外型至 3D 模擬器</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function generateSpecReportText() {
+      const matObj = MATERIALS.find(m => m.id === state.material) || MATERIALS[0];
+      const procObj = PROCESSES.find(p => p.id === state.process) || PROCESSES[0];
+      const formObj = FORM_FAMILIES.find(f => f.id === state.form) || FORM_FAMILIES[0];
+      const latchObj = LATCH_TYPES.find(l => l.id === state.latchType) || LATCH_TYPES[0];
+      const hingeObj = HINGE_TYPES.find(h => h.id === state.hingeType) || HINGE_TYPES[0];
+      const sealObj = SEAL_TYPES.find(s => s.id === state.sealType) || SEAL_TYPES[0];
+      const logoObj = LOGO_STYLES.find(g => g.id === state.logoStyle) || LOGO_STYLES[0];
+
+      return [
+        `====================================================================`,
+        `  肇祥企業社 MAXJIM TECH — 工具盒外型工業設計與模具工程規格書`,
+        `  Official Web: https://maxjimtech.com/ | 專案時間: ${new Date().toISOString().slice(0, 10)}`,
+        `====================================================================`,
+        ``,
+        `[1. 整體造型與外部尺寸規格 (Exterior Styling & Dimensions)]`,
+        `  • 盒體造型流派 : ${formObj.name} (${formObj.en})`,
+        `  • 外徑總尺寸   : L ${state.L} × W ${state.W} × H ${state.H} mm`,
+        `  • 上下蓋比例   : 上蓋 ${state.lidRatio}% (${Math.round(state.H * state.lidRatio / 100)}mm) / 下盒 ${100 - state.lidRatio}% (${Math.round(state.H * (100 - state.lidRatio) / 100)}mm)`,
+        `  • 邊角造型配置 : ${CORNER_STYLES.find(c => c.id === state.cornerStyle)?.name} (四角 R/C ${state.cornerR} mm)`,
+        `  • 細部倒角參數 : 斷面 ${state.edgeProfile} | 天線 R/C ${state.topBevel}mm | 地線 R/C ${state.botBevel}mm | 分模腰線倒角 ${state.partingChamfer}mm`,
+        `  • 3D 弧面曲率  : 上蓋拱頂曲率 ${state.lidCrown}mm | 肚圍弧度 ${state.barrelCurve}mm | 側壁拔模錐度 ${state.draftAngle}° | 提把內凹弧槽 ${state.scoopDepth}mm`,
+        `  • 提把人體工學 : ${HANDLE_STYLES.find(h => h.id === state.handleStyle)?.name}`,
+        `  • 結構加強立肋 : ${RIB_PATTERNS.find(r => r.id === state.ribPattern)?.name} (凸出深度 ${state.ribDepth}mm / ${state.ribCount}組)`,
+        `  • 堆疊定位結構 : ${STACKING_STYLES.find(s => s.id === state.stackingStyle)?.name}`,
+        ``,
+        `[2. 工程材料、表面咬花與模具製程 (Material, CMF & Manufacturing)]`,
+        `  • 選用工程材料 : ${matObj.name} (比重 ${matObj.density}, 耐溫 ${matObj.temp})`,
+        `  • 平均肉厚設計 : t = ${state.wallT} mm (建議立肋根部厚度 <= ${(state.wallT * 0.52).toFixed(2)} mm)`,
+        `  • 製造工藝方式 : ${procObj.name}`,
+        `  • 表面咬花處理 : ${SURFACE_FINISHES.find(f => f.id === state.finish)?.name}`,
+        `  • 五區配色設定 : 下盒 ${state.colors.base} | 上蓋 ${state.colors.lid} | 扣具 ${state.colors.latch} | 護角 ${state.colors.bumper} | 膠條 ${state.colors.seal}`,
+        ``,
+        `[3. 活頁、扣榫與氣密防水系統 (Hardware & Sealing Architecture)]`,
+        `  • 扣榫機構型式 : ${latchObj.name} (${state.latchLayout} 配置, 單扣保持力 ${latchObj.pullForceN} N)`,
+        `  • 後背活頁結構 : ${hingeObj.name} (${state.hingeCount} 顆配置)`,
+        `  • 止口密封系統 : ${sealObj.name} (防護等級 ${sealObj.ipRating})`,
+        `  • 附屬安全配置 : 防盜掛鎖孔護耳 (${state.padlock ? '有' : '無'}) / 自動氣壓平衡閥 (${state.purge ? '有' : '無'})`,
+        ``,
+        `[4. 品牌 LOGO 與銘版標示規格 (Brand Badging & Mold Pocket)]`,
+        `  • 主品牌文字   : ${state.logoMain}`,
+        `  • 副標題文字   : ${state.logoSub}`,
+        `  • 銘版成型工藝 : ${logoObj.name} (配置位置: ${state.logoPos})`,
+        `  • 銘版槽尺寸   : 寬 ${state.logoW} × 高 ${state.logoH} × 槽深 ${state.logoDepth} mm (單邊裝配公差 +0.35mm)`,
+        `====================================================================`
+      ].join('\n');
+    }
+
+    function exportCaseOutlineDXF() {
+      const L = state.L;
+      const W = state.W;
+      const lw = state.logoW;
+      const lh = state.logoH;
+      const dxfLines = [
+        '0', 'SECTION', '2', 'ENTITIES',
+        // Outer Box Top View Rectangle
+        '0', 'LINE', '8', 'CASE_OUTER_TOP', '10', String(-L/2), '20', String(-W/2), '11', String(L/2), '21', String(-W/2),
+        '0', 'LINE', '8', 'CASE_OUTER_TOP', '10', String(L/2), '20', String(-W/2), '11', String(L/2), '21', String(W/2),
+        '0', 'LINE', '8', 'CASE_OUTER_TOP', '10', String(L/2), '20', String(W/2), '11', String(-L/2), '21', String(W/2),
+        '0', 'LINE', '8', 'CASE_OUTER_TOP', '10', String(-L/2), '20', String(W/2), '11', String(-L/2), '21', String(-W/2),
+        // Logo Pocket Rectangle on Top Lid
+        '0', 'LINE', '8', 'LOGO_POCKET', '10', String(-lw/2), '20', String(-lh/2), '11', String(lw/2), '21', String(-lh/2),
+        '0', 'LINE', '8', 'LOGO_POCKET', '10', String(lw/2), '20', String(-lh/2), '11', String(lw/2), '21', String(lh/2),
+        '0', 'LINE', '8', 'LOGO_POCKET', '10', String(lw/2), '20', String(lh/2), '11', String(-lw/2), '21', String(lh/2),
+        '0', 'LINE', '8', 'LOGO_POCKET', '10', String(-lw/2), '20', String(lh/2), '11', String(-lw/2), '21', String(-lh/2),
+        '0', 'ENDSEC', '0', 'EOF'
+      ].join('\n');
+
+      const blob = new Blob([dxfLines], { type: 'application/dxf' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `Maxjimtech_Case_Exterior_${L}x${W}x${state.H}mm.dxf`;
+      a.click();
+      showToast('已下載 1:1 盒體外框與銘版槽 AutoCAD DXF 檔！');
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      if (!box) return;
+      box.textContent = msg;
+      box.classList.remove('hidden');
+      clearTimeout(box._timer);
+      box._timer = setTimeout(() => box.classList.add('hidden'), 2600);
+    }
+
+    function bindAllEvents() {
+      // Tab switching
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => {
+            b.classList.remove('active');
+            b.classList.add('text-slate-400');
+          });
+          btn.classList.add('active');
+          btn.classList.remove('text-slate-400');
+          const target = btn.getAttribute('data-tab');
+          document.querySelectorAll('.tab-panel').forEach(p => {
+            p.classList.toggle('hidden', p.id !== target);
+          });
+        });
+      });
+
+      // Delegated clicks inside Left Sidebar
+      document.querySelector('aside').addEventListener('click', e => {
+        const formBtn = e.target.closest('[data-form]');
+        if (formBtn) {
+          state.form = formBtn.getAttribute('data-form');
+          renderControlGrids();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+          return;
+        }
+        const cornerBtn = e.target.closest('[data-corner]');
+        if (cornerBtn) {
+          state.cornerStyle = cornerBtn.getAttribute('data-corner');
+          renderControlGrids();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+          return;
+        }
+        const handleBtn = e.target.closest('[data-handle]');
+        if (handleBtn) {
+          state.handleStyle = handleBtn.getAttribute('data-handle');
+          renderControlGrids();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+          return;
+        }
+        const stackBtn = e.target.closest('[data-stack]');
+        if (stackBtn) {
+          state.stackingStyle = stackBtn.getAttribute('data-stack');
+          renderControlGrids();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+          return;
+        }
+        const ribBtn = e.target.closest('[data-rib]');
+        if (ribBtn) {
+          state.ribPattern = ribBtn.getAttribute('data-rib');
+          renderControlGrids();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+          return;
+        }
+        const matBtn = e.target.closest('[data-mat]');
+        if (matBtn) {
+          state.material = matBtn.getAttribute('data-mat');
+          renderControlGrids();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+          return;
+        }
+        const procBtn = e.target.closest('[data-proc]');
+        if (procBtn) {
+          state.process = procBtn.getAttribute('data-proc');
+          renderControlGrids();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+          return;
+        }
+        const themeBtn = e.target.closest('[data-theme]');
+        if (themeBtn) {
+          const tid = themeBtn.getAttribute('data-theme');
+          state.theme = tid;
+          const th = COLOR_THEMES.find(t => t.id === tid);
+          if (th) {
+            state.colors = { base: th.base, lid: th.lid, latch: th.latch, bumper: th.bumper, seal: th.seal };
+          }
+          renderControlGrids();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+          return;
+        }
+        const finishBtn = e.target.closest('[data-finish]');
+        if (finishBtn) {
+          state.finish = finishBtn.getAttribute('data-finish');
+          renderControlGrids();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+          return;
+        }
+        const latchBtn = e.target.closest('[data-latch]');
+        if (latchBtn) {
+          state.latchType = latchBtn.getAttribute('data-latch');
+          renderControlGrids();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+          return;
+        }
+        const hingeBtn = e.target.closest('[data-hinge]');
+        if (hingeBtn) {
+          state.hingeType = hingeBtn.getAttribute('data-hinge');
+          renderControlGrids();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+          return;
+        }
+        const sealBtn = e.target.closest('[data-seal]');
+        if (sealBtn) {
+          state.sealType = sealBtn.getAttribute('data-seal');
+          renderControlGrids();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+          return;
+        }
+        const logoStyleBtn = e.target.closest('[data-logostyle]');
+        if (logoStyleBtn) {
+          state.logoStyle = logoStyleBtn.getAttribute('data-logostyle');
+          renderControlGrids();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+          return;
+        }
+      });
+
+      // Preset selector
+      document.getElementById('select-market-preset').addEventListener('change', e => {
+        applyMarketPreset(e.target.value);
+      });
+
+      // Dimension & Rib sliders
+      const bindSlider = (id, key, isFloat = false) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', e => {
+          state[key] = isFloat ? parseFloat(e.target.value) : parseInt(e.target.value, 10);
+          renderControlGrids();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+        });
+      };
+      bindSlider('slider-length', 'L');
+      bindSlider('slider-width', 'W');
+      bindSlider('slider-height', 'H');
+      bindSlider('slider-lid-ratio', 'lidRatio');
+      bindSlider('slider-corner-r', 'cornerR');
+      bindSlider('slider-wall-t', 'wallT', true);
+      bindSlider('slider-rib-depth', 'ribDepth', true);
+      bindSlider('slider-rib-count', 'ribCount');
+      bindSlider('slider-top-bevel', 'topBevel', true);
+      bindSlider('slider-bot-bevel', 'botBevel', true);
+      bindSlider('slider-parting-chamfer', 'partingChamfer', true);
+      bindSlider('slider-lid-crown', 'lidCrown', true);
+      bindSlider('slider-barrel-curve', 'barrelCurve', true);
+      bindSlider('slider-draft-angle', 'draftAngle', true);
+      bindSlider('slider-scoop-depth', 'scoopDepth');
+
+      document.getElementById('select-edge-profile').addEventListener('change', e => {
+        state.edgeProfile = e.target.value;
+        rebuild3DToolbox();
+        updateEngineeringMetrics();
+      });
+      document.getElementById('btn-reset-curves').addEventListener('click', () => {
+        state.lidCrown = 0;
+        state.barrelCurve = 0;
+        state.draftAngle = 1.0;
+        state.scoopDepth = 0;
+        renderControlGrids();
+        rebuild3DToolbox();
+        updateEngineeringMetrics();
+        showToast('已將上蓋拱頂與盒身肚圍弧面歸零為平直面');
+      });
+      bindSlider('slider-logo-w', 'logoW');
+      bindSlider('slider-logo-h', 'logoH');
+      bindSlider('slider-logo-depth', 'logoDepth', true);
+
+      // Color Pickers
+      const bindColor = (id, hexId, colorKey) => {
+        document.getElementById(id).addEventListener('input', e => {
+          state.colors[colorKey] = e.target.value;
+          document.getElementById(hexId).textContent = e.target.value.toUpperCase();
+          rebuild3DToolbox();
+          updateEngineeringMetrics();
+        });
+      };
+      bindColor('picker-base', 'hex-base', 'base');
+      bindColor('picker-lid', 'hex-lid', 'lid');
+      bindColor('picker-latch', 'hex-latch', 'latch');
+      bindColor('picker-bumper', 'hex-bumper', 'bumper');
+      bindColor('picker-seal', 'hex-seal', 'seal');
+
+      document.getElementById('picker-logo-bg').addEventListener('input', e => {
+        state.logoBg = e.target.value;
+        rebuild3DToolbox();
+      });
+      document.getElementById('picker-logo-fg').addEventListener('input', e => {
+        state.logoFg = e.target.value;
+        rebuild3DToolbox();
+        drawLargeSectionBlueprint();
+      });
+
+      // Hardware & Logo selects / inputs
+      document.getElementById('select-latch-layout').addEventListener('change', e => {
+        state.latchLayout = e.target.value;
+        rebuild3DToolbox();
+        updateEngineeringMetrics();
+      });
+      document.getElementById('select-hinge-count').addEventListener('change', e => {
+        state.hingeCount = parseInt(e.target.value, 10);
+        rebuild3DToolbox();
+        updateEngineeringMetrics();
+      });
+      document.getElementById('chk-padlock-hasp').addEventListener('change', e => {
+        state.padlock = e.target.checked;
+        rebuild3DToolbox();
+        updateEngineeringMetrics();
+      });
+      document.getElementById('chk-purge-valve').addEventListener('change', e => {
+        state.purge = e.target.checked;
+        rebuild3DToolbox();
+        updateEngineeringMetrics();
+      });
+
+      document.getElementById('input-logo-main').addEventListener('input', e => {
+        state.logoMain = e.target.value;
+        rebuild3DToolbox();
+        updateEngineeringMetrics();
+      });
+      document.getElementById('input-logo-sub').addEventListener('input', e => {
+        state.logoSub = e.target.value;
+        rebuild3DToolbox();
+      });
+      document.getElementById('select-logo-emblem').addEventListener('change', e => {
+        state.logoEmblem = e.target.value;
+        rebuild3DToolbox();
+      });
+      document.getElementById('select-logo-pos').addEventListener('change', e => {
+        state.logoPos = e.target.value;
+        rebuild3DToolbox();
+      });
+
+      // Viewport Sliders: Lid Open Angle & Exploded View
+      document.getElementById('slider-lid-open').addEventListener('input', e => {
+        state.lidOpenDeg = parseInt(e.target.value, 10);
+        document.getElementById('val-lid-open').textContent = `${state.lidOpenDeg}°`;
+        rebuild3DToolbox();
+      });
+      document.getElementById('slider-explode').addEventListener('input', e => {
+        state.explodePct = parseInt(e.target.value, 10);
+        document.getElementById('val-explode').textContent = `${state.explodePct}%`;
+        rebuild3DToolbox();
+      });
+
+      // Camera Angle Presets
+      document.querySelectorAll('.cam-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.cam-btn').forEach(b => {
+            b.classList.remove('bg-amber-500', 'text-slate-950');
+            b.classList.add('text-slate-300');
+          });
+          btn.classList.add('bg-amber-500', 'text-slate-950');
+          btn.classList.remove('text-slate-300');
+
+          const mode = btn.getAttribute('data-cam');
+          const d = Math.max(state.L, state.W) * 1.45;
+          if (mode === 'iso') camera.position.set(d * 0.95, d * 0.72, d * 1.05);
+          else if (mode === 'front') camera.position.set(0, state.H * 0.65, d * 1.25);
+          else if (mode === 'back') camera.position.set(0, state.H * 0.65, -d * 1.25);
+          else if (mode === 'top') camera.position.set(0, d * 1.45, 10);
+          else if (mode === 'side') camera.position.set(d * 1.3, state.H * 0.65, 0);
+          controls.target.set(0, state.H * 0.45, 0);
+          controls.update();
+        });
+      });
+
+      // Viewport toggles
+      document.getElementById('btn-toggle-dims').addEventListener('click', e => {
+        state.showDims = !state.showDims;
+        e.currentTarget.classList.toggle('bg-cyan-500/20', state.showDims);
+        e.currentTarget.classList.toggle('text-cyan-300', state.showDims);
+        rebuild3DToolbox();
+      });
+      document.getElementById('btn-toggle-wire').addEventListener('click', e => {
+        state.showWireframe = !state.showWireframe;
+        e.currentTarget.classList.toggle('bg-amber-500/20', state.showWireframe);
+        e.currentTarget.classList.toggle('text-amber-300', state.showWireframe);
+        rebuild3DToolbox();
+      });
+      document.getElementById('btn-toggle-turntable').addEventListener('click', e => {
+        state.turntable = !state.turntable;
+        e.currentTarget.classList.toggle('bg-emerald-500/20', state.turntable);
+        e.currentTarget.classList.toggle('text-emerald-300', state.turntable);
+      });
+
+      // Modals: Market Database
+      const modalDb = document.getElementById('modal-db');
+      document.getElementById('btn-open-db-modal').addEventListener('click', () => {
+        renderDatabaseModalCards();
+        modalDb.classList.remove('hidden');
+      });
+      document.getElementById('btn-close-db-modal').addEventListener('click', () => {
+        modalDb.classList.add('hidden');
+      });
+      document.getElementById('input-db-search').addEventListener('input', e => {
+        state.dbSearchQuery = e.target.value;
+        renderDatabaseModalCards();
+      });
+      document.getElementById('db-cat-pills').addEventListener('click', e => {
+        const b = e.target.closest('[data-cat]');
+        if (!b) return;
+        state.dbFilterCat = b.getAttribute('data-cat');
+        document.querySelectorAll('.db-filter-btn').forEach(btn => {
+          btn.className = 'db-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700';
+        });
+        b.className = 'db-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500 text-slate-950';
+        renderDatabaseModalCards();
+      });
+      document.getElementById('db-cards-container').addEventListener('click', e => {
+        const loadBtn = e.target.closest('[data-load-case]');
+        if (!loadBtn) return;
+        applyMarketPreset(loadBtn.getAttribute('data-load-case'));
+        modalDb.classList.add('hidden');
+      });
+
+      // Modals: 2D Cross-Section Blueprint
+      const modalSec = document.getElementById('modal-section');
+      const openSecModal = () => {
+        drawLargeSectionBlueprint();
+        modalSec.classList.remove('hidden');
+      };
+      document.getElementById('btn-open-section-modal').addEventListener('click', openSecModal);
+      document.getElementById('btn-expand-blueprint').addEventListener('click', openSecModal);
+      document.getElementById('btn-close-section-modal').addEventListener('click', () => {
+        modalSec.classList.add('hidden');
+      });
+
+      // Modals: Export Spec & CAD
+      const modalExp = document.getElementById('modal-export');
+      document.getElementById('btn-export-spec').addEventListener('click', () => {
+        document.getElementById('textarea-export-spec').value = generateSpecReportText();
+        modalExp.classList.remove('hidden');
+      });
+      document.getElementById('btn-close-export-modal').addEventListener('click', () => {
+        modalExp.classList.add('hidden');
+      });
+      document.getElementById('btn-copy-spec').addEventListener('click', () => {
+        const ta = document.getElementById('textarea-export-spec');
+        ta.select();
+        document.execCommand('copy');
+        showToast('已複製盒體外型工程規格書至剪貼簿！');
+      });
+      document.getElementById('btn-download-dxf').addEventListener('click', exportCaseOutlineDXF);
+      document.getElementById('btn-download-json').addEventListener('click', () => {
+        const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `Maxjimtech_CaseForm_${state.presetId}.json`;
+        a.click();
+        showToast('已下載盒體參數 JSON 專案檔！');
+      });
+
+      // 3D Screenshot
+      document.getElementById('btn-snapshot').addEventListener('click', () => {
+        if (!renderer) return;
+        renderer.render(scene, camera);
+        const a = document.createElement('a');
+        a.href = renderer.domElement.toDataURL('image/png');
+        a.download = `Maxjimtech_3D_Case_${state.L}x${state.W}x${state.H}.png`;
+        a.click();
+        showToast('已儲存 3D 工具盒外型渲染圖 (PNG)！');
+      });
+
+      // Bilingual Toggle
+      document.getElementById('btn-lang-toggle').addEventListener('click', () => {
+        state.lang = state.lang === 'zh' ? 'en' : 'zh';
+        const isEn = state.lang === 'en';
+        document.getElementById('ui-app-title').textContent = isEn
+          ? 'Maxjimtech｜CASEFORM PRO 3D — Toolbox Exterior Styling & CAD Simulator'
+          : '肇祥企業社 Maxjimtech｜CASEFORM PRO 3D 工具盒外型造型與結構設計系統';
+        document.getElementById('ui-btn-db').textContent = isEn ? '18 Market Cases DB' : '市售 18 款盒體造型資料庫';
+        document.getElementById('ui-btn-section').textContent = isEn ? '2D CAD Sections' : '2D 扣榫/活頁/密封剖面圖';
+        document.getElementById('ui-btn-export').textContent = isEn ? 'Export Spec & CAD' : '匯出外型規格書 & CAD';
+        document.getElementById('tab-lbl-form').textContent = isEn ? 'Form' : '盒體造型';
+        document.getElementById('tab-lbl-dim').textContent = isEn ? 'Dims/Ribs' : '尺寸立肋';
+        document.getElementById('tab-lbl-mat').textContent = isEn ? 'Material' : '材質製程';
+        document.getElementById('tab-lbl-color').textContent = isEn ? 'Color/CMF' : '配色咬花';
+        document.getElementById('tab-lbl-hw').textContent = isEn ? 'Hardware' : '活頁扣密封';
+        document.getElementById('tab-lbl-logo').textContent = isEn ? 'Logo' : 'LOGO銘版';
+        showToast(isEn ? 'Switched to English Interface' : '已切換為繁體中文介面');
+      });
+    }
+
+    // Boot Application
+    window.addEventListener('load', () => {
+      initThreeJS();
+      renderControlGrids();
+      applyMarketPreset('maxjim_pro420');
+      bindAllEvents();
+    });
+  </script>
+</body>
+</html>
