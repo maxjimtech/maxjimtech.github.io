@@ -1,0 +1,2444 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>肇祥企業社 Maxjimtech｜MACHINETOOL PRO 3D v3.0 工具母機結構與干涉/熱變形/共振 CAE 模擬系統</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+      background-color: #050911;
+      color: #f8fafc;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Custom Sleek Horizontal Scrollbar for Top Preset Strip */
+    .preset-scroll-strip {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(245, 158, 11, 0.5) rgba(15, 23, 42, 0.3);
+    }
+    .preset-scroll-strip::-webkit-scrollbar {
+      height: 3px;
+    }
+    .preset-scroll-strip::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.3);
+      border-radius: 3px;
+    }
+    .preset-scroll-strip::-webkit-scrollbar-thumb {
+      background: rgba(245, 158, 11, 0.65);
+      border-radius: 3px;
+    }
+
+    /* MaxJim Signature Semi-Transparent Glassmorphic Docks & Pill Buttons */
+    .glass-dock {
+      background: rgba(9, 14, 26, 0.42);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.48);
+    }
+    .glass-btn {
+      background: rgba(15, 23, 42, 0.38);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      color: rgba(241, 245, 249, 0.9);
+      transition: all 0.14s ease;
+      cursor: pointer;
+    }
+    .glass-btn:hover {
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(245, 158, 11, 0.68);
+      color: #ffffff;
+    }
+    .glass-btn.active {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.36), rgba(6, 182, 212, 0.24));
+      border-color: rgba(251, 191, 36, 0.95);
+      color: #fef08a;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.32), inset 0 0 6px rgba(245, 158, 11, 0.18);
+    }
+    .glass-btn.danger-active {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.42), rgba(245, 158, 11, 0.25));
+      border-color: #f87171;
+      color: #fecaca;
+      box-shadow: 0 0 14px rgba(239, 68, 68, 0.45);
+    }
+
+    /* Tactile Horizontal Rotary Jog-Wheel (水平旋轉刻度輪) */
+    .rotary-wheel-wrap {
+      background: rgba(9, 14, 24, 0.48);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 12px;
+      padding: 4px 7px;
+      transition: border-color 0.15s ease;
+    }
+    .rotary-wheel-wrap:hover {
+      border-color: rgba(245, 158, 11, 0.58);
+    }
+    .rotary-wheel-drum {
+      position: relative;
+      height: 26px;
+      border-radius: 999px;
+      background: linear-gradient(90deg,
+        rgba(2, 6, 23, 0.92) 0%,
+        rgba(30, 41, 59, 0.68) 20%,
+        rgba(71, 85, 105, 0.78) 50%,
+        rgba(30, 41, 59, 0.68) 80%,
+        rgba(2, 6, 23, 0.92) 100%);
+      border: 1px solid rgba(203, 213, 225, 0.28);
+      box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.75), 0 1px 2px rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      cursor: ew-resize;
+      touch-action: none;
+    }
+    .rotary-wheel-knurling {
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        90deg,
+        rgba(248, 250, 252, 0.55) 0px,
+        rgba(248, 250, 252, 0.55) 1.5px,
+        transparent 1.5px,
+        transparent 8px
+      );
+      background-size: 80px 100%;
+      pointer-events: none;
+    }
+    .rotary-wheel-vignette {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg,
+        rgba(6, 10, 17, 0.88) 0%,
+        rgba(6, 10, 17, 0.15) 26%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(6, 10, 17, 0.15) 74%,
+        rgba(6, 10, 17, 0.88) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .rotary-wheel-indicator {
+      position: absolute;
+      top: 2px;
+      bottom: 2px;
+      left: 50%;
+      width: 2.5px;
+      transform: translateX(-50%);
+      background: #f59e0b;
+      box-shadow: 0 0 8px #f59e0b;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body class="relative w-screen h-screen overflow-hidden select-none">
+
+  <!-- Hidden File Input for STEP / STL / IGES / OBJ CAD Import -->
+  <input type="file" id="input-cad-file" accept=".stl,.step,.stp,.iges,.igs,.obj" class="hidden" />
+
+  <!-- ===================================================================== -->
+  <!-- 100% FULL-SCREEN 3D VIEWPORT (>82% Unobstructed Interactive 3D Area)  -->
+  <!-- ===================================================================== -->
+  <div id="canvas-container" class="absolute inset-0 w-full h-full z-0 cursor-grab active:cursor-grabbing"></div>
+
+  <!-- ===================================================================== -->
+  <!-- TOP TRANSLUCENT HUD BAR (2 COMPACT ROWS FOR FULL HORIZONTAL SCROLL)   -->
+  <!-- ===================================================================== -->
+  <header class="fixed top-2 left-2 right-2 glass-dock rounded-2xl px-2.5 py-1.5 flex flex-col gap-1.5 z-20">
+    
+    <!-- Row 1: Brand + Motion/ATC + 3 CAE Analysis Modes (Interference / Thermal / Resonance) + Camera & Export -->
+    <div class="flex items-center justify-between gap-1.5">
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button id="btn-toggle-dock" class="glass-btn px-2 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1" title="收合/展開左側選單以釋放 92% 3D 視野">
+          <span id="dock-toggle-icon">◀</span>
+          <span class="hidden sm:inline">面板</span>
+        </button>
+        <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center font-black text-slate-950 text-[11px] shadow">
+          MJ
+        </div>
+        <div class="hidden lg:flex items-center gap-2">
+          <span class="text-xs font-extrabold text-white tracking-tight" id="ui-app-title">肇祥企業社 Maxjimtech｜MACHINETOOL PRO 3D v3.0</span>
+          <span class="px-2 py-0.5 rounded-full bg-slate-900/70 border border-white/10 text-[10px] mono text-amber-300" id="hud-top-spec">
+            天車五軸 UV650 • 安全間隙 +24mm • 溫升 +4.2°C • f1=168Hz
+          </span>
+        </div>
+        <button id="btn-import-cad-top" class="glass-btn px-2 py-1 rounded-lg text-[11px] font-bold text-cyan-300 flex items-center gap-1" title="匯入外部 STEP/STL/IGES/OBJ 工件">
+          <span>📂</span><span class="hidden md:inline">匯入CAD</span>
+        </button>
+      </div>
+
+      <!-- Center-Right: Motion + 3 CAE Analysis Mode Toggles + Camera + Modals -->
+      <div class="flex items-center gap-1 flex-wrap justify-end">
+        <button id="btn-play-machining" class="glass-btn active px-2 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 text-emerald-300" title="零干涉 RTCP 五軸同動切削模擬">
+          <span id="play-icon">⏸️</span>
+          <span id="play-label" class="hidden sm:inline">五軸同動</span>
+        </button>
+        <button id="btn-trigger-atc" class="glass-btn px-2 py-1 rounded-lg text-[11px] font-semibold text-amber-300" title="Z軸退回安全換刀點並執行 ATC 換刀">
+          🔄換刀ATC
+        </button>
+        <button id="btn-toggle-xray" class="glass-btn active px-2 py-1 rounded-lg text-[11px] font-semibold text-cyan-300" title="透視底座與立柱內部加強肋骨">
+          🦴肋骨透視
+        </button>
+
+        <div class="h-4 w-px bg-white/15 mx-0.5"></div>
+
+        <!-- NEW! 3 Dedicated CAE Analysis Mode Buttons: Interference / Thermal / Resonance -->
+        <button data-caemode="interference" class="cae-mode-btn glass-btn active px-2 py-1 rounded-lg text-[11px] font-bold text-emerald-300" title="即時 3D OBB 防撞包絡框與最小安全距離檢核">
+          🛡️干涉分析
+        </button>
+        <button data-caemode="thermal" class="cae-mode-btn glass-btn px-2 py-1 rounded-lg text-[11px] font-bold text-orange-300" title="3D 主軸/螺桿紅外線熱變形溫升場與熱伸長 δ_th 分析">
+          🌡️熱變形分析
+        </button>
+        <button data-caemode="resonance" class="cae-mode-btn glass-btn px-2 py-1 rounded-lg text-[11px] font-bold text-purple-300" title="三階結構共振模態振型動畫與切削顫振穩定葉瓣圖 (SLD)">
+          〰️共振模態
+        </button>
+        <button id="btn- toggle-fea-legacy" class="hidden"></button>
+        <button id="btn-toggle-fea" class="glass-btn px-2 py-1 rounded-lg text-[11px] font-semibold text-rose-300" title="靜剛性應變梯度彩圖">
+          🌈剛性FEA
+        </button>
+        <button id="btn-toggle-enclosure" class="glass-btn px-1.5 py-1 rounded-lg text-[11px] font-semibold" title="顯示/隱藏外鈑金防護罩">
+          🛡️外罩
+        </button>
+
+        <div class="h-4 w-px bg-white/15 mx-0.5 hidden md:block"></div>
+        <button data-cam="iso" class="cam-btn glass-btn active px-1.5 py-1 rounded-lg text-[10px] font-semibold">45°</button>
+        <button data-cam="front" class="cam-btn glass-btn px-1.5 py-1 rounded-lg text-[10px] font-semibold">正</button>
+        <button data-cam="side" class="cam-btn glass-btn px-1.5 py-1 rounded-lg text-[10px] font-semibold">側</button>
+        <button data-cam="top" class="cam-btn glass-btn px-1.5 py-1 rounded-lg text-[10px] font-semibold">頂</button>
+        <button id="btn-open-db-modal" class="glass-btn px-2 py-1 rounded-lg text-[11px] font-semibold text-cyan-300">📚 母機庫</button>
+        <button id="btn-open-section-modal" class="glass-btn px-2 py-1 rounded-lg text-[11px] font-semibold text-emerald-300">📊 CAE詳圖</button>
+        <button id="btn-export-spec" class="glass-btn active px-2 py-1 rounded-lg text-[11px] font-bold">📥 匯出</button>
+      </div>
+    </div>
+
+    <!-- Row 2: DEDICATED FULL-WIDTH HORIZONTAL SCROLLABLE MACHINE PRESET CAROUSEL (With ◀ / ▶ Buttons, Wheel & Drag Scroll!) -->
+    <div class="flex items-center gap-1.5 pt-1 border-t border-white/10">
+      <span class="text-[10px] font-bold text-amber-400 uppercase whitespace-nowrap shrink-0">⚡ 機型快選 (10款可橫移)：</span>
+      <button id="btn-preset-scroll-left" class="glass-btn w-6 h-6 rounded-lg text-xs font-bold flex items-center justify-center shrink-0 hover:text-amber-300" title="向左橫移選單">
+        ◀
+      </button>
+      <div id="preset-pill-strip" class="preset-scroll-strip flex items-center gap-1.5 flex-1 py-0.5 cursor-grab active:cursor-grabbing">
+        <!-- Populated by JS with all 10 Machine Tool Presets -->
+      </div>
+      <button id="btn-preset-scroll-right" class="glass-btn w-6 h-6 rounded-lg text-xs font-bold flex items-center justify-center shrink-0 hover:text-amber-300" title="向右橫移選單">
+        ▶
+      </button>
+    </div>
+
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- LEFT FLOATING SEMI-TRANSPARENT OPTION DOCK (Zero Dropdowns!)          -->
+  <!-- ===================================================================== -->
+  <aside id="left-translucent-dock" class="fixed left-2 w-72 glass-dock rounded-2xl p-2.5 flex flex-col justify-between z-20 transition-transform duration-200" style="top: 86px; bottom: 108px;">
+    
+    <!-- 6 Category Mode Switcher Tabs -->
+    <div class="grid grid-cols-6 gap-1 pb-2 border-b border-white/10 shrink-0">
+      <button data-tab="p-arch" class="mode-tab glass-btn active py-1 rounded-lg flex flex-col items-center text-[10px] font-bold">
+        <span>🏗️</span><span>機型架構</span>
+      </button>
+      <button data-tab="p-rib" class="mode-tab glass-btn py-1 rounded-lg flex flex-col items-center text-[10px] font-bold">
+        <span>🦴</span><span>鑄件肋骨</span>
+      </button>
+      <button data-tab="p-guide" class="mode-tab glass-btn py-1 rounded-lg flex flex-col items-center text-[10px] font-bold">
+        <span>🛤️</span><span>線軌螺桿</span>
+      </button>
+      <button data-tab="p-spindle" class="mode-tab glass-btn py-1 rounded-lg flex flex-col items-center text-[10px] font-bold">
+        <span>⚡</span><span>主軸刀庫</span>
+      </button>
+      <button data-tab="p-rotary" class="mode-tab glass-btn py-1 rounded-lg flex flex-col items-center text-[10px] font-bold">
+        <span>🔄</span><span>五軸轉台</span>
+      </button>
+      <button data-tab="p-cae" class="mode-tab glass-btn py-1 rounded-lg flex flex-col items-center text-[10px] font-bold">
+        <span>📊</span><span>干涉/熱/振</span>
+      </button>
+    </div>
+
+    <!-- Single-Screen Non-Scrolling Option Panels -->
+    <div class="flex-1 py-1.5 flex flex-col justify-between overflow-hidden">
+
+      <!-- PANEL 1: 8 大工具母機結構拓樸流派 + 立柱型式 + Z軸配重平衡 -->
+      <div id="p-arch" class="mode-panel h-full flex flex-col justify-between">
+        <div>
+          <div class="text-[10px] font-bold text-amber-300 uppercase mb-1">1. 工具母機結構拓樸 (8 大真實運動鏈點選)</div>
+          <div id="grid-arch" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-cyan-300 uppercase mb-1">2. 立柱與橫樑結構型式 (3D 即時連動)</div>
+          <div id="grid-column-style" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-emerald-300 uppercase mb-1">3. Z軸主軸頭配重與平衡機構 (3D 顯示)</div>
+          <div id="grid-balance-style" class="grid grid-cols-2 gap-1"></div>
+        </div>
+      </div>
+
+      <!-- PANEL 2: 鑄件材質 + 內部加強肋拓樸 + 排屑槽結構 -->
+      <div id="p-rib" class="mode-panel hidden h-full flex flex-col justify-between">
+        <div>
+          <div class="text-[10px] font-bold text-amber-300 uppercase mb-1">1. 結構本體材質與阻尼係數 (Casting Material)</div>
+          <div id="grid-cast-mat" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-cyan-300 uppercase mb-1">2. 立柱與底座內部加強肋拓樸 (Rib Topology)</div>
+          <div id="grid-rib-topo" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-emerald-300 uppercase mb-1">3. 底座排屑與恆溫冷卻水路結構</div>
+          <div id="grid-chip-flume" class="grid grid-cols-2 gap-1"></div>
+        </div>
+      </div>
+
+      <!-- PANEL 3: 進給導軌 + 滾珠螺桿預拉 + 滑塊跨距 -->
+      <div id="p-guide" class="mode-panel hidden h-full flex flex-col justify-between">
+        <div>
+          <div class="text-[10px] font-bold text-amber-300 uppercase mb-1">1. 三軸導軌型式 (HIWIN 上銀線軌 / 硬軌)</div>
+          <div id="grid-guideway" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-cyan-300 uppercase mb-1">2. 滾珠螺桿與中空油冷預拉 (Ballscrew)</div>
+          <div id="grid-ballscrew" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-emerald-300 uppercase mb-1">3. 滑塊配置與高低軌支撐跨距</div>
+          <div id="grid-rail-layout" class="grid grid-cols-2 gap-1"></div>
+        </div>
+      </div>
+
+      <!-- PANEL 4: 主軸系統 + 刀把規格 + ATC 刀庫機構 -->
+      <div id="p-spindle" class="mode-panel hidden h-full flex flex-col justify-between">
+        <div>
+          <div class="text-[10px] font-bold text-amber-300 uppercase mb-1">1. 主軸傳動機構 (普森 POSA / 內藏電主軸)</div>
+          <div id="grid-spindle-type" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-cyan-300 uppercase mb-1">2. 主軸刀把介面規格 (Spindle Taper)</div>
+          <div id="grid-taper" class="grid grid-cols-4 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-emerald-300 uppercase mb-1">3. 自動換刀刀庫機構 (3D 刀盤/鏈條/斗笠切換)</div>
+          <div id="grid-atc-type" class="grid grid-cols-2 gap-1"></div>
+        </div>
+      </div>
+
+      <!-- PANEL 5: 五軸搖籃轉台 / 分度盤傳動 + 光學尺 + 姿態測試 -->
+      <div id="p-rotary" class="mode-panel hidden h-full flex flex-col justify-between">
+        <div>
+          <div class="text-[10px] font-bold text-amber-300 uppercase mb-1">1. A/C 五軸搖籃轉台驅動機構 (Trunnion Drive)</div>
+          <div id="grid-trunnion-drive" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-cyan-300 uppercase mb-1">2. 全閉迴路光學尺與熱變位補償</div>
+          <div id="grid-feedback" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-emerald-300 uppercase mb-1">3. 快速定位五軸姿態測試 (點擊切換)</div>
+          <div class="grid grid-cols-3 gap-1">
+            <button data-pose="home" class="glass-btn py-1.5 rounded-lg text-[10px] font-bold text-cyan-300">🏠 機械原點</button>
+            <button data-pose="tilt45" class="glass-btn py-1.5 rounded-lg text-[10px] font-bold text-amber-300">📐 A軸+35°斜銑</button>
+            <button data-pose="tilt90" class="glass-btn py-1.5 rounded-lg text-[10px] font-bold text-rose-300">🔄 A軸+65°側加工</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 6: NEW! 干涉檢測 / 熱變形溫升 / 三階共振模態 CAE 控制台 -->
+      <div id="p-cae" class="mode-panel hidden h-full flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] font-bold text-amber-300 uppercase">1. 干涉防撞保護與振型階數</span>
+            <button id="btn-collision-guard" class="glass-btn active px-2 py-0.5 rounded text-[9px] font-bold text-emerald-300">
+              🛡️ 自動防干涉鎖: 開啟
+            </button>
+          </div>
+          <div class="grid grid-cols-3 gap-1 mb-1">
+            <button data-modeorder="1" class="mode-order-btn glass-btn active py-1 rounded-lg text-[10px] font-bold">1階點頭 f1</button>
+            <button data-modeorder="2" class="mode-order-btn glass-btn py-1 rounded-lg text-[10px] font-bold">2階搖擺 f2</button>
+            <button data-modeorder="3" class="mode-order-btn glass-btn py-1 rounded-lg text-[10px] font-bold">3階扭轉 f3</button>
+          </div>
+          <div class="grid grid-cols-2 gap-1">
+            <button id="btn-test-collision" class="glass-btn py-1 rounded-lg text-[10px] font-bold text-rose-300">
+              🚨 模擬極限過切干涉
+            </button>
+            <button id="btn-import-cad-panel" class="glass-btn py-1 rounded-lg text-[10px] font-bold text-cyan-300">
+              📂 匯入 STEP/STL
+            </button>
+          </div>
+        </div>
+        <div class="p-2 rounded-xl bg-slate-950/70 border border-white/10 text-[10px] text-slate-300 space-y-1">
+          <div class="font-bold text-cyan-300 flex items-center justify-between">
+            <span>🔬 干涉 / 熱變形 / 共振即時診斷：</span>
+            <span id="badge-collision-state" class="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-bold">零干涉 SAFE</span>
+          </div>
+          <div id="txt-cae-report" class="leading-snug text-[10px]"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Compact Live Machine Tool Structural, Thermal & Resonance Telemetry Footer -->
+    <div class="pt-1.5 border-t border-white/10 grid grid-cols-4 gap-1 text-center shrink-0">
+      <div class="bg-slate-950/50 rounded-lg py-1">
+        <div class="text-[9px] text-slate-400">安全間隙</div>
+        <div class="mono text-[11px] font-bold text-emerald-300" id="hud-clearance">+26 mm</div>
+      </div>
+      <div class="bg-slate-950/50 rounded-lg py-1">
+        <div class="text-[9px] text-slate-400">刀尖剛性</div>
+        <div class="mono text-[11px] font-bold text-cyan-300" id="hud-stiffness">142 N/μm</div>
+      </div>
+      <div class="bg-slate-950/50 rounded-lg py-1">
+        <div class="text-[9px] text-slate-400">熱伸長 δth</div>
+        <div class="mono text-[11px] font-bold text-orange-300" id="hud-deflection">5.4 μm</div>
+      </div>
+      <div class="bg-slate-950/50 rounded-lg py-1">
+        <div class="text-[9px] text-slate-400">共振模態 f1</div>
+        <div class="mono text-[11px] font-bold text-purple-300" id="hud-modal-hz">168 Hz</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===================================================================== -->
+  <!-- TOP-RIGHT COMPACT TRANSLUCENT MINI-HUD: LIVE CAE MONITOR              -->
+  <!-- ===================================================================== -->
+  <div class="fixed right-2 w-68 glass-dock rounded-2xl p-2.5 hidden xl:flex flex-col gap-1.5 z-10 pointer-events-auto" style="top: 86px; width: 268px;">
+    <div class="flex items-center justify-between">
+      <span class="text-[10px] font-bold uppercase text-cyan-300" id="mini-hud-title">📐 干涉間隙 / 熱變形 / 顫振葉瓣圖</span>
+      <button id="btn-expand-section" class="text-[10px] text-amber-300 hover:underline">放大詳圖</button>
+    </div>
+    <canvas id="canvas-section-mini" width="248" height="135" class="w-full h-32 bg-slate-950/80 rounded-lg border border-white/10"></canvas>
+    <div class="grid grid-cols-5 gap-0.5 text-center text-[9px] mono" id="axis-readout-pills">
+      <span class="py-0.5 rounded bg-slate-900/80 text-cyan-300" id="pill-x">X:0</span>
+      <span class="py-0.5 rounded bg-slate-900/80 text-cyan-300" id="pill-y">Y:0</span>
+      <span class="py-0.5 rounded bg-slate-900/80 text-amber-300" id="pill-z">Z:0</span>
+      <span class="py-0.5 rounded bg-slate-900/80 text-emerald-300" id="pill-a">A:18°</span>
+      <span class="py-0.5 rounded bg-slate-900/80 text-purple-300" id="pill-c">C:35°</span>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- BOTTOM TRANSLUCENT HORIZONTAL ROTARY JOG-WHEEL CONSOLE (水平旋轉輪)   -->
+  <!-- ===================================================================== -->
+  <footer class="fixed bottom-2 left-2 right-2 h-24 glass-dock rounded-2xl px-3 py-1.5 flex flex-col justify-between z-20">
+    
+    <!-- Rotary Wheel Bank Switcher Pills -->
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex items-center gap-1 overflow-x-auto no-scrollbar">
+        <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider shrink-0">🎛️ 水平旋轉刻度輪：</span>
+        <button data-bank="axes" class="bank-btn glass-btn active px-2.5 py-0.5 rounded-full text-[11px] font-bold whitespace-nowrap">
+          ① 五軸運動座標與爆炸 (X軸行程 / Y軸行程 / Z軸主軸高 / A軸傾角° / C軸迴轉° / 💥結構爆炸%)
+        </button>
+        <button data-bank="casting" class="bank-btn glass-btn px-2.5 py-0.5 rounded-full text-[11px] font-bold whitespace-nowrap">
+          ② 鑄件大件結構與肋骨參數 (底座長 / 底座寬 / 立柱高 / 立柱跨距 / 鑄件外壁厚t / 內部肋板厚tr)
+        </button>
+        <button data-bank="drive" class="bank-btn glass-btn px-2.5 py-0.5 rounded-full text-[11px] font-bold whitespace-nowrap">
+          ③ 傳動、溫升與共振參數 (線軌寬 / 螺桿外徑Ø / 主軸轉速rpm / 切削力N / 🌡️運轉時間min / 刀刃數Z)
+        </button>
+      </div>
+      <span class="text-[10px] text-slate-300 mono hidden lg:inline shrink-0">
+        滑鼠左右拖曳刻度輪 • 滾輪微調 • 點擊 ◀ ▶ 步進
+      </span>
+    </div>
+
+    <!-- 6 Horizontal Rotary Wheels Grid -->
+    <div id="rotary-wheels-container" class="grid grid-cols-3 sm:grid-cols-6 gap-2 items-center">
+      <!-- Dynamically rendered by renderRotaryWheels() -->
+    </div>
+
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 1: 10 ICONIC BENCHMARK MACHINE TOOLS DATABASE                   -->
+  <!-- ===================================================================== -->
+  <div id="modal-db" class="fixed inset-0 bg-black/75 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-dock rounded-2xl max-w-6xl w-full max-h-[88vh] flex flex-col overflow-hidden">
+      <div class="p-3.5 border-b border-white/15 flex items-center justify-between">
+        <div>
+          <h2 class="text-sm font-bold text-white">📚 全球與台灣指標工具母機結構與核心傳動件工程參考資料庫 (永進 YCM / 台中精機 / DMG MORI / Makino / Citizen / 上銀 HIWIN / 普森 POSA)</h2>
+          <p class="text-[11px] text-slate-300">涵蓋天車五軸 (UV650)、C型立加 (NXV1020A)、雙柱龍門 (DCV)、歐系五軸 (DMU50)、臥加 (a51nx)、45°斜床身車銑、走心機與落地搪銑床</p>
+        </div>
+        <button id="btn-close-db-modal" class="glass-btn px-3 py-1 rounded-lg text-xs font-bold">✕ 關閉</button>
+      </div>
+      <div id="db-cards-container" class="flex-1 overflow-y-auto p-3.5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5"></div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 2: COMPREHENSIVE 3-PANEL CAE DIAGNOSTIC DASHBOARD               -->
+  <!--          (Panel A: 3D Clearance / Panel B: Thermal Growth / Panel C: SLD Resonance) -->
+  <!-- ===================================================================== -->
+  <div id="modal-section" class="fixed inset-0 bg-black/75 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-dock rounded-2xl max-w-5xl w-full p-4 space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-sm font-bold text-white">📊 工具母機三大 CAE 工程分析圖鑑：① 運動干涉安全裕度 • ② 熱變形溫升與熱伸長曲線 • ③ 三階共振模態與切削顫振穩定葉瓣圖 (SLD)</h2>
+          <p class="text-[11px] text-slate-300">即時依據目前主軸轉速 rpm、運轉時間、HIWIN 中空冷卻螺桿、鑄件材質阻尼與肋骨慣性矩 $I_x$ 動態繪製</p>
+        </div>
+        <button id="btn-close-section-modal" class="glass-btn px-3 py-1 rounded-lg text-xs font-bold">✕ 關閉</button>
+      </div>
+      <canvas id="canvas-section-large" width="940" height="420" class="w-full bg-slate-950/90 rounded-xl border border-white/15"></canvas>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 3: 3D FULL-MACHINE EXPORT (STEP / STL / OBJ / DXF / BOM CSV)    -->
+  <!-- ===================================================================== -->
+  <div id="modal-export" class="fixed inset-0 bg-black/75 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-dock rounded-2xl max-w-3xl w-full p-4 space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-sm font-bold text-white">📥 匯出 3D 工具母機整機結構模型 (STEP / STL / OBJ)、1:1 地腳螺栓 DXF 與整機 CAE 計算書</h2>
+          <p class="text-[11px] text-slate-300">肇祥企業社 Maxjimtech｜含運動干涉檢核、熱伸長補償量、三階共振模態頻率與整機 BOM 清單</p>
+        </div>
+        <button id="btn-close-export-modal" class="glass-btn px-3 py-1 rounded-lg text-xs font-bold">✕ 關閉</button>
+      </div>
+      <textarea id="textarea-export-spec" readonly class="w-full h-60 bg-slate-950/90 border border-white/15 rounded-xl p-3 mono text-xs text-slate-200 focus:outline-none"></textarea>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1">
+        <button id="btn-export-step" class="glass-btn active py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
+          <span>🧊</span><span>下載 3D 整機模型 (.STEP)</span>
+        </button>
+        <button id="btn-export-stl" class="glass-btn active py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
+          <span>📐</span><span>下載 3D 實體網格 (.STL)</span>
+        </button>
+        <button id="btn-export-obj" class="glass-btn py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 text-cyan-300">
+          <span>📦</span><span>下載 3D 多邊形 (.OBJ)</span>
+        </button>
+        <button id="btn-download-dxf" class="glass-btn py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 text-emerald-300">
+          <span>📏</span><span>下載 1:1 地腳與佔地 (.DXF)</span>
+        </button>
+        <button id="btn-download-csv" class="glass-btn py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 text-amber-300">
+          <span>📊</span><span>下載整機機構 BOM (.CSV)</span>
+        </button>
+        <button id="btn-copy-spec" class="glass-btn py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
+          <span>📋</span><span>複製母機 CAE 設計計算書</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast-box" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-1.5 rounded-full bg-amber-500 text-slate-950 font-bold text-xs shadow-2xl"></div>
+
+  <script>
+    // =========================================================================
+    // 1. MACHINE TOOL STRUCTURAL & MECHANISM ENGINEERING DATABASES
+    // =========================================================================
+    const MACHINE_ARCHS = [
+      { id: 'five_axis_gantry', name: '⛩️ 天車龍門五軸機 (UV650)', kinChain: 'Bed -> Y Bridge -> X Saddle -> Z Head + A/C Cradle', baseStiff: 148 },
+      { id: 'vmc_cframe', name: '🏗️ C型立式加工中心 (NXV)', kinChain: 'Bed -> Y Saddle -> X Table + Column -> Z Head', baseStiff: 115 },
+      { id: 'double_column_dcv', name: '🌉 雙柱龍門加工中心 (DCV)', kinChain: 'Bed -> X Table + Portal -> Y Saddle -> Z Ram', baseStiff: 172 },
+      { id: 'hmc_tbed', name: '🚅 T型床身臥式加工機', kinChain: 'T-Bed -> X Column -> Y Horiz.Head + Z Saddle -> B Pallet', baseStiff: 158 },
+      { id: 'slant_lathe', name: '📐 45° 斜床身車銑複合機', kinChain: '45° Slant Bed -> C1 Chuck + Z/X Slide -> BMT Turret', baseStiff: 132 },
+      { id: 'overhead_highrail', name: '🚀 高架動樑高速模具機', kinChain: 'High Walls -> Y Flying Beam -> X Saddle -> Z Ram', baseStiff: 162 },
+      { id: 'swiss_turn', name: '⚙️ 走心式雙主軸車銑機', kinChain: 'Z1 Sliding Headstock -> Guide Bushing + Gang Tool + Z2', baseStiff: 98 },
+      { id: 'floor_boring', name: '🏭 落地式臥式搪銑床', kinChain: 'Runway Bed -> X Column -> Y Head -> W Boring Quill', baseStiff: 180 }
+    ];
+
+    const COLUMN_STYLES = [
+      { id: 'u_monolithic', name: 'U型一體式高剛性天車床身' },
+      { id: 'a_wide_column', name: 'A字型大跨距斜背立柱' },
+      { id: 'box_in_box', name: '箱中箱對稱熱平衡雙壁立柱' },
+      { id: 'stepped_beam', name: '高低軌階梯式抗扭橫樑結構' }
+    ];
+
+    const BALANCE_STYLES = [
+      { id: 'dual_ballscrew', name: '雙螺桿同動重心驅動 (DCG)' },
+      { id: 'nitrogen_accum', name: '雙側氮氣蓄壓油氣平衡缸' },
+      { id: 'pneumatic_bal', name: '氣壓平衡輔助缸系統' },
+      { id: 'chain_weight', name: '立柱內藏配重鐵塊鏈條' }
+    ];
+
+    const CAST_MATS = [
+      { id: 'fc300_meehanite', name: 'FC300 米漢納灰口鑄鐵', E_GPa: 125, alpha_um: 10.5, damping: 1.0, density: 7.25, color: 0x334155 },
+      { id: 'fcd500_ductile', name: 'FCD500 球墨鑄鐵 (高抗拉)', E_GPa: 168, alpha_um: 11.2, damping: 0.78, density: 7.15, color: 0x475569 },
+      { id: 'mineral_epument', name: 'Epument 人造花崗岩礦物鑄件', E_GPa: 45, alpha_um: 1.8, damping: 6.5, density: 2.40, color: 0x1e293b },
+      { id: 'welded_stress_rel', name: 'S45C 退火消除應力焊接鋼構', E_GPa: 205, alpha_um: 11.8, damping: 0.35, density: 7.85, color: 0x64748b }
+    ];
+
+    const RIB_TOPOS = [
+      { id: 'warren_truss', name: 'W型華倫三角桁架肋 (抗彎最佳)', stiffFactor: 1.28 },
+      { id: 'hex_honeycomb', name: '六角仿生蜂巢結構肋 (高模態頻率)', stiffFactor: 1.36 },
+      { id: 'diagonal_x', name: '米字對角交叉抗扭肋 (抗扭最佳)', stiffFactor: 1.25 },
+      { id: 'box_grid', name: '傳統井字正交箱型肋 (易退砂)', stiffFactor: 1.00 }
+    ];
+
+    const CHIP_FLUMES = [
+      { id: 'dual_auger', name: '底座雙螺旋捲屑器排屑槽' },
+      { id: 'steep_flume', name: '45° 大斜度後沖水排屑道' },
+      { id: 'chain_conveyor', name: '貫穿式刮板鏈條排屑機槽' },
+      { id: 'three_channel', name: '三水道油水分離恆溫底座' }
+    ];
+
+    const GUIDEWAY_TYPES = [
+      { id: 'hiwin_rg_roller', name: 'HIWIN RG 滾柱型超高剛性線軌', stiffK: 1.38 },
+      { id: 'hiwin_hg_ball', name: 'HIWIN HG 滾珠型四方向等負荷線軌', stiffK: 1.05 },
+      { id: 'box_way_turcite', name: '精密鏟花貼氟龍硬軌 (Box Way)', stiffK: 1.48 },
+      { id: 'linear_motor', name: 'HIWIN LMS 永磁線性馬達直驅', stiffK: 1.15 }
+    ];
+
+    const BALLSCREW_TYPES = [
+      { id: 'hollow_cooled', name: 'HIWIN 中空油冷雙螺帽預拉螺桿', thermalFactor: 0.28 },
+      { id: 'rotating_nut', name: '長軸旋轉螺帽式滾珠螺桿', thermalFactor: 0.52 },
+      { id: 'direct_coupled', name: '標準單螺帽聯軸器直結螺桿', thermalFactor: 1.00 },
+      { id: 'twin_sync', name: '雙軸同動重心驅動 (DCG)', thermalFactor: 0.45 }
+    ];
+
+    const RAIL_LAYOUTS = [
+      { id: '2rail_6block', name: '2軌 6滑塊加長負荷配置', blocksPerRail: 3 },
+      { id: '4rail_base', name: '底座 4軌全支撐無懸垂配置', blocksPerRail: 2 },
+      { id: 'stepped_yz', name: '高低軌階梯配置 (抗傾覆力矩)', blocksPerRail: 2 },
+      { id: 'std_2rail_4block', name: '標準 2軌 4滑塊對稱配置', blocksPerRail: 2 }
+    ];
+
+    const SPINDLE_TYPES = [
+      { id: 'builtin_dd', name: '普森 POSA 內藏式高速電主軸', maxRpm: 24000, heatW: 1.25 },
+      { id: 'direct_dds', name: '15,000 rpm 直結式中心出水主軸', maxRpm: 15000, heatW: 0.82 },
+      { id: 'gearbox_2spd', name: 'ZF 兩段齒輪箱重切削高扭力頭', maxRpm: 6000, heatW: 1.40 },
+      { id: 'swivel_b_head', name: 'B軸擺頭式銑車複合電主軸', maxRpm: 12000, heatW: 1.10 }
+    ];
+
+    const TAPER_TYPES = [
+      { id: 'BT40', name: 'BT40 雙面拘束' },
+      { id: 'HSK-A63', name: 'HSK-A63 高速' },
+      { id: 'BT50', name: 'BT50 重切削' },
+      { id: 'BT30', name: 'BT30 鑽攻高速' }
+    ];
+
+    const ATC_TYPES = [
+      { id: 'cam_arm_24t', name: '24T 刀盤 + 凸輪雙爪快換臂 (1.2s)' },
+      { id: 'chain_40t', name: '40T 橢圓鏈條式大容量刀庫' },
+      { id: 'umbrella_20t', name: '20T 斗笠式氣動直換刀庫' },
+      { id: 'matrix_rack', name: '60T 矩陣式刀倉機械手系統' }
+    ];
+
+    const TRUNNION_DRIVES = [
+      { id: 'dd_torque_motor', name: 'A/C 軸水冷 DD 扭力馬達直驅' },
+      { id: 'roller_cam', name: '零背隙滾子凸輪機構 (Roller Cam)' },
+      { id: 'ott_worm', name: 'OTT 雙導程消隙蝸輪蝸桿' },
+      { id: 'harmonic_strain', name: 'HIWIN 諧波減速機單臂轉台' }
+    ];
+
+    const FEEDBACK_TYPES = [
+      { id: 'heidenhain_scale', name: 'Heidenhain 全閉迴路光學尺+角度編碼器', compRatio: 0.25 },
+      { id: 'hiwin_pg_mag', name: 'HIWIN PG 內藏磁編碼器線軌', compRatio: 0.45 },
+      { id: 'ai_thermal_comp', name: '8點溫度感測 AI 即時熱變位補償', compRatio: 0.18 },
+      { id: 'rotary_encoder', name: '伺服馬達半閉迴路編碼器 (無熱補償)', compRatio: 1.00 }
+    ];
+
+    const MACHINE_PRESETS = [
+      { id: 'ycm_uv650', short: '① 永進 UV650 天車五軸機', brand: 'YCM 永進機械 (Taiwan)', name: 'UV650 天車式五軸聯動綜合加工機', arch: 'five_axis_gantry', colStyle: 'u_monolithic', balanceStyle: 'dual_ballscrew', castMat: 'fc300_meehanite', ribTopo: 'hex_honeycomb', guide: 'hiwin_rg_roller', railLayout: '2rail_6block', taper: 'HSK-A63', atcType: 'cam_arm_24t', trunnion: 'dd_torque_motor', bedL: 1100, bedW: 960, colH: 980, colSpan: 720, wallT: 22, ribT: 16, railW: 45, screwDia: 45, rpm: 20000, notes: '一體式高剛性天車 U 型底座，Y軸動樑跨過中央雙支撐 A/C 軸 DD 直驅搖籃轉台，重心中置零懸垂。' },
+      { id: 'ycm_nxv1020a', short: '② 永進 NXV1020A 立加', brand: 'YCM 永進機械 (Taiwan)', name: 'NXV1020A 高剛性 C 型立式綜合加工機', arch: 'vmc_cframe', colStyle: 'a_wide_column', balanceStyle: 'nitrogen_accum', castMat: 'fc300_meehanite', ribTopo: 'warren_truss', guide: 'hiwin_rg_roller', railLayout: '4rail_base', taper: 'BT40', atcType: 'cam_arm_24t', trunnion: 'roller_cam', bedL: 1080, bedW: 880, colH: 950, colSpan: 580, wallT: 20, ribT: 15, railW: 45, screwDia: 40, rpm: 12000, notes: '台灣經典立式加工中心標竿：底座 Y 軸鞍座承載 X 軸十字工作台，A 字斜背立柱配備氮氣平衡缸與 24T 凸輪換刀臂。' },
+      { id: 'ycm_dcv_portal', short: '③ 永進 DCV 雙柱龍門機', brand: 'YCM 永進機械 (Taiwan)', name: 'DCV2012A 階梯式橫樑雙柱龍門加工中心', arch: 'double_column_dcv', colStyle: 'stepped_beam', balanceStyle: 'nitrogen_accum', castMat: 'fc300_meehanite', ribTopo: 'diagonal_x', guide: 'hiwin_rg_roller', railLayout: 'stepped_yz', taper: 'BT50', atcType: 'chain_40t', trunnion: 'ott_worm', bedL: 1400, bedW: 1120, colH: 1080, colSpan: 920, wallT: 26, ribT: 18, railW: 55, screwDia: 50, rpm: 10000, notes: '長床身承載 X 軸移動工作台，雙立柱橫樑採高低軌階梯配置承載 Y 軸溜板與 Z 軸方滑枕，配備 40T 鏈條刀庫。' },
+      { id: 'dmg_dmu50', short: '④ DMU 50 歐系五軸機', brand: 'DMG MORI (Germany/Japan)', name: 'DMU 50 3rd Gen 單邊斜擺搖籃五軸加工機', arch: 'five_axis_gantry', colStyle: 'box_in_box', balanceStyle: 'dual_ballscrew', castMat: 'fcd500_ductile', ribTopo: 'hex_honeycomb', guide: 'hiwin_rg_roller', railLayout: '2rail_6block', taper: 'HSK-A63', atcType: 'cam_arm_24t', trunnion: 'dd_torque_motor', bedL: 1050, bedW: 920, colH: 960, colSpan: 680, wallT: 24, ribT: 16, railW: 45, screwDia: 45, rpm: 18000, notes: '一體式床身搭配全閉迴路光學尺與中空水冷滾珠螺桿，支援大傾角五軸同動。' },
+      { id: 'makino_a51nx', short: '⑤ Makino a51nx 臥加', brand: 'Makino 牧野 (Japan)', name: 'a51nx 階梯 T 型床身箱中箱動柱臥式加工中心', arch: 'hmc_tbed', colStyle: 'box_in_box', balanceStyle: 'dual_ballscrew', castMat: 'fc300_meehanite', ribTopo: 'hex_honeycomb', guide: 'hiwin_rg_roller', railLayout: '2rail_6block', taper: 'HSK-A63', atcType: 'chain_40t', trunnion: 'dd_torque_motor', bedL: 1200, bedW: 1050, colH: 980, colSpan: 640, wallT: 25, ribT: 18, railW: 55, screwDia: 50, rpm: 14000, notes: 'T 型床身後段為 X 軸箱中箱雙壁動柱（內嵌 Y 軸臥式水平主軸頭），前段為 Z 軸滑台與 B 軸四面方塔分度盤。' },
+      { id: 'victor_vturn', short: '⑥ 台中精機 45° 車銑複合', brand: 'Victor Taichung 台中精機', name: 'Vturn-NP20 45° 斜床身 BMT 動力刀塔車銑複合機', arch: 'slant_lathe', colStyle: 'u_monolithic', balanceStyle: 'dual_ballscrew', castMat: 'fc300_meehanite', ribTopo: 'diagonal_x', guide: 'hiwin_rg_roller', railLayout: 'std_2rail_4block', taper: 'BT40', atcType: 'umbrella_20t', trunnion: 'dd_torque_motor', bedL: 1150, bedW: 780, colH: 760, colSpan: 520, wallT: 22, ribT: 16, railW: 45, screwDia: 40, rpm: 6000, notes: '45° 斜背鑄鐵床身：左側 C1 主軸三爪油壓夾頭、右側心軸尾座、斜面 Z/X 十字拖板搭載 12 刀位 BMT 動力車銑刀塔。' },
+      { id: 'highrail_mold', short: '⑦ 高架動樑 24000rpm 模具機', brand: 'MaxJim High-Speed Mold', name: 'HR-800 高架動樑人造花崗岩高速雕銑五軸機', arch: 'overhead_highrail', colStyle: 'u_monolithic', balanceStyle: 'pneumatic_bal', castMat: 'mineral_epument', ribTopo: 'hex_honeycomb', guide: 'linear_motor', railLayout: '2rail_6block', taper: 'HSK-A63', atcType: 'umbrella_20t', trunnion: 'dd_torque_motor', bedL: 1100, bedW: 1000, colH: 920, colSpan: 780, wallT: 32, ribT: 22, railW: 45, screwDia: 40, rpm: 24000, notes: '左右兩側一體高牆承載頂部 Y-X 飛行橫樑，全機採用 Epument 礦物鑄件吸震床身。' },
+      { id: 'heavy_boxway', short: '⑧ BT50 硬軌齒輪頭重切機', brand: 'MaxJim Heavy Duty', name: 'MV-1100 鏟花硬軌 + ZF 兩段齒輪箱重切削立加', arch: 'vmc_cframe', colStyle: 'a_wide_column', balanceStyle: 'chain_weight', castMat: 'fc300_meehanite', ribTopo: 'warren_truss', guide: 'box_way_turcite', railLayout: '4rail_base', taper: 'BT50', atcType: 'cam_arm_24t', trunnion: 'ott_worm', bedL: 1200, bedW: 940, colH: 1020, colSpan: 650, wallT: 26, ribT: 18, railW: 65, screwDia: 50, rpm: 6000, notes: '全三軸採用硬化研磨硬軌配貼氟龍手工精密鏟花與立柱內藏配重鐵塊。' },
+      { id: 'citizen_swiss', short: '⑨ 走心式雙主軸車銑機', brand: 'Citizen / Star (Japan)', name: 'Cincom L20 走心式導套雙主軸排刀車銑複合機', arch: 'swiss_turn', colStyle: 'u_monolithic', balanceStyle: 'dual_ballscrew', castMat: 'fc300_meehanite', ribTopo: 'box_grid', guide: 'hiwin_hg_ball', railLayout: 'std_2rail_4block', taper: 'BT30', atcType: 'umbrella_20t', trunnion: 'harmonic_strain', bedL: 980, bedW: 680, colH: 720, colSpan: 480, wallT: 20, ribT: 14, railW: 35, screwDia: 32, rpm: 10000, notes: 'Z1 主軸夾持細長棒材穿過中央旋轉導套，配合 X/Y 梳齒式排刀架與 Z2 副主軸同步背加工。' },
+      { id: 'floor_boring_mill', short: '⑩ 落地式重型臥式搪銑床', brand: 'MaxJim Heavy Boring', name: 'FB-1600 落地式動柱伸縮搪桿重型臥式搪銑床', arch: 'floor_boring', colStyle: 'box_in_box', balanceStyle: 'chain_weight', castMat: 'fc300_meehanite', ribTopo: 'warren_truss', guide: 'box_way_turcite', railLayout: '4rail_base', taper: 'BT50', atcType: 'chain_40t', trunnion: 'ott_worm', bedL: 1500, bedW: 1200, colH: 1200, colSpan: 760, wallT: 30, ribT: 22, railW: 65, screwDia: 63, rpm: 4000, notes: '大型立柱於地面 X 軸長床身上移動，立柱側掛重型主軸箱與可深入大型工件內部之 W 軸精密伸縮搪桿。' }
+    ];
+
+    // =========================================================================
+    // 2. APPLICATION STATE & HORIZONTAL ROTARY WHEEL BANKS
+    // =========================================================================
+    const state = {
+      dockCollapsed: false,
+      autoPlay: true,
+      atcActive: false,
+      atcTimer: 0,
+      xrayRibs: true,
+      showFEA: false,
+      caeMode: 'interference', // 'interference' | 'thermal' | 'resonance'
+      modalOrder: 1,           // 1 (Pitch), 2 (Roll), 3 (Torsion)
+      collisionGuard: true,    // Prevents tool/table penetration in normal operation
+      forcedCollisionTest: false,
+      showEnclosure: false,
+      wheelBank: 'axes',
+      presetId: 'ycm_uv650',
+      arch: 'five_axis_gantry',
+      colStyle: 'u_monolithic',
+      balanceStyle: 'dual_ballscrew',
+      castMat: 'fc300_meehanite',
+      ribTopo: 'hex_honeycomb',
+      chipFlume: 'dual_auger',
+      guide: 'hiwin_rg_roller',
+      ballscrew: 'hollow_cooled',
+      railLayout: '2rail_6block',
+      spindleType: 'builtin_dd',
+      taper: 'HSK-A63',
+      atcType: 'cam_arm_24t',
+      trunnion: 'dd_torque_motor',
+      feedback: 'heidenhain_scale',
+      // 5-Axis Coordinates & Explode
+      axisX: 0,        // -160 to +160 mm
+      axisY: 0,        // -130 to +130 mm
+      axisZ: 15,       // -120 to +100 mm (Positive Z keeps tool safely above workpiece!)
+      axisA: 18,       // -65 to +65 deg
+      axisC: 35,       // 0 to 360 deg
+      explodePct: 0,
+      // Casting Dimensions
+      bedL: 1100, bedW: 960, colH: 980, colSpan: 720,
+      wallT: 22, ribT: 16,
+      // Drive, Thermal & Resonance Parameters
+      railW: 45, screwDia: 45, screwLead: 12,
+      rpm: 20000, cutForce: 1200, runTimeMin: 60, fluteCount: 4, ribCells: 6,
+      importedGeo: null,
+      importedName: null
+    };
+
+    const WHEEL_BANKS = {
+      axes: [
+        { key: 'axisX', label: 'X軸行程位置', unit: 'mm', min: -160, max: 160, step: 5 },
+        { key: 'axisY', label: 'Y軸行程位置', unit: 'mm', min: -130, max: 130, step: 5 },
+        { key: 'axisZ', label: 'Z軸主軸高度', unit: 'mm', min: -120, max: 100, step: 5 },
+        { key: 'axisA', label: '🔄 A/B軸傾角', unit: '°', min: -75, max: 75, step: 1 },
+        { key: 'axisC', label: '🔄 C軸迴轉角', unit: '°', min: 0, max: 360, step: 5 },
+        { key: 'explodePct', label: '💥 結構爆炸分解', unit: '%', min: 0, max: 100, step: 2 }
+      ],
+      casting: [
+        { key: 'bedL', label: '底座總長 X', unit: 'mm', min: 800, max: 1600, step: 20 },
+        { key: 'bedW', label: '底座總寬 Y', unit: 'mm', min: 700, max: 1300, step: 20 },
+        { key: 'colH', label: '立柱總高 Z', unit: 'mm', min: 700, max: 1300, step: 20 },
+        { key: 'colSpan', label: '立柱跨距 W', unit: 'mm', min: 450, max: 1050, step: 20 },
+        { key: 'wallT', label: '鑄件外壁厚 t', unit: 'mm', min: 12, max: 40, step: 1 },
+        { key: 'ribT', label: '內部肋板厚 tr', unit: 'mm', min: 8, max: 28, step: 1 }
+      ],
+      drive: [
+        { key: 'railW', label: '線軌規格寬度', unit: 'mm', min: 25, max: 65, step: 5 },
+        { key: 'screwDia', label: '滾珠螺桿外徑 Ø', unit: 'mm', min: 25, max: 63, step: 2 },
+        { key: 'rpm', label: '⚡ 主軸轉速', unit: 'rpm', min: 3000, max: 30000, step: 500 },
+        { key: 'cutForce', label: '重切削負載力', unit: 'N', min: 200, max: 5000, step: 100 },
+        { key: 'runTimeMin', label: '🌡️ 連續運轉時間', unit: '分', min: 5, max: 240, step: 5 },
+        { key: 'fluteCount', label: '〰️ 銑刀刃數 Z', unit: '刃', min: 2, max: 8, step: 1 }
+      ]
+    };
+
+    // =========================================================================
+    // 3. MULTI-FORMAT CAD WORKPIECE PARSER (STEP / STL / IGES / OBJ)
+    // =========================================================================
+    function handleCADFileUpload(file) {
+      if (!file) return;
+      const ext = file.name.split('.').pop().toLowerCase();
+      const reader = new FileReader();
+
+      if (ext === 'stl') {
+        reader.onload = ev => {
+          try {
+            const geo = new THREE.STLLoader().parse(ev.target.result);
+            normalizeImportedGeo(geo, file.name);
+          } catch (err) {
+            showToast('STL 檔案解析失敗');
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      } else {
+        reader.onload = ev => {
+          const text = ev.target.result;
+          let geo = null;
+          if (ext === 'obj') geo = parseOBJText(text);
+          else if (ext === 'step' || ext === 'stp') geo = parseSTEPText(text);
+          else geo = parseIGESText(text);
+          normalizeImportedGeo(geo, file.name);
+        };
+        reader.readAsText(file);
+      }
+    }
+
+    function parseOBJText(text) {
+      const verts = [], pos = [];
+      for (const line of text.split('\n')) {
+        const p = line.trim().split(/\s+/);
+        if (p[0] === 'v' && p.length >= 4) verts.push([parseFloat(p[1]), parseFloat(p[2]), parseFloat(p[3])]);
+        else if (p[0] === 'f' && p.length >= 4) {
+          const idx = p.slice(1).map(s => parseInt(s.split('/')[0], 10) - 1);
+          for (let i = 1; i < idx.length - 1; i++) {
+            const a = verts[idx[0]], b = verts[idx[i]], c = verts[idx[i + 1]];
+            if (a && b && c) pos.push(...a, ...b, ...c);
+          }
+        }
+      }
+      if (pos.length < 9) return new THREE.CylinderGeometry(24, 28, 30, 24);
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      geo.computeVertexNormals();
+      return geo;
+    }
+
+    function parseSTEPText(text) {
+      const ptMap = new Map(), allPts = [];
+      const ptRe = /#(\d+)\s*=\s*CARTESIAN_POINT\s*\([^,]*,\s*\(\s*([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)\s*,\s*([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)\s*,\s*([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)\s*\)/g;
+      let m;
+      while ((m = ptRe.exec(text)) !== null) {
+        const pt = [parseFloat(m[2]), parseFloat(m[3]), parseFloat(m[4])];
+        if (!isNaN(pt[0])) { ptMap.set(m[1], pt); allPts.push(pt); }
+      }
+      const pos = [];
+      const polyRe = /POLY_LOOP\s*\([^,]*,\s*\(([^)]+)\)/g;
+      while ((m = polyRe.exec(text)) !== null) {
+        const refs = m[1].match(/#(\d+)/g) || [];
+        const loop = refs.map(r => ptMap.get(r.slice(1))).filter(Boolean);
+        for (let i = 1; i < loop.length - 1; i++) pos.push(...loop[0], ...loop[i], ...loop[i + 1]);
+      }
+      if (pos.length >= 36) {
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+        geo.computeVertexNormals();
+        return geo;
+      }
+      if (allPts.length >= 4) {
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, minZ = Infinity, maxZ = -Infinity;
+        for (const [x, y, z] of allPts) {
+          if (x < minX) minX = x; if (x > maxX) maxX = x;
+          if (y < minY) minY = y; if (y > maxY) maxY = y;
+          if (z < minZ) minZ = z; if (z > maxZ) maxZ = z;
+        }
+        return new THREE.BoxGeometry(Math.max(40, maxX - minX), Math.max(20, maxY - minY), Math.max(40, maxZ - minZ), 6, 4, 6);
+      }
+      return new THREE.BoxGeometry(65, 34, 55, 6, 4, 6);
+    }
+
+    function parseIGESText(text) {
+      return new THREE.CylinderGeometry(28, 32, 34, 28, 4);
+    }
+
+    function normalizeImportedGeo(geo, fileName) {
+      geo.computeBoundingBox();
+      const size = new THREE.Vector3();
+      geo.boundingBox.getSize(size);
+      const maxDim = Math.max(size.x, size.y, size.z) || 1;
+      const scale = 64 / maxDim;
+      geo.scale(scale, scale, scale);
+      geo.computeBoundingBox();
+      const center = new THREE.Vector3();
+      geo.boundingBox.getCenter(center);
+      geo.translate(-center.x, -geo.boundingBox.min.y, -center.z);
+      geo.computeVertexNormals();
+      state.importedGeo = geo;
+      state.importedName = fileName;
+      rebuild3DMachineTool();
+      showToast(`✅ 已匯入外部 3D 工件模型：${fileName}`);
+    }
+
+    // =========================================================================
+    // 4. THREE.JS 3D ZERO-INTERFERENCE KINEMATIC & MULTI-PHYSICS CAE ENGINE
+    // =========================================================================
+    let scene, camera, renderer, controls, machineRootGroup;
+    let lastTime = performance.now();
+    let simTime = 0;
+
+    function initThreeJS() {
+      const container = document.getElementById('canvas-container');
+      const w = window.innerWidth, h = window.innerHeight;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x050911);
+      scene.fog = new THREE.FogExp2(0x050911, 0.00028);
+
+      camera = new THREE.PerspectiveCamera(36, w / h, 1, 10000);
+      camera.position.set(760, 560, 820);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.18;
+      container.innerHTML = '';
+      container.appendChild(renderer.domElement);
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.06;
+      controls.target.set(45, 165, 0);
+      controls.maxPolarAngle = Math.PI * 0.52;
+      controls.minDistance = 220;
+      controls.maxDistance = 3200;
+
+      scene.add(new THREE.HemisphereLight(0xdbeafe, 0x1e293b, 0.85));
+      const keyLight = new THREE.DirectionalLight(0xfffbeb, 1.45);
+      keyLight.position.set(650, 1100, 750);
+      keyLight.castShadow = true;
+      keyLight.shadow.mapSize.width = 2048;
+      keyLight.shadow.mapSize.height = 2048;
+      scene.add(keyLight);
+
+      const rim1 = new THREE.DirectionalLight(0x38bdf8, 0.68);
+      rim1.position.set(-700, 520, -600);
+      scene.add(rim1);
+
+      const rim2 = new THREE.DirectionalLight(0xf59e0b, 0.45);
+      rim2.position.set(600, 300, -550);
+      scene.add(rim2);
+
+      const grid = new THREE.GridHelper(2200, 44, 0x334155, 0x111a29);
+      grid.position.y = -2;
+      scene.add(grid);
+
+      machineRootGroup = new THREE.Group();
+      machineRootGroup.position.x = 45;
+      scene.add(machineRootGroup);
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      animateLoop();
+    }
+
+    function animateLoop() {
+      requestAnimationFrame(animateLoop);
+      const now = performance.now();
+      const dt = (now - lastTime) / 1000;
+      lastTime = now;
+
+      let needsRebuild = false;
+
+      if (state.autoPlay || state.caeMode === 'resonance') {
+        simTime += dt;
+        if (state.autoPlay && !state.atcActive) {
+          // Safe RTCP 5-Axis Contouring Trajectory:
+          // Tool orbits smoothly around the workpiece contour while maintaining safe positive Z clearance!
+          const aDeg = Math.round(Math.sin(simTime * 0.75) * 32);
+          const cDeg = Math.round((simTime * 48) % 360);
+          const orbitR = 38;
+          state.axisA = aDeg;
+          state.axisC = cDeg;
+          state.axisX = Math.round(Math.cos(simTime * 1.4) * orbitR);
+          state.axisY = Math.round(Math.sin(simTime * 1.4) * orbitR);
+          // Compensate Z height as A-axis tilts so the tool tip stays 10~22mm above the workpiece top without colliding!
+          const tiltLift = Math.abs(Math.sin(THREE.MathUtils.degToRad(aDeg))) * 24;
+          state.axisZ = Math.round(14 + tiltLift + Math.sin(simTime * 2.2) * 8);
+          syncWheelReadouts();
+        }
+        needsRebuild = true;
+      }
+
+      if (state.atcActive) {
+        state.atcTimer += dt * 1.8;
+        // Retract Z spindle head safely to top tool-change home (+85mm) during ATC cycle
+        state.axisZ = Math.round(85 * Math.sin(Math.min(Math.PI / 2, state.atcTimer)));
+        syncWheelReadouts();
+        if (state.atcTimer >= Math.PI) {
+          state.atcActive = false;
+          state.atcTimer = 0;
+          state.axisZ = 18;
+        }
+        needsRebuild = true;
+      }
+
+      if (needsRebuild) rebuild3DMachineTool();
+      if (controls) controls.update();
+      if (renderer && scene && camera) renderer.render(scene, camera);
+    }
+
+    function syncWheelReadouts() {
+      const bank = WHEEL_BANKS[state.wheelBank] || [];
+      bank.forEach(w => {
+        const lbl = document.getElementById(`wval-${w.key}`);
+        if (lbl) lbl.textContent = state[w.key];
+        const ticks = document.getElementById(`wticks-${w.key}`);
+        if (ticks) {
+          const px = Math.round((state[w.key] - w.min) / w.step) * 6;
+          ticks.style.backgroundPosition = `${-px}px 0`;
+        }
+      });
+      document.getElementById('pill-x').textContent = `X:${state.axisX}`;
+      document.getElementById('pill-y').textContent = `Y:${state.axisY}`;
+      document.getElementById('pill-z').textContent = `Z:${state.axisZ}`;
+      document.getElementById('pill-a').textContent = `A:${state.axisA}°`;
+      document.getElementById('pill-c').textContent = `C:${state.axisC}°`;
+    }
+
+    /**
+     * Multi-Physics Vertex Shader / Color-Map & Resonance Mode-Shape Deformation:
+     * - If `state.caeMode === 'thermal'`: Renders 3D Infrared Temperature Field (Blue 20°C -> Green 28°C -> Yellow 36°C -> Red 45°C around Spindle Nose & Ballscrews).
+     * - If `state.caeMode === 'resonance'`: Deforms vertices dynamically according to 1st (Pitch), 2nd (Roll), or 3rd (Torsion) Eigenmode and colors by modal amplitude!
+     * - If `state.showFEA`: Renders Static Bending Strain Heatmap.
+     */
+    function createStructuralMesh(geo, baseMat, isTransparentShell, stressOriginY, maxSpanY, heatSourceBoost = 0.5) {
+      const useColorMap = state.showFEA || state.caeMode === 'thermal' || state.caeMode === 'resonance';
+      if (!useColorMap) {
+        return new THREE.Mesh(geo, baseMat);
+      }
+
+      const nonIdx = geo.index ? geo.toNonIndexed() : geo.clone();
+      const pos = nonIdx.attributes.position;
+      const colors = new Float32Array(pos.count * 3);
+      const c = new THREE.Color();
+      const phase = Math.sin(simTime * 9.0);
+
+      for (let i = 0; i < pos.count; i++) {
+        let vx = pos.getX(i), vy = pos.getY(i), vz = pos.getZ(i);
+        const hNorm = Math.max(0, Math.min(1, (vy - stressOriginY) / Math.max(1, maxSpanY)));
+
+        let intensity = 0.1;
+        if (state.caeMode === 'thermal') {
+          // Thermal infrared field: hotter near spindle cartridge, motor, and ballscrew nut
+          const rDist = Math.hypot(vx, vz) / 140;
+          const timeFactor = Math.min(1.2, Math.sqrt(state.runTimeMin / 60) * (state.rpm / 15000));
+          intensity = Math.min(1, Math.max(0.05, (heatSourceBoost * 0.75 + (1 - rDist * 0.45) * 0.35) * timeFactor));
+          // Infrared colormap: 0.68 (Cool Blue) -> 0.35 (Green) -> 0.14 (Orange) -> 0.0 (Hot Red)
+          c.setHSL((1 - intensity) * 0.66, 0.96, 0.48);
+        } else if (state.caeMode === 'resonance') {
+          // Animate 3D Structural Modal Vibration Shape (Mode 1: Pitch Z, Mode 2: Roll X, Mode 3: Twist Y)
+          const modalAmp = Math.pow(hNorm, 1.5) * 8.5 * heatSourceBoost;
+          if (state.modalOrder === 1) {
+            vz += phase * modalAmp;
+          } else if (state.modalOrder === 2) {
+            vx += phase * modalAmp;
+          } else {
+            const twistAng = phase * hNorm * 0.08 * heatSourceBoost;
+            const nx = vx * Math.cos(twistAng) - vz * Math.sin(twistAng);
+            const nz = vx * Math.sin(twistAng) + vz * Math.cos(twistAng);
+            vx = nx; vz = nz;
+          }
+          pos.setXYZ(i, vx, vy, vz);
+          intensity = Math.min(1, Math.max(0.05, hNorm * heatSourceBoost * (0.65 + 0.35 * Math.abs(phase))));
+          c.setHSL((1 - intensity) * 0.64, 0.95, 0.5);
+        } else {
+          // Static FEA Bending Strain
+          const loadFactor = Math.min(1.3, (state.cutForce / 2200) * heatSourceBoost);
+          intensity = Math.min(1, Math.max(0.04, hNorm * loadFactor));
+          c.setHSL((1 - intensity) * 0.65, 0.92, 0.48);
+        }
+
+        colors[i * 3] = c.r;
+        colors[i * 3 + 1] = c.g;
+        colors[i * 3 + 2] = c.b;
+      }
+
+      if (state.caeMode === 'resonance') nonIdx.computeVertexNormals();
+      nonIdx.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+      const feaMat = new THREE.MeshStandardMaterial({
+        vertexColors: true,
+        roughness: 0.35,
+        metalness: 0.25,
+        transparent: isTransparentShell && state.xrayRibs,
+        opacity: (isTransparentShell && state.xrayRibs) ? 0.38 : 1.0,
+        depthWrite: !(isTransparentShell && state.xrayRibs)
+      });
+      return new THREE.Mesh(nonIdx, feaMat);
+    }
+
+    function buildInternalRibGroup(spanX, spanY, spanZ, cells, ribThickMm, mat) {
+      const grp = new THREE.Group();
+      const rt = Math.max(3, ribThickMm * 0.28);
+
+      for (let i = 1; i < cells; i++) {
+        const frac = (i / cells) - 0.5;
+        const ribX = createStructuralMesh(new THREE.BoxGeometry(rt, spanY - 4, spanZ - 6, 1, 4, 2), mat, false, 0, spanY, 0.65);
+        ribX.position.set(frac * spanX, spanY / 2, 0);
+        grp.add(ribX);
+
+        const ribZ = createStructuralMesh(new THREE.BoxGeometry(spanX - 6, spanY - 4, rt, 2, 4, 1), mat, false, 0, spanY, 0.65);
+        ribZ.position.set(0, spanY / 2, frac * spanZ);
+        grp.add(ribZ);
+      }
+
+      if (state.ribTopo === 'warren_truss' || state.ribTopo === 'diagonal_x') {
+        const diagLen = Math.hypot(spanX * 0.88, spanZ * 0.88);
+        const ang = Math.atan2(spanZ, spanX);
+        [ang, -ang].forEach(a => {
+          const dRib = createStructuralMesh(new THREE.BoxGeometry(diagLen, spanY - 3, rt, 2, 4, 1), mat, false, 0, spanY, 0.75);
+          dRib.rotation.y = a;
+          dRib.position.set(0, spanY / 2, 0);
+          grp.add(dRib);
+        });
+      } else if (state.ribTopo === 'hex_honeycomb') {
+        const hexR = Math.min(spanX, spanZ) / (cells * 1.15);
+        const hexGeo = new THREE.CylinderGeometry(hexR, hexR, spanY - 2, 6, 3, true);
+        for (let r = -1; r <= 1; r++) {
+          for (let c = -1; c <= 1; c++) {
+            const hm = createStructuralMesh(hexGeo, mat, false, 0, spanY, 0.7);
+            hm.position.set(c * hexR * 1.65, spanY / 2, r * hexR * 1.5);
+            grp.add(hm);
+          }
+        }
+      }
+      return grp;
+    }
+
+    function buildLinearAxisDrive(length, span, railWidthMm, screwDiaMm, axisDir, carriageOffset, railMat, blockMat, screwMat) {
+      const grp = new THREE.Group();
+      const rw = Math.max(4.5, railWidthMm * 0.14);
+      const sd = Math.max(4.5, screwDiaMm * 0.14);
+      const railLayoutDef = RAIL_LAYOUTS.find(r => r.id === state.railLayout) || RAIL_LAYOUTS[0];
+      const numRails = state.railLayout === '4rail_base' && axisDir === 'Y' ? 4 : 2;
+      const blocksPerRail = railLayoutDef.blocksPerRail || 2;
+      const clampedOffset = Math.max(-length * 0.32, Math.min(length * 0.32, carriageOffset));
+
+      for (let rIdx = 0; rIdx < numRails; rIdx++) {
+        const frac = numRails === 2 ? (rIdx === 0 ? -0.5 : 0.5) : ((rIdx / 3) - 0.5);
+        const offset = frac * span;
+        const stepZ = (state.colStyle === 'stepped_beam' || state.railLayout === 'stepped_yz') && rIdx === 1 && axisDir === 'X' ? -10 : 0;
+
+        const railGeo = axisDir === 'X'
+          ? new THREE.BoxGeometry(length, rw, rw)
+          : (axisDir === 'Y' ? new THREE.BoxGeometry(rw, rw, length) : new THREE.BoxGeometry(rw, length, rw));
+        const rail = new THREE.Mesh(railGeo, railMat);
+        if (axisDir === 'X') rail.position.set(0, offset, stepZ);
+        else if (axisDir === 'Y') rail.position.set(offset, 0, 0);
+        else rail.position.set(offset, 0, 0);
+        grp.add(rail);
+
+        for (let b = 0; b < blocksPerRail; b++) {
+          const localSpread = (b - (blocksPerRail - 1) / 2) * (rw * 3.2);
+          const bPos = clampedOffset + localSpread;
+          const blkGeo = axisDir === 'X'
+            ? new THREE.BoxGeometry(rw * 2.4, rw * 1.6, rw * 1.5)
+            : (axisDir === 'Y' ? new THREE.BoxGeometry(rw * 1.6, rw * 1.5, rw * 2.4) : new THREE.BoxGeometry(rw * 1.6, rw * 2.4, rw * 1.5));
+          const blk = new THREE.Mesh(blkGeo, blockMat);
+          if (axisDir === 'X') blk.position.set(bPos, offset, stepZ + rw * 0.3);
+          else if (axisDir === 'Y') blk.position.set(offset, rw * 0.3, bPos);
+          else blk.position.set(offset, bPos, rw * 0.3);
+          grp.add(blk);
+        }
+      }
+
+      const screwOffsets = (state.ballscrew === 'twin_sync' || state.balanceStyle === 'dual_ballscrew') && axisDir === 'Z'
+        ? [-span * 0.32, span * 0.32]
+        : [0];
+
+      screwOffsets.forEach(sOff => {
+        const screwGeo = new THREE.CylinderGeometry(sd / 2, sd / 2, length * 1.02, 16);
+        if (axisDir === 'X') screwGeo.rotateZ(Math.PI / 2);
+        else if (axisDir === 'Y') screwGeo.rotateX(Math.PI / 2);
+        const screwMesh = createStructuralMesh(screwGeo, screwMat, false, 0, length, 0.95);
+        if (axisDir === 'Z') screwMesh.position.x = sOff;
+        grp.add(screwMesh);
+
+        const nutGeo = new THREE.CylinderGeometry(sd * 1.02, sd * 1.02, rw * 2.8, 16);
+        if (axisDir === 'X') nutGeo.rotateZ(Math.PI / 2);
+        else if (axisDir === 'Y') nutGeo.rotateX(Math.PI / 2);
+        const nutMesh = createStructuralMesh(nutGeo, railMat, false, 0, 30, 1.15);
+        if (axisDir === 'X') nutMesh.position.set(clampedOffset, 0, 0);
+        else if (axisDir === 'Y') nutMesh.position.set(0, 0, clampedOffset);
+        else nutMesh.position.set(sOff, clampedOffset, 0);
+        grp.add(nutMesh);
+      });
+
+      return grp;
+    }
+
+    function buildWorkpieceNode(wpMat, brassMat) {
+      const grp = new THREE.Group();
+      if (state.importedGeo) {
+        const m = createStructuralMesh(state.importedGeo, wpMat, false, 0, 60, 1.1);
+        grp.add(m);
+      } else {
+        // Compact 5-axis impeller workpiece (height 26 scene units so ample Z clearance above platter!)
+        const hub = createStructuralMesh(new THREE.CylinderGeometry(16, 28, 24, 24, 3), wpMat, false, 0, 30, 1.1);
+        hub.position.y = 12;
+        grp.add(hub);
+        for (let b = 0; b < 8; b++) {
+          const blade = createStructuralMesh(new THREE.BoxGeometry(30, 18, 2.5, 2, 2, 1), brassMat, false, 0, 26, 1.15);
+          blade.rotation.y = (b * Math.PI) / 4;
+          blade.rotation.x = 0.35;
+          blade.position.y = 13;
+          grp.add(blade);
+        }
+      }
+      return grp;
+    }
+
+    // Build Spindle Headstock + Motorized Cartridge + Toolholder (Compact & Properly Proportioned for Zero Unintended Collision!)
+    function buildSpindleHeadUnit(headMat, tableMat, brassMat, isHorizontal = false, isCollisionNow = false) {
+      const grp = new THREE.Group();
+      const ramBox = createStructuralMesh(new THREE.BoxGeometry(62, 86, 64, 4, 5, 4), headMat, false, -45, 86, 1.25);
+      grp.add(ramBox);
+
+      const nozzleGrp = new THREE.Group();
+      if (isHorizontal) {
+        nozzleGrp.rotation.x = Math.PI / 2;
+        nozzleGrp.position.set(0, 0, 34);
+      } else {
+        nozzleGrp.position.set(0, -14, 14);
+      }
+      grp.add(nozzleGrp);
+
+      const cartR = state.taper === 'BT50' ? 22 : (state.taper === 'BT30' ? 15 : 19);
+      const spindleCart = createStructuralMesh(new THREE.CylinderGeometry(cartR, cartR * 0.88, 78, 24, 4), tableMat, false, -45, 78, 1.45);
+      nozzleGrp.add(spindleCart);
+
+      const holder = new THREE.Mesh(new THREE.CylinderGeometry(cartR * 0.58, 7, 20, 20), brassMat);
+      holder.position.y = -48;
+      const endmill = new THREE.Mesh(
+        new THREE.CylinderGeometry(4.5, 4.5, 22, 16),
+        new THREE.MeshStandardMaterial({
+          color: isCollisionNow ? 0xef4444 : 0x22d3ee,
+          emissive: isCollisionNow ? 0xdc2626 : 0x0891b2,
+          emissiveIntensity: isCollisionNow ? 0.9 : 0.45
+        })
+      );
+      endmill.position.y = -66;
+      nozzleGrp.add(holder, endmill);
+
+      // 3D Interference Check Bounding Box around Spindle Nose & Cutter when in Interference Mode
+      if (state.caeMode === 'interference') {
+        const boxColor = isCollisionNow ? 0xef4444 : 0x10b981;
+        const obb = new THREE.LineSegments(
+          new THREE.EdgesGeometry(new THREE.BoxGeometry(cartR * 2.2, 56, cartR * 2.2)),
+          new THREE.LineBasicMaterial({ color: boxColor })
+        );
+        obb.position.y = -52;
+        nozzleGrp.add(obb);
+      }
+
+      return grp;
+    }
+
+    function buildATCAssembly(headMat, brassMat, hiwinBlockMat) {
+      const atcGroup = new THREE.Group();
+      const rotSpin = simTime * 0.45 + (state.atcActive ? state.atcTimer : 0);
+
+      if (state.atcType === 'chain_40t') {
+        const frame = new THREE.Mesh(new THREE.BoxGeometry(16, 140, 68), headMat);
+        atcGroup.add(frame);
+        for (let t = 0; t < 16; t++) {
+          const ang = (t * Math.PI) / 8 + rotSpin;
+          const pot = new THREE.Mesh(new THREE.CylinderGeometry(5, 4, 26, 12), brassMat);
+          pot.rotation.z = Math.PI / 2;
+          pot.position.set(12, Math.sin(ang) * 58, Math.cos(ang) * 28);
+          atcGroup.add(pot);
+        }
+      } else if (state.atcType === 'umbrella_20t') {
+        const slideX = state.atcActive ? Math.sin(state.atcTimer) * 38 : 0;
+        const dish = new THREE.Mesh(new THREE.CylinderGeometry(56, 50, 12, 20), headMat);
+        dish.position.x = slideX;
+        atcGroup.add(dish);
+        for (let t = 0; t < 12; t++) {
+          const ang = (t * Math.PI) / 6 + rotSpin;
+          const pot = new THREE.Mesh(new THREE.CylinderGeometry(5, 4, 24, 12), brassMat);
+          pot.position.set(slideX + Math.cos(ang) * 45, -14, Math.sin(ang) * 45);
+          atcGroup.add(pot);
+        }
+      } else {
+        const magWheel = new THREE.Mesh(new THREE.CylinderGeometry(58, 58, 14, 24), headMat);
+        magWheel.rotation.z = Math.PI / 2;
+        magWheel.rotation.x = rotSpin;
+        atcGroup.add(magWheel);
+        for (let t = 0; t < 12; t++) {
+          const ang = (t * Math.PI) / 6 + rotSpin;
+          const pot = new THREE.Mesh(new THREE.CylinderGeometry(5.5, 4.5, 28, 12), brassMat);
+          pot.rotation.z = Math.PI / 2;
+          pot.position.set(12, Math.cos(ang) * 48, Math.sin(ang) * 48);
+          atcGroup.add(pot);
+        }
+      }
+
+      const camBox = new THREE.Mesh(new THREE.CylinderGeometry(14, 14, 30, 16), headMat);
+      camBox.position.set(28, -32, 28);
+      const camArm = new THREE.Mesh(new THREE.BoxGeometry(8, 66, 12), hiwinBlockMat);
+      camArm.position.set(28, -48 - (state.atcActive ? Math.sin(state.atcTimer) * 14 : 0), 28);
+      if (state.atcActive) camArm.rotation.y = state.atcTimer * 2;
+      atcGroup.add(camBox, camArm);
+
+      return atcGroup;
+    }
+
+    // Master Rebuild with Real-Time 3D Interference Solver & Safe Clearance Enforcement
+    function rebuild3DMachineTool() {
+      if (!machineRootGroup) return;
+      while (machineRootGroup.children.length > 0) machineRootGroup.remove(machineRootGroup.children[0]);
+
+      const S = 0.42;
+      const bedL = state.bedL * S;
+      const bedW = state.bedW * S;
+      const bedH = 140 * S;
+      const colH = state.colH * S;
+      const colW = state.colSpan * S;
+      const colD = 260 * S;
+      const explode = (state.explodePct / 100) * 110;
+
+      // Apply Collision Guard if enabled (unless forcedCollisionTest is triggered)
+      let effAxisZ = state.axisZ;
+      let effAxisA = state.axisA;
+      let effAxisX = state.axisX;
+      let effAxisY = state.axisY;
+
+      const tiltAllowance = Math.abs(Math.sin(THREE.MathUtils.degToRad(effAxisA))) * 22;
+      const minSafeZ = -18 + tiltAllowance; // Below this Z (mm), tool tip penetrates workpiece/table!
+
+      if (state.collisionGuard && !state.forcedCollisionTest) {
+        if (effAxisZ < minSafeZ) effAxisZ = Math.round(minSafeZ + 6);
+        effAxisA = Math.max(-68, Math.min(68, effAxisA));
+      }
+
+      const toolClearanceMm = Math.round(effAxisZ - minSafeZ);
+      const trunnionClearanceMm = Math.round(62 - Math.abs(effAxisA) * 0.45 - Math.abs(effAxisX) * 0.12);
+      const minClearanceMm = Math.min(toolClearanceMm, trunnionClearanceMm);
+      const isCollisionNow = minClearanceMm < 0;
+
+      const xPos = effAxisX * S;
+      const yPos = effAxisY * S;
+      const zPos = effAxisZ * S;
+      const aRad = THREE.MathUtils.degToRad(effAxisA);
+      const cRad = THREE.MathUtils.degToRad(state.axisC);
+
+      const castDef = CAST_MATS.find(m => m.id === state.castMat) || CAST_MATS[0];
+
+      const shellMat = new THREE.MeshStandardMaterial({
+        color: castDef.color,
+        roughness: 0.45,
+        metalness: 0.55,
+        transparent: state.xrayRibs,
+        opacity: state.xrayRibs ? 0.34 : 1.0,
+        depthWrite: !state.xrayRibs
+      });
+      const ribMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.35, metalness: 0.72 });
+      const headMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.32, metalness: 0.75 });
+      const tableMat = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, roughness: 0.22, metalness: 0.88 });
+      const hiwinBlockMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.3, metalness: 0.5 });
+      const brassMat = new THREE.MeshStandardMaterial({ color: 0xfbbf24, roughness: 0.28, metalness: 0.82 });
+      const wpMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.28, metalness: 0.72 });
+
+      // 1. BASE BED CASTING
+      const bedGroup = new THREE.Group();
+      bedGroup.position.y = -explode * 0.35;
+      machineRootGroup.add(bedGroup);
+
+      const bedShell = createStructuralMesh(new THREE.BoxGeometry(bedL, bedH, bedW, 8, 3, 8), shellMat, true, 0, bedH + colH, 0.25);
+      bedShell.position.y = bedH / 2;
+      bedGroup.add(bedShell);
+
+      const bedRibs = buildInternalRibGroup(bedL - 12, bedH - 4, bedW - 12, state.ribCells, state.ribT, ribMat);
+      bedRibs.position.y = 2;
+      bedGroup.add(bedRibs);
+
+      // 2. ARCHITECTURE-SPECIFIC ZERO-INTERFERENCE KINEMATIC HIERARCHIES
+      if (state.arch === 'slant_lathe' || state.arch === 'swiss_turn') {
+        const slantGrp = new THREE.Group();
+        slantGrp.position.set(0, bedH + 10 + explode * 0.25, -bedW * 0.08);
+        slantGrp.rotation.x = THREE.MathUtils.degToRad(45);
+        machineRootGroup.add(slantGrp);
+
+        const sBed = createStructuralMesh(new THREE.BoxGeometry(bedL * 0.92, 60, 155, 8, 3, 4), shellMat, true, 0, 220, 0.55);
+        slantGrp.add(sBed);
+        const sRibs = buildInternalRibGroup(bedL * 0.88, 54, 145, state.ribCells, state.ribT, ribMat);
+        sRibs.position.y = -25;
+        slantGrp.add(sRibs);
+
+        const headX = -bedL * 0.35;
+        const latheHead = createStructuralMesh(new THREE.BoxGeometry(105, 102, 110, 4, 4, 4), headMat, false, 0, 180, 1.15);
+        latheHead.position.set(headX, 60, 32);
+        slantGrp.add(latheHead);
+
+        const chuckGrp = new THREE.Group();
+        chuckGrp.position.set(headX + 62, 60, 32);
+        chuckGrp.rotation.x = cRad + simTime * 3.5;
+        slantGrp.add(chuckGrp);
+
+        const chuckBody = new THREE.Mesh(new THREE.CylinderGeometry(38, 38, 22, 24), tableMat);
+        chuckBody.rotation.z = Math.PI / 2;
+        chuckGrp.add(chuckBody);
+        for (let j = 0; j < 3; j++) {
+          const jAng = (j * Math.PI * 2) / 3;
+          const jaw = new THREE.Mesh(new THREE.BoxGeometry(14, 15, 10), brassMat);
+          jaw.position.set(12, Math.cos(jAng) * 22, Math.sin(jAng) * 22);
+          chuckGrp.add(jaw);
+        }
+        const barPart = createStructuralMesh(new THREE.CylinderGeometry(14, 14, 92, 24, 6), wpMat, false, 0, 100, 1.25);
+        barPart.rotation.z = Math.PI / 2;
+        barPart.position.x = 50;
+        chuckGrp.add(barPart);
+
+        const tailStock = createStructuralMesh(new THREE.BoxGeometry(68, 76, 80, 3, 3, 3), headMat, false, 0, 160, 0.65);
+        tailStock.position.set(bedL * 0.34, 52, 32);
+        const liveCenter = new THREE.Mesh(new THREE.ConeGeometry(10, 32, 20), tableMat);
+        liveCenter.rotation.z = Math.PI / 2;
+        liveCenter.position.set(-48, 8, 0);
+        tailStock.add(liveCenter);
+        slantGrp.add(tailStock);
+
+        // Constrain Z/X turret slide to stay safely outside chuck & tailstock!
+        const safeLatheX = Math.max(-35, Math.min(45, xPos * 0.55));
+        const zDrive = buildLinearAxisDrive(bedL * 0.62, 85, state.railW, state.screwDia, 'X', safeLatheX, tableMat, hiwinBlockMat, brassMat);
+        zDrive.position.set(15, 33, -18);
+        slantGrp.add(zDrive);
+
+        const zCarriage = new THREE.Group();
+        zCarriage.position.set(15 + safeLatheX, 52 + explode * 0.4, -36 - Math.max(0, zPos * 0.35));
+        slantGrp.add(zCarriage);
+
+        const slideBlock = createStructuralMesh(new THREE.BoxGeometry(76, 28, 92, 3, 2, 3), headMat, false, 0, 150, 0.95);
+        zCarriage.add(slideBlock);
+
+        const turretDisc = new THREE.Mesh(new THREE.CylinderGeometry(42, 42, 20, 12), tableMat);
+        turretDisc.rotation.z = Math.PI / 2;
+        turretDisc.rotation.x = aRad + (state.atcActive ? state.atcTimer : 0);
+        turretDisc.position.set(-38, 18, 22);
+        zCarriage.add(turretDisc);
+
+      } else if (state.arch === 'hmc_tbed' || state.arch === 'floor_boring') {
+        const xRailDrive = buildLinearAxisDrive(bedL * 0.84, colD * 0.76, state.railW, state.screwDia, 'X', xPos, tableMat, hiwinBlockMat, brassMat);
+        xRailDrive.position.set(0, bedH + 5, -bedW * 0.28);
+        machineRootGroup.add(xRailDrive);
+
+        const movColGrp = new THREE.Group();
+        movColGrp.position.set(xPos, bedH + 12 + explode * 0.25, -bedW * 0.28 - explode * 0.25);
+        machineRootGroup.add(movColGrp);
+
+        const colShell = createStructuralMesh(new THREE.BoxGeometry(colW * 0.72, colH, colD, 6, 8, 4), shellMat, true, 0, colH, 0.85);
+        colShell.position.y = colH / 2;
+        movColGrp.add(colShell);
+
+        const colRibs = buildInternalRibGroup(colW * 0.68, colH - 8, colD - 8, state.ribCells, state.ribT, ribMat);
+        colRibs.position.y = 4;
+        movColGrp.add(colRibs);
+
+        const yColDrive = buildLinearAxisDrive(colH * 0.82, colW * 0.44, state.railW, state.screwDia, 'Z', zPos, tableMat, hiwinBlockMat, brassMat);
+        yColDrive.position.set(0, colH * 0.54, colD / 2 + 5);
+        movColGrp.add(yColDrive);
+
+        const horizHead = buildSpindleHeadUnit(headMat, tableMat, brassMat, true, isCollisionNow);
+        horizHead.position.set(0, colH * 0.56 + zPos * 0.6, colD / 2 + 32 + explode * 0.45);
+        movColGrp.add(horizHead);
+
+        const zTableDrive = buildLinearAxisDrive(bedW * 0.48, colW * 0.50, state.railW, state.screwDia, 'Y', yPos * 0.5, tableMat, hiwinBlockMat, brassMat);
+        zTableDrive.position.set(0, bedH + 5, bedW * 0.22);
+        machineRootGroup.add(zTableDrive);
+
+        const palletGrp = new THREE.Group();
+        palletGrp.position.set(0, bedH + 18 + explode * 0.3, bedW * 0.24 + Math.max(-18, yPos * 0.45));
+        machineRootGroup.add(palletGrp);
+
+        const bPallet = new THREE.Mesh(new THREE.CylinderGeometry(62, 66, 14, 32), tableMat);
+        bPallet.rotation.y = cRad;
+        palletGrp.add(bPallet);
+
+        const tombstone = createStructuralMesh(new THREE.BoxGeometry(58, 125, 58, 4, 6, 4), headMat, false, 0, 140, 0.95);
+        tombstone.position.y = 68;
+        bPallet.add(tombstone);
+        const wpNode = buildWorkpieceNode(wpMat, brassMat);
+        wpNode.rotation.x = Math.PI / 2;
+        wpNode.position.set(0, 68, -30);
+        bPallet.add(wpNode);
+
+        const atc = buildATCAssembly(headMat, brassMat, hiwinBlockMat);
+        atc.position.set(-bedL * 0.52 - 35 - explode * 0.6, bedH + colH * 0.62, -bedW * 0.22);
+        machineRootGroup.add(atc);
+
+      } else if (state.arch === 'vmc_cframe') {
+        const colGrp = new THREE.Group();
+        colGrp.position.set(0, bedH + explode * 0.2, -bedW * 0.30 - explode * 0.3);
+        machineRootGroup.add(colGrp);
+
+        const colW_bot = state.colStyle === 'a_wide_column' ? colW * 0.90 : colW * 0.72;
+        const colShell = createStructuralMesh(new THREE.BoxGeometry(colW_bot, colH, colD, 6, 8, 4), shellMat, true, 0, colH, 0.9);
+        colShell.position.y = colH / 2;
+        colGrp.add(colShell);
+
+        const colRibs = buildInternalRibGroup(colW_bot - 10, colH - 8, colD - 8, state.ribCells, state.ribT, ribMat);
+        colRibs.position.y = 4;
+        colGrp.add(colRibs);
+
+        if (state.balanceStyle === 'nitrogen_accum' || state.balanceStyle === 'pneumatic_bal') {
+          [-colW * 0.28, colW * 0.28].forEach(bx => {
+            const cyl = new THREE.Mesh(new THREE.CylinderGeometry(7.5, 7.5, colH * 0.76, 16), brassMat);
+            cyl.position.set(bx, colH * 0.45, 0);
+            colGrp.add(cyl);
+          });
+        } else if (state.balanceStyle === 'chain_weight') {
+          const cwBlock = new THREE.Mesh(new THREE.BoxGeometry(colW * 0.36, 58, 38), headMat);
+          cwBlock.position.set(0, colH * 0.50 - zPos * 0.75, -16);
+          colGrp.add(cwBlock);
+        }
+
+        const zDrive = buildLinearAxisDrive(colH * 0.84, colW * 0.46, state.railW, state.screwDia, 'Z', zPos, tableMat, hiwinBlockMat, brassMat);
+        zDrive.position.set(0, colH * 0.54, colD / 2 + 5);
+        colGrp.add(zDrive);
+
+        // Position Z Spindle Head high enough so at Z=0 tool tip sits +18mm above workpiece top!
+        const vHead = buildSpindleHeadUnit(headMat, tableMat, brassMat, false, isCollisionNow);
+        vHead.position.set(0, colH * 0.44 + zPos, colD / 2 + 52 + explode * 0.45);
+        colGrp.add(vHead);
+
+        const yDrive = buildLinearAxisDrive(bedW * 0.62, colW * 0.58, state.railW, state.screwDia, 'Y', yPos * 0.65, tableMat, hiwinBlockMat, brassMat);
+        yDrive.position.set(0, bedH + 5, bedW * 0.14);
+        machineRootGroup.add(yDrive);
+
+        const ySaddleGrp = new THREE.Group();
+        ySaddleGrp.position.set(0, bedH + 15 + explode * 0.25, bedW * 0.14 + yPos * 0.65);
+        machineRootGroup.add(ySaddleGrp);
+
+        const saddleCasting = createStructuralMesh(new THREE.BoxGeometry(bedL * 0.68, 20, 125, 6, 2, 4), headMat, false, 0, 120, 0.55);
+        ySaddleGrp.add(saddleCasting);
+
+        const xDrive = buildLinearAxisDrive(bedL * 0.66, 86, state.railW, state.screwDia, 'X', xPos * 0.75, tableMat, hiwinBlockMat, brassMat);
+        xDrive.rotation.x = Math.PI / 2;
+        xDrive.position.set(0, 13, 0);
+        ySaddleGrp.add(xDrive);
+
+        const xTableGrp = new THREE.Group();
+        xTableGrp.position.set(xPos * 0.75, 22 + explode * 0.25, 0);
+        ySaddleGrp.add(xTableGrp);
+
+        const tablePlate = new THREE.Mesh(new THREE.BoxGeometry(bedL * 0.58, 14, 118), tableMat);
+        xTableGrp.add(tablePlate);
+
+        const wpNode = buildWorkpieceNode(wpMat, brassMat);
+        wpNode.position.y = 7;
+        xTableGrp.add(wpNode);
+
+        // Place ATC well outside left column wall so X-table never hits it
+        const atc = buildATCAssembly(headMat, brassMat, hiwinBlockMat);
+        atc.position.set(-bedL * 0.48 - 45 - explode * 0.6, bedH + colH * 0.68, -bedW * 0.22);
+        machineRootGroup.add(atc);
+
+      } else {
+        // -------------------------------------------------------------------
+        // D. GANTRY 5-AXIS (YCM UV650) / DOUBLE-COLUMN PORTAL (DCV) / HIGH-RAIL
+        //    Properly proportioned bridge height & trunnion elevation for ZERO interference!
+        // -------------------------------------------------------------------
+        const isMovingBridgeY = state.arch === 'five_axis_gantry' || state.arch === 'overhead_highrail';
+        // Clamp Y bridge travel within the portal side walls!
+        const bridgeOffsetZ = isMovingBridgeY ? Math.max(-55, Math.min(55, yPos * 0.55)) : 0;
+
+        const portalGrp = new THREE.Group();
+        portalGrp.position.set(0, bedH + explode * 0.2, -bedW * 0.08);
+        machineRootGroup.add(portalGrp);
+
+        const pillarW = colD * 0.72;
+        const pillarSpanX = colW / 2 + pillarW / 2 + 12;
+        [-pillarSpanX, pillarSpanX].forEach(px => {
+          const pShell = createStructuralMesh(new THREE.BoxGeometry(pillarW, colH, colD * 1.45, 4, 8, 4), shellMat, true, 0, colH, 0.8);
+          pShell.position.set(px, colH / 2, 0);
+          portalGrp.add(pShell);
+
+          const pRibs = buildInternalRibGroup(pillarW - 8, colH - 8, colD * 1.38, Math.max(3, state.ribCells - 2), state.ribT, ribMat);
+          pRibs.position.set(px, 4, 0);
+          portalGrp.add(pRibs);
+        });
+
+        const beamH = colD * 0.78;
+        const beamGrp = new THREE.Group();
+        beamGrp.position.set(0, colH - beamH / 2 + explode * 0.35, bridgeOffsetZ);
+        portalGrp.add(beamGrp);
+
+        const beamShell = createStructuralMesh(new THREE.BoxGeometry(colW + pillarW * 2 + 24, beamH, colD, 8, 4, 4), shellMat, true, colH * 0.7, colH, 1.1);
+        beamGrp.add(beamShell);
+
+        const beamRibs = buildInternalRibGroup(colW + pillarW * 1.8 + 20, beamH - 6, colD - 8, state.ribCells, state.ribT, ribMat);
+        beamRibs.position.y = -beamH / 2 + 3;
+        beamGrp.add(beamRibs);
+
+        const safeGantryX = Math.max(-colW * 0.34, Math.min(colW * 0.34, xPos * 0.75));
+        const xDrive = buildLinearAxisDrive(colW + pillarW * 0.6, beamH * 0.65, state.railW, state.screwDia, 'X', safeGantryX, tableMat, hiwinBlockMat, brassMat);
+        xDrive.position.set(0, 0, colD / 2 + 5);
+        beamGrp.add(xDrive);
+
+        const xSaddleGrp = new THREE.Group();
+        xSaddleGrp.position.set(safeGantryX, 0, colD / 2 + 20 + explode * 0.35);
+        beamGrp.add(xSaddleGrp);
+
+        const xSaddlePlate = createStructuralMesh(new THREE.BoxGeometry(78, beamH * 1.02, 20, 3, 4, 2), headMat, false, colH * 0.7, colH, 1.15);
+        xSaddleGrp.add(xSaddlePlate);
+
+        const zDrive = buildLinearAxisDrive(beamH * 1.18, 52, state.railW, state.screwDia, 'Z', zPos * 0.7, tableMat, hiwinBlockMat, brassMat);
+        zDrive.position.set(0, 0, 12);
+        xSaddleGrp.add(zDrive);
+
+        const zHead = buildSpindleHeadUnit(headMat, tableMat, brassMat, false, isCollisionNow);
+        // Set Z-head baseline height so at Z=0 tool tip sits safely above the tilted trunnion workpiece!
+        zHead.position.set(0, -beamH * 0.58 + zPos * 0.75, 42 + explode * 0.35);
+        xSaddleGrp.add(zHead);
+
+        // Lower Table: A/C Tilting Trunnion Cradle positioned directly underneath the Spindle Tip (`z = colD/2 + 62 - bedW*0.08`)
+        const tableCenterZ = -bedW * 0.08 + colD / 2 + 62;
+        const lowerTableGrp = new THREE.Group();
+        lowerTableGrp.position.set(0, bedH + explode * 0.25, isMovingBridgeY ? tableCenterZ : tableCenterZ + yPos * 0.55);
+        machineRootGroup.add(lowerTableGrp);
+
+        const yBedDrive = buildLinearAxisDrive(bedW * 0.68, colW * 0.54, state.railW, state.screwDia, 'Y', isMovingBridgeY ? 0 : yPos * 0.55, tableMat, hiwinBlockMat, brassMat);
+        yBedDrive.position.y = 4;
+        lowerTableGrp.add(yBedDrive);
+
+        const trunSpan = colW * 0.54;
+        const pedPositions = state.trunnion === 'harmonic_strain' ? [-trunSpan / 2] : [-trunSpan / 2, trunSpan / 2];
+        pedPositions.forEach(tx => {
+          const ped = createStructuralMesh(new THREE.BoxGeometry(24, 52, 48, 2, 4, 2), headMat, false, 0, 80, 0.7);
+          ped.position.set(tx, 30, 0);
+          lowerTableGrp.add(ped);
+          const ddMotor = createStructuralMesh(new THREE.CylinderGeometry(20, 20, 16, 24), brassMat, false, 0, 50, 1.15);
+          ddMotor.rotation.z = Math.PI / 2;
+          ddMotor.position.set(tx, 36, 0);
+          lowerTableGrp.add(ddMotor);
+        });
+
+        const cradlePivot = new THREE.Group();
+        cradlePivot.position.set(0, 36, 0);
+        cradlePivot.rotation.x = aRad;
+        lowerTableGrp.add(cradlePivot);
+
+        const cradleBridge = createStructuralMesh(new THREE.BoxGeometry(trunSpan - 22, 14, 76, 4, 2, 3), headMat, false, 0, 80, 0.85);
+        cradleBridge.position.y = -15;
+        cradlePivot.add(cradleBridge);
+
+        const platterPivot = new THREE.Group();
+        platterPivot.position.y = -5;
+        platterPivot.rotation.y = cRad;
+        cradlePivot.add(platterPivot);
+
+        const platter = new THREE.Mesh(new THREE.CylinderGeometry(trunSpan * 0.34, trunSpan * 0.36, 12, 32), tableMat);
+        platterPivot.add(platter);
+
+        const wpNode = buildWorkpieceNode(wpMat, brassMat);
+        wpNode.position.y = 6;
+        platterPivot.add(wpNode);
+
+        // 3D Interference Check Envelope around Trunnion & Workpiece when in Interference Mode
+        if (state.caeMode === 'interference') {
+          const wpBox = new THREE.LineSegments(
+            new THREE.EdgesGeometry(new THREE.BoxGeometry(trunSpan * 0.72, 42, trunSpan * 0.72)),
+            new THREE.LineBasicMaterial({ color: isCollisionNow ? 0xef4444 : 0x22d3ee })
+          );
+          wpBox.position.y = 18;
+          platterPivot.add(wpBox);
+        }
+
+        // Side ATC Magazine placed outside the left portal pillar with ample clearance
+        const atc = buildATCAssembly(headMat, brassMat, hiwinBlockMat);
+        atc.position.set(-pillarSpanX - pillarW - 42 - explode * 0.65, bedH + colH * 0.68, -bedW * 0.12);
+        machineRootGroup.add(atc);
+      }
+
+      if (state.showEnclosure) {
+        const encMat = new THREE.MeshStandardMaterial({
+          color: 0x94a3b8,
+          transparent: true,
+          opacity: 0.18,
+          roughness: 0.25,
+          metalness: 0.6,
+          depthWrite: false
+        });
+        const encBox = new THREE.Mesh(new THREE.BoxGeometry(bedL * 1.08, colH + bedH, bedW * 1.06), encMat);
+        encBox.position.set(0, (colH + bedH) / 2, 0);
+        machineRootGroup.add(encBox);
+      }
+
+      updateEngineeringCalculations(minClearanceMm, toolClearanceMm, trunnionClearanceMm, isCollisionNow);
+    }
+
+    // =========================================================================
+    // 5. MULTI-PHYSICS CAE CALCULATIONS (INTERFERENCE, THERMAL, RESONANCE SLD)
+    // =========================================================================
+    function updateEngineeringCalculations(minClearanceMm, toolClearanceMm, trunnionClearanceMm, isCollisionNow) {
+      const archDef = MACHINE_ARCHS.find(a => a.id === state.arch) || MACHINE_ARCHS[0];
+      const castDef = CAST_MATS.find(m => m.id === state.castMat) || CAST_MATS[0];
+      const ribDef = RIB_TOPOS.find(r => r.id === state.ribTopo) || RIB_TOPOS[0];
+      const guideDef = GUIDEWAY_TYPES.find(g => g.id === state.guide) || GUIDEWAY_TYPES[0];
+      const screwDef = BALLSCREW_TYPES.find(s => s.id === state.ballscrew) || BALLSCREW_TYPES[0];
+      const spindleDef = SPINDLE_TYPES.find(s => s.id === state.spindleType) || SPINDLE_TYPES[0];
+      const fbDef = FEEDBACK_TYPES.find(f => f.id === state.feedback) || FEEDBACK_TYPES[0];
+
+      // 1. Structural Inertia & Loop Stiffness K_loop (N/μm)
+      const B_cm = (state.colSpan * 0.72) / 10, H_cm = 29.0;
+      const b_in = Math.max(5, B_cm - (state.wallT * 2) / 10), h_in = Math.max(5, H_cm - (state.wallT * 2) / 10);
+      const Ix_total_cm4 = Math.round(((B_cm * Math.pow(H_cm, 3) - b_in * Math.pow(h_in, 3)) / 12) + (state.ribCells - 1) * ((state.ribT / 10) * Math.pow(h_in, 3) / 12) * ribDef.stiffFactor);
+
+      const bedVolM3 = (state.bedL / 1000) * (state.bedW / 1000) * 0.38 * 0.42;
+      const colVolM3 = (state.colSpan / 1000) * (state.colH / 1000) * 0.45 * 0.38;
+      const wallFactor = (state.wallT / 20) * 0.62 + (state.ribT / 15) * 0.38 * (state.ribCells / 6);
+      const totalWeightKg = Math.round((bedVolM3 + colVolM3) * castDef.density * 1000 * wallFactor + 1850);
+
+      const matModFactor = Math.pow(castDef.E_GPa / 125, 0.55);
+      const railFactor = (state.railW / 45) * guideDef.stiffK;
+      const inertiaFactor = Math.pow(Ix_total_cm4 / 185000, 0.35) / Math.pow(state.colH / 1000, 0.6);
+      const kLoop = Math.max(45, Math.round(archDef.baseStiff * matModFactor * railFactor * inertiaFactor));
+
+      // 2. Thermal Deformation Analysis (ΔT °C & Thermal Elongation δ_th μm)
+      // Asymptotic exponential heating curve: ΔT(t) = ΔT_max * (1 - exp(-t / τ))
+      const tauMin = 45;
+      const timeSaturation = 1 - Math.exp(-state.runTimeMin / tauMin);
+      const spindleDeltaT = (4.2 + Math.pow(state.rpm / 10000, 1.35) * 6.8 * spindleDef.heatW) * timeSaturation;
+      const screwDeltaT = (3.5 + (state.rpm / 12000) * 5.2 * screwDef.thermalFactor) * timeSaturation;
+      const rawThermalZ_um = (0.42 * castDef.alpha_um * spindleDeltaT) + (0.65 * 11.5 * screwDeltaT);
+      const compThermalZ_um = (rawThermalZ_um * fbDef.compRatio).toFixed(1);
+
+      // 3. Structural Resonance Modal Frequencies (f1, f2, f3 Hz) & Chatter Excitation Check
+      const f1_pitch = Math.round(148 * Math.sqrt((kLoop / 125) / (totalWeightKg / 8200)));
+      const f2_roll = Math.round(f1_pitch * 1.42);
+      const f3_torsion = Math.round(f1_pitch * 2.15);
+      const activeModeHz = state.modalOrder === 1 ? f1_pitch : (state.modalOrder === 2 ? f2_roll : f3_torsion);
+      const toothPassHz = Math.round((state.rpm * state.fluteCount) / 60);
+      const freqDiffPct = Math.round((Math.abs(toothPassHz - f1_pitch) / f1_pitch) * 100);
+      const isResonanceRisk = freqDiffPct < 12 || Math.abs(toothPassHz - f2_roll) / f2_roll < 0.10;
+
+      // Update Top & Left HUDs
+      const clrEl = document.getElementById('hud-clearance');
+      clrEl.textContent = `${minClearanceMm >= 0 ? '+' : ''}${minClearanceMm} mm`;
+      clrEl.className = `mono text-[11px] font-bold ${isCollisionNow ? 'text-rose-400 animate-pulse' : 'text-emerald-300'}`;
+
+      document.getElementById('hud-stiffness').textContent = `${kLoop} N/μm`;
+      document.getElementById('hud-deflection').textContent = `${compThermalZ_um} μm`;
+      document.getElementById('hud-modal-hz').textContent = `${activeModeHz} Hz`;
+
+      document.getElementById('hud-top-spec').textContent =
+        `${archDef.name} • 間隙 ${minClearanceMm >= 0 ? '+' : ''}${minClearanceMm}mm • 溫升 +${spindleDeltaT.toFixed(1)}°C(δth=${compThermalZ_um}μm) • f1=${f1_pitch}Hz`;
+
+      const badgeCol = document.getElementById('badge-collision-state');
+      if (isCollisionNow) {
+        badgeCol.textContent = `⚠️ 干涉碰撞 ${minClearanceMm}mm`;
+        badgeCol.className = 'px-1.5 py-0.2 rounded bg-rose-500/30 text-rose-200 font-bold animate-pulse';
+      } else {
+        badgeCol.textContent = `零干涉 SAFE (+${minClearanceMm}mm)`;
+        badgeCol.className = 'px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-bold';
+      }
+
+      const caeEl = document.getElementById('txt-cae-report');
+      if (caeEl) {
+        caeEl.innerHTML = `
+          • <strong>干涉檢核</strong>：刀尖對工件間隙 ${toolClearanceMm >= 0 ? '+' : ''}${toolClearanceMm}mm | 主軸頭對搖籃 +${trunnionClearanceMm}mm<br/>
+          • <strong>熱變形量</strong>：主軸溫升 +${spindleDeltaT.toFixed(1)}°C | 螺桿溫升 +${screwDeltaT.toFixed(1)}°C | 補償後熱伸長 δth = <strong>${compThermalZ_um} μm</strong><br/>
+          • <strong>共振分析</strong>：f1=${f1_pitch}Hz, f2=${f2_roll}Hz, f3=${f3_torsion}Hz vs 刀齒激振 ${toothPassHz}Hz (${isResonanceRisk ? '⚠️ 接近共振區' : '✅ 避開共振區'})
+        `;
+      }
+
+      drawCAEDiagnosticCanvas('canvas-section-mini', false, minClearanceMm, spindleDeltaT, rawThermalZ_um, parseFloat(compThermalZ_um), f1_pitch, f2_roll, f3_torsion, toothPassHz);
+      drawCAEDiagnosticCanvas('canvas-section-large', true, minClearanceMm, spindleDeltaT, rawThermalZ_um, parseFloat(compThermalZ_um), f1_pitch, f2_roll, f3_torsion, toothPassHz);
+    }
+
+    // Draw Live Multi-Mode CAE Diagnostic Chart (Interference / Thermal Curve / Chatter SLD)
+    function drawCAEDiagnosticCanvas(canvasId, isLarge, minClrMm, spindleDT, rawThUm, compThUm, f1, f2, f3, toothHz) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.10)';
+      const step = isLarge ? 24 : 16;
+      for (let x = 0; x < w; x += step) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+      for (let y = 0; y < h; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+      if (!isLarge) {
+        // Mini HUD Chart switches dynamically based on active state.caeMode
+        ctx.font = 'bold 10px "JetBrains Mono", monospace';
+        if (state.caeMode === 'thermal') {
+          ctx.fillStyle = '#fb923c';
+          ctx.fillText(`🌡️ 熱變形曲線 (運轉 ${state.runTimeMin} min, +${spindleDT.toFixed(1)}°C)`, 10, 16);
+          // Plot Uncompensated (Red) vs AI+Hollow-Cooled Compensated (Cyan) Thermal Elongation Curve
+          ctx.strokeStyle = '#ef4444';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          for (let t = 0; t <= 200; t += 10) {
+            const px = 14 + (t / 200) * (w - 28);
+            const py = h - 22 - (1 - Math.exp(-t / 45)) * Math.min(72, rawThUm * 1.8);
+            if (t === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+
+          ctx.strokeStyle = '#22d3ee';
+          ctx.beginPath();
+          for (let t = 0; t <= 200; t += 10) {
+            const px = 14 + (t / 200) * (w - 28);
+            const py = h - 22 - (1 - Math.exp(-t / 45)) * Math.min(72, compThUm * 1.8);
+            if (t === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+          ctx.fillStyle = '#cbd5e1';
+          ctx.fillText(`紅:未補償 ${rawThUm.toFixed(1)}μm | 青:補償後 ${compThUm}μm`, 10, h - 7);
+        } else if (state.caeMode === 'resonance') {
+          ctx.fillStyle = '#c084fc';
+          ctx.fillText(`〰️ 顫振穩定葉瓣圖 SLD (f1=${f1}Hz, 激振=${toothHz}Hz)`, 10, 16);
+          // Plot Stability Lobes (Critical Axial Depth of Cut vs Spindle RPM)
+          ctx.strokeStyle = '#a855f7';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          for (let x = 12; x < w - 12; x += 3) {
+            const lobe = Math.abs(Math.sin((x - 12) * 0.085)) * 52 + 16;
+            const py = h - 20 - lobe;
+            if (x === 12) ctx.moveTo(x, py); else ctx.lineTo(x, py);
+          }
+          ctx.stroke();
+          // Current Operating RPM Marker
+          const opX = 14 + ((state.rpm - 3000) / 27000) * (w - 28);
+          ctx.strokeStyle = '#f59e0b';
+          ctx.beginPath(); ctx.moveTo(opX, 24); ctx.lineTo(opX, h - 18); ctx.stroke();
+          ctx.fillStyle = '#fde047';
+          ctx.fillText(`目前轉速: ${state.rpm} rpm (${state.fluteCount}刃)`, 10, h - 7);
+        } else {
+          ctx.fillStyle = minClrMm < 0 ? '#f87171' : '#34d399';
+          ctx.fillText(`🛡️ 運動干涉監控: 最小間隙 ${minClrMm >= 0 ? '+' : ''}${minClrMm} mm`, 10, 16);
+          // Draw clearance gauge bars
+          const bars = [
+            { lbl: '刀尖 vs 工件/轉台', val: minClrMm, max: 60 },
+            { lbl: 'X軸行程裕度', val: 160 - Math.abs(state.axisX), max: 160 },
+            { lbl: 'Y軸行程裕度', val: 130 - Math.abs(state.axisY), max: 130 }
+          ];
+          bars.forEach((b, idx) => {
+            const by = 32 + idx * 30;
+            ctx.fillStyle = '#cbd5e1';
+            ctx.fillText(`${b.lbl}: ${b.val}mm`, 12, by);
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(12, by + 5, w - 24, 8);
+            ctx.fillStyle = b.val < 2 ? '#ef4444' : '#10b981';
+            ctx.fillRect(12, by + 5, Math.max(4, Math.min(1, (b.val + 15) / (b.max + 15)) * (w - 24)), 8);
+          });
+        }
+        return;
+      }
+
+      // Large 3-Panel Modal Dashboard: Panel 1 (Interference Envelope) + Panel 2 (Thermal Curve) + Panel 3 (Resonance SLD)
+      const pw = 290, ph = 370;
+      const panels = [
+        { title: '① 3D 運動空間與干涉安全裕度檢核', x: 18 },
+        { title: '② 主軸與螺桿溫升熱變形曲線 (δ_th)', x: 325 },
+        { title: '③ 三階共振模態與切削顫振葉瓣圖 (SLD)', x: 632 }
+      ];
+      panels.forEach((p, idx) => {
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(p.x, 20, pw, ph);
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(p.x + 2, 22, pw - 4, 32);
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = 'bold 12px "Inter", "Noto Sans TC", sans-serif';
+        ctx.fillText(p.title, p.x + 10, 42);
+
+        if (idx === 0) {
+          ctx.font = '12px "JetBrains Mono", monospace';
+          ctx.fillStyle = minClrMm < 0 ? '#f87171' : '#34d399';
+          ctx.fillText(`最小安全間隙: ${minClrMm >= 0 ? '+' : ''}${minClrMm} mm`, p.x + 16, 82);
+          ctx.fillStyle = '#cbd5e1';
+          ctx.fillText(`X軸座標: ${state.axisX} mm (極限 ±160)`, p.x + 16, 115);
+          ctx.fillText(`Y軸座標: ${state.axisY} mm (極限 ±130)`, p.x + 16, 145);
+          ctx.fillText(`Z軸座標: ${state.axisZ} mm (防撞鎖: ${state.collisionGuard ? 'ON' : 'OFF'})`, p.x + 16, 175);
+          ctx.fillText(`A軸傾角: ${state.axisA}° | C軸: ${state.axisC}°`, p.x + 16, 205);
+          ctx.strokeStyle = minClrMm < 0 ? '#ef4444' : '#22d3ee';
+          ctx.strokeRect(p.x + 45, 235, 200, 120);
+          ctx.fillStyle = '#fbbf24';
+          ctx.beginPath();
+          ctx.arc(p.x + 145 + state.axisX * 0.4, 295 + state.axisY * 0.3, 10, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (idx === 1) {
+          ctx.strokeStyle = '#ef4444';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          for (let t = 0; t <= 240; t += 10) {
+            const px = p.x + 20 + (t / 240) * (pw - 40);
+            const py = 330 - (1 - Math.exp(-t / 45)) * Math.min(180, rawThUm * 4.2);
+            if (t === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+
+          ctx.strokeStyle = '#22d3ee';
+          ctx.beginPath();
+          for (let t = 0; t <= 240; t += 10) {
+            const px = p.x + 20 + (t / 240) * (pw - 40);
+            const py = 330 - (1 - Math.exp(-t / 45)) * Math.min(180, compThUm * 4.2);
+            if (t === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+
+          ctx.fillStyle = '#e2e8f0';
+          ctx.font = '11px "JetBrains Mono", monospace';
+          ctx.fillText(`主軸溫升 ΔT = +${spindleDT.toFixed(1)} °C`, p.x + 16, 82);
+          ctx.fillStyle = '#f87171';
+          ctx.fillText(`未補償熱伸長: ${rawThUm.toFixed(1)} μm`, p.x + 16, 108);
+          ctx.fillStyle = '#22d3ee';
+          ctx.fillText(`中空油冷+光學尺補償後: ${compThUm} μm`, p.x + 16, 134);
+        } else {
+          ctx.strokeStyle = '#c084fc';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          for (let lx = 0; lx <= pw - 40; lx += 4) {
+            const lobe = Math.abs(Math.sin(lx * 0.065)) * 135 + 30;
+            const px = p.x + 20 + lx;
+            const py = 340 - lobe;
+            if (lx === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+
+          ctx.fillStyle = '#e2e8f0';
+          ctx.font = '11px "JetBrains Mono", monospace';
+          ctx.fillText(`1階點頭模態 f1 = ${f1} Hz`, p.x + 16, 82);
+          ctx.fillText(`2階搖擺模態 f2 = ${f2} Hz`, p.x + 16, 106);
+          ctx.fillText(`3階扭轉模態 f3 = ${f3} Hz`, p.x + 16, 130);
+          ctx.fillStyle = '#fde047';
+          ctx.fillText(`刀齒激振頻率 = ${toothHz} Hz (${state.rpm}rpm)`, p.x + 16, 156);
+        }
+      });
+    }
+
+    // =========================================================================
+    // 6. 3D CAD EXPORTERS (.STEP, .STL, .OBJ, .DXF, .CSV)
+    // =========================================================================
+    function exportMachineSTL() {
+      const lines = ['solid Maxjimtech_MachineTool_3D'];
+      const vA = new THREE.Vector3(), vB = new THREE.Vector3(), vC = new THREE.Vector3();
+      const cb = new THREE.Vector3(), ab = new THREE.Vector3();
+
+      machineRootGroup.updateMatrixWorld(true);
+      machineRootGroup.traverse(obj => {
+        if (!obj.isMesh || !obj.geometry) return;
+        const geo = obj.geometry.index ? obj.geometry.toNonIndexed() : obj.geometry;
+        const pos = geo.attributes.position;
+        if (!pos) return;
+        for (let i = 0; i < pos.count; i += 3) {
+          vA.fromBufferAttribute(pos, i).applyMatrix4(obj.matrixWorld);
+          vB.fromBufferAttribute(pos, i + 1).applyMatrix4(obj.matrixWorld);
+          vC.fromBufferAttribute(pos, i + 2).applyMatrix4(obj.matrixWorld);
+          cb.subVectors(vC, vB); ab.subVectors(vA, vB); cb.cross(ab).normalize();
+          lines.push(`facet normal ${cb.x.toFixed(4)} ${cb.y.toFixed(4)} ${cb.z.toFixed(4)}`);
+          lines.push('  outer loop');
+          lines.push(`    vertex ${vA.x.toFixed(2)} ${vA.y.toFixed(2)} ${vA.z.toFixed(2)}`);
+          lines.push(`    vertex ${vB.x.toFixed(2)} ${vB.y.toFixed(2)} ${vB.z.toFixed(2)}`);
+          lines.push(`    vertex ${vC.x.toFixed(2)} ${vC.y.toFixed(2)} ${vC.z.toFixed(2)}`);
+          lines.push('  endloop');
+          lines.push('endfacet');
+        }
+      });
+      lines.push('endsolid Maxjimtech_MachineTool_3D');
+      downloadBlob(lines.join('\n'), `Maxjimtech_MachineTool_${state.presetId}.stl`, 'model/stl');
+      showToast('已下載 3D 工具母機整機網格模型 (.STL)！');
+    }
+
+    function exportMachineSTEP() {
+      const nowISO = new Date().toISOString().slice(0, 19);
+      const step = [
+        `ISO-10303-21;`,
+        `HEADER;`,
+        `FILE_DESCRIPTION(('Maxjimtech MACHINETOOL PRO 3D v3.0 CNC Machine Structure','Bed ${state.bedL}x${state.bedW}mm, Column H${state.colH}mm, Spindle ${state.taper} ${state.rpm}rpm'),'2;1');`,
+        `FILE_NAME('Maxjimtech_MachineTool_${state.presetId}.step','${nowISO}',('Alex Chang - MaxJim Tech'),('Maxjimtech Taichung Taiwan'),'MACHINETOOL PRO 3D v3.0','STEP AP214','');`,
+        `FILE_SCHEMA(('AUTOMOTIVE_DESIGN { 1 0 10303 214 1 1 1 1 }'));`,
+        `ENDSEC;`,
+        `DATA;`,
+        `#10 = APPLICATION_CONTEXT('machine tool structural design');`,
+        `#11 = PRODUCT_CONTEXT('',#10,'mechanical');`,
+        `#12 = PRODUCT('MAXJIM_CNC_MACHINE','${state.arch} ${state.bedL}x${state.bedW}mm','',(#11));`,
+        `#20 = CARTESIAN_POINT('Bed_Min',(${(-state.bedL/2).toFixed(1)},0.0,${(-state.bedW/2).toFixed(1)}));`,
+        `#21 = CARTESIAN_POINT('Bed_Max',(${(state.bedL/2).toFixed(1)},140.0,${(state.bedW/2).toFixed(1)}));`,
+        `#22 = CARTESIAN_POINT('Column_Top',(0.0,${(140 + state.colH).toFixed(1)},${(-state.bedW*0.28).toFixed(1)}));`,
+        `#23 = CARTESIAN_POINT('Spindle_Nose',(${state.axisX.toFixed(1)},${(320 + state.axisZ).toFixed(1)},${state.axisY.toFixed(1)}));`,
+        `ENDSEC;`,
+        `END-ISO-10303-21;`
+      ].join('\n');
+      downloadBlob(step, `Maxjimtech_MachineTool_${state.presetId}.step`, 'application/step');
+      showToast('已下載 ISO-10303-21 (.STEP AP214) 3D 工具母機結構檔！');
+    }
+
+    function exportMachineOBJ() {
+      const lines = ['# Maxjimtech MACHINETOOL PRO 3D v3.0 OBJ'];
+      const v = new THREE.Vector3();
+      let off = 1;
+      machineRootGroup.updateMatrixWorld(true);
+      machineRootGroup.traverse(obj => {
+        if (!obj.isMesh || !obj.geometry) return;
+        const geo = obj.geometry.index ? obj.geometry.toNonIndexed() : obj.geometry;
+        const pos = geo.attributes.position;
+        if (!pos) return;
+        for (let i = 0; i < pos.count; i++) {
+          v.fromBufferAttribute(pos, i).applyMatrix4(obj.matrixWorld);
+          lines.push(`v ${v.x.toFixed(2)} ${v.y.toFixed(2)} ${v.z.toFixed(2)}`);
+        }
+        for (let i = 0; i < pos.count; i += 3) {
+          lines.push(`f ${off + i} ${off + i + 1} ${off + i + 2}`);
+        }
+        off += pos.count;
+      });
+      downloadBlob(lines.join('\n'), `Maxjimtech_MachineTool_${state.presetId}.obj`, 'text/plain');
+      showToast('已下載 3D 多邊形模型 (.OBJ)！');
+    }
+
+    function exportFoundationDXF() {
+      const L = state.bedL, W = state.bedW;
+      const dxf = [
+        '0','SECTION','2','ENTITIES',
+        '0','LINE','8','MACHINE_BED_FOOTPRINT','10',String(-L/2),'20',String(-W/2),'11',String(L/2),'21',String(-W/2),
+        '0','LINE','8','MACHINE_BED_FOOTPRINT','10',String(L/2),'20',String(-W/2),'11',String(L/2),'21',String(W/2),
+        '0','LINE','8','MACHINE_BED_FOOTPRINT','10',String(L/2),'20',String(W/2),'11',String(-L/2),'21',String(W/2),
+        '0','LINE','8','MACHINE_BED_FOOTPRINT','10',String(-L/2),'20',String(W/2),'11',String(-L/2),'21',String(-W/2),
+        '0','CIRCLE','8','LEVELING_BOLT_M24','10',String(-L*0.44),'20',String(-W*0.44),'40','24',
+        '0','CIRCLE','8','LEVELING_BOLT_M24','10',String(L*0.44),'20',String(-W*0.44),'40','24',
+        '0','CIRCLE','8','LEVELING_BOLT_M24','10',String(-L*0.44),'20',String(W*0.44),'40','24',
+        '0','CIRCLE','8','LEVELING_BOLT_M24','10',String(L*0.44),'20',String(W*0.44),'40','24',
+        '0','ENDSEC','0','EOF'
+      ].join('\n');
+      downloadBlob(dxf, `Maxjimtech_Machine_Foundation_${L}x${W}mm.dxf`, 'application/dxf');
+      showToast('已下載 1:1 底座佔地與水平調整螺栓孔位 DXF！');
+    }
+
+    function exportMachineBOMCSV() {
+      const rows = [
+        ['項次', '母機大件/機構模組', '選用規格型號', '主要工程參數', '數量'],
+        ['1', '底座與立柱結構鑄件', `${state.castMat} (${state.ribTopo})`, `底座 ${state.bedL}x${state.bedW}mm / 立柱高 ${state.colH}mm / 壁厚 ${state.wallT}mm`, '1 套'],
+        ['2', '三軸線性滑軌組', state.guide, `軌寬 ${state.railW}mm (${state.railLayout})`, '3 軸'],
+        ['3', '精密預拉滾珠螺桿', state.ballscrew, `Ø${state.screwDia} mm x 導程 P${state.screwLead} mm (C3級)`, '3 支'],
+        ['4', '高速主軸總成', state.spindleType, `${state.taper} 刀把介面 / 最高 ${state.rpm} rpm`, '1 支'],
+        ['5', '自動換刀刀庫系統 (ATC)', state.atcType, '凸輪機械手雙爪換刀機構', '1 座'],
+        ['6', '五軸搖籃轉台與光學尺', `${state.trunnion} + ${state.feedback}`, 'A軸 ±110° / C軸 360° 連續同動', '1 組']
+      ];
+      const csv = '\uFEFF' + rows.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+      downloadBlob(csv, `Maxjimtech_MachineTool_BOM_${state.presetId}.csv`, 'text/csv;charset=utf-8');
+      showToast('已下載工具母機整機機構採購 BOM (.CSV)！');
+    }
+
+    function downloadBlob(content, filename, mime) {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([content], { type: mime }));
+      a.download = filename;
+      a.click();
+    }
+
+    // =========================================================================
+    // 7. TACTILE HORIZONTAL ROTARY JOG-WHEEL ENGINE & UI BINDINGS
+    // =========================================================================
+    function renderRotaryWheels() {
+      const wheels = WHEEL_BANKS[state.wheelBank] || WHEEL_BANKS.axes;
+      const container = document.getElementById('rotary-wheels-container');
+
+      container.innerHTML = wheels.map(w => {
+        const val = state[w.key];
+        const pxOffset = Math.round((val - w.min) / w.step) * 6;
+        return `
+          <div class="rotary-wheel-wrap flex flex-col gap-1">
+            <div class="flex items-center justify-between text-[10px] leading-none">
+              <span class="font-bold text-slate-200 truncate">${w.label}</span>
+              <span class="mono font-bold text-amber-300"><span id="wval-${w.key}">${val}</span>${w.unit}</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <button data-step-dir="-1" data-target-key="${w.key}" class="glass-btn w-5 h-6 rounded text-[9px] font-bold flex items-center justify-center shrink-0">◀</button>
+              <div class="rotary-wheel-drum flex-1" data-jog-key="${w.key}" data-min="${w.min}" data-max="${w.max}" data-step="${w.step}">
+                <div class="rotary-wheel-knurling" id="wticks-${w.key}" style="background-position: ${-pxOffset}px 0;"></div>
+                <div class="rotary-wheel-vignette"></div>
+                <div class="rotary-wheel-indicator"></div>
+              </div>
+              <button data-step-dir="1" data-target-key="${w.key}" class="glass-btn w-5 h-6 rounded text-[9px] font-bold flex items-center justify-center shrink-0">▶</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.querySelectorAll('.rotary-wheel-drum').forEach(drum => {
+        const key = drum.getAttribute('data-jog-key');
+        const min = parseFloat(drum.getAttribute('data-min'));
+        const max = parseFloat(drum.getAttribute('data-max'));
+        const step = parseFloat(drum.getAttribute('data-step'));
+
+        const applyVal = (rawVal) => {
+          if (['axisX', 'axisY', 'axisZ', 'axisA', 'axisC'].includes(key)) {
+            state.autoPlay = false;
+            state.forcedCollisionTest = false;
+            updatePlayButtonUI();
+          }
+          const clamped = Math.max(min, Math.min(max, rawVal));
+          const snapped = Math.round(clamped / step) * step;
+          if (state[key] === snapped) return;
+          state[key] = snapped;
+          syncWheelReadouts();
+          rebuild3DMachineTool();
+        };
+
+        let dragging = false, startX = 0, startVal = 0;
+        drum.addEventListener('pointerdown', e => {
+          dragging = true;
+          startX = e.clientX;
+          startVal = state[key];
+          drum.setPointerCapture(e.pointerId);
+        });
+        drum.addEventListener('pointermove', e => {
+          if (!dragging) return;
+          const dx = e.clientX - startX;
+          applyVal(startVal + Math.round(dx / 5) * step);
+        });
+        drum.addEventListener('pointerup', () => { dragging = false; });
+
+        drum.addEventListener('wheel', e => {
+          e.preventDefault();
+          const dir = (e.deltaY || e.deltaX) > 0 ? -1 : 1;
+          applyVal(state[key] + dir * step);
+        }, { passive: false });
+      });
+    }
+
+    function renderAllOptionGrids() {
+      const strip = document.getElementById('preset-pill-strip');
+      strip.innerHTML = MACHINE_PRESETS.map(p => `
+        <button data-preset="${p.id}" class="glass-btn ${state.presetId === p.id ? 'active' : ''} px-3 py-1 rounded-full text-[11px] font-bold whitespace-nowrap shrink-0">
+          ${p.short}
+        </button>
+      `).join('');
+
+      const fillGrid = (elId, items, stateKey, attr) => {
+        const el = document.getElementById(elId);
+        if (!el) return;
+        el.innerHTML = items.map(item => `
+          <button ${attr}="${item.id}" class="glass-btn ${String(state[stateKey]) === String(item.id) ? 'active' : ''} px-2 py-1.5 rounded-lg text-[10px] font-semibold text-left truncate">
+            ${item.name}
+          </button>
+        `).join('');
+      };
+
+      fillGrid('grid-arch', MACHINE_ARCHS, 'arch', 'data-arch');
+      fillGrid('grid-column-style', COLUMN_STYLES, 'colStyle', 'data-colstyle');
+      fillGrid('grid-balance-style', BALANCE_STYLES, 'balanceStyle', 'data-balstyle');
+      fillGrid('grid-cast-mat', CAST_MATS, 'castMat', 'data-castmat');
+      fillGrid('grid-rib-topo', RIB_TOPOS, 'ribTopo', 'data-ribtopo');
+      fillGrid('grid-chip-flume', CHIP_FLUMES, 'chipFlume', 'data-flume');
+      fillGrid('grid-guideway', GUIDEWAY_TYPES, 'guide', 'data-guide');
+      fillGrid('grid-ballscrew', BALLSCREW_TYPES, 'ballscrew', 'data-screw');
+      fillGrid('grid-rail-layout', RAIL_LAYOUTS, 'railLayout', 'data-raillayout');
+      fillGrid('grid-spindle-type', SPINDLE_TYPES, 'spindleType', 'data-spindle');
+      fillGrid('grid-taper', TAPER_TYPES, 'taper', 'data-taper');
+      fillGrid('grid-atc-type', ATC_TYPES, 'atcType', 'data-atc');
+      fillGrid('grid-trunnion-drive', TRUNNION_DRIVES, 'trunnion', 'data-trunnion');
+      fillGrid('grid-feedback', FEEDBACK_TYPES, 'feedback', 'data-feedback');
+    }
+
+    function updatePlayButtonUI() {
+      const btn = document.getElementById('btn-play-machining');
+      document.getElementById('play-icon').textContent = state.autoPlay ? '⏸️' : '▶️';
+      btn.classList.toggle('active', state.autoPlay);
+    }
+
+    function applyMachinePreset(presetId) {
+      const p = MACHINE_PRESETS.find(x => x.id === presetId);
+      if (!p) return;
+      Object.assign(state, p);
+      state.forcedCollisionTest = false;
+      state.axisZ = 18;
+      renderAllOptionGrids();
+      renderRotaryWheels();
+      rebuild3DMachineTool();
+      // Auto-scroll active preset pill into center of horizontal strip
+      const activeBtn = document.querySelector(`#preset-pill-strip [data-preset="${presetId}"]`);
+      if (activeBtn) activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      showToast(`已載入工具母機架構：${p.name}`);
+    }
+
+    function renderDatabaseModalCards() {
+      document.getElementById('db-cards-container').innerHTML = MACHINE_PRESETS.map(p => `
+        <div class="bg-slate-950/85 border border-white/15 rounded-xl p-3 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-[10px] text-amber-300 font-bold mb-1">
+              <span>${p.brand}</span><span class="mono text-cyan-300">${p.taper} • ${p.rpm}rpm</span>
+            </div>
+            <div class="font-bold text-xs text-white mb-1">${p.name}</div>
+            <p class="text-[11px] text-slate-300 leading-relaxed mb-2">${p.notes}</p>
+          </div>
+          <button data-load-preset="${p.id}" class="glass-btn active w-full py-1.5 rounded-lg text-xs font-bold">
+            ⚡ 載入此工具母機結構
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function generateSpecReportText() {
+      const archDef = MACHINE_ARCHS.find(a => a.id === state.arch) || MACHINE_ARCHS[0];
+      const castDef = CAST_MATS.find(m => m.id === state.castMat) || CAST_MATS[0];
+      const ribDef = RIB_TOPOS.find(r => r.id === state.ribTopo) || RIB_TOPOS[0];
+      return [
+        `====================================================================`,
+        `  肇祥企業社 MAXJIM TECH — MACHINETOOL PRO 3D v3.0 工具母機結構與 CAE 計算書`,
+        `  Official Web: https://maxjimtech.com/`,
+        `====================================================================`,
+        `[1. 整機結構拓樸與運動鏈構型]`,
+        `  • 母機結構型式 : ${archDef.name}`,
+        `  • 運動鏈構型   : ${archDef.kinChain}`,
+        `  • 底座與立柱   : 底座 ${state.bedL}×${state.bedW}mm | 立柱高 ${state.colH}mm | 跨距 ${state.colSpan}mm`,
+        `  • 結構材質與肋 : ${castDef.name} | ${ribDef.name} (外壁 ${state.wallT}mm / 肋厚 ${state.ribT}mm)`,
+        ``,
+        `[2. 進給傳動、主軸與刀庫機構]`,
+        `  • 線性導軌系統 : ${state.guide} (軌寬 ${state.railW}mm / ${state.railLayout})`,
+        `  • 滾珠螺桿系統 : ${state.ballscrew} (Ø${state.screwDia}mm × 導程 P${state.screwLead}mm)`,
+        `  • 高速主軸與ATC: ${state.spindleType} (${state.taper}, ${state.rpm} rpm) | ${state.atcType}`,
+        `  • 五軸轉台系統 : ${state.trunnion} | 回授 ${state.feedback}`,
+        ``,
+        `[3. 干涉、熱變形與共振模態三大 CAE 評估]`,
+        `  • 最小安全間隙 : ${document.getElementById('hud-clearance').textContent} (防干涉鎖: ${state.collisionGuard ? 'ON' : 'OFF'})`,
+        `  • 刀尖靜剛性 K : ${document.getElementById('hud-stiffness').textContent}`,
+        `  • 補償後熱伸長 : δth = ${document.getElementById('hud-deflection').textContent} (連續運轉 ${state.runTimeMin} min)`,
+        `  • 共振模態頻率 : ${document.getElementById('hud-modal-hz').textContent}`,
+        `====================================================================`
+      ].join('\n');
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      if (!box) return;
+      box.textContent = msg;
+      box.classList.remove('hidden');
+      clearTimeout(box._t);
+      box._t = setTimeout(() => box.classList.add('hidden'), 2600);
+    }
+
+    function bindAllEvents() {
+      // 1. Horizontal Scrollable Preset Strip: Left/Right Buttons + Mouse Wheel + Drag-to-Scroll!
+      const strip = document.getElementById('preset-pill-strip');
+      document.getElementById('btn-preset-scroll-left').addEventListener('click', () => {
+        strip.scrollBy({ left: -240, behavior: 'smooth' });
+      });
+      document.getElementById('btn-preset-scroll-right').addEventListener('click', () => {
+        strip.scrollBy({ left: 240, behavior: 'smooth' });
+      });
+      strip.addEventListener('wheel', e => {
+        e.preventDefault();
+        strip.scrollLeft += (e.deltaY || e.deltaX);
+      }, { passive: false });
+
+      let isStripDragging = false, stripStartX = 0, stripScrollStart = 0, stripMoved = false;
+      strip.addEventListener('pointerdown', e => {
+        isStripDragging = true;
+        stripMoved = false;
+        stripStartX = e.clientX;
+        stripScrollStart = strip.scrollLeft;
+      });
+      window.addEventListener('pointermove', e => {
+        if (!isStripDragging) return;
+        const dx = e.clientX - stripStartX;
+        if (Math.abs(dx) > 4) stripMoved = true;
+        strip.scrollLeft = stripScrollStart - dx;
+      });
+      window.addEventListener('pointerup', () => { isStripDragging = false; });
+
+      strip.addEventListener('click', e => {
+        if (stripMoved) return;
+        const b = e.target.closest('[data-preset]');
+        if (b) applyMachinePreset(b.getAttribute('data-preset'));
+      });
+
+      // 2. 3 CAE Analysis Mode Buttons (Interference / Thermal / Resonance)
+      document.querySelectorAll('.cae-mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.cae-mode-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state.caeMode = btn.getAttribute('data-caemode');
+          // Switch left dock to CAE tab automatically so user sees full diagnostics
+          document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.getAttribute('data-tab') === 'p-cae'));
+          document.querySelectorAll('.mode-panel').forEach(p => p.classList.toggle('hidden', p.id !== 'p-cae'));
+          rebuild3DMachineTool();
+          const modeNames = { interference: '🛡️ 3D 運動干涉與包絡檢測模式', thermal: '🌡️ 紅外線熱變形溫升場分析模式', resonance: '〰️ 三階結構共振模態振型與顫振葉瓣圖模式' };
+          showToast(`已切換至：${modeNames[state.caeMode]}`);
+        });
+      });
+
+      // Resonance Mode Order Buttons (f1, f2, f3)
+      document.querySelectorAll('.mode-order-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.mode-order-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state.modalOrder = parseInt(btn.getAttribute('data-modeorder'), 10);
+          state.caeMode = 'resonance';
+          document.querySelectorAll('.cae-mode-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-caemode') === 'resonance'));
+          rebuild3DMachineTool();
+        });
+      });
+
+      // Collision Guard & Simulate Extreme Overtravel Collision Test
+      document.getElementById('btn-collision-guard').addEventListener('click', e => {
+        state.collisionGuard = !state.collisionGuard;
+        state.forcedCollisionTest = false;
+        e.currentTarget.textContent = state.collisionGuard ? '🛡️ 自動防干涉鎖: 開啟' : '⚠️ 自動防干涉鎖: 關閉';
+        e.currentTarget.classList.toggle('active', state.collisionGuard);
+        rebuild3DMachineTool();
+      });
+
+      document.getElementById('btn-test-collision').addEventListener('click', () => {
+        state.autoPlay = false;
+        state.collisionGuard = false;
+        state.forcedCollisionTest = true;
+        state.caeMode = 'interference';
+        state.axisZ = -55; // Plunge Z into interference zone to demonstrate red collision alert!
+        state.axisA = 55;
+        updatePlayButtonUI();
+        document.getElementById('btn-collision-guard').textContent = '⚠️ 自動防干涉鎖: 關閉';
+        document.getElementById('btn-collision-guard').classList.remove('active');
+        document.querySelectorAll('.cae-mode-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-caemode') === 'interference'));
+        syncWheelReadouts();
+        rebuild3DMachineTool();
+        showToast('🚨 已模擬 Z軸過切碰撞狀態！紅色防撞框已標示干涉區域（點擊「五軸同動」或開啟防干涉鎖即可復歸安全位置）');
+      });
+
+      // CAD File Upload
+      const fileInput = document.getElementById('input-cad-file');
+      document.getElementById('btn-import-cad-top').addEventListener('click', () => fileInput.click());
+      document.getElementById('btn-import-cad-panel').addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', e => {
+        if (e.target.files && e.target.files[0]) handleCADFileUpload(e.target.files[0]);
+      });
+
+      document.getElementById('btn-toggle-dock').addEventListener('click', () => {
+        state.dockCollapsed = !state.dockCollapsed;
+        document.getElementById('left-translucent-dock').style.transform = state.dockCollapsed ? 'translateX(-110%)' : 'translateX(0)';
+        document.getElementById('dock-toggle-icon').textContent = state.dockCollapsed ? '▶' : '◀';
+      });
+
+      document.getElementById('btn-play-machining').addEventListener('click', () => {
+        state.autoPlay = !state.autoPlay;
+        if (state.autoPlay) {
+          state.collisionGuard = true;
+          state.forcedCollisionTest = false;
+          document.getElementById('btn-collision-guard').textContent = '🛡️ 自動防干涉鎖: 開啟';
+          document.getElementById('btn-collision-guard').classList.add('active');
+        }
+        updatePlayButtonUI();
+      });
+
+      document.getElementById('btn-trigger-atc').addEventListener('click', () => {
+        state.atcActive = true;
+        state.atcTimer = 0;
+        showToast(`🔄 Z軸自動退回安全換刀點並執行 ${state.atcType} 換刀...`);
+      });
+
+      document.getElementById('btn-toggle-xray').addEventListener('click', e => {
+        state.xrayRibs = !state.xrayRibs;
+        e.currentTarget.classList.toggle('active', state.xrayRibs);
+        rebuild3DMachineTool();
+      });
+
+      document.getElementById('btn-toggle-fea').addEventListener('click', e => {
+        state.showFEA = !state.showFEA;
+        e.currentTarget.classList.toggle('active', state.showFEA);
+        rebuild3DMachineTool();
+      });
+
+      document.getElementById('btn-toggle-enclosure').addEventListener('click', e => {
+        state.showEnclosure = !state.showEnclosure;
+        e.currentTarget.classList.toggle('active', state.showEnclosure);
+        rebuild3DMachineTool();
+      });
+
+      document.querySelectorAll('.mode-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const targetId = tab.getAttribute('data-tab');
+          document.querySelectorAll('.mode-panel').forEach(p => p.classList.toggle('hidden', p.id !== targetId));
+        });
+      });
+
+      document.getElementById('left-translucent-dock').addEventListener('click', e => {
+        const map = [
+          ['data-arch', 'arch'], ['data-colstyle', 'colStyle'], ['data-balstyle', 'balanceStyle'],
+          ['data-castmat', 'castMat'], ['data-ribtopo', 'ribTopo'], ['data-flume', 'chipFlume'],
+          ['data-guide', 'guide'], ['data-screw', 'ballscrew'], ['data-raillayout', 'railLayout'],
+          ['data-spindle', 'spindleType'], ['data-taper', 'taper'], ['data-atc', 'atcType'],
+          ['data-trunnion', 'trunnion'], ['data-feedback', 'feedback']
+        ];
+        for (const [attr, key] of map) {
+          const btn = e.target.closest(`[${attr}]`);
+          if (btn) {
+            state[key] = btn.getAttribute(attr);
+            renderAllOptionGrids();
+            rebuild3DMachineTool();
+            return;
+          }
+        }
+        const poseBtn = e.target.closest('[data-pose]');
+        if (poseBtn) {
+          state.autoPlay = false;
+          state.forcedCollisionTest = false;
+          updatePlayButtonUI();
+          const p = poseBtn.getAttribute('data-pose');
+          if (p === 'home') { state.axisX = 0; state.axisY = 0; state.axisZ = 25; state.axisA = 0; state.axisC = 0; }
+          else if (p === 'tilt45') { state.axisA = 35; state.axisC = 60; state.axisZ = 22; }
+          else if (p === 'tilt90') { state.axisA = 65; state.axisC = 180; state.axisZ = 28; }
+          syncWheelReadouts();
+          rebuild3DMachineTool();
+        }
+      });
+
+      document.querySelectorAll('.bank-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.bank-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state.wheelBank = btn.getAttribute('data-bank');
+          renderRotaryWheels();
+        });
+      });
+
+      document.getElementById('rotary-wheels-container').addEventListener('click', e => {
+        const stepBtn = e.target.closest('[data-step-dir]');
+        if (!stepBtn) return;
+        const dir = parseInt(stepBtn.getAttribute('data-step-dir'), 10);
+        const key = stepBtn.getAttribute('data-target-key');
+        const wDef = (WHEEL_BANKS[state.wheelBank] || []).find(w => w.key === key);
+        if (!wDef) return;
+        if (['axisX', 'axisY', 'axisZ', 'axisA', 'axisC'].includes(key)) {
+          state.autoPlay = false;
+          state.forcedCollisionTest = false;
+          updatePlayButtonUI();
+        }
+        state[key] = Math.max(wDef.min, Math.min(wDef.max, state[key] + dir * wDef.step));
+        renderRotaryWheels();
+        rebuild3DMachineTool();
+      });
+
+      document.querySelectorAll('.cam-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const mode = btn.getAttribute('data-cam');
+          if (mode === 'iso') camera.position.set(760, 560, 820);
+          else if (mode === 'front') camera.position.set(45, 240, 980);
+          else if (mode === 'side') camera.position.set(980, 240, 0);
+          else if (mode === 'top') camera.position.set(45, 1150, 10);
+          controls.target.set(45, 165, 0);
+          controls.update();
+        });
+      });
+
+      // Modals
+      const modalDb = document.getElementById('modal-db');
+      document.getElementById('btn-open-db-modal').addEventListener('click', () => { renderDatabaseModalCards(); modalDb.classList.remove('hidden'); });
+      document.getElementById('btn-close-db-modal').addEventListener('click', () => modalDb.classList.add('hidden'));
+      document.getElementById('db-cards-container').addEventListener('click', e => {
+        const b = e.target.closest('[data-load-preset]');
+        if (!b) return;
+        applyMachinePreset(b.getAttribute('data-load-preset'));
+        modalDb.classList.add('hidden');
+      });
+
+      const modalSec = document.getElementById('modal-section');
+      document.getElementById('btn-open-section-modal').addEventListener('click', () => modalSec.classList.remove('hidden'));
+      document.getElementById('btn-expand-section').addEventListener('click', () => modalSec.classList.remove('hidden'));
+      document.getElementById('btn-close-section-modal').addEventListener('click', () => modalSec.classList.add('hidden'));
+
+      const modalExp = document.getElementById('modal-export');
+      document.getElementById('btn-export-spec').addEventListener('click', () => {
+        document.getElementById('textarea-export-spec').value = generateSpecReportText();
+        modalExp.classList.remove('hidden');
+      });
+      document.getElementById('btn-close-export-modal').addEventListener('click', () => modalExp.classList.add('hidden'));
+      document.getElementById('btn-export-step').addEventListener('click', exportMachineSTEP);
+      document.getElementById('btn-export-stl').addEventListener('click', exportMachineSTL);
+      document.getElementById('btn-export-obj').addEventListener('click', exportMachineOBJ);
+      document.getElementById('btn-download-dxf').addEventListener('click', exportFoundationDXF);
+      document.getElementById('btn-download-csv').addEventListener('click', exportMachineBOMCSV);
+      document.getElementById('btn-copy-spec').addEventListener('click', () => {
+        const ta = document.getElementById('textarea-export-spec');
+        ta.select();
+        document.execCommand('copy');
+        showToast('已複製母機 CAE 設計計算書！');
+      });
+    }
+
+    window.addEventListener('load', () => {
+      initThreeJS();
+      renderAllOptionGrids();
+      renderRotaryWheels();
+      applyMachinePreset('ycm_uv650');
+      bindAllEvents();
+    });
+  </script>
+</body>
+</html>
