@@ -49,5 +49,8 @@
   "工具盒外型造型與結構配置，透過 3D 畫面調整並檢視設計。": {"en":"Shape the toolbox exterior, lay out its structure, and refine the design in a 3D view.","ja":"工具ケースの外形と構造を設計し、3Dビューで調整・確認します。","de":"Die Außenform und den Aufbau des Werkzeugkoffers gestalten und den Entwurf in der 3D-Ansicht prüfen und anpassen.","fr":"Façonnez l’extérieur du coffret, définissez sa structure et ajustez la conception dans la vue 3D."},
   "開啟 MACHINETOOL PRO 3D v3.0 ↗": {"en":"Open MACHINETOOL PRO 3D v3.0 ↗","ja":"MACHINETOOL PRO 3D v3.0 を開く ↗","de":"MACHINETOOL PRO 3D v3.0 öffnen ↗","fr":"Ouvrir MACHINETOOL PRO 3D v3.0 ↗"},
   "開啟 CLAMPMASTER PRO 3D v8.0 ↗": {"en":"Open CLAMPMASTER PRO 3D v8.0 ↗","ja":"CLAMPMASTER PRO 3D v8.0 を開く ↗","de":"CLAMPMASTER PRO 3D v8.0 öffnen ↗","fr":"Ouvrir CLAMPMASTER PRO 3D v8.0 ↗"},
-  "開啟 CASEFORM PRO 3D v7.0 ↗": {"en":"Open CASEFORM PRO 3D v7.0 ↗","ja":"CASEFORM PRO 3D v7.0 を開く ↗","de":"CASEFORM PRO 3D v7.0 öffnen ↗","fr":"Ouvrir CASEFORM PRO 3D v7.0 ↗"}
+  "開啟 CASEFORM PRO 3D v7.0 ↗": {"en":"Open CASEFORM PRO 3D v7.0 ↗","ja":"CASEFORM PRO 3D v7.0 を開く ↗","de":"CASEFORM PRO 3D v7.0 öffnen ↗","fr":"Ouvrir CASEFORM PRO 3D v7.0 ↗"},
+  "與碰撞干涉檢測": {"en":"& Collision and Interference Detection","ja":"と衝突・干渉検出","de":"und Kollisionsprüfung","fr":"et détection des collisions et interférences"},
+  "配置 3D 氣動夾治具，檢查碰撞與干涉，並使用一鍵最佳化調整配置。": {"en":"Lay out pneumatic fixtures in 3D, check for collisions and interference, and optimize the layout with one click.","ja":"空圧治具を3Dで配置し、衝突・干渉を確認して、ワンクリックで配置を最適化できます。","de":"Pneumatische Spannvorrichtungen in 3D anordnen, auf Kollisionen prüfen und die Anordnung mit einem Klick optimieren.","fr":"Disposez les montages de bridage pneumatiques en 3D, vérifiez les collisions et les interférences, puis optimisez la disposition en un clic."},
+  "開啟 CLAMPMASTER PRO 3D v9.0 ↗": {"en":"Open CLAMPMASTER PRO 3D v9.0 ↗","ja":"CLAMPMASTER PRO 3D v9.0 を開く ↗","de":"CLAMPMASTER PRO 3D v9.0 öffnen ↗","fr":"Ouvrir CLAMPMASTER PRO 3D v9.0 ↗"}
 }
