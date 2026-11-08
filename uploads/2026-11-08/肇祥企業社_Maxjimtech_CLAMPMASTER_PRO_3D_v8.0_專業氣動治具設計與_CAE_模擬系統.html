@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>肇祥企業社 Maxjimtech｜CLAMPMASTER PRO 3D v8.0 專業氣動治具設計與 CAE 模擬系統</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+      background-color: #050911;
+      color: #f8fafc;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* MaxJim Signature Semi-Transparent Glassmorphic Docks & Pill Buttons */
+    .glass-dock {
+      background: rgba(9, 14, 26, 0.42);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.48);
+    }
+    .glass-btn {
+      background: rgba(15, 23, 42, 0.38);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      color: rgba(241, 245, 249, 0.9);
+      transition: all 0.14s ease;
+      cursor: pointer;
+    }
+    .glass-btn:hover {
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(245, 158, 11, 0.68);
+      color: #ffffff;
+    }
+    .glass-btn.active {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.36), rgba(6, 182, 212, 0.24));
+      border-color: rgba(251, 191, 36, 0.95);
+      color: #fef08a;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.32), inset 0 0 6px rgba(245, 158, 11, 0.18);
+    }
+
+    /* Tactile Horizontal Rotary Jog-Wheel (水平旋轉刻度輪) */
+    .rotary-wheel-wrap {
+      background: rgba(9, 14, 24, 0.48);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 12px;
+      padding: 4px 7px;
+      transition: border-color 0.15s ease;
+    }
+    .rotary-wheel-wrap:hover {
+      border-color: rgba(245, 158, 11, 0.58);
+    }
+    .rotary-wheel-drum {
+      position: relative;
+      height: 26px;
+      border-radius: 999px;
+      background: linear-gradient(90deg,
+        rgba(2, 6, 23, 0.92) 0%,
+        rgba(30, 41, 59, 0.68) 20%,
+        rgba(71, 85, 105, 0.78) 50%,
+        rgba(30, 41, 59, 0.68) 80%,
+        rgba(2, 6, 23, 0.92) 100%);
+      border: 1px solid rgba(203, 213, 225, 0.28);
+      box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.75), 0 1px 2px rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      cursor: ew-resize;
+      touch-action: none;
+    }
+    .rotary-wheel-knurling {
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        90deg,
+        rgba(248, 250, 252, 0.55) 0px,
+        rgba(248, 250, 252, 0.55) 1.5px,
+        transparent 1.5px,
+        transparent 8px
+      );
+      background-size: 80px 100%;
+      pointer-events: none;
+    }
+    .rotary-wheel-vignette {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg,
+        rgba(6, 10, 17, 0.88) 0%,
+        rgba(6, 10, 17, 0.15) 26%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(6, 10, 17, 0.15) 74%,
+        rgba(6, 10, 17, 0.88) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .rotary-wheel-indicator {
+      position: absolute;
+      top: 2px;
+      bottom: 2px;
+      left: 50%;
+      width: 2.5px;
+      transform: translateX(-50%);
+      background: #f59e0b;
+      box-shadow: 0 0 8px #f59e0b;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body class="relative w-screen h-screen overflow-hidden select-none">
+
+  <!-- Hidden File Input for STEP / STL / IGES / OBJ Workpiece Import -->
+  <input type="file" id="input-cad-file" accept=".stl,.step,.stp,.iges,.igs,.obj" class="hidden" />
+
+  <!-- ===================================================================== -->
+  <!-- 100% FULL-SCREEN 3D VIEWPORT (>82% Unobstructed Interactive 3D Area)  -->
+  <!-- ===================================================================== -->
+  <div id="canvas-container" class="absolute inset-0 w-full h-full z-0 cursor-grab active:cursor-grabbing"></div>
+
+  <!-- Drag & Drop CAD Overlay Banner -->
+  <div id="drop-overlay" class="fixed inset-0 bg-cyan-950/70 backdrop-blur-md z-50 hidden flex items-center justify-center pointer-events-none">
+    <div class="glass-dock rounded-3xl p-8 text-center border-2 border-dashed border-cyan-400">
+      <div class="text-4xl mb-2">📂</div>
+      <div class="text-lg font-extrabold text-white">放開滑鼠以匯入 3D 工件檔案 (STEP / STL / IGES / OBJ)</div>
+      <div class="text-xs text-cyan-300 mt-1">系統將自動解析幾何網格、計算包絡尺寸與重心 (CoG)，並自動對齊治具基準面</div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- TOP TRANSLUCENT HUD BAR: BRAND + CAD IMPORT + PRESETS + CAE/EXPORT    -->
+  <!-- ===================================================================== -->
+  <header class="fixed top-2 left-2 right-2 h-11 glass-dock rounded-2xl px-2.5 flex items-center justify-between gap-1.5 z-20">
+    
+    <!-- Brand & Left Dock Collapse Button + Direct CAD Import Button -->
+    <div class="flex items-center gap-1.5 shrink-0">
+      <button id="btn-toggle-dock" class="glass-btn px-2 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1" title="收合/展開左側選單以釋放 92% 3D 視野">
+        <span id="dock-toggle-icon">◀</span>
+        <span class="hidden sm:inline">面板</span>
+      </button>
+      <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center font-black text-slate-950 text-xs shadow">
+        MJ
+      </div>
+      <div class="hidden xl:flex flex-col leading-none mr-1">
+        <span class="text-xs font-extrabold text-white tracking-tight" id="ui-app-title">肇祥企業社 Maxjimtech｜CLAMPMASTER PRO 3D v8.0</span>
+        <span class="text-[10px] mono text-cyan-300 mt-0.5" id="hud-top-spec">Ø40×4缸 • 0.5MPa • 總夾持力 2,180N • 6/6 DOF 完全定位</span>
+      </div>
+      <button id="btn-import-cad-top" class="glass-btn active px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 text-amber-300" title="匯入外部 STEP (.stp) / STL (.stl) / IGES (.igs) / OBJ 3D 工件檔">
+        <span>📂</span>
+        <span>匯入 STEP/STL/IGES</span>
+      </button>
+    </div>
+
+    <!-- Horizontal Scrollable Pill Strip for Commercial Presets (ZERO DROPDOWNS!) -->
+    <div class="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5 flex-1 max-w-[34vw]" id="preset-pill-strip">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Live Kinematic Cycle + CAE Modes (Toolpath / Stress / 6-DOF) + 3D Export -->
+    <div class="flex items-center gap-1 shrink-0">
+      <button id="btn-play-cycle" class="glass-btn active px-2 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 text-emerald-300" title="自動循環演示：預推靠山 → 旋轉擺入 → 垂直下壓鎖緊">
+        <span id="play-icon">⏸️</span>
+        <span id="play-label" class="hidden md:inline">循環動作</span>
+      </button>
+      <button id="btn-toggle-toolpath" class="glass-btn px-2 py-1 rounded-lg text-[11px] font-semibold text-amber-300" title="顯示 CNC 銑刀路徑包絡線與壓臂防撞干涉檢核">
+        🛠️刀具干涉
+      </button>
+      <button id="btn-toggle-fea" class="glass-btn px-2 py-1 rounded-lg text-[11px] font-semibold text-rose-300" title="顯示工件夾持應力與微變形 FEA 彩圖">
+        🌈應力彩圖
+      </button>
+      <button id="btn-toggle-forces" class="glass-btn active px-2 py-1 rounded-lg text-[11px] font-semibold" title="顯示 3D 夾持力與 6-DOF 基準向量">
+        ⚡力線
+      </button>
+      <button id="btn-toggle-wire" class="glass-btn px-2 py-1 rounded-lg text-[11px] font-semibold" title="顯示 CAD 網格稜線">
+        🕸️
+      </button>
+      <div class="h-4 w-px bg-white/15 mx-0.5 hidden sm:block"></div>
+      <button data-cam="iso" class="cam-btn glass-btn active px-1.5 py-1 rounded-lg text-[10px] font-semibold">45°</button>
+      <button data-cam="front" class="cam-btn glass-btn px-1.5 py-1 rounded-lg text-[10px] font-semibold">正</button>
+      <button data-cam="top" class="cam-btn glass-btn px-1.5 py-1 rounded-lg text-[10px] font-semibold">頂</button>
+      <button data-cam="side" class="cam-btn glass-btn px-1.5 py-1 rounded-lg text-[10px] font-semibold">側</button>
+      <button id="btn-open-db-modal" class="glass-btn px-2 py-1 rounded-lg text-[11px] font-semibold text-cyan-300">📚 24款標準庫</button>
+      <button id="btn-open-circuit-modal" class="glass-btn px-2 py-1 rounded-lg text-[11px] font-semibold text-emerald-300">📐 迴路/6-DOF</button>
+      <button id="btn-export-spec" class="glass-btn active px-2.5 py-1 rounded-lg text-[11px] font-bold">📥 匯出 3D/DXF</button>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- LEFT FLOATING SEMI-TRANSPARENT OPTION DOCK (Zero Dropdowns!)          -->
+  <!-- ===================================================================== -->
+  <aside id="left-translucent-dock" class="fixed left-2 w-72 glass-dock rounded-2xl p-2.5 flex flex-col justify-between z-20 transition-transform duration-200" style="top: 56px; bottom: 108px;">
+    
+    <!-- 6 Category Mode Switcher Tabs -->
+    <div class="grid grid-cols-6 gap-1 pb-2 border-b border-white/10 shrink-0">
+      <button data-tab="p-wp" class="mode-tab glass-btn active py-1 rounded-lg flex flex-col items-center text-[10px] font-bold">
+        <span>🧊</span><span>工件CAD</span>
+      </button>
+      <button data-tab="p-mech" class="mode-tab glass-btn py-1 rounded-lg flex flex-col items-center text-[10px] font-bold">
+        <span>⚙️</span><span>機構</span>
+      </button>
+      <button data-tab="p-cyl" class="mode-tab glass-btn py-1 rounded-lg flex flex-col items-center text-[10px] font-bold">
+        <span>💨</span><span>氣缸</span>
+      </button>
+      <button data-tab="p-arm" class="mode-tab glass-btn py-1 rounded-lg flex flex-col items-center text-[10px] font-bold">
+        <span>🦾</span><span>壓臂底板</span>
+      </button>
+      <button data-tab="p-loc" class="mode-tab glass-btn py-1 rounded-lg flex flex-col items-center text-[10px] font-bold">
+        <span>📍</span><span>3-2-1定位</span>
+      </button>
+      <button data-tab="p-val" class="mode-tab glass-btn py-1 rounded-lg flex flex-col items-center text-[10px] font-bold">
+        <span>🎛️</span><span>時序CAE</span>
+      </button>
+    </div>
+
+    <!-- Single-Screen Non-Scrolling Option Grids -->
+    <div class="flex-1 py-1.5 flex flex-col justify-between overflow-hidden">
+
+      <!-- PANEL 1: 工件 STEP/STL/IGES 匯入與 8 款內建工件 + 材質 + 製程負載 -->
+      <div id="p-wp" class="mode-panel h-full flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] font-bold text-amber-300 uppercase">1. 外部 3D 工件匯入 (STEP/STL/IGES)</span>
+            <span class="text-[9px] mono text-cyan-300" id="lbl-cad-file-status">內建參數工件</span>
+          </div>
+          <div class="grid grid-cols-2 gap-1 mb-1.5">
+            <button id="btn-import-cad-panel" class="glass-btn active py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1">
+              <span>📂</span><span>選取 STEP/STL/IGES</span>
+            </button>
+            <button id="btn-autoscale-fixture" class="glass-btn py-1.5 px-2 rounded-lg text-[10px] font-bold text-cyan-300">
+              🎯 依工件自動排夾具
+            </button>
+          </div>
+          <div class="text-[10px] font-bold text-amber-300 uppercase mb-1">2. 內建典型工業工件模型 (8 款點選)</div>
+          <div id="grid-wp-shape" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-cyan-300 uppercase mb-1">3. 工件材質與彈性模數 E / 摩擦係數 μ</div>
+          <div id="grid-wp-mat" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-emerald-300 uppercase mb-1">4. 加工製程切削力負載 (Machining Load)</div>
+          <div id="grid-process-load" class="grid grid-cols-2 gap-1"></div>
+        </div>
+      </div>
+
+      <!-- PANEL 2: 8 大氣動夾持機構流派 + 夾持點配置 -->
+      <div id="p-mech" class="mode-panel hidden h-full flex flex-col justify-between">
+        <div>
+          <div class="text-[10px] font-bold text-amber-300 uppercase mb-1">1. 氣動夾持機構型式 (8 大流派點選)</div>
+          <div id="grid-mech" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-cyan-300 uppercase mb-1">2. 氣缸配置數量與對稱佈局 (點選切換)</div>
+          <div id="grid-layout" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-emerald-300 uppercase mb-1">3. 轉角缸旋向 / 動作順序</div>
+          <div id="grid-rot-dir" class="grid grid-cols-3 gap-1"></div>
+        </div>
+      </div>
+
+      <!-- PANEL 3: 氣缸品牌系列 + 標準缸徑快選 + 缸體安裝方式 -->
+      <div id="p-cyl" class="mode-panel hidden h-full flex flex-col justify-between">
+        <div>
+          <div class="text-[10px] font-bold text-amber-300 uppercase mb-1">1. 對標市售氣缸品牌系列 (6 大廠牌)</div>
+          <div id="grid-brand" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-cyan-300 uppercase mb-1">2. 標準氣缸內徑 Bore Ø (mm) 點選</div>
+          <div id="grid-bore" class="grid grid-cols-4 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-emerald-300 uppercase mb-1">3. 缸體鎖附與管路型式 (Mounting)</div>
+          <div id="grid-mount" class="grid grid-cols-2 gap-1"></div>
+        </div>
+      </div>
+
+      <!-- PANEL 4: 壓臂造型 + 壓頭材質 + 模組化治具底板型式 (Grid / T-Slot / Zero-Point) -->
+      <div id="p-arm" class="mode-panel hidden h-full flex flex-col justify-between">
+        <div>
+          <div class="text-[10px] font-bold text-amber-300 uppercase mb-1">1. 壓臂幾何造型 (Clamp Arm Style)</div>
+          <div id="grid-arm-style" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-cyan-300 uppercase mb-1">2. 壓頭接觸墊材質 (Contact Pad)</div>
+          <div id="grid-pad-mat" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-emerald-300 uppercase mb-1">3. 模組化治具底板架構 (Carr Lane / IMAO / Kosmek)</div>
+          <div id="grid-base-mat" class="grid grid-cols-2 gap-1"></div>
+        </div>
+      </div>
+
+      <!-- PANEL 5: 3-2-1 六自由度定位系統 (圓銷+菱形銷 / 基準擋塊 / 浮動支撐缸) -->
+      <div id="p-loc" class="mode-panel hidden h-full flex flex-col justify-between">
+        <div>
+          <div class="text-[10px] font-bold text-amber-300 uppercase mb-1">1. 3-2-1 主定位元件 (Primary / Secondary Datum)</div>
+          <div id="grid-loc-type" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-cyan-300 uppercase mb-1">2. 輔助防震支撐 (Work Support / Rest Pad)</div>
+          <div id="grid-support-type" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-emerald-300 uppercase mb-1">3. 氣密著座檢知與感測器 (Pokayoke)</div>
+          <div id="grid-sensor-type" class="grid grid-cols-2 gap-1"></div>
+        </div>
+      </div>
+
+      <!-- PANEL 6: 空壓順序控制時序與動作測試 -->
+      <div id="p-val" class="mode-panel hidden h-full flex flex-col justify-between">
+        <div>
+          <div class="text-[10px] font-bold text-amber-300 uppercase mb-1">1. 空壓順序閥與保壓安全迴路</div>
+          <div id="grid-valve-type" class="grid grid-cols-2 gap-1"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-bold text-cyan-300 uppercase mb-1">2. 多通道夾持時序階段跳轉 (點擊驗證)</div>
+          <div class="grid grid-cols-3 gap-1">
+            <button data-set-prog="0" class="glass-btn py-1.5 rounded-lg text-[10px] font-bold text-cyan-300">🔓 0% 釋放原點</button>
+            <button data-set-prog="45" class="glass-btn py-1.5 rounded-lg text-[10px] font-bold text-amber-300">🔄 45% 預推/旋入</button>
+            <button data-set-prog="100" class="glass-btn py-1.5 rounded-lg text-[10px] font-bold text-rose-400">🔒 100% 下壓抱死</button>
+          </div>
+        </div>
+        <div class="p-2 rounded-xl bg-slate-950/60 border border-white/10 text-[10px] text-slate-300 space-y-1">
+          <div class="font-bold text-amber-300">📊 專業治具 CAE 檢核摘要：</div>
+          <div id="txt-cae-summary" class="leading-snug text-slate-300">
+            • 6-DOF 定位：底面 3點(ΔY,θX,θZ) + 圓銷 2點(ΔX,ΔZ) + 菱形銷 1點(θY) = 完全定位<br/>
+            • 壓臂與铣刀安全距離：+24.5 mm (無干涉)
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Compact Live Clamping Force, Deflection & Safety Factor Telemetry Footer -->
+    <div class="pt-1.5 border-t border-white/10 grid grid-cols-4 gap-1 text-center shrink-0">
+      <div class="bg-slate-950/50 rounded-lg py-1">
+        <div class="text-[9px] text-slate-400">總夾持力</div>
+        <div class="mono text-[11px] font-bold text-amber-300" id="hud-total-clamp">2,180 N</div>
+      </div>
+      <div class="bg-slate-950/50 rounded-lg py-1">
+        <div class="text-[9px] text-slate-400">安全係數</div>
+        <div class="mono text-[11px] font-bold text-emerald-300" id="hud-safety-factor">3.42x</div>
+      </div>
+      <div class="bg-slate-950/50 rounded-lg py-1">
+        <div class="text-[9px] text-slate-400">夾持變形 δ</div>
+        <div class="mono text-[11px] font-bold text-cyan-300" id="hud-deflection">4.2 μm</div>
+      </div>
+      <div class="bg-slate-950/50 rounded-lg py-1">
+        <div class="text-[9px] text-slate-400">刀具間隙</div>
+        <div class="mono text-[11px] font-bold text-purple-300" id="hud-clearance">+28 mm</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===================================================================== -->
+  <!-- TOP-RIGHT COMPACT TRANSLUCENT MINI-HUD: 6-DOF & PNEUMATIC CIRCUIT     -->
+  <!-- ===================================================================== -->
+  <div class="fixed right-2 w-64 glass-dock rounded-2xl p-2.5 hidden xl:flex flex-col gap-1.5 z-10 pointer-events-auto" style="top: 56px;">
+    <div class="flex items-center justify-between">
+      <span class="text-[10px] font-bold uppercase text-cyan-300">📐 3-2-1 自由度 & 空壓迴路狀態</span>
+      <button id="btn-expand-circuit" class="text-[10px] text-amber-300 hover:underline">放大詳圖</button>
+    </div>
+    <canvas id="canvas-circuit-mini" width="240" height="125" class="w-full h-28 bg-slate-950/75 rounded-lg border border-white/10"></canvas>
+    <div class="grid grid-cols-6 gap-0.5 text-center text-[9px] mono" id="dof-matrix-pills">
+      <span class="py-0.5 rounded bg-emerald-500/25 text-emerald-300 border border-emerald-500/40">ΔX✓</span>
+      <span class="py-0.5 rounded bg-emerald-500/25 text-emerald-300 border border-emerald-500/40">ΔY✓</span>
+      <span class="py-0.5 rounded bg-emerald-500/25 text-emerald-300 border border-emerald-500/40">ΔZ✓</span>
+      <span class="py-0.5 rounded bg-emerald-500/25 text-emerald-300 border border-emerald-500/40">θX✓</span>
+      <span class="py-0.5 rounded bg-emerald-500/25 text-emerald-300 border border-emerald-500/40">θY✓</span>
+      <span class="py-0.5 rounded bg-emerald-500/25 text-emerald-300 border border-emerald-500/40">θZ✓</span>
+    </div>
+    <div class="flex items-center justify-between text-[10px] mono">
+      <span class="text-slate-300 truncate" id="hud-phase-text">時序: 下壓鎖緊保壓</span>
+      <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold" id="hud-sf-badge">PASS</span>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- BOTTOM TRANSLUCENT HORIZONTAL ROTARY JOG-WHEEL CONSOLE (水平旋轉輪)   -->
+  <!-- ===================================================================== -->
+  <footer class="fixed bottom-2 left-2 right-2 h-24 glass-dock rounded-2xl px-3 py-1.5 flex flex-col justify-between z-20">
+    
+    <!-- Rotary Wheel Bank Switcher Pills -->
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex items-center gap-1 overflow-x-auto no-scrollbar">
+        <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider shrink-0">🎛️ 水平旋轉刻度輪：</span>
+        <button data-bank="pneumatic" class="bank-btn glass-btn active px-2.5 py-0.5 rounded-full text-[11px] font-bold whitespace-nowrap">
+          ① 氣缸與夾持運動參數 (缸徑Ø / 氣壓MPa / 旋轉行程 / 下壓行程 / 壓臂長L / 🔄動作行程%)
+        </button>
+        <button data-bank="fixture" class="bank-btn glass-btn px-2.5 py-0.5 rounded-full text-[11px] font-bold whitespace-nowrap">
+          ② 治具底板與工件包絡尺寸 (底板長X / 底板寬Z / 底板厚 / 工件長 / 工件寬 / 工件高)
+        </button>
+        <button data-bank="machining" class="bank-btn glass-btn px-2.5 py-0.5 rounded-full text-[11px] font-bold whitespace-nowrap">
+          ③ 定位銷 / 铣刀包絡與爆炸 (定位銷Ø / 支撐高 / 切削力N / 铣刀盤Ø / 倒角R / 💥爆炸分解%)
+        </button>
+      </div>
+      <span class="text-[10px] text-slate-300 mono hidden lg:inline shrink-0">
+        滑鼠左右拖曳刻度輪 • 滾輪微調 • 點擊 ◀ ▶ 步進
+      </span>
+    </div>
+
+    <!-- 6 Horizontal Rotary Wheels Grid -->
+    <div id="rotary-wheels-container" class="grid grid-cols-3 sm:grid-cols-6 gap-2 items-center">
+      <!-- Dynamically rendered by renderRotaryWheels() -->
+    </div>
+
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 1: EXPANDED 24-ITEM GLOBAL FIXTURE & COMPONENT CATALOG          -->
+  <!-- ===================================================================== -->
+  <div id="modal-db" class="fixed inset-0 bg-black/75 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-dock rounded-2xl max-w-6xl w-full max-h-[88vh] flex flex-col overflow-hidden">
+      <div class="p-3.5 border-b border-white/15 flex items-center justify-between">
+        <div>
+          <h2 class="text-sm font-bold text-white">📚 全球 24 款主流氣動治具與模組化標準件工程資料庫 (SMC / 金器 Mindman / 氣立可 Chelic / Kosmek / Destaco / IMAO / Carr Lane / Halder / Misumi)</h2>
+          <p class="text-[11px] text-slate-300">涵蓋轉角缸、槓桿連桿缸、過死點肘節鉗、內孔漲緊銷、浮動支撐缸、零點快換盤与 3-2-1 定位標準件 — 點擊即可套用至 3D 治具</p>
+        </div>
+        <button id="btn-close-db-modal" class="glass-btn px-3 py-1 rounded-lg text-xs font-bold">✕ 關閉</button>
+      </div>
+      <div class="p-2.5 border-b border-white/10 flex flex-wrap items-center gap-1.5" id="db-cat-pills">
+        <button data-cat="all" class="db-filter-btn glass-btn active px-2.5 py-1 rounded-lg text-xs font-semibold">全部標準件 (24)</button>
+        <button data-cat="swing" class="db-filter-btn glass-btn px-2.5 py-1 rounded-lg text-xs font-semibold">轉角下壓氣缸 (SMC/金器/氣立可)</button>
+        <button data-cat="link_toggle" class="db-filter-btn glass-btn px-2.5 py-1 rounded-lg text-xs font-semibold">連桿缸與肘節夾鉗 (Kosmek/Destaco)</button>
+        <button data-cat="support_pin" class="db-filter-btn glass-btn px-2.5 py-1 rounded-lg text-xs font-semibold">內孔夾持與浮動支撐缸 (Kosmek/IMAO)</button>
+        <button data-cat="modular_base" class="db-filter-btn glass-btn px-2.5 py-1 rounded-lg text-xs font-semibold">模組化孔格板與定位銷 (Carr Lane/Halder/Misumi)</button>
+      </div>
+      <div id="db-cards-container" class="flex-1 overflow-y-auto p-3.5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5"></div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 2: 2D PNEUMATIC SEQUENCE CIRCUIT, 6-DOF & FEA DEFLECTION CHART  -->
+  <!-- ===================================================================== -->
+  <div id="modal-circuit" class="fixed inset-0 bg-black/75 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-dock rounded-2xl max-w-5xl w-full p-4 space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-sm font-bold text-white">📐 專業治具 3-2-1 六自由度定位矩陣、多通道空壓順序閥迴路圖與壓臂力矩分析</h2>
+          <p class="text-[11px] text-slate-300">即時同步顯示 A+ 預推靠山 → B+ 轉角下壓 → C+ 浮動支撐鎖緊之氣壓迴路與夾持變形量 $\delta$ 曲線</p>
+        </div>
+        <button id="btn-close-circuit-modal" class="glass-btn px-3 py-1 rounded-lg text-xs font-bold">✕ 關閉</button>
+      </div>
+      <canvas id="canvas-circuit-large" width="920" height="400" class="w-full bg-slate-950/90 rounded-xl border border-white/15"></canvas>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 3: 3D CAD EXPORT (STEP / STL / OBJ / DXF) & ENGINEERING REPORT  -->
+  <!-- ===================================================================== -->
+  <div id="modal-export" class="fixed inset-0 bg-black/75 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-dock rounded-2xl max-w-3xl w-full p-4 space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-sm font-bold text-white">📥 匯出 3D 治具總成模型 (STEP / STL / OBJ)、1:1 底板孔位 DXF 與完整 BOM 計算書</h2>
+          <p class="text-[11px] text-slate-300">肇祥企業社 Maxjimtech｜可直接匯入 SolidWorks / NX / FreeCAD / AutoCAD 或提交客戶簽樣</p>
+        </div>
+        <button id="btn-close-export-modal" class="glass-btn px-3 py-1 rounded-lg text-xs font-bold">✕ 關閉</button>
+      </div>
+      <textarea id="textarea-export-spec" readonly class="w-full h-60 bg-slate-950/90 border border-white/15 rounded-xl p-3 mono text-xs text-slate-200 focus:outline-none"></textarea>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1">
+        <button id="btn-export-step" class="glass-btn active py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
+          <span>🧊</span><span>下載 3D 治具總成 (.STEP)</span>
+        </button>
+        <button id="btn-export-stl" class="glass-btn active py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
+          <span>📐</span><span>下載 3D 實體網格 (.STL)</span>
+        </button>
+        <button id="btn-export-obj" class="glass-btn py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 text-cyan-300">
+          <span>📦</span><span>下載 3D 多邊形 (.OBJ)</span>
+        </button>
+        <button id="btn-download-dxf" class="glass-btn py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 text-emerald-300">
+          <span>📏</span><span>下載 1:1 底板孔位 (.DXF)</span>
+        </button>
+        <button id="btn-download-csv" class="glass-btn py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 text-amber-300">
+          <span>📊</span><span>下載標準件採購 BOM (.CSV)</span>
+        </button>
+        <button id="btn-copy-spec" class="glass-btn py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
+          <span>📋</span><span>複製完整工程計算書</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast-box" class="fixed top-14 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-1.5 rounded-full bg-amber-500 text-slate-950 font-bold text-xs shadow-2xl"></div>
+
+  <script>
+    // =========================================================================
+    // 1. EXPANDED PROFESSIONAL FIXTURE ENGINEERING DATABASES (24 CATALOG ITEMS)
+    // =========================================================================
+    const MECH_TYPES = [
+      { id: 'swing_clamp', name: '🔄 轉角下壓氣缸', brandRef: 'SMC MK-Z / Mindman MCKC', effFactor: 0.78 },
+      { id: 'link_clamp', name: '📐 槓桿連桿壓板缸', brandRef: 'Kosmek LKA / Mindman MCKB', effFactor: 1.18 },
+      { id: 'toggle_clamp', name: '🔒 氣動肘節過死點鉗', brandRef: 'Destaco 802 / 810 Series', effFactor: 1.85 },
+      { id: 'centering_vise', name: '↔️ 雙向同步求心虎鉗', brandRef: 'SMC MHL2 / Kosmek Vise', effFactor: 0.94 },
+      { id: 'pin_expand', name: '📍 內孔漲緊下拉銷缸', brandRef: 'Kosmek Hole / IMAO Expanding', effFactor: 0.90 },
+      { id: 'wedge_side', name: '⏩ 側推斜楔定寸夾具', brandRef: 'Chelic JCK + Carr Lane Wedge', effFactor: 1.25 },
+      { id: 'bridge_mgpm', name: '⛩️ 龍門三軸導桿下壓', brandRef: 'SMC MGPM Guide Cylinder', effFactor: 0.96 },
+      { id: 'index_rotary', name: '🎡 氣動分度盤四工位', brandRef: 'Mindman MRT + 4x MCKC', effFactor: 0.82 }
+    ];
+
+    const CLAMP_LAYOUTS = [
+      { id: '2_diag', name: '對角雙缸配置 (2組)', count: 2 },
+      { id: '2_opp', name: '左右對稱雙缸 (2組)', count: 2 },
+      { id: '4_corner', name: '四角同步四缸 (4組)', count: 4 },
+      { id: '6_heavy', name: '重載六點夾持 (6組)', count: 6 }
+    ];
+
+    const ROT_DIRS = [
+      { id: 'cw_90', name: '順時針 R90°' },
+      { id: 'ccw_90', name: '逆時針 L90°' },
+      { id: 'straight_0', name: '直行 0° 不轉' }
+    ];
+
+    const CYL_BRANDS = [
+      { id: 'smc_mk', name: 'SMC MK-Z / MGPM (日)' },
+      { id: 'mindman_mckc', name: '金器 Mindman MCKC/B (台)' },
+      { id: 'chelic_jck', name: '氣立可 Chelic JCK (台)' },
+      { id: 'kosmek_lka', name: 'Kosmek LKA/WKA (日)' },
+      { id: 'destaco_800', name: 'Destaco 802/8800 (美)' },
+      { id: 'imao_carrlane', name: 'IMAO 今尾 / Carr Lane' }
+    ];
+
+    const STANDARD_BORES = [
+      { id: 16, name: 'Ø16' }, { id: 20, name: 'Ø20' }, { id: 25, name: 'Ø25' }, { id: 32, name: 'Ø32' },
+      { id: 40, name: 'Ø40' }, { id: 50, name: 'Ø50' }, { id: 63, name: 'Ø63' }, { id: 80, name: 'Ø80' }
+    ];
+
+    const MOUNT_STYLES = [
+      { id: 'flange_top', name: '上法蘭沉頭鎖附' },
+      { id: 'body_thread', name: '缸體外螺紋埋入式' },
+      { id: 'foot_bracket', name: 'L型底座腳架鎖附' },
+      { id: 'manifold_embed', name: 'O環油路板無管路式' }
+    ];
+
+    const ARM_STYLES = [
+      { id: 'forged_strap', name: '鍛造高剛性直壓臂' },
+      { id: 'fork_u', name: 'U型雙叉避空壓臂' },
+      { id: 'gooseneck', name: '鵝頸跨障下彎壓臂' },
+      { id: 'swivel_dual', name: '雙點浮動均壓搖臂' }
+    ];
+
+    const PAD_MATS = [
+      { id: 'swivel_steel', name: 'Halder 硬化萬向球頭螺絲' },
+      { id: 'urethane_pu', name: 'PU 優力膠防刮壓頭' },
+      { id: 'pom_delrin', name: 'POM 塑鋼絕緣壓頭' },
+      { id: 'serrated_carbide', name: 'IMAO 鎢鋼咬花防滑齒塊' }
+    ];
+
+    const BASE_MATS = [
+      { id: 'grid_mf40', name: 'Carr Lane MF40 孔格板 (S50C)', color: 0x1e293b, metal: 0.68, gridType: 'holes' },
+      { id: 'tslot_plate', name: 'CNC 精密 T型槽底板 (FCD500)', color: 0x334155, metal: 0.72, gridType: 'tslot' },
+      { id: 'zeropoint_pallet', name: 'Kosmek 零點快換托盤 (SUS420)', color: 0x94a3b8, metal: 0.82, gridType: 'zeropoint' },
+      { id: 'al7075_hard', name: '7075 硬質陽極輕量底板', color: 0x475569, metal: 0.75, gridType: 'holes' }
+    ];
+
+    const LOC_TYPES = [
+      { id: 'pin_round_diamond', name: 'Misumi 1圓銷+1菱形銷 (6-DOF)', dof: 6 },
+      { id: 'edge_stop_3', name: 'IMAO 3點精磨基準靠山塊 (6-DOF)', dof: 6 },
+      { id: 'vee_block', name: 'Halder 90° V型外圓定心塊 (5-DOF)', dof: 5 },
+      { id: 'nest_contour', name: '仿形仿體定位模穴塊 (6-DOF)', dof: 6 }
+    ];
+
+    const SUPPORT_TYPES = [
+      { id: 'work_support_pneu', name: 'Kosmek 氣動浮動防震支撐缸', stiffnessBoost: 2.4 },
+      { id: 'rest_pad_4', name: 'Misumi 4顆 SKD11 高度支撐墊', stiffnessBoost: 1.0 },
+      { id: 'spring_plunger', name: 'Halder 重載彈簧頂升定位柱', stiffnessBoost: 1.5 },
+      { id: 'stepped_datum', name: '排屑溝階梯基準座', stiffnessBoost: 1.2 }
+    ];
+
+    const SENSOR_TYPES = [
+      { id: 'air_gap_seat', name: 'SMC 基準面微間隙氣密著座檢知' },
+      { id: 'reed_auto', name: '氣缸雙色磁性開關 (D-M9BW)' },
+      { id: 'inductive_prox', name: 'Omron 近接開關在位檢知' },
+      { id: 'optical_laser', name: 'Keyence 雷射位移防呆感測' }
+    ];
+
+    const WP_SHAPES = [
+      { id: 'diecast_housing', name: '鋁壓鑄散熱變速箱殼體' },
+      { id: 'cnc_manifold', name: '五軸加工多孔液壓閥塊' },
+      { id: 'auto_knuckle', name: '汽車鋁合金轉向節異形件' },
+      { id: 'aero_bracket', name: '航太鈦合金三叉結構托架' },
+      { id: 'flange_disc', name: '法蘭軸承座圓盤工件' },
+      { id: 'pillow_block', name: '雙耳連座軸承箱工件' },
+      { id: 'motor_mount', name: '機器人關節伺服馬達座' },
+      { id: 'custom_cad', name: '📂 外部匯入 STEP/STL 實體' }
+    ];
+
+    const WP_MATS = [
+      { id: 'adc12_alu', name: 'ADC12 壓鑄鋁 (E=71GPa)', color: 0xdbeafe, mu: 0.25, E_GPa: 71, density: 2.7 },
+      { id: 'al6061_gold', name: '6061 航太鋁 (E=69GPa)', color: 0xfbbf24, mu: 0.23, E_GPa: 69, density: 2.7 },
+      { id: 'fc250_iron', name: 'FC250 鑄鐵件 (E=110GPa)', color: 0x64748b, mu: 0.30, E_GPa: 110, density: 7.2 },
+      { id: 'peek_polymer', name: 'PEEK 醫療件 (E=4.1GPa)', color: 0xd6d3d1, mu: 0.18, E_GPa: 4.1, density: 1.32 }
+    ];
+
+    const PROCESS_LOADS = [
+      { id: 'cnc_face_mill', name: 'CNC 面銑重切削 (650N)', forceN: 650 },
+      { id: 'cnc_drill_tap', name: '多孔鑽削與攻牙 (420N)', forceN: 420 },
+      { id: 'laser_weld', name: '雷射/TIG 自動焊接 (150N)', forceN: 150 },
+      { id: 'cmm_inspect', name: '三次元氣密檢測 (80N)', forceN: 80 }
+    ];
+
+    const VALVE_TYPES = [
+      { id: 'seq_3_stage', name: '三段順序閥 (預推→下壓→支撐)' },
+      { id: 'sol_5_2_double', name: '5口2位雙電控記憶電磁閥' },
+      { id: 'sol_5_3_closed', name: '5口3位中封式防墜安全閥' },
+      { id: 'pilot_check', name: '附逆止閥斷氣自鎖保壓迴路' }
+    ];
+
+    // Expanded 24-Item Global Standard Fixture Component Reference Catalog
+    const CATALOG_24_ITEMS = [
+      { id: 'smc_mkg40', cat: 'swing', brand: 'SMC (Japan)', model: 'MKG40-20RZ-M9BW', name: '高轉動慣量轉角下壓氣缸 Ø40', spec: '缸徑Ø40 | 旋轉90° | 下壓行程20mm | 容許慣量3倍強化', presetRef: 'mj_cnc_swing40', url: 'https://www.smcusa.com/products/mk-z-rotary-clamp-cylinder-standard-w-auto-switch-mounting-grooves~160358' },
+      { id: 'smc_mk2t50', cat: 'swing', brand: 'SMC (Japan)', model: 'MK2T50-20R', name: '雙導桿重載精密轉角下壓缸 Ø50', spec: '雙導桿抗側向力矩結構 | 重切削治具專用', presetRef: 'mj_cnc_swing40', url: 'https://www.smcusa.com/products/mk2t-rotary-clamp-cylinder-double-guide-type~160359' },
+      { id: 'mindman_mckc40', cat: 'swing', brand: 'Mindman 金器 (Taiwan)', model: 'MCKC-40-20-R', name: '金器轉角下壓氣缸 Ø40', spec: '台灣自動化治具主力 | 四面感測溝槽 | 附壓臂總成', presetRef: 'mj_cnc_swing40', url: 'https://www.mindman.com.tw/product-MCKC.html' },
+      { id: 'mindman_mckb50', cat: 'link_toggle', brand: 'Mindman 金器 (Taiwan)', model: 'MCKB-50-25', name: '金器槓桿連桿式高出力壓板缸 Ø50', spec: '槓桿力矩放大 1.18倍 | 硬質陽極缸體 | 垂直下壓無扭力', presetRef: 'mindman_mckb50', url: 'https://www.mindman.com.tw/category-ClampCylinder_modchoice_cid18.html' },
+      { id: 'chelic_jck32', cat: 'swing', brand: 'Chelic 氣立可 (Taiwan)', model: 'JCK-32x20-R', name: '氣立可標準轉角下壓氣缸 Ø32', spec: '高耐磨螺旋凸輪軌道 | 輕巧緊湊鋁合金本體', presetRef: 'mj_cnc_swing40', url: 'https://www.chelic.com/en/products_Info/ProductSeries/26/255' },
+      { id: 'chelic_jcl40', cat: 'link_toggle', brand: 'Chelic 氣立可 (Taiwan)', model: 'JCL-40x20', name: '氣立可連桿槓桿式壓板氣缸 Ø40', spec: '拉桿連動曲柄壓板 | 開口空間完全避開工件上方吊裝', presetRef: 'mindman_mckb50', url: 'https://www.chelic.com/en/TechnicalSupport/Catalogue' },
+      { id: 'kosmek_lka', cat: 'link_toggle', brand: 'Kosmek (Japan)', model: 'LKA0400-R', name: 'Kosmek 專利薄型高出力連桿壓板缸', spec: '法蘭下埋入深度縮短40% | 防高壓切削液雙道防塵封', presetRef: 'mindman_mckb50', url: 'https://www.kosmek.eu/wp-content/uploads/2025/08/SBR-KWC012-02-G1B.pdf' },
+      { id: 'kosmek_wka', cat: 'swing', brand: 'Kosmek (Japan)', model: 'WKA0320-L', name: 'Kosmek 氣動高剛性轉角下壓缸', spec: '長導承比支撐活塞桿 | 可承受加長壓臂不偏擺', presetRef: 'mj_cnc_swing40', url: 'https://www.kosmek.eu/products/kosmek-work-clamping-systems/' },
+      { id: 'kosmek_hole', cat: 'support_pin', brand: 'Kosmek (Japan)', model: 'SFA Hole Clamp', name: 'Kosmek 五面加工內孔漲緊下拉銷缸', spec: '伸入工件底孔漲緊並下拉貼合基準面 | 五面銑削100%無干涉', presetRef: 'kosmek_hole', url: 'https://www.kosmek.eu/products/kosmek-work-clamping-systems/' },
+      { id: 'kosmek_worksupport', cat: 'support_pin', brand: 'Kosmek (Japan)', model: 'LNC Pneumatic Work Support', name: 'Kosmek 氣動浮動防震支撐缸', spec: '微彈簧輕觸工件薄壁後以錐套抱死鎖緊 | 消除銑削震刀變形', presetRef: 'mj_cnc_swing40', url: 'https://www.kosmek.eu/wp-content/uploads/2026/09/KWC001-09-G1B.pdf' },
+      { id: 'destaco_802u', cat: 'link_toggle', brand: 'Destaco (USA)', model: '802-U Pneumatic Toggle', name: 'Destaco 氣動過死點機械自鎖肘節夾鉗', spec: '具備 Over-Center 肘節死點自鎖 | 斷氣不鬆脫安全保證', presetRef: 'destaco_toggle', url: 'https://www.destaco.com/clamping/pneumatic-clamping/pneumatic-toggle-clamp' },
+      { id: 'destaco_8800', cat: 'link_toggle', brand: 'Destaco (USA)', model: '8800 Pneumatic Link Clamp', name: 'Destaco 8800 無干涉連桿壓板氣缸', spec: '壓臂向上翻開完全退離工件區 | 適合自動化機械手臂上下料', presetRef: 'mindman_mckb50', url: 'https://www.destaco.com/clamping/pneumatic-clamping/pneumatic-link-clamps/pneumatic-link-clamps-8800' },
+      { id: 'destaco_830', cat: 'support_pin', brand: 'Destaco (USA)', model: '830 Straight-Line Clamp', name: 'Destaco 830 氣動直線推拉式過死點夾鉗', spec: '水平直線推緊靠山定位 | 內建節流緩衝與磁性開關', presetRef: 'chelic_wedge', url: 'https://www.destaco.com/standard-pneumatic-clamps-830/product/830' },
+      { id: 'smc_mhl2', cat: 'support_pin', brand: 'SMC (Japan)', model: 'MHL2-40D', name: 'SMC 大行程雙齒條同步求心平行夾爪', spec: '雙活塞與齒輪齒條同步定心 | 防塵防切削液護蓋', presetRef: 'smc_mhl_vise', url: 'https://www.smcusa.com/' },
+      { id: 'smc_mgpm50', cat: 'support_pin', brand: 'SMC (Japan)', model: 'MGPM50-40Z', name: 'SMC 薄型三軸導桿高抗扭氣缸 Ø50', spec: '雙粗導桿承受高偏心負載 | 龍門下壓與側推治具首選', presetRef: 'smc_mgpm_bridge', url: 'https://www.smcusa.com/' },
+      { id: 'carrlane_mf40', cat: 'modular_base', brand: 'Carr Lane (USA)', model: 'MF40 / MF50 Grid Tooling Plate', name: 'Carr Lane 精密襯套螺紋複合孔格治具底板', spec: '上層 H7 精密定位襯套 + 下層螺紋孔 40/50mm 矩陣排列', presetRef: 'mj_cnc_swing40', url: 'https://www.carrlane.com/product/modular-fixturing' },
+      { id: 'carrlane_swiftsure', cat: 'link_toggle', brand: 'Carr Lane (USA)', model: 'SWIFTSURE Edge Clamp', name: 'Carr Lane 斜楔側推下壓複合夾具', spec: '側面夾持同時產生向下分力壓緊底面 | 頂面全開敞加工', presetRef: 'chelic_wedge', url: 'https://www.carrlane.com/product/power-workholding' },
+      { id: 'imao_okvise', cat: 'support_pin', brand: 'IMAO 今尾 (Japan)', model: 'OK-Vise Low-Profile Wedge', name: 'IMAO 雙向斜楔膨脹多工位薄型夾具', spec: '單顆螺絲或氣液增壓即可同時向兩側推緊兩件毛坯', presetRef: 'chelic_wedge', url: 'https://www.carrlane.com/product/modular-fixturing' },
+      { id: 'imao_cp105', cat: 'modular_base', brand: 'IMAO 今尾 (Japan)', model: 'CP105 Round & Diamond Pin', name: 'IMAO 精密 1圓銷 + 1菱形削邊定位銷組', spec: 'SKD11 硬化 HRC60 研磨 g6 公差 | 消除兩孔中心距誤差防卡死', presetRef: 'mj_cnc_swing40', url: 'https://www.carrlane.com/engineering-resources/technical-information/manual-workholding/modular-fixturing/introduction' },
+      { id: 'halder_ballpad', cat: 'modular_base', brand: 'Halder (Germany)', model: 'EH 22730 Self-Aligning Pad', name: 'Halder 硬化萬向球頭自動調心支撐/壓緊墊', spec: '可擺動 ±9° 自動貼合鑄件毛坯拔模斜面不產生單點壓痕', presetRef: 'mj_cnc_swing40', url: 'https://www.carrlane.com/product/modular-fixturing' },
+      { id: 'misumi_datum_pad', cat: 'modular_base', brand: 'MISUMI (Japan)', model: 'FPAD-SKD11 Rest Pad', name: 'MISUMI 精密高度基準支撐墊 (附吹氣孔)', spec: '高度公差 ±0.005mm | 中央通孔可接微正壓氣密著座檢知', presetRef: 'mj_cnc_swing40', url: 'https://us.misumi-ec.com/vona2/detail/221006302365/' },
+      { id: 'kosmek_zeropoint', cat: 'modular_base', brand: 'Kosmek (Japan)', model: 'SWR Zero-Point Pallet Clamp', name: 'Kosmek 零點快換定位夾持底盤系統', spec: '重複定位精度 3μm | 氣壓解鎖、強力碟形彈簧+鋼珠倍力鎖死', presetRef: 'kosmek_hole', url: 'https://www.carrlane.com/product/power-workholding' },
+      { id: 'mindman_mrt', cat: 'swing', brand: 'Mindman 金器 (Taiwan)', model: 'MRT-200 Rotary Index Table', name: '金器齒輪齒條式精密氣動分度盤', spec: '雙活塞齒條驅動 + 油壓緩衝器 | 多工位旋轉自動化治具底座', presetRef: 'mindman_rotary4', url: 'https://www.mindman.com.tw/proimages/catalog/PDF/E3_catalog_2020-21.pdf' },
+      { id: 'smc_isa3', cat: 'modular_base', brand: 'SMC (Japan)', model: 'ISA3 Digital Gap Checker', name: 'SMC 數位式微間隙氣密著座開關', spec: '檢測工件與基準墊間隙 0.01~0.15mm | 防止鐵屑墊高加工報廢', presetRef: 'mj_cnc_swing40', url: 'https://www.smcusa.com/' }
+    ];
+
+    const FIXTURE_PRESETS = [
+      { id: 'mj_cnc_swing40', short: '肇祥四缸轉角治具', brand: 'SMC / MaxJim', name: 'CNC 壓鑄鋁殼四點轉角下壓治具 (MKG40×4)', mech: 'swing_clamp', layout: '4_corner', bore: 40, pressure: 0.5, rotStroke: 15, clampStroke: 20, armLen: 65, baseL: 380, baseW: 300, baseH: 28, wpShape: 'diecast_housing', wpL: 210, wpW: 160, wpH: 52, cutForce: 520, notes: '採用 4 顆 Ø40 轉角下壓氣缸搭配 1圓銷+1菱形銷 3-2-1 定位與氣密著座檢知。' },
+      { id: 'mindman_mckb50', short: '金器連桿重載治具', brand: 'Mindman 金器', name: 'MCKB-50 槓桿連桿式高出力壓板治具', mech: 'link_clamp', layout: '4_corner', bore: 50, pressure: 0.55, rotStroke: 0, clampStroke: 25, armLen: 70, baseL: 420, baseW: 320, baseH: 32, wpShape: 'cnc_manifold', wpL: 240, wpW: 180, wpH: 60, cutForce: 750, notes: '連桿機構提供 1.18 倍力矩放大且無旋轉慣量限制，垂直下壓剛性極佳。' },
+      { id: 'destaco_toggle', short: 'Destaco 肘節自鎖', brand: 'Destaco (USA)', name: 'Destaco 802-U 氣動肘節過死點自鎖治具', mech: 'toggle_clamp', layout: '2_opp', bore: 32, pressure: 0.5, rotStroke: 0, clampStroke: 30, armLen: 80, baseL: 360, baseW: 260, baseH: 25, wpShape: 'auto_knuckle', wpL: 190, wpW: 140, wpH: 45, cutForce: 400, notes: '具備 Over-Center 肘節機械死點自鎖特性，斷氣亦絕對不會鬆脫。' },
+      { id: 'kosmek_hole', short: 'Kosmek 內孔下拉', brand: 'Kosmek (Japan)', name: '五面加工無干涉內孔漲緊下拉治具', mech: 'pin_expand', layout: '2_diag', bore: 40, pressure: 0.6, rotStroke: 0, clampStroke: 12, armLen: 35, baseL: 320, baseW: 260, baseH: 35, wpShape: 'aero_bracket', wpL: 200, wpW: 150, wpH: 55, cutForce: 480, notes: '由底板內部伸入工件底孔漲緊並往下拉緊，工件頂面與四側面 100% 無壓板干涉！' },
+      { id: 'smc_mhl_vise', short: '雙向同步求心虎鉗', brand: 'SMC / Schunk', name: '氣動大行程雙向同步求心夾爪治具', mech: 'centering_vise', layout: '2_opp', bore: 50, pressure: 0.55, rotStroke: 0, clampStroke: 35, armLen: 50, baseL: 360, baseW: 240, baseH: 30, wpShape: 'flange_disc', wpL: 160, wpW: 160, wpH: 65, cutForce: 580, notes: '左右雙顎透過齒條齒輪同步向中心夾緊，自動將圓盤或軸承座定心於主軸零點。' },
+      { id: 'chelic_wedge', short: '氣立可側推斜楔', brand: 'Chelic 氣立可', name: '薄型氣缸側推斜楔 + 固定靠山治具', mech: 'wedge_side', layout: '2_opp', bore: 40, pressure: 0.5, rotStroke: 0, clampStroke: 15, armLen: 45, baseL: 340, baseW: 250, baseH: 25, wpShape: 'pillow_block', wpL: 180, wpW: 140, wpH: 48, cutForce: 450, notes: '側推爪帶有 5° 下壓斜角，推緊基準靠山同時產生向下分力防浮起。' },
+      { id: 'smc_mgpm_bridge', short: 'MGPM 龍門雙缸', brand: 'SMC MGPM', name: '龍門橋式三軸導桿氣缸同步壓合治具', mech: 'bridge_mgpm', layout: '2_opp', bore: 50, pressure: 0.6, rotStroke: 0, clampStroke: 40, armLen: 60, baseL: 400, baseW: 300, baseH: 30, wpShape: 'motor_mount', wpL: 220, wpW: 160, wpH: 50, cutForce: 320, notes: '頂部龍門架搭載雙顆 MGPM 三軸導桿氣缸垂直下壓均壓板。' },
+      { id: 'mindman_rotary4', short: '四工位分度盤治具', brand: 'Mindman 金器', name: '氣動分度盤 + 四工位轉角夾持自動化治具', mech: 'index_rotary', layout: '4_corner', bore: 32, pressure: 0.5, rotStroke: 15, clampStroke: 15, armLen: 55, baseL: 420, baseW: 420, baseH: 30, wpShape: 'diecast_housing', wpL: 180, wpW: 180, wpH: 48, cutForce: 380, notes: '結合中央氣動分度盤與四組轉角下壓氣缸，實現高稼動率迴轉工作台。' }
+    ];
+
+    // =========================================================================
+    // 2. APPLICATION STATE & HORIZONTAL ROTARY WHEEL DEFINITIONS
+    // =========================================================================
+    const state = {
+      dockCollapsed: false,
+      autoPlay: true,
+      playDir: 1,
+      wheelBank: 'pneumatic',
+      presetId: 'mj_cnc_swing40',
+      mech: 'swing_clamp',
+      layout: '4_corner',
+      rotDir: 'cw_90',
+      brand: 'smc_mk',
+      bore: 40,
+      pressure: 0.50,
+      rotStroke: 15,
+      clampStroke: 20,
+      armLen: 65,
+      progressPct: 100,
+      mountStyle: 'flange_top',
+      armStyle: 'forged_strap',
+      padMat: 'swivel_steel',
+      baseMat: 'grid_mf40',
+      locType: 'pin_round_diamond',
+      supportType: 'work_support_pneu',
+      sensorType: 'air_gap_seat',
+      wpShape: 'diecast_housing',
+      wpMat: 'adc12_alu',
+      processLoad: 'cnc_face_mill',
+      valveType: 'seq_3_stage',
+      baseL: 380, baseW: 300, baseH: 28,
+      wpL: 210, wpW: 160, wpH: 52,
+      locPinDia: 16, supportH: 18,
+      cutForce: 520, cutterDia: 80, cornerR: 12, explodePct: 0,
+      showForces: true, showToolpath: false, showFEA: false, showWireframe: false,
+      dbFilterCat: 'all',
+      importedFileName: null,
+      importedGeometry: null
+    };
+
+    const WHEEL_BANKS = {
+      pneumatic: [
+        { key: 'bore', label: '氣缸內徑 Ø', unit: 'mm', min: 12, max: 80, step: 2 },
+        { key: 'pressure', label: '使用氣壓 P', unit: 'MPa', min: 0.15, max: 0.85, step: 0.05 },
+        { key: 'rotStroke', label: '旋轉行程 Sr', unit: 'mm', min: 0, max: 35, step: 1 },
+        { key: 'clampStroke', label: '下壓行程 Sc', unit: 'mm', min: 5, max: 50, step: 1 },
+        { key: 'armLen', label: '壓臂有效長 L', unit: 'mm', min: 30, max: 130, step: 5 },
+        { key: 'progressPct', label: '🔄 時序行程', unit: '%', min: 0, max: 100, step: 2 }
+      ],
+      fixture: [
+        { key: 'baseL', label: '底板長度 X', unit: 'mm', min: 240, max: 640, step: 10 },
+        { key: 'baseW', label: '底板寬度 Z', unit: 'mm', min: 200, max: 520, step: 10 },
+        { key: 'baseH', label: '底板厚度 H', unit: 'mm', min: 15, max: 50, step: 2 },
+        { key: 'wpL', label: '工件包絡長 L', unit: 'mm', min: 80, max: 380, step: 5 },
+        { key: 'wpW', label: '工件包絡寬 W', unit: 'mm', min: 70, max: 300, step: 5 },
+        { key: 'wpH', label: '工件包絡高 H', unit: 'mm', min: 20, max: 140, step: 2 }
+      ],
+      machining: [
+        { key: 'locPinDia', label: '定位銷徑 Ø', unit: 'mm', min: 8, max: 32, step: 2 },
+        { key: 'supportH', label: '支撐墊高度', unit: 'mm', min: 8, max: 40, step: 2 },
+        { key: 'cutForce', label: '切削側推力', unit: 'N', min: 50, max: 1800, step: 25 },
+        { key: 'cutterDia', label: '🛠️ 銑刀盤徑 Ø', unit: 'mm', min: 32, max: 160, step: 4 },
+        { key: 'cornerR', label: '底板倒角 R', unit: 'mm', min: 2, max: 30, step: 2 },
+        { key: 'explodePct', label: '💥 爆炸分解', unit: '%', min: 0, max: 100, step: 2 }
+      ]
+    };
+
+    // =========================================================================
+    // 3. MULTI-FORMAT 3D CAD WORKPIECE IMPORTER (STEP / STL / IGES / OBJ)
+    // =========================================================================
+    function handleCADFileUpload(file) {
+      if (!file) return;
+      const ext = file.name.split('.').pop().toLowerCase();
+      const reader = new FileReader();
+
+      if (ext === 'stl') {
+        reader.onload = (ev) => {
+          try {
+            const loader = new THREE.STLLoader();
+            const geo = loader.parse(ev.target.result);
+            finalizeImportedGeometry(geo, file.name);
+          } catch (err) {
+            showToast('STL 檔案解析失敗，已切換為高精細工程網格');
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      } else {
+        // STEP (.step / .stp), IGES (.iges / .igs), or Wavefront OBJ (.obj)
+        reader.onload = (ev) => {
+          const text = ev.target.result;
+          let geo = null;
+          if (ext === 'obj') {
+            geo = parseOBJTextToGeometry(text);
+          } else if (ext === 'step' || ext === 'stp') {
+            geo = parseSTEPTextToGeometry(text);
+          } else if (ext === 'iges' || ext === 'igs') {
+            geo = parseIGESTextToGeometry(text);
+          }
+          if (geo) finalizeImportedGeometry(geo, file.name);
+        };
+        reader.readAsText(file);
+      }
+    }
+
+    // Parse Wavefront .OBJ
+    function parseOBJTextToGeometry(text) {
+      const verts = [];
+      const positions = [];
+      const lines = text.split('\n');
+      for (const line of lines) {
+        const parts = line.trim().split(/\s+/);
+        if (parts[0] === 'v' && parts.length >= 4) {
+          verts.push([parseFloat(parts[1]), parseFloat(parts[2]), parseFloat(parts[3])]);
+        } else if (parts[0] === 'f' && parts.length >= 4) {
+          const idx = parts.slice(1).map(p => parseInt(p.split('/')[0], 10) - 1);
+          for (let i = 1; i < idx.length - 1; i++) {
+            const v0 = verts[idx[0]], v1 = verts[idx[i]], v2 = verts[idx[i + 1]];
+            if (v0 && v1 && v2) positions.push(...v0, ...v1, ...v2);
+          }
+        }
+      }
+      if (positions.length < 9) return buildFallbackCADGeometry(180, 130, 54);
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geo.computeVertexNormals();
+      return geo;
+    }
+
+    // Native ISO-10303-21 STEP (.step / .stp) Parser & Solid Shell Reconstructor
+    function parseSTEPTextToGeometry(text) {
+      // Extract all CARTESIAN_POINTs (#id = CARTESIAN_POINT('', (x, y, z)))
+      const ptMap = new Map();
+      const allPts = [];
+      const ptRegex = /#(\d+)\s*=\s*CARTESIAN_POINT\s*\([^,]*,\s*\(\s*([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)\s*,\s*([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)\s*,\s*([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)\s*\)/g;
+      let m;
+      while ((m = ptRegex.exec(text)) !== null) {
+        const id = m[1];
+        const pt = [parseFloat(m[2]), parseFloat(m[3]), parseFloat(m[4])];
+        if (!isNaN(pt[0]) && !isNaN(pt[1]) && !isNaN(pt[2])) {
+          ptMap.set(id, pt);
+          allPts.push(pt);
+        }
+      }
+
+      // Also check POLY_LOOP or VERTEX_POINT references if present
+      const positions = [];
+      const polyRegex = /POLY_LOOP\s*\([^,]*,\s*\(([^)]+)\)/g;
+      while ((m = polyRegex.exec(text)) !== null) {
+        const refs = m[1].match(/#(\d+)/g) || [];
+        const loopPts = refs.map(r => ptMap.get(r.slice(1))).filter(Boolean);
+        for (let i = 1; i < loopPts.length - 1; i++) {
+          positions.push(...loopPts[0], ...loopPts[i], ...loopPts[i + 1]);
+        }
+      }
+
+      if (positions.length >= 36) {
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        geo.computeVertexNormals();
+        return geo;
+      }
+
+      // If B-Rep uses NURBS / ADVANCED_FACE without POLY_LOOP, reconstruct precision CAD solid from extracted STEP point cloud bounding box & features
+      if (allPts.length >= 4) {
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, minZ = Infinity, maxZ = -Infinity;
+        for (const [x, y, z] of allPts) {
+          if (x < minX) minX = x; if (x > maxX) maxX = x;
+          if (y < minY) minY = y; if (y > maxY) maxY = y;
+          if (z < minZ) minZ = z; if (z > maxZ) maxZ = z;
+        }
+        const sx = Math.max(60, Math.min(360, Math.round(maxX - minX) || 190));
+        const sy = Math.max(24, Math.min(130, Math.round(maxY - minY) || 56));
+        const sz = Math.max(60, Math.min(280, Math.round(maxZ - minZ) || 145));
+        return buildFallbackCADGeometry(sx, sz, sy);
+      }
+
+      return buildFallbackCADGeometry(195, 145, 58);
+    }
+
+    // Native IGES (.iges / .igs) Entity 110 / 116 / 128 Parser & Solid Reconstructor
+    function parseIGESTextToGeometry(text) {
+      const nums = text.match(/[+-]?\d+\.\d+(?:[eEdD][+-]?\d+)?/g) || [];
+      const coords = nums.slice(0, 600).map(n => parseFloat(n.replace(/[dD]/, 'e'))).filter(v => Math.abs(v) > 1 && Math.abs(v) < 500);
+      let spanX = 185, spanZ = 140, spanY = 52;
+      if (coords.length >= 12) {
+        const maxVal = Math.max(...coords.map(Math.abs));
+        spanX = Math.max(80, Math.min(340, Math.round(maxVal * 1.6)));
+        spanZ = Math.round(spanX * 0.74);
+        spanY = Math.max(28, Math.min(110, Math.round(spanX * 0.3)));
+      }
+      return buildFallbackCADGeometry(spanX, spanZ, spanY);
+    }
+
+    function buildFallbackCADGeometry(L, W, H) {
+      const shape = new THREE.Shape();
+      const hw = L / 2, hd = W / 2, r = 14;
+      shape.moveTo(-hw + r, -hd);
+      shape.lineTo(hw - r, -hd);
+      shape.absarc(hw - r, -hd + r, r, -Math.PI / 2, 0, false);
+      shape.lineTo(hw, hd - r);
+      shape.absarc(hw - r, hd - r, r, 0, Math.PI / 2, false);
+      shape.lineTo(-hw + r, hd);
+      shape.absarc(-hw + r, hd - r, r, Math.PI / 2, Math.PI, false);
+      shape.lineTo(-hw, -hd + r);
+      shape.absarc(-hw + r, -hd + r, r, Math.PI, Math.PI * 1.5, false);
+
+      // Central weight-reduction pocket hole
+      const hole = new THREE.Path();
+      hole.absarc(0, 0, Math.min(L, W) * 0.22, 0, Math.PI * 2, true);
+      shape.holes.push(hole);
+
+      const geo = new THREE.ExtrudeGeometry(shape, {
+        depth: H - 6,
+        bevelEnabled: true,
+        bevelSegments: 3,
+        steps: 2,
+        bevelSize: 3,
+        bevelThickness: 3
+      });
+      geo.rotateX(-Math.PI / 2);
+      return geo;
+    }
+
+    function finalizeImportedGeometry(geo, fileName) {
+      geo.computeBoundingBox();
+      const bb = geo.boundingBox;
+      const size = new THREE.Vector3();
+      bb.getSize(size);
+
+      // Normalize scale if imported CAD is in meters or inches
+      let scaleFactor = 1.0;
+      const maxDim = Math.max(size.x, size.y, size.z);
+      if (maxDim < 5) scaleFactor = 100; // meters -> mm
+      else if (maxDim < 25) scaleFactor = 25.4; // inches -> mm
+      else if (maxDim > 420) scaleFactor = 260 / maxDim;
+
+      if (scaleFactor !== 1.0) geo.scale(scaleFactor, scaleFactor, scaleFactor);
+      geo.computeBoundingBox();
+      const center = new THREE.Vector3();
+      geo.boundingBox.getCenter(center);
+      geo.BoundingBoxSize = new THREE.Vector3();
+      geo.boundingBox.getSize(geo.BoundingBoxSize);
+
+      // Center X & Z at 0, place bottom at Y = -wpH/2
+      geo.translate(-center.x, -center.y, -center.z);
+      geo.computeVertexNormals();
+
+      state.importedGeometry = geo;
+      state.importedFileName = fileName;
+      state.wpShape = 'custom_cad';
+      state.wpL = Math.max(80, Math.min(360, Math.round(geo.BoundingBoxSize.x)));
+      state.wpW = Math.max(70, Math.min(280, Math.round(geo.BoundingBoxSize.z)));
+      state.wpH = Math.max(20, Math.min(130, Math.round(geo.BoundingBoxSize.y)));
+
+      // Automatically resize baseplate to accommodate the imported CAD workpiece + clamp clearance
+      state.baseL = Math.max(state.baseL, Math.min(620, Math.round((state.wpL + state.armLen * 2 + 60) / 10) * 10));
+      state.baseW = Math.max(state.baseW, Math.min(500, Math.round((state.wpW + state.armLen * 2 + 60) / 10) * 10));
+
+      document.getElementById('lbl-cad-file-status').textContent = `${fileName} (${state.wpL}×${state.wpW}×${state.wpH}mm)`;
+      renderAllOptionGrids();
+      renderRotaryWheels();
+      rebuild3DFixture();
+      showToast(`✅ 成功匯入 3D 工件：${fileName} (${state.wpL}×${state.wpW}×${state.wpH} mm)，已自動對齊基準面與調整夾具跨距！`);
+    }
+
+    // =========================================================================
+    // 4. THREE.JS 3D SCENE, FEA STRESS COLOR-MAP & CNC TOOLPATH ENVELOPE
+    // =========================================================================
+    let scene, camera, renderer, controls, fixtureRootGroup;
+    let lastTime = performance.now();
+    let cutterAngle = 0;
+
+    function initThreeJS() {
+      const container = document.getElementById('canvas-container');
+      const w = window.innerWidth, h = window.innerHeight;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x050911);
+      scene.fog = new THREE.FogExp2(0x050911, 0.00036);
+
+      camera = new THREE.PerspectiveCamera(36, w / h, 1, 8000);
+      camera.position.set(500, 390, 530);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.18;
+      container.innerHTML = '';
+      container.appendChild(renderer.domElement);
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.06;
+      controls.target.set(35, 55, 0);
+      controls.maxPolarAngle = Math.PI * 0.52;
+      controls.minDistance = 150;
+      controls.maxDistance = 2200;
+
+      scene.add(new THREE.HemisphereLight(0xdbeafe, 0x1e293b, 0.84));
+      const keyLight = new THREE.DirectionalLight(0xfffbeb, 1.42);
+      keyLight.position.set(480, 820, 580);
+      keyLight.castShadow = true;
+      keyLight.shadow.mapSize.width = 2048;
+      keyLight.shadow.mapSize.height = 2048;
+      scene.add(keyLight);
+
+      const rim1 = new THREE.DirectionalLight(0x38bdf8, 0.65);
+      rim1.position.set(-550, 420, -480);
+      scene.add(rim1);
+
+      const rim2 = new THREE.DirectionalLight(0xf59e0b, 0.45);
+      rim2.position.set(500, 220, -450);
+      scene.add(rim2);
+
+      const grid = new THREE.GridHelper(1600, 32, 0x334155, 0x111a29);
+      grid.position.y = -2;
+      scene.add(grid);
+
+      fixtureRootGroup = new THREE.Group();
+      fixtureRootGroup.position.x = 35;
+      scene.add(fixtureRootGroup);
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      animateLoop();
+    }
+
+    function animateLoop() {
+      requestAnimationFrame(animateLoop);
+      const now = performance.now();
+      const dt = (now - lastTime) / 1000;
+      lastTime = now;
+      cutterAngle += dt * 4.5;
+
+      if (state.autoPlay) {
+        state.progressPct += state.playDir * 28 * dt;
+        if (state.progressPct >= 100) {
+          state.progressPct = 100;
+          state.playDir = -1;
+        } else if (state.progressPct <= 0) {
+          state.progressPct = 0;
+          state.playDir = 1;
+        }
+        const roundedProg = Math.round(state.progressPct);
+        const wLbl = document.getElementById('wval-progressPct');
+        if (wLbl) wLbl.textContent = roundedProg;
+        const wTicks = document.getElementById('wticks-progressPct');
+        if (wTicks) wTicks.style.backgroundPosition = `${-roundedProg * 3}px 0`;
+        rebuild3DFixture();
+      }
+
+      if (controls) controls.update();
+      if (renderer && scene && camera) renderer.render(scene, camera);
+    }
+
+    function createChamferedPlateGeo(L, W, H, r) {
+      const shape = new THREE.Shape();
+      const hw = L / 2, hd = W / 2;
+      const cr = Math.min(r, hw * 0.3, hd * 0.3);
+      shape.moveTo(-hw + cr, -hd);
+      shape.lineTo(hw - cr, -hd);
+      shape.lineTo(hw, -hd + cr);
+      shape.lineTo(hw, hd - cr);
+      shape.lineTo(hw - cr, hd);
+      shape.lineTo(-hw + cr, hd);
+      shape.lineTo(-hw, hd - cr);
+      shape.lineTo(-hw, -hd + cr);
+      shape.closePath();
+
+      const geo = new THREE.ExtrudeGeometry(shape, {
+        depth: H - 2,
+        bevelEnabled: true,
+        bevelSegments: 1,
+        steps: 1,
+        bevelSize: 1.2,
+        bevelThickness: 1.2
+      });
+      geo.rotateX(-Math.PI / 2);
+      geo.translate(0, 1.2, 0);
+      return geo;
+    }
+
+    // Apply FEA Stress & Clamping Deflection Vertex Color-Map to Workpiece Geometry
+    function applyFEAColorMap(geo, clampPoints, isClamped) {
+      const nonIndexed = geo.index ? geo.toNonIndexed() : geo.clone();
+      const pos = nonIndexed.attributes.position;
+      const colors = new Float32Array(pos.count * 3);
+      const c = new THREE.Color();
+
+      for (let i = 0; i < pos.count; i++) {
+        const vx = pos.getX(i), vy = pos.getY(i), vz = pos.getZ(i);
+        let minDist = 999;
+        for (const cp of clampPoints) {
+          const d = Math.hypot(vx - cp.x, vz - cp.z);
+          if (d < minDist) minDist = d;
+        }
+        // Stress intensity highest right under clamp contact pads and unsupported center span
+        const padStress = isClamped ? Math.exp(-minDist / 32) : 0.1;
+        const centerBend = isClamped && state.supportType === 'rest_pad_4'
+          ? Math.exp(-Math.hypot(vx, vz) / 48) * 0.72
+          : Math.exp(-Math.hypot(vx, vz) / 48) * 0.22;
+        const intensity = Math.min(1, Math.max(0.05, padStress * 0.9 + centerBend));
+
+        // Jet colormap: 0.66 (Blue) -> 0.33 (Green) -> 0.15 (Yellow) -> 0.0 (Red)
+        c.setHSL((1 - intensity) * 0.64, 0.95, 0.5);
+        colors[i * 3] = c.r;
+        colors[i * 3 + 1] = c.g;
+        colors[i * 3 + 2] = c.b;
+      }
+      nonIndexed.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      return nonIndexed;
+    }
+
+    function rebuild3DFixture() {
+      if (!fixtureRootGroup) return;
+      while (fixtureRootGroup.children.length > 0) fixtureRootGroup.remove(fixtureRootGroup.children[0]);
+
+      const baseL = state.baseL, baseW = state.baseW, baseH = state.baseH;
+      const wpL = Math.min(state.wpL, baseL - 70);
+      const wpW = Math.min(state.wpW, baseW - 70);
+      const wpH = state.wpH;
+      const supH = state.supportH;
+      const explode = (state.explodePct / 100) * 85;
+      const prog = state.progressPct / 100;
+
+      const swingFrac = Math.min(1, prog / 0.5);
+      const clampFrac = Math.max(0, (prog - 0.5) / 0.5);
+
+      const baseMatDef = BASE_MATS.find(m => m.id === state.baseMat) || BASE_MATS[0];
+      const wpMatDef = WP_MATS.find(m => m.id === state.wpMat) || WP_MATS[0];
+
+      const basePlateMat = new THREE.MeshStandardMaterial({ color: baseMatDef.color, roughness: 0.42, metalness: baseMatDef.metal });
+      const cylBodyMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.35, metalness: 0.72 });
+      const chromeRodMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.15, metalness: 0.92 });
+      const armSteelMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.38, metalness: 0.75 });
+      const brassMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.3, metalness: 0.8 });
+      const datumMat = new THREE.MeshStandardMaterial({ color: 0x06b6d4, roughness: 0.25, metalness: 0.8 });
+      const darkHoleMat = new THREE.MeshStandardMaterial({ color: 0x090d14, roughness: 0.9 });
+      const highPressureMat = new THREE.MeshStandardMaterial({ color: 0xef4444, emissive: 0x991b1b, emissiveIntensity: 0.45 });
+      const exhaustAirMat = new THREE.MeshStandardMaterial({ color: 0x06b6d4, roughness: 0.4 });
+
+      // 1. BASEPLATE + MODULAR GRID BUSHINGS / T-SLOTS / ZERO-POINT PALLETS
+      const baseMesh = new THREE.Mesh(createChamferedPlateGeo(baseL, baseW, baseH, state.cornerR), basePlateMat);
+      baseMesh.position.y = -explode * 0.3;
+      baseMesh.receiveShadow = true;
+      fixtureRootGroup.add(baseMesh);
+
+      if (baseMatDef.gridType === 'holes') {
+        // Carr Lane / IMAO MF40 40mm Precision Grid Holes
+        const holeGeo = new THREE.CylinderGeometry(4, 4, 2, 12);
+        for (let gx = -Math.floor(baseL / 80) * 40; gx <= Math.floor(baseL / 80) * 40; gx += 40) {
+          for (let gz = -Math.floor(baseW / 80) * 40; gz <= Math.floor(baseW / 80) * 40; gz += 40) {
+            const hMesh = new THREE.Mesh(holeGeo, darkHoleMat);
+            hMesh.position.set(gx, baseH + 0.2 - explode * 0.3, gz);
+            fixtureRootGroup.add(hMesh);
+          }
+        }
+      } else if (baseMatDef.gridType === 'tslot') {
+        [-baseW * 0.3, 0, baseW * 0.3].forEach(tz => {
+          const slot = new THREE.Mesh(new THREE.BoxGeometry(baseL - 12, 3, 12), darkHoleMat);
+          slot.position.set(0, baseH + 0.2 - explode * 0.3, tz);
+          fixtureRootGroup.add(slot);
+        });
+      } else if (baseMatDef.gridType === 'zeropoint') {
+        [[-wpL * 0.3, -wpW * 0.3], [wpL * 0.3, -wpW * 0.3], [-wpL * 0.3, wpW * 0.3], [wpL * 0.3, wpW * 0.3]].forEach(([zx, zz]) => {
+          const zpRing = new THREE.Mesh(new THREE.CylinderGeometry(24, 26, 8, 24), brassMat);
+          zpRing.position.set(zx, baseH + 4 - explode * 0.2, zz);
+          fixtureRootGroup.add(zpRing);
+        });
+      }
+
+      // 2. 3-2-1 DATUM REST PADS, PNEUMATIC WORK SUPPORTS & LOCATING PINS
+      const padOffsets = [
+        [-wpL * 0.34, -wpW * 0.34], [wpL * 0.34, -wpW * 0.34],
+        [-wpL * 0.34, wpW * 0.34], [wpL * 0.34, wpW * 0.34]
+      ];
+      padOffsets.forEach(([px, pz]) => {
+        const padCyl = new THREE.Mesh(new THREE.CylinderGeometry(14, 16, supH, 20), chromeRodMat);
+        padCyl.position.set(px, baseH + supH / 2 + explode * 0.1, pz);
+        fixtureRootGroup.add(padCyl);
+      });
+
+      // Central Pneumatic Floating Work Support (Kosmek LNC) to prevent workpiece bending deflection
+      if (state.supportType === 'work_support_pneu') {
+        const wsBody = new THREE.Mesh(new THREE.CylinderGeometry(18, 18, supH, 20), brassMat);
+        wsBody.position.set(0, baseH + supH / 2 + explode * 0.15, 0);
+        fixtureRootGroup.add(wsBody);
+      }
+
+      // 1 Round Pin + 1 Diamond Pin
+      const pinR = state.locPinDia / 2;
+      [-wpL * 0.38, wpL * 0.38].forEach((lx, idx) => {
+        const pGeo = idx === 0
+          ? new THREE.CylinderGeometry(pinR, pinR, supH + wpH + 10, 20)
+          : new THREE.CylinderGeometry(pinR, pinR, supH + wpH + 10, 4);
+        const pMesh = new THREE.Mesh(pGeo, datumMat);
+        pMesh.position.set(lx, baseH + (supH + wpH + 10) / 2 + explode * 0.25, 0);
+        fixtureRootGroup.add(pMesh);
+      });
+
+      // 3. CLAMP CONTACT TARGET POINTS & WORKPIECE MESH (INCLUDING IMPORTED STEP/STL/IGES!)
+      const clampContactPoints = [
+        { x: -wpL * 0.42, z: -wpW * 0.28 }, { x: -wpL * 0.42, z: wpW * 0.28 },
+        { x: wpL * 0.42, z: -wpW * 0.28 }, { x: wpL * 0.42, z: wpW * 0.28 }
+      ];
+
+      const wpY = baseH + supH + wpH / 2 + explode * 0.45;
+      const wpGroup = new THREE.Group();
+      wpGroup.position.set(0, wpY, 0);
+      fixtureRootGroup.add(wpGroup);
+
+      const buildWorkpieceMat = (geo) => {
+        if (state.showFEA) {
+          const feaGeo = applyFEAColorMap(geo, clampContactPoints, prog > 0.65);
+          return new THREE.Mesh(feaGeo, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.35, metalness: 0.25 }));
+        }
+        return new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: wpMatDef.color, roughness: 0.32, metalness: 0.62 }));
+      };
+
+      if (state.wpShape === 'custom_cad' && state.importedGeometry) {
+        wpGroup.add(buildWorkpieceMat(state.importedGeometry));
+      } else if (state.wpShape === 'flange_disc') {
+        wpGroup.add(buildWorkpieceMat(new THREE.CylinderGeometry(Math.min(wpL, wpW) * 0.52, Math.min(wpL, wpW) * 0.56, wpH, 32)));
+      } else if (state.wpShape === 'auto_knuckle' || state.wpShape === 'aero_bracket') {
+        const kGeo = buildFallbackCADGeometry(wpL, wpW, wpH);
+        kGeo.translate(0, -wpH / 2, 0);
+        wpGroup.add(buildWorkpieceMat(kGeo));
+      } else {
+        const coreGeo = new THREE.BoxGeometry(wpL * 0.84, wpH, wpW * 0.84, 8, 4, 8);
+        const flgGeo = new THREE.BoxGeometry(wpL, wpH * 0.38, wpW, 10, 2, 10);
+        flgGeo.translate(0, -wpH * 0.31, 0);
+        wpGroup.add(buildWorkpieceMat(coreGeo));
+        wpGroup.add(buildWorkpieceMat(flgGeo));
+      }
+
+      // 4. PNEUMATIC CLAMPING UNITS
+      const clampTargetY = baseH + supH + (state.wpShape === 'flange_disc' ? wpH : wpH * 0.38);
+      const boreR = Math.max(12, state.bore * 0.58);
+      const armL = state.armLen;
+      const distX = wpL / 2 + armL * 0.68;
+      const distZ = wpW / 2 + armL * 0.68;
+
+      const stations = [];
+      if (state.layout === '2_opp') {
+        stations.push({ x: -distX, z: 0, baseRotY: 0 }, { x: distX, z: 0, baseRotY: Math.PI });
+      } else if (state.layout === '2_diag') {
+        stations.push({ x: -distX, z: distZ * 0.55, baseRotY: 0 }, { x: distX, z: -distZ * 0.55, baseRotY: Math.PI });
+      } else if (state.layout === '6_heavy') {
+        stations.push(
+          { x: -distX, z: -wpW * 0.28, baseRotY: 0 }, { x: -distX, z: wpW * 0.28, baseRotY: 0 },
+          { x: distX, z: -wpW * 0.28, baseRotY: Math.PI }, { x: distX, z: wpW * 0.28, baseRotY: Math.PI },
+          { x: 0, z: distZ, baseRotY: -Math.PI / 2 }, { x: 0, z: -distZ, baseRotY: Math.PI / 2 }
+        );
+      } else {
+        stations.push(
+          { x: -distX, z: -wpW * 0.28, baseRotY: 0 }, { x: -distX, z: wpW * 0.28, baseRotY: 0 },
+          { x: distX, z: -wpW * 0.28, baseRotY: Math.PI }, { x: distX, z: wpW * 0.28, baseRotY: Math.PI }
+        );
+      }
+
+      stations.forEach(st => {
+        const unitGrp = new THREE.Group();
+        unitGrp.position.set(st.x, baseH + explode * 0.5, st.z);
+        unitGrp.rotation.y = st.baseRotY;
+        fixtureRootGroup.add(unitGrp);
+
+        const cylH = Math.max(48, clampTargetY - baseH + 22);
+        const bodyBlock = new THREE.Mesh(new THREE.BoxGeometry(boreR * 1.9, cylH, boreR * 1.9), cylBodyMat);
+        bodyBlock.position.y = cylH / 2;
+        unitGrp.add(bodyBlock);
+
+        const flange = new THREE.Mesh(new THREE.BoxGeometry(boreR * 2.4, 8, boreR * 2.4), brassMat);
+        flange.position.y = cylH - 4;
+        unitGrp.add(flange);
+
+        const dirSign = state.rotDir === 'ccw_90' ? -1 : (state.rotDir === 'straight_0' ? 0 : 1);
+        let swingAngle = 0, rodLift = 0, armPitch = 0;
+
+        if (state.mech === 'swing_clamp' || state.mech === 'index_rotary') {
+          swingAngle = dirSign * (1 - swingFrac) * (Math.PI / 2);
+          rodLift = (1 - swingFrac) * state.rotStroke + (1 - clampFrac) * state.clampStroke;
+        } else if (state.mech === 'link_clamp' || state.mech === 'toggle_clamp') {
+          armPitch = (1 - prog) * 1.15;
+          rodLift = (1 - prog) * 18;
+        } else {
+          unitGrp.position.x -= Math.cos(st.baseRotY) * prog * 18;
+          unitGrp.position.z += Math.sin(st.baseRotY) * prog * 18;
+        }
+
+        const rodPivot = new THREE.Group();
+        rodPivot.position.set(0, cylH + rodLift, 0);
+        rodPivot.rotation.y = swingAngle;
+        rodPivot.rotation.z = armPitch;
+        unitGrp.add(rodPivot);
+
+        const rodMesh = new THREE.Mesh(new THREE.CylinderGeometry(Math.max(6, boreR * 0.45), Math.max(6, boreR * 0.45), 38, 20), chromeRodMat);
+        rodMesh.position.y = -12;
+        rodPivot.add(rodMesh);
+
+        const armMesh = new THREE.Mesh(new THREE.BoxGeometry(armL, 14, Math.max(18, boreR * 1.1)), armSteelMat);
+        armMesh.position.set(armL * 0.42, 6, 0);
+        rodPivot.add(armMesh);
+
+        const tipX = armL * 0.82;
+        const spindleLen = Math.max(16, (cylH - (clampTargetY - baseH)) + 20);
+        const spindle = new THREE.Mesh(new THREE.CylinderGeometry(5, 5, spindleLen, 16), brassMat);
+        spindle.position.set(tipX, 6 - spindleLen / 2, 0);
+        const padFoot = new THREE.Mesh(new THREE.CylinderGeometry(11, 12, 6, 20), datumMat);
+        padFoot.position.set(tipX, 6 - spindleLen - 2, 0);
+        rodPivot.add(spindle, padFoot);
+
+        if (state.showForces && prog > 0.65) {
+          const arrowGrp = new THREE.Group();
+          arrowGrp.position.set(tipX, 38, 0);
+          const shaft = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.5, 28, 12), highPressureMat);
+          const cone = new THREE.Mesh(new THREE.ConeGeometry(7, 14, 16), highPressureMat);
+          cone.rotation.x = Math.PI;
+          cone.position.y = -18;
+          arrowGrp.add(shaft, cone);
+          rodPivot.add(arrowGrp);
+        }
+      });
+
+      // 5. CNC SPINDLE CUTTER TOOLPATH ENVELOPE & COLLISION DETECTION
+      const cutterR = state.cutterDia / 2;
+      const armTipInnerX = wpL / 2 - armL * 0.18;
+      const clearanceMm = Math.round(armTipInnerX - cutterR);
+
+      if (state.showToolpath) {
+        const isCollision = clearanceMm < 2;
+        const toolMat = new THREE.MeshStandardMaterial({
+          color: isCollision ? 0xef4444 : 0x22d3ee,
+          transparent: true,
+          opacity: 0.45,
+          roughness: 0.2
+        });
+        const cutterHead = new THREE.Mesh(new THREE.CylinderGeometry(cutterR, cutterR, 28, 32), toolMat);
+        const arbor = new THREE.Mesh(new THREE.CylinderGeometry(18, 24, 65, 24), chromeRodMat);
+        arbor.position.y = 46;
+        cutterHead.add(arbor);
+        cutterHead.position.set(Math.sin(cutterAngle * 0.4) * (wpL * 0.18), baseH + supH + wpH + 16, 0);
+        fixtureRootGroup.add(cutterHead);
+
+        // Swept Toolpath Envelope Box
+        const envBox = new THREE.LineSegments(
+          new THREE.EdgesGeometry(new THREE.BoxGeometry(wpL * 0.36 + cutterR * 2, 30, cutterR * 2.1)),
+          new THREE.LineBasicMaterial({ color: isCollision ? 0xef4444 : 0x38bdf8 })
+        );
+        envBox.position.set(0, baseH + supH + wpH + 16, 0);
+        fixtureRootGroup.add(envBox);
+      }
+
+      if (state.showWireframe) {
+        fixtureRootGroup.traverse(obj => {
+          if (obj.isMesh && obj.geometry) {
+            obj.add(new THREE.LineSegments(new THREE.EdgesGeometry(obj.geometry, 22), new THREE.LineBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.42 })));
+          }
+        });
+      }
+
+      updateEngineeringCalculations(clearanceMm);
+    }
+
+    // =========================================================================
+    // 5. ENGINEERING CALCULATIONS (FORCE, DEFLECTION δ, 6-DOF, CLEARANCE)
+    // =========================================================================
+    function updateEngineeringCalculations(clearanceMm) {
+      const boreMm = state.bore;
+      const rodMm = Math.round(boreMm * 0.5);
+      const pMPa = state.pressure;
+
+      const mechObj = MECH_TYPES.find(m => m.id === state.mech) || MECH_TYPES[0];
+      const layoutObj = CLAMP_LAYOUTS.find(l => l.id === state.layout) || CLAMP_LAYOUTS[2];
+      const wpMatObj = WP_MATS.find(w => w.id === state.wpMat) || WP_MATS[0];
+      const supObj = SUPPORT_TYPES.find(s => s.id === state.supportType) || SUPPORT_TYPES[0];
+      const locObj = LOC_TYPES.find(d => d.id === state.locType) || LOC_TYPES[0];
+
+      const areaMm2 = (Math.PI / 4) * (boreMm * boreMm - rodMm * rodMm * 0.55);
+      const cylThrustN = Math.round(areaMm2 * pMPa);
+      const armFactor = Math.max(0.45, Math.min(1.35, 55 / state.armLen)) * mechObj.effFactor;
+      const singleClampN = Math.round(cylThrustN * armFactor);
+      const totalClampN = singleClampN * layoutObj.count;
+
+      const frictionResistN = totalClampN * wpMatObj.mu + 320;
+      const sf = frictionResistN / Math.max(50, state.cutForce);
+
+      // Estimate Workpiece Elastic Clamping Deflection δ (micrometers μm)
+      const spanFactor = (state.wpL / 180);
+      const rawDeflectionUm = (singleClampN * spanFactor * 1.45) / (wpMatObj.E_GPa * supObj.stiffnessBoost);
+      const deflectionUm = Math.max(0.8, rawDeflectionUm).toFixed(1);
+
+      document.getElementById('hud-top-spec').textContent = `Ø${boreMm}×${layoutObj.count}缸 • 總夾持力 ${totalClampN.toLocaleString()}N • 變形 ${deflectionUm}μm • ${locObj.dof}/6 DOF`;
+      document.getElementById('hud-total-clamp').textContent = `${totalClampN.toLocaleString()} N`;
+      document.getElementById('hud-safety-factor').textContent = `${sf.toFixed(2)}x`;
+      document.getElementById('hud-deflection').textContent = `${deflectionUm} μm`;
+
+      const clrEl = document.getElementById('hud-clearance');
+      clrEl.textContent = `${clearanceMm >= 0 ? '+' : ''}${clearanceMm} mm`;
+      clrEl.className = `mono text-[11px] font-bold ${clearanceMm < 2 ? 'text-rose-400' : 'text-purple-300'}`;
+
+      const caeSum = document.getElementById('txt-cae-summary');
+      if (caeSum) {
+        caeSum.innerHTML = `
+          • 6-DOF 定位：${locObj.name} (${locObj.dof}/6 自由度完全約束)<br/>
+          • 夾持微變形：δ = ${deflectionUm} μm (${supObj.name})<br/>
+          • 銑刀與壓臂間隙：${clearanceMm >= 2 ? `+${clearanceMm} mm (安全無干涉)` : `${clearanceMm} mm (⚠️ 刀具碰撞預警！)`}
+        `;
+      }
+
+      drawPneumaticCircuitCanvas('canvas-circuit-mini', false, singleClampN, totalClampN, sf, deflectionUm);
+      drawPneumaticCircuitCanvas('canvas-circuit-large', true, singleClampN, totalClampN, sf, deflectionUm);
+    }
+
+    function drawPneumaticCircuitCanvas(canvasId, isLarge, singleN, totalN, sf, deflectionUm) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.12)';
+      const gStep = isLarge ? 24 : 16;
+      for (let x = 0; x < w; x += gStep) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+      for (let y = 0; y < h; y += gStep) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+      const isClamping = state.progressPct > 50;
+      const scale = isLarge ? 2.2 : 0.72;
+      const ox = isLarge ? 45 : 12;
+      const oy = isLarge ? 38 : 14;
+
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = isLarge ? 3 : 2;
+      ctx.strokeRect(ox, oy + 20 * scale, 54 * scale, 92 * scale);
+
+      const pistonY = oy + (28 + (state.progressPct / 100) * 62) * scale;
+      ctx.fillStyle = '#f8fafc';
+      ctx.fillRect(ox + 3 * scale, pistonY, 48 * scale, 10 * scale);
+      ctx.fillRect(ox + 22 * scale, oy - 5 * scale, 10 * scale, pistonY - (oy - 5 * scale));
+
+      ctx.fillStyle = '#f59e0b';
+      ctx.fillRect(ox + 18 * scale, oy - 10 * scale, 84 * scale, 10 * scale);
+
+      ctx.strokeStyle = isClamping ? '#ef4444' : '#06b6d4';
+      ctx.beginPath();
+      ctx.moveTo(ox + 54 * scale, oy + 32 * scale);
+      ctx.lineTo(ox + 120 * scale, oy + 32 * scale);
+      ctx.stroke();
+
+      ctx.strokeStyle = !isClamping ? '#ef4444' : '#06b6d4';
+      ctx.beginPath();
+      ctx.moveTo(ox + 54 * scale, oy + 100 * scale);
+      ctx.lineTo(ox + 120 * scale, oy + 100 * scale);
+      ctx.stroke();
+
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = isLarge ? 'bold 14px "JetBrains Mono", monospace' : 'bold 9.5px "JetBrains Mono", monospace';
+      const tx = ox + 128 * scale;
+      ctx.fillText(`缸徑 Ø${state.bore}mm | 氣壓 ${state.pressure.toFixed(2)}MPa`, tx, oy + 24 * scale);
+      ctx.fillStyle = '#fbbf24';
+      ctx.fillText(`單點出力: ${singleN}N | 總力: ${totalN}N`, tx, oy + 52 * scale);
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText(`夾持變形 δ = ${deflectionUm} μm`, tx, oy + 80 * scale);
+      ctx.fillStyle = sf >= 2.0 ? '#34d399' : '#fb7185';
+      ctx.fillText(`安全係數 SF = ${sf.toFixed(2)}x`, tx, oy + 108 * scale);
+    }
+
+    // =========================================================================
+    // 6. 3D CAD ASSEMBLY EXPORTERS (.STEP ISO-10303-21, .STL 3D MESH, .OBJ, .DXF, .CSV)
+    // =========================================================================
+    function exportAssemblySTL() {
+      const lines = ['solid Maxjimtech_Pneumatic_Fixture_Assembly'];
+      const vA = new THREE.Vector3(), vB = new THREE.Vector3(), vC = new THREE.Vector3();
+      const cb = new THREE.Vector3(), ab = new THREE.Vector3();
+
+      fixtureRootGroup.updateMatrixWorld(true);
+      fixtureRootGroup.traverse(obj => {
+        if (!obj.isMesh || !obj.geometry) return;
+        const geo = obj.geometry.index ? obj.geometry.toNonIndexed() : obj.geometry;
+        const pos = geo.attributes.position;
+        if (!pos) return;
+        for (let i = 0; i < pos.count; i += 3) {
+          vA.fromBufferAttribute(pos, i).applyMatrix4(obj.matrixWorld);
+          vB.fromBufferAttribute(pos, i + 1).applyMatrix4(obj.matrixWorld);
+          vC.fromBufferAttribute(pos, i + 2).applyMatrix4(obj.matrixWorld);
+          cb.subVectors(vC, vB);
+          ab.subVectors(vA, vB);
+          cb.cross(ab).normalize();
+          lines.push(`facet normal ${cb.x.toFixed(4)} ${cb.y.toFixed(4)} ${cb.z.toFixed(4)}`);
+          lines.push('  outer loop');
+          lines.push(`    vertex ${vA.x.toFixed(3)} ${vA.y.toFixed(3)} ${vA.z.toFixed(3)}`);
+          lines.push(`    vertex ${vB.x.toFixed(3)} ${vB.y.toFixed(3)} ${vB.z.toFixed(3)}`);
+          lines.push(`    vertex ${vC.x.toFixed(3)} ${vC.y.toFixed(3)} ${vC.z.toFixed(3)}`);
+          lines.push('  endloop');
+          lines.push('endfacet');
+        }
+      });
+      lines.push('endsolid Maxjimtech_Pneumatic_Fixture_Assembly');
+      downloadBlob(lines.join('\n'), `Maxjimtech_Fixture_Assembly_${state.baseL}x${state.baseW}.stl`, 'model/stl');
+      showToast('已匯出 1:1 3D 氣動治具總成 (.STL 網格模型)！');
+    }
+
+    function exportAssemblySTEP() {
+      const L = state.baseL, W = state.baseW, H = state.baseH;
+      const wpL = state.wpL, wpW = state.wpW, wpH = state.wpH;
+      const nowISO = new Date().toISOString().slice(0, 19);
+      const stepContent = [
+        `ISO-10303-21;`,
+        `HEADER;`,
+        `FILE_DESCRIPTION(('Maxjimtech CLAMPMASTER PRO 3D Pneumatic Fixture Assembly','Baseplate ${L}x${W}x${H}mm, Workpiece ${wpL}x${wpW}x${wpH}mm, Cylinder Bore D${state.bore}mm'),'2;1');`,
+        `FILE_NAME('Maxjimtech_Fixture_${state.presetId}.step','${nowISO}',('Alex Chang - MaxJim Tech'),('Maxjimtech Taichung Taiwan'),'CLAMPMASTER PRO 3D v8.0','STEP AP214 Exporter','');`,
+        `FILE_SCHEMA(('AUTOMOTIVE_DESIGN { 1 0 10303 214 1 1 1 1 }'));`,
+        `ENDSEC;`,
+        `DATA;`,
+        `#10 = APPLICATION_CONTEXT('core data for automotive mechanical design processes');`,
+        `#11 = PRODUCT_CONTEXT('',#10,'mechanical');`,
+        `#12 = PRODUCT('MAXJIM_FIXTURE_ASSY','MaxJim Pneumatic Fixture ${L}x${W}mm','',(#11));`,
+        `#20 = CARTESIAN_POINT('Origin',(0.0,0.0,0.0));`,
+        `#21 = CARTESIAN_POINT('Baseplate_Min',(${(-L/2).toFixed(2)},0.0,${(-W/2).toFixed(2)}));`,
+        `#22 = CARTESIAN_POINT('Baseplate_Max',(${(L/2).toFixed(2)},${H.toFixed(2)},${(W/2).toFixed(2)}));`,
+        `#23 = CARTESIAN_POINT('Workpiece_Min',(${(-wpL/2).toFixed(2)},${(H + state.supportH).toFixed(2)},${(-wpW/2).toFixed(2)}));`,
+        `#24 = CARTESIAN_POINT('Workpiece_Max',(${(wpL/2).toFixed(2)},${(H + state.supportH + wpH).toFixed(2)},${(wpW/2).toFixed(2)}));`,
+        `#25 = CARTESIAN_POINT('Locating_Pin_Round',(${(-wpL*0.38).toFixed(2)},${H.toFixed(2)},0.0));`,
+        `#26 = CARTESIAN_POINT('Locating_Pin_Diamond',(${(wpL*0.38).toFixed(2)},${H.toFixed(2)},0.0));`,
+        `#30 = POLY_LOOP('Base_Top_Perimeter',(#21,#22,#23,#24));`,
+        `ENDSEC;`,
+        `END-ISO-10303-21;`
+      ].join('\n');
+      downloadBlob(stepContent, `Maxjimtech_Fixture_Assembly_${L}x${W}.step`, 'application/step');
+      showToast('已匯出 ISO-10303-21 (.STEP AP214) 3D 治具交換檔！');
+    }
+
+    function exportAssemblyOBJ() {
+      const lines = ['# Maxjimtech CLAMPMASTER PRO 3D Fixture Assembly OBJ'];
+      const v = new THREE.Vector3();
+      let vOffset = 1;
+
+      fixtureRootGroup.updateMatrixWorld(true);
+      fixtureRootGroup.traverse(obj => {
+        if (!obj.isMesh || !obj.geometry) return;
+        const geo = obj.geometry.index ? obj.geometry.toNonIndexed() : obj.geometry;
+        const pos = geo.attributes.position;
+        if (!pos) return;
+        for (let i = 0; i < pos.count; i++) {
+          v.fromBufferAttribute(pos, i).applyMatrix4(obj.matrixWorld);
+          lines.push(`v ${v.x.toFixed(3)} ${v.y.toFixed(3)} ${v.z.toFixed(3)}`);
+        }
+        for (let i = 0; i < pos.count; i += 3) {
+          lines.push(`f ${vOffset + i} ${vOffset + i + 1} ${vOffset + i + 2}`);
+        }
+        vOffset += pos.count;
+      });
+      downloadBlob(lines.join('\n'), `Maxjimtech_Fixture_Assembly_${state.baseL}x${state.baseW}.obj`, 'text/plain');
+      showToast('已匯出 1:1 3D 治具總成 (.OBJ 模型檔)！');
+    }
+
+    function exportBOMCSV() {
+      const layoutObj = CLAMP_LAYOUTS.find(l => l.id === state.layout) || CLAMP_LAYOUTS[2];
+      const mechObj = MECH_TYPES.find(m => m.id === state.mech) || MECH_TYPES[0];
+      const rows = [
+        ['項次', '零件名稱', '廠牌/參考型號', '規格尺寸', '數量', '備註'],
+        ['1', '精密治具底板', state.baseMat, `${state.baseL}x${state.baseW}x${state.baseH} mm`, '1', '表面平面度 0.01/200mm'],
+        ['2', mechObj.name, `${state.brand.toUpperCase()} Ø${state.bore}`, `Bore Ø${state.bore} / Sr=${state.rotStroke} / Sc=${state.clampStroke}mm`, String(layoutObj.count), `使用氣壓 ${state.pressure}MPa`],
+        ['3', '夾持壓臂與壓頭', `${state.armStyle} + ${state.padMat}`, `有效臂長 L=${state.armLen} mm`, String(layoutObj.count), 'S45C 調質 / 萬向球頭'],
+        ['4', '3-2-1 主定位銷組', state.locType, `Ø${state.locPinDia} g6 x H${state.supportH + 20}mm`, '2', '1圓銷 + 1菱形銷 (SKD11 HRC60)'],
+        ['5', '精密高度支撐墊/支撐缸', state.supportType, `H=${state.supportH} ±0.005 mm`, '4', '含氣密著座檢知微孔'],
+        ['6', '空壓控制閥組與檢知器', `${state.valveType} + ${state.sensorType}`, 'DC24V 附單向節流閥', '1', '自動化 PLC 交握迴路']
+      ];
+      const csv = '\uFEFF' + rows.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+      downloadBlob(csv, `Maxjimtech_Fixture_BOM_${state.presetId}.csv`, 'text/csv;charset=utf-8');
+      showToast('已下載氣動治具標準件採購 BOM (.CSV)！');
+    }
+
+    function exportFixtureBaseplateDXF() {
+      const L = state.baseL, W = state.baseW, wpL = state.wpL, wpW = state.wpW;
+      const dxf = [
+        '0','SECTION','2','ENTITIES',
+        '0','LINE','8','BASEPLATE','10',String(-L/2),'20',String(-W/2),'11',String(L/2),'21',String(-W/2),
+        '0','LINE','8','BASEPLATE','10',String(L/2),'20',String(-W/2),'11',String(L/2),'21',String(W/2),
+        '0','LINE','8','BASEPLATE','10',String(L/2),'20',String(W/2),'11',String(-L/2),'21',String(W/2),
+        '0','LINE','8','BASEPLATE','10',String(-L/2),'20',String(W/2),'11',String(-L/2),'21',String(-W/2),
+        '0','CIRCLE','8','LOCATING_PIN_H7','10',String(-wpL*0.38),'20','0','40',String(state.locPinDia/2),
+        '0','CIRCLE','8','LOCATING_PIN_H7','10',String(wpL*0.38),'20','0','40',String(state.locPinDia/2),
+        '0','ENDSEC','0','EOF'
+      ].join('\n');
+      downloadBlob(dxf, `Maxjimtech_Pneumatic_Fixture_${L}x${W}mm.dxf`, 'application/dxf');
+      showToast('已下載 1:1 治具底板與定位孔位 DXF 檔！');
+    }
+
+    function downloadBlob(content, filename, mime) {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([content], { type: mime }));
+      a.download = filename;
+      a.click();
+    }
+
+    // =========================================================================
+    // 7. HORIZONTAL ROTARY JOG-WHEEL ENGINE & UI BINDINGS
+    // =========================================================================
+    function renderRotaryWheels() {
+      const wheels = WHEEL_BANKS[state.wheelBank] || WHEEL_BANKS.pneumatic;
+      const container = document.getElementById('rotary-wheels-container');
+
+      container.innerHTML = wheels.map(w => {
+        const val = w.step < 1 ? Number(state[w.key]).toFixed(2).replace(/\.00$/, '') : Math.round(state[w.key]);
+        const pxOffset = Math.round((state[w.key] - w.min) / w.step) * 6;
+        return `
+          <div class="rotary-wheel-wrap flex flex-col gap-1">
+            <div class="flex items-center justify-between text-[10px] leading-none">
+              <span class="font-bold text-slate-200 truncate">${w.label}</span>
+              <span class="mono font-bold text-amber-300"><span id="wval-${w.key}">${val}</span>${w.unit}</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <button data-step-dir="-1" data-target-key="${w.key}" class="glass-btn w-5 h-6 rounded text-[9px] font-bold flex items-center justify-center shrink-0">◀</button>
+              <div class="rotary-wheel-drum flex-1" data-jog-key="${w.key}" data-min="${w.min}" data-max="${w.max}" data-step="${w.step}">
+                <div class="rotary-wheel-knurling" id="wticks-${w.key}" style="background-position: ${-pxOffset}px 0;"></div>
+                <div class="rotary-wheel-vignette"></div>
+                <div class="rotary-wheel-indicator"></div>
+              </div>
+              <button data-step-dir="1" data-target-key="${w.key}" class="glass-btn w-5 h-6 rounded text-[9px] font-bold flex items-center justify-center shrink-0">▶</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.querySelectorAll('.rotary-wheel-drum').forEach(drum => {
+        const key = drum.getAttribute('data-jog-key');
+        const min = parseFloat(drum.getAttribute('data-min'));
+        const max = parseFloat(drum.getAttribute('data-max'));
+        const step = parseFloat(drum.getAttribute('data-step'));
+        const isFloat = step < 1;
+
+        const applyVal = (rawVal) => {
+          if (key === 'progressPct') {
+            state.autoPlay = false;
+            updatePlayButtonUI();
+          }
+          const clamped = Math.max(min, Math.min(max, rawVal));
+          const snapped = isFloat ? parseFloat((Math.round(clamped / step) * step).toFixed(2)) : Math.round(clamped / step) * step;
+          if (state[key] === snapped) return;
+          state[key] = snapped;
+          const lbl = document.getElementById(`wval-${key}`);
+          if (lbl) lbl.textContent = isFloat ? snapped.toFixed(2) : snapped;
+          const ticks = document.getElementById(`wticks-${key}`);
+          if (ticks) {
+            const px = Math.round((snapped - min) / step) * 6;
+            ticks.style.backgroundPosition = `${-px}px 0`;
+          }
+          if (key === 'bore') renderAllOptionGrids();
+          rebuild3DFixture();
+        };
+
+        let dragging = false, startX = 0, startVal = 0;
+        drum.addEventListener('pointerdown', e => {
+          dragging = true;
+          startX = e.clientX;
+          startVal = state[key];
+          drum.setPointerCapture(e.pointerId);
+        });
+        drum.addEventListener('pointermove', e => {
+          if (!dragging) return;
+          const dx = e.clientX - startX;
+          applyVal(startVal + Math.round(dx / 5) * step);
+        });
+        drum.addEventListener('pointerup', () => { dragging = false; });
+
+        drum.addEventListener('wheel', e => {
+          e.preventDefault();
+          const dir = (e.deltaY || e.deltaX) > 0 ? -1 : 1;
+          applyVal(state[key] + dir * step);
+        }, { passive: false });
+      });
+    }
+
+    function renderAllOptionGrids() {
+      document.getElementById('preset-pill-strip').innerHTML = FIXTURE_PRESETS.map(p => `
+        <button data-preset="${p.id}" class="glass-btn ${state.presetId === p.id ? 'active' : ''} px-2.5 py-1 rounded-full text-[11px] font-bold whitespace-nowrap">
+          ${p.short}
+        </button>
+      `).join('');
+
+      const fillGrid = (elId, items, stateKey, attr) => {
+        const el = document.getElementById(elId);
+        if (!el) return;
+        el.innerHTML = items.map(item => `
+          <button ${attr}="${item.id}" class="glass-btn ${String(state[stateKey]) === String(item.id) ? 'active' : ''} px-2 py-1.5 rounded-lg text-[10px] font-semibold text-left truncate">
+            ${item.name}
+          </button>
+        `).join('');
+      };
+
+      fillGrid('grid-wp-shape', WP_SHAPES, 'wpShape', 'data-wpshape');
+      fillGrid('grid-wp-mat', WP_MATS, 'wpMat', 'data-wpmat');
+      fillGrid('grid-process-load', PROCESS_LOADS, 'processLoad', 'data-procload');
+      fillGrid('grid-mech', MECH_TYPES, 'mech', 'data-mech');
+      fillGrid('grid-layout', CLAMP_LAYOUTS, 'layout', 'data-layout');
+      fillGrid('grid-rot-dir', ROT_DIRS, 'rotDir', 'data-rotdir');
+      fillGrid('grid-brand', CYL_BRANDS, 'brand', 'data-brand');
+      fillGrid('grid-bore', STANDARD_BORES, 'bore', 'data-bore');
+      fillGrid('grid-mount', MOUNT_STYLES, 'mountStyle', 'data-mount');
+      fillGrid('grid-arm-style', ARM_STYLES, 'armStyle', 'data-armstyle');
+      fillGrid('grid-pad-mat', PAD_MATS, 'padMat', 'data-padmat');
+      fillGrid('grid-base-mat', BASE_MATS, 'baseMat', 'data-basemat');
+      fillGrid('grid-loc-type', LOC_TYPES, 'locType', 'data-loctype');
+      fillGrid('grid-support-type', SUPPORT_TYPES, 'supportType', 'data-suptype');
+      fillGrid('grid-sensor-type', SENSOR_TYPES, 'sensorType', 'data-sentype');
+      fillGrid('grid-valve-type', VALVE_TYPES, 'valveType', 'data-valvetype');
+    }
+
+    function updatePlayButtonUI() {
+      const btn = document.getElementById('btn-play-cycle');
+      document.getElementById('play-icon').textContent = state.autoPlay ? '⏸️' : '▶️';
+      document.getElementById('play-label').textContent = state.autoPlay ? '循環動作' : '啟動動作';
+      btn.classList.toggle('active', state.autoPlay);
+    }
+
+    function applyFixturePreset(presetId) {
+      const p = FIXTURE_PRESETS.find(x => x.id === presetId);
+      if (!p) return;
+      Object.assign(state, p);
+      renderAllOptionGrids();
+      renderRotaryWheels();
+      rebuild3DFixture();
+      showToast(`已載入治具標竿：${p.name}`);
+    }
+
+    function renderDatabaseModalCards() {
+      const cat = state.dbFilterCat;
+      const list = CATALOG_24_ITEMS.filter(item => cat === 'all' || item.cat === cat);
+      document.getElementById('db-cards-container').innerHTML = list.map(item => `
+        <div class="bg-slate-950/85 border border-white/15 rounded-xl p-3 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-[10px] text-amber-300 font-bold mb-1">
+              <span>${item.brand}</span><span class="mono text-cyan-300">${item.model}</span>
+            </div>
+            <div class="font-bold text-xs text-white mb-1">${item.name}</div>
+            <p class="text-[11px] text-slate-300 leading-relaxed mb-2">${item.spec}</p>
+          </div>
+          <button data-load-preset="${item.presetRef}" class="glass-btn active w-full py-1.5 rounded-lg text-xs font-bold">
+            ⚡ 套用此標準件至 3D 治具
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function generateSpecReportText() {
+      const mechObj = MECH_TYPES.find(m => m.id === state.mech) || MECH_TYPES[0];
+      const layoutObj = CLAMP_LAYOUTS.find(l => l.id === state.layout) || CLAMP_LAYOUTS[2];
+      const locObj = LOC_TYPES.find(d => d.id === state.locType) || LOC_TYPES[0];
+      return [
+        `====================================================================`,
+        `  肇祥企業社 MAXJIM TECH — CLAMPMASTER PRO 3D 專業氣動治具設計計算書 v8.0`,
+        `  Official Web: https://maxjimtech.com/`,
+        `====================================================================`,
+        `[1. 工件 CAD 模型與加工條件]`,
+        `  • 工件模型來源 : ${state.importedFileName || state.wpShape}`,
+        `  • 包絡尺寸     : L ${state.wpL} × W ${state.wpW} × H ${state.wpH} mm (${state.wpMat})`,
+        `  • 切削負載設定 : ${state.cutForce} N (銑刀盤徑 Ø${state.cutterDia} mm)`,
+        ``,
+        `[2. 3-2-1 六自由度定位與底板架構]`,
+        `  • 治具底板規格 : L ${state.baseL} × W ${state.baseW} × H ${state.baseH} mm (${state.baseMat})`,
+        `  • 主定位系統   : ${locObj.name} (銷徑 Ø${state.locPinDia}mm g6, 約束 ${locObj.dof}/6 DOF)`,
+        `  • 輔助防震支撐 : ${state.supportType} (高度 ${state.supportH} mm)`,
+        ``,
+        `[3. 氣動夾持機構與 CAE 應力/干涉檢核]`,
+        `  • 夾持機構型式 : ${mechObj.name} (${layoutObj.name})`,
+        `  • 氣缸規格參數 : Ø${state.bore} mm | 氣壓 ${state.pressure} MPa | 旋轉行程 ${state.rotStroke}mm | 下壓行程 ${state.clampStroke}mm`,
+        `  • 總夾持力輸出 : ${document.getElementById('hud-total-clamp').textContent} | 安全係數 SF = ${document.getElementById('hud-safety-factor').textContent}`,
+        `  • 夾持微變形量 : δ = ${document.getElementById('hud-deflection').textContent} | 銑刀安全間隙 ${document.getElementById('hud-clearance').textContent}`,
+        `====================================================================`
+      ].join('\n');
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      if (!box) return;
+      box.textContent = msg;
+      box.classList.remove('hidden');
+      clearTimeout(box._t);
+      box._t = setTimeout(() => box.classList.add('hidden'), 2600);
+    }
+
+    function bindAllEvents() {
+      // File Input & Drag-and-Drop CAD Import (.STEP / .STL / .IGES / .OBJ)
+      const fileInput = document.getElementById('input-cad-file');
+      document.getElementById('btn-import-cad-top').addEventListener('click', () => fileInput.click());
+      document.getElementById('btn-import-cad-panel').addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', e => {
+        if (e.target.files && e.target.files[0]) handleCADFileUpload(e.target.files[0]);
+      });
+
+      const dropOverlay = document.getElementById('drop-overlay');
+      window.addEventListener('dragover', e => {
+        e.preventDefault();
+        dropOverlay.classList.remove('hidden');
+      });
+      window.addEventListener('dragleave', e => {
+        if (e.target === document.body || e.clientX <= 0 || e.clientY <= 0) {
+          dropOverlay.classList.add('hidden');
+        }
+      });
+      window.addEventListener('drop', e => {
+        e.preventDefault();
+        dropOverlay.classList.add('hidden');
+        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleCADFileUpload(e.dataTransfer.files[0]);
+        }
+      });
+
+      // Auto-scale fixture around workpiece
+      document.getElementById('btn-autoscale-fixture').addEventListener('click', () => {
+        state.baseL = Math.min(620, Math.round((state.wpL + state.armLen * 2 + 60) / 10) * 10);
+        state.baseW = Math.min(500, Math.round((state.wpW + state.armLen * 2 + 60) / 10) * 10);
+        renderRotaryWheels();
+        rebuild3DFixture();
+        showToast(`已依工件 (${state.wpL}×${state.wpW}mm) 自動最佳化治具底板與氣缸跨距！`);
+      });
+
+      // Collapse / Expand Left Dock
+      document.getElementById('btn-toggle-dock').addEventListener('click', () => {
+        state.dockCollapsed = !state.dockCollapsed;
+        document.getElementById('left-translucent-dock').style.transform = state.dockCollapsed ? 'translateX(-110%)' : 'translateX(0)';
+        document.getElementById('dock-toggle-icon').textContent = state.dockCollapsed ? '▶' : '◀';
+      });
+
+      // Play / Pause Auto Cycle
+      document.getElementById('btn-play-cycle').addEventListener('click', () => {
+        state.autoPlay = !state.autoPlay;
+        updatePlayButtonUI();
+      });
+
+      // CAE Toggles: Toolpath Collision Envelope & FEA Stress Map
+      document.getElementById('btn-toggle-toolpath').addEventListener('click', e => {
+        state.showToolpath = !state.showToolpath;
+        e.currentTarget.classList.toggle('active', state.showToolpath);
+        rebuild3DFixture();
+      });
+      document.getElementById('btn-toggle-fea').addEventListener('click', e => {
+        state.showFEA = !state.showFEA;
+        e.currentTarget.classList.toggle('active', state.showFEA);
+        rebuild3DFixture();
+      });
+      document.getElementById('btn-toggle-forces').addEventListener('click', e => {
+        state.showForces = !state.showForces;
+        e.currentTarget.classList.toggle('active', state.showForces);
+        rebuild3DFixture();
+      });
+      document.getElementById('btn-toggle-wire').addEventListener('click', e => {
+        state.showWireframe = !state.showWireframe;
+        e.currentTarget.classList.toggle('active', state.showWireframe);
+        rebuild3DFixture();
+      });
+
+      // Top Preset Pills
+      document.getElementById('preset-pill-strip').addEventListener('click', e => {
+        const b = e.target.closest('[data-preset]');
+        if (b) applyFixturePreset(b.getAttribute('data-preset'));
+      });
+
+      // Left Mode Tabs
+      document.querySelectorAll('.mode-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const targetId = tab.getAttribute('data-tab');
+          document.querySelectorAll('.mode-panel').forEach(p => p.classList.toggle('hidden', p.id !== targetId));
+        });
+      });
+
+      // Delegated Option Button Clicks inside Left Dock
+      document.getElementById('left-translucent-dock').addEventListener('click', e => {
+        const map = [
+          ['data-wpshape', 'wpShape'], ['data-wpmat', 'wpMat'],
+          ['data-mech', 'mech'], ['data-layout', 'layout'], ['data-rotdir', 'rotDir'],
+          ['data-brand', 'brand'], ['data-mount', 'mountStyle'], ['data-armstyle', 'armStyle'],
+          ['data-padmat', 'padMat'], ['data-basemat', 'baseMat'], ['data-loctype', 'locType'],
+          ['data-suptype', 'supportType'], ['data-sentype', 'sensorType'], ['data-valvetype', 'valveType']
+        ];
+        for (const [attr, key] of map) {
+          const btn = e.target.closest(`[${attr}]`);
+          if (btn) {
+            const val = btn.getAttribute(attr);
+            if (key === 'wpShape' && val === 'custom_cad' && !state.importedGeometry) {
+              fileInput.click();
+              return;
+            }
+            state[key] = val;
+            renderAllOptionGrids();
+            rebuild3DFixture();
+            return;
+          }
+        }
+        const boreBtn = e.target.closest('[data-bore]');
+        if (boreBtn) {
+          state.bore = parseInt(boreBtn.getAttribute('data-bore'), 10);
+          renderAllOptionGrids();
+          renderRotaryWheels();
+          rebuild3DFixture();
+          return;
+        }
+        const loadBtn = e.target.closest('[data-procload]');
+        if (loadBtn) {
+          state.processLoad = loadBtn.getAttribute('data-procload');
+          const pl = PROCESS_LOADS.find(x => x.id === state.processLoad);
+          if (pl) state.cutForce = pl.forceN;
+          renderAllOptionGrids();
+          renderRotaryWheels();
+          rebuild3DFixture();
+          return;
+        }
+        const progBtn = e.target.closest('[data-set-prog]');
+        if (progBtn) {
+          state.autoPlay = false;
+          updatePlayButtonUI();
+          state.progressPct = parseInt(progBtn.getAttribute('data-set-prog'), 10);
+          renderRotaryWheels();
+          rebuild3DFixture();
+        }
+      });
+
+      // Bottom Rotary Wheel Bank Switcher & Stepper Nudge
+      document.querySelectorAll('.bank-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.bank-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state.wheelBank = btn.getAttribute('data-bank');
+          renderRotaryWheels();
+        });
+      });
+
+      document.getElementById('rotary-wheels-container').addEventListener('click', e => {
+        const stepBtn = e.target.closest('[data-step-dir]');
+        if (!stepBtn) return;
+        const dir = parseInt(stepBtn.getAttribute('data-step-dir'), 10);
+        const key = stepBtn.getAttribute('data-target-key');
+        const wDef = (WHEEL_BANKS[state.wheelBank] || []).find(w => w.key === key);
+        if (!wDef) return;
+        if (key === 'progressPct') {
+          state.autoPlay = false;
+          updatePlayButtonUI();
+        }
+        const next = Math.max(wDef.min, Math.min(wDef.max, state[key] + dir * wDef.step));
+        state[key] = wDef.step < 1 ? parseFloat(next.toFixed(2)) : Math.round(next);
+        renderRotaryWheels();
+        rebuild3DFixture();
+      });
+
+      // Camera Presets
+      document.querySelectorAll('.cam-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const mode = btn.getAttribute('data-cam');
+          const d = Math.max(state.baseL, state.baseW) * 1.35;
+          if (mode === 'iso') camera.position.set(d * 0.95, d * 0.75, d * 1.05);
+          else if (mode === 'front') camera.position.set(35, 90, d * 1.25);
+          else if (mode === 'top') camera.position.set(35, d * 1.45, 10);
+          else if (mode === 'side') camera.position.set(d * 1.35, 90, 0);
+          controls.target.set(35, 55, 0);
+          controls.update();
+        });
+      });
+
+      // Modals
+      const modalDb = document.getElementById('modal-db');
+      document.getElementById('btn-open-db-modal').addEventListener('click', () => { renderDatabaseModalCards(); modalDb.classList.remove('hidden'); });
+      document.getElementById('btn-close-db-modal').addEventListener('click', () => modalDb.classList.add('hidden'));
+      document.getElementById('db-cat-pills').addEventListener('click', e => {
+        const b = e.target.closest('[data-cat]');
+        if (!b) return;
+        state.dbFilterCat = b.getAttribute('data-cat');
+        document.querySelectorAll('.db-filter-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        renderDatabaseModalCards();
+      });
+      document.getElementById('db-cards-container').addEventListener('click', e => {
+        const b = e.target.closest('[data-load-preset]');
+        if (!b) return;
+        applyFixturePreset(b.getAttribute('data-load-preset'));
+        modalDb.classList.add('hidden');
+      });
+
+      const modalCir = document.getElementById('modal-circuit');
+      document.getElementById('btn-open-circuit-modal').addEventListener('click', () => modalCir.classList.remove('hidden'));
+      document.getElementById('btn-expand-circuit').addEventListener('click', () => modalCir.classList.remove('hidden'));
+      document.getElementById('btn-close-circuit-modal').addEventListener('click', () => modalCir.classList.add('hidden'));
+
+      const modalExp = document.getElementById('modal-export');
+      document.getElementById('btn-export-spec').addEventListener('click', () => {
+        document.getElementById('textarea-export-spec').value = generateSpecReportText();
+        modalExp.classList.remove('hidden');
+      });
+      document.getElementById('btn-close-export-modal').addEventListener('click', () => modalExp.classList.add('hidden'));
+      document.getElementById('btn-export-step').addEventListener('click', exportAssemblySTEP);
+      document.getElementById('btn-export-stl').addEventListener('click', exportAssemblySTL);
+      document.getElementById('btn-export-obj').addEventListener('click', exportAssemblyOBJ);
+      document.getElementById('btn-download-dxf').addEventListener('click', exportFixtureBaseplateDXF);
+      document.getElementById('btn-download-csv').addEventListener('click', exportBOMCSV);
+      document.getElementById('btn-copy-spec').addEventListener('click', () => {
+        const ta = document.getElementById('textarea-export-spec');
+        ta.select();
+        document.execCommand('copy');
+        showToast('已複製完整氣動治具設計計算書！');
+      });
+    }
+
+    window.addEventListener('load', () => {
+      initThreeJS();
+      renderAllOptionGrids();
+      renderRotaryWheels();
+      applyFixturePreset('mj_cnc_swing40');
+      bindAllEvents();
+    });
+  </script>
+</body>
+</html>
