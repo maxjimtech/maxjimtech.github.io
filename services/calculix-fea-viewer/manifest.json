@@ -1,0 +1,1 @@
+{"version":1,"algorithm":"AES-256-GCM","kdf":"PBKDF2-SHA256","iterations":600000,"salt":"EwqDAUcwSD0qwIgJZ71ibA==","iv":"adTYSyoG/BR/eTiL","compression":"gzip","chunks":[{"name":"payload-00.bin","bytes":9559,"sha256":"b9d4944049dba5ade7343cbd47731667dc8560d8146f2a4a9448f610ad6850cf"}]}
