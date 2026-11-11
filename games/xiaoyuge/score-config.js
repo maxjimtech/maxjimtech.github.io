@@ -1,1 +1,2 @@
-window.XIAOYUGE_SCORE_API = 'https://xiaoyuge-score-api-26w2jd9s9s-4092.vercel.app/api/score';
+// Public endpoint only. Submission nonces remain in memory; no credentials belong here.
+window.XIAOYUGE_SCORE_API = 'https://xiaoyuge-score-api.vercel.app/api/score';
